@@ -4,7 +4,7 @@ import {Occurrence} from "../models/Occurrence";
 
 /**
  *
- * @param {PlantAlertApp} app
+ * @param {NyphApp} app
  */
 export default function (app) {
     for (let i = 0; i < 10; i++) {

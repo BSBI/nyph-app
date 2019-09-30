@@ -13,10 +13,10 @@ export class SurveyPickerController extends AppController {
 
     static EVENT_BACK = 'back';
 
-    title = 'Plant Alert survey picker';
+    title = 'NYPH survey picker';
 
     /**
-     * @type {PlantAlertApp}
+     * @type {NyphApp}
      */
     app;
 

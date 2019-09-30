@@ -1,11 +1,11 @@
 
 import {InputField} from "../formfields/InputField";
-import {PlantAlertSurveyFormSection} from "./PlantAlertSurveyFormSection";
+import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 import helpPanelText from "../../templates/formHelp/surveyAboutHelp.html";
 import {FormField} from "../formfields/FormField";
 import {SelectField} from "../formfields/SelectField";
 
-export class PlantAlertSurveyFormAboutSection extends PlantAlertSurveyFormSection {
+export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
 
     static sectionNavigationKey = 'about';
 

@@ -6,7 +6,7 @@
 // shared, keyed by email.
 
 import {Model} from "./Model";
-import {PlantAlertSurveyForm} from "../views/forms/PlantAlertSurveyForm";
+import {NyphSurveyForm} from "../views/forms/NyphSurveyForm";
 import {escapeHTML} from "../utils/escapeHTML";
 
 export class Survey extends Model {
@@ -35,7 +35,7 @@ export class Survey extends Model {
      *
      * @param context
      * @param {string} eventName
-     * @param {{form: PlantAlertSurveyForm}} params
+     * @param {{form: NyphSurveyForm}} params
      */
     formChangedHandler(context, eventName, params) {
         console.log('Survey change handler invoked.');
@@ -52,11 +52,11 @@ export class Survey extends Model {
     }
 
     /**
-     * @param {PlantAlertSurveyForm} form
+     * @param {NyphSurveyForm} form
      */
     registerForm(form) {
         form.model = this;
-        form.addListener(PlantAlertSurveyForm.CHANGE_EVENT, this, this.formChangedHandler);
+        form.addListener(NyphSurveyForm.CHANGE_EVENT, this, this.formChangedHandler);
     }
 
     /**

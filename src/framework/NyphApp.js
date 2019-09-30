@@ -5,13 +5,13 @@ import {InternalAppError} from "../utils/exceptions/InternalAppError";
 import localforage from 'localforage';
 import {OccurrenceImage} from "../models/OccurrenceImage";
 
-export const PROJECT_ID_PLANT_ALERT = 1;
+export const PROJECT_ID_NYPH = 2;
 
-export class PlantAlertApp extends App {
+export class NyphApp extends App {
     /**
      * @type {number}
      */
-    projectId = PROJECT_ID_PLANT_ALERT;
+    projectId = PROJECT_ID_NYPH;
 
     static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
 
@@ -121,7 +121,7 @@ export class PlantAlertApp extends App {
             formData.append(`surveyId[${n++}]`, key);
         }
 
-        return fetch(PlantAlertApp.LOAD_SURVEYS_ENDPOINT, {
+        return fetch(NyphApp.LOAD_SURVEYS_ENDPOINT, {
             method: 'POST',
             body: formData
         }).then(response => {
@@ -377,7 +377,7 @@ export class PlantAlertApp extends App {
 
         this.addOccurrence(occurrence);
 
-        this.fireEvent(PlantAlertApp.EVENT_OCCURRENCE_ADDED, {occurrenceId: occurrence.id, surveyId: occurrence.surveyId});
+        this.fireEvent(NyphApp.EVENT_OCCURRENCE_ADDED, {occurrenceId: occurrence.id, surveyId: occurrence.surveyId});
 
         return occurrence;
     }

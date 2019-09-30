@@ -1,8 +1,8 @@
-move to plantalert.org
+move to nyph.bsbi.org
 email preferences to be set by page linked in acknowledgement email
 admin editing tools
 admin tools to export full results
-DDb annotation of PlantAlert records - explaining what they are
+DDb annotation of Nyph records - explaining what they are
 respect privacy choices when importing record to DDb (before choice made don't include name - otherwise would be present indelibly in DDb history)
 DDb workspace support
 older browser support (and test functionality without service worker)

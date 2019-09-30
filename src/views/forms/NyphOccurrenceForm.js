@@ -8,7 +8,7 @@ import {ImageField} from "../formfields/ImageField";
 //import {InputField} from "../formfields/InputField";
 import helpPanelText from "../../templates/formHelp/recordsHelp.html";
 
-export class PlantAlertOccurrenceForm extends Form {
+export class NyphOccurrenceForm extends Form {
     /**
      * @type {Occurrence}
      */
@@ -73,7 +73,7 @@ export class PlantAlertOccurrenceForm extends Form {
         const cardHeaderEl = cardEl.appendChild(document.createElement('div'));
         cardHeaderEl.className = 'card-header';
 
-        cardHeaderEl.textContent = PlantAlertOccurrenceForm.sectionTitle;
+        cardHeaderEl.textContent = NyphOccurrenceForm.sectionTitle;
 
         this._formContentContainer = cardEl.appendChild(document.createElement('div'));
         this._formContentContainer.className = 'card-body';
@@ -325,7 +325,7 @@ export class PlantAlertOccurrenceForm extends Form {
      *
      */
     initialiseFormFields() {
-        const properties = PlantAlertOccurrenceForm.properties;
+        const properties = NyphOccurrenceForm.properties;
 
         this.fields = {};
 
@@ -338,7 +338,7 @@ export class PlantAlertOccurrenceForm extends Form {
     }
 
     updateModelFromContent() {
-        console.log('updating occurrence from PlantAlertOccurrenceForm content');
+        console.log('updating occurrence from NyphOccurrenceForm content');
 
         for (let key in this.fields) {
             if (this.fields.hasOwnProperty(key)) {
@@ -368,12 +368,12 @@ export class PlantAlertOccurrenceForm extends Form {
         console.log('occurrence form change event');
         console.log({event});
 
-        this.fireEvent(PlantAlertOccurrenceForm.CHANGE_EVENT, {form: this});
+        this.fireEvent(NyphOccurrenceForm.CHANGE_EVENT, {form: this});
     }
 
     pingOccurrence() {
         if (this.#occurrence.unsaved()) {
-            this.fireEvent(PlantAlertOccurrenceForm.CHANGE_EVENT, {form: this});
+            this.fireEvent(NyphOccurrenceForm.CHANGE_EVENT, {form: this});
         }
     }
 
@@ -384,8 +384,8 @@ export class PlantAlertOccurrenceForm extends Form {
     }
 
     getFormSectionProperties() {
-        return PlantAlertOccurrenceForm.properties;
+        return NyphOccurrenceForm.properties;
     }
 }
 
-PlantAlertOccurrenceForm.CHANGE_EVENT = 'change';
+NyphOccurrenceForm.CHANGE_EVENT = 'change';

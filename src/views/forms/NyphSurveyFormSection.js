@@ -1,7 +1,7 @@
 
-//import {PlantAlertSurveyForm} from "./PlantAlertSurveyForm";
+//import {NyphSurveyForm} from "./NyphSurveyForm";
 
-export class PlantAlertSurveyFormSection {
+export class NyphSurveyFormSection {
     /**
      * @type {string}
      */

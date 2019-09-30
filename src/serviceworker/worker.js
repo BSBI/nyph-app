@@ -1,4 +1,4 @@
-// service worker for PlantAlert app
+// service worker for Nyph app
 
 // currently based around the 'Cache and update' recipe along with many modifications
 // see https://serviceworke.rs
@@ -27,10 +27,10 @@ OccurrenceResponse.register();
 
 const CACHE_VERSION = `version-VERSION`;
 
-const POST_PASS_THROUGH_WHITELIST = /^https:\/\/plantalert\.org\/loadsurveys.php/;
+const POST_PASS_THROUGH_WHITELIST = /^https:\/\/nyph\.bsbi\.org\/loadsurveys.php/;
 
 localforage.config({
-    name: 'Plant Alert App'
+    name: 'NYPH App'
 });
 
 // On install, cache some resources.
@@ -175,19 +175,19 @@ self.addEventListener('fetch', /** @param {FetchEvent} evt */ function (evt) {
     } else {
         // test whether this is a direct link in to a page that should be substituted by
         // the single page app
-        if (evt.request.url.match(/^https:\/\/plantalert\.org\/app\//) &&
-            evt.request.url.match(/^https:\/\/plantalert\.org\/app$/) &&
-            !evt.request.url.match(/^https:\/\/plantalert\.org\/app\/plantalert\.js/) &&
-            !evt.request.url.match(/^https:\/\/plantalert\.org\/app\/serviceworker\.js/) &&
-            !evt.request.url.match(/^https:\/\/plantalert\.org\/app\/manifest\.webmanifest/) &&
-            !evt.request.url.match(/^https:\/\/plantalert\.org\/app\/index\.html/)
+        if (evt.request.url.match(/^https:\/\/nyph\.bsbi\.org\/app\//) &&
+            evt.request.url.match(/^https:\/\/nyph\.bsbi\.org\/app$/) &&
+            !evt.request.url.match(/^https:\/\/nyph\.bsbi\.org\/app\/nyph\.js/) &&
+            !evt.request.url.match(/^https:\/\/nyph\.bsbi\.org\/app\/serviceworker\.js/) &&
+            !evt.request.url.match(/^https:\/\/nyph\.bsbi\.org\/app\/manifest\.webmanifest/) &&
+            !evt.request.url.match(/^https:\/\/nyph\.bsbi\.org\/app\/index\.html/)
         ) {
             // serving single page app instead
             console.log('redirecting to the root of the SPA');
-            let spaRequest = new Request('https://plantalert.org/app/index.html');
+            let spaRequest = new Request('https://nyph.bsbi.org/app/index.html');
             evt.respondWith(fromCache(spaRequest));
             evt.waitUntil(update(spaRequest));
-        } else if (evt.request.url.match(/^https:\/\/plantalert\.org\/image\.php/)) {
+        } else if (evt.request.url.match(/^https:\/\/nyph\.bsbi\.org\/image\.php/)) {
             handleImageFetch(evt);
         } else {
 
@@ -208,9 +208,9 @@ function precache() {
         return cache.addAll([
             './index.html',
             './manifest.webmanifest',
-            //'./plantalert.js',
+            //'./nyph.js',
             '/appcss/app.css', // note no leading '.' - this is an absolute path
-            '/img/PlantAlertLogo_900x431.png',
+            '/img/NyphLogo_900x431.png',
             '/img/icons/favicon-32x32.png',
             '/img/icons/favicon-16x16.png',
             '/img/icons/favicon-196x196.png',

@@ -1,6 +1,6 @@
 import {Model} from "./Model";
 import {Taxon} from "./Taxon";
-import {PlantAlertOccurrenceForm} from "../views/forms/PlantAlertOccurrenceForm";
+import {NyphOccurrenceForm} from "../views/forms/NyphOccurrenceForm";
 
 export class Occurrence extends Model {
 
@@ -60,15 +60,15 @@ export class Occurrence extends Model {
 
     /**
      *
-     * @returns {PlantAlertOccurrenceForm}
+     * @returns {NyphOccurrenceForm}
      */
     getForm() {
-        const form = new PlantAlertOccurrenceForm(this);
+        const form = new NyphOccurrenceForm(this);
         if (!this.isNew) {
             form.liveValidation = true;
         }
 
-        form.addListener(PlantAlertOccurrenceForm.CHANGE_EVENT, this, this.formChangedHandler);
+        form.addListener(NyphOccurrenceForm.CHANGE_EVENT, this, this.formChangedHandler);
         return form;
     }
 
@@ -77,7 +77,7 @@ export class Occurrence extends Model {
      *
      * @param context
      * @param {string} eventName
-     * @param {{form: PlantAlertOccurrenceForm}} params
+     * @param {{form: NyphOccurrenceForm}} params
      */
     formChangedHandler(context, eventName, params) {
         console.log('Occurrence change handler invoked.');

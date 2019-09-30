@@ -1,6 +1,6 @@
 {
     "name": "Plant Alert",
-    "short_name": "PlantAlert",
+    "short_name": "Nyph",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#fff",
@@ -29,7 +29,7 @@
     "sizes": "512x512",
     "type": "image/png"
 }, {
-    "src": "/img/PlantAlertLogo_900x431.png",
+    "src": "/img/NyphLogo_900x431.png",
     "sizes": "900x431",
     "type": "image/png"
 }

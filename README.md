@@ -1,6 +1,6 @@
 # plant-alert-app
 
-This repo implements the recording form used for the BSBI's PlantAlert recording form. See https://plantalert.org/app
+This repo implements the recording form used for the BSBI's Nyph recording form. See https://nyph.bsbi.org/app
 
 
 *See also https://github.com/japonicus/plant-alert-app*

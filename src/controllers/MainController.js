@@ -25,10 +25,10 @@ export class MainController extends AppController {
      */
     static EVENT_NEXT_TO_RECORDS = 'nexttorecords';
 
-    title = 'Plant Alert homepage';
+    title = 'BSBI New Year Plant Hunt homepage';
 
     /**
-     * @type {PlantAlertApp}
+     * @type {NyphApp}
      */
     app;
 

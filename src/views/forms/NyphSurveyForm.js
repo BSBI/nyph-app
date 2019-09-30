@@ -1,17 +1,17 @@
 import {Form} from "./Form";
 
-export class PlantAlertSurveyForm extends Form {
+export class NyphSurveyForm extends Form {
 
     /**
      * sections keyed by numerical order
      *
-     * @type {Array.<typeof PlantAlertSurveyFormSection>}
+     * @type {Array.<typeof NyphSurveyFormSection>}
      */
     static sections = [];
 
     /**
      *
-     * @type {{string, typeof PlantAlertSurveyFormSection}}
+     * @type {{string, typeof NyphSurveyFormSection}}
      */
     static sectionsByKey = {};
 
@@ -23,13 +23,13 @@ export class PlantAlertSurveyForm extends Form {
     _formFieldsBuilt = false;
 
     /**
-     * @type {typeof PlantAlertSurveyFormSection}
+     * @type {typeof NyphSurveyFormSection}
      */
     section;
 
     /**
      *
-     * @param {typeof PlantAlertSurveyFormSection} section
+     * @param {typeof NyphSurveyFormSection} section
      */
     constructor(section) {
         super();
@@ -51,7 +51,7 @@ export class PlantAlertSurveyForm extends Form {
     }
 
     updateModelFromContent() {
-        console.log('updating survey from PlantAlertSurveyForm content');
+        console.log('updating survey from NyphSurveyForm content');
 
         for (let key in this.fields) {
             if (this.fields.hasOwnProperty(key)) {
@@ -86,7 +86,7 @@ export class PlantAlertSurveyForm extends Form {
         console.log('survey form change event');
         console.log({event});
 
-        this.fireEvent(PlantAlertSurveyForm.CHANGE_EVENT, {form: this});
+        this.fireEvent(NyphSurveyForm.CHANGE_EVENT, {form: this});
     }
 
     destructor() {
@@ -96,11 +96,11 @@ export class PlantAlertSurveyForm extends Form {
 
     /**
      *
-     * @param {typeof PlantAlertSurveyFormSection} formClass
+     * @param {typeof NyphSurveyFormSection} formClass
      */
     static registerSection(formClass) {
-        PlantAlertSurveyForm.sections[formClass.sectionSortOrder] = formClass;
-        PlantAlertSurveyForm.sectionsByKey[formClass.sectionNavigationKey] = formClass;
+        NyphSurveyForm.sections[formClass.sectionSortOrder] = formClass;
+        NyphSurveyForm.sectionsByKey[formClass.sectionNavigationKey] = formClass;
     }
 
     /**
@@ -124,4 +124,4 @@ export class PlantAlertSurveyForm extends Form {
     }
 }
 
-PlantAlertSurveyForm.CHANGE_EVENT = 'change';
+NyphSurveyForm.CHANGE_EVENT = 'change';

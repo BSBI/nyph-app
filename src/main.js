@@ -1,7 +1,7 @@
 // version VERSION
 
 // import {GridRef} from 'british-isles-gridrefs';
-import {PlantAlertApp} from './framework/PlantAlertApp';
+import {NyphApp} from './framework/NyphApp';
 import {MainController} from "./controllers/MainController";
 import {MainView} from "./views/MainView";
 import {StaticContentController} from "./controllers/StaticContentController";
@@ -11,12 +11,12 @@ import {PatchedNavigo} from "./utils/PatchedNavigo";
 import localforage from 'localforage';
 import {SurveyPickerController} from "./controllers/SurveyPickerController";
 import {SurveyPickerView} from "./views/SurveyPickerView";
-import {PlantAlertLayout} from "./views/layout/PlantAlertLayout";
+import {NyphLayout} from "./views/layout/NyphLayout";
 import {TaxaLoadedHook} from "./utils/TaxaLoadedHook";
 import './theme.scss';
 
 localforage.config({
-    name: 'Plant Alert App'
+    name: 'Nyph App'
 });
 
 // work around Edge bug
@@ -44,13 +44,13 @@ navigator.serviceWorker.addEventListener('controllerchange', () => {
     window.location.reload(true);
 });
 
-const app = new PlantAlertApp;
+const app = new NyphApp;
 
 //app.router = new Navigo('http://localhost:3000/');
-app.router = new PatchedNavigo('https://plantalert.org/app/');
+app.router = new PatchedNavigo('https://nyph.bsbi.org/app/');
 
 app.containerId = 'appcontainer';
-app.setLayout(new PlantAlertLayout());
+app.setLayout(new NyphLayout());
 
 
 app.registerController(new StaticContentController(new HelpView, '/help'));

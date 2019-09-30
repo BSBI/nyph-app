@@ -24,7 +24,7 @@ export class ImageField extends FormField {
     #statusBlockId;
 
     /**
-     * @type {PlantAlertOccurrenceForm}
+     * @type {NyphOccurrenceForm}
      */
     parentForm;
 
@@ -378,7 +378,7 @@ export class ImageField extends FormField {
         </button>
       </div>
       <div class="modal-body">
-        <p>By choosing to submit images with your Plant Alert records you agree to license the image under the terms of the Creative Common Attribution 4.0 International license (CC BY 4.0).</p>
+        <p>By choosing to submit images with your plant hunt records you agree to license the image under the terms of the Creative Common Attribution 4.0 International license (CC BY 4.0).</p>
         <p>The following is a summary of (and not a substitute for) the <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">license</a>.</p>
         <p>Licensees are free to:</p>
         <ul class="license-properties">

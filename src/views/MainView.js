@@ -4,17 +4,17 @@ import {Page} from "./Page";
 import htmlLayout from "../templates/mainViewLayout.html";
 import welcomeContent from "../templates/welcome.html";
 import defaultRightHandSideHelp from "../templates/defaultRightHandSideHelp.html";
-import {PlantAlertSurveyForm} from "./forms/PlantAlertSurveyForm";
+import {NyphSurveyForm} from "./forms/NyphSurveyForm";
 import $ from "jquery";
 import {MainController} from "../controllers/MainController";
 import {Occurrence} from "../models/Occurrence";
-import {PlantAlertSurveyFormGardenSection} from "./forms/PlantAlertSurveyFormGardenSection";
+import {NyphSurveyFormGardenSection} from "./forms/NyphSurveyFormGardenSection";
 import {InternalAppError} from "../utils/exceptions/InternalAppError";
-import {PlantAlertSurveyFormAboutSection} from "./forms/PlantAlertSurveyFormAboutSection";
+import {NyphSurveyFormAboutSection} from "./forms/NyphSurveyFormAboutSection";
 import {Form} from "./forms/Form";
 import {escapeHTML} from "../utils/escapeHTML";
-import {PlantAlertApp} from "../framework/PlantAlertApp";
-import {PlantAlertOccurrenceForm} from "./forms/PlantAlertOccurrenceForm";
+import {NyphApp} from "../framework/NyphApp";
+import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
 import {OccurrenceImage} from "../models/OccurrenceImage";
 import {EVENT_DELETE_IMAGE, IMAGE_MODAL_ID, IMAGE_MODAL_DELETE_BUTTON_ID, ImageField, DELETE_IMAGE_MODAL_ID} from "./formfields/ImageField";
 
@@ -33,8 +33,8 @@ const FINISH_MODAL_ID = 'finishmodal';
 
 
 const OCCURRENCE_LIST_CONTAINER_ID = 'occurrencelistcontainer';
-PlantAlertSurveyForm.registerSection(PlantAlertSurveyFormAboutSection);
-PlantAlertSurveyForm.registerSection(PlantAlertSurveyFormGardenSection);
+NyphSurveyForm.registerSection(NyphSurveyFormAboutSection);
+NyphSurveyForm.registerSection(NyphSurveyFormGardenSection);
 
 export class MainView extends Page {
 
@@ -45,12 +45,12 @@ export class MainView extends Page {
 
     /**
      *
-     * @type {Object.<string, PlantAlertSurveyForm>}
+     * @type {Object.<string, NyphSurveyForm>}
      */
     #surveyFormSections = {};
 
     /**
-     * @type {PlantAlertOccurrenceForm}
+     * @type {NyphOccurrenceForm}
      */
     #occurrenceForm;
 
@@ -81,7 +81,7 @@ export class MainView extends Page {
      * an opportunity to register listeners on this.controller.app
      */
     initialise() {
-        this.controller.app.addListener(PlantAlertApp.EVENT_OCCURRENCE_ADDED, this, 'occurrenceAddedHandler');
+        this.controller.app.addListener(NyphApp.EVENT_OCCURRENCE_ADDED, this, 'occurrenceAddedHandler');
     }
 
     /**
@@ -189,8 +189,8 @@ export class MainView extends Page {
         const sectionKey = this.controller.surveySection;
 
         // section key can be 'welcome' which is a special case that doesn't match a section form
-        let help = PlantAlertSurveyForm.sectionsByKey[sectionKey] ?
-            PlantAlertSurveyForm.sectionsByKey[sectionKey].help
+        let help = NyphSurveyForm.sectionsByKey[sectionKey] ?
+            NyphSurveyForm.sectionsByKey[sectionKey].help
             :
             '';
 
@@ -234,7 +234,7 @@ export class MainView extends Page {
                 // ensures that the accordion matches the navigation state
                 $(`#description_${occurrence.id}`).collapse('show');
             } else {
-                this.#displayDefaultRightPanel(PlantAlertOccurrenceForm.help);
+                this.#displayDefaultRightPanel(NyphOccurrenceForm.help);
             }
         } catch (error) {
             console.log({error});
@@ -277,7 +277,7 @@ export class MainView extends Page {
             finishButton.setAttribute('data-buttonaction', 'finish');
         } else {
             const nextFormIndex = 1;
-            const nextSection = PlantAlertSurveyForm.sections[nextFormIndex];
+            const nextSection = NyphSurveyForm.sections[nextFormIndex];
 
             const nextButton = buttonContainer.appendChild(document.createElement('button'));
             nextButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3';
@@ -616,9 +616,9 @@ export class MainView extends Page {
      * @param {'records','survey','last'} next
      */
     #appendSurveyForm(formIndex, accordionEl, next) {
-        const sectionClass = PlantAlertSurveyForm.sections[formIndex];
+        const sectionClass = NyphSurveyForm.sections[formIndex];
 
-        let surveyFormSection = new PlantAlertSurveyForm(sectionClass);
+        let surveyFormSection = new NyphSurveyForm(sectionClass);
 
         this.#surveyFormSections[sectionClass.sectionNavigationKey] = surveyFormSection;
 
@@ -646,7 +646,7 @@ export class MainView extends Page {
 
             case MainView.NEXT_SURVEY_SECTION:
                 // there's another survey section
-                const nextSection = PlantAlertSurveyForm.sections[formIndex + 1];
+                const nextSection = NyphSurveyForm.sections[formIndex + 1];
 
                 nextButton.setAttribute('data-toggle', 'collapse');
                 nextButton.setAttribute('data-target', `#survey-${formIndex + 1}-${nextSection.sectionNavigationKey}`);
@@ -690,7 +690,7 @@ export class MainView extends Page {
         // cannot call registerForm until the form is part of the document
         this.controller.survey.registerForm(surveyFormSection);
 
-        surveyFormSection.addListener(PlantAlertSurveyForm.EVENT_VALIDATION_STATE_CHANGE, this, (context, eventName, isValid) => {
+        surveyFormSection.addListener(NyphSurveyForm.EVENT_VALIDATION_STATE_CHANGE, this, (context, eventName, isValid) => {
             const cardEl = document.getElementById(cardId);
             if (isValid) {
                 cardEl.classList.remove('is-invalid');
@@ -759,7 +759,7 @@ export class MainView extends Page {
             let occurrence = occurrenceTuple[1];
 
             if (!occurrence.deleted) {
-                const valid = occurrence.isNew || occurrence.evaluateCompletionStatus(PlantAlertOccurrenceForm.properties).requiredFieldsPresent;
+                const valid = occurrence.isNew || occurrence.evaluateCompletionStatus(NyphOccurrenceForm.properties).requiredFieldsPresent;
 
                 occurrencesHtml.push(
 `<div class="card${valid ? '' : ' is-invalid'}" id="card_${occurrence.id}">
@@ -835,7 +835,7 @@ export class MainView extends Page {
     refreshOccurrenceValiditySummary(occurrence) {
         const cardEl = document.getElementById(`card_${occurrence.id}`);
         if (cardEl) {
-            const validity = occurrence.evaluateCompletionStatus(PlantAlertOccurrenceForm.properties);
+            const validity = occurrence.evaluateCompletionStatus(NyphOccurrenceForm.properties);
 
             if (validity.requiredFieldsPresent) {
                 cardEl.classList.remove('is-invalid');
@@ -881,10 +881,10 @@ export class MainView extends Page {
 
         for (let key in occurrence.attributes) {
             if (occurrence.attributes.hasOwnProperty(key)
-                && PlantAlertOccurrenceForm.properties.hasOwnProperty(key)
-                && !PlantAlertOccurrenceForm.properties[key].field.isEmpty(occurrence.attributes[key])
+                && NyphOccurrenceForm.properties.hasOwnProperty(key)
+                && !NyphOccurrenceForm.properties[key].field.isEmpty(occurrence.attributes[key])
             ) {
-                let summaryHTML = PlantAlertOccurrenceForm.properties[key].field.summarise(key, PlantAlertOccurrenceForm.properties[key], occurrence.attributes);
+                let summaryHTML = NyphOccurrenceForm.properties[key].field.summarise(key, NyphOccurrenceForm.properties[key], occurrence.attributes);
 
                 if (summaryHTML) {
                     html += `<p class="ellipsed-line mb-0">${summaryHTML}</p>`;
@@ -892,7 +892,7 @@ export class MainView extends Page {
             }
         }
 
-        if (PlantAlertApp.devMode) {
+        if (NyphApp.devMode) {
             html += `<p class="mb-0">(<i>id ${occurrence.id}</i>)</p>`;
         }
         return html;
