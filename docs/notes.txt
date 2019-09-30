@@ -1,0 +1,19 @@
+Plant Alert App design notes
+****************************
+
+Both mobile and wide-screen use of the application must be considered to be first-class use cases.
+
+Lists of occurrences on a narrow screen should use a list (based around a Bootstrap accordion format, but with the
+expanded view separated into a separate 'screen'. On desktops the expanded view should instead use the right-hand column.
+
+The map view should be a modal full-page overlay on both desktop and mobile.
+
+Taxon picker should be full screen on mobile, but expand in-situ on desktop.
+
+
+
+Saving of records should be automatic in the background, occurring as soon as a network connection is available.
+(i.e. no explicit save option)
+
+Main screen should display a top banner warning if a connection has been lost and some changes remain unsaved.
+
