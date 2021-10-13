@@ -1,9 +1,9 @@
-import resolve from 'rollup-plugin-node-resolve';
-import replace from 'rollup-plugin-replace';
-//import replaceHtmlVars from 'rollup-plugin-replace-html-vars';
+import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+
 import { string } from "rollup-plugin-string";
-import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import scss from 'rollup-plugin-scss';
 //import copy from 'rollup-plugin-copy';
@@ -31,6 +31,7 @@ export default [
 		plugins: [
 			resolve(), // tells Rollup how to find files in node_modules
 			replace({
+				preventAssignment: true,
 				values: {
 					VERSION: version,
 					// ENVIRONMENT: JSON.stringify('development')
@@ -79,6 +80,7 @@ export default [
 		plugins: [
 			resolve(), // tells Rollup how to find files in node_modules
 			replace({
+				preventAssignment: true,
 				values: {
 					VERSION: version,
 					// ENVIRONMENT: JSON.stringify('development')

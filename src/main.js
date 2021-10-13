@@ -1,12 +1,10 @@
 // version VERSION
 
-// import {GridRef} from 'british-isles-gridrefs';
 import {NyphApp} from './framework/NyphApp';
 import {MainController} from "./controllers/MainController";
 import {MainView} from "./views/MainView";
 import {StaticContentController} from "./controllers/StaticContentController";
 import {HelpView} from "./views/HelpView";
-//import mockOccurrences from "./utils/populateMockContent";
 import {PatchedNavigo} from "./utils/PatchedNavigo";
 import localforage from 'localforage';
 import {SurveyPickerController} from "./controllers/SurveyPickerController";
@@ -14,6 +12,11 @@ import {SurveyPickerView} from "./views/SurveyPickerView";
 import {NyphLayout} from "./views/layout/NyphLayout";
 import {TaxaLoadedHook} from "./utils/TaxaLoadedHook";
 import './theme.scss';
+
+// polyfill stuff
+import "core-js/stable";
+import 'element-closest-polyfill';
+import 'whatwg-fetch';
 
 localforage.config({
     name: 'Nyph App'
@@ -32,22 +35,24 @@ if (!Promise.prototype.finally) {
 console.log('if you have sourcemaps enabled in your devtools, click on main.js:5 -->');
 // console.log(GridRef.from_string('SD59'));
 
-// Register the ServiceWorker limiting its action to those URL starting
-// by `controlled`. The scope is not a path but a prefix. First, it is
-// converted into an absolute URL, then used to determine if a page is
-// controlled by testing it is a prefix of the request URL.
-navigator.serviceWorker.register('/app/serviceworker.js', {
-    // scope: './controlled'
-});
+if (navigator.serviceWorker) {
+    // Register the ServiceWorker limiting its action to those URL starting
+    // by `controlled`. The scope is not a path but a prefix. First, it is
+    // converted into an absolute URL, then used to determine if a page is
+    // controlled by testing it is a prefix of the request URL.
+    navigator.serviceWorker.register('/app/serviceworker.js', {
+        // scope: './controlled'
+    });
 
-navigator.serviceWorker.addEventListener('controllerchange', () => {
-    window.location.reload(true);
-});
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload(true);
+    });
+}
 
 const app = new NyphApp;
 
 //app.router = new Navigo('http://localhost:3000/');
-app.router = new PatchedNavigo('https://nyph.bsbi.org/app/');
+app.router = new PatchedNavigo('https://nyphtest.bsbi.org/app/');
 
 app.containerId = 'appcontainer';
 app.setLayout(new NyphLayout());

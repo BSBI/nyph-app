@@ -1,11 +1,11 @@
 {
-    "name": "Plant Alert",
+    "name": "BSBI New Year Plant Hunt",
     "short_name": "Nyph",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#fff",
     "theme_color": "#046931",
-    "description": "Record invasive cultivated plants in your garden.",
+    "description": "Record plants in flower over the New Year (1st to 4th Janaury)",
     "scope": "/app/",
     "start_url": "/app/list/survey/welcome",
     "icons": [{
