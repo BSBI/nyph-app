@@ -3,24 +3,23 @@
 import {NyphApp} from './framework/NyphApp';
 import {MainController} from "./controllers/MainController";
 import {MainView} from "./views/MainView";
-//import {StaticContentController} from "./controllers/StaticContentController";
+import {StaticContentController} from "./controllers/StaticContentController";
 import {HelpView} from "./views/HelpView";
-//import {PatchedNavigo} from "./utils/PatchedNavigo";
+import {PatchedNavigo} from "./utils/PatchedNavigo";
 import localforage from 'localforage';
 import {SurveyPickerController} from "./controllers/SurveyPickerController";
 import {SurveyPickerView} from "./views/SurveyPickerView";
 import {NyphLayout} from "./views/layout/NyphLayout";
-//import {TaxaLoadedHook} from "./utils/TaxaLoadedHook";
+import {TaxaLoadedHook} from "./utils/TaxaLoadedHook";
 import './theme.scss';
 
 // polyfill stuff
 import "core-js/stable";
 import 'element-closest-polyfill';
 import 'whatwg-fetch';
-import {PatchedNavigo, StaticContentController, TaxaLoadedHook} from "bsbi-app-framework";
 
 localforage.config({
-    name: NyphApp.forageName
+    name: 'Nyph App'
 });
 
 // work around Edge bug

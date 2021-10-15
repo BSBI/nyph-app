@@ -1,6 +1,8 @@
 // mock some occurrences
 
-import {Occurrence} from "../models/Occurrence";
+//import {Occurrence} from "../models/Occurrence";
+
+import {Occurrence} from "bsbi-app-framework";
 
 /**
  *

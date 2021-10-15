@@ -1,22 +1,23 @@
 // Overall view for the main list page *and occurrence side panels*
 
-import {Page} from "./Page";
+//import {Page} from "./Page";
 import htmlLayout from "../templates/mainViewLayout.html";
 import welcomeContent from "../templates/welcome.html";
 import defaultRightHandSideHelp from "../templates/defaultRightHandSideHelp.html";
 import {NyphSurveyForm} from "./forms/NyphSurveyForm";
-import $ from "jquery";
-import {MainController} from "../controllers/MainController";
-import {Occurrence} from "../models/Occurrence";
+//import $ from "jquery";
+//import {MainController} from "../controllers/MainController";
+//import {Occurrence} from "../models/Occurrence";
 import {NyphSurveyFormGardenSection} from "./forms/NyphSurveyFormGardenSection";
-import {InternalAppError} from "../utils/exceptions/InternalAppError";
+//import {InternalAppError} from "../utils/exceptions/InternalAppError";
 import {NyphSurveyFormAboutSection} from "./forms/NyphSurveyFormAboutSection";
-import {Form} from "./forms/Form";
+//import {Form} from "./forms/Form";
 import {escapeHTML} from "../utils/escapeHTML";
 import {NyphApp} from "../framework/NyphApp";
 import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
-import {OccurrenceImage} from "../models/OccurrenceImage";
+//import {OccurrenceImage} from "../models/OccurrenceImage";
 import {EVENT_DELETE_IMAGE, IMAGE_MODAL_ID, IMAGE_MODAL_DELETE_BUTTON_ID, ImageField, DELETE_IMAGE_MODAL_ID} from "./formfields/ImageField";
+import {Form, InternalAppError, MainController, Occurrence, OccurrenceImage, Page} from "bsbi-app-framework";
 
 const LEFT_PANEL_ID = 'col1panel';
 const RIGHT_PANEL_ID = 'col2panel'; // 'occurrenceeditorcontainer';
@@ -591,6 +592,7 @@ export class MainView extends Page {
 
         const helpLink = document.createElement('span');
         helpLink.className = 'd-md-none pl-2';
+        // noinspection HtmlUnknownTarget
         helpLink.innerHTML = `(<a href="/app/list/survey/welcome/help" data-navigo="list/survey/welcome/help">more info</a>)`;
         sectionElement.appendChild(helpLink);
 

@@ -1,12 +1,21 @@
-import {Form} from "./Form";
-import {TaxonPickerField} from "../formfields/TaxonPickerField";
-import {FormField} from "../formfields/FormField";
-import {TextAreaField} from "../formfields/TextAreaField";
-import {OptionsField} from "../formfields/OptionsField";
-import {SelectField} from "../formfields/SelectField";
-import {ImageField} from "../formfields/ImageField";
+//import {Form} from "./Form";
+//import {TaxonPickerField} from "../formfields/TaxonPickerField";
+//import {FormField} from "../formfields/FormField";
+//import {TextAreaField} from "../formfields/TextAreaField";
+//import {OptionsField} from "../formfields/OptionsField";
+//import {SelectField} from "../formfields/SelectField";
+//import {ImageField} from "../formfields/ImageField";
 //import {InputField} from "../formfields/InputField";
 import helpPanelText from "../../templates/formHelp/recordsHelp.html";
+import {
+    Form,
+    FormField,
+    ImageField,
+    OptionsField,
+    SelectField,
+    TaxonPickerField,
+    TextAreaField
+} from "bsbi-app-framework";
 
 export class NyphOccurrenceForm extends Form {
     /**

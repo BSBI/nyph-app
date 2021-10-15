@@ -1,9 +1,10 @@
-import {App} from './App';
-import {Survey} from "../models/Survey";
-import {Occurrence} from "../models/Occurrence";
-import {InternalAppError} from "../utils/exceptions/InternalAppError";
+//import {App} from './App';
+//import {Survey} from "../models/Survey";
+//import {Occurrence} from "../models/Occurrence";
+//import {InternalAppError} from "../utils/exceptions/InternalAppError";
 import localforage from 'localforage';
-import {OccurrenceImage} from "../models/OccurrenceImage";
+import {App, InternalAppError, Occurrence, OccurrenceImage, Survey} from "bsbi-app-framework";
+//import {OccurrenceImage} from "../models/OccurrenceImage";
 
 export const PROJECT_ID_NYPH = 2;
 
@@ -12,6 +13,8 @@ export class NyphApp extends App {
      * @type {number}
      */
     projectId = PROJECT_ID_NYPH;
+
+    static forageName = 'Nyph App';
 
     static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
 

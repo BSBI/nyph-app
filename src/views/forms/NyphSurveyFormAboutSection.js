@@ -1,9 +1,10 @@
 
-import {InputField} from "../formfields/InputField";
+//import {InputField} from "../formfields/InputField";
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 import helpPanelText from "../../templates/formHelp/surveyAboutHelp.html";
-import {FormField} from "../formfields/FormField";
-import {SelectField} from "../formfields/SelectField";
+//import {FormField} from "../formfields/FormField";
+//import {SelectField} from "../formfields/SelectField";
+import {FormField, InputField, SelectField} from "bsbi-app-framework";
 
 export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
 

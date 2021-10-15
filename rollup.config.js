@@ -20,7 +20,7 @@ export default [
 	{
 		input: 'src/main.js',
 		output: {
-			file: 'public/nyph.js',
+			file: 'public/app.js',
 			format: 'iife', // immediately-invoked function expression — suitable for <script> tags
 			globals: { BsbiDb: 'BsbiDb', jquery: '$' },
 			sourcemap: true,
