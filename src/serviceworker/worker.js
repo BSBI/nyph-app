@@ -9,6 +9,8 @@
 import {BSBIServiceWorker} from "bsbi-app-framework";
 import {NyphApp} from "../framework/NyphApp";
 
+var BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
+
 const serviceWorker = new BSBIServiceWorker();
 serviceWorker.initialise({
     forageName : NyphApp.forageName,
