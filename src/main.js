@@ -3,14 +3,10 @@
 import {NyphApp} from './framework/NyphApp';
 import {MainController} from "./controllers/MainController";
 import {MainView} from "./views/MainView";
-//import {StaticContentController} from "./controllers/StaticContentController";
 import {HelpView} from "./views/HelpView";
-//import {PatchedNavigo} from "./utils/PatchedNavigo";
 import localforage from 'localforage';
 import {SurveyPickerController} from "./controllers/SurveyPickerController";
-//import {SurveyPickerView} from "./views/SurveyPickerView";
 import {NyphLayout} from "./views/layout/NyphLayout";
-//import {TaxaLoadedHook} from "./utils/TaxaLoadedHook";
 import './theme.scss';
 
 // polyfill stuff
@@ -53,7 +49,6 @@ if (navigator.serviceWorker) {
 
 const app = new NyphApp;
 
-//app.router = new Navigo('http://localhost:3000/');
 app.router = new PatchedNavigo('https://nyphtest.bsbi.org/app/');
 
 app.containerId = 'appcontainer';

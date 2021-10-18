@@ -7,17 +7,17 @@ import {NyphSurveyForm} from "./forms/NyphSurveyForm";
 //import $ from "jquery";
 import {NyphSurveyFormGardenSection} from "./forms/NyphSurveyFormGardenSection";
 import {NyphSurveyFormAboutSection} from "./forms/NyphSurveyFormAboutSection";
-import {escapeHTML} from "../utils/escapeHTML";
+//import {escapeHTML} from "../utils/escapeHTML";
 import {NyphApp} from "../framework/NyphApp";
 import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
 import {
     Form,
-    ImageField,EVENT_DELETE_IMAGE, IMAGE_MODAL_ID, IMAGE_MODAL_DELETE_BUTTON_ID, DELETE_IMAGE_MODAL_ID,
+    ImageField, EVENT_DELETE_IMAGE, IMAGE_MODAL_ID, IMAGE_MODAL_DELETE_BUTTON_ID, DELETE_IMAGE_MODAL_ID,
     InternalAppError,
     MainController,
     Occurrence,
     OccurrenceImage,
-    Page
+    Page, escapeHTML
 } from "bsbi-app-framework";
 
 const LEFT_PANEL_ID = 'col1panel';

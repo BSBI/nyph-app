@@ -2562,7 +2562,7 @@
     return Function.toString.call(fn).indexOf("[native code]") !== -1;
   }
 
-  function _isNativeReflectConstruct$v() {
+  function _isNativeReflectConstruct$w() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
@@ -2576,7 +2576,7 @@
   }
 
   function _construct(Parent, args, Class) {
-    if (_isNativeReflectConstruct$v()) {
+    if (_isNativeReflectConstruct$w()) {
       _construct = Reflect.construct;
     } else {
       _construct = function _construct(Parent, args, Class) {
@@ -2626,14 +2626,14 @@
     return _wrapNativeSuper(Class);
   }
 
-  function _createSuper$u(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$u(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$v(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$v(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$u() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$v() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
   var NotFoundError = /*#__PURE__*/function (_Error) {
     _inherits$1(NotFoundError, _Error);
 
-    var _super = _createSuper$u(NotFoundError);
+    var _super = _createSuper$v(NotFoundError);
 
     function NotFoundError(message) {
       _classCallCheck$1(this, NotFoundError);
@@ -7377,9 +7377,9 @@
 
   var localforage$2 = localforage$1$1.exports;
 
-  function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$u(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$u(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$t() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$u() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
   function uuid(a) {
     return a ? (a ^ Math.random() * 16 >> a / 4).toString(16) : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, uuid);
   }
@@ -7394,7 +7394,7 @@
   var Model = /*#__PURE__*/function (_EventHarness) {
     _inherits$1(Model, _EventHarness);
 
-    var _super = _createSuper$t(Model);
+    var _super = _createSuper$u(Model);
 
     /**
      * @type {string}
@@ -7770,14 +7770,14 @@
 
   _defineProperty$1(Model, "_tasks", []);
 
-  function _createSuper$s(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$s(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$s() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$t() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
   var TaxonError = /*#__PURE__*/function (_Error) {
     _inherits$1(TaxonError, _Error);
 
-    var _super = _createSuper$s(TaxonError);
+    var _super = _createSuper$t(TaxonError);
 
     function TaxonError() {
       _classCallCheck$1(this, TaxonError);
@@ -7972,9 +7972,9 @@
     }
   });
 
-  function _createSuper$r(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$r(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$s(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$s(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$r() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$s() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
   function _classStaticPrivateFieldSpecSet$1(receiver, classConstructor, descriptor, value) { _classCheckPrivateStaticAccess$3(receiver, classConstructor); _classCheckPrivateStaticFieldDescriptor$3(descriptor, "set"); _classApplyDescriptorSet$1(receiver, descriptor, value); return value; }
 
@@ -7990,7 +7990,7 @@
   var FormField = /*#__PURE__*/function (_EventHarness) {
     _inherits$1(FormField, _EventHarness);
 
-    var _super = _createSuper$r(FormField);
+    var _super = _createSuper$s(FormField);
 
     /**
      * overall wrapped field element (not necessarily the form element itself)
@@ -8217,9 +8217,9 @@
 
   _defineProperty$1(FormField, "EVENT_CHANGE", 'fieldChange');
 
-  function _createSuper$q(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$q(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$r(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$r(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$q() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$r() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
   function _classPrivateFieldInitSpec$b(obj, privateMap, value) { _checkPrivateRedeclaration$b(obj, privateMap); privateMap.set(obj, value); }
 
@@ -8242,7 +8242,7 @@
   var Form = /*#__PURE__*/function (_EventHarness) {
     _inherits$1(Form, _EventHarness);
 
-    var _super = _createSuper$q(Form);
+    var _super = _createSuper$r(Form);
 
     function Form() {
       var _this;
@@ -8452,13 +8452,13 @@
 
   _defineProperty$1(Form, "COMPLETION_STATUS_IN_PROGRESS", 'inProgress');
 
-  function _createSuper$p(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$p(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$q(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$q(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$p() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$q() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
   var Occurrence = /*#__PURE__*/function (_Model) {
     _inherits$1(Occurrence, _Model);
 
-    var _super = _createSuper$p(Occurrence);
+    var _super = _createSuper$q(Occurrence);
 
     function Occurrence() {
       var _this;
@@ -8607,9 +8607,9 @@
 
   _defineProperty$1(Occurrence, "EVENT_MODIFIED", 'modified');
 
-  function _createSuper$o(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$o(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$p(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$p(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$o() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$p() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
   /**
    *
@@ -8617,7 +8617,7 @@
   var InternalAppError = /*#__PURE__*/function (_Error) {
     _inherits$1(InternalAppError, _Error);
 
-    var _super = _createSuper$o(InternalAppError);
+    var _super = _createSuper$p(InternalAppError);
 
     function InternalAppError() {
       _classCallCheck$1(this, InternalAppError);
@@ -8628,9 +8628,9 @@
     return InternalAppError;
   }( /*#__PURE__*/_wrapNativeSuper(Error));
 
-  function _createSuper$n(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$n(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$o(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$o(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$n() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$o() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
   function _classPrivateFieldInitSpec$a(obj, privateMap, value) { _checkPrivateRedeclaration$a(obj, privateMap); privateMap.set(obj, value); }
 
@@ -8641,7 +8641,7 @@
   var MainController = /*#__PURE__*/function (_AppController) {
     _inherits$1(MainController, _AppController);
 
-    var _super = _createSuper$n(MainController);
+    var _super = _createSuper$o(MainController);
 
     /**
      *
@@ -9809,13 +9809,13 @@
     ];
   }, !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC, UNSUPPORTED_Y$1);
 
-  function _createSuper$l(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$l(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$m(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$m(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$l() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$m() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
   var Page = /*#__PURE__*/function (_EventHarness) {
     _inherits$1(Page, _EventHarness);
 
-    var _super = _createSuper$l(Page);
+    var _super = _createSuper$m(Page);
 
     function Page() {
       var _this;
@@ -9978,13 +9978,13 @@
     return Page;
   }(EventHarness);
 
-  function _createSuper$k(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$k(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$l(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$l(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$k() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$l() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
   var NotFoundView = /*#__PURE__*/function (_Page) {
     _inherits$1(NotFoundView, _Page);
 
-    var _super = _createSuper$k(NotFoundView);
+    var _super = _createSuper$l(NotFoundView);
 
     function NotFoundView() {
       _classCallCheck$1(this, NotFoundView);
@@ -10004,13 +10004,13 @@
     return NotFoundView;
   }(Page);
 
-  function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$k(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$k(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$j() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$k() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
   var SurveyForm = /*#__PURE__*/function (_Form) {
     _inherits$1(SurveyForm, _Form);
 
-    var _super = _createSuper$j(SurveyForm);
+    var _super = _createSuper$k(SurveyForm);
 
     /**
      * sections keyed by numerical order
@@ -10168,13 +10168,13 @@
 
   _defineProperty$1(SurveyForm, "sectionsByKey", {});
 
-  function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$i() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$j() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
   var Survey = /*#__PURE__*/function (_Model) {
     _inherits$1(Survey, _Model);
 
-    var _super = _createSuper$i(Survey);
+    var _super = _createSuper$j(Survey);
 
     function Survey() {
       var _this;
@@ -10296,13 +10296,13 @@
 
   _defineProperty$1(Survey, "EVENT_MODIFIED", 'modified');
 
-  function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+  function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
-  function _isNativeReflectConstruct$h() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct$i() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
   var OccurrenceImage = /*#__PURE__*/function (_Model) {
     _inherits$1(OccurrenceImage, _Model);
 
-    var _super = _createSuper$h(OccurrenceImage);
+    var _super = _createSuper$i(OccurrenceImage);
 
     function OccurrenceImage() {
       var _this;
@@ -10454,6 +10454,36 @@
   _defineProperty$1(OccurrenceImage, "imageCache", new Map());
 
   _defineProperty$1(OccurrenceImage, "EVENT_MODIFIED", 'modified');
+
+  function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+
+  function _isNativeReflectConstruct$h() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  var PROJECT_ID_FAKE_EXAMPLE = 999;
+  var ExampleApp = /*#__PURE__*/function (_App) {
+    _inherits$1(ExampleApp, _App);
+
+    var _super = _createSuper$h(ExampleApp);
+
+    function ExampleApp() {
+      var _this;
+
+      _classCallCheck$1(this, ExampleApp);
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      _this = _super.call.apply(_super, [this].concat(args));
+
+      _defineProperty$1(_assertThisInitialized$1(_this), "projectId", PROJECT_ID_FAKE_EXAMPLE);
+
+      return _this;
+    }
+
+    return ExampleApp;
+  }(App);
+
+  _defineProperty$1(ExampleApp, "forageName", 'Garden Wildflower Hunt App');
 
   function _createForOfIteratorHelper$7(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$7(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
@@ -12245,7 +12275,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1634556417-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1634572552-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -17826,6 +17856,7 @@
       function refreshOccurrenceFooterControls(editorContainer) {
         var _this3 = this;
 
+        var nextSection;
         var buttonContainer = editorContainer.appendChild(document.createElement('div'));
         var backButton = buttonContainer.appendChild(document.createElement('button'));
         backButton.className = 'btn btn-secondary btn-md-lg mt-2 mb-3 mr-2';
@@ -17849,13 +17880,13 @@
           finishButton.setAttribute('data-buttonaction', 'finish');
         } else {
           var nextFormIndex = 1;
-          var _nextSection = SurveyForm.sections[nextFormIndex];
+          nextSection = SurveyForm.sections[nextFormIndex];
           var nextButton = buttonContainer.appendChild(document.createElement('button'));
           nextButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3';
           nextButton.type = 'button';
           nextButton.textContent = 'next »';
           nextButton.setAttribute('data-buttonaction', 'next');
-          nextButton.title = _nextSection.sectionTitle;
+          nextButton.title = nextSection.sectionTitle;
         }
 
         buttonContainer.addEventListener('click', function (event) {
@@ -18442,10 +18473,10 @@
 
       case MainView.NEXT_SURVEY_SECTION:
         // there's another survey section
-        var _nextSection2 = SurveyForm.sections[formIndex + 1];
+        var nextSection = SurveyForm.sections[formIndex + 1];
         nextButton.setAttribute('data-toggle', 'collapse');
-        nextButton.setAttribute('data-target', "#survey-".concat(formIndex + 1, "-").concat(_nextSection2.sectionNavigationKey));
-        nextButton.title = _nextSection2.sectionTitle;
+        nextButton.setAttribute('data-target', "#survey-".concat(formIndex + 1, "-").concat(nextSection.sectionNavigationKey));
+        nextButton.title = nextSection.sectionTitle;
         break;
 
       case MainView.NEXT_IS_FINAL:
@@ -24648,327 +24679,8 @@
     '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap'],
-    version: '1.0.1.1634570285'
-  }); // // currently based around the 'Cache and update' recipe along with many modifications
-  // // see https://serviceworke.rs
-  //
-  //
-  // import localforage from 'localforage';
-  // import {ResponseFactory} from "./responses/ResponseFactory";
-  // import {ImageResponse} from "./responses/ImageResponse";
-  // import {packageClientResponse} from "./packageClientResponse";
-  // import {SurveyResponse} from "./responses/SurveyResponse";
-  // import {OccurrenceResponse} from "./responses/OccurrenceResponse";
-  // import {OccurrenceImage} from "../models/OccurrenceImage";
-  // import {Model} from "../models/Model";
-  //
-  // //import {1.0.1.1634570285} from "rollup";
-  //
-  // if (!Promise.prototype.finally) {
-  //     Promise.prototype.finally = function(callback) {
-  //         return this.then(callback)
-  //             .catch(callback);
-  //     };
-  // }
-  //
-  // ImageResponse.register();
-  // SurveyResponse.register();
-  // OccurrenceResponse.register();
-  //
-  // const CACHE_VERSION = `version-1.0.1.1634570285`;
-  //
-  // const POST_PASS_THROUGH_WHITELIST = /^https:\/\/nyphtest\.bsbi\.org\/loadsurveys.php/;
-  //
-  // localforage.config({
-  //     name: 'NYPH App'
-  // });
-  //
-  // // On install, cache some resources.
-  // self.addEventListener('install', function(evt) {
-  //     console.log('The service worker is being installed.');
-  //
-  //     self.skipWaiting();
-  //
-  //     // Ask the service worker to keep installing until the returning promise
-  //     // resolves.
-  //     evt.waitUntil(
-  //         precache()
-  //             // see https://serviceworke.rs/immediate-claim_service-worker_doc.html
-  //             .then(() => self.skipWaiting()));
-  // });
-  //
-  // self.addEventListener('activate', function(event) {
-  //     self.clients.matchAll({
-  //         includeUncontrolled: true
-  //     }).then(function(clientList) {
-  //         const urls = clientList.map(function(client) {
-  //             return client.url;
-  //         });
-  //         console.log('[ServiceWorker] Matching clients:', urls.join(', '));
-  //     });
-  //
-  //     event.waitUntil(caches.keys().then(function(cacheNames) {
-  //         return Promise.all(
-  //             cacheNames.map(function(cacheName) {
-  //                 if (cacheName !== CACHE_VERSION) {
-  //                     console.log('[ServiceWorker] Deleting old cache:', cacheName);
-  //                     return caches.delete(cacheName);
-  //                 }
-  //             })
-  //         );
-  //     }).then(function() {
-  //             console.log('[ServiceWorker] Claiming clients for version', CACHE_VERSION);
-  //             return self.clients.claim();
-  //         })
-  //     );
-  // });
-  //
-  //
-  // // // see https://davidwalsh.name/background-sync
-  // // // https://developers.google.com/web/updates/2015/12/background-sync
-  // // self.addEventListener('sync', function(event) {
-  // //
-  // // });
-  //
-  // // On fetch, use cache but update the entry with the latest contents
-  // // from the server.
-  // self.addEventListener('fetch', /** @param {FetchEvent} evt */ function (evt) {
-  //     console.log(`The service worker is serving: '${evt.request.url}'`);
-  //
-  //     evt.preventDefault();
-  //
-  //     if (evt.request.method === 'POST') {
-  //         console.log(`Got a post request`);
-  //
-  //         if (evt.request.url.match(POST_PASS_THROUGH_WHITELIST)) {
-  //             console.log(`Passing through whitelisted post request for: ${evt.request.url}`);
-  //             evt.respondWith(fetch(evt.request));
-  //         } else {
-  //             let clonedRequest;
-  //             try {
-  //                 clonedRequest = evt.request.clone();
-  //             } catch (e) {
-  //                 console.log('Failed to clone request.');
-  //                 console.log({'Cloning error' : e});
-  //             }
-  //
-  //             evt.respondWith(fetch(evt.request).then((response) => {
-  //                 // would get here if the server responds at all, but need to check that the response is ok (not a server error)
-  //                 if (response.ok) {
-  //                     return Promise.resolve(response)
-  //                         .then((response) => {
-  //                             // save the response locally
-  //                             // before returning it to the client
-  //
-  //                             return response.clone().json();
-  //                         })
-  //                         .then((jsonResponseData) => {
-  //                             return ResponseFactory
-  //                                 .fromPostResponse(jsonResponseData)
-  //                                 .setPrebuiltResponse(response)
-  //                                 .populateLocalSave()
-  //                                 .storeLocally();
-  //                         })
-  //                         .catch((error) => {
-  //                             // for some reason local storage failed, after a successful server save
-  //                             console.log({error});
-  //
-  //                             return Promise.resolve(response); // pass through the server response
-  //                         });
-  //                 } else {
-  //                     console.log(`Failed to save, moving on to attempt IndexedDb`);
-  //                     return Promise.reject('Failed to save to server.');
-  //                 }
-  //             })
-  //             .catch((reason) => {
-  //                 // would get here if the network is down
-  //                 // or if got invalid response from the server
-  //
-  //                 console.log(`post fetch failed (probably no network), (reason: ${reason})`);
-  //                 //console.log({'post failure reason' : reason});
-  //
-  //                 // /**
-  //                 //  * simulated result of post, returned as JSON body
-  //                 //  * @type {{surveyId: string, occurrenceId: string, imageId: string, saveState: string, [error]: string, [errorHelp]: string}}
-  //                 //  */
-  //                 // let returnedToClient = {};
-  //
-  //                 return clonedRequest.formData()
-  //                     .then((formData) => {
-  //                             //console.log('got to form data handler');
-  //                             //console.log({formData});
-  //
-  //                             return ResponseFactory
-  //                                 .fromPostedData(formData)
-  //                                 .populateClientResponse()
-  //                                 .storeLocally();
-  //                         }, reason => {
-  //                             console.log('failed to read form data locally');
-  //                             console.log({reason});
-  //
-  //                             /**
-  //                              * simulated result of post, returned as JSON body
-  //                              * @type {{[surveyId]: string, [occurrenceId]: string, [imageId]: string, [saveState]: string, [error]: string, [errorHelp]: string}}
-  //                              */
-  //                             let returnedToClient = {
-  //                                 error: 'Failed to process posted response data. (internal error)',
-  //                                 errorHelp: 'Your internet connection may have failed (or there could be a problem with the server). ' +
-  //                                     'It wasn\'t possible to save a temporary copy on your device. (an unexpected error occurred) ' +
-  //                                     'Please try to re-establish a network connection and try again.'
-  //                             };
-  //
-  //                             return packageClientResponse(returnedToClient);
-  //                         }
-  //                     );
-  //             }));
-  //         }
-  //     } else {
-  //         // test whether this is a direct link in to a page that should be substituted by
-  //         // the single page app
-  //         if (evt.request.url.match(/^https:\/\/nyphtest\.bsbi\.org\/app\//) &&
-  //             evt.request.url.match(/^https:\/\/nyphtest\.bsbi\.org\/app$/) &&
-  //             !evt.request.url.match(/^https:\/\/nyphtest\.bsbi\.org\/app\/nyph\.js/) &&
-  //             !evt.request.url.match(/^https:\/\/nyphtest\.bsbi\.org\/app\/serviceworker\.js/) &&
-  //             !evt.request.url.match(/^https:\/\/nyphtest\.bsbi\.org\/app\/manifest\.webmanifest/) &&
-  //             !evt.request.url.match(/^https:\/\/nyphtest\.bsbi\.org\/app\/index\.html/)
-  //         ) {
-  //             // serving single page app instead
-  //             console.log('redirecting to the root of the SPA');
-  //             let spaRequest = new Request('https://nyphtest.bsbi.org/app/index.html');
-  //             evt.respondWith(fromCache(spaRequest));
-  //             evt.waitUntil(update(spaRequest));
-  //         } else if (evt.request.url.match(/^https:\/\/nyphtest\.bsbi\.org\/image\.php/)) {
-  //             handleImageFetch(evt);
-  //         } else {
-  //
-  //             // You can use `respondWith()` to answer immediately, without waiting for the
-  //             // network response to reach the service worker...
-  //             evt.respondWith(fromCache(evt.request));
-  //             // ...and `waitUntil()` to prevent the worker from being killed until the
-  //             // cache is updated.
-  //             evt.waitUntil(update(evt.request));
-  //         }
-  //     }
-  // });
-  //
-  // // Open a cache and use `addAll()` with an array of assets to add all of them
-  // // to the cache. Return a promise resolving when all the assets are added.
-  // function precache() {
-  //     return caches.open(CACHE_VERSION).then(function (cache) {
-  //         return cache.addAll([
-  //             './index.html',
-  //             './manifest.webmanifest',
-  //             //'./app.js',
-  //             '/appcss/app.css', // note no leading '.' - this is an absolute path
-  //             '/img/nyph_final@2x.png',
-  //             //'/img/NyphLogo_900x431.png',
-  //             //'/img/icons/favicon-32x32.png',
-  //             //'/img/icons/favicon-16x16.png',
-  //             //'/img/icons/favicon-196x196.png',
-  //             'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round',
-  //             'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css',
-  //             'https://database.bsbi.org/js/taxonnames.js.php',
-  //             'https://code.jquery.com/jquery-3.3.1.slim.min.js',
-  //             'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
-  //             'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js'
-  //         ]);
-  //     });
-  // }
-  //
-  // // Open the cache where the assets were stored and search for the requested
-  // // resource. Notice that in case of no matching, the promise still resolves
-  // // but it does with `undefined` as value.
-  // function fromCache(request) {
-  //     // @todo need to serve index.html in place of all navigo-served pages
-  //     // (an issue if someone returns to a bookmarked page within the app)
-  //
-  //     return caches.open(CACHE_VERSION).then(function (cache) {
-  //         return cache.match(request).then(function (matching) {
-  //             console.log(matching ?
-  //                 `matched ${request.url}`
-  //                 :
-  //                 `no match for ${request.url}`);
-  //
-  //             return matching || fetch(request); // return cache match or if not cached then go out to network
-  //         });
-  //     });
-  // }
-  //
-  // /**
-  //  * Special case response for images
-  //  * attempt to serve from local cache first,
-  //  * if that fails then go out to network
-  //  * finally see if there is an image in indexeddb
-  //  *
-  //  * @param {FetchEvent} evt
-  //  */
-  // function handleImageFetch(evt) {
-  //     evt.respondWith(fromCache(evt.request).then((response) => {
-  //         if (response) {
-  //             return response;
-  //         } else {
-  //             // not cached and no network access
-  //             // try to respond from local storage
-  //
-  //             const url = evt.request.url;
-  //             const matches = url.match(/imageid=([a-fA-F0-9]{8}-(?:[a-fA-F0-9]{4}-){3}[a-fA-F0-9]{12})/);
-  //
-  //             if (matches) {
-  //                 const imageId = matches[1];
-  //
-  //                 return imageFromLocalDatabase(imageId);
-  //             } else {
-  //                 console.log(`Failed to match image id in url '${url}'`);
-  //             }
-  //         }
-  //     }));
-  // }
-  //
-  // /**
-  //  *
-  //  * @param {string} imageId
-  //  * @returns {Promise}
-  //  */
-  // function imageFromLocalDatabase(imageId) {
-  //     const image = new OccurrenceImage();
-  //
-  //     console.log('attempting retrieval of image data from local database');
-  //
-  //     return Model.retrieveFromLocal(imageId, image).then((image) => {
-  //         console.log(`Retrieved image '${imageId}' from indexeddb.`);
-  //         if (image.file) {
-  //             const headers = new Headers();
-  //             headers.append('Content-Type', image.file.type);
-  //
-  //             return new Response(image.file, {
-  //                 "status" : 200 ,
-  //                 "statusText" : "OK image response from IndexedDb"
-  //             });
-  //         } else {
-  //             console.log(`No local file object associated with retrieved image '${imageId}' from indexeddb.`);
-  //         }
-  //     });
-  // }
-  //
-  // // Update consists in opening the cache, performing a network request and
-  // // storing the new response data.
-  // function update(request) {
-  //     request = new Request(request, {mode: 'cors', credentials: 'omit'});
-  //
-  //     return caches.open(CACHE_VERSION).then(function (cache) {
-  //         return fetch(request, {cache: "no-cache"}).then(function (response) {
-  //             if (response.ok) {
-  //                 return cache.put(request, response);
-  //             } else {
-  //                 console.log(`Request during cache update failed for ${request.url}`);
-  //                 console.log({'failed cache response' : response});
-  //                 return Promise.reject('Request during cache update failed, not caching.');
-  //             }
-  //         }).catch((error) => {
-  //             console.log(`Cache attempt failed for ${request.url}: error was ${error}`);
-  //         });
-  //     });
-  // }
+    version: '1.0.1.1634572796'
+  });
 
 })();
 //# sourceMappingURL=serviceworker.js.map

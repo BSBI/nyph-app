@@ -236,7 +236,7 @@ export class MainController extends AppController {
      * registers the default route from this.route
      * or alternatively is overridden in a child class
      *
-     * @param {Navigo} router
+     * @param {PatchedNavigo} router
      */
     registerRoute(router) {
         router.on(
