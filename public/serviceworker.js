@@ -25275,12 +25275,9 @@
     indexUrl: 'https://nyphtest.bsbi.org/app/index.html',
     urlCacheSet: ['./index.html', './manifest.webmanifest', '/appcss/app.css', // note no leading '.' - this is an absolute path
     '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
-    //'/img/icons/favicon-32x32.png',
-    //'/img/icons/favicon-16x16.png',
-    //'/img/icons/android-icon-192x192.png',
-    //'/img/icons/gwh_logo1_tsp-512x512.png',
+    '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap'],
-    version: '1.0.1.1634560421'
+    version: '1.0.1.1634562822'
   }); // // currently based around the 'Cache and update' recipe along with many modifications
   // // see https://serviceworke.rs
   //
@@ -25294,7 +25291,7 @@
   // import {OccurrenceImage} from "../models/OccurrenceImage";
   // import {Model} from "../models/Model";
   //
-  // //import {1.0.1.1634560421} from "rollup";
+  // //import {1.0.1.1634562822} from "rollup";
   //
   // if (!Promise.prototype.finally) {
   //     Promise.prototype.finally = function(callback) {
@@ -25307,7 +25304,7 @@
   // SurveyResponse.register();
   // OccurrenceResponse.register();
   //
-  // const CACHE_VERSION = `version-1.0.1.1634560421`;
+  // const CACHE_VERSION = `version-1.0.1.1634562822`;
   //
   // const POST_PASS_THROUGH_WHITELIST = /^https:\/\/nyphtest\.bsbi\.org\/loadsurveys.php/;
   //

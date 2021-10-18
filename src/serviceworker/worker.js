@@ -26,9 +26,9 @@ serviceWorker.initialise({
         '/appcss/app.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
         //'/img/gwh_logo1_tsp.png',
-        //'/img/icons/favicon-32x32.png',
-        //'/img/icons/favicon-16x16.png',
-        //'/img/icons/android-icon-192x192.png',
+        '/img/icons/favicon-32x32.png',
+        '/img/icons/favicon-16x16.png',
+        '/img/icons/android-icon-192x192.png',
         //'/img/icons/gwh_logo1_tsp-512x512.png',
         '/img/BSBIlong.png',
         'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round',
