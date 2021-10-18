@@ -25,14 +25,14 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "bootstrap": "^4.5.0",
-    "british-isles-gridrefs": "github:japonicus/js-british-isles-gridrefs",
+    "british-isles-gridrefs": "https://github.com/japonicus/js-british-isles-gridrefs.git",
+    "bsbi-app-framework": "git+https://github.com/BSBI/bsbi-app-framework.git",
     "core-js": "^3.18.2",
+    "element-closest-polyfill": "1.0.4",
     "localforage": "^1.10.0",
     "navigo": "^7.1.2",
     "uuid": "^3.3.3",
-    "element-closest-polyfill": "1.0.4",
-    "whatwg-fetch": "3.6.2",
-    "bsbi-app-framework": "https://github.com/BSBI/bsbi-app-framework.git"
+    "whatwg-fetch": "3.6.2"
   },
   "scripts": {
     "build": "rollup -c",

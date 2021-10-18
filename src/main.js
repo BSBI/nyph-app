@@ -8,7 +8,7 @@ import {HelpView} from "./views/HelpView";
 //import {PatchedNavigo} from "./utils/PatchedNavigo";
 import localforage from 'localforage';
 import {SurveyPickerController} from "./controllers/SurveyPickerController";
-import {SurveyPickerView} from "./views/SurveyPickerView";
+//import {SurveyPickerView} from "./views/SurveyPickerView";
 import {NyphLayout} from "./views/layout/NyphLayout";
 //import {TaxaLoadedHook} from "./utils/TaxaLoadedHook";
 import './theme.scss';
@@ -18,6 +18,7 @@ import "core-js/stable";
 import 'element-closest-polyfill';
 import 'whatwg-fetch';
 import {PatchedNavigo, StaticContentController, TaxaLoadedHook} from "bsbi-app-framework";
+import {SurveyPickerView} from "./views/SurveyPickerView";
 
 localforage.config({
     name: NyphApp.forageName

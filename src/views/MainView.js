@@ -16,8 +16,16 @@ import {escapeHTML} from "../utils/escapeHTML";
 import {NyphApp} from "../framework/NyphApp";
 import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
 //import {OccurrenceImage} from "../models/OccurrenceImage";
-import {EVENT_DELETE_IMAGE, IMAGE_MODAL_ID, IMAGE_MODAL_DELETE_BUTTON_ID, ImageField, DELETE_IMAGE_MODAL_ID} from "./formfields/ImageField";
-import {Form, InternalAppError, MainController, Occurrence, OccurrenceImage, Page} from "bsbi-app-framework";
+//import {EVENT_DELETE_IMAGE, IMAGE_MODAL_ID, IMAGE_MODAL_DELETE_BUTTON_ID, ImageField, DELETE_IMAGE_MODAL_ID} from "./formfields/ImageField";
+import {
+    Form,
+    ImageField,EVENT_DELETE_IMAGE, IMAGE_MODAL_ID, IMAGE_MODAL_DELETE_BUTTON_ID, DELETE_IMAGE_MODAL_ID,
+    InternalAppError,
+    MainController,
+    Occurrence,
+    OccurrenceImage,
+    Page
+} from "bsbi-app-framework";
 
 const LEFT_PANEL_ID = 'col1panel';
 const RIGHT_PANEL_ID = 'col2panel'; // 'occurrenceeditorcontainer';

@@ -1,7 +1,9 @@
 // Survey picker page
 
-import {Page} from "./Page";
+//import {Page} from "./Page";
 //import htmlContent from "../templates/helpPage.html";
+
+import {Page} from "bsbi-app-framework";
 
 export class SurveyPickerView extends Page {
 
