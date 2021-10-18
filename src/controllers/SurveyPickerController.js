@@ -47,10 +47,10 @@ export class SurveyPickerController extends AppController {
 
         this.handle = AppController.nextHandle;
 
-        // view.addListener(MainController.EVENT_SELECT_OCCURRENCE, this, this.occurrenceSelectionHandler);
-        // view.addListener(MainController.EVENT_SELECT_SURVEY_SECTION, this, this.surveyPartSelectionHandler);
-        // view.addListener(MainController.EVENT_NEW_RECORD, this, this.newRecordHandler);
-        // view.addListener(MainController.EVENT_DELETE_OCCURRENCE, this, this.deleteOccurrenceHandler);
+        // view.addListener(MainController.EVENT_SELECT_OCCURRENCE, this.occurrenceSelectionHandler.bind(this));
+        // view.addListener(MainController.EVENT_SELECT_SURVEY_SECTION, this.surveyPartSelectionHandler.bind(this));
+        // view.addListener(MainController.EVENT_NEW_RECORD, this.newRecordHandler.bind(this));
+        // view.addListener(MainController.EVENT_DELETE_OCCURRENCE, this.deleteOccurrenceHandler.bind(this));
         //
         // view.addListener(MainController.EVENT_BACK, this, this.backHandler);
         // view.addListener(MainController.EVENT_NEXT_TO_RECORDS, this, this.nextTransitionToRecordsHandler);
@@ -167,8 +167,8 @@ export class SurveyPickerController extends AppController {
             this.addSurveyHandler.bind(this, 'survey', 'add', '')
         );
 
-        this.app.addListener(App.EVENT_ADD_SURVEY_USER_REQUEST, this, this.addNewSurveyHandler);
-        this.app.addListener(App.EVENT_RESET_SURVEYS, this, this.resetSurveysHandler);
+        this.app.addListener(App.EVENT_ADD_SURVEY_USER_REQUEST, this.addNewSurveyHandler.bind(this));
+        this.app.addListener(App.EVENT_RESET_SURVEYS, this.resetSurveysHandler.bind(this));
     }
 
     beforeNewHandler(done) {

@@ -2,8 +2,6 @@
   "name": "nyph-app",
   "devDependencies": {
     "@babel/core": "^7.15.8",
-    "@babel/plugin-proposal-class-properties": "^7.14.5",
-    "@babel/plugin-proposal-private-methods": "^7.14.5",
     "@babel/preset-env": "^7.15.8",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^21.0.0",
@@ -26,7 +24,7 @@
     "@babel/polyfill": "^7.12.1",
     "bootstrap": "^4.5.0",
     "british-isles-gridrefs": "https://github.com/japonicus/js-british-isles-gridrefs.git",
-    "bsbi-app-framework": "git+https://github.com/BSBI/bsbi-app-framework.git",
+    "bsbi-app-framework": "https://github.com/BSBI/bsbi-app-framework.git",
     "core-js": "^3.18.2",
     "element-closest-polyfill": "1.0.4",
     "localforage": "^1.10.0",

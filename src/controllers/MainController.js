@@ -3,11 +3,6 @@
 // probably as an accordion (collapsible list, e.g. https://getbootstrap.com/docs/4.3/components/collapse/#accordion-example)
 // that should target the detailed view of the occurrence into either a full screen (on mobile) or a right-hand panel.
 
-//import {AppController} from './AppController';
-//import {NotFoundError} from "../utils/exceptions/NotFoundError";
-//import {Occurrence} from "../models/Occurrence";
-//import {InternalAppError} from "../utils/exceptions/InternalAppError";
-
 import {AppController, InternalAppError, NotFoundError} from "bsbi-app-framework";
 
 export class MainController extends AppController {
@@ -124,7 +119,7 @@ export class MainController extends AppController {
 
         this.#currentOccurrenceId = occurrenceId;
         // if (occurrenceId) {
-        //     this.#currentOccurrenceModifiedEventHandle = this.currentOccurrence.addListener(Occurrence.EVENT_MODIFIED, this, this.currentOccurrenceModifiedHandler);
+        //     this.#currentOccurrenceModifiedEventHandle = this.currentOccurrence.addListener(Occurrence.EVENT_MODIFIED, this.currentOccurrenceModifiedHandler.bind(this));
         // }
     }
 
@@ -148,13 +143,13 @@ export class MainController extends AppController {
 
         this.handle = AppController.nextHandle;
 
-        view.addListener(MainController.EVENT_SELECT_OCCURRENCE, this, this.occurrenceSelectionHandler);
-        view.addListener(MainController.EVENT_SELECT_SURVEY_SECTION, this, this.surveyPartSelectionHandler);
-        view.addListener(MainController.EVENT_NEW_RECORD, this, this.newRecordHandler);
-        view.addListener(MainController.EVENT_DELETE_OCCURRENCE, this, this.deleteOccurrenceHandler);
+        view.addListener(MainController.EVENT_SELECT_OCCURRENCE, this.occurrenceSelectionHandler.bind(this));
+        view.addListener(MainController.EVENT_SELECT_SURVEY_SECTION, this.surveyPartSelectionHandler.bind(this));
+        view.addListener(MainController.EVENT_NEW_RECORD, this.newRecordHandler.bind(this));
+        view.addListener(MainController.EVENT_DELETE_OCCURRENCE, this.deleteOccurrenceHandler.bind(this));
 
-        view.addListener(MainController.EVENT_BACK, this, this.backHandler);
-        view.addListener(MainController.EVENT_NEXT_TO_RECORDS, this, this.nextTransitionToRecordsHandler);
+        view.addListener(MainController.EVENT_BACK, this.backHandler.bind(this));
+        view.addListener(MainController.EVENT_NEXT_TO_RECORDS, this.nextTransitionToRecordsHandler.bind(this));
     }
 
     /**

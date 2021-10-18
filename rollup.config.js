@@ -60,7 +60,8 @@ export default [
 				output: 'public/appcss/theme.css',
 			}),
 			babel({
-				exclude: 'node_modules/**' // only transpile our source code
+				exclude: 'node_modules/**', // only transpile our source code
+				babelHelpers: 'bundled'
 			}),
 			commonjs(), // converts npm packages to ES modules
 			production && terser() // minify, but only in production
@@ -97,7 +98,8 @@ export default [
 				//output: 'public/appcss/theme.css',
 			}),
 			babel({
-				exclude: 'node_modules/**' // only transpile our source code
+				exclude: 'node_modules/**', // only transpile our source code
+				babelHelpers: 'bundled'
 			}),
 			commonjs(), // converts npm packages to ES modules
 			production && terser() // minify, but only in production

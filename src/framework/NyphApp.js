@@ -3,7 +3,7 @@
 //import {Occurrence} from "../models/Occurrence";
 //import {InternalAppError} from "../utils/exceptions/InternalAppError";
 import localforage from 'localforage';
-import {App, InternalAppError, Occurrence, OccurrenceImage, Survey} from "bsbi-app-framework";
+import {App, Occurrence, OccurrenceImage, Survey} from "bsbi-app-framework";
 //import {OccurrenceImage} from "../models/OccurrenceImage";
 
 export const PROJECT_ID_NYPH = 2;
@@ -27,256 +27,256 @@ export class NyphApp extends App {
      */
     static devMode = false;
 
-    /**
-     *
-     * @param {Survey} survey
-     */
-    addSurvey(survey) {
-        if (survey.projectId !== this.projectId) {
-            throw new Error(`Survey project id '${survey.projectId} does not match with current project ('${this.projectId}')`);
-        }
+    // /**
+    //  *
+    //  * @param {Survey} survey
+    //  */
+    // addSurvey(survey) {
+    //     if (survey.projectId !== this.projectId) {
+    //         throw new Error(`Survey project id '${survey.projectId} does not match with current project ('${this.projectId}')`);
+    //     }
+    //
+    //     if (!this.surveys.has(survey.id)) {
+    //         console.log("setting survey's modified/save handler");
+    //         survey.addListener(
+    //             Survey.EVENT_MODIFIED,
+    //             (survey) => {
+    //                 this.fireEvent(App.EVENT_SURVEYS_CHANGED);
+    //                 return survey.save();
+    //             }
+    //             );
+    //     }
+    //
+    //     this.surveys.set(survey.id, survey);
+    //     this.fireEvent(App.EVENT_SURVEYS_CHANGED);
+    // }
 
-        if (!this.surveys.has(survey.id)) {
-            console.log("setting survey's modified/save handler");
-            survey.addListener(
-                Survey.EVENT_MODIFIED,
-                this,
-                (survey) => {
-                    this.fireEvent(App.EVENT_SURVEYS_CHANGED);
-                    return survey.save();
-                }
-                );
-        }
+    // /**
+    //  * tests whether occurrences have been defined, excluding any that have been deleted
+    //  *
+    //  * @returns {boolean}
+    //  */
+    // haveExtantOccurrences() {
+    //     for (let occurrence of this.occurrences) {
+    //         if (!occurrence.deleted) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
-        this.surveys.set(survey.id, survey);
-        this.fireEvent(App.EVENT_SURVEYS_CHANGED);
-    }
+    // /**
+    //  *
+    //  * @param {Occurrence} occurrence
+    //  */
+    // addOccurrence(occurrence) {
+    //     if (!occurrence.surveyId) {
+    //         throw new InternalAppError('Survey id must set prior to registering occurrence.');
+    //     }
+    //
+    //     if (this.occurrences.size === 0) {
+    //         // this is the first occurrence added, set the survey creation stamp to match
+    //         // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
+    //         // for a protracted period
+    //
+    //         const survey = this.surveys.get(occurrence.surveyId);
+    //         survey.createdStamp = occurrence.createdStamp;
+    //     }
+    //     console.log(`in addOccurrence setting id '${occurrence.id}'`);
+    //     this.occurrences.set(occurrence.id, occurrence);
+    //
+    //     occurrence.addListener(Occurrence.EVENT_MODIFIED,
+    //         () => {
+    //             const survey = this.surveys.get(occurrence.surveyId);
+    //             if (!survey) {
+    //                 throw new Error(`Failed to look up survey id ${occurrence.surveyId}`);
+    //             } else {
+    //                 survey.isPristine = false;
+    //
+    //                 // need to ensure that currentSurvey is saved before occurrence
+    //                 // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
+    //                 // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
+    //                 if (survey.unsaved()) {
+    //                     // noinspection JSIgnoredPromiseFromCall
+    //                     survey.save();
+    //                 }
+    //                 occurrence.save(survey.id);
+    //             }
+    //         });
+    // }
 
-    /**
-     * tests whether occurrences have been defined, excluding any that have been deleted
-     *
-     * @returns {boolean}
-     */
-    haveExtantOccurrences() {
-        for (let occurrence of this.occurrences) {
-            if (!occurrence.deleted) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // /**
+    //  * attempts to refresh the state of local storage for the specified survey ids
+    //  * if fetch fails then return a failed promise
+    //  *
+    //  * updates local copy of surveys and occurrences
+    //  *
+    //  * no service worker interception of this call - passed through and not cached
+    //  *
+    //  * @param {Array.<string>} surveyIds
+    //  * @return {Promise}
+    //  */
+    // refreshFromServer(surveyIds) {
+    //     const formData = new FormData;
+    //
+    //     let n = 0;
+    //     for (let key of surveyIds) {
+    //         formData.append(`surveyId[${n++}]`, key);
+    //     }
+    //
+    //     return fetch(NyphApp.LOAD_SURVEYS_ENDPOINT, {
+    //         method: 'POST',
+    //         body: formData
+    //     }).then(response => {
+    //         if (response.ok) {
+    //             return response.json();
+    //         } else {
+    //             return Promise.reject(`Invalid response from server when refreshing survey ids`);
+    //         }
+    //     }).then((jsonResponse) => {
+    //         /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
+    //
+    //         console.log({'refresh from server json response' : jsonResponse});
+    //
+    //         // if external objects newer than local version then place in local storage
+    //         const promises = [];
+    //
+    //         for (let type in jsonResponse) {
+    //             if (jsonResponse.hasOwnProperty(type)) {
+    //                 for (let object of jsonResponse[type]) {
+    //                     promises.push(this._conditionallyReplaceObject(object));
+    //                 }
+    //             }
+    //         }
+    //
+    //
+    //         return Promise.all(promises);
+    //     });
+    // }
 
-    /**
-     *
-     * @param {Occurrence} occurrence
-     */
-    addOccurrence(occurrence) {
-        if (!occurrence.surveyId) {
-            throw new InternalAppError('Survey id must set prior to registering occurrence.');
-        }
+    // /**
+    //  * compare modified stamp of indexeddb and external objects and write external version locally if more recent
+    //  *
+    //  * @param {{id : string, type : string, modified : number, created : number, saveState : string, deleted : boolean}} externalVersion
+    //  * @returns {Promise}
+    //  * @private
+    //  */
+    // _conditionallyReplaceObject(externalVersion) {
+    //     const objectType = externalVersion.type;
+    //     const id = externalVersion.id;
+    //     const key = `${objectType}.${id}`;
+    //
+    //     return localforage.getItem(key)
+    //         .then((localVersion) => {
+    //             if (localVersion) {
+    //                 // compare stamps
+    //
+    //                 // if (externalVersion.deleted) {
+    //                 //     // if the external copy is deleted then remove the local copy
+    //                 //     return localforage.removeItem(key);
+    //                 // }
+    //
+    //                 if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
+    //                     console.log(`Local copy of ${key} is the same or newer than the server copy. (${localVersion.modified} >= ${externalVersion.modified}) `);
+    //                     return Promise.resolve();
+    //                 }
+    //             }
+    //
+    //             // no local copy or stale copy
+    //             // so store response locally
+    //             console.log(`Adding or replacing local copy of ${key}`);
+    //             return localforage.setItem(key, externalVersion);
+    //         });
+    // }
 
-        if (this.occurrences.size === 0) {
-            // this is the first occurrence added, set the survey creation stamp to match
-            // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
-            // for a protracted period
+    // /**
+    //  * retrieve the full set of keys from local storage (IndexedDb)
+    //  *
+    //  * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
+    //  * @returns {Promise}
+    //  */
+    // seekKeys(storedObjectKeys) {
+    //     return localforage.keys().then((keys) => {
+    //         for (let key of keys) {
+    //             let type,id;
+    //
+    //             [type, id] = key.split('.', 2);
+    //
+    //             if (storedObjectKeys.hasOwnProperty(type)) {
+    //                 if (!storedObjectKeys[type].includes(id)) {
+    //                     storedObjectKeys[type].push(id);
+    //                 }
+    //             } else {
+    //                 console.log(`Unrecognised stored key type '${type}.`);
+    //             }
+    //         }
+    //
+    //         return storedObjectKeys;
+    //     });
+    // }
 
-            const survey = this.surveys.get(occurrence.surveyId);
-            survey.createdStamp = occurrence.createdStamp;
-        }
+    // /**
+    //  * @returns {Promise}
+    //  */
+    // syncAll() {
+    //     const storedObjectKeys = {
+    //         survey : [],
+    //         occurrence : [],
+    //         image : []
+    //     };
+    //
+    //     return this.seekKeys(storedObjectKeys)
+    //         .then((storedObjectKeys) => {
+    //             return this._syncLocalUnsaved(storedObjectKeys);
+    //         }, (failedResult) => {
+    //             console.log(`Failed to sync all: ${failedResult}`);
+    //         });
+    // }
 
-        this.occurrences.set(occurrence.id, occurrence);
-
-        occurrence.addListener(Occurrence.EVENT_MODIFIED, this,
-            (occurrence) => {
-
-            const survey = this.surveys.get(occurrence.surveyId);
-            if (!survey) {
-                throw new Error(`Failed to look up survey id ${occurrence.surveyId}`);
-            } else {
-
-                // need to ensure that currentSurvey is saved before occurrence
-                // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
-                // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
-                if (survey.unsaved()) {
-                    survey.save();
-                }
-                occurrence.save(survey.id);
-            }
-        });
-    }
-
-    /**
-     * attempts to refresh the state of local storage for the specified survey ids
-     * if fetch fails then return a failed promise
-     *
-     * updates local copy of surveys and occurrences
-     *
-     * no service worker interception of this call - passed through and not cached
-     *
-     * @param {Array.<string>} surveyIds
-     * @return {Promise}
-     */
-    refreshFromServer(surveyIds) {
-        const formData = new FormData;
-
-        let n = 0;
-        for (let key of surveyIds) {
-            formData.append(`surveyId[${n++}]`, key);
-        }
-
-        return fetch(NyphApp.LOAD_SURVEYS_ENDPOINT, {
-            method: 'POST',
-            body: formData
-        }).then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                return Promise.reject(`Invalid response from server when refreshing survey ids`);
-            }
-        }).then((jsonResponse) => {
-            /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
-
-            console.log({'refresh from server json response' : jsonResponse});
-
-            // if external objects newer than local version then place in local storage
-            const promises = [];
-
-            for (let type in jsonResponse) {
-                if (jsonResponse.hasOwnProperty(type)) {
-                    for (let object of jsonResponse[type]) {
-                        promises.push(this._conditionallyReplaceObject(object));
-                    }
-                }
-            }
-
-
-            return Promise.all(promises);
-        });
-    }
-
-    /**
-     * compare modified stamp of indexeddb and external objects and write external version locally if more recent
-     *
-     * @param {{id : string, type : string, modified : number, created : number, saveState : string, deleted : boolean}} externalVersion
-     * @returns {Promise}
-     * @private
-     */
-    _conditionallyReplaceObject(externalVersion) {
-        const objectType = externalVersion.type;
-        const id = externalVersion.id;
-        const key = `${objectType}.${id}`;
-
-        return localforage.getItem(key)
-            .then((localVersion) => {
-                if (localVersion) {
-                    // compare stamps
-
-                    // if (externalVersion.deleted) {
-                    //     // if the external copy is deleted then remove the local copy
-                    //     return localforage.removeItem(key);
-                    // }
-
-                    if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
-                        console.log(`Local copy of ${key} is the same or newer than the server copy. (${localVersion.modified} >= ${externalVersion.modified}) `);
-                        return Promise.resolve();
-                    }
-                }
-
-                // no local copy or stale copy
-                // so store response locally
-                console.log(`Adding or replacing local copy of ${key}`);
-                return localforage.setItem(key, externalVersion);
-            });
-    }
-
-    /**
-     * retrieve the full set of keys from local storage (IndexedDb)
-     *
-     * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
-     * @returns {Promise}
-     */
-    seekKeys(storedObjectKeys) {
-        return localforage.keys().then((keys) => {
-            for (let key of keys) {
-                let type,id;
-
-                [type, id] = key.split('.', 2);
-
-                if (storedObjectKeys.hasOwnProperty(type)) {
-                    if (!storedObjectKeys[type].includes(id)) {
-                        storedObjectKeys[type].push(id);
-                    }
-                } else {
-                    console.log(`Unrecognised stored key type '${type}.`);
-                }
-            }
-
-            return storedObjectKeys;
-        });
-    }
-
-    /**
-     * @returns {Promise}
-     */
-    syncAll() {
-        const storedObjectKeys = {
-            survey : [],
-            occurrence : [],
-            image : []
-        };
-
-        return this.seekKeys(storedObjectKeys)
-            .then((storedObjectKeys) => {
-                return this._syncLocalUnsaved(storedObjectKeys);
-            }, (failedResult) => {
-                console.log(`Failed to sync all: ${failedResult}`);
-            });
-    }
-
-    /**
-     *
-     * @param storedObjectKeys
-     * @returns {Promise}
-     * @private
-     */
-    _syncLocalUnsaved(storedObjectKeys) {
-        // syncs surveys first, then occurrences, then images from indexedDb
-
-        const promises = [];
-        for(let surveyKey of storedObjectKeys.survey) {
-            promises.push(Survey.retrieveFromLocal(surveyKey, new Survey)
-                .then((survey) => {
-                    if (survey.unsaved()) {
-                        return survey.save();
-                    }
-                })
-            );
-        }
-
-        for(let occurrenceKey of storedObjectKeys.occurrence) {
-            promises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
-                .then((occurrence) => {
-                    if (occurrence.unsaved()) {
-                        return occurrence.save();
-                    }
-                })
-            );
-        }
-
-        for(let imageKey of storedObjectKeys.image) {
-            promises.push(OccurrenceImage.retrieveFromLocal(imageKey, new OccurrenceImage)
-                .then((image) => {
-                    if (image.unsaved()) {
-                        return image.save();
-                    }
-                })
-            );
-        }
-
-        return Promise.all(promises).catch((result) => {
-            console.log(`Save failure: ${result}`);
-        });
-    }
+    // /**
+    //  *
+    //  * @param storedObjectKeys
+    //  * @returns {Promise}
+    //  * @private
+    //  */
+    // _syncLocalUnsaved(storedObjectKeys) {
+    //     // syncs surveys first, then occurrences, then images from indexedDb
+    //
+    //     const promises = [];
+    //     for(let surveyKey of storedObjectKeys.survey) {
+    //         promises.push(Survey.retrieveFromLocal(surveyKey, new Survey)
+    //             .then((survey) => {
+    //                 if (survey.unsaved()) {
+    //                     return survey.save();
+    //                 }
+    //             })
+    //         );
+    //     }
+    //
+    //     for(let occurrenceKey of storedObjectKeys.occurrence) {
+    //         promises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
+    //             .then((occurrence) => {
+    //                 if (occurrence.unsaved()) {
+    //                     return occurrence.save();
+    //                 }
+    //             })
+    //         );
+    //     }
+    //
+    //     for(let imageKey of storedObjectKeys.image) {
+    //         promises.push(OccurrenceImage.retrieveFromLocal(imageKey, new OccurrenceImage)
+    //             .then((image) => {
+    //                 if (image.unsaved()) {
+    //                     return image.save();
+    //                 }
+    //             })
+    //         );
+    //     }
+    //
+    //     return Promise.all(promises).catch((result) => {
+    //         console.log(`Save failure: ${result}`);
+    //     });
+    // }
 
     /**
      * restore previous state, pulling back from local and external store

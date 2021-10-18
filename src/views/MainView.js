@@ -1,22 +1,15 @@
 // Overall view for the main list page *and occurrence side panels*
 
-//import {Page} from "./Page";
 import htmlLayout from "../templates/mainViewLayout.html";
 import welcomeContent from "../templates/welcome.html";
 import defaultRightHandSideHelp from "../templates/defaultRightHandSideHelp.html";
 import {NyphSurveyForm} from "./forms/NyphSurveyForm";
 //import $ from "jquery";
-//import {MainController} from "../controllers/MainController";
-//import {Occurrence} from "../models/Occurrence";
 import {NyphSurveyFormGardenSection} from "./forms/NyphSurveyFormGardenSection";
-//import {InternalAppError} from "../utils/exceptions/InternalAppError";
 import {NyphSurveyFormAboutSection} from "./forms/NyphSurveyFormAboutSection";
-//import {Form} from "./forms/Form";
 import {escapeHTML} from "../utils/escapeHTML";
 import {NyphApp} from "../framework/NyphApp";
 import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
-//import {OccurrenceImage} from "../models/OccurrenceImage";
-//import {EVENT_DELETE_IMAGE, IMAGE_MODAL_ID, IMAGE_MODAL_DELETE_BUTTON_ID, ImageField, DELETE_IMAGE_MODAL_ID} from "./formfields/ImageField";
 import {
     Form,
     ImageField,EVENT_DELETE_IMAGE, IMAGE_MODAL_ID, IMAGE_MODAL_DELETE_BUTTON_ID, DELETE_IMAGE_MODAL_ID,
@@ -28,7 +21,7 @@ import {
 } from "bsbi-app-framework";
 
 const LEFT_PANEL_ID = 'col1panel';
-const RIGHT_PANEL_ID = 'col2panel'; // 'occurrenceeditorcontainer';
+const RIGHT_PANEL_ID = 'col2panel';
 const CONTROL_PANEL_ID = 'ctrlpanel';
 
 const PANEL_BACK_BUTTON_ID = 'right-panel-back';
@@ -90,7 +83,7 @@ export class MainView extends Page {
      * an opportunity to register listeners on this.controller.app
      */
     initialise() {
-        this.controller.app.addListener(NyphApp.EVENT_OCCURRENCE_ADDED, this, 'occurrenceAddedHandler');
+        this.controller.app.addListener(NyphApp.EVENT_OCCURRENCE_ADDED, this.occurrenceAddedHandler.bind(this));
     }
 
     /**
@@ -262,6 +255,8 @@ export class MainView extends Page {
      * @param {HTMLElement} editorContainer
      */
     refreshOccurrenceFooterControls(editorContainer) {
+        let nextSection;
+
         const buttonContainer = editorContainer.appendChild(document.createElement('div'));
 
         const backButton = buttonContainer.appendChild(document.createElement('button'));
@@ -286,7 +281,7 @@ export class MainView extends Page {
             finishButton.setAttribute('data-buttonaction', 'finish');
         } else {
             const nextFormIndex = 1;
-            const nextSection = NyphSurveyForm.sections[nextFormIndex];
+            nextSection = NyphSurveyForm.sections[nextFormIndex];
 
             const nextButton = buttonContainer.appendChild(document.createElement('button'));
             nextButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3';
@@ -700,7 +695,7 @@ export class MainView extends Page {
         // cannot call registerForm until the form is part of the document
         this.controller.survey.registerForm(surveyFormSection);
 
-        surveyFormSection.addListener(NyphSurveyForm.EVENT_VALIDATION_STATE_CHANGE, this, (context, eventName, isValid) => {
+        surveyFormSection.addListener(NyphSurveyForm.EVENT_VALIDATION_STATE_CHANGE, (context, eventName, isValid) => {
             const cardEl = document.getElementById(cardId);
             if (isValid) {
                 cardEl.classList.remove('is-invalid');
@@ -778,8 +773,7 @@ export class MainView extends Page {
 
                 this.#occurrenceChangeHandles[occurrence.id] = occurrence.addListener(
                     Occurrence.EVENT_MODIFIED,
-                    this,
-                    this.occurrenceChangeHandler,
+                    this.occurrenceChangeHandler.bind(this),
                     {occurrenceId: occurrence.id}
                 );
             }
@@ -828,8 +822,7 @@ export class MainView extends Page {
 
             this.#occurrenceChangeHandles[occurrence.id] = occurrence.addListener(
                 Occurrence.EVENT_MODIFIED,
-                this,
-                this.occurrenceChangeHandler,
+                this.occurrenceChangeHandler.bind(this),
                 {occurrenceId: occurrence.id}
             );
 
