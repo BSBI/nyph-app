@@ -1,6 +1,3 @@
-
-//import {NyphSurveyForm} from "./NyphSurveyForm";
-
 export class NyphSurveyFormSection {
     /**
      * @type {string}

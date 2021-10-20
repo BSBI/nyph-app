@@ -1,11 +1,3 @@
-//import {Form} from "./Form";
-//import {TaxonPickerField} from "../formfields/TaxonPickerField";
-//import {FormField} from "../formfields/FormField";
-//import {TextAreaField} from "../formfields/TextAreaField";
-//import {OptionsField} from "../formfields/OptionsField";
-//import {SelectField} from "../formfields/SelectField";
-//import {ImageField} from "../formfields/ImageField";
-//import {InputField} from "../formfields/InputField";
 import helpPanelText from "../../templates/formHelp/recordsHelp.html";
 import {
     Form,
@@ -14,7 +6,7 @@ import {
     OptionsField,
     SelectField,
     TaxonPickerField,
-    TextAreaField
+    TextAreaField, TextGeorefField
 } from "bsbi-app-framework";
 
 export class NyphOccurrenceForm extends Form {
@@ -136,6 +128,14 @@ export class NyphOccurrenceForm extends Form {
                 } else {
                     return true;
                 }
+            }
+        },
+        geoRef : {
+            field: TextGeorefField,
+            attributes: {
+                label: 'Grid-reference',
+                helpText: '',
+                completion: FormField.COMPLETION_COMPULSORY,
             }
         },
         idConfidence : {

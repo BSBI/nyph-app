@@ -1,10 +1,6 @@
-//import {InputField} from "../formfields/InputField";
-//import {SelectField} from "../formfields/SelectField";
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 import helpPanelText from "../../templates/formHelp/surveyGardenHelp.html";
 import {FormField, InputField, OptionsField, SelectField} from "bsbi-app-framework";
-//import {OptionsField} from "../formfields/OptionsField";
-//import {FormField} from "../formfields/FormField";
 
 export class NyphSurveyFormGardenSection extends NyphSurveyFormSection {
 

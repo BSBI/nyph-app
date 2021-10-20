@@ -11,7 +11,7 @@ import './theme.scss';
 
 // polyfill stuff
 import "core-js/stable";
-import 'element-closest-polyfill';
+import 'element-closest-polyfill'; // still needed for IE11
 import 'whatwg-fetch';
 import {PatchedNavigo, StaticContentController, TaxaLoadedHook} from "bsbi-app-framework";
 import {SurveyPickerView} from "./views/SurveyPickerView";

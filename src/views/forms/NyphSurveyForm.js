@@ -1,5 +1,3 @@
-//import {Form} from "./Form";
-
 import {Form} from "bsbi-app-framework";
 
 export class NyphSurveyForm extends Form {

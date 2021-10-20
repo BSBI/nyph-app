@@ -4,10 +4,8 @@ import htmlLayout from "../templates/mainViewLayout.html";
 import welcomeContent from "../templates/welcome.html";
 import defaultRightHandSideHelp from "../templates/defaultRightHandSideHelp.html";
 import {NyphSurveyForm} from "./forms/NyphSurveyForm";
-//import $ from "jquery";
 import {NyphSurveyFormGardenSection} from "./forms/NyphSurveyFormGardenSection";
 import {NyphSurveyFormAboutSection} from "./forms/NyphSurveyFormAboutSection";
-//import {escapeHTML} from "../utils/escapeHTML";
 import {NyphApp} from "../framework/NyphApp";
 import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
 import {
@@ -31,8 +29,6 @@ const PANEL_RIGHT = 'right';
 
 const DELETE_OCCURRENCE_MODAL_ID = 'deleteoccurrencemodal';
 const FINISH_MODAL_ID = 'finishmodal';
-
-
 
 const OCCURRENCE_LIST_CONTAINER_ID = 'occurrencelistcontainer';
 NyphSurveyForm.registerSection(NyphSurveyFormAboutSection);
