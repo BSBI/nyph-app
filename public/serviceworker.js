@@ -80,7 +80,7 @@
        * registers the default route from this.route
        * or alternatively is overridden in a child class
        *
-       * @param {Navigo} router
+       * @param {PatchedNavigo} router
        */
 
     }, {
@@ -7632,7 +7632,7 @@
       value:
       /**
        *
-       * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean, created: (number|string), modified: (number|string), projectId: (number|string)}} descriptor
+       * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean|string, created: (number|string), modified: (number|string), projectId: (number|string)}} descriptor
        */
       function _parseDescriptor(descriptor) {
         this._parseAttributes(descriptor.attributes);
@@ -7649,7 +7649,7 @@
       }
       /**
        *
-       * @param {Object.<string, {}>} attributes
+       * @param {Object.<string, {}>|string|Array} attributes
        */
 
     }, {
@@ -7805,6 +7805,10 @@
       return pre.innerHTML.replace(/"/g, '&quot;');
     }
   }
+
+  /**
+   * @external BsbiDb
+   */
 
   var Taxon = /*#__PURE__*/function () {
     function Taxon() {
@@ -8078,7 +8082,12 @@
       key: "value",
       get: function get() {
         return this._value;
-      },
+      }
+      /**
+       * @abstract
+       * @param value
+       */
+      ,
       set: function set(value) {}
     }, {
       key: "fieldElement",
@@ -8420,6 +8429,13 @@
           this.conditionallyValidateForm();
         }
       }
+      /**
+       * @abstract
+       */
+
+    }, {
+      key: "updateModelFromContent",
+      value: function updateModelFromContent() {}
     }], [{
       key: "nextId",
       get: function get() {
@@ -8590,7 +8606,7 @@
       }
       /**
        *
-       * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean, created: number, modified: number, projectId: number, surveyId: string}} descriptor
+       * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean|string, created: number, modified: number, projectId: number, surveyId: string}} descriptor
        */
 
     }, {
@@ -10020,7 +10036,7 @@
 
     /**
      *
-     * @type {{string, typeof SurveyFormSection}}
+     * @type {Object.<string, typeof SurveyFormSection>}
      */
 
     /**
@@ -10479,7 +10495,7 @@
     var _super = _createSuper$g(App);
 
     /**
-     * @type {Navigo}
+     * @type {PatchedNavigo}
      */
 
     /**
@@ -11363,10 +11379,22 @@
 
         setTimeout(function () {
           document.getElementById("".concat(Layout.NEW_SURVEY_MODAL_ID, "confirmed")).addEventListener('click', function (event) {
-            _this3.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);
+            event.stopPropagation();
+            event.preventDefault();
+
+            if (event.detail < 2) {
+              // only if not a double click
+              _this3.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);
+            }
           });
           document.getElementById("".concat(Layout.RESET_MODAL_ID, "confirmed")).addEventListener('click', function (event) {
-            _this3.app.fireEvent(App.EVENT_RESET_SURVEYS);
+            event.stopPropagation();
+            event.preventDefault();
+
+            if (event.detail < 2) {
+              // only if not a double click
+              _this3.app.fireEvent(App.EVENT_RESET_SURVEYS);
+            }
           });
         }, 100);
       }
@@ -11417,6 +11445,10 @@
   function _createSuper$e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$e(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
   function _isNativeReflectConstruct$e() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  /**
+   * @external $
+   */
+
   var SurveyPickerController = /*#__PURE__*/function (_AppController) {
     _inherits$1(SurveyPickerController, _AppController);
 
@@ -11926,6 +11958,17 @@
       value: function localKey() {
         throw new Error("LocalKey must be implemented in a subclass for ".concat(this.toSaveLocally.type));
       }
+      /**
+       * called to build the response to the post that is returned to the client
+       * in the absence of the remote server
+       *
+       * @returns {this}
+       * @abstract
+       */
+
+    }, {
+      key: "populateClientResponse",
+      value: function populateClientResponse() {}
     }]);
 
     return LocalResponse;
@@ -12228,7 +12271,7 @@
        *  interceptUrlMatches : RegExp,
        *  ignoreUrlMatches : RegExp,
        *  indexUrl : string,
-       *  urlCacheSet : Array.<string>
+       *  urlCacheSet : Array.<string>,
        *  version : string
        * }} configuration
        */
@@ -12245,7 +12288,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1634573433-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1634733723-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -12522,7 +12565,7 @@
       value: function fromCache(request) {
         var _this3 = this;
 
-        // @todo need to serve index.html in place of all navigo-served pages
+        // @todo need to serve index.html in place of all Navigo-served pages
         // (an issue if someone returns to a bookmarked page within the app)
         console.log('attempting fromCache response');
         return caches.open(this.CACHE_VERSION).then(function (cache) {
@@ -13075,6 +13118,10 @@
     }
   });
 
+  /**
+   * @external BsbiDb
+   */
+
   var TaxonSearch = /*#__PURE__*/function () {
     /**
      * see TaxonRank::sort
@@ -13581,6 +13628,14 @@
 
   _defineProperty$1(TaxonSearch, "cleanRegex", /[.*+?^${}()|[\]\\]/g);
 
+  /**
+   * @external BsbiDb
+   */
+
+  /**
+   *
+   */
+
   var TaxaLoadedHook = /*#__PURE__*/function () {
     function TaxaLoadedHook() {
       _classCallCheck$1(this, TaxaLoadedHook);
@@ -13670,6 +13725,9 @@
   var IMAGE_MODAL_DELETE_BUTTON_ID = 'imagemodaldelete';
   var DELETE_IMAGE_MODAL_ID = 'deleteimagemodal';
   var EVENT_DELETE_IMAGE = 'deleteimage';
+  /**
+   * @external $
+   */
 
   var _inputId$2 = /*#__PURE__*/new WeakMap();
 
@@ -17578,6 +17636,10 @@
   var FINISH_MODAL_ID = 'finishmodal';
   var OCCURRENCE_LIST_CONTAINER_ID = 'occurrencelistcontainer'; //SurveyForm.registerSection(GardenFlowerSurveyFormAboutSection);
   //SurveyForm.registerSection(GardenFlowerSurveyFormGardenSection);
+
+  /**
+   * @external $
+   */
 
   var _surveyFormSections = /*#__PURE__*/new WeakMap();
 
@@ -24649,7 +24711,7 @@
     '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap'],
-    version: '1.0.1.1634725005'
+    version: '1.0.1.1634573931'
   });
 
 })();

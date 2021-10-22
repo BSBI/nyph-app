@@ -1,12 +1,6 @@
 // SurveyPickerController
 //
 
-//import {AppController} from './AppController';
-//import {NotFoundError} from "../utils/exceptions/NotFoundError";
-//import {InternalAppError} from "../utils/exceptions/InternalAppError";
-//import {UUID_REGEX} from "../models/Model";
-//import {Layout} from "../views/layout/Layout";
-//import {App} from "../framework/App";
 import {App, AppController, Layout, NotFoundError, UUID_REGEX} from "bsbi-app-framework";
 
 export class SurveyPickerController extends AppController {
@@ -46,79 +40,7 @@ export class SurveyPickerController extends AppController {
         view.controller = this;
 
         this.handle = AppController.nextHandle;
-
-        // view.addListener(MainController.EVENT_SELECT_OCCURRENCE, this.occurrenceSelectionHandler.bind(this));
-        // view.addListener(MainController.EVENT_SELECT_SURVEY_SECTION, this.surveyPartSelectionHandler.bind(this));
-        // view.addListener(MainController.EVENT_NEW_RECORD, this.newRecordHandler.bind(this));
-        // view.addListener(MainController.EVENT_DELETE_OCCURRENCE, this.deleteOccurrenceHandler.bind(this));
-        //
-        // view.addListener(MainController.EVENT_BACK, this, this.backHandler);
-        // view.addListener(MainController.EVENT_NEXT_TO_RECORDS, this, this.nextTransitionToRecordsHandler);
     }
-
-    // /**
-    //  * handler for event fired on and by view when 'next section' button has been click, leading to the records section
-    //  * this will expand the list of records, or if none exist, add a first one and open it
-    //  */
-    // nextTransitionToRecordsHandler() {
-    //     console.log('in nextTransitionToRecordsHandler()');
-    //
-    //     if (this.app.haveExtantOccurrences()) {
-    //         this.app.router.navigate('/list/record/');
-    //     } else {
-    //         this.newRecordHandler();
-    //     }
-    // }
-
-    // /**
-    //  *
-    //  * @param {MainController} context
-    //  * @param {string} eventName
-    //  * @param {string} occurrenceId
-    //  */
-    // deleteOccurrenceHandler(context, eventName, occurrenceId) {
-    //     console.log({deleting : occurrenceId});
-    //
-    //     const occurrence = this.app.occurrences.get(occurrenceId);
-    //     if (!occurrence) {
-    //         throw new InternalAppError(`Occurrence id '${occurrenceId}' not found when trying to delete.`);
-    //     }
-    //
-    //     occurrence.delete();
-    //     if (this.currentOccurrenceId === occurrenceId) {
-    //         //this.currentOccurrenceId = '';
-    //         this.app.router.navigate(`/list/record/`);
-    //     }
-    // }
-
-    // /**
-    //  *
-    //  * @param {MainController} context
-    //  * @param {string} eventName
-    //  * @param {{sectionKey : string}} params
-    //  */
-    // surveyPartSelectionHandler (context, eventName, params) {
-    //     console.log('In surveyPartSelectionHandler');
-    //     console.log({context, eventName, params});
-    //
-    //     if (params.sectionKey === 'record') {
-    //         this.app.router.navigate(`/list/record/`);
-    //     } else if (params.sectionKey) {
-    //         this.app.router.navigate(`/list/survey/${params.sectionKey}`);
-    //     } else {
-    //         this.app.router.navigate(`/list/`);
-    //     }
-    // }
-
-    // /**
-    //  * may be invoked directly or in response to the Add New Record event
-    //  * therefore assume that the method receives no event parameters
-    //  */
-    // newRecordHandler() {
-    //     const occurrence = this.app.addNewOccurrence();
-    //
-    //     this.app.router.navigate(`/list/record/${occurrence.id}`);
-    // }
 
     /**
      * registers the default route from this.route
@@ -298,64 +220,5 @@ export class SurveyPickerController extends AppController {
     mainRouteHandler(context, subcontext, rhs, queryParameters) {
         console.log("reached special route handler for SurveyPickerController.js");
         console.log({context: context, params: subcontext, query: queryParameters});
-
-        // this.app.saveRoute();
-        //
-        // switch(subcontext) {
-        //     case 'add':
-        //
-        //         break;
-        //
-        //     case '':
-        //         break;
-        //
-        //     default:
-        //         throw new NotFoundError(`Unrecognised context '${subcontext}'`);
-        // }
-        //
-        // try {
-        //     this.viewSubcontext = subcontext;
-        //
-        //
-        //
-        //     if (this.app.currentControllerHandle !== this.handle) {
-        //         // need a complete refresh of the page
-        //
-        //         this.needsFullRefresh = true;
-        //         this.app.currentControllerHandle = this.handle;
-        //     }
-        //
-        //     this.view.display();
-        //     this.needsFullRefresh = false;
-        // } catch (error) {
-        //     this.error = error;
-        //     console.log({error});
-        //
-        //     // attempt to carry on regardless to some extent (error should be reported in the view)
-        //     // but wrap in a further try just in case
-        //
-        //     try {
-        //         this.needsFullRefresh = true;
-        //         this.view.display();
-        //     } catch (rethrownError) {
-        //         console.log({rethrownError});
-        //         document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${rethrownError.message}</p>`;
-        //     }
-        // }
     }
-
-    // backHandler() {
-    //     console.log({'leftPanelBaseRoute' : this.leftPanelBaseRoute});
-    //     console.log({'local navigation cache' : this.app.routeHistory});
-    //
-    //     if (this.app.routeHistory.length >= 2 && this.app.routeHistory[this.app.routeHistory.length - 2].url === this.leftPanelBaseRoute) {
-    //         this.app.routeHistory.length -= 1;
-    //         console.log('using standard back navigation');
-    //         window.history.back();
-    //         //console.log('fell through back!');
-    //     } else {
-    //         console.log(`navigating back using base address '${this.leftPanelBaseRoute}'`);
-    //         this.app.router.navigate(this.leftPanelBaseRoute);
-    //     }
-    // }
 }

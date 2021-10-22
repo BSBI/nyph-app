@@ -373,9 +373,9 @@ export class NyphOccurrenceForm extends Form {
         return this.#occurrence;
     }
 
-    changeHandler(event) {
+    changeHandler(params) {
         console.log('occurrence form change event');
-        console.log({event});
+        console.log({params});
 
         this.fireEvent(NyphOccurrenceForm.CHANGE_EVENT, {form: this});
     }

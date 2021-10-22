@@ -442,7 +442,7 @@ export class MainView extends Page {
                 const occurrenceId = confirmButtonEl.getAttribute('data-occurrenceid');
                 console.log(`Deleting occurrence ${occurrenceId}.`);
 
-                this.fireEvent(MainController.EVENT_DELETE_OCCURRENCE, occurrenceId);
+                this.fireEvent(MainController.EVENT_DELETE_OCCURRENCE, {occurrenceId});
             }
         });
 
@@ -506,7 +506,7 @@ export class MainView extends Page {
                 const imageId = deleteButtonEl.getAttribute('data-imageid');
                 //console.log(`Deleting image ${occurrenceId}.`);
 
-                this.#occurrenceForm.fireEvent(EVENT_DELETE_IMAGE, imageId);
+                this.#occurrenceForm.fireEvent(EVENT_DELETE_IMAGE, {imageId});
                 $(`#${IMAGE_MODAL_ID}`).modal('hide');
             }
         });
@@ -802,11 +802,9 @@ export class MainView extends Page {
     /**
      * called after the one-off addition of a new occurrence
      *
-     * @param context
-     * @param {string} eventName
      * @param {{occurrenceId: string, surveyId: string}} params
      */
-    occurrenceAddedHandler(context, eventName, params) {
+    occurrenceAddedHandler(params) {
         const occurrenceList = document.getElementById(OCCURRENCE_LIST_CONTAINER_ID);
 
         if (occurrenceList) {
@@ -846,11 +844,9 @@ export class MainView extends Page {
 
     /**
      *
-     * @param context
-     * @param {string} eventName
      * @param {{occurrenceId : string}} params
      */
-    occurrenceChangeHandler(context, eventName, params) {
+    occurrenceChangeHandler(params) {
         const occurrence = this.controller.occurrences.get(params.occurrenceId);
         const el = document.getElementById(`card_${params.occurrenceId}`);
 

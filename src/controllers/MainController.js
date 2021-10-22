@@ -168,34 +168,29 @@ export class MainController extends AppController {
 
     /**
      *
-     * @param {MainController} context
-     * @param {string} eventName
-     * @param {string} occurrenceId
+     * @param {{occurrenceId : string}} parameters
      */
-    deleteOccurrenceHandler(context, eventName, occurrenceId) {
-        console.log({deleting : occurrenceId});
+    deleteOccurrenceHandler(parameters) {
+        console.log({deleting : parameters.occurrenceId});
 
-        const occurrence = this.app.occurrences.get(occurrenceId);
+        const occurrence = this.app.occurrences.get(parameters.occurrenceId);
         if (!occurrence) {
-            throw new InternalAppError(`Occurrence id '${occurrenceId}' not found when trying to delete.`);
+            throw new InternalAppError(`Occurrence id '${parameters.occurrenceId}' not found when trying to delete.`);
         }
 
         occurrence.delete();
-        if (this.currentOccurrenceId === occurrenceId) {
-            //this.currentOccurrenceId = '';
+        if (this.currentOccurrenceId === parameters.occurrenceId) {
             this.app.router.navigate(`/list/record/`);
         }
     }
 
     /**
      *
-     * @param {MainController} context
-     * @param {string} eventName
      * @param {{sectionKey : string}} params
      */
-    surveyPartSelectionHandler (context, eventName, params) {
+    surveyPartSelectionHandler (params) {
         console.log('In surveyPartSelectionHandler');
-        console.log({context, eventName, params});
+        console.log({params});
 
         if (params.sectionKey === 'record') {
             this.app.router.navigate(`/list/record/`);
@@ -218,12 +213,10 @@ export class MainController extends AppController {
 
     /**
      *
-     * @param {MainController} context
-     * @param {string} eventName
      * @param {{occurrenceId : string}} params
      */
-    occurrenceSelectionHandler (context, eventName, params) {
-        console.log({'In occurrenceSelectionHandler' : {context, eventName, params}});
+    occurrenceSelectionHandler (params) {
+        console.log({'In occurrenceSelectionHandler' : {params}});
 
         if (this.currentOccurrenceId && params.occurrenceId && this.currentOccurrenceId === params.occurrenceId) {
             console.log(`ignoring spurious navigation event for '${params.occurrenceId}'`);

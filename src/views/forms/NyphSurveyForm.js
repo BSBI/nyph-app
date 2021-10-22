@@ -1,6 +1,6 @@
-import {Form} from "bsbi-app-framework";
+import {SurveyForm} from "bsbi-app-framework";
 
-export class NyphSurveyForm extends Form {
+export class NyphSurveyForm extends SurveyForm {
 
     /**
      * sections keyed by numerical order
@@ -11,7 +11,7 @@ export class NyphSurveyForm extends Form {
 
     /**
      *
-     * @type {{string, typeof NyphSurveyFormSection}}
+     * @type {Object.<string, typeof NyphSurveyFormSection>}
      */
     static sectionsByKey = {};
 
@@ -36,19 +36,19 @@ export class NyphSurveyForm extends Form {
         this.section = section;
     }
 
-    /**
-     *
-     * @returns {HTMLElement}
-     */
-    get formElement() {
-        let el = super.formElement;
-
-        if (!this._formFieldsBuilt) {
-            this.buildFormFields();
-        }
-
-        return el;
-    }
+    // /**
+    //  *
+    //  * @returns {HTMLElement}
+    //  */
+    // get formElement() {
+    //     let el = super.formElement;
+    //
+    //     if (!this._formFieldsBuilt) {
+    //         this.buildFormFields();
+    //     }
+    //
+    //     return el;
+    // }
 
     updateModelFromContent() {
         console.log('updating survey from NyphSurveyForm content');
@@ -80,11 +80,11 @@ export class NyphSurveyForm extends Form {
     /**
      * the change event triggers after a field has changed, before the value has been read back into the model
      *
-     * @param event
+     * @param params
      */
-    changeHandler(event) {
+    changeHandler(params) {
         console.log('survey form change event');
-        console.log({event});
+        console.log({params});
 
         this.fireEvent(NyphSurveyForm.CHANGE_EVENT, {form: this});
     }

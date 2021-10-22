@@ -5764,7 +5764,7 @@
 	     * registers the default route from this.route
 	     * or alternatively is overridden in a child class
 	     *
-	     * @param {Navigo} router
+	     * @param {PatchedNavigo} router
 	     */
 
 	  }, {
@@ -13316,7 +13316,7 @@
 	    value:
 	    /**
 	     *
-	     * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean, created: (number|string), modified: (number|string), projectId: (number|string)}} descriptor
+	     * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean|string, created: (number|string), modified: (number|string), projectId: (number|string)}} descriptor
 	     */
 	    function _parseDescriptor(descriptor) {
 	      this._parseAttributes(descriptor.attributes);
@@ -13333,7 +13333,7 @@
 	    }
 	    /**
 	     *
-	     * @param {Object.<string, {}>} attributes
+	     * @param {Object.<string, {}>|string|Array} attributes
 	     */
 
 	  }, {
@@ -13489,6 +13489,10 @@
 	    return pre.innerHTML.replace(/"/g, '&quot;');
 	  }
 	}
+
+	/**
+	 * @external BsbiDb
+	 */
 
 	var Taxon = /*#__PURE__*/function () {
 	  function Taxon() {
@@ -13762,7 +13766,12 @@
 	    key: "value",
 	    get: function get() {
 	      return this._value;
-	    },
+	    }
+	    /**
+	     * @abstract
+	     * @param value
+	     */
+	    ,
 	    set: function set(value) {}
 	  }, {
 	    key: "fieldElement",
@@ -14104,6 +14113,13 @@
 	        this.conditionallyValidateForm();
 	      }
 	    }
+	    /**
+	     * @abstract
+	     */
+
+	  }, {
+	    key: "updateModelFromContent",
+	    value: function updateModelFromContent() {}
 	  }], [{
 	    key: "nextId",
 	    get: function get() {
@@ -14274,7 +14290,7 @@
 	    }
 	    /**
 	     *
-	     * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean, created: number, modified: number, projectId: number, surveyId: string}} descriptor
+	     * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean|string, created: number, modified: number, projectId: number, surveyId: string}} descriptor
 	     */
 
 	  }, {
@@ -15754,7 +15770,7 @@
 
 	  /**
 	   *
-	   * @type {{string, typeof SurveyFormSection}}
+	   * @type {Object.<string, typeof SurveyFormSection>}
 	   */
 
 	  /**
@@ -16213,7 +16229,7 @@
 	  var _super = _createSuper$g(App);
 
 	  /**
-	   * @type {Navigo}
+	   * @type {PatchedNavigo}
 	   */
 
 	  /**
@@ -17097,10 +17113,22 @@
 
 	      setTimeout(function () {
 	        document.getElementById("".concat(Layout.NEW_SURVEY_MODAL_ID, "confirmed")).addEventListener('click', function (event) {
-	          _this3.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);
+	          event.stopPropagation();
+	          event.preventDefault();
+
+	          if (event.detail < 2) {
+	            // only if not a double click
+	            _this3.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);
+	          }
 	        });
 	        document.getElementById("".concat(Layout.RESET_MODAL_ID, "confirmed")).addEventListener('click', function (event) {
-	          _this3.app.fireEvent(App.EVENT_RESET_SURVEYS);
+	          event.stopPropagation();
+	          event.preventDefault();
+
+	          if (event.detail < 2) {
+	            // only if not a double click
+	            _this3.app.fireEvent(App.EVENT_RESET_SURVEYS);
+	          }
 	        });
 	      }, 100);
 	    }
@@ -17151,6 +17179,10 @@
 	function _createSuper$e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$e(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 	function _isNativeReflectConstruct$e() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * @external $
+	 */
+
 	var SurveyPickerController$1 = /*#__PURE__*/function (_AppController) {
 	  _inherits(SurveyPickerController, _AppController);
 
@@ -18076,7 +18108,7 @@
 	      this._findLinks().forEach(function (link) {
 	        if (!link.hasListenerAttached) {
 	          link.addEventListener('click', function (e) {
-	            if ((e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() == 'a') {
+	            if ((e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() === 'a') {
 	              return false;
 	            }
 
@@ -18521,6 +18553,10 @@
 	    return A;
 	  }
 	});
+
+	/**
+	 * @external BsbiDb
+	 */
 
 	var TaxonSearch = /*#__PURE__*/function () {
 	  /**
@@ -19028,6 +19064,14 @@
 
 	_defineProperty(TaxonSearch, "cleanRegex", /[.*+?^${}()|[\]\\]/g);
 
+	/**
+	 * @external BsbiDb
+	 */
+
+	/**
+	 *
+	 */
+
 	var TaxaLoadedHook = /*#__PURE__*/function () {
 	  function TaxaLoadedHook() {
 	    _classCallCheck(this, TaxaLoadedHook);
@@ -19117,6 +19161,9 @@
 	var IMAGE_MODAL_DELETE_BUTTON_ID = 'imagemodaldelete';
 	var DELETE_IMAGE_MODAL_ID = 'deleteimagemodal';
 	var EVENT_DELETE_IMAGE = 'deleteimage';
+	/**
+	 * @external $
+	 */
 
 	var _inputId$2 = /*#__PURE__*/new WeakMap();
 
@@ -19781,7 +19828,7 @@
 	     * by the time summariseImpl has been called have already checked that summary is wanted
 	     *
 	     * @param {string} key
-	     * @param {{field : typeof OptionsField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {{field : typeof InputField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
 	     */
@@ -20471,7 +20518,7 @@
 	     * by the time summariseImpl has been called have already checked that summary is wanted
 	     *
 	     * @param {string} key
-	     * @param {{field : typeof OptionsField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {{field : typeof SelectField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
 	     */
@@ -23815,7 +23862,7 @@
 	     * by the time summariseImpl has been called have already checked that summary is wanted
 	     *
 	     * @param {string} key
-	     * @param {{field : typeof OptionsField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {{field : typeof TextGeorefField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
 	     */
@@ -24096,6 +24143,10 @@
 	var FINISH_MODAL_ID$1 = 'finishmodal';
 	var OCCURRENCE_LIST_CONTAINER_ID$1 = 'occurrencelistcontainer'; //SurveyForm.registerSection(GardenFlowerSurveyFormAboutSection);
 	//SurveyForm.registerSection(GardenFlowerSurveyFormGardenSection);
+
+	/**
+	 * @external $
+	 */
 
 	var _surveyFormSections$1 = /*#__PURE__*/new WeakMap();
 
@@ -26330,44 +26381,37 @@
 	    }
 	    /**
 	     *
-	     * @param {MainController} context
-	     * @param {string} eventName
-	     * @param {string} occurrenceId
+	     * @param {{occurrenceId : string}} parameters
 	     */
 
 	  }, {
 	    key: "deleteOccurrenceHandler",
-	    value: function deleteOccurrenceHandler(context, eventName, occurrenceId) {
+	    value: function deleteOccurrenceHandler(parameters) {
 	      console.log({
-	        deleting: occurrenceId
+	        deleting: parameters.occurrenceId
 	      });
-	      var occurrence = this.app.occurrences.get(occurrenceId);
+	      var occurrence = this.app.occurrences.get(parameters.occurrenceId);
 
 	      if (!occurrence) {
-	        throw new InternalAppError("Occurrence id '".concat(occurrenceId, "' not found when trying to delete."));
+	        throw new InternalAppError("Occurrence id '".concat(parameters.occurrenceId, "' not found when trying to delete."));
 	      }
 
 	      occurrence.delete();
 
-	      if (this.currentOccurrenceId === occurrenceId) {
-	        //this.currentOccurrenceId = '';
+	      if (this.currentOccurrenceId === parameters.occurrenceId) {
 	        this.app.router.navigate("/list/record/");
 	      }
 	    }
 	    /**
 	     *
-	     * @param {MainController} context
-	     * @param {string} eventName
 	     * @param {{sectionKey : string}} params
 	     */
 
 	  }, {
 	    key: "surveyPartSelectionHandler",
-	    value: function surveyPartSelectionHandler(context, eventName, params) {
+	    value: function surveyPartSelectionHandler(params) {
 	      console.log('In surveyPartSelectionHandler');
 	      console.log({
-	        context: context,
-	        eventName: eventName,
 	        params: params
 	      });
 
@@ -26392,18 +26436,14 @@
 	    }
 	    /**
 	     *
-	     * @param {MainController} context
-	     * @param {string} eventName
 	     * @param {{occurrenceId : string}} params
 	     */
 
 	  }, {
 	    key: "occurrenceSelectionHandler",
-	    value: function occurrenceSelectionHandler(context, eventName, params) {
+	    value: function occurrenceSelectionHandler(params) {
 	      console.log({
 	        'In occurrenceSelectionHandler': {
-	          context: context,
-	          eventName: eventName,
 	          params: params
 	        }
 	      });
@@ -26745,8 +26785,8 @@
 
 	var _survey = /*#__PURE__*/new WeakMap();
 
-	var NyphSurveyForm = /*#__PURE__*/function (_Form) {
-	  _inherits$1(NyphSurveyForm, _Form);
+	var NyphSurveyForm = /*#__PURE__*/function (_SurveyForm) {
+	  _inherits$1(NyphSurveyForm, _SurveyForm);
 
 	  var _super = _createSuper$9(NyphSurveyForm);
 
@@ -26758,7 +26798,7 @@
 
 	  /**
 	   *
-	   * @type {{string, typeof NyphSurveyFormSection}}
+	   * @type {Object.<string, typeof NyphSurveyFormSection>}
 	   */
 
 	  /**
@@ -26791,25 +26831,22 @@
 
 	    _this.section = section;
 	    return _this;
-	  }
-	  /**
-	   *
-	   * @returns {HTMLElement}
-	   */
+	  } // /**
+	  //  *
+	  //  * @returns {HTMLElement}
+	  //  */
+	  // get formElement() {
+	  //     let el = super.formElement;
+	  //
+	  //     if (!this._formFieldsBuilt) {
+	  //         this.buildFormFields();
+	  //     }
+	  //
+	  //     return el;
+	  // }
 
 
 	  _createClass$1(NyphSurveyForm, [{
-	    key: "formElement",
-	    get: function get() {
-	      var el = _get$1(_getPrototypeOf$1(NyphSurveyForm.prototype), "formElement", this);
-
-	      if (!this._formFieldsBuilt) {
-	        this.buildFormFields();
-	      }
-
-	      return el;
-	    }
-	  }, {
 	    key: "updateModelFromContent",
 	    value: function updateModelFromContent() {
 	      console.log('updating survey from NyphSurveyForm content');
@@ -26838,7 +26875,7 @@
 	    /**
 	     * the change event triggers after a field has changed, before the value has been read back into the model
 	     *
-	     * @param event
+	     * @param params
 	     */
 	    ,
 	    set: function set(model) {
@@ -26848,10 +26885,10 @@
 	    }
 	  }, {
 	    key: "changeHandler",
-	    value: function changeHandler(event) {
+	    value: function changeHandler(params) {
 	      console.log('survey form change event');
 	      console.log({
-	        event: event
+	        params: params
 	      });
 	      this.fireEvent(NyphSurveyForm.CHANGE_EVENT, {
 	        form: this
@@ -26900,7 +26937,7 @@
 	  }]);
 
 	  return NyphSurveyForm;
-	}(Form);
+	}(SurveyForm);
 
 	_defineProperty$1(NyphSurveyForm, "sections", []);
 
@@ -27328,10 +27365,10 @@
 	    }
 	  }, {
 	    key: "changeHandler",
-	    value: function changeHandler(event) {
+	    value: function changeHandler(params) {
 	      console.log('occurrence form change event');
 	      console.log({
-	        event: event
+	        params: params
 	      });
 	      this.fireEvent(NyphOccurrenceForm.CHANGE_EVENT, {
 	        form: this
@@ -28051,11 +28088,9 @@
 	    /**
 	     * called after the one-off addition of a new occurrence
 	     *
-	     * @param context
-	     * @param {string} eventName
 	     * @param {{occurrenceId: string, surveyId: string}} params
 	     */
-	    function occurrenceAddedHandler(context, eventName, params) {
+	    function occurrenceAddedHandler(params) {
 	      var occurrenceList = document.getElementById(OCCURRENCE_LIST_CONTAINER_ID);
 
 	      if (occurrenceList) {
@@ -28093,14 +28128,12 @@
 	    }
 	    /**
 	     *
-	     * @param context
-	     * @param {string} eventName
 	     * @param {{occurrenceId : string}} params
 	     */
 
 	  }, {
 	    key: "occurrenceChangeHandler",
-	    value: function occurrenceChangeHandler(context, eventName, params) {
+	    value: function occurrenceChangeHandler(params) {
 	      var occurrence = this.controller.occurrences.get(params.occurrenceId);
 	      var el = document.getElementById("card_".concat(params.occurrenceId));
 
@@ -28373,7 +28406,9 @@
 	      var occurrenceId = confirmButtonEl.getAttribute('data-occurrenceid');
 	      console.log("Deleting occurrence ".concat(occurrenceId, "."));
 
-	      _this5.fireEvent(MainController$1.EVENT_DELETE_OCCURRENCE, occurrenceId);
+	      _this5.fireEvent(MainController$1.EVENT_DELETE_OCCURRENCE, {
+	        occurrenceId: occurrenceId
+	      });
 	    }
 	  }); // 'finish' modal
 	  // this pop-up is informational only
@@ -28393,7 +28428,9 @@
 	    if (deleteButtonEl && deleteButtonEl.hasAttribute('data-imageid')) {
 	      var imageId = deleteButtonEl.getAttribute('data-imageid'); //console.log(`Deleting image ${occurrenceId}.`);
 
-	      _classPrivateFieldGet$1(_this5, _occurrenceForm).fireEvent(EVENT_DELETE_IMAGE, imageId);
+	      _classPrivateFieldGet$1(_this5, _occurrenceForm).fireEvent(EVENT_DELETE_IMAGE, {
+	        imageId: imageId
+	      });
 
 	      $("#".concat(IMAGE_MODAL_ID)).modal('hide');
 	    }
@@ -28711,7 +28748,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1634725005</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1634573931</p>";
 	    }
 	  }]);
 
@@ -29070,76 +29107,9 @@
 
 	    _this.view = view;
 	    view.controller = _assertThisInitialized$1(_this);
-	    _this.handle = AppController.nextHandle; // view.addListener(MainController.EVENT_SELECT_OCCURRENCE, this.occurrenceSelectionHandler.bind(this));
-	    // view.addListener(MainController.EVENT_SELECT_SURVEY_SECTION, this.surveyPartSelectionHandler.bind(this));
-	    // view.addListener(MainController.EVENT_NEW_RECORD, this.newRecordHandler.bind(this));
-	    // view.addListener(MainController.EVENT_DELETE_OCCURRENCE, this.deleteOccurrenceHandler.bind(this));
-	    //
-	    // view.addListener(MainController.EVENT_BACK, this, this.backHandler);
-	    // view.addListener(MainController.EVENT_NEXT_TO_RECORDS, this, this.nextTransitionToRecordsHandler);
-
+	    _this.handle = AppController.nextHandle;
 	    return _this;
-	  } // /**
-	  //  * handler for event fired on and by view when 'next section' button has been click, leading to the records section
-	  //  * this will expand the list of records, or if none exist, add a first one and open it
-	  //  */
-	  // nextTransitionToRecordsHandler() {
-	  //     console.log('in nextTransitionToRecordsHandler()');
-	  //
-	  //     if (this.app.haveExtantOccurrences()) {
-	  //         this.app.router.navigate('/list/record/');
-	  //     } else {
-	  //         this.newRecordHandler();
-	  //     }
-	  // }
-	  // /**
-	  //  *
-	  //  * @param {MainController} context
-	  //  * @param {string} eventName
-	  //  * @param {string} occurrenceId
-	  //  */
-	  // deleteOccurrenceHandler(context, eventName, occurrenceId) {
-	  //     console.log({deleting : occurrenceId});
-	  //
-	  //     const occurrence = this.app.occurrences.get(occurrenceId);
-	  //     if (!occurrence) {
-	  //         throw new InternalAppError(`Occurrence id '${occurrenceId}' not found when trying to delete.`);
-	  //     }
-	  //
-	  //     occurrence.delete();
-	  //     if (this.currentOccurrenceId === occurrenceId) {
-	  //         //this.currentOccurrenceId = '';
-	  //         this.app.router.navigate(`/list/record/`);
-	  //     }
-	  // }
-	  // /**
-	  //  *
-	  //  * @param {MainController} context
-	  //  * @param {string} eventName
-	  //  * @param {{sectionKey : string}} params
-	  //  */
-	  // surveyPartSelectionHandler (context, eventName, params) {
-	  //     console.log('In surveyPartSelectionHandler');
-	  //     console.log({context, eventName, params});
-	  //
-	  //     if (params.sectionKey === 'record') {
-	  //         this.app.router.navigate(`/list/record/`);
-	  //     } else if (params.sectionKey) {
-	  //         this.app.router.navigate(`/list/survey/${params.sectionKey}`);
-	  //     } else {
-	  //         this.app.router.navigate(`/list/`);
-	  //     }
-	  // }
-	  // /**
-	  //  * may be invoked directly or in response to the Add New Record event
-	  //  * therefore assume that the method receives no event parameters
-	  //  */
-	  // newRecordHandler() {
-	  //     const occurrence = this.app.addNewOccurrence();
-	  //
-	  //     this.app.router.navigate(`/list/record/${occurrence.id}`);
-	  // }
-
+	  }
 	  /**
 	   * registers the default route from this.route
 	   * or alternatively is overridden in a child class
@@ -29332,64 +29302,8 @@
 	        context: context,
 	        params: subcontext,
 	        query: queryParameters
-	      }); // this.app.saveRoute();
-	      //
-	      // switch(subcontext) {
-	      //     case 'add':
-	      //
-	      //         break;
-	      //
-	      //     case '':
-	      //         break;
-	      //
-	      //     default:
-	      //         throw new NotFoundError(`Unrecognised context '${subcontext}'`);
-	      // }
-	      //
-	      // try {
-	      //     this.viewSubcontext = subcontext;
-	      //
-	      //
-	      //
-	      //     if (this.app.currentControllerHandle !== this.handle) {
-	      //         // need a complete refresh of the page
-	      //
-	      //         this.needsFullRefresh = true;
-	      //         this.app.currentControllerHandle = this.handle;
-	      //     }
-	      //
-	      //     this.view.display();
-	      //     this.needsFullRefresh = false;
-	      // } catch (error) {
-	      //     this.error = error;
-	      //     console.log({error});
-	      //
-	      //     // attempt to carry on regardless to some extent (error should be reported in the view)
-	      //     // but wrap in a further try just in case
-	      //
-	      //     try {
-	      //         this.needsFullRefresh = true;
-	      //         this.view.display();
-	      //     } catch (rethrownError) {
-	      //         console.log({rethrownError});
-	      //         document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${rethrownError.message}</p>`;
-	      //     }
-	      // }
-	    } // backHandler() {
-	    //     console.log({'leftPanelBaseRoute' : this.leftPanelBaseRoute});
-	    //     console.log({'local navigation cache' : this.app.routeHistory});
-	    //
-	    //     if (this.app.routeHistory.length >= 2 && this.app.routeHistory[this.app.routeHistory.length - 2].url === this.leftPanelBaseRoute) {
-	    //         this.app.routeHistory.length -= 1;
-	    //         console.log('using standard back navigation');
-	    //         window.history.back();
-	    //         //console.log('fell through back!');
-	    //     } else {
-	    //         console.log(`navigating back using base address '${this.leftPanelBaseRoute}'`);
-	    //         this.app.router.navigate(this.leftPanelBaseRoute);
-	    //     }
-	    // }
-
+	      });
+	    }
 	  }]);
 
 	  return SurveyPickerController;
