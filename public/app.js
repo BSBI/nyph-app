@@ -1976,7 +1976,7 @@
 	  return _setPrototypeOf$1(o, p);
 	}
 
-	function _isNativeReflectConstruct$9() {
+	function _isNativeReflectConstruct$2() {
 	  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
 	  if (Reflect.construct.sham) return false;
 	  if (typeof Proxy === "function") return true;
@@ -2007,8 +2007,8 @@
 	  return _assertThisInitialized$1(self);
 	}
 
-	function _createSuper$9(Derived) {
-	  var hasNativeReflectConstruct = _isNativeReflectConstruct$9();
+	function _createSuper$2(Derived) {
+	  var hasNativeReflectConstruct = _isNativeReflectConstruct$2();
 
 	  return function _createSuperInternal() {
 	    var Super = _getPrototypeOf$1(Derived),
@@ -2166,20 +2166,20 @@
 	  return fn;
 	}
 
-	function _checkPrivateRedeclaration$8(obj, privateCollection) {
+	function _checkPrivateRedeclaration$1(obj, privateCollection) {
 	  if (privateCollection.has(obj)) {
 	    throw new TypeError("Cannot initialize the same private elements twice on an object");
 	  }
 	}
 
-	function _classPrivateFieldInitSpec$8(obj, privateMap, value) {
-	  _checkPrivateRedeclaration$8(obj, privateMap);
+	function _classPrivateFieldInitSpec$1(obj, privateMap, value) {
+	  _checkPrivateRedeclaration$1(obj, privateMap);
 
 	  privateMap.set(obj, value);
 	}
 
 	function _classPrivateMethodInitSpec$5(obj, privateSet) {
-	  _checkPrivateRedeclaration$8(obj, privateSet);
+	  _checkPrivateRedeclaration$1(obj, privateSet);
 
 	  privateSet.add(obj);
 	}
@@ -23571,282 +23571,6 @@
 	  return LatLngCI;
 	})();
 
-	function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-	function _classPrivateFieldInitSpec$1(obj, privateMap, value) { _checkPrivateRedeclaration$1(obj, privateMap); privateMap.set(obj, value); }
-
-	function _checkPrivateRedeclaration$1(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-	var _inputId$3 = /*#__PURE__*/new WeakMap();
-
-	var _containerId$7 = /*#__PURE__*/new WeakMap();
-
-	var TextGeorefField = /*#__PURE__*/function (_FormField) {
-	  _inherits(TextGeorefField, _FormField);
-
-	  var _super = _createSuper$2(TextGeorefField);
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
-	   */
-	  function TextGeorefField(params) {
-	    var _this;
-
-	    _classCallCheck(this, TextGeorefField);
-
-	    _this = _super.call(this, params);
-
-	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _inputId$3, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _containerId$7, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "_value", '');
-
-	    _defineProperty(_assertThisInitialized(_this), "_inputType", 'text');
-
-	    _defineProperty(_assertThisInitialized(_this), "_autocomplete", '');
-
-	    if (params) {
-	      if (params.type) {
-	        _this._inputType = params.type;
-	      }
-
-	      if (params.placeholder) {
-	        _this.placeholder = params.placeholder;
-	      }
-
-	      if (params.autocomplete) {
-	        _this._autocomplete = params.autocomplete;
-	      }
-	    }
-
-	    return _this;
-	  }
-	  /**
-	   *
-	   * @param {(string|null|undefined)} textContent
-	   */
-
-
-	  _createClass(TextGeorefField, [{
-	    key: "value",
-	    get:
-	    /**
-	     *
-	     * @returns {string}
-	     */
-	    function get() {
-	      return this._value;
-	    },
-	    set: function set(textContent) {
-	      this._value = undefined === textContent || null == textContent ? '' : textContent.trim();
-	      this.updateView();
-	    }
-	  }, {
-	    key: "updateView",
-	    value: function updateView() {
-	      if (this._fieldEl) {
-	        // do nothing until the view has been constructed
-	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputId$3));
-	        inputEl.value = FormField.cleanRawString(this._value);
-	      }
-	    }
-	    /**
-	     * initialises this._fieldEl
-	     *
-	     * @returns {void}
-	     */
-
-	  }, {
-	    key: "buildField",
-	    value: function buildField() {
-	      // <div class="form-group">
-	      //     <label for="{baseId}gridref">Postcode or grid-reference</label>
-	      //     <input type="text" class="form-control" id="{baseId}gridref" aria-describedby="{baseId}grHelp" placeholder="Grid-reference or postcode">
-	      //     <small id="{baseId}grHelp" class="form-text text-muted">We need to be able to put your survey on our map. Detailed locations won't be made public.</small>
-	      // </div>
-	      // <div class="form-group">
-	      //     <label for="{baseId}gridref">Postcode or grid-reference</label>
-	      //     <div class="input-group">
-	      //         <input id="{baseId}gridref" aria-describedby="{baseId}grHelp" type="text" class="form-control" placeholder="Grid-reference or postcode" autocomplete="postal-code" required>
-	      //         <span class="input-group-btn">
-	      //             <button id="gps" type="button" class="btn btn-outline-secondary btn-sm" title="use GPS">
-	      //                 <span class="material-icons">gps_not_fixed</span>
-	      //             </button>
-	      //         </span>
-	      //     </div>
-	      //     <small id="{baseId}grHelp" class="form-text text-muted">We need to be able to put your survey on our map. Detailed locations won't be made public.</small>
-	      // </div>
-	      var container = document.createElement('div');
-	      container.className = 'form-group';
-
-	      _classPrivateFieldSet(this, _containerId$7, container.id = FormField.nextId);
-
-	      _classPrivateFieldSet(this, _inputId$3, FormField.nextId);
-
-	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$3);
-	      labelEl.textContent = this.label;
-	      var inputGroupEl = container.appendChild(document.createElement('div'));
-	      inputGroupEl.className = 'input-group';
-	      var inputField = inputGroupEl.appendChild(document.createElement('input'));
-	      inputField.className = "form-control";
-	      inputField.id = _classPrivateFieldGet(this, _inputId$3);
-	      inputField.type = 'text';
-
-	      if (this.placeholder) {
-	        inputField.placeholder = this.placeholder;
-	      }
-
-	      if (this._autocomplete) {
-	        inputField.autocomplete = this._autocomplete;
-
-	        if ('off' === this._autocomplete) {
-	          // browsers tend to ignore autocomplete off, so also assign a random 'name' value
-	          inputField.name = uuid$1();
-	        }
-	      }
-
-	      var buttonContainerEl = inputGroupEl.appendChild(document.createElement('span'));
-	      buttonContainerEl.className = 'input-group-btn';
-
-	      if (navigator.geolocation) {
-	        var gpsButton = buttonContainerEl.appendChild(document.createElement('button'));
-	        gpsButton.id = FormField.nextId;
-	        gpsButton.type = 'button';
-	        gpsButton.className = 'btn btn-outline-secondary btn-sm';
-	        gpsButton.title = 'use GPS';
-	        var buttonIconEl = gpsButton.appendChild(document.createElement('span'));
-	        buttonIconEl.className = 'material-icons';
-	        buttonIconEl.innerText = 'gps_not_fixed';
-	        gpsButton.addEventListener('click', this.gpsButtonClickHandler.bind(this));
-	      }
-
-	      if (this.completion === FormField.COMPLETION_COMPULSORY) {
-	        inputField.required = true;
-	      }
-
-	      if (this.validationMessage) {
-	        var validationMessageElement = container.appendChild(document.createElement('div'));
-	        validationMessageElement.className = 'invalid-feedback';
-	        validationMessageElement.innerHTML = this.validationMessage;
-	      }
-
-	      if (this.helpText) {
-	        var helpTextField = container.appendChild(document.createElement('small'));
-	        helpTextField.innerHTML = this.helpText;
-	      }
-
-	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
-	      this._fieldEl = container;
-	    }
-	    /**
-	     *
-	     * @param {(boolean|null)} isValid
-	     */
-
-	  }, {
-	    key: "markValidity",
-	    value: function markValidity(isValid) {
-	      var el = document.getElementById(_classPrivateFieldGet(this, _inputId$3));
-
-	      if (null === isValid) {
-	        el.classList.remove('is-invalid', 'is-valid');
-	      } else {
-	        el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
-	        el.classList.add(isValid ? 'is-valid' : 'is-invalid');
-	      }
-	    }
-	  }, {
-	    key: "inputChangeHandler",
-	    value: function inputChangeHandler(event) {
-	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
-
-	      console.log('got input field change event');
-	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _inputId$3)).value);
-	      this.fireEvent(FormField.EVENT_CHANGE);
-	    }
-	    /**
-	     *
-	     * @param {MouseEvent} event
-	     */
-
-	  }, {
-	    key: "gpsButtonClickHandler",
-	    value: function gpsButtonClickHandler(event) {
-	      var _this2 = this;
-
-	      console.log('got gps button click event');
-	      navigator.geolocation.getCurrentPosition(function (position) {
-	        var latitude = position.coords.latitude;
-	        var longitude = position.coords.longitude;
-	        console.log("Got GPS fix ".concat(latitude, " , ").concat(longitude)); // const latLng = new LatLngWGS84(latitude, longitude);
-
-	        var gridCoords = GridCoords.from_latlng(latitude, longitude);
-	        var gridRef = gridCoords.to_gridref(1000);
-	        console.log("Got grid-ref: ".concat(gridRef));
-	        _this2.value = gridRef;
-
-	        _this2.fireEvent(FormField.EVENT_CHANGE);
-	      }, function (error) {
-	        console.log('gps look-up failed');
-	        console.log(error);
-	      });
-	    }
-	    /**
-	     * by the time summariseImpl has been called have already checked that summary is wanted
-	     *
-	     * @param {string} key
-	     * @param {{field : typeof TextGeorefField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
-	     * @param {Object.<string, {}>} attributes attributes of the model object
-	     * @return {string}
-	     */
-
-	  }], [{
-	    key: "summariseImpl",
-	    value: function summariseImpl(key, property, attributes) {
-	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined ? escapeHTML(attributes[key].trim()) : '';
-	    }
-	  }]);
-
-	  return TextGeorefField;
-	}(FormField);
-
 	function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 	function _isNativeReflectConstruct$1() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
@@ -25136,7 +24860,7 @@
 	var NyphApp = /*#__PURE__*/function (_App) {
 	  _inherits$1(NyphApp, _App);
 
-	  var _super = _createSuper$9(NyphApp);
+	  var _super = _createSuper$2(NyphApp);
 
 	  function NyphApp() {
 	    var _this;
@@ -26130,7 +25854,7 @@
 	var MainController = /*#__PURE__*/function (_AppController) {
 	  _inherits$1(MainController, _AppController);
 
-	  var _super = _createSuper$9(MainController);
+	  var _super = _createSuper$2(MainController);
 
 	  /**
 	   *
@@ -26151,7 +25875,7 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "view", void 0);
 
-	    _classPrivateFieldInitSpec$8(_assertThisInitialized$1(_this), _currentOccurrenceId, {
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized$1(_this), _currentOccurrenceId, {
 	      writable: true,
 	      value: ''
 	    });
@@ -26756,7 +26480,7 @@
 	var NyphSurveyForm = /*#__PURE__*/function (_SurveyForm) {
 	  _inherits$1(NyphSurveyForm, _SurveyForm);
 
-	  var _super = _createSuper$9(NyphSurveyForm);
+	  var _super = _createSuper$2(NyphSurveyForm);
 
 	  function NyphSurveyForm() {
 	    _classCallCheck$1(this, NyphSurveyForm);
@@ -26900,7 +26624,7 @@
 	var NyphSurveyFormGardenSection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
 	  _inherits$1(NyphSurveyFormGardenSection, _NyphSurveyFormSectio);
 
-	  var _super = _createSuper$9(NyphSurveyFormGardenSection);
+	  var _super = _createSuper$2(NyphSurveyFormGardenSection);
 
 	  function NyphSurveyFormGardenSection() {
 	    _classCallCheck$1(this, NyphSurveyFormGardenSection);
@@ -27056,7 +26780,7 @@
 	var NyphSurveyFormAboutSection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
 	  _inherits$1(NyphSurveyFormAboutSection, _NyphSurveyFormSectio);
 
-	  var _super = _createSuper$9(NyphSurveyFormAboutSection);
+	  var _super = _createSuper$2(NyphSurveyFormAboutSection);
 
 	  function NyphSurveyFormAboutSection() {
 	    _classCallCheck$1(this, NyphSurveyFormAboutSection);
@@ -27232,10 +26956,10 @@
 
 	var _containerId = /*#__PURE__*/new WeakMap();
 
-	var MapGeorefField = /*#__PURE__*/function (_TextGeorefField) {
-	  _inherits$1(MapGeorefField, _TextGeorefField);
+	var MapGeorefField = /*#__PURE__*/function (_FormField) {
+	  _inherits$1(MapGeorefField, _FormField);
 
-	  var _super = _createSuper$9(MapGeorefField);
+	  var _super = _createSuper$2(MapGeorefField);
 
 	  /**
 	   * @type {string}
@@ -27274,12 +26998,12 @@
 
 	    _this = _super.call(this, params);
 
-	    _classPrivateFieldInitSpec$8(_assertThisInitialized$1(_this), _inputId, {
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized$1(_this), _inputId, {
 	      writable: true,
 	      value: void 0
 	    });
 
-	    _classPrivateFieldInitSpec$8(_assertThisInitialized$1(_this), _containerId, {
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized$1(_this), _containerId, {
 	      writable: true,
 	      value: void 0
 	    });
@@ -27521,12 +27245,12 @@
 	  }]);
 
 	  return MapGeorefField;
-	}(TextGeorefField);
+	}(FormField);
 
 	var NyphOccurrenceForm = /*#__PURE__*/function (_OccurrenceForm) {
 	  _inherits$1(NyphOccurrenceForm, _OccurrenceForm);
 
-	  var _super = _createSuper$9(NyphOccurrenceForm);
+	  var _super = _createSuper$2(NyphOccurrenceForm);
 
 	  function NyphOccurrenceForm() {
 	    _classCallCheck$1(this, NyphOccurrenceForm);
@@ -27947,7 +27671,7 @@
 	var MainView = /*#__PURE__*/function (_Page) {
 	  _inherits$1(MainView, _Page);
 
-	  var _super = _createSuper$9(MainView);
+	  var _super = _createSuper$2(MainView);
 
 	  function MainView() {
 	    var _this;
@@ -27986,17 +27710,17 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "controller", void 0);
 
-	    _classPrivateFieldInitSpec$8(_assertThisInitialized$1(_this), _surveyFormSections, {
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized$1(_this), _surveyFormSections, {
 	      writable: true,
 	      value: {}
 	    });
 
-	    _classPrivateFieldInitSpec$8(_assertThisInitialized$1(_this), _occurrenceForm, {
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized$1(_this), _occurrenceForm, {
 	      writable: true,
 	      value: void 0
 	    });
 
-	    _classPrivateFieldInitSpec$8(_assertThisInitialized$1(_this), _occurrenceChangeHandles, {
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized$1(_this), _occurrenceChangeHandles, {
 	      writable: true,
 	      value: {}
 	    });
@@ -28923,7 +28647,7 @@
 	var HelpView = /*#__PURE__*/function (_Page) {
 	  _inherits$1(HelpView, _Page);
 
-	  var _super = _createSuper$9(HelpView);
+	  var _super = _createSuper$2(HelpView);
 
 	  function HelpView() {
 	    _classCallCheck$1(this, HelpView);
@@ -28936,7 +28660,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637685465</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637685724</p>";
 	    }
 	  }]);
 
@@ -29272,7 +28996,7 @@
 	var SurveyPickerController = /*#__PURE__*/function (_AppController) {
 	  _inherits$1(SurveyPickerController, _AppController);
 
-	  var _super = _createSuper$9(SurveyPickerController);
+	  var _super = _createSuper$2(SurveyPickerController);
 
 	  /**
 	   *
@@ -29502,7 +29226,7 @@
 	var NyphLayout = /*#__PURE__*/function (_Layout) {
 	  _inherits$1(NyphLayout, _Layout);
 
-	  var _super = _createSuper$9(NyphLayout);
+	  var _super = _createSuper$2(NyphLayout);
 
 	  function NyphLayout() {
 	    var _this;
@@ -38112,7 +37836,7 @@
 	var SurveyPickerView = /*#__PURE__*/function (_Page) {
 	  _inherits$1(SurveyPickerView, _Page);
 
-	  var _super = _createSuper$9(SurveyPickerView);
+	  var _super = _createSuper$2(SurveyPickerView);
 
 	  function SurveyPickerView() {
 	    _classCallCheck$1(this, SurveyPickerView);

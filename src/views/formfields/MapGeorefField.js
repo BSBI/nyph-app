@@ -2,7 +2,7 @@ import {GridCoords} from "british-isles-gridrefs";
 import {escapeHTML, FormField, TextGeorefField} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
 
-export class MapGeorefField extends TextGeorefField {
+export class MapGeorefField extends FormField {
 
     /**
      * @type {string}
