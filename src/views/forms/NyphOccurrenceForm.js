@@ -1,30 +1,16 @@
 import helpPanelText from "../../templates/formHelp/recordsHelp.html";
 import {
-    Form,
+    OccurrenceForm,
     FormField,
     ImageField,
     OptionsField,
     SelectField,
     TaxonPickerField,
-    TextAreaField, TextGeorefField
+    TextAreaField
 } from "bsbi-app-framework";
+import {MapGeorefField} from "../formfields/MapGeorefField";
 
-export class NyphOccurrenceForm extends Form {
-    /**
-     * @type {Occurrence}
-     */
-    #occurrence;
-
-    _formFieldsBuilt = false;
-
-    /**
-     * nasty tight coupling, but is needed for saving of images
-     * set by MainView immediately after the form is constructed
-     *
-     * @type {string}
-     */
-    surveyId = '';
-
+export class NyphOccurrenceForm extends OccurrenceForm {
     /**
      * @type {string}
      */
@@ -34,33 +20,6 @@ export class NyphOccurrenceForm extends Form {
      * @type {string}
      */
     static help = helpPanelText;
-
-    constructor(occurrence) {
-        super();
-
-        if (occurrence) {
-            this.model = occurrence;
-        }
-    }
-
-    /**
-     *
-     * @returns {HTMLElement}
-     */
-    get formElement() {
-        let el = super.formElement;
-
-        if (!this._formFieldsBuilt) {
-            this.buildFormFields();
-
-            el.addEventListener('change', () => {
-                console.log('occurrence form change event');
-                console.log(arguments);
-            }, {capture: false});
-        }
-
-        return el;
-    }
 
     /**
      * sets this._formContentContainer to the container that should contain the form fields
@@ -80,22 +39,6 @@ export class NyphOccurrenceForm extends Form {
         this._formContentContainer.className = 'card-body';
 
         return this._formContentContainer;
-    }
-
-    /**
-     *
-     * @returns {(string|null)}
-     */
-    get occurrenceId() {
-        return this.#occurrence ? this.#occurrence.id : null;
-    }
-
-    /**
-     *
-     * @returns {(number|null)}
-     */
-    get projectId() {
-        return this.#occurrence ? this.#occurrence.projectId : null;
     }
 
     /**
@@ -131,7 +74,7 @@ export class NyphOccurrenceForm extends Form {
             }
         },
         geoRef : {
-            field: TextGeorefField,
+            field: MapGeorefField,
             attributes: {
                 label: 'Grid-reference',
                 helpText: '',
@@ -330,71 +273,25 @@ export class NyphOccurrenceForm extends Form {
             }}
     };
 
-    /**
-     *
-     */
-    initialiseFormFields() {
-        const properties = NyphOccurrenceForm.properties;
-
-        this.fields = {};
-
-        for (let key in properties) {
-            if (properties.hasOwnProperty(key)) {
-                // noinspection JSPotentiallyInvalidConstructorUsage
-                this.fields[key] = new properties[key].field(properties[key].attributes);
-            }
-        }
-    }
-
-    updateModelFromContent() {
-        console.log('updating occurrence from NyphOccurrenceForm content');
-
-        for (let key in this.fields) {
-            if (this.fields.hasOwnProperty(key)) {
-                let field = this.fields[key];
-
-                this.#occurrence.attributes[key] = field.value;
-            }
-        }
-
-        console.log({occurrence: this.#occurrence});
-    }
-
-    /**
-     *
-     * @param {Occurrence} model
-     */
-    set model (model) {
-        this.#occurrence = model;
-        this.populateFormContent();
-    }
-
-    get model() {
-        return this.#occurrence;
-    }
-
-    changeHandler(params) {
-        console.log('occurrence form change event');
-        console.log({params});
-
-        this.fireEvent(NyphOccurrenceForm.CHANGE_EVENT, {form: this});
-    }
-
-    pingOccurrence() {
-        if (this.#occurrence.unsaved()) {
-            this.fireEvent(NyphOccurrenceForm.CHANGE_EVENT, {form: this});
-        }
-    }
-
-    destructor() {
-        this.#occurrence = null;
-
-        super.destructor();
-    }
+    // /**
+    //  *
+    //  */
+    // initialiseFormFields() {
+    //     const properties = NyphOccurrenceForm.properties;
+    //
+    //     this.fields = {};
+    //
+    //     for (let key in properties) {
+    //         if (properties.hasOwnProperty(key)) {
+    //             // noinspection JSPotentiallyInvalidConstructorUsage
+    //             this.fields[key] = new properties[key].field(properties[key].attributes);
+    //         }
+    //     }
+    // }
 
     getFormSectionProperties() {
         return NyphOccurrenceForm.properties;
     }
 }
 
-NyphOccurrenceForm.CHANGE_EVENT = 'change';
+//NyphOccurrenceForm.CHANGE_EVENT = 'change';

@@ -29,6 +29,7 @@
     "core-js": "^3.18.2",
     "element-closest-polyfill": "1.0.4",
     "localforage": "^1.10.0",
+    "mapbox-gl": "^2.6.1",
     "navigo": "^7.1.2",
     "uuid": "^3.3.3",
     "whatwg-fetch": "3.6.2"

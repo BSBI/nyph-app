@@ -15,26 +15,25 @@ export class NyphSurveyForm extends SurveyForm {
      */
     static sectionsByKey = {};
 
-    /**
-     * @type {Survey}
-     */
-    #survey;
+    // /**
+    //  * @type {Survey}
+    //  */
+    // #survey;
 
-    _formFieldsBuilt = false;
+    // _formFieldsBuilt = false;
 
-    /**
-     * @type {typeof NyphSurveyFormSection}
-     */
-    section;
+    // /**
+    //  * @type {typeof NyphSurveyFormSection}
+    //  */
+    // section;
 
-    /**
-     *
-     * @param {typeof NyphSurveyFormSection} section
-     */
-    constructor(section) {
-        super();
-        this.section = section;
-    }
+    // /**
+    //  *
+    //  * @param {typeof NyphSurveyFormSection} section
+    //  */
+    // constructor(section) {
+    //     super(section);
+    // }
 
     // /**
     //  *
@@ -50,49 +49,49 @@ export class NyphSurveyForm extends SurveyForm {
     //     return el;
     // }
 
-    updateModelFromContent() {
-        console.log('updating survey from NyphSurveyForm content');
+    // updateModelFromContent() {
+    //     console.log('updating survey from NyphSurveyForm content');
+    //
+    //     for (let key in this.fields) {
+    //         if (this.fields.hasOwnProperty(key)) {
+    //             let field = this.fields[key];
+    //
+    //             this.#survey.attributes[key] = field.value;
+    //         }
+    //     }
+    //
+    //     console.log({survey: this.#survey});
+    // }
 
-        for (let key in this.fields) {
-            if (this.fields.hasOwnProperty(key)) {
-                let field = this.fields[key];
+    // /**
+    //  *
+    //  * @param {Survey} model
+    //  */
+    // set model (model) {
+    //     this.#survey = model;
+    //     this.populateFormContent();
+    // }
 
-                this.#survey.attributes[key] = field.value;
-            }
-        }
+    // get model() {
+    //     return this.#survey;
+    // }
 
-        console.log({survey: this.#survey});
-    }
+    // /**
+    //  * the change event triggers after a field has changed, before the value has been read back into the model
+    //  *
+    //  * @param params
+    //  */
+    // changeHandler(params) {
+    //     console.log('survey form change event');
+    //     console.log({params});
+    //
+    //     this.fireEvent(SurveyForm.CHANGE_EVENT, {form: this});
+    // }
 
-    /**
-     *
-     * @param {Survey} model
-     */
-    set model (model) {
-        this.#survey = model;
-        this.populateFormContent();
-    }
-
-    get model() {
-        return this.#survey;
-    }
-
-    /**
-     * the change event triggers after a field has changed, before the value has been read back into the model
-     *
-     * @param params
-     */
-    changeHandler(params) {
-        console.log('survey form change event');
-        console.log({params});
-
-        this.fireEvent(NyphSurveyForm.CHANGE_EVENT, {form: this});
-    }
-
-    destructor() {
-        super.destructor();
-        this.#survey = null;
-    }
+    // destructor() {
+    //     super.destructor();
+    //     this.#survey = null;
+    // }
 
     /**
      *
@@ -103,25 +102,25 @@ export class NyphSurveyForm extends SurveyForm {
         NyphSurveyForm.sectionsByKey[formClass.sectionNavigationKey] = formClass;
     }
 
-    /**
-     *
-     */
-    initialiseFormFields() {
-        const properties = this.section.properties;
+    // /**
+    //  *
+    //  */
+    // initialiseFormFields() {
+    //     const properties = this.section.properties;
+    //
+    //     this.fields = {};
+    //
+    //     for (let key in properties) {
+    //         if (properties.hasOwnProperty(key)) {
+    //             // noinspection JSPotentiallyInvalidConstructorUsage
+    //             this.fields[key] = new properties[key].field(properties[key].attributes);
+    //         }
+    //     }
+    // }
 
-        this.fields = {};
-
-        for (let key in properties) {
-            if (properties.hasOwnProperty(key)) {
-                // noinspection JSPotentiallyInvalidConstructorUsage
-                this.fields[key] = new properties[key].field(properties[key].attributes);
-            }
-        }
-    }
-
-    getFormSectionProperties() {
-        return this.section.properties;
-    }
+    // getFormSectionProperties() {
+    //     return this.section.properties;
+    // }
 }
 
-NyphSurveyForm.CHANGE_EVENT = 'change';
+// NyphSurveyForm.CHANGE_EVENT = 'change';

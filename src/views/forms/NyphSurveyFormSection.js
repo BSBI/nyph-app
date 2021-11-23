@@ -1,3 +1,5 @@
+import {FormField} from "bsbi-app-framework";
+
 export class NyphSurveyFormSection {
     /**
      * @type {string}

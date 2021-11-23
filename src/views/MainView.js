@@ -214,7 +214,7 @@ export class MainView extends Page {
                     }
 
                     // form has not been initialised or current occurrence has changed
-                    this.#occurrenceForm = occurrence.getForm();
+                    this.#occurrenceForm = occurrence.setForm(new NyphOccurrenceForm(occurrence));
                     this.#occurrenceForm.surveyId = this.controller.app.currentSurvey.id;
 
                     // scroll to the top of the panel
