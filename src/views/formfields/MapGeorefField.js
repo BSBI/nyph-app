@@ -3,7 +3,7 @@ import {escapeHTML, FormField, TextGeorefField} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
 import mapboxgl from 'mapbox-gl';
 
-export class MapGeorefField extends FormField {
+export class MapGeorefField extends TextGeorefField {
 
     /**
      * @type {string}
@@ -196,7 +196,7 @@ export class MapGeorefField extends FormField {
         mapboxgl.accessToken = 'pk.eyJ1IjoiamFwb25pY3VzIiwiYSI6ImNramV1dnRpeTJvNzczMG10c2s3NnZ2bHMifQ.C8BsQepXT6KE-hoQaEerRw';
 
         const map = new mapboxgl.Map({
-            container: divEl.id, // container ID
+            container: divEl,
             style: 'mapbox://styles/mapbox/streets-v11', // style URL
             center: [-74.5, 40], // starting position [lng, lat]
             zoom: 9 // starting zoom
