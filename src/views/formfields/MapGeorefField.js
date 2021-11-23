@@ -1,6 +1,7 @@
 import {GridCoords} from "british-isles-gridrefs";
 import {escapeHTML, FormField, TextGeorefField} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
+import mapboxgl from 'mapbox-gl';
 
 export class MapGeorefField extends FormField {
 

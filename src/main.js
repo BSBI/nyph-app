@@ -8,6 +8,7 @@ import localforage from 'localforage';
 import {SurveyPickerController} from "./controllers/SurveyPickerController";
 import {NyphLayout} from "./views/layout/NyphLayout";
 import './theme.scss';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 // polyfill stuff
 import "core-js/stable";
