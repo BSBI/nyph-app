@@ -166,19 +166,19 @@ export class MapGeorefField extends TextGeorefField {
             validationMessageElement.innerHTML = this.validationMessage;
         }
 
+        this.addMapBox(container);
+
         if (this.helpText) {
             const helpTextField = container.appendChild(document.createElement('small'));
             helpTextField.innerHTML = this.helpText;
         }
-
-        this.addMapBox(container);
 
         inputField.addEventListener('change', this.inputChangeHandler.bind(this));
 
         this._fieldEl = container;
     }
 
-    static mapSerialCounter = 0;
+    // static mapSerialCounter = 0;
 
     /**
      *
@@ -186,7 +186,7 @@ export class MapGeorefField extends TextGeorefField {
      */
     addMapBox(container) {
         let divEl = container.appendChild(document.createElement('div'));
-        divEl.id = `map${MapGeorefField.mapSerialCounter++}`;
+        divEl.id = `map${FormField.nextId}`;
         divEl.className = 'map-container';
 
         // see https://docs.mapbox.com/mapbox-gl-js/example/simple-map/

@@ -27416,25 +27416,27 @@
 	        validationMessageElement.innerHTML = this.validationMessage;
 	      }
 
+	      this.addMapBox(container);
+
 	      if (this.helpText) {
 	        var helpTextField = container.appendChild(document.createElement('small'));
 	        helpTextField.innerHTML = this.helpText;
 	      }
 
-	      this.addMapBox(container);
 	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
 	      this._fieldEl = container;
-	    }
-	  }, {
-	    key: "addMapBox",
-	    value:
+	    } // static mapSerialCounter = 0;
+
 	    /**
 	     *
 	     * @param {HTMLElement} container
 	     */
-	    function addMapBox(container) {
+
+	  }, {
+	    key: "addMapBox",
+	    value: function addMapBox(container) {
 	      var divEl = container.appendChild(document.createElement('div'));
-	      divEl.id = "map".concat(MapGeorefField.mapSerialCounter++);
+	      divEl.id = "map".concat(FormField.nextId);
 	      divEl.className = 'map-container'; // see https://docs.mapbox.com/mapbox-gl-js/example/simple-map/
 
 	      mapboxgl.accessToken = 'pk.eyJ1IjoiamFwb25pY3VzIiwiYSI6ImNramV1dnRpeTJvNzczMG10c2s3NnZ2bHMifQ.C8BsQepXT6KE-hoQaEerRw';
@@ -27520,8 +27522,6 @@
 
 	  return MapGeorefField;
 	}(TextGeorefField);
-
-	_defineProperty$1(MapGeorefField, "mapSerialCounter", 0);
 
 	var NyphOccurrenceForm = /*#__PURE__*/function (_OccurrenceForm) {
 	  _inherits$1(NyphOccurrenceForm, _OccurrenceForm);
@@ -28936,7 +28936,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637683074</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637685465</p>";
 	    }
 	  }]);
 
