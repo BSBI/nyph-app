@@ -26992,7 +26992,7 @@
 	     */
 
 	  }, {
-	    key: "getFormSectionProperties",
+	    key: "initialiseFormFields",
 	    value: // /**
 	    //  *
 	    //  */
@@ -27008,7 +27008,20 @@
 	    //         }
 	    //     }
 	    // }
-	    function getFormSectionProperties() {
+	    function initialiseFormFields() {
+	      var properties = this.getFormSectionProperties();
+	      this.fields = {};
+
+	      for (var key in properties) {
+	        if (properties.hasOwnProperty(key)) {
+	          // noinspection JSPotentiallyInvalidConstructorUsage
+	          this.fields[key] = new properties[key].field(properties[key].attributes);
+	        }
+	      }
+	    }
+	  }, {
+	    key: "getFormSectionProperties",
+	    value: function getFormSectionProperties() {
 	      return NyphOccurrenceForm.properties;
 	    }
 	  }]);
@@ -28294,7 +28307,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637687438</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637687872</p>";
 	    }
 	  }]);
 
