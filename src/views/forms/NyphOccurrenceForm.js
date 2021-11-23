@@ -3,7 +3,7 @@ import {
     OccurrenceForm,
     FormField,
     ImageField,
-    OptionsField,
+    //OptionsField,
     SelectField,
     TaxonPickerField,
     TextAreaField
@@ -14,7 +14,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
     /**
      * @type {string}
      */
-    static sectionTitle = 'Details of invasive garden plant';
+    static sectionTitle = 'Details of plant';
 
     /**
      * @type {string}
@@ -27,6 +27,8 @@ export class NyphOccurrenceForm extends OccurrenceForm {
      * if no wrapper then can re-use the outer container id (this.#formEl
      */
     buildContentContainer(outerContainer) {
+        console.log('Building OccurrenceForm content container');
+
         const cardEl = outerContainer.appendChild(document.createElement('div'));
         cardEl.className = 'card mt-3 ml-0 mr-0 mb-3';
 
@@ -73,14 +75,14 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 }
             }
         },
-        geoRef : {
-            field: MapGeorefField,
-            attributes: {
-                label: 'Grid-reference',
-                helpText: '',
-                completion: FormField.COMPLETION_COMPULSORY,
-            }
-        },
+        // geoRef : {
+        //     field: MapGeorefField,
+        //     attributes: {
+        //         label: 'Grid-reference',
+        //         helpText: '',
+        //         completion: FormField.COMPLETION_COMPULSORY,
+        //     }
+        // },
         idConfidence : {
             field: SelectField,
             attributes: {
@@ -103,101 +105,101 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 helpText: `If the plant is unusual or if you are unsure of its identity then photos will help us check your record.<br><strong>Submitted images remain your property, but you agree to allow us to use the photos under the terms of a <a href="#" title="Creative Commons Attribution" data-toggle="modal" data-target="#${ImageField.LICENSE_MODAL}">CC BY</a> license.</strong>`
             }
         },
-        spread : {
-            field: OptionsField,
-            attributes: {
-                label: 'How does the plant spread in your garden?',
-                helpText: '<i>(tick all that apply)</i>',
-                options: {
-                    "seeds" : {label: "seeds"},
-                    "roots" : {label: "roots"},
-                    "runners" : {label: "runners"},
-                    "bulbs" : {label: "bulbs"},
-                    "unknown" : {label: "don't know"},
-                    "other" : {label: "other"}
-                },
-                includeOtherFreeText : true,
-                completion: FormField.COMPLETION_DESIRED,
-            },
-            summary: {
-                summaryPrefix: 'Spread by',
-            }
-        },
-        control : {
-            field: OptionsField,
-            attributes: {
-                label: 'How do you control this plant?',
-                helpText: '<i>(tick all that apply)</i>',
-                options: {
-                    "digging" : {label: "digging"},
-                    "pulling" : {label: "pulling"},
-                    "chemical" : {label: "chemical"},
-                    "cutting" : {label: "cutting"},
-                    "mulching" : {label: "mulching"},
-                    "other" : {label: "other"}
-                },
-                includeOtherFreeText : true,
-                completion: FormField.COMPLETION_DESIRED,
-            },
-            summary: {
-                summaryPrefix: 'Controlled by',
-            }
-            },
-        disposal : {
-            field: OptionsField,
-            attributes: {
-                label: 'Please tell us how you dispose of this plant?',
-                helpText: '<i>(tick all that apply)</i>',
-                options: {
-                    "homecompost" : {label: "home composting"},
-                    "greenwaste" : {label: "green waste"},
-                    "other waste" : {label: "other waste collection"},
-                    "other" : {label: "other"}
-                },
-                includeOtherFreeText : true,
-                completion: FormField.COMPLETION_DESIRED,
-            },
-            summary: {
-                summaryPrefix: 'Disposal by',
-            }},
-        problemSeverity : {
-            field: SelectField,
-            attributes: {
-                label: 'Which of the following best describes your effort to control the plant?',
-                placeholder : 'please select a response',
-                options: {
-                    '1' : {label: 'I don\'t try to control it'},
-                    '2' : {label: 'I try to keep it confined to certain areas.'},
-                    '3' : {label: 'I am trying everything to get rid of it.'},
-                    '4' : {label: 'I have given up trying to control it.'},
-                    '5' : {label: 'I have successfully eradicated the plant.'}
-                },
-                includeOtherFreeText : false,
-                completion: FormField.COMPLETION_DESIRED,
-            },
-            summary: {
-                summaryPrefix: 'Severity:',
-            }},
-        source : {
-            field: OptionsField,
-            attributes: {
-                label: 'Please tell us how this plant came into your garden?',
-                helpText: '<i>(tick all that apply)</i>',
-                options: {
-                    "alreadypresent" : {label: "Was already in the garden"},
-                    "bought" : {label: "Bought the plant"},
-                    "seed" : {label: "Grown from seed"},
-                    "someoneelse" : {label: "From someone else's garden"},
-                    "saleswap" : {label: "Non-commercial sale/swap"},
-                    "spread" : {label: "Spread into my garden"},
-                    "other" : {label: "other"}
-                },
-                includeOtherFreeText : true,
-                completion: FormField.COMPLETION_DESIRED,
-            },
-            summary: {
-                summaryPrefix: 'Source',
-            }},
+        // spread : {
+        //     field: OptionsField,
+        //     attributes: {
+        //         label: 'How does the plant spread in your garden?',
+        //         helpText: '<i>(tick all that apply)</i>',
+        //         options: {
+        //             "seeds" : {label: "seeds"},
+        //             "roots" : {label: "roots"},
+        //             "runners" : {label: "runners"},
+        //             "bulbs" : {label: "bulbs"},
+        //             "unknown" : {label: "don't know"},
+        //             "other" : {label: "other"}
+        //         },
+        //         includeOtherFreeText : true,
+        //         completion: FormField.COMPLETION_DESIRED,
+        //     },
+        //     summary: {
+        //         summaryPrefix: 'Spread by',
+        //     }
+        // },
+        // control : {
+        //     field: OptionsField,
+        //     attributes: {
+        //         label: 'How do you control this plant?',
+        //         helpText: '<i>(tick all that apply)</i>',
+        //         options: {
+        //             "digging" : {label: "digging"},
+        //             "pulling" : {label: "pulling"},
+        //             "chemical" : {label: "chemical"},
+        //             "cutting" : {label: "cutting"},
+        //             "mulching" : {label: "mulching"},
+        //             "other" : {label: "other"}
+        //         },
+        //         includeOtherFreeText : true,
+        //         completion: FormField.COMPLETION_DESIRED,
+        //     },
+        //     summary: {
+        //         summaryPrefix: 'Controlled by',
+        //     }
+        //     },
+        // disposal : {
+        //     field: OptionsField,
+        //     attributes: {
+        //         label: 'Please tell us how you dispose of this plant?',
+        //         helpText: '<i>(tick all that apply)</i>',
+        //         options: {
+        //             "homecompost" : {label: "home composting"},
+        //             "greenwaste" : {label: "green waste"},
+        //             "other waste" : {label: "other waste collection"},
+        //             "other" : {label: "other"}
+        //         },
+        //         includeOtherFreeText : true,
+        //         completion: FormField.COMPLETION_DESIRED,
+        //     },
+        //     summary: {
+        //         summaryPrefix: 'Disposal by',
+        //     }},
+        // problemSeverity : {
+        //     field: SelectField,
+        //     attributes: {
+        //         label: 'Which of the following best describes your effort to control the plant?',
+        //         placeholder : 'please select a response',
+        //         options: {
+        //             '1' : {label: 'I don\'t try to control it'},
+        //             '2' : {label: 'I try to keep it confined to certain areas.'},
+        //             '3' : {label: 'I am trying everything to get rid of it.'},
+        //             '4' : {label: 'I have given up trying to control it.'},
+        //             '5' : {label: 'I have successfully eradicated the plant.'}
+        //         },
+        //         includeOtherFreeText : false,
+        //         completion: FormField.COMPLETION_DESIRED,
+        //     },
+        //     summary: {
+        //         summaryPrefix: 'Severity:',
+        //     }},
+        // source : {
+        //     field: OptionsField,
+        //     attributes: {
+        //         label: 'Please tell us how this plant came into your garden?',
+        //         helpText: '<i>(tick all that apply)</i>',
+        //         options: {
+        //             "alreadypresent" : {label: "Was already in the garden"},
+        //             "bought" : {label: "Bought the plant"},
+        //             "seed" : {label: "Grown from seed"},
+        //             "someoneelse" : {label: "From someone else's garden"},
+        //             "saleswap" : {label: "Non-commercial sale/swap"},
+        //             "spread" : {label: "Spread into my garden"},
+        //             "other" : {label: "other"}
+        //         },
+        //         includeOtherFreeText : true,
+        //         completion: FormField.COMPLETION_DESIRED,
+        //     },
+        //     summary: {
+        //         summaryPrefix: 'Source',
+        //     }},
         // yearsSincePlanted: {
         //     field: InputField,
         //     attributes: {
@@ -243,24 +245,24 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 },
                 includeOtherFreeText : false
             }},
-        warning : {
-            field: SelectField,
-            attributes: {
-                label: 'In your opinion, should the plant be sold with a label ' +
-                    'warning buyers of potential control difficulties in their garden?',
-                placeholder : 'please select a response',
-                options: {
-                    'yes' : {label: 'Yes', summary: 'Plants should carry a warning'},
-                    'no' : {label: 'No', summary: 'Plants need not carry a warning'},
-                    'unsure' : {label: "Don't know", summary: "Don't know if plants should carry a warning"}
-                },
-                includeOtherFreeText : false,
-                completion: FormField.COMPLETION_DESIRED,
-            },
-            summary: {
-                summarise: true,
-                summaryPrefix: ''
-            }},
+        // warning : {
+        //     field: SelectField,
+        //     attributes: {
+        //         label: 'In your opinion, should the plant be sold with a label ' +
+        //             'warning buyers of potential control difficulties in their garden?',
+        //         placeholder : 'please select a response',
+        //         options: {
+        //             'yes' : {label: 'Yes', summary: 'Plants should carry a warning'},
+        //             'no' : {label: 'No', summary: 'Plants need not carry a warning'},
+        //             'unsure' : {label: "Don't know", summary: "Don't know if plants should carry a warning"}
+        //         },
+        //         includeOtherFreeText : false,
+        //         completion: FormField.COMPLETION_DESIRED,
+        //     },
+        //     summary: {
+        //         summarise: true,
+        //         summaryPrefix: ''
+        //     }},
         comments: {
             field: TextAreaField,
             attributes: {

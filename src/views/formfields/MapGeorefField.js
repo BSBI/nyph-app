@@ -42,6 +42,8 @@ export class MapGeorefField extends FormField {
     constructor (params) {
         super(params);
 
+        console.log('Called georef field constructor.');
+
         if (params) {
             if (params.type) {
                 this._inputType = params.type;
