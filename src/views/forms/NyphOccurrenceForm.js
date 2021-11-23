@@ -75,14 +75,14 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 }
             }
         },
-        // geoRef : {
-        //     field: MapGeorefField,
-        //     attributes: {
-        //         label: 'Grid-reference',
-        //         helpText: '',
-        //         completion: FormField.COMPLETION_COMPULSORY,
-        //     }
-        // },
+        geoRef : {
+            field: MapGeorefField,
+            attributes: {
+                label: 'Grid-reference',
+                helpText: '',
+                completion: FormField.COMPLETION_COMPULSORY,
+            }
+        },
         idConfidence : {
             field: SelectField,
             attributes: {
@@ -291,18 +291,18 @@ export class NyphOccurrenceForm extends OccurrenceForm {
     //     }
     // }
 
-    initialiseFormFields() {
-        const properties = this.getFormSectionProperties();
-
-        this.fields = {};
-
-        for (let key in properties) {
-            if (properties.hasOwnProperty(key)) {
-                // noinspection JSPotentiallyInvalidConstructorUsage
-                this.fields[key] = new properties[key].field(properties[key].attributes);
-            }
-        }
-    }
+    // initialiseFormFields() {
+    //     const properties = this.getFormSectionProperties();
+    //
+    //     this.fields = {};
+    //
+    //     for (let key in properties) {
+    //         if (properties.hasOwnProperty(key)) {
+    //             // noinspection JSPotentiallyInvalidConstructorUsage
+    //             this.fields[key] = new properties[key].field(properties[key].attributes);
+    //         }
+    //     }
+    // }
 
     getFormSectionProperties() {
         return NyphOccurrenceForm.properties;
