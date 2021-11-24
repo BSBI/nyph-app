@@ -6,6 +6,9 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import scss from 'rollup-plugin-scss';
+// import json from '@rollup/plugin-json';
+// import nodePolyfills from 'rollup-plugin-polyfill-node';
+
 //import copy from 'rollup-plugin-copy';
 
 // `npm run build` -> `production` is true
@@ -22,7 +25,7 @@ export default [
 		output: {
 			file: 'public/app.js',
 			format: 'iife', // immediately-invoked function expression — suitable for <script> tags
-			globals: { BsbiDb: 'BsbiDb', jquery: '$' },
+			globals: { BsbiDb: 'BsbiDb', jquery: '$', MapboxGeocoder: 'MapboxGeocoder' },
 			sourcemap: true,
 			name: 'nyphapp'
 		},
@@ -59,11 +62,24 @@ export default [
 			scss({
 				output: 'public/appcss/theme.css',
 			}),
+			// json(),
+			// nodePolyfills(
+			// 	{
+			// 		//include: 'node_modules/@mapbox/**/*.js'
+			// 		exclude: ['node_modules/localforage/**']
+			// 	}
+			// ),
 			babel({
 				exclude: 'node_modules/**', // only transpile our source code
 				babelHelpers: 'bundled'
 			}),
-			commonjs(), // converts npm packages to ES modules
+			commonjs(
+			{
+				// include: [
+				// 	'node_modules/**',
+				// 	]
+			}
+			), // converts npm packages to ES modules
 			production && terser() // minify, but only in production
 		]
 	},

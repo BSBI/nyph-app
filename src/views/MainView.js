@@ -4,7 +4,6 @@ import htmlLayout from "../templates/mainViewLayout.html";
 import welcomeContent from "../templates/welcome.html";
 import defaultRightHandSideHelp from "../templates/defaultRightHandSideHelp.html";
 import {NyphSurveyForm} from "./forms/NyphSurveyForm";
-import {NyphSurveyFormGardenSection} from "./forms/NyphSurveyFormGardenSection";
 import {NyphSurveyFormAboutSection} from "./forms/NyphSurveyFormAboutSection";
 import {NyphApp} from "../framework/NyphApp";
 import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
@@ -15,7 +14,7 @@ import {
     MainController,
     Occurrence,
     OccurrenceImage,
-    Page, escapeHTML
+    Page, escapeHTML, App
 } from "bsbi-app-framework";
 
 const LEFT_PANEL_ID = 'col1panel';
@@ -32,7 +31,6 @@ const FINISH_MODAL_ID = 'finishmodal';
 
 const OCCURRENCE_LIST_CONTAINER_ID = 'occurrencelistcontainer';
 NyphSurveyForm.registerSection(NyphSurveyFormAboutSection);
-NyphSurveyForm.registerSection(NyphSurveyFormGardenSection);
 
 export class MainView extends Page {
 
@@ -79,7 +77,7 @@ export class MainView extends Page {
      * an opportunity to register listeners on this.controller.app
      */
     initialise() {
-        this.controller.app.addListener(NyphApp.EVENT_OCCURRENCE_ADDED, this.occurrenceAddedHandler.bind(this));
+        this.controller.app.addListener(App.EVENT_OCCURRENCE_ADDED, this.occurrenceAddedHandler.bind(this));
     }
 
     /**

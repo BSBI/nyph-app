@@ -49,3 +49,7 @@ div.card.is-invalid div.card-invalid-feedback {
 .pointer {
     cursor: pointer;
 }
+
+div.map-container {
+    height: 400px;
+}

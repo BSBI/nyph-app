@@ -1,10 +1,4 @@
-//import {App} from './App';
-//import {Survey} from "../models/Survey";
-//import {Occurrence} from "../models/Occurrence";
-//import {InternalAppError} from "../utils/exceptions/InternalAppError";
-import localforage from 'localforage';
-import {App, Occurrence, OccurrenceImage, Survey} from "bsbi-app-framework";
-//import {OccurrenceImage} from "../models/OccurrenceImage";
+import {App} from "bsbi-app-framework";
 
 export const PROJECT_ID_NYPH = 2;
 
@@ -16,10 +10,10 @@ export class NyphApp extends App {
 
     static forageName = 'Nyph App';
 
-    static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
+    //static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
 
-    static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
-    static EVENT_SURVEYS_CHANGED = 'surveyschanged';
+    //static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
+    //static EVENT_SURVEYS_CHANGED = 'surveyschanged';
 
     /**
      *
@@ -278,165 +272,165 @@ export class NyphApp extends App {
     //     });
     // }
 
-    /**
-     * restore previous state, pulling back from local and external store
-     * @todo this needs a save phase, so that local changes are saved back to the server
-     *
-     * @param {string} [targetSurveyId] if specified then select this id as the current survey
-     * @return {Promise}
-     */
-    restoreOccurrences(targetSurveyId) {
+    // /**
+    //  * restore previous state, pulling back from local and external store
+    //  * @todo this needs a save phase, so that local changes are saved back to the server
+    //  *
+    //  * @param {string} [targetSurveyId] if specified then select this id as the current survey
+    //  * @return {Promise}
+    //  */
+    // restoreOccurrences(targetSurveyId) {
+    //
+    //     // need to check for a special case where restoring a survey that has never been saved even locally
+    //     // i.e. new and unmodified
+    //     // only present in current App.surveys
+    //     // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
+    //     if (this.surveys.has(targetSurveyId)) {
+    //         const localSurvey = this.surveys.get(targetSurveyId);
+    //
+    //         if (localSurvey.isPristine) {
+    //             this.currentSurvey = localSurvey;
+    //             this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
+    //             return Promise.resolve();
+    //         }
+    //     }
+    //
+    //     const storedObjectKeys = {
+    //         survey: [],
+    //         occurrence: [],
+    //         image: []
+    //     };
+    //
+    //     if (targetSurveyId) {
+    //         storedObjectKeys.survey[0] = targetSurveyId;
+    //     }
+    //
+    //     return this.seekKeys(storedObjectKeys).then((storedObjectKeys) => {
+    //         if (storedObjectKeys.survey.length) {
+    //             return this.refreshFromServer(storedObjectKeys.survey).finally(() => {
+    //                 // re-seek keys from indexed db, to take account of any new occurrences received from the server
+    //                 return this.seekKeys(storedObjectKeys);
+    //             });
+    //         } else {
+    //             return null;
+    //         }
+    //     }).finally(() => {
+    //         // called regardless of whether a server refresh was successful
+    //         // storedObjectKeys and indexed db should be as up-to-date as possible
+    //
+    //         if (storedObjectKeys.survey.length) {
+    //
+    //             // arbitrarily set first survey key as current
+    //             // this will be the specified targetSurveyId if that was set
+    //             return this._restoreSurveyFromLocal(storedObjectKeys.survey[0], storedObjectKeys)
+    //                 .finally(() => {
+    //                     this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
+    //
+    //                     if (!this.currentSurvey) {
+    //                         // survey doesn't actually exist
+    //                         // this could have happened in an invalid survey id was provided as a targetSurveyId
+    //                         console.log(`Failed to retrieve survey id '${targetSurveyId}'`);
+    //                         return Promise.reject(new Error(`Failed to retrieve survey id '${targetSurveyId}'`));
+    //                     }
+    //
+    //                     if (this.currentSurvey.deleted) {
+    //                         // unusual case where survey is deleted
+    //                         // substitute a new one
+    //
+    //                         // this should probably never happen, as items deleted on the server ought to have been
+    //                         // removed locally
+    //                         this.setNewSurvey();
+    //                     } else {
+    //                         this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
+    //                     }
+    //                     return Promise.resolve();
+    //                 });
+    //         } else {
+    //             // no pre-existing surveys, so create a new one
+    //             this.setNewSurvey();
+    //
+    //             return Promise.resolve();
+    //         }
+    //     });
+    // }
 
-        // need to check for a special case where restoring a survey that has never been saved even locally
-        // i.e. new and unmodified
-        // only present in current App.surveys
-        // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
-        if (this.surveys.has(targetSurveyId)) {
-            const localSurvey = this.surveys.get(targetSurveyId);
+    // setNewSurvey() {
+    //     this.currentSurvey = new Survey();
+    //     this.currentSurvey.projectId = this.projectId;
+    //     this.currentSurvey.isPristine = true;
+    //     this.addSurvey(this.currentSurvey);
+    // }
 
-            if (localSurvey.isPristine) {
-                this.currentSurvey = localSurvey;
-                this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-                return Promise.resolve();
-            }
-        }
+    // /**
+    //  * @return {Occurrence}
+    //  */
+    // addNewOccurrence() {
+    //     const occurrence = new Occurrence();
+    //     occurrence.surveyId = this.currentSurvey.id;
+    //     occurrence.projectId = this.projectId;
+    //
+    //     occurrence.isNew = true;
+    //     occurrence.isPristine = true;
+    //
+    //     this.addOccurrence(occurrence);
+    //
+    //     this.fireEvent(NyphApp.EVENT_OCCURRENCE_ADDED, {occurrenceId: occurrence.id, surveyId: occurrence.surveyId});
+    //
+    //     return occurrence;
+    // }
 
-        const storedObjectKeys = {
-            survey: [],
-            occurrence: [],
-            image: []
-        };
+    // /**
+    //  *
+    //  * @param surveyId
+    //  * @param storedObjectKeys
+    //  * @returns {Promise}
+    //  * @private
+    //  */
+    // _restoreSurveyFromLocal(surveyId, storedObjectKeys) {
+    //     // retrieve surveys first, then occurrences, then images from indexedDb
+    //
+    //     return Survey.retrieveFromLocal(surveyId, new Survey).then((survey) => {
+    //         // the apps occurrences should only relate to the current survey
+    //         // (the reset are remote or in IndexedDb)
+    //         this.clearCurrentSurvey();
+    //
+    //         this.addSurvey(survey);
+    //         const occurrenceFetchingPromises = [];
+    //
+    //         for(let occurrenceKey of storedObjectKeys.occurrence) {
+    //             occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
+    //                 .then((occurrence) => {
+    //                     if (occurrence.surveyId === surveyId) {
+    //                         this.addOccurrence(occurrence);
+    //                     }
+    //                 }));
+    //         }
+    //
+    //         return Promise.all(occurrenceFetchingPromises);
+    //     }).finally(() => {
+    //         //console.log('Reached image fetching part');
+    //         const imageFetchingPromises = [];
+    //
+    //         for(let occurrenceImageKey of storedObjectKeys.image) {
+    //             imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage)
+    //                 .then((occurrenceImage) => {
+    //                     if (occurrenceImage.surveyId === surveyId) {
+    //                         OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
+    //                     }
+    //                 }, (reason) => {
+    //                     console.log(`Failed to retrieve an image: ${reason}`);
+    //                 }));
+    //         }
+    //
+    //         return Promise.all(imageFetchingPromises);
+    //     });
+    // }
 
-        if (targetSurveyId) {
-            storedObjectKeys.survey[0] = targetSurveyId;
-        }
-
-        return this.seekKeys(storedObjectKeys).then((storedObjectKeys) => {
-            if (storedObjectKeys.survey.length) {
-                return this.refreshFromServer(storedObjectKeys.survey).finally(() => {
-                    // re-seek keys from indexed db, to take account of any new occurrences received from the server
-                    return this.seekKeys(storedObjectKeys);
-                });
-            } else {
-                return null;
-            }
-        }).finally(() => {
-            // called regardless of whether a server refresh was successful
-            // storedObjectKeys and indexed db should be as up-to-date as possible
-
-            if (storedObjectKeys.survey.length) {
-
-                // arbitrarily set first survey key as current
-                // this will be the specified targetSurveyId if that was set
-                return this._restoreSurveyFromLocal(storedObjectKeys.survey[0], storedObjectKeys)
-                    .finally(() => {
-                        this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
-
-                        if (!this.currentSurvey) {
-                            // survey doesn't actually exist
-                            // this could have happened in an invalid survey id was provided as a targetSurveyId
-                            console.log(`Failed to retrieve survey id '${targetSurveyId}'`);
-                            return Promise.reject(new Error(`Failed to retrieve survey id '${targetSurveyId}'`));
-                        }
-
-                        if (this.currentSurvey.deleted) {
-                            // unusual case where survey is deleted
-                            // substitute a new one
-
-                            // this should probably never happen, as items deleted on the server ought to have been
-                            // removed locally
-                            this.setNewSurvey();
-                        } else {
-                            this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-                        }
-                        return Promise.resolve();
-                    });
-            } else {
-                // no pre-existing surveys, so create a new one
-                this.setNewSurvey();
-
-                return Promise.resolve();
-            }
-        });
-    }
-
-    setNewSurvey() {
-        this.currentSurvey = new Survey();
-        this.currentSurvey.projectId = this.projectId;
-        this.currentSurvey.isPristine = true;
-        this.addSurvey(this.currentSurvey);
-    }
-
-    /**
-     * @return {Occurrence}
-     */
-    addNewOccurrence() {
-        const occurrence = new Occurrence();
-        occurrence.surveyId = this.currentSurvey.id;
-        occurrence.projectId = this.projectId;
-
-        occurrence.isNew = true;
-        occurrence.isPristine = true;
-
-        this.addOccurrence(occurrence);
-
-        this.fireEvent(NyphApp.EVENT_OCCURRENCE_ADDED, {occurrenceId: occurrence.id, surveyId: occurrence.surveyId});
-
-        return occurrence;
-    }
-
-    /**
-     *
-     * @param surveyId
-     * @param storedObjectKeys
-     * @returns {Promise}
-     * @private
-     */
-    _restoreSurveyFromLocal(surveyId, storedObjectKeys) {
-        // retrieve surveys first, then occurrences, then images from indexedDb
-
-        return Survey.retrieveFromLocal(surveyId, new Survey).then((survey) => {
-            // the apps occurrences should only relate to the current survey
-            // (the reset are remote or in IndexedDb)
-            this.clearCurrentSurvey();
-
-            this.addSurvey(survey);
-            const occurrenceFetchingPromises = [];
-
-            for(let occurrenceKey of storedObjectKeys.occurrence) {
-                occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
-                    .then((occurrence) => {
-                        if (occurrence.surveyId === surveyId) {
-                            this.addOccurrence(occurrence);
-                        }
-                    }));
-            }
-
-            return Promise.all(occurrenceFetchingPromises);
-        }).finally(() => {
-            //console.log('Reached image fetching part');
-            const imageFetchingPromises = [];
-
-            for(let occurrenceImageKey of storedObjectKeys.image) {
-                imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage)
-                    .then((occurrenceImage) => {
-                        if (occurrenceImage.surveyId === surveyId) {
-                            OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
-                        }
-                    }, (reason) => {
-                        console.log(`Failed to retrieve an image: ${reason}`);
-                    }));
-            }
-
-            return Promise.all(imageFetchingPromises);
-        });
-    }
-
-    /**
-     *
-     * @returns {Promise<void>}
-     */
-    clearLocalForage() {
-        return localforage.clear();
-    }
+    // /**
+    //  *
+    //  * @returns {Promise<void>}
+    //  */
+    // clearLocalForage() {
+    //     return localforage.clear();
+    // }
 }

@@ -7,7 +7,7 @@
     }
   }
 
-  function _defineProperties$1(target, props) {
+  function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
       var descriptor = props[i];
       descriptor.enumerable = descriptor.enumerable || false;
@@ -17,9 +17,9 @@
     }
   }
 
-  function _createClass$1(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties$1(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties$1(Constructor, staticProps);
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
   }
 
@@ -67,7 +67,7 @@
       _defineProperty$1(this, "app", void 0);
     }
 
-    _createClass$1(AppController, [{
+    _createClass(AppController, [{
       key: "initialise",
       value:
       /**
@@ -127,7 +127,7 @@
 
   var commonjsGlobal$1 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-  function commonjsRequire$1 (path) {
+  function commonjsRequire (path) {
   	throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
   }
 
@@ -168,15 +168,15 @@
 
   var $propertyIsEnumerable$1 = {}.propertyIsEnumerable;
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-  var getOwnPropertyDescriptor$2$1 = Object.getOwnPropertyDescriptor;
+  var getOwnPropertyDescriptor$2 = Object.getOwnPropertyDescriptor;
 
   // Nashorn ~ JDK8 bug
-  var NASHORN_BUG$1 = getOwnPropertyDescriptor$2$1 && !$propertyIsEnumerable$1.call({ 1: 2 }, 1);
+  var NASHORN_BUG$1 = getOwnPropertyDescriptor$2 && !$propertyIsEnumerable$1.call({ 1: 2 }, 1);
 
   // `Object.prototype.propertyIsEnumerable` method implementation
   // https://tc39.es/ecma262/#sec-object.prototype.propertyisenumerable
   objectPropertyIsEnumerable$1.f = NASHORN_BUG$1 ? function propertyIsEnumerable(V) {
-    var descriptor = getOwnPropertyDescriptor$2$1(this, V);
+    var descriptor = getOwnPropertyDescriptor$2(this, V);
     return !!descriptor && descriptor.enumerable;
   } : $propertyIsEnumerable$1;
 
@@ -254,9 +254,9 @@
   var global$r = global$t;
   var userAgent$5 = engineUserAgent$1;
 
-  var process$3$1 = global$r.process;
+  var process$3 = global$r.process;
   var Deno$1 = global$r.Deno;
-  var versions$1 = process$3$1 && process$3$1.versions || Deno$1 && Deno$1.version;
+  var versions$1 = process$3 && process$3.versions || Deno$1 && Deno$1.version;
   var v8$1 = versions$1 && versions$1.v8;
   var match$1, version$1;
 
@@ -275,7 +275,7 @@
 
   /* eslint-disable es/no-symbol -- required for testing */
 
-  var V8_VERSION$3$1 = engineV8Version$1;
+  var V8_VERSION$3 = engineV8Version$1;
   var fails$r = fails$u;
 
   // eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
@@ -285,7 +285,7 @@
     // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
     return !String(symbol) || !(Object(symbol) instanceof Symbol) ||
       // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
-      !Symbol.sham && V8_VERSION$3$1 && V8_VERSION$3$1 < 41;
+      !Symbol.sham && V8_VERSION$3 && V8_VERSION$3 < 41;
   });
 
   /* eslint-disable es/no-symbol -- required for testing */
@@ -297,17 +297,17 @@
     && typeof Symbol.iterator == 'symbol';
 
   var isCallable$l = isCallable$o;
-  var getBuiltIn$8$1 = getBuiltIn$a;
+  var getBuiltIn$8 = getBuiltIn$a;
   var USE_SYMBOL_AS_UID$1$1 = useSymbolAsUid$1;
 
   var isSymbol$3 = USE_SYMBOL_AS_UID$1$1 ? function (it) {
     return typeof it == 'symbol';
   } : function (it) {
-    var $Symbol = getBuiltIn$8$1('Symbol');
+    var $Symbol = getBuiltIn$8('Symbol');
     return isCallable$l($Symbol) && Object(it) instanceof $Symbol;
   };
 
-  var tryToString$2$1 = function (argument) {
+  var tryToString$2 = function (argument) {
     try {
       return String(argument);
     } catch (error) {
@@ -316,7 +316,7 @@
   };
 
   var isCallable$k = isCallable$o;
-  var tryToString$1$1 = tryToString$2$1;
+  var tryToString$1$1 = tryToString$2;
 
   // `Assert: IsCallable(argument) is true`
   var aCallable$7 = function (argument) {
@@ -462,29 +462,29 @@
   var global$n = global$t;
   var isObject$h = isObject$k;
 
-  var document$3$1 = global$n.document;
+  var document$3 = global$n.document;
   // typeof document.createElement is 'object' in old IE
-  var EXISTS$1$1 = isObject$h(document$3$1) && isObject$h(document$3$1.createElement);
+  var EXISTS$1$1 = isObject$h(document$3) && isObject$h(document$3.createElement);
 
-  var documentCreateElement$2$1 = function (it) {
-    return EXISTS$1$1 ? document$3$1.createElement(it) : {};
+  var documentCreateElement$2 = function (it) {
+    return EXISTS$1$1 ? document$3.createElement(it) : {};
   };
 
   var DESCRIPTORS$d = descriptors$1;
   var fails$q = fails$u;
-  var createElement$1$1 = documentCreateElement$2$1;
+  var createElement$1 = documentCreateElement$2;
 
   // Thank's IE8 for his funny defineProperty
   var ie8DomDefine$1 = !DESCRIPTORS$d && !fails$q(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- requied for testing
-    return Object.defineProperty(createElement$1$1('div'), 'a', {
+    return Object.defineProperty(createElement$1('div'), 'a', {
       get: function () { return 7; }
     }).a != 7;
   });
 
   var DESCRIPTORS$c = descriptors$1;
   var propertyIsEnumerableModule$1 = objectPropertyIsEnumerable$1;
-  var createPropertyDescriptor$4$1 = createPropertyDescriptor$5;
+  var createPropertyDescriptor$4 = createPropertyDescriptor$5;
   var toIndexedObject$9 = toIndexedObject$a;
   var toPropertyKey$3$1 = toPropertyKey$4;
   var hasOwn$d = hasOwnProperty_1$1;
@@ -501,7 +501,7 @@
     if (IE8_DOM_DEFINE$1$1) try {
       return $getOwnPropertyDescriptor$1(O, P);
     } catch (error) { /* empty */ }
-    if (hasOwn$d(O, P)) return createPropertyDescriptor$4$1(!propertyIsEnumerableModule$1.f.call(O, P), O[P]);
+    if (hasOwn$d(O, P)) return createPropertyDescriptor$4(!propertyIsEnumerableModule$1.f.call(O, P), O[P]);
   };
 
   var objectDefineProperty$1 = {};
@@ -549,27 +549,27 @@
 
   var redefine$d = {exports: {}};
 
-  var isCallable$i$1 = isCallable$o;
+  var isCallable$i = isCallable$o;
   var store$1$1 = sharedStore$1;
 
   var functionToString$1 = Function.toString;
 
   // this helper broken in `core-js@3.4.1-3.4.4`, so we can't use `shared` helper
-  if (!isCallable$i$1(store$1$1.inspectSource)) {
+  if (!isCallable$i(store$1$1.inspectSource)) {
     store$1$1.inspectSource = function (it) {
       return functionToString$1.call(it);
     };
   }
 
-  var inspectSource$4$1 = store$1$1.inspectSource;
+  var inspectSource$4 = store$1$1.inspectSource;
 
   var global$m = global$t;
-  var isCallable$h$1 = isCallable$o;
-  var inspectSource$3$1 = inspectSource$4$1;
+  var isCallable$h = isCallable$o;
+  var inspectSource$3$1 = inspectSource$4;
 
   var WeakMap$2$1 = global$m.WeakMap;
 
-  var nativeWeakMap$1 = isCallable$h$1(WeakMap$2$1) && /native code/.test(inspectSource$3$1(WeakMap$2$1));
+  var nativeWeakMap$1 = isCallable$h(WeakMap$2$1) && /native code/.test(inspectSource$3$1(WeakMap$2$1));
 
   var shared$3$1 = shared$5.exports;
   var uid$2$1 = uid$4;
@@ -588,15 +588,15 @@
   var createNonEnumerableProperty$7 = createNonEnumerableProperty$8;
   var hasOwn$c = hasOwnProperty_1$1;
   var shared$2$1 = sharedStore$1;
-  var sharedKey$3$1 = sharedKey$4;
+  var sharedKey$3 = sharedKey$4;
   var hiddenKeys$5 = hiddenKeys$6;
 
   var OBJECT_ALREADY_INITIALIZED$1 = 'Object already initialized';
   var WeakMap$1$1 = global$l.WeakMap;
-  var set$1$1, get$1, has$1;
+  var set$1, get$1, has$1;
 
   var enforce$1 = function (it) {
-    return has$1(it) ? get$1(it) : set$1$1(it, {});
+    return has$1(it) ? get$1(it) : set$1(it, {});
   };
 
   var getterFor$1 = function (TYPE) {
@@ -613,7 +613,7 @@
     var wmget$1 = store$4.get;
     var wmhas$1 = store$4.has;
     var wmset$1 = store$4.set;
-    set$1$1 = function (it, metadata) {
+    set$1 = function (it, metadata) {
       if (wmhas$1.call(store$4, it)) throw new TypeError(OBJECT_ALREADY_INITIALIZED$1);
       metadata.facade = it;
       wmset$1.call(store$4, it, metadata);
@@ -626,9 +626,9 @@
       return wmhas$1.call(store$4, it);
     };
   } else {
-    var STATE$1 = sharedKey$3$1('state');
+    var STATE$1 = sharedKey$3('state');
     hiddenKeys$5[STATE$1] = true;
-    set$1$1 = function (it, metadata) {
+    set$1 = function (it, metadata) {
       if (hasOwn$c(it, STATE$1)) throw new TypeError(OBJECT_ALREADY_INITIALIZED$1);
       metadata.facade = it;
       createNonEnumerableProperty$7(it, STATE$1, metadata);
@@ -643,7 +643,7 @@
   }
 
   var internalState$1 = {
-    set: set$1$1,
+    set: set$1,
     get: get$1,
     has: has$1,
     enforce: enforce$1,
@@ -669,13 +669,13 @@
   };
 
   var global$k = global$t;
-  var isCallable$g$1 = isCallable$o;
+  var isCallable$g = isCallable$o;
   var hasOwn$a = hasOwnProperty_1$1;
   var createNonEnumerableProperty$6 = createNonEnumerableProperty$8;
   var setGlobal$1$1 = setGlobal$3$1;
-  var inspectSource$2$1 = inspectSource$4$1;
+  var inspectSource$2$1 = inspectSource$4;
   var InternalStateModule$7 = internalState$1;
-  var CONFIGURABLE_FUNCTION_NAME$1$1 = functionName$1.CONFIGURABLE;
+  var CONFIGURABLE_FUNCTION_NAME$1 = functionName$1.CONFIGURABLE;
 
   var getInternalState$6 = InternalStateModule$7.get;
   var enforceInternalState$1 = InternalStateModule$7.enforce;
@@ -687,11 +687,11 @@
     var noTargetGet = options ? !!options.noTargetGet : false;
     var name = options && options.name !== undefined ? options.name : key;
     var state;
-    if (isCallable$g$1(value)) {
+    if (isCallable$g(value)) {
       if (String(name).slice(0, 7) === 'Symbol(') {
         name = '[' + String(name).replace(/^Symbol\(([^)]*)\)/, '$1') + ']';
       }
-      if (!hasOwn$a(value, 'name') || (CONFIGURABLE_FUNCTION_NAME$1$1 && value.name !== name)) {
+      if (!hasOwn$a(value, 'name') || (CONFIGURABLE_FUNCTION_NAME$1 && value.name !== name)) {
         createNonEnumerableProperty$6(value, 'name', name);
       }
       state = enforceInternalState$1(value);
@@ -712,7 +712,7 @@
     else createNonEnumerableProperty$6(O, key, value);
   // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
   })(Function.prototype, 'toString', function toString() {
-    return isCallable$g$1(this) && getInternalState$6(this).source || inspectSource$2$1(this);
+    return isCallable$g(this) && getInternalState$6(this).source || inspectSource$2$1(this);
   });
 
   var objectGetOwnPropertyNames$1 = {};
@@ -741,14 +741,14 @@
     return integer < 0 ? max$3(integer + length, 0) : min$4(integer, length);
   };
 
-  var toIntegerOrInfinity$3$1 = toIntegerOrInfinity$5;
+  var toIntegerOrInfinity$3 = toIntegerOrInfinity$5;
 
   var min$3 = Math.min;
 
   // `ToLength` abstract operation
   // https://tc39.es/ecma262/#sec-tolength
   var toLength$5 = function (argument) {
-    return argument > 0 ? min$3(toIntegerOrInfinity$3$1(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+    return argument > 0 ? min$3(toIntegerOrInfinity$3(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
   };
 
   var toLength$4 = toLength$5;
@@ -795,14 +795,14 @@
   var hasOwn$9 = hasOwnProperty_1$1;
   var toIndexedObject$7 = toIndexedObject$a;
   var indexOf$1 = arrayIncludes$1.indexOf;
-  var hiddenKeys$4$1 = hiddenKeys$6;
+  var hiddenKeys$4 = hiddenKeys$6;
 
   var objectKeysInternal$1 = function (object, names) {
     var O = toIndexedObject$7(object);
     var i = 0;
     var result = [];
     var key;
-    for (key in O) !hasOwn$9(hiddenKeys$4$1, key) && hasOwn$9(O, key) && result.push(key);
+    for (key in O) !hasOwn$9(hiddenKeys$4, key) && hasOwn$9(O, key) && result.push(key);
     // Don't enum bug & hidden keys
     while (names.length > i) if (hasOwn$9(O, key = names[i++])) {
       ~indexOf$1(result, key) || result.push(key);
@@ -811,7 +811,7 @@
   };
 
   // IE8- don't enum bug keys
-  var enumBugKeys$3$1 = [
+  var enumBugKeys$3 = [
     'constructor',
     'hasOwnProperty',
     'isPrototypeOf',
@@ -821,16 +821,16 @@
     'valueOf'
   ];
 
-  var internalObjectKeys$1$1 = objectKeysInternal$1;
-  var enumBugKeys$2$1 = enumBugKeys$3$1;
+  var internalObjectKeys$1 = objectKeysInternal$1;
+  var enumBugKeys$2 = enumBugKeys$3;
 
-  var hiddenKeys$3$1 = enumBugKeys$2$1.concat('length', 'prototype');
+  var hiddenKeys$3$1 = enumBugKeys$2.concat('length', 'prototype');
 
   // `Object.getOwnPropertyNames` method
   // https://tc39.es/ecma262/#sec-object.getownpropertynames
   // eslint-disable-next-line es/no-object-getownpropertynames -- safe
   objectGetOwnPropertyNames$1.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-    return internalObjectKeys$1$1(O, hiddenKeys$3$1);
+    return internalObjectKeys$1(O, hiddenKeys$3$1);
   };
 
   var objectGetOwnPropertySymbols$1 = {};
@@ -838,35 +838,35 @@
   // eslint-disable-next-line es/no-object-getownpropertysymbols -- safe
   objectGetOwnPropertySymbols$1.f = Object.getOwnPropertySymbols;
 
-  var getBuiltIn$7$1 = getBuiltIn$a;
+  var getBuiltIn$7 = getBuiltIn$a;
   var getOwnPropertyNamesModule$2 = objectGetOwnPropertyNames$1;
   var getOwnPropertySymbolsModule$1 = objectGetOwnPropertySymbols$1;
   var anObject$j = anObject$l;
 
   // all object keys, includes non-enumerable and symbols
-  var ownKeys$3 = getBuiltIn$7$1('Reflect', 'ownKeys') || function ownKeys(it) {
+  var ownKeys$3 = getBuiltIn$7('Reflect', 'ownKeys') || function ownKeys(it) {
     var keys = getOwnPropertyNamesModule$2.f(anObject$j(it));
     var getOwnPropertySymbols = getOwnPropertySymbolsModule$1.f;
     return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
   };
 
-  var hasOwn$8$1 = hasOwnProperty_1$1;
+  var hasOwn$8 = hasOwnProperty_1$1;
   var ownKeys$2 = ownKeys$3;
   var getOwnPropertyDescriptorModule$2 = objectGetOwnPropertyDescriptor$1;
-  var definePropertyModule$5$1 = objectDefineProperty$1;
+  var definePropertyModule$5 = objectDefineProperty$1;
 
   var copyConstructorProperties$2 = function (target, source) {
     var keys = ownKeys$2(source);
-    var defineProperty = definePropertyModule$5$1.f;
+    var defineProperty = definePropertyModule$5.f;
     var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule$2.f;
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
-      if (!hasOwn$8$1(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+      if (!hasOwn$8(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
     }
   };
 
   var fails$p = fails$u;
-  var isCallable$f$1 = isCallable$o;
+  var isCallable$f = isCallable$o;
 
   var replacement$1 = /#|\.prototype\./;
 
@@ -874,7 +874,7 @@
     var value = data$1[normalize$1(feature)];
     return value == POLYFILL$1 ? true
       : value == NATIVE$1 ? false
-      : isCallable$f$1(detection) ? fails$p(detection)
+      : isCallable$f(detection) ? fails$p(detection)
       : !!detection;
   };
 
@@ -888,9 +888,9 @@
 
   var isForced_1$1 = isForced$4;
 
-  var global$j$1 = global$t;
+  var global$j = global$t;
   var getOwnPropertyDescriptor$1$1 = objectGetOwnPropertyDescriptor$1.f;
-  var createNonEnumerableProperty$5$1 = createNonEnumerableProperty$8;
+  var createNonEnumerableProperty$5 = createNonEnumerableProperty$8;
   var redefine$c = redefine$d.exports;
   var setGlobal$4 = setGlobal$3$1;
   var copyConstructorProperties$1$1 = copyConstructorProperties$2;
@@ -917,11 +917,11 @@
     var STATIC = options.stat;
     var FORCED, target, key, targetProperty, sourceProperty, descriptor;
     if (GLOBAL) {
-      target = global$j$1;
+      target = global$j;
     } else if (STATIC) {
-      target = global$j$1[TARGET] || setGlobal$4(TARGET, {});
+      target = global$j[TARGET] || setGlobal$4(TARGET, {});
     } else {
-      target = (global$j$1[TARGET] || {}).prototype;
+      target = (global$j[TARGET] || {}).prototype;
     }
     if (target) for (key in source) {
       sourceProperty = source[key];
@@ -937,7 +937,7 @@
       }
       // add a flag to not completely full polyfills
       if (options.sham || (targetProperty && targetProperty.sham)) {
-        createNonEnumerableProperty$5$1(sourceProperty, 'sham', true);
+        createNonEnumerableProperty$5(sourceProperty, 'sham', true);
       }
       // extend global
       redefine$c(target, key, sourceProperty, options);
@@ -946,19 +946,19 @@
 
   var wellKnownSymbol$o = wellKnownSymbol$q;
 
-  var TO_STRING_TAG$3$1 = wellKnownSymbol$o('toStringTag');
+  var TO_STRING_TAG$3 = wellKnownSymbol$o('toStringTag');
   var test$1 = {};
 
-  test$1[TO_STRING_TAG$3$1] = 'z';
+  test$1[TO_STRING_TAG$3] = 'z';
 
   var toStringTagSupport$1 = String(test$1) === '[object z]';
 
-  var TO_STRING_TAG_SUPPORT$2$1 = toStringTagSupport$1;
-  var isCallable$e$1 = isCallable$o;
+  var TO_STRING_TAG_SUPPORT$2 = toStringTagSupport$1;
+  var isCallable$e = isCallable$o;
   var classofRaw$2 = classofRaw$1$1;
   var wellKnownSymbol$n = wellKnownSymbol$q;
 
-  var TO_STRING_TAG$2$1 = wellKnownSymbol$n('toStringTag');
+  var TO_STRING_TAG$2 = wellKnownSymbol$n('toStringTag');
   // ES3 wrong here
   var CORRECT_ARGUMENTS$1 = classofRaw$2(function () { return arguments; }()) == 'Arguments';
 
@@ -970,31 +970,31 @@
   };
 
   // getting tag from ES6+ `Object.prototype.toString`
-  var classof$9 = TO_STRING_TAG_SUPPORT$2$1 ? classofRaw$2 : function (it) {
+  var classof$9 = TO_STRING_TAG_SUPPORT$2 ? classofRaw$2 : function (it) {
     var O, tag, result;
     return it === undefined ? 'Undefined' : it === null ? 'Null'
       // @@toStringTag case
-      : typeof (tag = tryGet$1(O = Object(it), TO_STRING_TAG$2$1)) == 'string' ? tag
+      : typeof (tag = tryGet$1(O = Object(it), TO_STRING_TAG$2)) == 'string' ? tag
       // builtinTag case
       : CORRECT_ARGUMENTS$1 ? classofRaw$2(O)
       // ES3 arguments fallback
-      : (result = classofRaw$2(O)) == 'Object' && isCallable$e$1(O.callee) ? 'Arguments' : result;
+      : (result = classofRaw$2(O)) == 'Object' && isCallable$e(O.callee) ? 'Arguments' : result;
   };
 
   var fails$o = fails$u;
-  var isCallable$d$1 = isCallable$o;
+  var isCallable$d = isCallable$o;
   var classof$8 = classof$9;
-  var getBuiltIn$6$1 = getBuiltIn$a;
-  var inspectSource$1$1 = inspectSource$4$1;
+  var getBuiltIn$6 = getBuiltIn$a;
+  var inspectSource$1$1 = inspectSource$4;
 
   var empty$1 = [];
-  var construct$1 = getBuiltIn$6$1('Reflect', 'construct');
+  var construct$1 = getBuiltIn$6('Reflect', 'construct');
   var constructorRegExp$1 = /^\s*(?:class|function)\b/;
   var exec$1 = constructorRegExp$1.exec;
   var INCORRECT_TO_STRING$1 = !constructorRegExp$1.exec(function () { /* empty */ });
 
   var isConstructorModern$1 = function (argument) {
-    if (!isCallable$d$1(argument)) return false;
+    if (!isCallable$d(argument)) return false;
     try {
       construct$1(Object, empty$1, argument);
       return true;
@@ -1004,7 +1004,7 @@
   };
 
   var isConstructorLegacy$1 = function (argument) {
-    if (!isCallable$d$1(argument)) return false;
+    if (!isCallable$d(argument)) return false;
     switch (classof$8(argument)) {
       case 'AsyncFunction':
       case 'GeneratorFunction':
@@ -1024,7 +1024,7 @@
   }) ? isConstructorLegacy$1 : isConstructorModern$1;
 
   var isConstructor$3 = isConstructor$4;
-  var tryToString$3 = tryToString$2$1;
+  var tryToString$3 = tryToString$2;
 
   // `Assert: IsConstructor(argument) is true`
   var aConstructor$2 = function (argument) {
@@ -1033,7 +1033,7 @@
   };
 
   var internalObjectKeys$2 = objectKeysInternal$1;
-  var enumBugKeys$1$1 = enumBugKeys$3$1;
+  var enumBugKeys$1$1 = enumBugKeys$3;
 
   // `Object.keys` method
   // https://tc39.es/ecma262/#sec-object.keys
@@ -1043,52 +1043,52 @@
   };
 
   var DESCRIPTORS$8 = descriptors$1;
-  var definePropertyModule$4$1 = objectDefineProperty$1;
+  var definePropertyModule$4 = objectDefineProperty$1;
   var anObject$i = anObject$l;
-  var objectKeys$1$1 = objectKeys$2;
+  var objectKeys$1 = objectKeys$2;
 
   // `Object.defineProperties` method
   // https://tc39.es/ecma262/#sec-object.defineproperties
   // eslint-disable-next-line es/no-object-defineproperties -- safe
-  var objectDefineProperties$1 = DESCRIPTORS$8 ? Object.defineProperties : function defineProperties(O, Properties) {
+  var objectDefineProperties = DESCRIPTORS$8 ? Object.defineProperties : function defineProperties(O, Properties) {
     anObject$i(O);
-    var keys = objectKeys$1$1(Properties);
+    var keys = objectKeys$1(Properties);
     var length = keys.length;
     var index = 0;
     var key;
-    while (length > index) definePropertyModule$4$1.f(O, key = keys[index++], Properties[key]);
+    while (length > index) definePropertyModule$4.f(O, key = keys[index++], Properties[key]);
     return O;
   };
 
-  var getBuiltIn$5$1 = getBuiltIn$a;
+  var getBuiltIn$5 = getBuiltIn$a;
 
-  var html$2$1 = getBuiltIn$5$1('document', 'documentElement');
+  var html$2 = getBuiltIn$5('document', 'documentElement');
 
   /* global ActiveXObject -- old IE, WSH */
 
   var anObject$h = anObject$l;
-  var defineProperties$1 = objectDefineProperties$1;
-  var enumBugKeys$4 = enumBugKeys$3$1;
+  var defineProperties = objectDefineProperties;
+  var enumBugKeys$4 = enumBugKeys$3;
   var hiddenKeys$2$1 = hiddenKeys$6;
-  var html$1$1 = html$2$1;
-  var documentCreateElement$1$1 = documentCreateElement$2$1;
-  var sharedKey$2$1 = sharedKey$4;
+  var html$1 = html$2;
+  var documentCreateElement$1 = documentCreateElement$2;
+  var sharedKey$2 = sharedKey$4;
 
-  var GT$1 = '>';
-  var LT$1 = '<';
+  var GT = '>';
+  var LT = '<';
   var PROTOTYPE$1 = 'prototype';
-  var SCRIPT$1 = 'script';
-  var IE_PROTO$1$1 = sharedKey$2$1('IE_PROTO');
+  var SCRIPT = 'script';
+  var IE_PROTO$1 = sharedKey$2('IE_PROTO');
 
-  var EmptyConstructor$1 = function () { /* empty */ };
+  var EmptyConstructor = function () { /* empty */ };
 
-  var scriptTag$1 = function (content) {
-    return LT$1 + SCRIPT$1 + GT$1 + content + LT$1 + '/' + SCRIPT$1 + GT$1;
+  var scriptTag = function (content) {
+    return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;
   };
 
   // Create object with fake `null` prototype: use ActiveX Object with cleared prototype
-  var NullProtoObjectViaActiveX$1 = function (activeXDocument) {
-    activeXDocument.write(scriptTag$1(''));
+  var NullProtoObjectViaActiveX = function (activeXDocument) {
+    activeXDocument.write(scriptTag(''));
     activeXDocument.close();
     var temp = activeXDocument.parentWindow.Object;
     activeXDocument = null; // avoid memory leak
@@ -1096,18 +1096,18 @@
   };
 
   // Create object with fake `null` prototype: use iframe Object with cleared prototype
-  var NullProtoObjectViaIFrame$1 = function () {
+  var NullProtoObjectViaIFrame = function () {
     // Thrash, waste and sodomy: IE GC bug
-    var iframe = documentCreateElement$1$1('iframe');
-    var JS = 'java' + SCRIPT$1 + ':';
+    var iframe = documentCreateElement$1('iframe');
+    var JS = 'java' + SCRIPT + ':';
     var iframeDocument;
     iframe.style.display = 'none';
-    html$1$1.appendChild(iframe);
+    html$1.appendChild(iframe);
     // https://github.com/zloirock/core-js/issues/475
     iframe.src = String(JS);
     iframeDocument = iframe.contentWindow.document;
     iframeDocument.open();
-    iframeDocument.write(scriptTag$1('document.F=Object'));
+    iframeDocument.write(scriptTag('document.F=Object'));
     iframeDocument.close();
     return iframeDocument.F;
   };
@@ -1117,38 +1117,38 @@
   // see https://github.com/es-shims/es5-shim/issues/150
   // variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
   // avoid IE GC bug
-  var activeXDocument$1;
-  var NullProtoObject$1 = function () {
+  var activeXDocument;
+  var NullProtoObject = function () {
     try {
-      activeXDocument$1 = new ActiveXObject('htmlfile');
+      activeXDocument = new ActiveXObject('htmlfile');
     } catch (error) { /* ignore */ }
-    NullProtoObject$1 = typeof document != 'undefined'
-      ? document.domain && activeXDocument$1
-        ? NullProtoObjectViaActiveX$1(activeXDocument$1) // old IE
-        : NullProtoObjectViaIFrame$1()
-      : NullProtoObjectViaActiveX$1(activeXDocument$1); // WSH
+    NullProtoObject = typeof document != 'undefined'
+      ? document.domain && activeXDocument
+        ? NullProtoObjectViaActiveX(activeXDocument) // old IE
+        : NullProtoObjectViaIFrame()
+      : NullProtoObjectViaActiveX(activeXDocument); // WSH
     var length = enumBugKeys$4.length;
-    while (length--) delete NullProtoObject$1[PROTOTYPE$1][enumBugKeys$4[length]];
-    return NullProtoObject$1();
+    while (length--) delete NullProtoObject[PROTOTYPE$1][enumBugKeys$4[length]];
+    return NullProtoObject();
   };
 
-  hiddenKeys$2$1[IE_PROTO$1$1] = true;
+  hiddenKeys$2$1[IE_PROTO$1] = true;
 
   // `Object.create` method
   // https://tc39.es/ecma262/#sec-object.create
-  var objectCreate$1 = Object.create || function create(O, Properties) {
+  var objectCreate = Object.create || function create(O, Properties) {
     var result;
     if (O !== null) {
-      EmptyConstructor$1[PROTOTYPE$1] = anObject$h(O);
-      result = new EmptyConstructor$1();
-      EmptyConstructor$1[PROTOTYPE$1] = null;
+      EmptyConstructor[PROTOTYPE$1] = anObject$h(O);
+      result = new EmptyConstructor();
+      EmptyConstructor[PROTOTYPE$1] = null;
       // add "__proto__" for Object.getPrototypeOf polyfill
-      result[IE_PROTO$1$1] = O;
-    } else result = NullProtoObject$1();
-    return Properties === undefined ? result : defineProperties$1(result, Properties);
+      result[IE_PROTO$1] = O;
+    } else result = NullProtoObject();
+    return Properties === undefined ? result : defineProperties(result, Properties);
   };
 
-  var aCallable$5$1 = aCallable$7;
+  var aCallable$5 = aCallable$7;
   var isObject$e = isObject$k;
 
   var slice = [].slice;
@@ -1165,7 +1165,7 @@
   // `Function.prototype.bind` method implementation
   // https://tc39.es/ecma262/#sec-function.prototype.bind
   var functionBind = Function.bind || function bind(that /* , ...args */) {
-    var fn = aCallable$5$1(this);
+    var fn = aCallable$5(this);
     var partArgs = slice.call(arguments, 1);
     var boundFunction = function bound(/* args... */) {
       var args = partArgs.concat(slice.call(arguments));
@@ -1177,10 +1177,10 @@
 
   var $$r = _export$1;
   var getBuiltIn$4$1 = getBuiltIn$a;
-  var aConstructor$1$1 = aConstructor$2;
+  var aConstructor$1 = aConstructor$2;
   var anObject$g = anObject$l;
   var isObject$d = isObject$k;
-  var create$4 = objectCreate$1;
+  var create$4 = objectCreate;
   var bind$6 = functionBind;
   var fails$n = fails$u;
 
@@ -1201,9 +1201,9 @@
 
   $$r({ target: 'Reflect', stat: true, forced: FORCED$5, sham: FORCED$5 }, {
     construct: function construct(Target, args /* , newTarget */) {
-      aConstructor$1$1(Target);
+      aConstructor$1(Target);
       anObject$g(args);
-      var newTarget = arguments.length < 3 ? Target : aConstructor$1$1(arguments[2]);
+      var newTarget = arguments.length < 3 ? Target : aConstructor$1(arguments[2]);
       if (ARGS_BUG && !NEW_TARGET_BUG) return nativeConstruct(Target, args, newTarget);
       if (Target == newTarget) {
         // w/o altered newTarget, optimization for 0-4 arguments
@@ -1332,16 +1332,16 @@
   }
 
   var wellKnownSymbol$m = wellKnownSymbol$q;
-  var create$3 = objectCreate$1;
-  var definePropertyModule$3$1 = objectDefineProperty$1;
+  var create$3 = objectCreate;
+  var definePropertyModule$3 = objectDefineProperty$1;
 
-  var UNSCOPABLES$1 = wellKnownSymbol$m('unscopables');
-  var ArrayPrototype$1$1 = Array.prototype;
+  var UNSCOPABLES = wellKnownSymbol$m('unscopables');
+  var ArrayPrototype$1 = Array.prototype;
 
   // Array.prototype[@@unscopables]
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  if (ArrayPrototype$1$1[UNSCOPABLES$1] == undefined) {
-    definePropertyModule$3$1.f(ArrayPrototype$1$1, UNSCOPABLES$1, {
+  if (ArrayPrototype$1[UNSCOPABLES] == undefined) {
+    definePropertyModule$3.f(ArrayPrototype$1, UNSCOPABLES, {
       configurable: true,
       value: create$3(null)
     });
@@ -1349,84 +1349,84 @@
 
   // add a key to Array.prototype[@@unscopables]
   var addToUnscopables$3 = function (key) {
-    ArrayPrototype$1$1[UNSCOPABLES$1][key] = true;
+    ArrayPrototype$1[UNSCOPABLES][key] = true;
   };
 
-  var iterators$1 = {};
+  var iterators = {};
 
   var fails$m = fails$u;
 
-  var correctPrototypeGetter$1 = !fails$m(function () {
+  var correctPrototypeGetter = !fails$m(function () {
     function F() { /* empty */ }
     F.prototype.constructor = null;
     // eslint-disable-next-line es/no-object-getprototypeof -- required for testing
     return Object.getPrototypeOf(new F()) !== F.prototype;
   });
 
-  var hasOwn$7$1 = hasOwnProperty_1$1;
-  var isCallable$c$1 = isCallable$o;
+  var hasOwn$7 = hasOwnProperty_1$1;
+  var isCallable$c = isCallable$o;
   var toObject$8 = toObject$a;
   var sharedKey$1$1 = sharedKey$4;
-  var CORRECT_PROTOTYPE_GETTER$1 = correctPrototypeGetter$1;
+  var CORRECT_PROTOTYPE_GETTER = correctPrototypeGetter;
 
-  var IE_PROTO$2 = sharedKey$1$1('IE_PROTO');
+  var IE_PROTO = sharedKey$1$1('IE_PROTO');
   var ObjectPrototype$1 = Object.prototype;
 
   // `Object.getPrototypeOf` method
   // https://tc39.es/ecma262/#sec-object.getprototypeof
   // eslint-disable-next-line es/no-object-getprototypeof -- safe
-  var objectGetPrototypeOf$1 = CORRECT_PROTOTYPE_GETTER$1 ? Object.getPrototypeOf : function (O) {
+  var objectGetPrototypeOf = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O) {
     var object = toObject$8(O);
-    if (hasOwn$7$1(object, IE_PROTO$2)) return object[IE_PROTO$2];
+    if (hasOwn$7(object, IE_PROTO)) return object[IE_PROTO];
     var constructor = object.constructor;
-    if (isCallable$c$1(constructor) && object instanceof constructor) {
+    if (isCallable$c(constructor) && object instanceof constructor) {
       return constructor.prototype;
     } return object instanceof Object ? ObjectPrototype$1 : null;
   };
 
   var fails$l = fails$u;
   var isCallable$b$1 = isCallable$o;
-  var getPrototypeOf$1$1 = objectGetPrototypeOf$1;
+  var getPrototypeOf$1 = objectGetPrototypeOf;
   var redefine$b = redefine$d.exports;
   var wellKnownSymbol$l = wellKnownSymbol$q;
 
-  var ITERATOR$5$1 = wellKnownSymbol$l('iterator');
-  var BUGGY_SAFARI_ITERATORS$1$1 = false;
+  var ITERATOR$5 = wellKnownSymbol$l('iterator');
+  var BUGGY_SAFARI_ITERATORS$1 = false;
 
   // `%IteratorPrototype%` object
   // https://tc39.es/ecma262/#sec-%iteratorprototype%-object
-  var IteratorPrototype$2$1, PrototypeOfArrayIteratorPrototype$1, arrayIterator$1;
+  var IteratorPrototype$2, PrototypeOfArrayIteratorPrototype, arrayIterator;
 
   /* eslint-disable es/no-array-prototype-keys -- safe */
   if ([].keys) {
-    arrayIterator$1 = [].keys();
+    arrayIterator = [].keys();
     // Safari 8 has buggy iterators w/o `next`
-    if (!('next' in arrayIterator$1)) BUGGY_SAFARI_ITERATORS$1$1 = true;
+    if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS$1 = true;
     else {
-      PrototypeOfArrayIteratorPrototype$1 = getPrototypeOf$1$1(getPrototypeOf$1$1(arrayIterator$1));
-      if (PrototypeOfArrayIteratorPrototype$1 !== Object.prototype) IteratorPrototype$2$1 = PrototypeOfArrayIteratorPrototype$1;
+      PrototypeOfArrayIteratorPrototype = getPrototypeOf$1(getPrototypeOf$1(arrayIterator));
+      if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype$2 = PrototypeOfArrayIteratorPrototype;
     }
   }
 
-  var NEW_ITERATOR_PROTOTYPE$1 = IteratorPrototype$2$1 == undefined || fails$l(function () {
+  var NEW_ITERATOR_PROTOTYPE = IteratorPrototype$2 == undefined || fails$l(function () {
     var test = {};
     // FF44- legacy iterators case
-    return IteratorPrototype$2$1[ITERATOR$5$1].call(test) !== test;
+    return IteratorPrototype$2[ITERATOR$5].call(test) !== test;
   });
 
-  if (NEW_ITERATOR_PROTOTYPE$1) IteratorPrototype$2$1 = {};
+  if (NEW_ITERATOR_PROTOTYPE) IteratorPrototype$2 = {};
 
   // `%IteratorPrototype%[@@iterator]()` method
   // https://tc39.es/ecma262/#sec-%iteratorprototype%-@@iterator
-  if (!isCallable$b$1(IteratorPrototype$2$1[ITERATOR$5$1])) {
-    redefine$b(IteratorPrototype$2$1, ITERATOR$5$1, function () {
+  if (!isCallable$b$1(IteratorPrototype$2[ITERATOR$5])) {
+    redefine$b(IteratorPrototype$2, ITERATOR$5, function () {
       return this;
     });
   }
 
-  var iteratorsCore$1 = {
-    IteratorPrototype: IteratorPrototype$2$1,
-    BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS$1$1
+  var iteratorsCore = {
+    IteratorPrototype: IteratorPrototype$2,
+    BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS$1
   };
 
   var defineProperty$6 = objectDefineProperty$1.f;
@@ -1441,25 +1441,25 @@
     }
   };
 
-  var IteratorPrototype$1$1 = iteratorsCore$1.IteratorPrototype;
-  var create$2 = objectCreate$1;
+  var IteratorPrototype$1 = iteratorsCore.IteratorPrototype;
+  var create$2 = objectCreate;
   var createPropertyDescriptor$2$1 = createPropertyDescriptor$5;
   var setToStringTag$4 = setToStringTag$5;
-  var Iterators$4$1 = iterators$1;
+  var Iterators$4 = iterators;
 
-  var returnThis$1$1 = function () { return this; };
+  var returnThis$1 = function () { return this; };
 
   var createIteratorConstructor$2 = function (IteratorConstructor, NAME, next) {
     var TO_STRING_TAG = NAME + ' Iterator';
-    IteratorConstructor.prototype = create$2(IteratorPrototype$1$1, { next: createPropertyDescriptor$2$1(1, next) });
+    IteratorConstructor.prototype = create$2(IteratorPrototype$1, { next: createPropertyDescriptor$2$1(1, next) });
     setToStringTag$4(IteratorConstructor, TO_STRING_TAG, false);
-    Iterators$4$1[TO_STRING_TAG] = returnThis$1$1;
+    Iterators$4[TO_STRING_TAG] = returnThis$1;
     return IteratorConstructor;
   };
 
   var isCallable$a$1 = isCallable$o;
 
-  var aPossiblePrototype$1$1 = function (argument) {
+  var aPossiblePrototype$1 = function (argument) {
     if (typeof argument === 'object' || isCallable$a$1(argument)) return argument;
     throw TypeError("Can't set " + String(argument) + ' as a prototype');
   };
@@ -1467,13 +1467,13 @@
   /* eslint-disable no-proto -- safe */
 
   var anObject$f = anObject$l;
-  var aPossiblePrototype$2 = aPossiblePrototype$1$1;
+  var aPossiblePrototype = aPossiblePrototype$1;
 
   // `Object.setPrototypeOf` method
   // https://tc39.es/ecma262/#sec-object.setprototypeof
   // Works with __proto__ only. Old v8 can't work with null proto objects.
   // eslint-disable-next-line es/no-object-setprototypeof -- safe
-  var objectSetPrototypeOf$1 = Object.setPrototypeOf || ('__proto__' in {} ? function () {
+  var objectSetPrototypeOf = Object.setPrototypeOf || ('__proto__' in {} ? function () {
     var CORRECT_SETTER = false;
     var test = {};
     var setter;
@@ -1485,7 +1485,7 @@
     } catch (error) { /* empty */ }
     return function setPrototypeOf(O, proto) {
       anObject$f(O);
-      aPossiblePrototype$2(proto);
+      aPossiblePrototype(proto);
       if (CORRECT_SETTER) setter.call(O, proto);
       else O.__proto__ = proto;
       return O;
@@ -1493,72 +1493,72 @@
   }() : undefined);
 
   var $$q = _export$1;
-  var FunctionName$1 = functionName$1;
+  var FunctionName = functionName$1;
   var isCallable$9$1 = isCallable$o;
-  var createIteratorConstructor$1$1 = createIteratorConstructor$2;
-  var getPrototypeOf$2 = objectGetPrototypeOf$1;
-  var setPrototypeOf$2 = objectSetPrototypeOf$1;
-  var setToStringTag$3$1 = setToStringTag$5;
-  var createNonEnumerableProperty$4$1 = createNonEnumerableProperty$8;
+  var createIteratorConstructor$1 = createIteratorConstructor$2;
+  var getPrototypeOf = objectGetPrototypeOf;
+  var setPrototypeOf$2 = objectSetPrototypeOf;
+  var setToStringTag$3 = setToStringTag$5;
+  var createNonEnumerableProperty$4 = createNonEnumerableProperty$8;
   var redefine$a = redefine$d.exports;
   var wellKnownSymbol$j = wellKnownSymbol$q;
-  var Iterators$3$1 = iterators$1;
-  var IteratorsCore$1 = iteratorsCore$1;
+  var Iterators$3 = iterators;
+  var IteratorsCore = iteratorsCore;
 
-  var PROPER_FUNCTION_NAME$2 = FunctionName$1.PROPER;
-  var CONFIGURABLE_FUNCTION_NAME$2 = FunctionName$1.CONFIGURABLE;
-  var IteratorPrototype$3 = IteratorsCore$1.IteratorPrototype;
-  var BUGGY_SAFARI_ITERATORS$2 = IteratorsCore$1.BUGGY_SAFARI_ITERATORS;
-  var ITERATOR$4$1 = wellKnownSymbol$j('iterator');
-  var KEYS$1 = 'keys';
-  var VALUES$1 = 'values';
-  var ENTRIES$1 = 'entries';
+  var PROPER_FUNCTION_NAME$2 = FunctionName.PROPER;
+  var CONFIGURABLE_FUNCTION_NAME$2 = FunctionName.CONFIGURABLE;
+  var IteratorPrototype = IteratorsCore.IteratorPrototype;
+  var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
+  var ITERATOR$4 = wellKnownSymbol$j('iterator');
+  var KEYS = 'keys';
+  var VALUES = 'values';
+  var ENTRIES = 'entries';
 
-  var returnThis$2 = function () { return this; };
+  var returnThis = function () { return this; };
 
   var defineIterator$3 = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
-    createIteratorConstructor$1$1(IteratorConstructor, NAME, next);
+    createIteratorConstructor$1(IteratorConstructor, NAME, next);
 
     var getIterationMethod = function (KIND) {
       if (KIND === DEFAULT && defaultIterator) return defaultIterator;
-      if (!BUGGY_SAFARI_ITERATORS$2 && KIND in IterablePrototype) return IterablePrototype[KIND];
+      if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
       switch (KIND) {
-        case KEYS$1: return function keys() { return new IteratorConstructor(this, KIND); };
-        case VALUES$1: return function values() { return new IteratorConstructor(this, KIND); };
-        case ENTRIES$1: return function entries() { return new IteratorConstructor(this, KIND); };
+        case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
+        case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
+        case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
       } return function () { return new IteratorConstructor(this); };
     };
 
     var TO_STRING_TAG = NAME + ' Iterator';
     var INCORRECT_VALUES_NAME = false;
     var IterablePrototype = Iterable.prototype;
-    var nativeIterator = IterablePrototype[ITERATOR$4$1]
+    var nativeIterator = IterablePrototype[ITERATOR$4]
       || IterablePrototype['@@iterator']
       || DEFAULT && IterablePrototype[DEFAULT];
-    var defaultIterator = !BUGGY_SAFARI_ITERATORS$2 && nativeIterator || getIterationMethod(DEFAULT);
+    var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
     var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
     var CurrentIteratorPrototype, methods, KEY;
 
     // fix native
     if (anyNativeIterator) {
-      CurrentIteratorPrototype = getPrototypeOf$2(anyNativeIterator.call(new Iterable()));
+      CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
       if (CurrentIteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
-        if (getPrototypeOf$2(CurrentIteratorPrototype) !== IteratorPrototype$3) {
+        if (getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
           if (setPrototypeOf$2) {
-            setPrototypeOf$2(CurrentIteratorPrototype, IteratorPrototype$3);
-          } else if (!isCallable$9$1(CurrentIteratorPrototype[ITERATOR$4$1])) {
-            redefine$a(CurrentIteratorPrototype, ITERATOR$4$1, returnThis$2);
+            setPrototypeOf$2(CurrentIteratorPrototype, IteratorPrototype);
+          } else if (!isCallable$9$1(CurrentIteratorPrototype[ITERATOR$4])) {
+            redefine$a(CurrentIteratorPrototype, ITERATOR$4, returnThis);
           }
         }
         // Set @@toStringTag to native iterators
-        setToStringTag$3$1(CurrentIteratorPrototype, TO_STRING_TAG, true);
+        setToStringTag$3(CurrentIteratorPrototype, TO_STRING_TAG, true);
       }
     }
 
     // fix Array.prototype.{ values, @@iterator }.name in V8 / FF
-    if (PROPER_FUNCTION_NAME$2 && DEFAULT == VALUES$1 && nativeIterator && nativeIterator.name !== VALUES$1) {
+    if (PROPER_FUNCTION_NAME$2 && DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
       if (CONFIGURABLE_FUNCTION_NAME$2) {
-        createNonEnumerableProperty$4$1(IterablePrototype, 'name', VALUES$1);
+        createNonEnumerableProperty$4(IterablePrototype, 'name', VALUES);
       } else {
         INCORRECT_VALUES_NAME = true;
         defaultIterator = function values() { return nativeIterator.call(this); };
@@ -1568,35 +1568,35 @@
     // export additional methods
     if (DEFAULT) {
       methods = {
-        values: getIterationMethod(VALUES$1),
-        keys: IS_SET ? defaultIterator : getIterationMethod(KEYS$1),
-        entries: getIterationMethod(ENTRIES$1)
+        values: getIterationMethod(VALUES),
+        keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
+        entries: getIterationMethod(ENTRIES)
       };
       if (FORCED) for (KEY in methods) {
-        if (BUGGY_SAFARI_ITERATORS$2 || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
+        if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
           redefine$a(IterablePrototype, KEY, methods[KEY]);
         }
-      } else $$q({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS$2 || INCORRECT_VALUES_NAME }, methods);
+      } else $$q({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
     }
 
     // define iterator
-    if (IterablePrototype[ITERATOR$4$1] !== defaultIterator) {
-      redefine$a(IterablePrototype, ITERATOR$4$1, defaultIterator, { name: DEFAULT });
+    if (IterablePrototype[ITERATOR$4] !== defaultIterator) {
+      redefine$a(IterablePrototype, ITERATOR$4, defaultIterator, { name: DEFAULT });
     }
-    Iterators$3$1[NAME] = defaultIterator;
+    Iterators$3[NAME] = defaultIterator;
 
     return methods;
   };
 
   var toIndexedObject$6 = toIndexedObject$a;
   var addToUnscopables$2 = addToUnscopables$3;
-  var Iterators$2$1 = iterators$1;
+  var Iterators$2 = iterators;
   var InternalStateModule$6 = internalState$1;
-  var defineIterator$2$1 = defineIterator$3;
+  var defineIterator$2 = defineIterator$3;
 
-  var ARRAY_ITERATOR$1 = 'Array Iterator';
+  var ARRAY_ITERATOR = 'Array Iterator';
   var setInternalState$6 = InternalStateModule$6.set;
-  var getInternalState$5 = InternalStateModule$6.getterFor(ARRAY_ITERATOR$1);
+  var getInternalState$5 = InternalStateModule$6.getterFor(ARRAY_ITERATOR);
 
   // `Array.prototype.entries` method
   // https://tc39.es/ecma262/#sec-array.prototype.entries
@@ -1608,9 +1608,9 @@
   // https://tc39.es/ecma262/#sec-array.prototype-@@iterator
   // `CreateArrayIterator` internal method
   // https://tc39.es/ecma262/#sec-createarrayiterator
-  var es_array_iterator$1 = defineIterator$2$1(Array, 'Array', function (iterated, kind) {
+  var es_array_iterator = defineIterator$2(Array, 'Array', function (iterated, kind) {
     setInternalState$6(this, {
-      type: ARRAY_ITERATOR$1,
+      type: ARRAY_ITERATOR,
       target: toIndexedObject$6(iterated), // target
       index: 0,                          // next index
       kind: kind                         // kind
@@ -1634,25 +1634,25 @@
   // argumentsList[@@iterator] is %ArrayProto_values%
   // https://tc39.es/ecma262/#sec-createunmappedargumentsobject
   // https://tc39.es/ecma262/#sec-createmappedargumentsobject
-  Iterators$2$1.Arguments = Iterators$2$1.Array;
+  Iterators$2.Arguments = Iterators$2.Array;
 
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
   addToUnscopables$2('keys');
   addToUnscopables$2('values');
   addToUnscopables$2('entries');
 
-  var TO_STRING_TAG_SUPPORT$1$1 = toStringTagSupport$1;
-  var classof$7$1 = classof$9;
+  var TO_STRING_TAG_SUPPORT$1 = toStringTagSupport$1;
+  var classof$7 = classof$9;
 
   // `Object.prototype.toString` method implementation
   // https://tc39.es/ecma262/#sec-object.prototype.tostring
-  var objectToString$1 = TO_STRING_TAG_SUPPORT$1$1 ? {}.toString : function toString() {
-    return '[object ' + classof$7$1(this) + ']';
+  var objectToString = TO_STRING_TAG_SUPPORT$1 ? {}.toString : function toString() {
+    return '[object ' + classof$7(this) + ']';
   };
 
   var TO_STRING_TAG_SUPPORT$3 = toStringTagSupport$1;
   var redefine$9 = redefine$d.exports;
-  var toString$d = objectToString$1;
+  var toString$d = objectToString;
 
   // `Object.prototype.toString` method
   // https://tc39.es/ecma262/#sec-object.prototype.tostring
@@ -1660,10 +1660,10 @@
     redefine$9(Object.prototype, 'toString', toString$d, { unsafe: true });
   }
 
-  var classof$6$1 = classof$9;
+  var classof$6 = classof$9;
 
   var toString$c = function (argument) {
-    if (classof$6$1(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
+    if (classof$6(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
     return String(argument);
   };
 
@@ -1686,7 +1686,7 @@
     };
   };
 
-  var stringMultibyte$1 = {
+  var stringMultibyte = {
     // `String.prototype.codePointAt` method
     // https://tc39.es/ecma262/#sec-string.prototype.codepointat
     codeAt: createMethod$2(false),
@@ -1695,20 +1695,20 @@
     charAt: createMethod$2(true)
   };
 
-  var charAt$1 = stringMultibyte$1.charAt;
+  var charAt$1 = stringMultibyte.charAt;
   var toString$a = toString$c;
   var InternalStateModule$5 = internalState$1;
-  var defineIterator$1$1 = defineIterator$3;
+  var defineIterator$1 = defineIterator$3;
 
-  var STRING_ITERATOR$1 = 'String Iterator';
+  var STRING_ITERATOR = 'String Iterator';
   var setInternalState$5 = InternalStateModule$5.set;
-  var getInternalState$4 = InternalStateModule$5.getterFor(STRING_ITERATOR$1);
+  var getInternalState$4 = InternalStateModule$5.getterFor(STRING_ITERATOR);
 
   // `String.prototype[@@iterator]` method
   // https://tc39.es/ecma262/#sec-string.prototype-@@iterator
-  defineIterator$1$1(String, 'String', function (iterated) {
+  defineIterator$1(String, 'String', function (iterated) {
     setInternalState$5(this, {
-      type: STRING_ITERATOR$1,
+      type: STRING_ITERATOR,
       string: toString$a(iterated),
       index: 0
     });
@@ -1862,21 +1862,21 @@
   hiddenKeys$1$1[METADATA] = true;
 
   var wellKnownSymbol$i = wellKnownSymbol$q;
-  var Iterators$1$1 = iterators$1;
+  var Iterators$1 = iterators;
 
-  var ITERATOR$3$1 = wellKnownSymbol$i('iterator');
-  var ArrayPrototype$2 = Array.prototype;
+  var ITERATOR$3 = wellKnownSymbol$i('iterator');
+  var ArrayPrototype = Array.prototype;
 
   // check on default Array iterator
   var isArrayIteratorMethod$2 = function (it) {
-    return it !== undefined && (Iterators$1$1.Array === it || ArrayPrototype$2[ITERATOR$3$1] === it);
+    return it !== undefined && (Iterators$1.Array === it || ArrayPrototype[ITERATOR$3] === it);
   };
 
-  var aCallable$4$1 = aCallable$7;
+  var aCallable$4 = aCallable$7;
 
   // optional / simple context binding
-  var functionBindContext$1 = function (fn, that, length) {
-    aCallable$4$1(fn);
+  var functionBindContext = function (fn, that, length) {
+    aCallable$4(fn);
     if (that === undefined) return fn;
     switch (length) {
       case 0: return function () {
@@ -1897,26 +1897,26 @@
     };
   };
 
-  var classof$5$1 = classof$9;
+  var classof$5 = classof$9;
   var getMethod$5 = getMethod$7;
-  var Iterators$5 = iterators$1;
-  var wellKnownSymbol$h$1 = wellKnownSymbol$q;
+  var Iterators = iterators;
+  var wellKnownSymbol$h = wellKnownSymbol$q;
 
-  var ITERATOR$2$1 = wellKnownSymbol$h$1('iterator');
+  var ITERATOR$2 = wellKnownSymbol$h('iterator');
 
   var getIteratorMethod$3 = function (it) {
-    if (it != undefined) return getMethod$5(it, ITERATOR$2$1)
+    if (it != undefined) return getMethod$5(it, ITERATOR$2)
       || getMethod$5(it, '@@iterator')
-      || Iterators$5[classof$5$1(it)];
+      || Iterators[classof$5(it)];
   };
 
-  var aCallable$3$1 = aCallable$7;
+  var aCallable$3 = aCallable$7;
   var anObject$e = anObject$l;
-  var getIteratorMethod$2$1 = getIteratorMethod$3;
+  var getIteratorMethod$2 = getIteratorMethod$3;
 
   var getIterator$2 = function (argument, usingIterator) {
-    var iteratorMethod = arguments.length < 2 ? getIteratorMethod$2$1(argument) : usingIterator;
-    if (aCallable$3$1(iteratorMethod)) return anObject$e(iteratorMethod.call(argument));
+    var iteratorMethod = arguments.length < 2 ? getIteratorMethod$2(argument) : usingIterator;
+    if (aCallable$3(iteratorMethod)) return anObject$e(iteratorMethod.call(argument));
     throw TypeError(String(argument) + ' is not iterable');
   };
 
@@ -1944,14 +1944,14 @@
   };
 
   var anObject$c = anObject$l;
-  var isArrayIteratorMethod$1$1 = isArrayIteratorMethod$2;
+  var isArrayIteratorMethod$1 = isArrayIteratorMethod$2;
   var lengthOfArrayLike$6 = lengthOfArrayLike$8;
-  var bind$5 = functionBindContext$1;
-  var getIterator$1$1 = getIterator$2;
-  var getIteratorMethod$1$1 = getIteratorMethod$3;
-  var iteratorClose$1$1 = iteratorClose$2;
+  var bind$5 = functionBindContext;
+  var getIterator$1 = getIterator$2;
+  var getIteratorMethod$1 = getIteratorMethod$3;
+  var iteratorClose$1 = iteratorClose$2;
 
-  var Result$1 = function (stopped, result) {
+  var Result = function (stopped, result) {
     this.stopped = stopped;
     this.result = result;
   };
@@ -1965,8 +1965,8 @@
     var iterator, iterFn, index, length, result, next, step;
 
     var stop = function (condition) {
-      if (iterator) iteratorClose$1$1(iterator, 'normal', condition);
-      return new Result$1(true, condition);
+      if (iterator) iteratorClose$1(iterator, 'normal', condition);
+      return new Result(true, condition);
     };
 
     var callFn = function (value) {
@@ -1979,16 +1979,16 @@
     if (IS_ITERATOR) {
       iterator = iterable;
     } else {
-      iterFn = getIteratorMethod$1$1(iterable);
+      iterFn = getIteratorMethod$1(iterable);
       if (!iterFn) throw TypeError(String(iterable) + ' is not iterable');
       // optimisation for array iterators
-      if (isArrayIteratorMethod$1$1(iterFn)) {
+      if (isArrayIteratorMethod$1(iterFn)) {
         for (index = 0, length = lengthOfArrayLike$6(iterable); length > index; index++) {
           result = callFn(iterable[index]);
-          if (result && result instanceof Result$1) return result;
-        } return new Result$1(false);
+          if (result && result instanceof Result) return result;
+        } return new Result(false);
       }
-      iterator = getIterator$1$1(iterable, iterFn);
+      iterator = getIterator$1(iterable, iterFn);
     }
 
     next = iterator.next;
@@ -1996,10 +1996,10 @@
       try {
         result = callFn(step.value);
       } catch (error) {
-        iteratorClose$1$1(iterator, 'throw', error);
+        iteratorClose$1(iterator, 'throw', error);
       }
-      if (typeof result == 'object' && result && result instanceof Result$1) return result;
-    } return new Result$1(false);
+      if (typeof result == 'object' && result && result instanceof Result) return result;
+    } return new Result(false);
   };
 
   var anInstance$4 = function (it, Constructor, name) {
@@ -2007,34 +2007,34 @@
     throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
   };
 
-  var wellKnownSymbol$g$1 = wellKnownSymbol$q;
+  var wellKnownSymbol$g = wellKnownSymbol$q;
 
-  var ITERATOR$1$1 = wellKnownSymbol$g$1('iterator');
-  var SAFE_CLOSING$1 = false;
+  var ITERATOR$1 = wellKnownSymbol$g('iterator');
+  var SAFE_CLOSING = false;
 
   try {
-    var called$1 = 0;
-    var iteratorWithReturn$1 = {
+    var called = 0;
+    var iteratorWithReturn = {
       next: function () {
-        return { done: !!called$1++ };
+        return { done: !!called++ };
       },
       'return': function () {
-        SAFE_CLOSING$1 = true;
+        SAFE_CLOSING = true;
       }
     };
-    iteratorWithReturn$1[ITERATOR$1$1] = function () {
+    iteratorWithReturn[ITERATOR$1] = function () {
       return this;
     };
     // eslint-disable-next-line es/no-array-from, no-throw-literal -- required for testing
-    Array.from(iteratorWithReturn$1, function () { throw 2; });
+    Array.from(iteratorWithReturn, function () { throw 2; });
   } catch (error) { /* empty */ }
 
   var checkCorrectnessOfIteration$3 = function (exec, SKIP_CLOSING) {
-    if (!SKIP_CLOSING && !SAFE_CLOSING$1) return false;
+    if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
     var ITERATION_SUPPORT = false;
     try {
       var object = {};
-      object[ITERATOR$1$1] = function () {
+      object[ITERATOR$1] = function () {
         return {
           next: function () {
             return { done: ITERATION_SUPPORT = true };
@@ -2048,27 +2048,27 @@
 
   var isCallable$8$1 = isCallable$o;
   var isObject$b = isObject$k;
-  var setPrototypeOf$1$1 = objectSetPrototypeOf$1;
+  var setPrototypeOf$1 = objectSetPrototypeOf;
 
   // makes subclassing work correct for wrapped built-ins
   var inheritIfRequired$2 = function ($this, dummy, Wrapper) {
     var NewTarget, NewTargetPrototype;
     if (
       // it can work only with native `setPrototypeOf`
-      setPrototypeOf$1$1 &&
+      setPrototypeOf$1 &&
       // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
       isCallable$8$1(NewTarget = dummy.constructor) &&
       NewTarget !== Wrapper &&
       isObject$b(NewTargetPrototype = NewTarget.prototype) &&
       NewTargetPrototype !== Wrapper.prototype
-    ) setPrototypeOf$1$1($this, NewTargetPrototype);
+    ) setPrototypeOf$1($this, NewTargetPrototype);
     return $this;
   };
 
   var $$o = _export$1;
-  var global$i$1 = global$t;
-  var isForced$2$1 = isForced_1$1;
-  var redefine$7$1 = redefine$d.exports;
+  var global$i = global$t;
+  var isForced$2 = isForced_1$1;
+  var redefine$7 = redefine$d.exports;
   var InternalMetadataModule$1 = internalMetadata.exports;
   var iterate$3 = iterate$4;
   var anInstance$3 = anInstance$4;
@@ -2076,21 +2076,21 @@
   var isObject$a = isObject$k;
   var fails$j = fails$u;
   var checkCorrectnessOfIteration$2 = checkCorrectnessOfIteration$3;
-  var setToStringTag$2$1 = setToStringTag$5;
+  var setToStringTag$2 = setToStringTag$5;
   var inheritIfRequired$1 = inheritIfRequired$2;
 
   var collection$3 = function (CONSTRUCTOR_NAME, wrapper, common) {
     var IS_MAP = CONSTRUCTOR_NAME.indexOf('Map') !== -1;
     var IS_WEAK = CONSTRUCTOR_NAME.indexOf('Weak') !== -1;
     var ADDER = IS_MAP ? 'set' : 'add';
-    var NativeConstructor = global$i$1[CONSTRUCTOR_NAME];
+    var NativeConstructor = global$i[CONSTRUCTOR_NAME];
     var NativePrototype = NativeConstructor && NativeConstructor.prototype;
     var Constructor = NativeConstructor;
     var exported = {};
 
     var fixMethod = function (KEY) {
       var nativeMethod = NativePrototype[KEY];
-      redefine$7$1(NativePrototype, KEY,
+      redefine$7(NativePrototype, KEY,
         KEY == 'add' ? function add(value) {
           nativeMethod.call(this, value === 0 ? 0 : value);
           return this;
@@ -2107,7 +2107,7 @@
       );
     };
 
-    var REPLACE = isForced$2$1(
+    var REPLACE = isForced$2(
       CONSTRUCTOR_NAME,
       !isCallable$7$1(NativeConstructor) || !(IS_WEAK || NativePrototype.forEach && !fails$j(function () {
         new NativeConstructor().entries().next();
@@ -2118,7 +2118,7 @@
       // create collection constructor
       Constructor = common.getConstructor(wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER);
       InternalMetadataModule$1.enable();
-    } else if (isForced$2$1(CONSTRUCTOR_NAME, true)) {
+    } else if (isForced$2(CONSTRUCTOR_NAME, true)) {
       var instance = new Constructor();
       // early implementations not supports chaining
       var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
@@ -2162,28 +2162,28 @@
     exported[CONSTRUCTOR_NAME] = Constructor;
     $$o({ global: true, forced: Constructor != NativeConstructor }, exported);
 
-    setToStringTag$2$1(Constructor, CONSTRUCTOR_NAME);
+    setToStringTag$2(Constructor, CONSTRUCTOR_NAME);
 
     if (!IS_WEAK) common.setStrong(Constructor, CONSTRUCTOR_NAME, IS_MAP);
 
     return Constructor;
   };
 
-  var classof$4$1 = classofRaw$1$1;
+  var classof$4 = classofRaw$1$1;
 
   // `IsArray` abstract operation
   // https://tc39.es/ecma262/#sec-isarray
   // eslint-disable-next-line es/no-array-isarray -- safe
   var isArray$4 = Array.isArray || function isArray(argument) {
-    return classof$4$1(argument) == 'Array';
+    return classof$4(argument) == 'Array';
   };
 
   var isArray$3 = isArray$4;
-  var isConstructor$2$1 = isConstructor$4;
-  var isObject$9$1 = isObject$k;
-  var wellKnownSymbol$f$1 = wellKnownSymbol$q;
+  var isConstructor$2 = isConstructor$4;
+  var isObject$9 = isObject$k;
+  var wellKnownSymbol$f = wellKnownSymbol$q;
 
-  var SPECIES$6 = wellKnownSymbol$f$1('species');
+  var SPECIES$6 = wellKnownSymbol$f('species');
 
   // a part of `ArraySpeciesCreate` abstract operation
   // https://tc39.es/ecma262/#sec-arrayspeciescreate
@@ -2192,8 +2192,8 @@
     if (isArray$3(originalArray)) {
       C = originalArray.constructor;
       // cross-realm fallback
-      if (isConstructor$2$1(C) && (C === Array || isArray$3(C.prototype))) C = undefined;
-      else if (isObject$9$1(C)) {
+      if (isConstructor$2(C) && (C === Array || isArray$3(C.prototype))) C = undefined;
+      else if (isObject$9(C)) {
         C = C[SPECIES$6];
         if (C === null) C = undefined;
       }
@@ -2208,7 +2208,7 @@
     return new (arraySpeciesConstructor$2(originalArray))(length === 0 ? 0 : length);
   };
 
-  var bind$4 = functionBindContext$1;
+  var bind$4 = functionBindContext;
   var IndexedObject$1 = indexedObject$1;
   var toObject$7 = toObject$a;
   var lengthOfArrayLike$5 = lengthOfArrayLike$8;
@@ -2217,7 +2217,7 @@
   var push = [].push;
 
   // `Array.prototype.{ forEach, map, filter, some, every, find, findIndex, filterReject }` methods implementation
-  var createMethod$1$1 = function (TYPE) {
+  var createMethod$1 = function (TYPE) {
     var IS_MAP = TYPE == 1;
     var IS_FILTER = TYPE == 2;
     var IS_SOME = TYPE == 3;
@@ -2257,34 +2257,34 @@
   var arrayIteration = {
     // `Array.prototype.forEach` method
     // https://tc39.es/ecma262/#sec-array.prototype.foreach
-    forEach: createMethod$1$1(0),
+    forEach: createMethod$1(0),
     // `Array.prototype.map` method
     // https://tc39.es/ecma262/#sec-array.prototype.map
-    map: createMethod$1$1(1),
+    map: createMethod$1(1),
     // `Array.prototype.filter` method
     // https://tc39.es/ecma262/#sec-array.prototype.filter
-    filter: createMethod$1$1(2),
+    filter: createMethod$1(2),
     // `Array.prototype.some` method
     // https://tc39.es/ecma262/#sec-array.prototype.some
-    some: createMethod$1$1(3),
+    some: createMethod$1(3),
     // `Array.prototype.every` method
     // https://tc39.es/ecma262/#sec-array.prototype.every
-    every: createMethod$1$1(4),
+    every: createMethod$1(4),
     // `Array.prototype.find` method
     // https://tc39.es/ecma262/#sec-array.prototype.find
-    find: createMethod$1$1(5),
+    find: createMethod$1(5),
     // `Array.prototype.findIndex` method
     // https://tc39.es/ecma262/#sec-array.prototype.findIndex
-    findIndex: createMethod$1$1(6),
+    findIndex: createMethod$1(6),
     // `Array.prototype.filterReject` method
     // https://github.com/tc39/proposal-array-filtering
-    filterReject: createMethod$1$1(7)
+    filterReject: createMethod$1(7)
   };
 
   var redefineAll$3 = redefineAll$4;
   var getWeakData = internalMetadata.exports.getWeakData;
   var anObject$b = anObject$l;
-  var isObject$8$1 = isObject$k;
+  var isObject$8 = isObject$k;
   var anInstance$2 = anInstance$4;
   var iterate$2 = iterate$4;
   var ArrayIterationModule = arrayIteration;
@@ -2362,7 +2362,7 @@
         // https://tc39.es/ecma262/#sec-weakset.prototype.delete
         'delete': function (key) {
           var state = getInternalState(this);
-          if (!isObject$8$1(key)) return false;
+          if (!isObject$8(key)) return false;
           var data = getWeakData(key);
           if (data === true) return uncaughtFrozenStore(state)['delete'](key);
           return data && hasOwn$4$1(data, state.id) && delete data[state.id];
@@ -2372,7 +2372,7 @@
         // https://tc39.es/ecma262/#sec-weakset.prototype.has
         has: function has(key) {
           var state = getInternalState(this);
-          if (!isObject$8$1(key)) return false;
+          if (!isObject$8(key)) return false;
           var data = getWeakData(key);
           if (data === true) return uncaughtFrozenStore(state).has(key);
           return data && hasOwn$4$1(data, state.id);
@@ -2384,7 +2384,7 @@
         // https://tc39.es/ecma262/#sec-weakmap.prototype.get
         get: function get(key) {
           var state = getInternalState(this);
-          if (isObject$8$1(key)) {
+          if (isObject$8(key)) {
             var data = getWeakData(key);
             if (data === true) return uncaughtFrozenStore(state).get(key);
             return data ? data[state.id] : undefined;
@@ -2407,7 +2407,7 @@
     }
   };
 
-  var global$h$1 = global$t;
+  var global$h = global$t;
   var redefineAll$2 = redefineAll$4;
   var InternalMetadataModule = internalMetadata.exports;
   var collection$2 = collection$3;
@@ -2416,7 +2416,7 @@
   var enforceIternalState = internalState$1.enforce;
   var NATIVE_WEAK_MAP$2 = nativeWeakMap$1;
 
-  var IS_IE11 = !global$h$1.ActiveXObject && 'ActiveXObject' in global$h$1;
+  var IS_IE11 = !global$h.ActiveXObject && 'ActiveXObject' in global$h;
   // eslint-disable-next-line es/no-object-isextensible -- safe
   var isExtensible = Object.isExtensible;
   var InternalWeakMap;
@@ -2477,7 +2477,7 @@
 
   // iterable DOM collections
   // flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
-  var domIterables$1 = {
+  var domIterables = {
     CSSRuleList: 0,
     CSSStyleDeclaration: 0,
     CSSValueList: 0,
@@ -2512,51 +2512,51 @@
   };
 
   // in old WebKit versions, `element.classList` is not an instance of global `DOMTokenList`
-  var documentCreateElement$3 = documentCreateElement$2$1;
+  var documentCreateElement$3 = documentCreateElement$2;
 
-  var classList$1 = documentCreateElement$3('span').classList;
-  var DOMTokenListPrototype$2 = classList$1 && classList$1.constructor && classList$1.constructor.prototype;
+  var classList = documentCreateElement$3('span').classList;
+  var DOMTokenListPrototype$2 = classList && classList.constructor && classList.constructor.prototype;
 
-  var domTokenListPrototype$1 = DOMTokenListPrototype$2 === Object.prototype ? undefined : DOMTokenListPrototype$2;
+  var domTokenListPrototype = DOMTokenListPrototype$2 === Object.prototype ? undefined : DOMTokenListPrototype$2;
 
-  var global$g$1 = global$t;
-  var DOMIterables$1 = domIterables$1;
-  var DOMTokenListPrototype$1$1 = domTokenListPrototype$1;
-  var ArrayIteratorMethods$1 = es_array_iterator$1;
+  var global$g = global$t;
+  var DOMIterables$1 = domIterables;
+  var DOMTokenListPrototype$1 = domTokenListPrototype;
+  var ArrayIteratorMethods = es_array_iterator;
   var createNonEnumerableProperty$3$1 = createNonEnumerableProperty$8;
-  var wellKnownSymbol$e$1 = wellKnownSymbol$q;
+  var wellKnownSymbol$e = wellKnownSymbol$q;
 
-  var ITERATOR$6 = wellKnownSymbol$e$1('iterator');
-  var TO_STRING_TAG$4 = wellKnownSymbol$e$1('toStringTag');
-  var ArrayValues$1 = ArrayIteratorMethods$1.values;
+  var ITERATOR = wellKnownSymbol$e('iterator');
+  var TO_STRING_TAG$4 = wellKnownSymbol$e('toStringTag');
+  var ArrayValues = ArrayIteratorMethods.values;
 
   var handlePrototype$1 = function (CollectionPrototype, COLLECTION_NAME) {
     if (CollectionPrototype) {
       // some Chrome versions have non-configurable methods on DOMTokenList
-      if (CollectionPrototype[ITERATOR$6] !== ArrayValues$1) try {
-        createNonEnumerableProperty$3$1(CollectionPrototype, ITERATOR$6, ArrayValues$1);
+      if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
+        createNonEnumerableProperty$3$1(CollectionPrototype, ITERATOR, ArrayValues);
       } catch (error) {
-        CollectionPrototype[ITERATOR$6] = ArrayValues$1;
+        CollectionPrototype[ITERATOR] = ArrayValues;
       }
       if (!CollectionPrototype[TO_STRING_TAG$4]) {
         createNonEnumerableProperty$3$1(CollectionPrototype, TO_STRING_TAG$4, COLLECTION_NAME);
       }
-      if (DOMIterables$1[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods$1) {
+      if (DOMIterables$1[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
         // some Chrome versions have non-configurable methods on DOMTokenList
-        if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods$1[METHOD_NAME]) try {
-          createNonEnumerableProperty$3$1(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods$1[METHOD_NAME]);
+        if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
+          createNonEnumerableProperty$3$1(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
         } catch (error) {
-          CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods$1[METHOD_NAME];
+          CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
         }
       }
     }
   };
 
   for (var COLLECTION_NAME$1 in DOMIterables$1) {
-    handlePrototype$1(global$g$1[COLLECTION_NAME$1] && global$g$1[COLLECTION_NAME$1].prototype, COLLECTION_NAME$1);
+    handlePrototype$1(global$g[COLLECTION_NAME$1] && global$g[COLLECTION_NAME$1].prototype, COLLECTION_NAME$1);
   }
 
-  handlePrototype$1(DOMTokenListPrototype$1$1, 'DOMTokenList');
+  handlePrototype$1(DOMTokenListPrototype$1, 'DOMTokenList');
 
   function _isNativeFunction(fn) {
     return Function.toString.call(fn).indexOf("[native code]") !== -1;
@@ -2684,10 +2684,10 @@
   };
 
   var fails$i = fails$u;
-  var wellKnownSymbol$d$1 = wellKnownSymbol$q;
+  var wellKnownSymbol$d = wellKnownSymbol$q;
   var V8_VERSION$2$1 = engineV8Version$1;
 
-  var SPECIES$5 = wellKnownSymbol$d$1('species');
+  var SPECIES$5 = wellKnownSymbol$d('species');
 
   var arrayMethodHasSpeciesSupport$5 = function (METHOD_NAME) {
     // We can't use this feature detection in V8 since it causes
@@ -2712,10 +2712,10 @@
   var createProperty$4 = createProperty$5;
   var arraySpeciesCreate$1$1 = arraySpeciesCreate$3;
   var arrayMethodHasSpeciesSupport$4 = arrayMethodHasSpeciesSupport$5;
-  var wellKnownSymbol$c$1 = wellKnownSymbol$q;
+  var wellKnownSymbol$c = wellKnownSymbol$q;
   var V8_VERSION$1$1 = engineV8Version$1;
 
-  var IS_CONCAT_SPREADABLE$1 = wellKnownSymbol$c$1('isConcatSpreadable');
+  var IS_CONCAT_SPREADABLE$1 = wellKnownSymbol$c('isConcatSpreadable');
   var MAX_SAFE_INTEGER$1 = 0x1FFFFFFFFFFFFF;
   var MAXIMUM_ALLOWED_INDEX_EXCEEDED$1 = 'Maximum allowed index exceeded';
 
@@ -2764,12 +2764,12 @@
     }
   });
 
-  var anObject$a$1 = anObject$l;
+  var anObject$a = anObject$l;
 
   // `RegExp.prototype.flags` getter implementation
   // https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
   var regexpFlags$1 = function () {
-    var that = anObject$a$1(this);
+    var that = anObject$a(this);
     var result = '';
     if (that.global) result += 'g';
     if (that.ignoreCase) result += 'i';
@@ -2781,8 +2781,8 @@
   };
 
   var PROPER_FUNCTION_NAME$1 = functionName$1.PROPER;
-  var redefine$6$1 = redefine$d.exports;
-  var anObject$9$1 = anObject$l;
+  var redefine$6 = redefine$d.exports;
+  var anObject$9 = anObject$l;
   var $toString$1 = toString$c;
   var fails$g = fails$u;
   var flags = regexpFlags$1;
@@ -2798,8 +2798,8 @@
   // `RegExp.prototype.toString` method
   // https://tc39.es/ecma262/#sec-regexp.prototype.tostring
   if (NOT_GENERIC || INCORRECT_NAME) {
-    redefine$6$1(RegExp.prototype, TO_STRING, function toString() {
-      var R = anObject$9$1(this);
+    redefine$6(RegExp.prototype, TO_STRING, function toString() {
+      var R = anObject$9(this);
       var p = $toString$1(R.source);
       var rf = R.flags;
       var f = $toString$1(rf === undefined && R instanceof RegExp && !('flags' in RegExpPrototype$3) ? flags.call(R) : rf);
@@ -2807,235 +2807,235 @@
     }, { unsafe: true });
   }
 
-  var global$f$1 = global$t;
+  var global$f = global$t;
 
-  var nativePromiseConstructor$1 = global$f$1.Promise;
+  var nativePromiseConstructor = global$f.Promise;
 
   var getBuiltIn$3$1 = getBuiltIn$a;
   var definePropertyModule$1$1 = objectDefineProperty$1;
-  var wellKnownSymbol$b$1 = wellKnownSymbol$q;
+  var wellKnownSymbol$b = wellKnownSymbol$q;
   var DESCRIPTORS$7 = descriptors$1;
 
-  var SPECIES$4$1 = wellKnownSymbol$b$1('species');
+  var SPECIES$4 = wellKnownSymbol$b('species');
 
   var setSpecies$3 = function (CONSTRUCTOR_NAME) {
     var Constructor = getBuiltIn$3$1(CONSTRUCTOR_NAME);
     var defineProperty = definePropertyModule$1$1.f;
 
-    if (DESCRIPTORS$7 && Constructor && !Constructor[SPECIES$4$1]) {
-      defineProperty(Constructor, SPECIES$4$1, {
+    if (DESCRIPTORS$7 && Constructor && !Constructor[SPECIES$4]) {
+      defineProperty(Constructor, SPECIES$4, {
         configurable: true,
         get: function () { return this; }
       });
     }
   };
 
-  var anObject$8$1 = anObject$l;
-  var aConstructor$3 = aConstructor$2;
-  var wellKnownSymbol$a$1 = wellKnownSymbol$q;
+  var anObject$8 = anObject$l;
+  var aConstructor = aConstructor$2;
+  var wellKnownSymbol$a = wellKnownSymbol$q;
 
-  var SPECIES$3$1 = wellKnownSymbol$a$1('species');
+  var SPECIES$3 = wellKnownSymbol$a('species');
 
   // `SpeciesConstructor` abstract operation
   // https://tc39.es/ecma262/#sec-speciesconstructor
   var speciesConstructor$4 = function (O, defaultConstructor) {
-    var C = anObject$8$1(O).constructor;
+    var C = anObject$8(O).constructor;
     var S;
-    return C === undefined || (S = anObject$8$1(C)[SPECIES$3$1]) == undefined ? defaultConstructor : aConstructor$3(S);
+    return C === undefined || (S = anObject$8(C)[SPECIES$3]) == undefined ? defaultConstructor : aConstructor(S);
   };
 
   var userAgent$4 = engineUserAgent$1;
 
-  var engineIsIos$1 = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent$4);
+  var engineIsIos = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent$4);
 
   var classof$3$1 = classofRaw$1$1;
-  var global$e$1 = global$t;
+  var global$e = global$t;
 
-  var engineIsNode$1 = classof$3$1(global$e$1.process) == 'process';
+  var engineIsNode = classof$3$1(global$e.process) == 'process';
 
-  var global$d$1 = global$t;
+  var global$d = global$t;
   var isCallable$6$1 = isCallable$o;
   var fails$f = fails$u;
-  var bind$3 = functionBindContext$1;
-  var html$3 = html$2$1;
-  var createElement$2 = documentCreateElement$2$1;
-  var IS_IOS$1$1 = engineIsIos$1;
-  var IS_NODE$2$1 = engineIsNode$1;
+  var bind$3 = functionBindContext;
+  var html = html$2;
+  var createElement$2 = documentCreateElement$2;
+  var IS_IOS$1 = engineIsIos;
+  var IS_NODE$2 = engineIsNode;
 
-  var set$2 = global$d$1.setImmediate;
-  var clear$1 = global$d$1.clearImmediate;
-  var process$2$1 = global$d$1.process;
-  var MessageChannel$1 = global$d$1.MessageChannel;
-  var Dispatch$1 = global$d$1.Dispatch;
-  var counter$1 = 0;
-  var queue$1 = {};
-  var ONREADYSTATECHANGE$1 = 'onreadystatechange';
-  var location$1, defer$1, channel$1, port$1;
+  var set$2 = global$d.setImmediate;
+  var clear = global$d.clearImmediate;
+  var process$2 = global$d.process;
+  var MessageChannel = global$d.MessageChannel;
+  var Dispatch = global$d.Dispatch;
+  var counter = 0;
+  var queue = {};
+  var ONREADYSTATECHANGE = 'onreadystatechange';
+  var location, defer, channel, port;
 
   try {
     // Deno throws a ReferenceError on `location` access without `--location` flag
-    location$1 = global$d$1.location;
+    location = global$d.location;
   } catch (error) { /* empty */ }
 
-  var run$1 = function (id) {
+  var run = function (id) {
     // eslint-disable-next-line no-prototype-builtins -- safe
-    if (queue$1.hasOwnProperty(id)) {
-      var fn = queue$1[id];
-      delete queue$1[id];
+    if (queue.hasOwnProperty(id)) {
+      var fn = queue[id];
+      delete queue[id];
       fn();
     }
   };
 
-  var runner$1 = function (id) {
+  var runner = function (id) {
     return function () {
-      run$1(id);
+      run(id);
     };
   };
 
-  var listener$1 = function (event) {
-    run$1(event.data);
+  var listener = function (event) {
+    run(event.data);
   };
 
-  var post$1 = function (id) {
+  var post = function (id) {
     // old engines have not location.origin
-    global$d$1.postMessage(String(id), location$1.protocol + '//' + location$1.host);
+    global$d.postMessage(String(id), location.protocol + '//' + location.host);
   };
 
   // Node.js 0.9+ & IE10+ has setImmediate, otherwise:
-  if (!set$2 || !clear$1) {
+  if (!set$2 || !clear) {
     set$2 = function setImmediate(fn) {
       var args = [];
       var argumentsLength = arguments.length;
       var i = 1;
       while (argumentsLength > i) args.push(arguments[i++]);
-      queue$1[++counter$1] = function () {
+      queue[++counter] = function () {
         // eslint-disable-next-line no-new-func -- spec requirement
         (isCallable$6$1(fn) ? fn : Function(fn)).apply(undefined, args);
       };
-      defer$1(counter$1);
-      return counter$1;
+      defer(counter);
+      return counter;
     };
-    clear$1 = function clearImmediate(id) {
-      delete queue$1[id];
+    clear = function clearImmediate(id) {
+      delete queue[id];
     };
     // Node.js 0.8-
-    if (IS_NODE$2$1) {
-      defer$1 = function (id) {
-        process$2$1.nextTick(runner$1(id));
+    if (IS_NODE$2) {
+      defer = function (id) {
+        process$2.nextTick(runner(id));
       };
     // Sphere (JS game engine) Dispatch API
-    } else if (Dispatch$1 && Dispatch$1.now) {
-      defer$1 = function (id) {
-        Dispatch$1.now(runner$1(id));
+    } else if (Dispatch && Dispatch.now) {
+      defer = function (id) {
+        Dispatch.now(runner(id));
       };
     // Browsers with MessageChannel, includes WebWorkers
     // except iOS - https://github.com/zloirock/core-js/issues/624
-    } else if (MessageChannel$1 && !IS_IOS$1$1) {
-      channel$1 = new MessageChannel$1();
-      port$1 = channel$1.port2;
-      channel$1.port1.onmessage = listener$1;
-      defer$1 = bind$3(port$1.postMessage, port$1, 1);
+    } else if (MessageChannel && !IS_IOS$1) {
+      channel = new MessageChannel();
+      port = channel.port2;
+      channel.port1.onmessage = listener;
+      defer = bind$3(port.postMessage, port, 1);
     // Browsers with postMessage, skip WebWorkers
     // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
     } else if (
-      global$d$1.addEventListener &&
-      isCallable$6$1(global$d$1.postMessage) &&
-      !global$d$1.importScripts &&
-      location$1 && location$1.protocol !== 'file:' &&
-      !fails$f(post$1)
+      global$d.addEventListener &&
+      isCallable$6$1(global$d.postMessage) &&
+      !global$d.importScripts &&
+      location && location.protocol !== 'file:' &&
+      !fails$f(post)
     ) {
-      defer$1 = post$1;
-      global$d$1.addEventListener('message', listener$1, false);
+      defer = post;
+      global$d.addEventListener('message', listener, false);
     // IE8-
-    } else if (ONREADYSTATECHANGE$1 in createElement$2('script')) {
-      defer$1 = function (id) {
-        html$3.appendChild(createElement$2('script'))[ONREADYSTATECHANGE$1] = function () {
-          html$3.removeChild(this);
-          run$1(id);
+    } else if (ONREADYSTATECHANGE in createElement$2('script')) {
+      defer = function (id) {
+        html.appendChild(createElement$2('script'))[ONREADYSTATECHANGE] = function () {
+          html.removeChild(this);
+          run(id);
         };
       };
     // Rest old browsers
     } else {
-      defer$1 = function (id) {
-        setTimeout(runner$1(id), 0);
+      defer = function (id) {
+        setTimeout(runner(id), 0);
       };
     }
   }
 
-  var task$1$1 = {
+  var task$1 = {
     set: set$2,
-    clear: clear$1
+    clear: clear
   };
 
-  var userAgent$3$1 = engineUserAgent$1;
-  var global$c$1 = global$t;
+  var userAgent$3 = engineUserAgent$1;
+  var global$c = global$t;
 
-  var engineIsIosPebble$1 = /ipad|iphone|ipod/i.test(userAgent$3$1) && global$c$1.Pebble !== undefined;
+  var engineIsIosPebble = /ipad|iphone|ipod/i.test(userAgent$3) && global$c.Pebble !== undefined;
 
-  var userAgent$2$1 = engineUserAgent$1;
+  var userAgent$2 = engineUserAgent$1;
 
-  var engineIsWebosWebkit$1 = /web0s(?!.*chrome)/i.test(userAgent$2$1);
+  var engineIsWebosWebkit = /web0s(?!.*chrome)/i.test(userAgent$2);
 
   var global$b$1 = global$t;
   var getOwnPropertyDescriptor$3 = objectGetOwnPropertyDescriptor$1.f;
-  var macrotask$1 = task$1$1.set;
-  var IS_IOS$2 = engineIsIos$1;
-  var IS_IOS_PEBBLE$1 = engineIsIosPebble$1;
-  var IS_WEBOS_WEBKIT$1 = engineIsWebosWebkit$1;
-  var IS_NODE$1$1 = engineIsNode$1;
+  var macrotask = task$1.set;
+  var IS_IOS = engineIsIos;
+  var IS_IOS_PEBBLE = engineIsIosPebble;
+  var IS_WEBOS_WEBKIT = engineIsWebosWebkit;
+  var IS_NODE$1 = engineIsNode;
 
-  var MutationObserver$1 = global$b$1.MutationObserver || global$b$1.WebKitMutationObserver;
-  var document$2$1 = global$b$1.document;
-  var process$1$1 = global$b$1.process;
-  var Promise$1$1 = global$b$1.Promise;
+  var MutationObserver = global$b$1.MutationObserver || global$b$1.WebKitMutationObserver;
+  var document$2 = global$b$1.document;
+  var process$1 = global$b$1.process;
+  var Promise$1 = global$b$1.Promise;
   // Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
-  var queueMicrotaskDescriptor$1 = getOwnPropertyDescriptor$3(global$b$1, 'queueMicrotask');
-  var queueMicrotask$1 = queueMicrotaskDescriptor$1 && queueMicrotaskDescriptor$1.value;
+  var queueMicrotaskDescriptor = getOwnPropertyDescriptor$3(global$b$1, 'queueMicrotask');
+  var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
 
-  var flush$1, head$1, last$1, notify$1$1, toggle$1, node$1, promise$1, then$1;
+  var flush, head, last, notify$1, toggle, node, promise, then;
 
   // modern engines have queueMicrotask method
-  if (!queueMicrotask$1) {
-    flush$1 = function () {
+  if (!queueMicrotask) {
+    flush = function () {
       var parent, fn;
-      if (IS_NODE$1$1 && (parent = process$1$1.domain)) parent.exit();
-      while (head$1) {
-        fn = head$1.fn;
-        head$1 = head$1.next;
+      if (IS_NODE$1 && (parent = process$1.domain)) parent.exit();
+      while (head) {
+        fn = head.fn;
+        head = head.next;
         try {
           fn();
         } catch (error) {
-          if (head$1) notify$1$1();
-          else last$1 = undefined;
+          if (head) notify$1();
+          else last = undefined;
           throw error;
         }
-      } last$1 = undefined;
+      } last = undefined;
       if (parent) parent.enter();
     };
 
     // browsers with MutationObserver, except iOS - https://github.com/zloirock/core-js/issues/339
     // also except WebOS Webkit https://github.com/zloirock/core-js/issues/898
-    if (!IS_IOS$2 && !IS_NODE$1$1 && !IS_WEBOS_WEBKIT$1 && MutationObserver$1 && document$2$1) {
-      toggle$1 = true;
-      node$1 = document$2$1.createTextNode('');
-      new MutationObserver$1(flush$1).observe(node$1, { characterData: true });
-      notify$1$1 = function () {
-        node$1.data = toggle$1 = !toggle$1;
+    if (!IS_IOS && !IS_NODE$1 && !IS_WEBOS_WEBKIT && MutationObserver && document$2) {
+      toggle = true;
+      node = document$2.createTextNode('');
+      new MutationObserver(flush).observe(node, { characterData: true });
+      notify$1 = function () {
+        node.data = toggle = !toggle;
       };
     // environments with maybe non-completely correct, but existent Promise
-    } else if (!IS_IOS_PEBBLE$1 && Promise$1$1 && Promise$1$1.resolve) {
+    } else if (!IS_IOS_PEBBLE && Promise$1 && Promise$1.resolve) {
       // Promise.resolve without an argument throws an error in LG WebOS 2
-      promise$1 = Promise$1$1.resolve(undefined);
+      promise = Promise$1.resolve(undefined);
       // workaround of WebKit ~ iOS Safari 10.1 bug
-      promise$1.constructor = Promise$1$1;
-      then$1 = promise$1.then;
-      notify$1$1 = function () {
-        then$1.call(promise$1, flush$1);
+      promise.constructor = Promise$1;
+      then = promise.then;
+      notify$1 = function () {
+        then.call(promise, flush);
       };
     // Node.js without promises
-    } else if (IS_NODE$1$1) {
-      notify$1$1 = function () {
-        process$1$1.nextTick(flush$1);
+    } else if (IS_NODE$1) {
+      notify$1 = function () {
+        process$1.nextTick(flush);
       };
     // for other environments - macrotask based on:
     // - setImmediate
@@ -3044,51 +3044,51 @@
     // - onreadystatechange
     // - setTimeout
     } else {
-      notify$1$1 = function () {
+      notify$1 = function () {
         // strange IE + webpack dev server bug - use .call(global)
-        macrotask$1.call(global$b$1, flush$1);
+        macrotask.call(global$b$1, flush);
       };
     }
   }
 
-  var microtask$1$1 = queueMicrotask$1 || function (fn) {
+  var microtask$1 = queueMicrotask || function (fn) {
     var task = { fn: fn, next: undefined };
-    if (last$1) last$1.next = task;
-    if (!head$1) {
-      head$1 = task;
-      notify$1$1();
-    } last$1 = task;
+    if (last) last.next = task;
+    if (!head) {
+      head = task;
+      notify$1();
+    } last = task;
   };
 
-  var newPromiseCapability$2$1 = {};
+  var newPromiseCapability$2 = {};
 
-  var aCallable$2$1 = aCallable$7;
+  var aCallable$2 = aCallable$7;
 
-  var PromiseCapability$1 = function (C) {
+  var PromiseCapability = function (C) {
     var resolve, reject;
     this.promise = new C(function ($$resolve, $$reject) {
       if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
       resolve = $$resolve;
       reject = $$reject;
     });
-    this.resolve = aCallable$2$1(resolve);
-    this.reject = aCallable$2$1(reject);
+    this.resolve = aCallable$2(resolve);
+    this.reject = aCallable$2(reject);
   };
 
   // `NewPromiseCapability` abstract operation
   // https://tc39.es/ecma262/#sec-newpromisecapability
-  newPromiseCapability$2$1.f = function (C) {
-    return new PromiseCapability$1(C);
+  newPromiseCapability$2.f = function (C) {
+    return new PromiseCapability(C);
   };
 
-  var anObject$7$1 = anObject$l;
+  var anObject$7 = anObject$l;
   var isObject$5$1 = isObject$k;
-  var newPromiseCapability$1$1 = newPromiseCapability$2$1;
+  var newPromiseCapability$1 = newPromiseCapability$2;
 
-  var promiseResolve$2$1 = function (C, x) {
-    anObject$7$1(C);
+  var promiseResolve$2 = function (C, x) {
+    anObject$7(C);
     if (isObject$5$1(x) && x.constructor === C) return x;
-    var promiseCapability = newPromiseCapability$1$1.f(C);
+    var promiseCapability = newPromiseCapability$1.f(C);
     var resolve = promiseCapability.resolve;
     resolve(x);
     return promiseCapability.promise;
@@ -3096,14 +3096,14 @@
 
   var global$a$1 = global$t;
 
-  var hostReportErrors$1$1 = function (a, b) {
+  var hostReportErrors$1 = function (a, b) {
     var console = global$a$1.console;
     if (console && console.error) {
       arguments.length === 1 ? console.error(a) : console.error(a, b);
     }
   };
 
-  var perform$1$1 = function (exec) {
+  var perform$1 = function (exec) {
     try {
       return { error: false, value: exec() };
     } catch (error) {
@@ -3111,66 +3111,66 @@
     }
   };
 
-  var engineIsBrowser$1 = typeof window == 'object';
+  var engineIsBrowser = typeof window == 'object';
 
   var $$m = _export$1;
   var global$9$1 = global$t;
   var getBuiltIn$2$1 = getBuiltIn$a;
-  var NativePromise$1$1 = nativePromiseConstructor$1;
-  var redefine$5$1 = redefine$d.exports;
-  var redefineAll$1$1 = redefineAll$4;
-  var setPrototypeOf$3 = objectSetPrototypeOf$1;
-  var setToStringTag$1$1 = setToStringTag$5;
+  var NativePromise$1 = nativePromiseConstructor;
+  var redefine$5 = redefine$d.exports;
+  var redefineAll$1 = redefineAll$4;
+  var setPrototypeOf = objectSetPrototypeOf;
+  var setToStringTag$1 = setToStringTag$5;
   var setSpecies$2 = setSpecies$3;
   var aCallable$1$1 = aCallable$7;
   var isCallable$5$1 = isCallable$o;
   var isObject$4$1 = isObject$k;
-  var anInstance$1$1 = anInstance$4;
-  var inspectSource$5 = inspectSource$4$1;
-  var iterate$1$1 = iterate$4;
-  var checkCorrectnessOfIteration$1$1 = checkCorrectnessOfIteration$3;
+  var anInstance$1 = anInstance$4;
+  var inspectSource$5 = inspectSource$4;
+  var iterate$1 = iterate$4;
+  var checkCorrectnessOfIteration$1 = checkCorrectnessOfIteration$3;
   var speciesConstructor$3 = speciesConstructor$4;
-  var task$2 = task$1$1.set;
-  var microtask$2 = microtask$1$1;
-  var promiseResolve$1$1 = promiseResolve$2$1;
-  var hostReportErrors$2 = hostReportErrors$1$1;
-  var newPromiseCapabilityModule$1 = newPromiseCapability$2$1;
-  var perform$2 = perform$1$1;
-  var InternalStateModule$3$1 = internalState$1;
+  var task = task$1.set;
+  var microtask = microtask$1;
+  var promiseResolve$1 = promiseResolve$2;
+  var hostReportErrors = hostReportErrors$1;
+  var newPromiseCapabilityModule = newPromiseCapability$2;
+  var perform = perform$1;
+  var InternalStateModule$3 = internalState$1;
   var isForced$1$1 = isForced_1$1;
-  var wellKnownSymbol$9$1 = wellKnownSymbol$q;
-  var IS_BROWSER$1 = engineIsBrowser$1;
-  var IS_NODE$3 = engineIsNode$1;
+  var wellKnownSymbol$9 = wellKnownSymbol$q;
+  var IS_BROWSER = engineIsBrowser;
+  var IS_NODE = engineIsNode;
   var V8_VERSION$4 = engineV8Version$1;
 
-  var SPECIES$2$1 = wellKnownSymbol$9$1('species');
-  var PROMISE$1 = 'Promise';
-  var getInternalState$3$1 = InternalStateModule$3$1.get;
-  var setInternalState$3 = InternalStateModule$3$1.set;
-  var getInternalPromiseState$1 = InternalStateModule$3$1.getterFor(PROMISE$1);
-  var NativePromisePrototype$1 = NativePromise$1$1 && NativePromise$1$1.prototype;
-  var PromiseConstructor$1 = NativePromise$1$1;
-  var PromiseConstructorPrototype$1 = NativePromisePrototype$1;
-  var TypeError$1$1 = global$9$1.TypeError;
+  var SPECIES$2 = wellKnownSymbol$9('species');
+  var PROMISE = 'Promise';
+  var getInternalState$3 = InternalStateModule$3.get;
+  var setInternalState$3 = InternalStateModule$3.set;
+  var getInternalPromiseState = InternalStateModule$3.getterFor(PROMISE);
+  var NativePromisePrototype = NativePromise$1 && NativePromise$1.prototype;
+  var PromiseConstructor = NativePromise$1;
+  var PromiseConstructorPrototype = NativePromisePrototype;
+  var TypeError$1 = global$9$1.TypeError;
   var document$1$1 = global$9$1.document;
   var process$4 = global$9$1.process;
-  var newPromiseCapability$3 = newPromiseCapabilityModule$1.f;
-  var newGenericPromiseCapability$1 = newPromiseCapability$3;
-  var DISPATCH_EVENT$1 = !!(document$1$1 && document$1$1.createEvent && global$9$1.dispatchEvent);
-  var NATIVE_REJECTION_EVENT$1 = isCallable$5$1(global$9$1.PromiseRejectionEvent);
-  var UNHANDLED_REJECTION$1 = 'unhandledrejection';
-  var REJECTION_HANDLED$1 = 'rejectionhandled';
-  var PENDING$1 = 0;
-  var FULFILLED$1 = 1;
-  var REJECTED$1 = 2;
-  var HANDLED$1 = 1;
-  var UNHANDLED$1 = 2;
-  var SUBCLASSING$1 = false;
-  var Internal$1, OwnPromiseCapability$1, PromiseWrapper$1, nativeThen$1;
+  var newPromiseCapability = newPromiseCapabilityModule.f;
+  var newGenericPromiseCapability = newPromiseCapability;
+  var DISPATCH_EVENT = !!(document$1$1 && document$1$1.createEvent && global$9$1.dispatchEvent);
+  var NATIVE_REJECTION_EVENT = isCallable$5$1(global$9$1.PromiseRejectionEvent);
+  var UNHANDLED_REJECTION = 'unhandledrejection';
+  var REJECTION_HANDLED = 'rejectionhandled';
+  var PENDING = 0;
+  var FULFILLED = 1;
+  var REJECTED = 2;
+  var HANDLED = 1;
+  var UNHANDLED = 2;
+  var SUBCLASSING = false;
+  var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen;
 
-  var FORCED$3 = isForced$1$1(PROMISE$1, function () {
-    var PROMISE_CONSTRUCTOR_SOURCE = inspectSource$5(PromiseConstructor$1);
-    var GLOBAL_CORE_JS_PROMISE = PROMISE_CONSTRUCTOR_SOURCE !== String(PromiseConstructor$1);
+  var FORCED$3 = isForced$1$1(PROMISE, function () {
+    var PROMISE_CONSTRUCTOR_SOURCE = inspectSource$5(PromiseConstructor);
+    var GLOBAL_CORE_JS_PROMISE = PROMISE_CONSTRUCTOR_SOURCE !== String(PromiseConstructor);
     // V8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
     // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
     // We can't detect it synchronously, so just check versions
@@ -3180,35 +3180,35 @@
     // https://github.com/zloirock/core-js/issues/679
     if (V8_VERSION$4 >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return false;
     // Detect correctness of subclassing with @@species support
-    var promise = new PromiseConstructor$1(function (resolve) { resolve(1); });
+    var promise = new PromiseConstructor(function (resolve) { resolve(1); });
     var FakePromise = function (exec) {
       exec(function () { /* empty */ }, function () { /* empty */ });
     };
     var constructor = promise.constructor = {};
-    constructor[SPECIES$2$1] = FakePromise;
-    SUBCLASSING$1 = promise.then(function () { /* empty */ }) instanceof FakePromise;
-    if (!SUBCLASSING$1) return true;
+    constructor[SPECIES$2] = FakePromise;
+    SUBCLASSING = promise.then(function () { /* empty */ }) instanceof FakePromise;
+    if (!SUBCLASSING) return true;
     // Unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-    return !GLOBAL_CORE_JS_PROMISE && IS_BROWSER$1 && !NATIVE_REJECTION_EVENT$1;
+    return !GLOBAL_CORE_JS_PROMISE && IS_BROWSER && !NATIVE_REJECTION_EVENT;
   });
 
-  var INCORRECT_ITERATION$1 = FORCED$3 || !checkCorrectnessOfIteration$1$1(function (iterable) {
-    PromiseConstructor$1.all(iterable)['catch'](function () { /* empty */ });
+  var INCORRECT_ITERATION$1 = FORCED$3 || !checkCorrectnessOfIteration$1(function (iterable) {
+    PromiseConstructor.all(iterable)['catch'](function () { /* empty */ });
   });
 
   // helpers
-  var isThenable$1 = function (it) {
+  var isThenable = function (it) {
     var then;
     return isObject$4$1(it) && isCallable$5$1(then = it.then) ? then : false;
   };
 
-  var notify$2 = function (state, isReject) {
+  var notify = function (state, isReject) {
     if (state.notified) return;
     state.notified = true;
     var chain = state.reactions;
-    microtask$2(function () {
+    microtask(function () {
       var value = state.value;
-      var ok = state.state == FULFILLED$1;
+      var ok = state.state == FULFILLED;
       var index = 0;
       // variable length - can't use forEach
       while (chain.length > index) {
@@ -3221,8 +3221,8 @@
         try {
           if (handler) {
             if (!ok) {
-              if (state.rejection === UNHANDLED$1) onHandleUnhandled$1(state);
-              state.rejection = HANDLED$1;
+              if (state.rejection === UNHANDLED) onHandleUnhandled(state);
+              state.rejection = HANDLED;
             }
             if (handler === true) result = value;
             else {
@@ -3234,8 +3234,8 @@
               }
             }
             if (result === reaction.promise) {
-              reject(TypeError$1$1('Promise-chain cycle'));
-            } else if (then = isThenable$1(result)) {
+              reject(TypeError$1('Promise-chain cycle'));
+            } else if (then = isThenable(result)) {
               then.call(result, resolve, reject);
             } else resolve(result);
           } else reject(value);
@@ -3246,139 +3246,139 @@
       }
       state.reactions = [];
       state.notified = false;
-      if (isReject && !state.rejection) onUnhandled$1(state);
+      if (isReject && !state.rejection) onUnhandled(state);
     });
   };
 
-  var dispatchEvent$1 = function (name, promise, reason) {
+  var dispatchEvent = function (name, promise, reason) {
     var event, handler;
-    if (DISPATCH_EVENT$1) {
+    if (DISPATCH_EVENT) {
       event = document$1$1.createEvent('Event');
       event.promise = promise;
       event.reason = reason;
       event.initEvent(name, false, true);
       global$9$1.dispatchEvent(event);
     } else event = { promise: promise, reason: reason };
-    if (!NATIVE_REJECTION_EVENT$1 && (handler = global$9$1['on' + name])) handler(event);
-    else if (name === UNHANDLED_REJECTION$1) hostReportErrors$2('Unhandled promise rejection', reason);
+    if (!NATIVE_REJECTION_EVENT && (handler = global$9$1['on' + name])) handler(event);
+    else if (name === UNHANDLED_REJECTION) hostReportErrors('Unhandled promise rejection', reason);
   };
 
-  var onUnhandled$1 = function (state) {
-    task$2.call(global$9$1, function () {
+  var onUnhandled = function (state) {
+    task.call(global$9$1, function () {
       var promise = state.facade;
       var value = state.value;
-      var IS_UNHANDLED = isUnhandled$1(state);
+      var IS_UNHANDLED = isUnhandled(state);
       var result;
       if (IS_UNHANDLED) {
-        result = perform$2(function () {
-          if (IS_NODE$3) {
+        result = perform(function () {
+          if (IS_NODE) {
             process$4.emit('unhandledRejection', value, promise);
-          } else dispatchEvent$1(UNHANDLED_REJECTION$1, promise, value);
+          } else dispatchEvent(UNHANDLED_REJECTION, promise, value);
         });
         // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
-        state.rejection = IS_NODE$3 || isUnhandled$1(state) ? UNHANDLED$1 : HANDLED$1;
+        state.rejection = IS_NODE || isUnhandled(state) ? UNHANDLED : HANDLED;
         if (result.error) throw result.value;
       }
     });
   };
 
-  var isUnhandled$1 = function (state) {
-    return state.rejection !== HANDLED$1 && !state.parent;
+  var isUnhandled = function (state) {
+    return state.rejection !== HANDLED && !state.parent;
   };
 
-  var onHandleUnhandled$1 = function (state) {
-    task$2.call(global$9$1, function () {
+  var onHandleUnhandled = function (state) {
+    task.call(global$9$1, function () {
       var promise = state.facade;
-      if (IS_NODE$3) {
+      if (IS_NODE) {
         process$4.emit('rejectionHandled', promise);
-      } else dispatchEvent$1(REJECTION_HANDLED$1, promise, state.value);
+      } else dispatchEvent(REJECTION_HANDLED, promise, state.value);
     });
   };
 
-  var bind$2$1 = function (fn, state, unwrap) {
+  var bind$2 = function (fn, state, unwrap) {
     return function (value) {
       fn(state, value, unwrap);
     };
   };
 
-  var internalReject$1 = function (state, value, unwrap) {
+  var internalReject = function (state, value, unwrap) {
     if (state.done) return;
     state.done = true;
     if (unwrap) state = unwrap;
     state.value = value;
-    state.state = REJECTED$1;
-    notify$2(state, true);
+    state.state = REJECTED;
+    notify(state, true);
   };
 
-  var internalResolve$1 = function (state, value, unwrap) {
+  var internalResolve = function (state, value, unwrap) {
     if (state.done) return;
     state.done = true;
     if (unwrap) state = unwrap;
     try {
-      if (state.facade === value) throw TypeError$1$1("Promise can't be resolved itself");
-      var then = isThenable$1(value);
+      if (state.facade === value) throw TypeError$1("Promise can't be resolved itself");
+      var then = isThenable(value);
       if (then) {
-        microtask$2(function () {
+        microtask(function () {
           var wrapper = { done: false };
           try {
             then.call(value,
-              bind$2$1(internalResolve$1, wrapper, state),
-              bind$2$1(internalReject$1, wrapper, state)
+              bind$2(internalResolve, wrapper, state),
+              bind$2(internalReject, wrapper, state)
             );
           } catch (error) {
-            internalReject$1(wrapper, error, state);
+            internalReject(wrapper, error, state);
           }
         });
       } else {
         state.value = value;
-        state.state = FULFILLED$1;
-        notify$2(state, false);
+        state.state = FULFILLED;
+        notify(state, false);
       }
     } catch (error) {
-      internalReject$1({ done: false }, error, state);
+      internalReject({ done: false }, error, state);
     }
   };
 
   // constructor polyfill
   if (FORCED$3) {
     // 25.4.3.1 Promise(executor)
-    PromiseConstructor$1 = function Promise(executor) {
-      anInstance$1$1(this, PromiseConstructor$1, PROMISE$1);
+    PromiseConstructor = function Promise(executor) {
+      anInstance$1(this, PromiseConstructor, PROMISE);
       aCallable$1$1(executor);
-      Internal$1.call(this);
-      var state = getInternalState$3$1(this);
+      Internal.call(this);
+      var state = getInternalState$3(this);
       try {
-        executor(bind$2$1(internalResolve$1, state), bind$2$1(internalReject$1, state));
+        executor(bind$2(internalResolve, state), bind$2(internalReject, state));
       } catch (error) {
-        internalReject$1(state, error);
+        internalReject(state, error);
       }
     };
-    PromiseConstructorPrototype$1 = PromiseConstructor$1.prototype;
+    PromiseConstructorPrototype = PromiseConstructor.prototype;
     // eslint-disable-next-line no-unused-vars -- required for `.length`
-    Internal$1 = function Promise(executor) {
+    Internal = function Promise(executor) {
       setInternalState$3(this, {
-        type: PROMISE$1,
+        type: PROMISE,
         done: false,
         notified: false,
         parent: false,
         reactions: [],
         rejection: false,
-        state: PENDING$1,
+        state: PENDING,
         value: undefined
       });
     };
-    Internal$1.prototype = redefineAll$1$1(PromiseConstructorPrototype$1, {
+    Internal.prototype = redefineAll$1(PromiseConstructorPrototype, {
       // `Promise.prototype.then` method
       // https://tc39.es/ecma262/#sec-promise.prototype.then
       then: function then(onFulfilled, onRejected) {
-        var state = getInternalPromiseState$1(this);
-        var reaction = newPromiseCapability$3(speciesConstructor$3(this, PromiseConstructor$1));
+        var state = getInternalPromiseState(this);
+        var reaction = newPromiseCapability(speciesConstructor$3(this, PromiseConstructor));
         reaction.ok = isCallable$5$1(onFulfilled) ? onFulfilled : true;
         reaction.fail = isCallable$5$1(onRejected) && onRejected;
-        reaction.domain = IS_NODE$3 ? process$4.domain : undefined;
+        reaction.domain = IS_NODE ? process$4.domain : undefined;
         state.parent = true;
         state.reactions.push(reaction);
-        if (state.state != PENDING$1) notify$2(state, false);
+        if (state.state != PENDING) notify(state, false);
         return reaction.promise;
       },
       // `Promise.prototype.catch` method
@@ -3387,90 +3387,90 @@
         return this.then(undefined, onRejected);
       }
     });
-    OwnPromiseCapability$1 = function () {
-      var promise = new Internal$1();
-      var state = getInternalState$3$1(promise);
+    OwnPromiseCapability = function () {
+      var promise = new Internal();
+      var state = getInternalState$3(promise);
       this.promise = promise;
-      this.resolve = bind$2$1(internalResolve$1, state);
-      this.reject = bind$2$1(internalReject$1, state);
+      this.resolve = bind$2(internalResolve, state);
+      this.reject = bind$2(internalReject, state);
     };
-    newPromiseCapabilityModule$1.f = newPromiseCapability$3 = function (C) {
-      return C === PromiseConstructor$1 || C === PromiseWrapper$1
-        ? new OwnPromiseCapability$1(C)
-        : newGenericPromiseCapability$1(C);
+    newPromiseCapabilityModule.f = newPromiseCapability = function (C) {
+      return C === PromiseConstructor || C === PromiseWrapper
+        ? new OwnPromiseCapability(C)
+        : newGenericPromiseCapability(C);
     };
 
-    if (isCallable$5$1(NativePromise$1$1) && NativePromisePrototype$1 !== Object.prototype) {
-      nativeThen$1 = NativePromisePrototype$1.then;
+    if (isCallable$5$1(NativePromise$1) && NativePromisePrototype !== Object.prototype) {
+      nativeThen = NativePromisePrototype.then;
 
-      if (!SUBCLASSING$1) {
+      if (!SUBCLASSING) {
         // make `Promise#then` return a polyfilled `Promise` for native promise-based APIs
-        redefine$5$1(NativePromisePrototype$1, 'then', function then(onFulfilled, onRejected) {
+        redefine$5(NativePromisePrototype, 'then', function then(onFulfilled, onRejected) {
           var that = this;
-          return new PromiseConstructor$1(function (resolve, reject) {
-            nativeThen$1.call(that, resolve, reject);
+          return new PromiseConstructor(function (resolve, reject) {
+            nativeThen.call(that, resolve, reject);
           }).then(onFulfilled, onRejected);
         // https://github.com/zloirock/core-js/issues/640
         }, { unsafe: true });
 
         // makes sure that native promise-based APIs `Promise#catch` properly works with patched `Promise#then`
-        redefine$5$1(NativePromisePrototype$1, 'catch', PromiseConstructorPrototype$1['catch'], { unsafe: true });
+        redefine$5(NativePromisePrototype, 'catch', PromiseConstructorPrototype['catch'], { unsafe: true });
       }
 
       // make `.constructor === Promise` work for native promise-based APIs
       try {
-        delete NativePromisePrototype$1.constructor;
+        delete NativePromisePrototype.constructor;
       } catch (error) { /* empty */ }
 
       // make `instanceof Promise` work for native promise-based APIs
-      if (setPrototypeOf$3) {
-        setPrototypeOf$3(NativePromisePrototype$1, PromiseConstructorPrototype$1);
+      if (setPrototypeOf) {
+        setPrototypeOf(NativePromisePrototype, PromiseConstructorPrototype);
       }
     }
   }
 
   $$m({ global: true, wrap: true, forced: FORCED$3 }, {
-    Promise: PromiseConstructor$1
+    Promise: PromiseConstructor
   });
 
-  setToStringTag$1$1(PromiseConstructor$1, PROMISE$1, false);
-  setSpecies$2(PROMISE$1);
+  setToStringTag$1(PromiseConstructor, PROMISE, false);
+  setSpecies$2(PROMISE);
 
-  PromiseWrapper$1 = getBuiltIn$2$1(PROMISE$1);
+  PromiseWrapper = getBuiltIn$2$1(PROMISE);
 
   // statics
-  $$m({ target: PROMISE$1, stat: true, forced: FORCED$3 }, {
+  $$m({ target: PROMISE, stat: true, forced: FORCED$3 }, {
     // `Promise.reject` method
     // https://tc39.es/ecma262/#sec-promise.reject
     reject: function reject(r) {
-      var capability = newPromiseCapability$3(this);
+      var capability = newPromiseCapability(this);
       capability.reject.call(undefined, r);
       return capability.promise;
     }
   });
 
-  $$m({ target: PROMISE$1, stat: true, forced: FORCED$3 }, {
+  $$m({ target: PROMISE, stat: true, forced: FORCED$3 }, {
     // `Promise.resolve` method
     // https://tc39.es/ecma262/#sec-promise.resolve
     resolve: function resolve(x) {
-      return promiseResolve$1$1(this, x);
+      return promiseResolve$1(this, x);
     }
   });
 
-  $$m({ target: PROMISE$1, stat: true, forced: INCORRECT_ITERATION$1 }, {
+  $$m({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION$1 }, {
     // `Promise.all` method
     // https://tc39.es/ecma262/#sec-promise.all
     all: function all(iterable) {
       var C = this;
-      var capability = newPromiseCapability$3(C);
+      var capability = newPromiseCapability(C);
       var resolve = capability.resolve;
       var reject = capability.reject;
-      var result = perform$2(function () {
+      var result = perform(function () {
         var $promiseResolve = aCallable$1$1(C.resolve);
         var values = [];
         var counter = 0;
         var remaining = 1;
-        iterate$1$1(iterable, function (promise) {
+        iterate$1(iterable, function (promise) {
           var index = counter++;
           var alreadyCalled = false;
           values.push(undefined);
@@ -3491,11 +3491,11 @@
     // https://tc39.es/ecma262/#sec-promise.race
     race: function race(iterable) {
       var C = this;
-      var capability = newPromiseCapability$3(C);
+      var capability = newPromiseCapability(C);
       var reject = capability.reject;
-      var result = perform$2(function () {
+      var result = perform(function () {
         var $promiseResolve = aCallable$1$1(C.resolve);
-        iterate$1$1(iterable, function (promise) {
+        iterate$1(iterable, function (promise) {
           $promiseResolve.call(C, promise).then(capability.resolve, reject);
         });
       });
@@ -3536,13 +3536,13 @@
     return !(re.dotAll && re.exec('\n') && re.flags === 's');
   });
 
-  var fails$c$1 = fails$u;
+  var fails$c = fails$u;
   var global$6$1 = global$t;
 
   // babel-minify and Closure Compiler transpiles RegExp('(?<a>b)', 'g') -> /(?<a>b)/g and it causes SyntaxError
   var $RegExp = global$6$1.RegExp;
 
-  var regexpUnsupportedNcg = fails$c$1(function () {
+  var regexpUnsupportedNcg = fails$c(function () {
     var re = $RegExp('(?<a>b)', 'g');
     return re.exec('b').groups.a !== 'b' ||
       'b'.replace(re, '$<a>c') !== 'bc';
@@ -3554,8 +3554,8 @@
   var regexpFlags = regexpFlags$1;
   var stickyHelpers$2 = regexpStickyHelpers;
   var shared$1$1 = shared$5.exports;
-  var create$1$1 = objectCreate$1;
-  var getInternalState$2$1 = internalState$1.get;
+  var create$1 = objectCreate;
+  var getInternalState$2 = internalState$1.get;
   var UNSUPPORTED_DOT_ALL$1 = regexpUnsupportedDotAll;
   var UNSUPPORTED_NCG$1 = regexpUnsupportedNcg;
 
@@ -3583,7 +3583,7 @@
     // eslint-disable-next-line max-statements -- TODO
     patchedExec = function exec(string) {
       var re = this;
-      var state = getInternalState$2$1(re);
+      var state = getInternalState$2(re);
       var str = toString$8(string);
       var raw = state.raw;
       var result, reCopy, lastIndex, match, i, object, group;
@@ -3648,7 +3648,7 @@
       }
 
       if (match && groups) {
-        match.groups = object = create$1$1(null);
+        match.groups = object = create$1(null);
         for (i = 0; i < groups.length; i++) {
           group = groups[i];
           object[group[0]] = match[group[1]];
@@ -3672,26 +3672,26 @@
 
   // TODO: Remove from `core-js@4` since it's moved to entry points
 
-  var redefine$4$1 = redefine$d.exports;
+  var redefine$4 = redefine$d.exports;
   var regexpExec$2 = regexpExec$3;
-  var fails$b$1 = fails$u;
-  var wellKnownSymbol$8$1 = wellKnownSymbol$q;
+  var fails$b = fails$u;
+  var wellKnownSymbol$8 = wellKnownSymbol$q;
   var createNonEnumerableProperty$2$1 = createNonEnumerableProperty$8;
 
-  var SPECIES$1$1 = wellKnownSymbol$8$1('species');
+  var SPECIES$1$1 = wellKnownSymbol$8('species');
   var RegExpPrototype$2 = RegExp.prototype;
 
   var fixRegexpWellKnownSymbolLogic = function (KEY, exec, FORCED, SHAM) {
-    var SYMBOL = wellKnownSymbol$8$1(KEY);
+    var SYMBOL = wellKnownSymbol$8(KEY);
 
-    var DELEGATES_TO_SYMBOL = !fails$b$1(function () {
+    var DELEGATES_TO_SYMBOL = !fails$b(function () {
       // String methods call symbol-named RegEp methods
       var O = {};
       O[SYMBOL] = function () { return 7; };
       return ''[KEY](O) != 7;
     });
 
-    var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails$b$1(function () {
+    var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails$b(function () {
       // Symbol-named RegExp methods call .exec
       var execCalled = false;
       var re = /a/;
@@ -3735,19 +3735,19 @@
         return { done: false };
       });
 
-      redefine$4$1(String.prototype, KEY, methods[0]);
-      redefine$4$1(RegExpPrototype$2, SYMBOL, methods[1]);
+      redefine$4(String.prototype, KEY, methods[0]);
+      redefine$4(RegExpPrototype$2, SYMBOL, methods[1]);
     }
 
     if (SHAM) createNonEnumerableProperty$2$1(RegExpPrototype$2[SYMBOL], 'sham', true);
   };
 
-  var charAt$2 = stringMultibyte$1.charAt;
+  var charAt = stringMultibyte.charAt;
 
   // `AdvanceStringIndex` abstract operation
   // https://tc39.es/ecma262/#sec-advancestringindex
   var advanceStringIndex$4 = function (S, index, unicode) {
-    return index + (unicode ? charAt$2(S, index).length : 1);
+    return index + (unicode ? charAt(S, index).length : 1);
   };
 
   var toObject$5 = toObject$a;
@@ -3792,7 +3792,7 @@
     });
   };
 
-  var anObject$6$1 = anObject$l;
+  var anObject$6 = anObject$l;
   var isCallable$4$1 = isCallable$o;
   var classof$2$1 = classofRaw$1$1;
   var regexpExec$1 = regexpExec$3;
@@ -3803,7 +3803,7 @@
     var exec = R.exec;
     if (isCallable$4$1(exec)) {
       var result = exec.call(R, S);
-      if (result !== null) anObject$6$1(result);
+      if (result !== null) anObject$6(result);
       return result;
     }
     if (classof$2$1(R) === 'RegExp') return regexpExec$1.call(R, S);
@@ -3811,20 +3811,20 @@
   };
 
   var fixRegExpWellKnownSymbolLogic$2 = fixRegexpWellKnownSymbolLogic;
-  var fails$a$1 = fails$u;
-  var anObject$5$1 = anObject$l;
+  var fails$a = fails$u;
+  var anObject$5 = anObject$l;
   var isCallable$3$1 = isCallable$o;
   var toIntegerOrInfinity$1$1 = toIntegerOrInfinity$5;
   var toLength$3 = toLength$5;
   var toString$7 = toString$c;
   var requireObjectCoercible$5 = requireObjectCoercible$9;
   var advanceStringIndex$3 = advanceStringIndex$4;
-  var getMethod$3$1 = getMethod$7;
+  var getMethod$3 = getMethod$7;
   var getSubstitution = getSubstitution$1;
   var regExpExec$2 = regexpExecAbstract;
-  var wellKnownSymbol$7$1 = wellKnownSymbol$q;
+  var wellKnownSymbol$7 = wellKnownSymbol$q;
 
-  var REPLACE = wellKnownSymbol$7$1('replace');
+  var REPLACE = wellKnownSymbol$7('replace');
   var max$2 = Math.max;
   var min$2 = Math.min;
 
@@ -3847,7 +3847,7 @@
     return false;
   })();
 
-  var REPLACE_SUPPORTS_NAMED_GROUPS = !fails$a$1(function () {
+  var REPLACE_SUPPORTS_NAMED_GROUPS = !fails$a(function () {
     var re = /./;
     re.exec = function () {
       var result = [];
@@ -3867,7 +3867,7 @@
       // https://tc39.es/ecma262/#sec-string.prototype.replace
       function replace(searchValue, replaceValue) {
         var O = requireObjectCoercible$5(this);
-        var replacer = searchValue == undefined ? undefined : getMethod$3$1(searchValue, REPLACE);
+        var replacer = searchValue == undefined ? undefined : getMethod$3(searchValue, REPLACE);
         return replacer
           ? replacer.call(searchValue, O, replaceValue)
           : nativeReplace.call(toString$7(O), searchValue, replaceValue);
@@ -3875,7 +3875,7 @@
       // `RegExp.prototype[@@replace]` method
       // https://tc39.es/ecma262/#sec-regexp.prototype-@@replace
       function (string, replaceValue) {
-        var rx = anObject$5$1(this);
+        var rx = anObject$5(this);
         var S = toString$7(string);
 
         if (
@@ -3940,41 +3940,41 @@
   }, !REPLACE_SUPPORTS_NAMED_GROUPS || !REPLACE_KEEPS_$0 || REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE);
 
   var $$k = _export$1;
-  var NativePromise$2 = nativePromiseConstructor$1;
-  var fails$9$1 = fails$u;
+  var NativePromise = nativePromiseConstructor;
+  var fails$9 = fails$u;
   var getBuiltIn$1$1 = getBuiltIn$a;
   var isCallable$2$1 = isCallable$o;
-  var speciesConstructor$2$1 = speciesConstructor$4;
-  var promiseResolve$3 = promiseResolve$2$1;
-  var redefine$3$1 = redefine$d.exports;
+  var speciesConstructor$2 = speciesConstructor$4;
+  var promiseResolve = promiseResolve$2;
+  var redefine$3 = redefine$d.exports;
 
   // Safari bug https://bugs.webkit.org/show_bug.cgi?id=200829
-  var NON_GENERIC$1 = !!NativePromise$2 && fails$9$1(function () {
-    NativePromise$2.prototype['finally'].call({ then: function () { /* empty */ } }, function () { /* empty */ });
+  var NON_GENERIC = !!NativePromise && fails$9(function () {
+    NativePromise.prototype['finally'].call({ then: function () { /* empty */ } }, function () { /* empty */ });
   });
 
   // `Promise.prototype.finally` method
   // https://tc39.es/ecma262/#sec-promise.prototype.finally
-  $$k({ target: 'Promise', proto: true, real: true, forced: NON_GENERIC$1 }, {
+  $$k({ target: 'Promise', proto: true, real: true, forced: NON_GENERIC }, {
     'finally': function (onFinally) {
-      var C = speciesConstructor$2$1(this, getBuiltIn$1$1('Promise'));
+      var C = speciesConstructor$2(this, getBuiltIn$1$1('Promise'));
       var isFunction = isCallable$2$1(onFinally);
       return this.then(
         isFunction ? function (x) {
-          return promiseResolve$3(C, onFinally()).then(function () { return x; });
+          return promiseResolve(C, onFinally()).then(function () { return x; });
         } : onFinally,
         isFunction ? function (e) {
-          return promiseResolve$3(C, onFinally()).then(function () { throw e; });
+          return promiseResolve(C, onFinally()).then(function () { throw e; });
         } : onFinally
       );
     }
   });
 
   // makes sure that native promise-based APIs `Promise#finally` properly works with patched `Promise#then`
-  if (isCallable$2$1(NativePromise$2)) {
-    var method$1 = getBuiltIn$1$1('Promise').prototype['finally'];
-    if (NativePromise$2.prototype['finally'] !== method$1) {
-      redefine$3$1(NativePromise$2.prototype, 'finally', method$1, { unsafe: true });
+  if (isCallable$2$1(NativePromise)) {
+    var method = getBuiltIn$1$1('Promise').prototype['finally'];
+    if (NativePromise.prototype['finally'] !== method) {
+      redefine$3(NativePromise.prototype, 'finally', method, { unsafe: true });
     }
   }
 
@@ -4018,7 +4018,7 @@
   var $$i = _export$1;
   var global$4$1 = global$t;
   var getBuiltIn$b = getBuiltIn$a;
-  var DESCRIPTORS$6$1 = descriptors$1;
+  var DESCRIPTORS$6 = descriptors$1;
   var NATIVE_SYMBOL$3 = nativeSymbol$1;
   var fails$7$1 = fails$u;
   var hasOwn$2$1 = hasOwnProperty_1$1;
@@ -4026,21 +4026,21 @@
   var isCallable$1$1 = isCallable$o;
   var isObject$3$1 = isObject$k;
   var isSymbol$4 = isSymbol$3;
-  var anObject$4$1 = anObject$l;
-  var toObject$3$1 = toObject$a;
-  var toIndexedObject$4$1 = toIndexedObject$a;
+  var anObject$4 = anObject$l;
+  var toObject$3 = toObject$a;
+  var toIndexedObject$4 = toIndexedObject$a;
   var toPropertyKey$5 = toPropertyKey$4;
   var $toString = toString$c;
   var createPropertyDescriptor$6 = createPropertyDescriptor$5;
-  var nativeObjectCreate = objectCreate$1;
-  var objectKeys$3 = objectKeys$2;
+  var nativeObjectCreate = objectCreate;
+  var objectKeys = objectKeys$2;
   var getOwnPropertyNamesModule$3 = objectGetOwnPropertyNames$1;
   var getOwnPropertyNamesExternal = objectGetOwnPropertyNamesExternal;
   var getOwnPropertySymbolsModule$2 = objectGetOwnPropertySymbols$1;
   var getOwnPropertyDescriptorModule$1 = objectGetOwnPropertyDescriptor$1;
   var definePropertyModule$7 = objectDefineProperty$1;
   var propertyIsEnumerableModule$2 = objectPropertyIsEnumerable$1;
-  var redefine$2$1 = redefine$d.exports;
+  var redefine$2 = redefine$d.exports;
   var shared$6 = shared$5.exports;
   var sharedKey$5 = sharedKey$4;
   var hiddenKeys$7 = hiddenKeys$6;
@@ -4048,17 +4048,17 @@
   var wellKnownSymbol$5$1 = wellKnownSymbol$q;
   var wrappedWellKnownSymbolModule = wellKnownSymbolWrapped;
   var defineWellKnownSymbol$1 = defineWellKnownSymbol$2;
-  var setToStringTag$6 = setToStringTag$5;
-  var InternalStateModule$2$1 = internalState$1;
+  var setToStringTag = setToStringTag$5;
+  var InternalStateModule$2 = internalState$1;
   var $forEach$1 = arrayIteration.forEach;
 
   var HIDDEN = sharedKey$5('hidden');
   var SYMBOL = 'Symbol';
-  var PROTOTYPE$2 = 'prototype';
+  var PROTOTYPE = 'prototype';
   var TO_PRIMITIVE$2 = wellKnownSymbol$5$1('toPrimitive');
-  var setInternalState$2$1 = InternalStateModule$2$1.set;
-  var getInternalState$1$1 = InternalStateModule$2$1.getterFor(SYMBOL);
-  var ObjectPrototype$2 = Object[PROTOTYPE$2];
+  var setInternalState$2 = InternalStateModule$2.set;
+  var getInternalState$1 = InternalStateModule$2.getterFor(SYMBOL);
+  var ObjectPrototype = Object[PROTOTYPE];
   var $Symbol = global$4$1.Symbol;
   var $stringify = getBuiltIn$b('JSON', 'stringify');
   var nativeGetOwnPropertyDescriptor$1 = getOwnPropertyDescriptorModule$1.f;
@@ -4072,38 +4072,38 @@
   var WellKnownSymbolsStore$2 = shared$6('wks');
   var QObject = global$4$1.QObject;
   // Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
-  var USE_SETTER = !QObject || !QObject[PROTOTYPE$2] || !QObject[PROTOTYPE$2].findChild;
+  var USE_SETTER = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
 
   // fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-  var setSymbolDescriptor = DESCRIPTORS$6$1 && fails$7$1(function () {
+  var setSymbolDescriptor = DESCRIPTORS$6 && fails$7$1(function () {
     return nativeObjectCreate(nativeDefineProperty({}, 'a', {
       get: function () { return nativeDefineProperty(this, 'a', { value: 7 }).a; }
     })).a != 7;
   }) ? function (O, P, Attributes) {
-    var ObjectPrototypeDescriptor = nativeGetOwnPropertyDescriptor$1(ObjectPrototype$2, P);
-    if (ObjectPrototypeDescriptor) delete ObjectPrototype$2[P];
+    var ObjectPrototypeDescriptor = nativeGetOwnPropertyDescriptor$1(ObjectPrototype, P);
+    if (ObjectPrototypeDescriptor) delete ObjectPrototype[P];
     nativeDefineProperty(O, P, Attributes);
-    if (ObjectPrototypeDescriptor && O !== ObjectPrototype$2) {
-      nativeDefineProperty(ObjectPrototype$2, P, ObjectPrototypeDescriptor);
+    if (ObjectPrototypeDescriptor && O !== ObjectPrototype) {
+      nativeDefineProperty(ObjectPrototype, P, ObjectPrototypeDescriptor);
     }
   } : nativeDefineProperty;
 
   var wrap = function (tag, description) {
-    var symbol = AllSymbols[tag] = nativeObjectCreate($Symbol[PROTOTYPE$2]);
-    setInternalState$2$1(symbol, {
+    var symbol = AllSymbols[tag] = nativeObjectCreate($Symbol[PROTOTYPE]);
+    setInternalState$2(symbol, {
       type: SYMBOL,
       tag: tag,
       description: description
     });
-    if (!DESCRIPTORS$6$1) symbol.description = description;
+    if (!DESCRIPTORS$6) symbol.description = description;
     return symbol;
   };
 
   var $defineProperty$2 = function defineProperty(O, P, Attributes) {
-    if (O === ObjectPrototype$2) $defineProperty$2(ObjectPrototypeSymbols, P, Attributes);
-    anObject$4$1(O);
+    if (O === ObjectPrototype) $defineProperty$2(ObjectPrototypeSymbols, P, Attributes);
+    anObject$4(O);
     var key = toPropertyKey$5(P);
-    anObject$4$1(Attributes);
+    anObject$4(Attributes);
     if (hasOwn$2$1(AllSymbols, key)) {
       if (!Attributes.enumerable) {
         if (!hasOwn$2$1(O, HIDDEN)) nativeDefineProperty(O, HIDDEN, createPropertyDescriptor$6(1, {}));
@@ -4116,11 +4116,11 @@
   };
 
   var $defineProperties = function defineProperties(O, Properties) {
-    anObject$4$1(O);
-    var properties = toIndexedObject$4$1(Properties);
-    var keys = objectKeys$3(properties).concat($getOwnPropertySymbols(properties));
+    anObject$4(O);
+    var properties = toIndexedObject$4(Properties);
+    var keys = objectKeys(properties).concat($getOwnPropertySymbols(properties));
     $forEach$1(keys, function (key) {
-      if (!DESCRIPTORS$6$1 || $propertyIsEnumerable$2.call(properties, key)) $defineProperty$2(O, key, properties[key]);
+      if (!DESCRIPTORS$6 || $propertyIsEnumerable$2.call(properties, key)) $defineProperty$2(O, key, properties[key]);
     });
     return O;
   };
@@ -4132,15 +4132,15 @@
   var $propertyIsEnumerable$2 = function propertyIsEnumerable(V) {
     var P = toPropertyKey$5(V);
     var enumerable = nativePropertyIsEnumerable.call(this, P);
-    if (this === ObjectPrototype$2 && hasOwn$2$1(AllSymbols, P) && !hasOwn$2$1(ObjectPrototypeSymbols, P)) return false;
+    if (this === ObjectPrototype && hasOwn$2$1(AllSymbols, P) && !hasOwn$2$1(ObjectPrototypeSymbols, P)) return false;
     return enumerable || !hasOwn$2$1(this, P) || !hasOwn$2$1(AllSymbols, P) || hasOwn$2$1(this, HIDDEN) && this[HIDDEN][P]
       ? enumerable : true;
   };
 
   var $getOwnPropertyDescriptor$2 = function getOwnPropertyDescriptor(O, P) {
-    var it = toIndexedObject$4$1(O);
+    var it = toIndexedObject$4(O);
     var key = toPropertyKey$5(P);
-    if (it === ObjectPrototype$2 && hasOwn$2$1(AllSymbols, key) && !hasOwn$2$1(ObjectPrototypeSymbols, key)) return;
+    if (it === ObjectPrototype && hasOwn$2$1(AllSymbols, key) && !hasOwn$2$1(ObjectPrototypeSymbols, key)) return;
     var descriptor = nativeGetOwnPropertyDescriptor$1(it, key);
     if (descriptor && hasOwn$2$1(AllSymbols, key) && !(hasOwn$2$1(it, HIDDEN) && it[HIDDEN][key])) {
       descriptor.enumerable = true;
@@ -4149,7 +4149,7 @@
   };
 
   var $getOwnPropertyNames = function getOwnPropertyNames(O) {
-    var names = nativeGetOwnPropertyNames(toIndexedObject$4$1(O));
+    var names = nativeGetOwnPropertyNames(toIndexedObject$4(O));
     var result = [];
     $forEach$1(names, function (key) {
       if (!hasOwn$2$1(AllSymbols, key) && !hasOwn$2$1(hiddenKeys$7, key)) result.push(key);
@@ -4158,11 +4158,11 @@
   };
 
   var $getOwnPropertySymbols = function getOwnPropertySymbols(O) {
-    var IS_OBJECT_PROTOTYPE = O === ObjectPrototype$2;
-    var names = nativeGetOwnPropertyNames(IS_OBJECT_PROTOTYPE ? ObjectPrototypeSymbols : toIndexedObject$4$1(O));
+    var IS_OBJECT_PROTOTYPE = O === ObjectPrototype;
+    var names = nativeGetOwnPropertyNames(IS_OBJECT_PROTOTYPE ? ObjectPrototypeSymbols : toIndexedObject$4(O));
     var result = [];
     $forEach$1(names, function (key) {
-      if (hasOwn$2$1(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || hasOwn$2$1(ObjectPrototype$2, key))) {
+      if (hasOwn$2$1(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || hasOwn$2$1(ObjectPrototype, key))) {
         result.push(AllSymbols[key]);
       }
     });
@@ -4177,19 +4177,19 @@
       var description = !arguments.length || arguments[0] === undefined ? undefined : $toString(arguments[0]);
       var tag = uid$5(description);
       var setter = function (value) {
-        if (this === ObjectPrototype$2) setter.call(ObjectPrototypeSymbols, value);
+        if (this === ObjectPrototype) setter.call(ObjectPrototypeSymbols, value);
         if (hasOwn$2$1(this, HIDDEN) && hasOwn$2$1(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
         setSymbolDescriptor(this, tag, createPropertyDescriptor$6(1, value));
       };
-      if (DESCRIPTORS$6$1 && USE_SETTER) setSymbolDescriptor(ObjectPrototype$2, tag, { configurable: true, set: setter });
+      if (DESCRIPTORS$6 && USE_SETTER) setSymbolDescriptor(ObjectPrototype, tag, { configurable: true, set: setter });
       return wrap(tag, description);
     };
 
-    redefine$2$1($Symbol[PROTOTYPE$2], 'toString', function toString() {
-      return getInternalState$1$1(this).tag;
+    redefine$2($Symbol[PROTOTYPE], 'toString', function toString() {
+      return getInternalState$1(this).tag;
     });
 
-    redefine$2$1($Symbol, 'withoutSetter', function (description) {
+    redefine$2($Symbol, 'withoutSetter', function (description) {
       return wrap(uid$5(description), description);
     });
 
@@ -4203,16 +4203,16 @@
       return wrap(wellKnownSymbol$5$1(name), name);
     };
 
-    if (DESCRIPTORS$6$1) {
+    if (DESCRIPTORS$6) {
       // https://github.com/tc39/proposal-Symbol-description
-      nativeDefineProperty($Symbol[PROTOTYPE$2], 'description', {
+      nativeDefineProperty($Symbol[PROTOTYPE], 'description', {
         configurable: true,
         get: function description() {
-          return getInternalState$1$1(this).description;
+          return getInternalState$1(this).description;
         }
       });
       {
-        redefine$2$1(ObjectPrototype$2, 'propertyIsEnumerable', $propertyIsEnumerable$2, { unsafe: true });
+        redefine$2(ObjectPrototype, 'propertyIsEnumerable', $propertyIsEnumerable$2, { unsafe: true });
       }
     }
   }
@@ -4221,7 +4221,7 @@
     Symbol: $Symbol
   });
 
-  $forEach$1(objectKeys$3(WellKnownSymbolsStore$2), function (name) {
+  $forEach$1(objectKeys(WellKnownSymbolsStore$2), function (name) {
     defineWellKnownSymbol$1(name);
   });
 
@@ -4246,7 +4246,7 @@
     useSimple: function () { USE_SETTER = false; }
   });
 
-  $$i({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$3, sham: !DESCRIPTORS$6$1 }, {
+  $$i({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$3, sham: !DESCRIPTORS$6 }, {
     // `Object.create` method
     // https://tc39.es/ecma262/#sec-object.create
     create: $create,
@@ -4274,7 +4274,7 @@
   // https://bugs.chromium.org/p/v8/issues/detail?id=3443
   $$i({ target: 'Object', stat: true, forced: fails$7$1(function () { getOwnPropertySymbolsModule$2.f(1); }) }, {
     getOwnPropertySymbols: function getOwnPropertySymbols(it) {
-      return getOwnPropertySymbolsModule$2.f(toObject$3$1(it));
+      return getOwnPropertySymbolsModule$2.f(toObject$3(it));
     }
   });
 
@@ -4312,15 +4312,15 @@
 
   // `Symbol.prototype[@@toPrimitive]` method
   // https://tc39.es/ecma262/#sec-symbol.prototype-@@toprimitive
-  if (!$Symbol[PROTOTYPE$2][TO_PRIMITIVE$2]) {
-    var valueOf = $Symbol[PROTOTYPE$2].valueOf;
-    redefine$2$1($Symbol[PROTOTYPE$2], TO_PRIMITIVE$2, function () {
+  if (!$Symbol[PROTOTYPE][TO_PRIMITIVE$2]) {
+    var valueOf = $Symbol[PROTOTYPE].valueOf;
+    redefine$2($Symbol[PROTOTYPE], TO_PRIMITIVE$2, function () {
       return valueOf.apply(this, arguments);
     });
   }
   // `Symbol.prototype[@@toStringTag]` property
   // https://tc39.es/ecma262/#sec-symbol.prototype-@@tostringtag
-  setToStringTag$6($Symbol, SYMBOL);
+  setToStringTag($Symbol, SYMBOL);
 
   hiddenKeys$7[HIDDEN] = true;
 
@@ -4343,14 +4343,14 @@
   var fails$6$1 = fails$u;
   var toIndexedObject$3$1 = toIndexedObject$a;
   var nativeGetOwnPropertyDescriptor = objectGetOwnPropertyDescriptor$1.f;
-  var DESCRIPTORS$5$1 = descriptors$1;
+  var DESCRIPTORS$5 = descriptors$1;
 
   var FAILS_ON_PRIMITIVES = fails$6$1(function () { nativeGetOwnPropertyDescriptor(1); });
-  var FORCED$2 = !DESCRIPTORS$5$1 || FAILS_ON_PRIMITIVES;
+  var FORCED$2 = !DESCRIPTORS$5 || FAILS_ON_PRIMITIVES;
 
   // `Object.getOwnPropertyDescriptor` method
   // https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
-  $$g({ target: 'Object', stat: true, forced: FORCED$2, sham: !DESCRIPTORS$5$1 }, {
+  $$g({ target: 'Object', stat: true, forced: FORCED$2, sham: !DESCRIPTORS$5 }, {
     getOwnPropertyDescriptor: function getOwnPropertyDescriptor(it, key) {
       return nativeGetOwnPropertyDescriptor(toIndexedObject$3$1(it), key);
     }
@@ -4379,12 +4379,12 @@
   } : [].forEach;
 
   var global$3$1 = global$t;
-  var DOMIterables$2 = domIterables$1;
-  var DOMTokenListPrototype$3 = domTokenListPrototype$1;
+  var DOMIterables = domIterables;
+  var DOMTokenListPrototype = domTokenListPrototype;
   var forEach = arrayForEach;
   var createNonEnumerableProperty$1$1 = createNonEnumerableProperty$8;
 
-  var handlePrototype$2 = function (CollectionPrototype) {
+  var handlePrototype = function (CollectionPrototype) {
     // some Chrome versions have non-configurable methods on DOMTokenList
     if (CollectionPrototype && CollectionPrototype.forEach !== forEach) try {
       createNonEnumerableProperty$1$1(CollectionPrototype, 'forEach', forEach);
@@ -4393,13 +4393,13 @@
     }
   };
 
-  for (var COLLECTION_NAME$2 in DOMIterables$2) {
-    if (DOMIterables$2[COLLECTION_NAME$2]) {
-      handlePrototype$2(global$3$1[COLLECTION_NAME$2] && global$3$1[COLLECTION_NAME$2].prototype);
+  for (var COLLECTION_NAME in DOMIterables) {
+    if (DOMIterables[COLLECTION_NAME]) {
+      handlePrototype(global$3$1[COLLECTION_NAME] && global$3$1[COLLECTION_NAME].prototype);
     }
   }
 
-  handlePrototype$2(DOMTokenListPrototype$3);
+  handlePrototype(DOMTokenListPrototype);
 
   var $$f = _export$1;
   var DESCRIPTORS$4$1 = descriptors$1;
@@ -4446,7 +4446,7 @@
       });
     }
 
-    _createClass$1(EventHarness, [{
+    _createClass(EventHarness, [{
       key: "bindListener",
       value:
       /**
@@ -4557,7 +4557,7 @@
 
   _defineProperty$1(EventHarness, "STOP_PROPAGATION", 'STOP_PROPAGATION');
 
-  var localforage$1$1 = {exports: {}};
+  var localforage$1 = {exports: {}};
 
   /*!
       localForage -- Offline Storage, Improved
@@ -4567,7 +4567,7 @@
   */
 
   (function (module, exports) {
-  (function(f){{module.exports=f();}})(function(){return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof commonjsRequire$1=="function"&&commonjsRequire$1;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw (f.code="MODULE_NOT_FOUND", f)}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r);}return n[o].exports}var i=typeof commonjsRequire$1=="function"&&commonjsRequire$1;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+  (function(f){{module.exports=f();}})(function(){return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof commonjsRequire=="function"&&commonjsRequire;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw (f.code="MODULE_NOT_FOUND", f)}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r);}return n[o].exports}var i=typeof commonjsRequire=="function"&&commonjsRequire;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
   (function (global){
   var Mutation = global.MutationObserver || global.WebKitMutationObserver;
 
@@ -7373,9 +7373,9 @@
 
   },{"3":3}]},{},[4])(4)
   });
-  }(localforage$1$1));
+  }(localforage$1));
 
-  var localforage$2 = localforage$1$1.exports;
+  var localforage = localforage$1.exports;
 
   function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
@@ -7476,7 +7476,7 @@
      */
 
 
-    _createClass$1(Model, [{
+    _createClass(Model, [{
       key: "unsaved",
       value: function unsaved() {
         return !(this._savedLocally && this._savedRemotely);
@@ -7751,7 +7751,7 @@
     }, {
       key: "retrieveFromLocal",
       value: function retrieveFromLocal(id, modelObject) {
-        return localforage$2.getItem("".concat(modelObject.TYPE, ".").concat(id)).then(function (descriptor) {
+        return localforage.getItem("".concat(modelObject.TYPE, ".").concat(id)).then(function (descriptor) {
           if (descriptor) {
             modelObject.id = id;
 
@@ -7839,7 +7839,7 @@
       _defineProperty$1(this, "parentIds", []);
     }
 
-    _createClass$1(Taxon, [{
+    _createClass(Taxon, [{
       key: "formattedHTML",
       value:
       /**
@@ -7948,7 +7948,7 @@
     trim: createMethod$4(3)
   };
 
-  var PROPER_FUNCTION_NAME$3 = functionName$1.PROPER;
+  var PROPER_FUNCTION_NAME = functionName$1.PROPER;
   var fails$4$1 = fails$u;
   var whitespaces = whitespaces$2;
 
@@ -7960,7 +7960,7 @@
     return fails$4$1(function () {
       return !!whitespaces[METHOD_NAME]()
         || non[METHOD_NAME]() !== non
-        || (PROPER_FUNCTION_NAME$3 && whitespaces[METHOD_NAME].name !== METHOD_NAME);
+        || (PROPER_FUNCTION_NAME && whitespaces[METHOD_NAME].name !== METHOD_NAME);
     });
   };
 
@@ -8078,7 +8078,7 @@
       return _this;
     }
 
-    _createClass$1(FormField, [{
+    _createClass(FormField, [{
       key: "value",
       get: function get() {
         return this._value;
@@ -8284,7 +8284,7 @@
       return _this;
     }
 
-    _createClass$1(Form, [{
+    _createClass(Form, [{
       key: "formElement",
       get:
       /**
@@ -8507,7 +8507,7 @@
       return _this;
     }
 
-    _createClass$1(Occurrence, [{
+    _createClass(Occurrence, [{
       key: "taxon",
       get:
       /**
@@ -8752,7 +8752,7 @@
      */
 
 
-    _createClass$1(MainController, [{
+    _createClass(MainController, [{
       key: "occurrences",
       get:
       /**
@@ -9069,11 +9069,11 @@
   _defineProperty$1(MainController, "EVENT_NEXT_TO_RECORDS", 'nexttorecords');
 
   var fixRegExpWellKnownSymbolLogic$1 = fixRegexpWellKnownSymbolLogic;
-  var anObject$3$1 = anObject$l;
+  var anObject$3 = anObject$l;
   var toLength$2 = toLength$5;
   var toString$5 = toString$c;
-  var requireObjectCoercible$3$1 = requireObjectCoercible$9;
-  var getMethod$2$1 = getMethod$7;
+  var requireObjectCoercible$3 = requireObjectCoercible$9;
+  var getMethod$2 = getMethod$7;
   var advanceStringIndex$2 = advanceStringIndex$4;
   var regExpExec$1 = regexpExecAbstract;
 
@@ -9083,14 +9083,14 @@
       // `String.prototype.match` method
       // https://tc39.es/ecma262/#sec-string.prototype.match
       function match(regexp) {
-        var O = requireObjectCoercible$3$1(this);
-        var matcher = regexp == undefined ? undefined : getMethod$2$1(regexp, MATCH);
+        var O = requireObjectCoercible$3(this);
+        var matcher = regexp == undefined ? undefined : getMethod$2(regexp, MATCH);
         return matcher ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](toString$5(O));
       },
       // `RegExp.prototype[@@match]` method
       // https://tc39.es/ecma262/#sec-regexp.prototype-@@match
       function (string) {
-        var rx = anObject$3$1(this);
+        var rx = anObject$3(this);
         var S = toString$5(string);
         var res = maybeCallNative(nativeMatch, rx, S);
 
@@ -9119,7 +9119,7 @@
   var isConstructor$1$1 = isConstructor$4;
   var isObject$2$1 = isObject$k;
   var toAbsoluteIndex$1$1 = toAbsoluteIndex$3;
-  var lengthOfArrayLike$3$1 = lengthOfArrayLike$8;
+  var lengthOfArrayLike$3 = lengthOfArrayLike$8;
   var toIndexedObject$1$1 = toIndexedObject$a;
   var createProperty$2 = createProperty$5;
   var wellKnownSymbol$4$1 = wellKnownSymbol$q;
@@ -9137,7 +9137,7 @@
   $$d({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$2 }, {
     slice: function slice(start, end) {
       var O = toIndexedObject$1$1(this);
-      var length = lengthOfArrayLike$3$1(O);
+      var length = lengthOfArrayLike$3(O);
       var k = toAbsoluteIndex$1$1(start, length);
       var fin = toAbsoluteIndex$1$1(end === undefined ? length : end, length);
       // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
@@ -9187,26 +9187,26 @@
   }
 
   var anObject$2$1 = anObject$l;
-  var iteratorClose$3 = iteratorClose$2;
+  var iteratorClose = iteratorClose$2;
 
   // call something on iterator step with safe closing on error
   var callWithSafeIterationClosing$1 = function (iterator, fn, value, ENTRIES) {
     try {
       return ENTRIES ? fn(anObject$2$1(value)[0], value[1]) : fn(value);
     } catch (error) {
-      iteratorClose$3(iterator, 'throw', error);
+      iteratorClose(iterator, 'throw', error);
     }
   };
 
-  var bind$1$1 = functionBindContext$1;
+  var bind$1 = functionBindContext;
   var toObject$2$1 = toObject$a;
   var callWithSafeIterationClosing = callWithSafeIterationClosing$1;
-  var isArrayIteratorMethod$3 = isArrayIteratorMethod$2;
+  var isArrayIteratorMethod = isArrayIteratorMethod$2;
   var isConstructor$5 = isConstructor$4;
   var lengthOfArrayLike$2$1 = lengthOfArrayLike$8;
   var createProperty$1$1 = createProperty$5;
-  var getIterator$3 = getIterator$2;
-  var getIteratorMethod$4 = getIteratorMethod$3;
+  var getIterator = getIterator$2;
+  var getIteratorMethod = getIteratorMethod$3;
 
   // `Array.from` method implementation
   // https://tc39.es/ecma262/#sec-array.from
@@ -9216,13 +9216,13 @@
     var argumentsLength = arguments.length;
     var mapfn = argumentsLength > 1 ? arguments[1] : undefined;
     var mapping = mapfn !== undefined;
-    if (mapping) mapfn = bind$1$1(mapfn, argumentsLength > 2 ? arguments[2] : undefined, 2);
-    var iteratorMethod = getIteratorMethod$4(O);
+    if (mapping) mapfn = bind$1(mapfn, argumentsLength > 2 ? arguments[2] : undefined, 2);
+    var iteratorMethod = getIteratorMethod(O);
     var index = 0;
     var length, result, step, iterator, next, value;
     // if the target is not iterable or it's an array with the default iterator - use a simple case
-    if (iteratorMethod && !(this == Array && isArrayIteratorMethod$3(iteratorMethod))) {
-      iterator = getIterator$3(O, iteratorMethod);
+    if (iteratorMethod && !(this == Array && isArrayIteratorMethod(iteratorMethod))) {
+      iterator = getIterator(O, iteratorMethod);
       next = iterator.next;
       result = IS_CONSTRUCTOR ? new this() : [];
       for (;!(step = next.call(iterator)).done; index++) {
@@ -9243,16 +9243,16 @@
 
   var $$c = _export$1;
   var from = arrayFrom;
-  var checkCorrectnessOfIteration$4 = checkCorrectnessOfIteration$3;
+  var checkCorrectnessOfIteration = checkCorrectnessOfIteration$3;
 
-  var INCORRECT_ITERATION$2 = !checkCorrectnessOfIteration$4(function (iterable) {
+  var INCORRECT_ITERATION = !checkCorrectnessOfIteration(function (iterable) {
     // eslint-disable-next-line es/no-array-from -- required for testing
     Array.from(iterable);
   });
 
   // `Array.from` method
   // https://tc39.es/ecma262/#sec-array.from
-  $$c({ target: 'Array', stat: true, forced: INCORRECT_ITERATION$2 }, {
+  $$c({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
     from: from
   });
 
@@ -9399,33 +9399,33 @@
   }
 
   var defineProperty$1 = objectDefineProperty$1.f;
-  var create$5 = objectCreate$1;
-  var redefineAll$5 = redefineAll$4;
-  var bind$7 = functionBindContext$1;
-  var anInstance$5 = anInstance$4;
-  var iterate$5 = iterate$4;
-  var defineIterator$4 = defineIterator$3;
-  var setSpecies$1$1 = setSpecies$3;
+  var create = objectCreate;
+  var redefineAll = redefineAll$4;
+  var bind = functionBindContext;
+  var anInstance = anInstance$4;
+  var iterate = iterate$4;
+  var defineIterator = defineIterator$3;
+  var setSpecies$1 = setSpecies$3;
   var DESCRIPTORS$1$1 = descriptors$1;
   var fastKey = internalMetadata.exports.fastKey;
-  var InternalStateModule$1$1 = internalState$1;
+  var InternalStateModule$1 = internalState$1;
 
-  var setInternalState$1$1 = InternalStateModule$1$1.set;
-  var internalStateGetterFor = InternalStateModule$1$1.getterFor;
+  var setInternalState$1 = InternalStateModule$1.set;
+  var internalStateGetterFor = InternalStateModule$1.getterFor;
 
   var collectionStrong$1 = {
     getConstructor: function (wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER) {
       var C = wrapper(function (that, iterable) {
-        anInstance$5(that, C, CONSTRUCTOR_NAME);
-        setInternalState$1$1(that, {
+        anInstance(that, C, CONSTRUCTOR_NAME);
+        setInternalState$1(that, {
           type: CONSTRUCTOR_NAME,
-          index: create$5(null),
+          index: create(null),
           first: undefined,
           last: undefined,
           size: 0
         });
         if (!DESCRIPTORS$1$1) that.size = 0;
-        if (iterable != undefined) iterate$5(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
+        if (iterable != undefined) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
       });
 
       var getInternalState = internalStateGetterFor(CONSTRUCTOR_NAME);
@@ -9468,7 +9468,7 @@
         }
       };
 
-      redefineAll$5(C.prototype, {
+      redefineAll(C.prototype, {
         // `{ Map, Set }.prototype.clear()` methods
         // https://tc39.es/ecma262/#sec-map.prototype.clear
         // https://tc39.es/ecma262/#sec-set.prototype.clear
@@ -9512,7 +9512,7 @@
         // https://tc39.es/ecma262/#sec-set.prototype.foreach
         forEach: function forEach(callbackfn /* , that = undefined */) {
           var state = getInternalState(this);
-          var boundFunction = bind$7(callbackfn, arguments.length > 1 ? arguments[1] : undefined, 3);
+          var boundFunction = bind(callbackfn, arguments.length > 1 ? arguments[1] : undefined, 3);
           var entry;
           while (entry = entry ? entry.next : state.first) {
             boundFunction(entry.value, entry.key, this);
@@ -9528,7 +9528,7 @@
         }
       });
 
-      redefineAll$5(C.prototype, IS_MAP ? {
+      redefineAll(C.prototype, IS_MAP ? {
         // `Map.prototype.get(key)` method
         // https://tc39.es/ecma262/#sec-map.prototype.get
         get: function get(key) {
@@ -9567,8 +9567,8 @@
       // https://tc39.es/ecma262/#sec-set.prototype.keys
       // https://tc39.es/ecma262/#sec-set.prototype.values
       // https://tc39.es/ecma262/#sec-set.prototype-@@iterator
-      defineIterator$4(C, CONSTRUCTOR_NAME, function (iterated, kind) {
-        setInternalState$1$1(this, {
+      defineIterator(C, CONSTRUCTOR_NAME, function (iterated, kind) {
+        setInternalState$1(this, {
           type: ITERATOR_NAME,
           target: iterated,
           state: getInternalCollectionState(iterated),
@@ -9596,7 +9596,7 @@
       // `{ Map, Set }.prototype[@@species]` accessors
       // https://tc39.es/ecma262/#sec-get-map-@@species
       // https://tc39.es/ecma262/#sec-get-set-@@species
-      setSpecies$1$1(CONSTRUCTOR_NAME);
+      setSpecies$1(CONSTRUCTOR_NAME);
     }
   };
 
@@ -9611,7 +9611,7 @@
 
   var $$9 = _export$1;
   var $includes = arrayIncludes$1.includes;
-  var addToUnscopables$1$1 = addToUnscopables$3;
+  var addToUnscopables$1 = addToUnscopables$3;
 
   // `Array.prototype.includes` method
   // https://tc39.es/ecma262/#sec-array.prototype.includes
@@ -9622,7 +9622,7 @@
   });
 
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables$1$1('includes');
+  addToUnscopables$1('includes');
 
   var isObject$l = isObject$k;
   var classof$1$1 = classofRaw$1$1;
@@ -9664,15 +9664,15 @@
   var $$8 = _export$1;
   var notARegExp = notARegexp;
   var requireObjectCoercible$2$1 = requireObjectCoercible$9;
-  var toString$4$1 = toString$c;
+  var toString$4 = toString$c;
   var correctIsRegExpLogic = correctIsRegexpLogic;
 
   // `String.prototype.includes` method
   // https://tc39.es/ecma262/#sec-string.prototype.includes
   $$8({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {
     includes: function includes(searchString /* , position = 0 */) {
-      return !!~toString$4$1(requireObjectCoercible$2$1(this))
-        .indexOf(toString$4$1(notARegExp(searchString)), arguments.length > 1 ? arguments[1] : undefined);
+      return !!~toString$4(requireObjectCoercible$2$1(this))
+        .indexOf(toString$4(notARegExp(searchString)), arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
@@ -9680,10 +9680,10 @@
   var isRegExp$2 = isRegexp;
   var anObject$1$1 = anObject$l;
   var requireObjectCoercible$1$1 = requireObjectCoercible$9;
-  var speciesConstructor$1$1 = speciesConstructor$4;
+  var speciesConstructor$1 = speciesConstructor$4;
   var advanceStringIndex$1 = advanceStringIndex$4;
   var toLength$1$1 = toLength$5;
-  var toString$3$1 = toString$c;
+  var toString$3 = toString$c;
   var getMethod$1$1 = getMethod$7;
   var callRegExpExec = regexpExecAbstract;
   var regexpExec = regexpExec$3;
@@ -9721,7 +9721,7 @@
     ) {
       // based on es5-shim implementation, need to rework it
       internalSplit = function (separator, limit) {
-        var string = toString$3$1(requireObjectCoercible$1$1(this));
+        var string = toString$3(requireObjectCoercible$1$1(this));
         var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
         if (lim === 0) return [];
         if (separator === undefined) return [string];
@@ -9769,7 +9769,7 @@
         var splitter = separator == undefined ? undefined : getMethod$1$1(separator, SPLIT);
         return splitter
           ? splitter.call(separator, O, limit)
-          : internalSplit.call(toString$3$1(O), separator, limit);
+          : internalSplit.call(toString$3(O), separator, limit);
       },
       // `RegExp.prototype[@@split]` method
       // https://tc39.es/ecma262/#sec-regexp.prototype-@@split
@@ -9778,12 +9778,12 @@
       // the 'y' flag.
       function (string, limit) {
         var rx = anObject$1$1(this);
-        var S = toString$3$1(string);
+        var S = toString$3(string);
         var res = maybeCallNative(internalSplit, rx, S, limit, internalSplit !== nativeSplit);
 
         if (res.done) return res.value;
 
-        var C = speciesConstructor$1$1(rx, RegExp);
+        var C = speciesConstructor$1(rx, RegExp);
 
         var unicodeMatching = rx.unicode;
         var flags = (rx.ignoreCase ? 'i' : '') +
@@ -9849,7 +9849,7 @@
       return _this;
     }
 
-    _createClass$1(Page, [{
+    _createClass(Page, [{
       key: "initialise",
       value:
       /**
@@ -10008,7 +10008,7 @@
       return _super.apply(this, arguments);
     }
 
-    _createClass$1(NotFoundView, [{
+    _createClass(NotFoundView, [{
       key: "body",
       value: function body() {
         // at this point the entire content of #body should be safe to replace
@@ -10072,7 +10072,7 @@
      */
 
 
-    _createClass$1(SurveyForm, [{
+    _createClass(SurveyForm, [{
       key: "formElement",
       get: function get() {
         var el = _get(_getPrototypeOf$1(SurveyForm.prototype), "formElement", this);
@@ -10212,7 +10212,7 @@
       return _this;
     }
 
-    _createClass$1(Survey, [{
+    _createClass(Survey, [{
       key: "formChangedHandler",
       value:
       /**
@@ -10340,7 +10340,7 @@
       return _this;
     }
 
-    _createClass$1(OccurrenceImage, [{
+    _createClass(OccurrenceImage, [{
       key: "getUrl",
       value:
       /**
@@ -10589,7 +10589,7 @@
       return _this;
     }
 
-    _createClass$1(App, [{
+    _createClass(App, [{
       key: "reset",
       value: function reset() {
         this.surveys = new Map();
@@ -10933,7 +10933,7 @@
         var objectType = externalVersion.type;
         var id = externalVersion.id;
         var key = "".concat(objectType, ".").concat(id);
-        return localforage$2.getItem(key).then(function (localVersion) {
+        return localforage.getItem(key).then(function (localVersion) {
           if (localVersion) {
             // compare stamps
             // if (externalVersion.deleted) {
@@ -10949,7 +10949,7 @@
 
 
           console.log("Adding or replacing local copy of ".concat(key));
-          return localforage$2.setItem(key, externalVersion);
+          return localforage.setItem(key, externalVersion);
         });
       }
       /**
@@ -10962,7 +10962,7 @@
     }, {
       key: "seekKeys",
       value: function seekKeys(storedObjectKeys) {
-        return localforage$2.keys().then(function (keys) {
+        return localforage.keys().then(function (keys) {
           var _iterator6 = _createForOfIteratorHelper$7(keys),
               _step6;
 
@@ -11128,8 +11128,6 @@
           storedObjectKeys.survey[0] = targetSurveyId;
         }
 
-        console.log('pre-seek keys');
-        console.log(storedObjectKeys);
         return this.seekKeys(storedObjectKeys).then(function (storedObjectKeys) {
           if (storedObjectKeys.survey.length) {
             return _this7.refreshFromServer(storedObjectKeys.survey).finally(function () {
@@ -11292,7 +11290,7 @@
     }, {
       key: "clearLocalForage",
       value: function clearLocalForage() {
-        return localforage$2.clear();
+        return localforage.clear();
       }
     }]);
 
@@ -11343,7 +11341,7 @@
       return _this;
     }
 
-    _createClass$1(Layout, [{
+    _createClass(Layout, [{
       key: "setApp",
       value:
       /**
@@ -11486,7 +11484,7 @@
      */
 
 
-    _createClass$1(SurveyPickerController, [{
+    _createClass(SurveyPickerController, [{
       key: "survey",
       get:
       /**
@@ -11686,10 +11684,10 @@
 
   /* eslint-disable es/no-string-prototype-matchall -- safe */
   var $$7 = _export$1;
-  var createIteratorConstructor$3 = createIteratorConstructor$2;
+  var createIteratorConstructor = createIteratorConstructor$2;
   var requireObjectCoercible$a = requireObjectCoercible$9;
   var toLength$6 = toLength$5;
-  var toString$2$1 = toString$c;
+  var toString$2 = toString$c;
   var anObject$m = anObject$l;
   var classof$b = classofRaw$1$1;
   var isRegExp$1 = isRegexp;
@@ -11698,7 +11696,7 @@
   var redefine$1$1 = redefine$d.exports;
   var fails$2$1 = fails$u;
   var wellKnownSymbol$1$1 = wellKnownSymbol$q;
-  var speciesConstructor$5 = speciesConstructor$4;
+  var speciesConstructor = speciesConstructor$4;
   var advanceStringIndex = advanceStringIndex$4;
   var regExpExec = regexpExecAbstract;
   var InternalStateModule$8 = internalState$1;
@@ -11707,7 +11705,7 @@
   var MATCH_ALL = wellKnownSymbol$1$1('matchAll');
   var REGEXP_STRING = 'RegExp String';
   var REGEXP_STRING_ITERATOR = REGEXP_STRING + ' Iterator';
-  var setInternalState$7 = InternalStateModule$8.set;
+  var setInternalState = InternalStateModule$8.set;
   var getInternalState$7 = InternalStateModule$8.getterFor(REGEXP_STRING_ITERATOR);
   var RegExpPrototype$1 = RegExp.prototype;
   var nativeMatchAll = ''.matchAll;
@@ -11717,8 +11715,8 @@
   });
 
   // eslint-disable-next-line max-len -- ignore
-  var $RegExpStringIterator = createIteratorConstructor$3(function RegExpStringIterator(regexp, string, global, fullUnicode) {
-    setInternalState$7(this, {
+  var $RegExpStringIterator = createIteratorConstructor(function RegExpStringIterator(regexp, string, global, fullUnicode) {
+    setInternalState(this, {
       type: REGEXP_STRING_ITERATOR,
       regexp: regexp,
       string: string,
@@ -11734,7 +11732,7 @@
     var match = regExpExec(R, S);
     if (match === null) return { value: undefined, done: state.done = true };
     if (state.global) {
-      if (toString$2$1(match[0]) === '') R.lastIndex = advanceStringIndex(S, toLength$6(R.lastIndex), state.unicode);
+      if (toString$2(match[0]) === '') R.lastIndex = advanceStringIndex(S, toLength$6(R.lastIndex), state.unicode);
       return { value: match, done: false };
     }
     state.done = true;
@@ -11743,14 +11741,14 @@
 
   var $matchAll = function (string) {
     var R = anObject$m(this);
-    var S = toString$2$1(string);
+    var S = toString$2(string);
     var C, flagsValue, flags, matcher, global, fullUnicode;
-    C = speciesConstructor$5(R, RegExp);
+    C = speciesConstructor(R, RegExp);
     flagsValue = R.flags;
     if (flagsValue === undefined && R instanceof RegExp && !('flags' in RegExpPrototype$1)) {
       flagsValue = getRegExpFlags.call(R);
     }
-    flags = flagsValue === undefined ? '' : toString$2$1(flagsValue);
+    flags = flagsValue === undefined ? '' : toString$2(flagsValue);
     matcher = new C(C === RegExp ? R.source : R, flags);
     global = !!~flags.indexOf('g');
     fullUnicode = !!~flags.indexOf('u');
@@ -11766,7 +11764,7 @@
       var flags, S, matcher, rx;
       if (regexp != null) {
         if (isRegExp$1(regexp)) {
-          flags = toString$2$1(requireObjectCoercible$a('flags' in RegExpPrototype$1
+          flags = toString$2(requireObjectCoercible$a('flags' in RegExpPrototype$1
             ? regexp.flags
             : getRegExpFlags.call(regexp)
           ));
@@ -11777,7 +11775,7 @@
         if (matcher === undefined && IS_PURE && classof$b(regexp) == 'RegExp') matcher = $matchAll;
         if (matcher) return matcher.call(regexp, O);
       } else if (WORKS_WITH_NON_GLOBAL_REGEX) return nativeMatchAll.apply(O, arguments);
-      S = toString$2$1(O);
+      S = toString$2(O);
       rx = new RegExp(regexp, 'g');
       return rx[MATCH_ALL](S);
     }
@@ -11810,7 +11808,7 @@
       _classCallCheck$1(this, ResponseFactory);
     }
 
-    _createClass$1(ResponseFactory, null, [{
+    _createClass(ResponseFactory, null, [{
       key: "fromPostedData",
       value:
       /**
@@ -11920,7 +11918,7 @@
      */
 
 
-    _createClass$1(LocalResponse, [{
+    _createClass(LocalResponse, [{
       key: "setPrebuiltResponse",
       value: function setPrebuiltResponse(prebuiltResponse) {
         this.prebuiltResponse = prebuiltResponse;
@@ -11936,7 +11934,7 @@
       value: function storeLocally() {
         var _this = this;
 
-        return localforage$2.setItem(this.localKey(), this.toSaveLocally).then(function () {
+        return localforage.setItem(this.localKey(), this.toSaveLocally).then(function () {
           console.log("Stored object ".concat(_this.localKey(), " locally"));
           return _this.prebuiltResponse ? _this.prebuiltResponse : packageClientResponse(_this.returnedToClient);
         }, function (reason) {
@@ -12000,7 +11998,7 @@
       return _this;
     }
 
-    _createClass$1(ImageResponse, [{
+    _createClass(ImageResponse, [{
       key: "populateClientResponse",
       value:
       /**
@@ -12093,7 +12091,7 @@
       return _this;
     }
 
-    _createClass$1(SurveyResponse, [{
+    _createClass(SurveyResponse, [{
       key: "populateClientResponse",
       value:
       /**
@@ -12184,7 +12182,7 @@
       return _this;
     }
 
-    _createClass$1(OccurrenceResponse, [{
+    _createClass(OccurrenceResponse, [{
       key: "populateClientResponse",
       value:
       /**
@@ -12258,7 +12256,7 @@
       _defineProperty$1(this, "URL_CACHE_SET", void 0);
     }
 
-    _createClass$1(BSBIServiceWorker, [{
+    _createClass(BSBIServiceWorker, [{
       key: "initialise",
       value:
       /**
@@ -12288,7 +12286,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1637687537-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1637759751-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -12296,7 +12294,7 @@
         var SERVICE_WORKER_IGNORE_URL_MATCHES = configuration.ignoreUrlMatches;
         var INDEX_URL = configuration.indexUrl;
         this.URL_CACHE_SET = configuration.urlCacheSet;
-        localforage$2.config({
+        localforage.config({
           name: configuration.forageName
         }); // On install, cache some resources.
 
@@ -12701,17 +12699,17 @@
   var isForced$5 = isForced_1$1;
   var inheritIfRequired = inheritIfRequired$2;
   var createNonEnumerableProperty$9 = createNonEnumerableProperty$8;
-  var defineProperty$7 = objectDefineProperty$1.f;
+  var defineProperty = objectDefineProperty$1.f;
   var getOwnPropertyNames = objectGetOwnPropertyNames$1.f;
   var isRegExp = isRegexp;
-  var toString$1$1 = toString$c;
+  var toString$1 = toString$c;
   var getFlags = regexpFlags$1;
   var stickyHelpers = regexpStickyHelpers;
   var redefine$e = redefine$d.exports;
   var fails$1$1 = fails$u;
   var hasOwn$f = hasOwnProperty_1$1;
   var enforceInternalState$2 = internalState$1.enforce;
-  var setSpecies$4 = setSpecies$3;
+  var setSpecies = setSpecies$3;
   var wellKnownSymbol$r = wellKnownSymbol$q;
   var UNSUPPORTED_DOT_ALL = regexpUnsupportedDotAll;
   var UNSUPPORTED_NCG = regexpUnsupportedNcg;
@@ -12824,8 +12822,8 @@
         if (flagsAreUndefined) flags = 'flags' in rawPattern ? rawPattern.flags : getFlags.call(rawPattern);
       }
 
-      pattern = pattern === undefined ? '' : toString$1$1(pattern);
-      flags = flags === undefined ? '' : toString$1$1(flags);
+      pattern = pattern === undefined ? '' : toString$1(pattern);
+      flags = flags === undefined ? '' : toString$1(flags);
       rawPattern = pattern;
 
       if (UNSUPPORTED_DOT_ALL && 'dotAll' in re1) {
@@ -12867,7 +12865,7 @@
     };
 
     var proxy = function (key) {
-      key in RegExpWrapper || defineProperty$7(RegExpWrapper, key, {
+      key in RegExpWrapper || defineProperty(RegExpWrapper, key, {
         configurable: true,
         get: function () { return NativeRegExp[key]; },
         set: function (it) { NativeRegExp[key] = it; }
@@ -12884,7 +12882,7 @@
   }
 
   // https://tc39.es/ecma262/#sec-get-regexp-@@species
-  setSpecies$4('RegExp');
+  setSpecies('RegExp');
 
   // TODO: use something more complex like timsort?
   var floor$3 = Math.floor;
@@ -12932,9 +12930,9 @@
 
   var arraySort = mergeSort;
 
-  var userAgent$1$1 = engineUserAgent$1;
+  var userAgent$1 = engineUserAgent$1;
 
-  var firefox = userAgent$1$1.match(/firefox\/(\d+)/i);
+  var firefox = userAgent$1.match(/firefox\/(\d+)/i);
 
   var engineFfVersion = !!firefox && +firefox[1];
 
@@ -13010,7 +13008,7 @@
     return result !== 'DGBEFHACIJK';
   });
 
-  var FORCED$1$1 = FAILS_ON_UNDEFINED || !FAILS_ON_NULL || !STRICT_METHOD || !STABLE_SORT;
+  var FORCED$1 = FAILS_ON_UNDEFINED || !FAILS_ON_NULL || !STRICT_METHOD || !STABLE_SORT;
 
   var getSortCompare = function (comparefn) {
     return function (x, y) {
@@ -13023,7 +13021,7 @@
 
   // `Array.prototype.sort` method
   // https://tc39.es/ecma262/#sec-array.prototype.sort
-  $$5({ target: 'Array', proto: true, forced: FORCED$1$1 }, {
+  $$5({ target: 'Array', proto: true, forced: FORCED$1 }, {
     sort: function sort(comparefn) {
       if (comparefn !== undefined) aCallable$8(comparefn);
 
@@ -13050,7 +13048,7 @@
     }
   });
 
-  var $$4$1 = _export$1;
+  var $$4 = _export$1;
   var toAbsoluteIndex$4 = toAbsoluteIndex$3;
   var toIntegerOrInfinity$6 = toIntegerOrInfinity$5;
   var lengthOfArrayLike$9 = lengthOfArrayLike$8;
@@ -13069,7 +13067,7 @@
   // `Array.prototype.splice` method
   // https://tc39.es/ecma262/#sec-array.prototype.splice
   // with adding support of @@species
-  $$4$1({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
+  $$4({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
     splice: function splice(start, deleteCount /* , ...items */) {
       var O = toObject$b(this);
       var len = lengthOfArrayLike$9(O);
@@ -13179,7 +13177,7 @@
      */
 
 
-    _createClass$1(TaxonSearch, [{
+    _createClass(TaxonSearch, [{
       key: "lookup",
       value:
       /**
@@ -13641,7 +13639,7 @@
       _classCallCheck$1(this, TaxaLoadedHook);
     }
 
-    _createClass$1(TaxaLoadedHook, null, [{
+    _createClass(TaxaLoadedHook, null, [{
       key: "taxaLoadedEntryPoint",
       value: function taxaLoadedEntryPoint() {
         Taxon.rawTaxa = BsbiDb.TaxonNames;
@@ -13685,11 +13683,11 @@
 
   _defineProperty$1(TaxaLoadedHook, "callbackStack", []);
 
-  var $$3$1 = _export$1;
+  var $$3 = _export$1;
 
   // `URL.prototype.toJSON` method
   // https://url.spec.whatwg.org/#dom-url-tojson
-  $$3$1({ target: 'URL', proto: true, enumerable: true }, {
+  $$3({ target: 'URL', proto: true, enumerable: true }, {
     toJSON: function toJSON() {
       return URL.prototype.toString.call(this);
     }
@@ -13835,7 +13833,7 @@
      */
 
 
-    _createClass$1(ImageField, [{
+    _createClass(ImageField, [{
       key: "value",
       get:
       /**
@@ -14312,7 +14310,7 @@
      */
 
 
-    _createClass$1(OptionsField, [{
+    _createClass(OptionsField, [{
       key: "value",
       get:
       /**
@@ -14530,7 +14528,7 @@
     value: 'fieldset'
   };
 
-  var $$2$1 = _export$1;
+  var $$2 = _export$1;
   var $trimStart = stringTrim.start;
   var forcedStringTrimMethod = stringTrimForced;
 
@@ -14544,14 +14542,14 @@
   // `String.prototype.{ trimStart, trimLeft }` methods
   // https://tc39.es/ecma262/#sec-string.prototype.trimstart
   // https://tc39.es/ecma262/#String.prototype.trimleft
-  $$2$1({ target: 'String', proto: true, name: 'trimStart', forced: FORCED$6 }, {
+  $$2({ target: 'String', proto: true, name: 'trimStart', forced: FORCED$6 }, {
     trimStart: trimStart,
     trimLeft: trimStart
   });
 
   var $$1$1 = _export$1;
   var $find = arrayIteration.find;
-  var addToUnscopables$4 = addToUnscopables$3;
+  var addToUnscopables = addToUnscopables$3;
 
   var FIND = 'find';
   var SKIPS_HOLES = true;
@@ -14568,7 +14566,7 @@
   });
 
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables$4(FIND);
+  addToUnscopables(FIND);
 
   function _createForOfIteratorHelper$1(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$1(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
@@ -14735,7 +14733,7 @@
      */
 
 
-    _createClass$1(TaxonPickerField, [{
+    _createClass(TaxonPickerField, [{
       key: "value",
       get:
       /**
@@ -17430,7 +17428,7 @@
      */
 
 
-    _createClass$1(OccurrenceForm, [{
+    _createClass(OccurrenceForm, [{
       key: "formElement",
       get: function get() {
         var _arguments = arguments;
@@ -17612,11 +17610,11 @@
 
   var htmlLayout = "\r\n<div class=\"container-fluid\">\r\n    <div class=\"row\" style=\"height: 90vh;\">\r\n        <div class=\"col d-md-block pr-md-0 pt-3\" id=\"col1panel\" style=\"overflow-y: auto; max-height: calc(100vh - 5rem);\">\r\n        </div>\r\n        <div class=\"col d-md-none pl-0 pr-0\" id=\"ctrlpanel\" style=\"background-color: aliceblue; width: 28px; max-width: 28px; overflow-y: hidden; \">\r\n            <button class=\"navbar-light navbar-toggler pl-0 pr-0\" type=\"button\" aria-label=\"Back\" id=\"right-panel-back\">\r\n                <i class=\"material-icons-round\" style=\"color: gray;\">view_list</i>\r\n            </button>\r\n        </div>\r\n        <div class=\"col d-md-block pr-md-0\" id=\"col2panel\" style=\"overflow-y: auto; height: 100%;\">\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
-  function _createForOfIteratorHelper$2(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$2(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+  function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
-  function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
+  function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-  function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+  function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
   function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
@@ -17744,7 +17742,7 @@
       return _this;
     }
 
-    _createClass$1(MainView, [{
+    _createClass(MainView, [{
       key: "initialise",
       value:
       /**
@@ -17792,7 +17790,7 @@
           targetMatch = '';
         }
 
-        var _iterator = _createForOfIteratorHelper$2(cards),
+        var _iterator = _createForOfIteratorHelper(cards),
             _step;
 
         try {
@@ -17826,7 +17824,7 @@
         var occurrenceCards = document.querySelectorAll("div#".concat(OCCURRENCE_LIST_CONTAINER_ID, " div[data-parent=\"#").concat(OCCURRENCE_LIST_CONTAINER_ID, "\"].collapse"));
         var targetMatch = this.controller.currentOccurrenceId;
 
-        var _iterator2 = _createForOfIteratorHelper$2(occurrenceCards),
+        var _iterator2 = _createForOfIteratorHelper(occurrenceCards),
             _step2;
 
         try {
@@ -17967,7 +17965,7 @@
       key: "occurrenceIsMostRecent",
       value: function occurrenceIsMostRecent(occurrence) {
         // loop through entries sorted by creation date, most recent first
-        var _iterator3 = _createForOfIteratorHelper$2(this.controller.occurrences.entries()),
+        var _iterator3 = _createForOfIteratorHelper(this.controller.occurrences.entries()),
             _step3;
 
         try {
@@ -18600,7 +18598,7 @@
 
     var occurrencesHtml = []; // loop through entries sorted by creation date, most recent first
 
-    var _iterator4 = _createForOfIteratorHelper$2(_toConsumableArray(this.controller.occurrences.entries()).sort(function (a, b) {
+    var _iterator4 = _createForOfIteratorHelper(_toConsumableArray(this.controller.occurrences.entries()).sort(function (a, b) {
       return b[1].createdStamp - a[1].createdStamp;
     })),
         _step4;
@@ -18662,22 +18660,6 @@
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
     }
-  }
-
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
   }
 
   function _defineProperty(obj, key, value) {
@@ -18776,92 +18758,14 @@
     };
   }
 
-  function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-  }
-
-  function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-
-    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
-
-  function _createForOfIteratorHelper(o, allowArrayLike) {
-    var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
-
-    if (!it) {
-      if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
-        if (it) o = it;
-        var i = 0;
-
-        var F = function () {};
-
-        return {
-          s: F,
-          n: function () {
-            if (i >= o.length) return {
-              done: true
-            };
-            return {
-              done: false,
-              value: o[i++]
-            };
-          },
-          e: function (e) {
-            throw e;
-          },
-          f: F
-        };
-      }
-
-      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    }
-
-    var normalCompletion = true,
-        didErr = false,
-        err;
-    return {
-      s: function () {
-        it = it.call(o);
-      },
-      n: function () {
-        var step = it.next();
-        normalCompletion = step.done;
-        return step;
-      },
-      e: function (e) {
-        didErr = true;
-        err = e;
-      },
-      f: function () {
-        try {
-          if (!normalCompletion && it.return != null) it.return();
-        } finally {
-          if (didErr) throw err;
-        }
-      }
-    };
-  }
-
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-  function commonjsRequire (path) {
-  	throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
-  }
 
   var check = function (it) {
     return it && it.Math == Math && it;
   };
 
   // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-  var global$j =
+  var global$b =
     // eslint-disable-next-line es/no-global-this -- safe
     check(typeof globalThis == 'object' && globalThis) ||
     check(typeof window == 'object' && window) ||
@@ -18873,7 +18777,7 @@
 
   var objectGetOwnPropertyDescriptor = {};
 
-  var fails$c = function (exec) {
+  var fails$8 = function (exec) {
     try {
       return !!exec();
     } catch (error) {
@@ -18881,10 +18785,10 @@
     }
   };
 
-  var fails$b = fails$c;
+  var fails$7 = fails$8;
 
   // Detect IE8's incomplete defineProperty implementation
-  var descriptors = !fails$b(function () {
+  var descriptors = !fails$7(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
   });
@@ -18893,19 +18797,19 @@
 
   var $propertyIsEnumerable = {}.propertyIsEnumerable;
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-  var getOwnPropertyDescriptor$2 = Object.getOwnPropertyDescriptor;
+  var getOwnPropertyDescriptor$1 = Object.getOwnPropertyDescriptor;
 
   // Nashorn ~ JDK8 bug
-  var NASHORN_BUG = getOwnPropertyDescriptor$2 && !$propertyIsEnumerable.call({ 1: 2 }, 1);
+  var NASHORN_BUG = getOwnPropertyDescriptor$1 && !$propertyIsEnumerable.call({ 1: 2 }, 1);
 
   // `Object.prototype.propertyIsEnumerable` method implementation
   // https://tc39.es/ecma262/#sec-object.prototype.propertyisenumerable
   objectPropertyIsEnumerable.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
-    var descriptor = getOwnPropertyDescriptor$2(this, V);
+    var descriptor = getOwnPropertyDescriptor$1(this, V);
     return !!descriptor && descriptor.enumerable;
   } : $propertyIsEnumerable;
 
-  var createPropertyDescriptor$4 = function (bitmap, value) {
+  var createPropertyDescriptor$3 = function (bitmap, value) {
     return {
       enumerable: !(bitmap & 1),
       configurable: !(bitmap & 2),
@@ -18914,84 +18818,84 @@
     };
   };
 
-  var toString$4 = {}.toString;
+  var toString = {}.toString;
 
   var classofRaw$1 = function (it) {
-    return toString$4.call(it).slice(8, -1);
+    return toString.call(it).slice(8, -1);
   };
 
-  var fails$a = fails$c;
-  var classof$7 = classofRaw$1;
+  var fails$6 = fails$8;
+  var classof$3 = classofRaw$1;
 
   var split = ''.split;
 
   // fallback for non-array-like ES3 and non-enumerable old V8 strings
-  var indexedObject = fails$a(function () {
+  var indexedObject = fails$6(function () {
     // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
     // eslint-disable-next-line no-prototype-builtins -- safe
     return !Object('z').propertyIsEnumerable(0);
   }) ? function (it) {
-    return classof$7(it) == 'String' ? split.call(it, '') : Object(it);
+    return classof$3(it) == 'String' ? split.call(it, '') : Object(it);
   } : Object;
 
   // `RequireObjectCoercible` abstract operation
   // https://tc39.es/ecma262/#sec-requireobjectcoercible
-  var requireObjectCoercible$3 = function (it) {
+  var requireObjectCoercible$2 = function (it) {
     if (it == undefined) throw TypeError("Can't call method on " + it);
     return it;
   };
 
   // toObject with fallback for non-array-like ES3 strings
   var IndexedObject = indexedObject;
-  var requireObjectCoercible$2 = requireObjectCoercible$3;
+  var requireObjectCoercible$1 = requireObjectCoercible$2;
 
-  var toIndexedObject$4 = function (it) {
-    return IndexedObject(requireObjectCoercible$2(it));
+  var toIndexedObject$3 = function (it) {
+    return IndexedObject(requireObjectCoercible$1(it));
   };
 
   // `IsCallable` abstract operation
   // https://tc39.es/ecma262/#sec-iscallable
-  var isCallable$i = function (argument) {
+  var isCallable$b = function (argument) {
     return typeof argument === 'function';
   };
 
-  var isCallable$h = isCallable$i;
+  var isCallable$a = isCallable$b;
 
-  var isObject$9 = function (it) {
-    return typeof it === 'object' ? it !== null : isCallable$h(it);
+  var isObject$7 = function (it) {
+    return typeof it === 'object' ? it !== null : isCallable$a(it);
   };
 
-  var global$i = global$j;
-  var isCallable$g = isCallable$i;
+  var global$a = global$b;
+  var isCallable$9 = isCallable$b;
 
   var aFunction = function (argument) {
-    return isCallable$g(argument) ? argument : undefined;
+    return isCallable$9(argument) ? argument : undefined;
   };
 
-  var getBuiltIn$8 = function (namespace, method) {
-    return arguments.length < 2 ? aFunction(global$i[namespace]) : global$i[namespace] && global$i[namespace][method];
+  var getBuiltIn$4 = function (namespace, method) {
+    return arguments.length < 2 ? aFunction(global$a[namespace]) : global$a[namespace] && global$a[namespace][method];
   };
 
-  var getBuiltIn$7 = getBuiltIn$8;
+  var getBuiltIn$3 = getBuiltIn$4;
 
-  var engineUserAgent = getBuiltIn$7('navigator', 'userAgent') || '';
+  var engineUserAgent = getBuiltIn$3('navigator', 'userAgent') || '';
 
-  var global$h = global$j;
-  var userAgent$3 = engineUserAgent;
+  var global$9 = global$b;
+  var userAgent = engineUserAgent;
 
-  var process$3 = global$h.process;
-  var Deno = global$h.Deno;
-  var versions = process$3 && process$3.versions || Deno && Deno.version;
+  var process = global$9.process;
+  var Deno = global$9.Deno;
+  var versions = process && process.versions || Deno && Deno.version;
   var v8 = versions && versions.v8;
   var match, version;
 
   if (v8) {
     match = v8.split('.');
     version = match[0] < 4 ? 1 : match[0] + match[1];
-  } else if (userAgent$3) {
-    match = userAgent$3.match(/Edge\/(\d+)/);
+  } else if (userAgent) {
+    match = userAgent.match(/Edge\/(\d+)/);
     if (!match || match[1] >= 74) {
-      match = userAgent$3.match(/Chrome\/(\d+)/);
+      match = userAgent.match(/Chrome\/(\d+)/);
       if (match) version = match[1];
     }
   }
@@ -19000,17 +18904,17 @@
 
   /* eslint-disable es/no-symbol -- required for testing */
 
-  var V8_VERSION$3 = engineV8Version;
-  var fails$9 = fails$c;
+  var V8_VERSION$2 = engineV8Version;
+  var fails$5 = fails$8;
 
   // eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
-  var nativeSymbol = !!Object.getOwnPropertySymbols && !fails$9(function () {
+  var nativeSymbol = !!Object.getOwnPropertySymbols && !fails$5(function () {
     var symbol = Symbol();
     // Chrome 38 Symbol has incorrect toString conversion
     // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
     return !String(symbol) || !(Object(symbol) instanceof Symbol) ||
       // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
-      !Symbol.sham && V8_VERSION$3 && V8_VERSION$3 < 41;
+      !Symbol.sham && V8_VERSION$2 && V8_VERSION$2 < 41;
   });
 
   /* eslint-disable es/no-symbol -- required for testing */
@@ -19021,18 +18925,18 @@
     && !Symbol.sham
     && typeof Symbol.iterator == 'symbol';
 
-  var isCallable$f = isCallable$i;
-  var getBuiltIn$6 = getBuiltIn$8;
+  var isCallable$8 = isCallable$b;
+  var getBuiltIn$2 = getBuiltIn$4;
   var USE_SYMBOL_AS_UID$1 = useSymbolAsUid;
 
   var isSymbol$2 = USE_SYMBOL_AS_UID$1 ? function (it) {
     return typeof it == 'symbol';
   } : function (it) {
-    var $Symbol = getBuiltIn$6('Symbol');
-    return isCallable$f($Symbol) && Object(it) instanceof $Symbol;
+    var $Symbol = getBuiltIn$2('Symbol');
+    return isCallable$8($Symbol) && Object(it) instanceof $Symbol;
   };
 
-  var tryToString$2 = function (argument) {
+  var tryToString$1 = function (argument) {
     try {
       return String(argument);
     } catch (error) {
@@ -19040,55 +18944,55 @@
     }
   };
 
-  var isCallable$e = isCallable$i;
-  var tryToString$1 = tryToString$2;
+  var isCallable$7 = isCallable$b;
+  var tryToString = tryToString$1;
 
   // `Assert: IsCallable(argument) is true`
-  var aCallable$5 = function (argument) {
-    if (isCallable$e(argument)) return argument;
-    throw TypeError(tryToString$1(argument) + ' is not a function');
+  var aCallable$1 = function (argument) {
+    if (isCallable$7(argument)) return argument;
+    throw TypeError(tryToString(argument) + ' is not a function');
   };
 
-  var aCallable$4 = aCallable$5;
+  var aCallable = aCallable$1;
 
   // `GetMethod` abstract operation
   // https://tc39.es/ecma262/#sec-getmethod
-  var getMethod$3 = function (V, P) {
+  var getMethod$1 = function (V, P) {
     var func = V[P];
-    return func == null ? undefined : aCallable$4(func);
+    return func == null ? undefined : aCallable(func);
   };
 
-  var isCallable$d = isCallable$i;
-  var isObject$8 = isObject$9;
+  var isCallable$6 = isCallable$b;
+  var isObject$6 = isObject$7;
 
   // `OrdinaryToPrimitive` abstract operation
   // https://tc39.es/ecma262/#sec-ordinarytoprimitive
   var ordinaryToPrimitive$1 = function (input, pref) {
     var fn, val;
-    if (pref === 'string' && isCallable$d(fn = input.toString) && !isObject$8(val = fn.call(input))) return val;
-    if (isCallable$d(fn = input.valueOf) && !isObject$8(val = fn.call(input))) return val;
-    if (pref !== 'string' && isCallable$d(fn = input.toString) && !isObject$8(val = fn.call(input))) return val;
+    if (pref === 'string' && isCallable$6(fn = input.toString) && !isObject$6(val = fn.call(input))) return val;
+    if (isCallable$6(fn = input.valueOf) && !isObject$6(val = fn.call(input))) return val;
+    if (pref !== 'string' && isCallable$6(fn = input.toString) && !isObject$6(val = fn.call(input))) return val;
     throw TypeError("Can't convert object to primitive value");
   };
 
   var shared$3 = {exports: {}};
 
-  var global$g = global$j;
+  var global$8 = global$b;
 
   var setGlobal$3 = function (key, value) {
     try {
       // eslint-disable-next-line es/no-object-defineproperty -- safe
-      Object.defineProperty(global$g, key, { value: value, configurable: true, writable: true });
+      Object.defineProperty(global$8, key, { value: value, configurable: true, writable: true });
     } catch (error) {
-      global$g[key] = value;
+      global$8[key] = value;
     } return value;
   };
 
-  var global$f = global$j;
+  var global$7 = global$b;
   var setGlobal$2 = setGlobal$3;
 
   var SHARED = '__core-js_shared__';
-  var store$3 = global$f[SHARED] || setGlobal$2(SHARED, {});
+  var store$3 = global$7[SHARED] || setGlobal$2(SHARED, {});
 
   var sharedStore = store$3;
 
@@ -19102,22 +19006,22 @@
     copyright: '© 2021 Denis Pushkarev (zloirock.ru)'
   });
 
-  var requireObjectCoercible$1 = requireObjectCoercible$3;
+  var requireObjectCoercible = requireObjectCoercible$2;
 
   // `ToObject` abstract operation
   // https://tc39.es/ecma262/#sec-toobject
-  var toObject$3 = function (argument) {
-    return Object(requireObjectCoercible$1(argument));
+  var toObject$2 = function (argument) {
+    return Object(requireObjectCoercible(argument));
   };
 
-  var toObject$2 = toObject$3;
+  var toObject$1 = toObject$2;
 
   var hasOwnProperty = {}.hasOwnProperty;
 
   // `HasOwnProperty` abstract operation
   // https://tc39.es/ecma262/#sec-hasownproperty
   var hasOwnProperty_1 = Object.hasOwn || function hasOwn(it, key) {
-    return hasOwnProperty.call(toObject$2(it), key);
+    return hasOwnProperty.call(toObject$1(it), key);
   };
 
   var id = 0;
@@ -19127,20 +19031,20 @@
     return 'Symbol(' + String(key === undefined ? '' : key) + ')_' + (++id + postfix).toString(36);
   };
 
-  var global$e = global$j;
+  var global$6 = global$b;
   var shared$2 = shared$3.exports;
-  var hasOwn$8 = hasOwnProperty_1;
+  var hasOwn$6 = hasOwnProperty_1;
   var uid$1 = uid$2;
   var NATIVE_SYMBOL = nativeSymbol;
   var USE_SYMBOL_AS_UID = useSymbolAsUid;
 
   var WellKnownSymbolsStore = shared$2('wks');
-  var Symbol$1 = global$e.Symbol;
+  var Symbol$1 = global$6.Symbol;
   var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol$1 : Symbol$1 && Symbol$1.withoutSetter || uid$1;
 
-  var wellKnownSymbol$h = function (name) {
-    if (!hasOwn$8(WellKnownSymbolsStore, name) || !(NATIVE_SYMBOL || typeof WellKnownSymbolsStore[name] == 'string')) {
-      if (NATIVE_SYMBOL && hasOwn$8(Symbol$1, name)) {
+  var wellKnownSymbol$6 = function (name) {
+    if (!hasOwn$6(WellKnownSymbolsStore, name) || !(NATIVE_SYMBOL || typeof WellKnownSymbolsStore[name] == 'string')) {
+      if (NATIVE_SYMBOL && hasOwn$6(Symbol$1, name)) {
         WellKnownSymbolsStore[name] = Symbol$1[name];
       } else {
         WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
@@ -19148,24 +19052,24 @@
     } return WellKnownSymbolsStore[name];
   };
 
-  var isObject$7 = isObject$9;
+  var isObject$5 = isObject$7;
   var isSymbol$1 = isSymbol$2;
-  var getMethod$2 = getMethod$3;
+  var getMethod = getMethod$1;
   var ordinaryToPrimitive = ordinaryToPrimitive$1;
-  var wellKnownSymbol$g = wellKnownSymbol$h;
+  var wellKnownSymbol$5 = wellKnownSymbol$6;
 
-  var TO_PRIMITIVE = wellKnownSymbol$g('toPrimitive');
+  var TO_PRIMITIVE = wellKnownSymbol$5('toPrimitive');
 
   // `ToPrimitive` abstract operation
   // https://tc39.es/ecma262/#sec-toprimitive
   var toPrimitive$1 = function (input, pref) {
-    if (!isObject$7(input) || isSymbol$1(input)) return input;
-    var exoticToPrim = getMethod$2(input, TO_PRIMITIVE);
+    if (!isObject$5(input) || isSymbol$1(input)) return input;
+    var exoticToPrim = getMethod(input, TO_PRIMITIVE);
     var result;
     if (exoticToPrim) {
       if (pref === undefined) pref = 'default';
       result = exoticToPrim.call(input, pref);
-      if (!isObject$7(result) || isSymbol$1(result)) return result;
+      if (!isObject$5(result) || isSymbol$1(result)) return result;
       throw TypeError("Can't convert object to primitive value");
     }
     if (pref === undefined) pref = 'number';
@@ -19182,35 +19086,35 @@
     return isSymbol(key) ? key : String(key);
   };
 
-  var global$d = global$j;
-  var isObject$6 = isObject$9;
+  var global$5 = global$b;
+  var isObject$4 = isObject$7;
 
-  var document$3 = global$d.document;
+  var document$1 = global$5.document;
   // typeof document.createElement is 'object' in old IE
-  var EXISTS$1 = isObject$6(document$3) && isObject$6(document$3.createElement);
+  var EXISTS$1 = isObject$4(document$1) && isObject$4(document$1.createElement);
 
-  var documentCreateElement$2 = function (it) {
-    return EXISTS$1 ? document$3.createElement(it) : {};
+  var documentCreateElement = function (it) {
+    return EXISTS$1 ? document$1.createElement(it) : {};
   };
 
-  var DESCRIPTORS$6 = descriptors;
-  var fails$8 = fails$c;
-  var createElement$1 = documentCreateElement$2;
+  var DESCRIPTORS$4 = descriptors;
+  var fails$4 = fails$8;
+  var createElement = documentCreateElement;
 
   // Thank's IE8 for his funny defineProperty
-  var ie8DomDefine = !DESCRIPTORS$6 && !fails$8(function () {
+  var ie8DomDefine = !DESCRIPTORS$4 && !fails$4(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- requied for testing
-    return Object.defineProperty(createElement$1('div'), 'a', {
+    return Object.defineProperty(createElement('div'), 'a', {
       get: function () { return 7; }
     }).a != 7;
   });
 
-  var DESCRIPTORS$5 = descriptors;
+  var DESCRIPTORS$3 = descriptors;
   var propertyIsEnumerableModule = objectPropertyIsEnumerable;
-  var createPropertyDescriptor$3 = createPropertyDescriptor$4;
-  var toIndexedObject$3 = toIndexedObject$4;
+  var createPropertyDescriptor$2 = createPropertyDescriptor$3;
+  var toIndexedObject$2 = toIndexedObject$3;
   var toPropertyKey$2 = toPropertyKey$3;
-  var hasOwn$7 = hasOwnProperty_1;
+  var hasOwn$5 = hasOwnProperty_1;
   var IE8_DOM_DEFINE$1 = ie8DomDefine;
 
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
@@ -19218,28 +19122,28 @@
 
   // `Object.getOwnPropertyDescriptor` method
   // https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
-  objectGetOwnPropertyDescriptor.f = DESCRIPTORS$5 ? $getOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
-    O = toIndexedObject$3(O);
+  objectGetOwnPropertyDescriptor.f = DESCRIPTORS$3 ? $getOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
+    O = toIndexedObject$2(O);
     P = toPropertyKey$2(P);
     if (IE8_DOM_DEFINE$1) try {
       return $getOwnPropertyDescriptor(O, P);
     } catch (error) { /* empty */ }
-    if (hasOwn$7(O, P)) return createPropertyDescriptor$3(!propertyIsEnumerableModule.f.call(O, P), O[P]);
+    if (hasOwn$5(O, P)) return createPropertyDescriptor$2(!propertyIsEnumerableModule.f.call(O, P), O[P]);
   };
 
   var objectDefineProperty = {};
 
-  var isObject$5 = isObject$9;
+  var isObject$3 = isObject$7;
 
   // `Assert: Type(argument) is Object`
-  var anObject$a = function (argument) {
-    if (isObject$5(argument)) return argument;
+  var anObject$2 = function (argument) {
+    if (isObject$3(argument)) return argument;
     throw TypeError(String(argument) + ' is not an object');
   };
 
-  var DESCRIPTORS$4 = descriptors;
+  var DESCRIPTORS$2 = descriptors;
   var IE8_DOM_DEFINE = ie8DomDefine;
-  var anObject$9 = anObject$a;
+  var anObject$1 = anObject$2;
   var toPropertyKey$1 = toPropertyKey$3;
 
   // eslint-disable-next-line es/no-object-defineproperty -- safe
@@ -19247,10 +19151,10 @@
 
   // `Object.defineProperty` method
   // https://tc39.es/ecma262/#sec-object.defineproperty
-  objectDefineProperty.f = DESCRIPTORS$4 ? $defineProperty : function defineProperty(O, P, Attributes) {
-    anObject$9(O);
+  objectDefineProperty.f = DESCRIPTORS$2 ? $defineProperty : function defineProperty(O, P, Attributes) {
+    anObject$1(O);
     P = toPropertyKey$1(P);
-    anObject$9(Attributes);
+    anObject$1(Attributes);
     if (IE8_DOM_DEFINE) try {
       return $defineProperty(O, P, Attributes);
     } catch (error) { /* empty */ }
@@ -19259,73 +19163,73 @@
     return O;
   };
 
-  var DESCRIPTORS$3 = descriptors;
-  var definePropertyModule$5 = objectDefineProperty;
-  var createPropertyDescriptor$2 = createPropertyDescriptor$4;
+  var DESCRIPTORS$1 = descriptors;
+  var definePropertyModule$2 = objectDefineProperty;
+  var createPropertyDescriptor$1 = createPropertyDescriptor$3;
 
-  var createNonEnumerableProperty$5 = DESCRIPTORS$3 ? function (object, key, value) {
-    return definePropertyModule$5.f(object, key, createPropertyDescriptor$2(1, value));
+  var createNonEnumerableProperty$3 = DESCRIPTORS$1 ? function (object, key, value) {
+    return definePropertyModule$2.f(object, key, createPropertyDescriptor$1(1, value));
   } : function (object, key, value) {
     object[key] = value;
     return object;
   };
 
-  var redefine$7 = {exports: {}};
+  var redefine$1 = {exports: {}};
 
-  var isCallable$c = isCallable$i;
+  var isCallable$5 = isCallable$b;
   var store$1 = sharedStore;
 
   var functionToString = Function.toString;
 
   // this helper broken in `core-js@3.4.1-3.4.4`, so we can't use `shared` helper
-  if (!isCallable$c(store$1.inspectSource)) {
+  if (!isCallable$5(store$1.inspectSource)) {
     store$1.inspectSource = function (it) {
       return functionToString.call(it);
     };
   }
 
-  var inspectSource$4 = store$1.inspectSource;
+  var inspectSource$3 = store$1.inspectSource;
 
-  var global$c = global$j;
-  var isCallable$b = isCallable$i;
-  var inspectSource$3 = inspectSource$4;
+  var global$4 = global$b;
+  var isCallable$4 = isCallable$b;
+  var inspectSource$2 = inspectSource$3;
 
-  var WeakMap$2 = global$c.WeakMap;
+  var WeakMap$2 = global$4.WeakMap;
 
-  var nativeWeakMap = isCallable$b(WeakMap$2) && /native code/.test(inspectSource$3(WeakMap$2));
+  var nativeWeakMap = isCallable$4(WeakMap$2) && /native code/.test(inspectSource$2(WeakMap$2));
 
   var shared$1 = shared$3.exports;
   var uid = uid$2;
 
   var keys = shared$1('keys');
 
-  var sharedKey$3 = function (key) {
+  var sharedKey$1 = function (key) {
     return keys[key] || (keys[key] = uid(key));
   };
 
-  var hiddenKeys$4 = {};
+  var hiddenKeys$3 = {};
 
   var NATIVE_WEAK_MAP = nativeWeakMap;
-  var global$b = global$j;
-  var isObject$4 = isObject$9;
-  var createNonEnumerableProperty$4 = createNonEnumerableProperty$5;
-  var hasOwn$6 = hasOwnProperty_1;
+  var global$3 = global$b;
+  var isObject$2 = isObject$7;
+  var createNonEnumerableProperty$2 = createNonEnumerableProperty$3;
+  var hasOwn$4 = hasOwnProperty_1;
   var shared = sharedStore;
-  var sharedKey$2 = sharedKey$3;
-  var hiddenKeys$3 = hiddenKeys$4;
+  var sharedKey = sharedKey$1;
+  var hiddenKeys$2 = hiddenKeys$3;
 
   var OBJECT_ALREADY_INITIALIZED = 'Object already initialized';
-  var WeakMap$1 = global$b.WeakMap;
-  var set$1, get, has;
+  var WeakMap$1 = global$3.WeakMap;
+  var set, get, has;
 
   var enforce = function (it) {
-    return has(it) ? get(it) : set$1(it, {});
+    return has(it) ? get(it) : set(it, {});
   };
 
   var getterFor = function (TYPE) {
     return function (it) {
       var state;
-      if (!isObject$4(it) || (state = get(it)).type !== TYPE) {
+      if (!isObject$2(it) || (state = get(it)).type !== TYPE) {
         throw TypeError('Incompatible receiver, ' + TYPE + ' required');
       } return state;
     };
@@ -19336,7 +19240,7 @@
     var wmget = store.get;
     var wmhas = store.has;
     var wmset = store.set;
-    set$1 = function (it, metadata) {
+    set = function (it, metadata) {
       if (wmhas.call(store, it)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
       metadata.facade = it;
       wmset.call(store, it, metadata);
@@ -19349,41 +19253,41 @@
       return wmhas.call(store, it);
     };
   } else {
-    var STATE = sharedKey$2('state');
-    hiddenKeys$3[STATE] = true;
-    set$1 = function (it, metadata) {
-      if (hasOwn$6(it, STATE)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
+    var STATE = sharedKey('state');
+    hiddenKeys$2[STATE] = true;
+    set = function (it, metadata) {
+      if (hasOwn$4(it, STATE)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
       metadata.facade = it;
-      createNonEnumerableProperty$4(it, STATE, metadata);
+      createNonEnumerableProperty$2(it, STATE, metadata);
       return metadata;
     };
     get = function (it) {
-      return hasOwn$6(it, STATE) ? it[STATE] : {};
+      return hasOwn$4(it, STATE) ? it[STATE] : {};
     };
     has = function (it) {
-      return hasOwn$6(it, STATE);
+      return hasOwn$4(it, STATE);
     };
   }
 
   var internalState = {
-    set: set$1,
+    set: set,
     get: get,
     has: has,
     enforce: enforce,
     getterFor: getterFor
   };
 
-  var DESCRIPTORS$2 = descriptors;
-  var hasOwn$5 = hasOwnProperty_1;
+  var DESCRIPTORS = descriptors;
+  var hasOwn$3 = hasOwnProperty_1;
 
   var FunctionPrototype = Function.prototype;
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-  var getDescriptor = DESCRIPTORS$2 && Object.getOwnPropertyDescriptor;
+  var getDescriptor = DESCRIPTORS && Object.getOwnPropertyDescriptor;
 
-  var EXISTS = hasOwn$5(FunctionPrototype, 'name');
+  var EXISTS = hasOwn$3(FunctionPrototype, 'name');
   // additional protection from minified / mangled / dropped function names
   var PROPER = EXISTS && (function something() { /* empty */ }).name === 'something';
-  var CONFIGURABLE = EXISTS && (!DESCRIPTORS$2 || (DESCRIPTORS$2 && getDescriptor(FunctionPrototype, 'name').configurable));
+  var CONFIGURABLE = EXISTS && (!DESCRIPTORS || (DESCRIPTORS && getDescriptor(FunctionPrototype, 'name').configurable));
 
   var functionName = {
     EXISTS: EXISTS,
@@ -19391,38 +19295,38 @@
     CONFIGURABLE: CONFIGURABLE
   };
 
-  var global$a = global$j;
-  var isCallable$a = isCallable$i;
-  var hasOwn$4 = hasOwnProperty_1;
-  var createNonEnumerableProperty$3 = createNonEnumerableProperty$5;
+  var global$2 = global$b;
+  var isCallable$3 = isCallable$b;
+  var hasOwn$2 = hasOwnProperty_1;
+  var createNonEnumerableProperty$1 = createNonEnumerableProperty$3;
   var setGlobal$1 = setGlobal$3;
-  var inspectSource$2 = inspectSource$4;
-  var InternalStateModule$3 = internalState;
-  var CONFIGURABLE_FUNCTION_NAME$1 = functionName.CONFIGURABLE;
+  var inspectSource$1 = inspectSource$3;
+  var InternalStateModule = internalState;
+  var CONFIGURABLE_FUNCTION_NAME = functionName.CONFIGURABLE;
 
-  var getInternalState$3 = InternalStateModule$3.get;
-  var enforceInternalState = InternalStateModule$3.enforce;
+  var getInternalState = InternalStateModule.get;
+  var enforceInternalState = InternalStateModule.enforce;
   var TEMPLATE = String(String).split('String');
 
-  (redefine$7.exports = function (O, key, value, options) {
+  (redefine$1.exports = function (O, key, value, options) {
     var unsafe = options ? !!options.unsafe : false;
     var simple = options ? !!options.enumerable : false;
     var noTargetGet = options ? !!options.noTargetGet : false;
     var name = options && options.name !== undefined ? options.name : key;
     var state;
-    if (isCallable$a(value)) {
+    if (isCallable$3(value)) {
       if (String(name).slice(0, 7) === 'Symbol(') {
         name = '[' + String(name).replace(/^Symbol\(([^)]*)\)/, '$1') + ']';
       }
-      if (!hasOwn$4(value, 'name') || (CONFIGURABLE_FUNCTION_NAME$1 && value.name !== name)) {
-        createNonEnumerableProperty$3(value, 'name', name);
+      if (!hasOwn$2(value, 'name') || (CONFIGURABLE_FUNCTION_NAME && value.name !== name)) {
+        createNonEnumerableProperty$1(value, 'name', name);
       }
       state = enforceInternalState(value);
       if (!state.source) {
         state.source = TEMPLATE.join(typeof name == 'string' ? name : '');
       }
     }
-    if (O === global$a) {
+    if (O === global$2) {
       if (simple) O[key] = value;
       else setGlobal$1(key, value);
       return;
@@ -19432,10 +19336,10 @@
       simple = true;
     }
     if (simple) O[key] = value;
-    else createNonEnumerableProperty$3(O, key, value);
+    else createNonEnumerableProperty$1(O, key, value);
   // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
   })(Function.prototype, 'toString', function toString() {
-    return isCallable$a(this) && getInternalState$3(this).source || inspectSource$2(this);
+    return isCallable$3(this) && getInternalState(this).source || inspectSource$1(this);
   });
 
   var objectGetOwnPropertyNames = {};
@@ -19445,13 +19349,13 @@
 
   // `ToIntegerOrInfinity` abstract operation
   // https://tc39.es/ecma262/#sec-tointegerorinfinity
-  var toIntegerOrInfinity$3 = function (argument) {
+  var toIntegerOrInfinity$2 = function (argument) {
     var number = +argument;
     // eslint-disable-next-line no-self-compare -- safe
     return number !== number || number === 0 ? 0 : (number > 0 ? floor : ceil)(number);
   };
 
-  var toIntegerOrInfinity$2 = toIntegerOrInfinity$3;
+  var toIntegerOrInfinity$1 = toIntegerOrInfinity$2;
 
   var max = Math.max;
   var min$1 = Math.min;
@@ -19460,37 +19364,37 @@
   // Let integer be ? ToInteger(index).
   // If integer < 0, let result be max((length + integer), 0); else let result be min(integer, length).
   var toAbsoluteIndex$1 = function (index, length) {
-    var integer = toIntegerOrInfinity$2(index);
+    var integer = toIntegerOrInfinity$1(index);
     return integer < 0 ? max(integer + length, 0) : min$1(integer, length);
   };
 
-  var toIntegerOrInfinity$1 = toIntegerOrInfinity$3;
+  var toIntegerOrInfinity = toIntegerOrInfinity$2;
 
   var min = Math.min;
 
   // `ToLength` abstract operation
   // https://tc39.es/ecma262/#sec-tolength
   var toLength$1 = function (argument) {
-    return argument > 0 ? min(toIntegerOrInfinity$1(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+    return argument > 0 ? min(toIntegerOrInfinity(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
   };
 
   var toLength = toLength$1;
 
   // `LengthOfArrayLike` abstract operation
   // https://tc39.es/ecma262/#sec-lengthofarraylike
-  var lengthOfArrayLike$3 = function (obj) {
+  var lengthOfArrayLike$2 = function (obj) {
     return toLength(obj.length);
   };
 
-  var toIndexedObject$2 = toIndexedObject$4;
+  var toIndexedObject$1 = toIndexedObject$3;
   var toAbsoluteIndex = toAbsoluteIndex$1;
-  var lengthOfArrayLike$2 = lengthOfArrayLike$3;
+  var lengthOfArrayLike$1 = lengthOfArrayLike$2;
 
   // `Array.prototype.{ indexOf, includes }` methods implementation
-  var createMethod$1 = function (IS_INCLUDES) {
+  var createMethod = function (IS_INCLUDES) {
     return function ($this, el, fromIndex) {
-      var O = toIndexedObject$2($this);
-      var length = lengthOfArrayLike$2(O);
+      var O = toIndexedObject$1($this);
+      var length = lengthOfArrayLike$1(O);
       var index = toAbsoluteIndex(fromIndex, length);
       var value;
       // Array#includes uses SameValueZero equality algorithm
@@ -19509,32 +19413,32 @@
   var arrayIncludes = {
     // `Array.prototype.includes` method
     // https://tc39.es/ecma262/#sec-array.prototype.includes
-    includes: createMethod$1(true),
+    includes: createMethod(true),
     // `Array.prototype.indexOf` method
     // https://tc39.es/ecma262/#sec-array.prototype.indexof
-    indexOf: createMethod$1(false)
+    indexOf: createMethod(false)
   };
 
-  var hasOwn$3 = hasOwnProperty_1;
-  var toIndexedObject$1 = toIndexedObject$4;
+  var hasOwn$1 = hasOwnProperty_1;
+  var toIndexedObject = toIndexedObject$3;
   var indexOf = arrayIncludes.indexOf;
-  var hiddenKeys$2 = hiddenKeys$4;
+  var hiddenKeys$1 = hiddenKeys$3;
 
   var objectKeysInternal = function (object, names) {
-    var O = toIndexedObject$1(object);
+    var O = toIndexedObject(object);
     var i = 0;
     var result = [];
     var key;
-    for (key in O) !hasOwn$3(hiddenKeys$2, key) && hasOwn$3(O, key) && result.push(key);
+    for (key in O) !hasOwn$1(hiddenKeys$1, key) && hasOwn$1(O, key) && result.push(key);
     // Don't enum bug & hidden keys
-    while (names.length > i) if (hasOwn$3(O, key = names[i++])) {
+    while (names.length > i) if (hasOwn$1(O, key = names[i++])) {
       ~indexOf(result, key) || result.push(key);
     }
     return result;
   };
 
   // IE8- don't enum bug keys
-  var enumBugKeys$3 = [
+  var enumBugKeys$1 = [
     'constructor',
     'hasOwnProperty',
     'isPrototypeOf',
@@ -19544,16 +19448,16 @@
     'valueOf'
   ];
 
-  var internalObjectKeys$1 = objectKeysInternal;
-  var enumBugKeys$2 = enumBugKeys$3;
+  var internalObjectKeys = objectKeysInternal;
+  var enumBugKeys = enumBugKeys$1;
 
-  var hiddenKeys$1 = enumBugKeys$2.concat('length', 'prototype');
+  var hiddenKeys = enumBugKeys.concat('length', 'prototype');
 
   // `Object.getOwnPropertyNames` method
   // https://tc39.es/ecma262/#sec-object.getownpropertynames
   // eslint-disable-next-line es/no-object-getownpropertynames -- safe
   objectGetOwnPropertyNames.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-    return internalObjectKeys$1(O, hiddenKeys$1);
+    return internalObjectKeys(O, hiddenKeys);
   };
 
   var objectGetOwnPropertySymbols = {};
@@ -19561,63 +19465,63 @@
   // eslint-disable-next-line es/no-object-getownpropertysymbols -- safe
   objectGetOwnPropertySymbols.f = Object.getOwnPropertySymbols;
 
-  var getBuiltIn$5 = getBuiltIn$8;
+  var getBuiltIn$1 = getBuiltIn$4;
   var getOwnPropertyNamesModule = objectGetOwnPropertyNames;
   var getOwnPropertySymbolsModule = objectGetOwnPropertySymbols;
-  var anObject$8 = anObject$a;
+  var anObject = anObject$2;
 
   // all object keys, includes non-enumerable and symbols
-  var ownKeys$1 = getBuiltIn$5('Reflect', 'ownKeys') || function ownKeys(it) {
-    var keys = getOwnPropertyNamesModule.f(anObject$8(it));
+  var ownKeys$1 = getBuiltIn$1('Reflect', 'ownKeys') || function ownKeys(it) {
+    var keys = getOwnPropertyNamesModule.f(anObject(it));
     var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
     return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
   };
 
-  var hasOwn$2 = hasOwnProperty_1;
+  var hasOwn = hasOwnProperty_1;
   var ownKeys = ownKeys$1;
   var getOwnPropertyDescriptorModule = objectGetOwnPropertyDescriptor;
-  var definePropertyModule$4 = objectDefineProperty;
+  var definePropertyModule$1 = objectDefineProperty;
 
   var copyConstructorProperties$1 = function (target, source) {
     var keys = ownKeys(source);
-    var defineProperty = definePropertyModule$4.f;
+    var defineProperty = definePropertyModule$1.f;
     var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
-      if (!hasOwn$2(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+      if (!hasOwn(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
     }
   };
 
-  var fails$7 = fails$c;
-  var isCallable$9 = isCallable$i;
+  var fails$3 = fails$8;
+  var isCallable$2 = isCallable$b;
 
   var replacement = /#|\.prototype\./;
 
-  var isForced$2 = function (feature, detection) {
+  var isForced$1 = function (feature, detection) {
     var value = data[normalize(feature)];
     return value == POLYFILL ? true
       : value == NATIVE ? false
-      : isCallable$9(detection) ? fails$7(detection)
+      : isCallable$2(detection) ? fails$3(detection)
       : !!detection;
   };
 
-  var normalize = isForced$2.normalize = function (string) {
+  var normalize = isForced$1.normalize = function (string) {
     return String(string).replace(replacement, '.').toLowerCase();
   };
 
-  var data = isForced$2.data = {};
-  var NATIVE = isForced$2.NATIVE = 'N';
-  var POLYFILL = isForced$2.POLYFILL = 'P';
+  var data = isForced$1.data = {};
+  var NATIVE = isForced$1.NATIVE = 'N';
+  var POLYFILL = isForced$1.POLYFILL = 'P';
 
-  var isForced_1 = isForced$2;
+  var isForced_1 = isForced$1;
 
-  var global$9 = global$j;
-  var getOwnPropertyDescriptor$1 = objectGetOwnPropertyDescriptor.f;
-  var createNonEnumerableProperty$2 = createNonEnumerableProperty$5;
-  var redefine$6 = redefine$7.exports;
+  var global$1 = global$b;
+  var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
+  var createNonEnumerableProperty = createNonEnumerableProperty$3;
+  var redefine = redefine$1.exports;
   var setGlobal = setGlobal$3;
   var copyConstructorProperties = copyConstructorProperties$1;
-  var isForced$1 = isForced_1;
+  var isForced = isForced_1;
 
   /*
     options.target      - name of the target object
@@ -19640,19 +19544,19 @@
     var STATIC = options.stat;
     var FORCED, target, key, targetProperty, sourceProperty, descriptor;
     if (GLOBAL) {
-      target = global$9;
+      target = global$1;
     } else if (STATIC) {
-      target = global$9[TARGET] || setGlobal(TARGET, {});
+      target = global$1[TARGET] || setGlobal(TARGET, {});
     } else {
-      target = (global$9[TARGET] || {}).prototype;
+      target = (global$1[TARGET] || {}).prototype;
     }
     if (target) for (key in source) {
       sourceProperty = source[key];
       if (options.noTargetGet) {
-        descriptor = getOwnPropertyDescriptor$1(target, key);
+        descriptor = getOwnPropertyDescriptor(target, key);
         targetProperty = descriptor && descriptor.value;
       } else targetProperty = target[key];
-      FORCED = isForced$1(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
+      FORCED = isForced(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
       // contained in target
       if (!FORCED && targetProperty !== undefined) {
         if (typeof sourceProperty === typeof targetProperty) continue;
@@ -19660,47 +19564,47 @@
       }
       // add a flag to not completely full polyfills
       if (options.sham || (targetProperty && targetProperty.sham)) {
-        createNonEnumerableProperty$2(sourceProperty, 'sham', true);
+        createNonEnumerableProperty(sourceProperty, 'sham', true);
       }
       // extend global
-      redefine$6(target, key, sourceProperty, options);
+      redefine(target, key, sourceProperty, options);
     }
   };
 
-  var classof$6 = classofRaw$1;
+  var classof$2 = classofRaw$1;
 
   // `IsArray` abstract operation
   // https://tc39.es/ecma262/#sec-isarray
   // eslint-disable-next-line es/no-array-isarray -- safe
   var isArray$2 = Array.isArray || function isArray(argument) {
-    return classof$6(argument) == 'Array';
+    return classof$2(argument) == 'Array';
   };
 
   var toPropertyKey = toPropertyKey$3;
-  var definePropertyModule$3 = objectDefineProperty;
-  var createPropertyDescriptor$1 = createPropertyDescriptor$4;
+  var definePropertyModule = objectDefineProperty;
+  var createPropertyDescriptor = createPropertyDescriptor$3;
 
   var createProperty$1 = function (object, key, value) {
     var propertyKey = toPropertyKey(key);
-    if (propertyKey in object) definePropertyModule$3.f(object, propertyKey, createPropertyDescriptor$1(0, value));
+    if (propertyKey in object) definePropertyModule.f(object, propertyKey, createPropertyDescriptor(0, value));
     else object[propertyKey] = value;
   };
 
-  var wellKnownSymbol$f = wellKnownSymbol$h;
+  var wellKnownSymbol$4 = wellKnownSymbol$6;
 
-  var TO_STRING_TAG$3 = wellKnownSymbol$f('toStringTag');
+  var TO_STRING_TAG$1 = wellKnownSymbol$4('toStringTag');
   var test = {};
 
-  test[TO_STRING_TAG$3] = 'z';
+  test[TO_STRING_TAG$1] = 'z';
 
   var toStringTagSupport = String(test) === '[object z]';
 
-  var TO_STRING_TAG_SUPPORT$2 = toStringTagSupport;
-  var isCallable$8 = isCallable$i;
+  var TO_STRING_TAG_SUPPORT = toStringTagSupport;
+  var isCallable$1 = isCallable$b;
   var classofRaw = classofRaw$1;
-  var wellKnownSymbol$e = wellKnownSymbol$h;
+  var wellKnownSymbol$3 = wellKnownSymbol$6;
 
-  var TO_STRING_TAG$2 = wellKnownSymbol$e('toStringTag');
+  var TO_STRING_TAG = wellKnownSymbol$3('toStringTag');
   // ES3 wrong here
   var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
 
@@ -19712,31 +19616,31 @@
   };
 
   // getting tag from ES6+ `Object.prototype.toString`
-  var classof$5 = TO_STRING_TAG_SUPPORT$2 ? classofRaw : function (it) {
+  var classof$1 = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
     var O, tag, result;
     return it === undefined ? 'Undefined' : it === null ? 'Null'
       // @@toStringTag case
-      : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG$2)) == 'string' ? tag
+      : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
       // builtinTag case
       : CORRECT_ARGUMENTS ? classofRaw(O)
       // ES3 arguments fallback
-      : (result = classofRaw(O)) == 'Object' && isCallable$8(O.callee) ? 'Arguments' : result;
+      : (result = classofRaw(O)) == 'Object' && isCallable$1(O.callee) ? 'Arguments' : result;
   };
 
-  var fails$6 = fails$c;
-  var isCallable$7 = isCallable$i;
-  var classof$4 = classof$5;
-  var getBuiltIn$4 = getBuiltIn$8;
-  var inspectSource$1 = inspectSource$4;
+  var fails$2 = fails$8;
+  var isCallable = isCallable$b;
+  var classof = classof$1;
+  var getBuiltIn = getBuiltIn$4;
+  var inspectSource = inspectSource$3;
 
   var empty = [];
-  var construct = getBuiltIn$4('Reflect', 'construct');
+  var construct = getBuiltIn('Reflect', 'construct');
   var constructorRegExp = /^\s*(?:class|function)\b/;
   var exec = constructorRegExp.exec;
   var INCORRECT_TO_STRING = !constructorRegExp.exec(function () { /* empty */ });
 
   var isConstructorModern = function (argument) {
-    if (!isCallable$7(argument)) return false;
+    if (!isCallable(argument)) return false;
     try {
       construct(Object, empty, argument);
       return true;
@@ -19746,18 +19650,18 @@
   };
 
   var isConstructorLegacy = function (argument) {
-    if (!isCallable$7(argument)) return false;
-    switch (classof$4(argument)) {
+    if (!isCallable(argument)) return false;
+    switch (classof(argument)) {
       case 'AsyncFunction':
       case 'GeneratorFunction':
       case 'AsyncGeneratorFunction': return false;
       // we can't check .prototype since constructors produced by .bind haven't it
-    } return INCORRECT_TO_STRING || !!exec.call(constructorRegExp, inspectSource$1(argument));
+    } return INCORRECT_TO_STRING || !!exec.call(constructorRegExp, inspectSource(argument));
   };
 
   // `IsConstructor` abstract operation
   // https://tc39.es/ecma262/#sec-isconstructor
-  var isConstructor$2 = !construct || fails$6(function () {
+  var isConstructor$1 = !construct || fails$2(function () {
     var called;
     return isConstructorModern(isConstructorModern.call)
       || !isConstructorModern(Object)
@@ -19766,11 +19670,11 @@
   }) ? isConstructorLegacy : isConstructorModern;
 
   var isArray$1 = isArray$2;
-  var isConstructor$1 = isConstructor$2;
-  var isObject$3 = isObject$9;
-  var wellKnownSymbol$d = wellKnownSymbol$h;
+  var isConstructor = isConstructor$1;
+  var isObject$1 = isObject$7;
+  var wellKnownSymbol$2 = wellKnownSymbol$6;
 
-  var SPECIES$4 = wellKnownSymbol$d('species');
+  var SPECIES$1 = wellKnownSymbol$2('species');
 
   // a part of `ArraySpeciesCreate` abstract operation
   // https://tc39.es/ecma262/#sec-arrayspeciescreate
@@ -19779,9 +19683,9 @@
     if (isArray$1(originalArray)) {
       C = originalArray.constructor;
       // cross-realm fallback
-      if (isConstructor$1(C) && (C === Array || isArray$1(C.prototype))) C = undefined;
-      else if (isObject$3(C)) {
-        C = C[SPECIES$4];
+      if (isConstructor(C) && (C === Array || isArray$1(C.prototype))) C = undefined;
+      else if (isObject$1(C)) {
+        C = C[SPECIES$1];
         if (C === null) C = undefined;
       }
     } return C === undefined ? Array : C;
@@ -19795,46 +19699,46 @@
     return new (arraySpeciesConstructor(originalArray))(length === 0 ? 0 : length);
   };
 
-  var fails$5 = fails$c;
-  var wellKnownSymbol$c = wellKnownSymbol$h;
-  var V8_VERSION$2 = engineV8Version;
+  var fails$1 = fails$8;
+  var wellKnownSymbol$1 = wellKnownSymbol$6;
+  var V8_VERSION$1 = engineV8Version;
 
-  var SPECIES$3 = wellKnownSymbol$c('species');
+  var SPECIES = wellKnownSymbol$1('species');
 
   var arrayMethodHasSpeciesSupport$1 = function (METHOD_NAME) {
     // We can't use this feature detection in V8 since it causes
     // deoptimization and serious performance degradation
     // https://github.com/zloirock/core-js/issues/677
-    return V8_VERSION$2 >= 51 || !fails$5(function () {
+    return V8_VERSION$1 >= 51 || !fails$1(function () {
       var array = [];
       var constructor = array.constructor = {};
-      constructor[SPECIES$3] = function () {
+      constructor[SPECIES] = function () {
         return { foo: 1 };
       };
       return array[METHOD_NAME](Boolean).foo !== 1;
     });
   };
 
-  var $$4 = _export;
-  var fails$4 = fails$c;
+  var $$1 = _export;
+  var fails = fails$8;
   var isArray = isArray$2;
-  var isObject$2 = isObject$9;
-  var toObject$1 = toObject$3;
-  var lengthOfArrayLike$1 = lengthOfArrayLike$3;
+  var isObject = isObject$7;
+  var toObject = toObject$2;
+  var lengthOfArrayLike = lengthOfArrayLike$2;
   var createProperty = createProperty$1;
   var arraySpeciesCreate = arraySpeciesCreate$1;
   var arrayMethodHasSpeciesSupport = arrayMethodHasSpeciesSupport$1;
-  var wellKnownSymbol$b = wellKnownSymbol$h;
-  var V8_VERSION$1 = engineV8Version;
+  var wellKnownSymbol = wellKnownSymbol$6;
+  var V8_VERSION = engineV8Version;
 
-  var IS_CONCAT_SPREADABLE = wellKnownSymbol$b('isConcatSpreadable');
+  var IS_CONCAT_SPREADABLE = wellKnownSymbol('isConcatSpreadable');
   var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
   var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
 
   // We can't use this feature detection in V8 since it causes
   // deoptimization and serious performance degradation
   // https://github.com/zloirock/core-js/issues/679
-  var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION$1 >= 51 || !fails$4(function () {
+  var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION >= 51 || !fails(function () {
     var array = [];
     array[IS_CONCAT_SPREADABLE] = false;
     return array.concat()[0] !== array;
@@ -19843,27 +19747,27 @@
   var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('concat');
 
   var isConcatSpreadable = function (O) {
-    if (!isObject$2(O)) return false;
+    if (!isObject(O)) return false;
     var spreadable = O[IS_CONCAT_SPREADABLE];
     return spreadable !== undefined ? !!spreadable : isArray(O);
   };
 
-  var FORCED$1 = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
+  var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
 
   // `Array.prototype.concat` method
   // https://tc39.es/ecma262/#sec-array.prototype.concat
   // with adding support of @@isConcatSpreadable and @@species
-  $$4({ target: 'Array', proto: true, forced: FORCED$1 }, {
+  $$1({ target: 'Array', proto: true, forced: FORCED }, {
     // eslint-disable-next-line no-unused-vars -- required for `.length`
     concat: function concat(arg) {
-      var O = toObject$1(this);
+      var O = toObject(this);
       var A = arraySpeciesCreate(O, 0);
       var n = 0;
       var i, k, length, len, E;
       for (i = -1, length = arguments.length; i < length; i++) {
         E = i === -1 ? O : arguments[i];
         if (isConcatSpreadable(E)) {
-          len = lengthOfArrayLike$1(E);
+          len = lengthOfArrayLike(E);
           if (n + len > MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
           for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
         } else {
@@ -19875,4356 +19779,6 @@
       return A;
     }
   });
-
-  var TO_STRING_TAG_SUPPORT$1 = toStringTagSupport;
-  var classof$3 = classof$5;
-
-  // `Object.prototype.toString` method implementation
-  // https://tc39.es/ecma262/#sec-object.prototype.tostring
-  var objectToString = TO_STRING_TAG_SUPPORT$1 ? {}.toString : function toString() {
-    return '[object ' + classof$3(this) + ']';
-  };
-
-  var TO_STRING_TAG_SUPPORT = toStringTagSupport;
-  var redefine$5 = redefine$7.exports;
-  var toString$3 = objectToString;
-
-  // `Object.prototype.toString` method
-  // https://tc39.es/ecma262/#sec-object.prototype.tostring
-  if (!TO_STRING_TAG_SUPPORT) {
-    redefine$5(Object.prototype, 'toString', toString$3, { unsafe: true });
-  }
-
-  var global$8 = global$j;
-
-  var nativePromiseConstructor = global$8.Promise;
-
-  var redefine$4 = redefine$7.exports;
-
-  var redefineAll$1 = function (target, src, options) {
-    for (var key in src) redefine$4(target, key, src[key], options);
-    return target;
-  };
-
-  var isCallable$6 = isCallable$i;
-
-  var aPossiblePrototype$1 = function (argument) {
-    if (typeof argument === 'object' || isCallable$6(argument)) return argument;
-    throw TypeError("Can't set " + String(argument) + ' as a prototype');
-  };
-
-  /* eslint-disable no-proto -- safe */
-
-  var anObject$7 = anObject$a;
-  var aPossiblePrototype = aPossiblePrototype$1;
-
-  // `Object.setPrototypeOf` method
-  // https://tc39.es/ecma262/#sec-object.setprototypeof
-  // Works with __proto__ only. Old v8 can't work with null proto objects.
-  // eslint-disable-next-line es/no-object-setprototypeof -- safe
-  var objectSetPrototypeOf = Object.setPrototypeOf || ('__proto__' in {} ? function () {
-    var CORRECT_SETTER = false;
-    var test = {};
-    var setter;
-    try {
-      // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-      setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
-      setter.call(test, []);
-      CORRECT_SETTER = test instanceof Array;
-    } catch (error) { /* empty */ }
-    return function setPrototypeOf(O, proto) {
-      anObject$7(O);
-      aPossiblePrototype(proto);
-      if (CORRECT_SETTER) setter.call(O, proto);
-      else O.__proto__ = proto;
-      return O;
-    };
-  }() : undefined);
-
-  var defineProperty = objectDefineProperty.f;
-  var hasOwn$1 = hasOwnProperty_1;
-  var wellKnownSymbol$a = wellKnownSymbol$h;
-
-  var TO_STRING_TAG$1 = wellKnownSymbol$a('toStringTag');
-
-  var setToStringTag$3 = function (it, TAG, STATIC) {
-    if (it && !hasOwn$1(it = STATIC ? it : it.prototype, TO_STRING_TAG$1)) {
-      defineProperty(it, TO_STRING_TAG$1, { configurable: true, value: TAG });
-    }
-  };
-
-  var getBuiltIn$3 = getBuiltIn$8;
-  var definePropertyModule$2 = objectDefineProperty;
-  var wellKnownSymbol$9 = wellKnownSymbol$h;
-  var DESCRIPTORS$1 = descriptors;
-
-  var SPECIES$2 = wellKnownSymbol$9('species');
-
-  var setSpecies$1 = function (CONSTRUCTOR_NAME) {
-    var Constructor = getBuiltIn$3(CONSTRUCTOR_NAME);
-    var defineProperty = definePropertyModule$2.f;
-
-    if (DESCRIPTORS$1 && Constructor && !Constructor[SPECIES$2]) {
-      defineProperty(Constructor, SPECIES$2, {
-        configurable: true,
-        get: function () { return this; }
-      });
-    }
-  };
-
-  var anInstance$1 = function (it, Constructor, name) {
-    if (it instanceof Constructor) return it;
-    throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
-  };
-
-  var iterators = {};
-
-  var wellKnownSymbol$8 = wellKnownSymbol$h;
-  var Iterators$4 = iterators;
-
-  var ITERATOR$5 = wellKnownSymbol$8('iterator');
-  var ArrayPrototype$1 = Array.prototype;
-
-  // check on default Array iterator
-  var isArrayIteratorMethod$1 = function (it) {
-    return it !== undefined && (Iterators$4.Array === it || ArrayPrototype$1[ITERATOR$5] === it);
-  };
-
-  var aCallable$3 = aCallable$5;
-
-  // optional / simple context binding
-  var functionBindContext = function (fn, that, length) {
-    aCallable$3(fn);
-    if (that === undefined) return fn;
-    switch (length) {
-      case 0: return function () {
-        return fn.call(that);
-      };
-      case 1: return function (a) {
-        return fn.call(that, a);
-      };
-      case 2: return function (a, b) {
-        return fn.call(that, a, b);
-      };
-      case 3: return function (a, b, c) {
-        return fn.call(that, a, b, c);
-      };
-    }
-    return function (/* ...args */) {
-      return fn.apply(that, arguments);
-    };
-  };
-
-  var classof$2 = classof$5;
-  var getMethod$1 = getMethod$3;
-  var Iterators$3 = iterators;
-  var wellKnownSymbol$7 = wellKnownSymbol$h;
-
-  var ITERATOR$4 = wellKnownSymbol$7('iterator');
-
-  var getIteratorMethod$2 = function (it) {
-    if (it != undefined) return getMethod$1(it, ITERATOR$4)
-      || getMethod$1(it, '@@iterator')
-      || Iterators$3[classof$2(it)];
-  };
-
-  var aCallable$2 = aCallable$5;
-  var anObject$6 = anObject$a;
-  var getIteratorMethod$1 = getIteratorMethod$2;
-
-  var getIterator$1 = function (argument, usingIterator) {
-    var iteratorMethod = arguments.length < 2 ? getIteratorMethod$1(argument) : usingIterator;
-    if (aCallable$2(iteratorMethod)) return anObject$6(iteratorMethod.call(argument));
-    throw TypeError(String(argument) + ' is not iterable');
-  };
-
-  var anObject$5 = anObject$a;
-  var getMethod = getMethod$3;
-
-  var iteratorClose$1 = function (iterator, kind, value) {
-    var innerResult, innerError;
-    anObject$5(iterator);
-    try {
-      innerResult = getMethod(iterator, 'return');
-      if (!innerResult) {
-        if (kind === 'throw') throw value;
-        return value;
-      }
-      innerResult = innerResult.call(iterator);
-    } catch (error) {
-      innerError = true;
-      innerResult = error;
-    }
-    if (kind === 'throw') throw value;
-    if (innerError) throw innerResult;
-    anObject$5(innerResult);
-    return value;
-  };
-
-  var anObject$4 = anObject$a;
-  var isArrayIteratorMethod = isArrayIteratorMethod$1;
-  var lengthOfArrayLike = lengthOfArrayLike$3;
-  var bind$2 = functionBindContext;
-  var getIterator = getIterator$1;
-  var getIteratorMethod = getIteratorMethod$2;
-  var iteratorClose = iteratorClose$1;
-
-  var Result = function (stopped, result) {
-    this.stopped = stopped;
-    this.result = result;
-  };
-
-  var iterate$1 = function (iterable, unboundFunction, options) {
-    var that = options && options.that;
-    var AS_ENTRIES = !!(options && options.AS_ENTRIES);
-    var IS_ITERATOR = !!(options && options.IS_ITERATOR);
-    var INTERRUPTED = !!(options && options.INTERRUPTED);
-    var fn = bind$2(unboundFunction, that, 1 + AS_ENTRIES + INTERRUPTED);
-    var iterator, iterFn, index, length, result, next, step;
-
-    var stop = function (condition) {
-      if (iterator) iteratorClose(iterator, 'normal', condition);
-      return new Result(true, condition);
-    };
-
-    var callFn = function (value) {
-      if (AS_ENTRIES) {
-        anObject$4(value);
-        return INTERRUPTED ? fn(value[0], value[1], stop) : fn(value[0], value[1]);
-      } return INTERRUPTED ? fn(value, stop) : fn(value);
-    };
-
-    if (IS_ITERATOR) {
-      iterator = iterable;
-    } else {
-      iterFn = getIteratorMethod(iterable);
-      if (!iterFn) throw TypeError(String(iterable) + ' is not iterable');
-      // optimisation for array iterators
-      if (isArrayIteratorMethod(iterFn)) {
-        for (index = 0, length = lengthOfArrayLike(iterable); length > index; index++) {
-          result = callFn(iterable[index]);
-          if (result && result instanceof Result) return result;
-        } return new Result(false);
-      }
-      iterator = getIterator(iterable, iterFn);
-    }
-
-    next = iterator.next;
-    while (!(step = next.call(iterator)).done) {
-      try {
-        result = callFn(step.value);
-      } catch (error) {
-        iteratorClose(iterator, 'throw', error);
-      }
-      if (typeof result == 'object' && result && result instanceof Result) return result;
-    } return new Result(false);
-  };
-
-  var wellKnownSymbol$6 = wellKnownSymbol$h;
-
-  var ITERATOR$3 = wellKnownSymbol$6('iterator');
-  var SAFE_CLOSING = false;
-
-  try {
-    var called = 0;
-    var iteratorWithReturn = {
-      next: function () {
-        return { done: !!called++ };
-      },
-      'return': function () {
-        SAFE_CLOSING = true;
-      }
-    };
-    iteratorWithReturn[ITERATOR$3] = function () {
-      return this;
-    };
-    // eslint-disable-next-line es/no-array-from, no-throw-literal -- required for testing
-    Array.from(iteratorWithReturn, function () { throw 2; });
-  } catch (error) { /* empty */ }
-
-  var checkCorrectnessOfIteration$1 = function (exec, SKIP_CLOSING) {
-    if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
-    var ITERATION_SUPPORT = false;
-    try {
-      var object = {};
-      object[ITERATOR$3] = function () {
-        return {
-          next: function () {
-            return { done: ITERATION_SUPPORT = true };
-          }
-        };
-      };
-      exec(object);
-    } catch (error) { /* empty */ }
-    return ITERATION_SUPPORT;
-  };
-
-  var isConstructor = isConstructor$2;
-  var tryToString = tryToString$2;
-
-  // `Assert: IsConstructor(argument) is true`
-  var aConstructor$1 = function (argument) {
-    if (isConstructor(argument)) return argument;
-    throw TypeError(tryToString(argument) + ' is not a constructor');
-  };
-
-  var anObject$3 = anObject$a;
-  var aConstructor = aConstructor$1;
-  var wellKnownSymbol$5 = wellKnownSymbol$h;
-
-  var SPECIES$1 = wellKnownSymbol$5('species');
-
-  // `SpeciesConstructor` abstract operation
-  // https://tc39.es/ecma262/#sec-speciesconstructor
-  var speciesConstructor$2 = function (O, defaultConstructor) {
-    var C = anObject$3(O).constructor;
-    var S;
-    return C === undefined || (S = anObject$3(C)[SPECIES$1]) == undefined ? defaultConstructor : aConstructor(S);
-  };
-
-  var getBuiltIn$2 = getBuiltIn$8;
-
-  var html$2 = getBuiltIn$2('document', 'documentElement');
-
-  var userAgent$2 = engineUserAgent;
-
-  var engineIsIos = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent$2);
-
-  var classof$1 = classofRaw$1;
-  var global$7 = global$j;
-
-  var engineIsNode = classof$1(global$7.process) == 'process';
-
-  var global$6 = global$j;
-  var isCallable$5 = isCallable$i;
-  var fails$3 = fails$c;
-  var bind$1 = functionBindContext;
-  var html$1 = html$2;
-  var createElement = documentCreateElement$2;
-  var IS_IOS$1 = engineIsIos;
-  var IS_NODE$2 = engineIsNode;
-
-  var set = global$6.setImmediate;
-  var clear = global$6.clearImmediate;
-  var process$2 = global$6.process;
-  var MessageChannel = global$6.MessageChannel;
-  var Dispatch = global$6.Dispatch;
-  var counter = 0;
-  var queue = {};
-  var ONREADYSTATECHANGE = 'onreadystatechange';
-  var location, defer, channel, port;
-
-  try {
-    // Deno throws a ReferenceError on `location` access without `--location` flag
-    location = global$6.location;
-  } catch (error) { /* empty */ }
-
-  var run = function (id) {
-    // eslint-disable-next-line no-prototype-builtins -- safe
-    if (queue.hasOwnProperty(id)) {
-      var fn = queue[id];
-      delete queue[id];
-      fn();
-    }
-  };
-
-  var runner = function (id) {
-    return function () {
-      run(id);
-    };
-  };
-
-  var listener = function (event) {
-    run(event.data);
-  };
-
-  var post = function (id) {
-    // old engines have not location.origin
-    global$6.postMessage(String(id), location.protocol + '//' + location.host);
-  };
-
-  // Node.js 0.9+ & IE10+ has setImmediate, otherwise:
-  if (!set || !clear) {
-    set = function setImmediate(fn) {
-      var args = [];
-      var argumentsLength = arguments.length;
-      var i = 1;
-      while (argumentsLength > i) args.push(arguments[i++]);
-      queue[++counter] = function () {
-        // eslint-disable-next-line no-new-func -- spec requirement
-        (isCallable$5(fn) ? fn : Function(fn)).apply(undefined, args);
-      };
-      defer(counter);
-      return counter;
-    };
-    clear = function clearImmediate(id) {
-      delete queue[id];
-    };
-    // Node.js 0.8-
-    if (IS_NODE$2) {
-      defer = function (id) {
-        process$2.nextTick(runner(id));
-      };
-    // Sphere (JS game engine) Dispatch API
-    } else if (Dispatch && Dispatch.now) {
-      defer = function (id) {
-        Dispatch.now(runner(id));
-      };
-    // Browsers with MessageChannel, includes WebWorkers
-    // except iOS - https://github.com/zloirock/core-js/issues/624
-    } else if (MessageChannel && !IS_IOS$1) {
-      channel = new MessageChannel();
-      port = channel.port2;
-      channel.port1.onmessage = listener;
-      defer = bind$1(port.postMessage, port, 1);
-    // Browsers with postMessage, skip WebWorkers
-    // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
-    } else if (
-      global$6.addEventListener &&
-      isCallable$5(global$6.postMessage) &&
-      !global$6.importScripts &&
-      location && location.protocol !== 'file:' &&
-      !fails$3(post)
-    ) {
-      defer = post;
-      global$6.addEventListener('message', listener, false);
-    // IE8-
-    } else if (ONREADYSTATECHANGE in createElement('script')) {
-      defer = function (id) {
-        html$1.appendChild(createElement('script'))[ONREADYSTATECHANGE] = function () {
-          html$1.removeChild(this);
-          run(id);
-        };
-      };
-    // Rest old browsers
-    } else {
-      defer = function (id) {
-        setTimeout(runner(id), 0);
-      };
-    }
-  }
-
-  var task$1 = {
-    set: set,
-    clear: clear
-  };
-
-  var userAgent$1 = engineUserAgent;
-  var global$5 = global$j;
-
-  var engineIsIosPebble = /ipad|iphone|ipod/i.test(userAgent$1) && global$5.Pebble !== undefined;
-
-  var userAgent = engineUserAgent;
-
-  var engineIsWebosWebkit = /web0s(?!.*chrome)/i.test(userAgent);
-
-  var global$4 = global$j;
-  var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
-  var macrotask = task$1.set;
-  var IS_IOS = engineIsIos;
-  var IS_IOS_PEBBLE = engineIsIosPebble;
-  var IS_WEBOS_WEBKIT = engineIsWebosWebkit;
-  var IS_NODE$1 = engineIsNode;
-
-  var MutationObserver = global$4.MutationObserver || global$4.WebKitMutationObserver;
-  var document$2 = global$4.document;
-  var process$1 = global$4.process;
-  var Promise$1 = global$4.Promise;
-  // Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
-  var queueMicrotaskDescriptor = getOwnPropertyDescriptor(global$4, 'queueMicrotask');
-  var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
-
-  var flush, head, last, notify$1, toggle, node, promise, then;
-
-  // modern engines have queueMicrotask method
-  if (!queueMicrotask) {
-    flush = function () {
-      var parent, fn;
-      if (IS_NODE$1 && (parent = process$1.domain)) parent.exit();
-      while (head) {
-        fn = head.fn;
-        head = head.next;
-        try {
-          fn();
-        } catch (error) {
-          if (head) notify$1();
-          else last = undefined;
-          throw error;
-        }
-      } last = undefined;
-      if (parent) parent.enter();
-    };
-
-    // browsers with MutationObserver, except iOS - https://github.com/zloirock/core-js/issues/339
-    // also except WebOS Webkit https://github.com/zloirock/core-js/issues/898
-    if (!IS_IOS && !IS_NODE$1 && !IS_WEBOS_WEBKIT && MutationObserver && document$2) {
-      toggle = true;
-      node = document$2.createTextNode('');
-      new MutationObserver(flush).observe(node, { characterData: true });
-      notify$1 = function () {
-        node.data = toggle = !toggle;
-      };
-    // environments with maybe non-completely correct, but existent Promise
-    } else if (!IS_IOS_PEBBLE && Promise$1 && Promise$1.resolve) {
-      // Promise.resolve without an argument throws an error in LG WebOS 2
-      promise = Promise$1.resolve(undefined);
-      // workaround of WebKit ~ iOS Safari 10.1 bug
-      promise.constructor = Promise$1;
-      then = promise.then;
-      notify$1 = function () {
-        then.call(promise, flush);
-      };
-    // Node.js without promises
-    } else if (IS_NODE$1) {
-      notify$1 = function () {
-        process$1.nextTick(flush);
-      };
-    // for other environments - macrotask based on:
-    // - setImmediate
-    // - MessageChannel
-    // - window.postMessag
-    // - onreadystatechange
-    // - setTimeout
-    } else {
-      notify$1 = function () {
-        // strange IE + webpack dev server bug - use .call(global)
-        macrotask.call(global$4, flush);
-      };
-    }
-  }
-
-  var microtask$1 = queueMicrotask || function (fn) {
-    var task = { fn: fn, next: undefined };
-    if (last) last.next = task;
-    if (!head) {
-      head = task;
-      notify$1();
-    } last = task;
-  };
-
-  var newPromiseCapability$2 = {};
-
-  var aCallable$1 = aCallable$5;
-
-  var PromiseCapability = function (C) {
-    var resolve, reject;
-    this.promise = new C(function ($$resolve, $$reject) {
-      if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
-      resolve = $$resolve;
-      reject = $$reject;
-    });
-    this.resolve = aCallable$1(resolve);
-    this.reject = aCallable$1(reject);
-  };
-
-  // `NewPromiseCapability` abstract operation
-  // https://tc39.es/ecma262/#sec-newpromisecapability
-  newPromiseCapability$2.f = function (C) {
-    return new PromiseCapability(C);
-  };
-
-  var anObject$2 = anObject$a;
-  var isObject$1 = isObject$9;
-  var newPromiseCapability$1 = newPromiseCapability$2;
-
-  var promiseResolve$2 = function (C, x) {
-    anObject$2(C);
-    if (isObject$1(x) && x.constructor === C) return x;
-    var promiseCapability = newPromiseCapability$1.f(C);
-    var resolve = promiseCapability.resolve;
-    resolve(x);
-    return promiseCapability.promise;
-  };
-
-  var global$3 = global$j;
-
-  var hostReportErrors$1 = function (a, b) {
-    var console = global$3.console;
-    if (console && console.error) {
-      arguments.length === 1 ? console.error(a) : console.error(a, b);
-    }
-  };
-
-  var perform$1 = function (exec) {
-    try {
-      return { error: false, value: exec() };
-    } catch (error) {
-      return { error: true, value: error };
-    }
-  };
-
-  var engineIsBrowser = typeof window == 'object';
-
-  var $$3 = _export;
-  var global$2 = global$j;
-  var getBuiltIn$1 = getBuiltIn$8;
-  var NativePromise$1 = nativePromiseConstructor;
-  var redefine$3 = redefine$7.exports;
-  var redefineAll = redefineAll$1;
-  var setPrototypeOf$1 = objectSetPrototypeOf;
-  var setToStringTag$2 = setToStringTag$3;
-  var setSpecies = setSpecies$1;
-  var aCallable = aCallable$5;
-  var isCallable$4 = isCallable$i;
-  var isObject = isObject$9;
-  var anInstance = anInstance$1;
-  var inspectSource = inspectSource$4;
-  var iterate = iterate$1;
-  var checkCorrectnessOfIteration = checkCorrectnessOfIteration$1;
-  var speciesConstructor$1 = speciesConstructor$2;
-  var task = task$1.set;
-  var microtask = microtask$1;
-  var promiseResolve$1 = promiseResolve$2;
-  var hostReportErrors = hostReportErrors$1;
-  var newPromiseCapabilityModule = newPromiseCapability$2;
-  var perform = perform$1;
-  var InternalStateModule$2 = internalState;
-  var isForced = isForced_1;
-  var wellKnownSymbol$4 = wellKnownSymbol$h;
-  var IS_BROWSER = engineIsBrowser;
-  var IS_NODE = engineIsNode;
-  var V8_VERSION = engineV8Version;
-
-  var SPECIES = wellKnownSymbol$4('species');
-  var PROMISE = 'Promise';
-  var getInternalState$2 = InternalStateModule$2.get;
-  var setInternalState$2 = InternalStateModule$2.set;
-  var getInternalPromiseState = InternalStateModule$2.getterFor(PROMISE);
-  var NativePromisePrototype = NativePromise$1 && NativePromise$1.prototype;
-  var PromiseConstructor = NativePromise$1;
-  var PromiseConstructorPrototype = NativePromisePrototype;
-  var TypeError$1 = global$2.TypeError;
-  var document$1 = global$2.document;
-  var process = global$2.process;
-  var newPromiseCapability = newPromiseCapabilityModule.f;
-  var newGenericPromiseCapability = newPromiseCapability;
-  var DISPATCH_EVENT = !!(document$1 && document$1.createEvent && global$2.dispatchEvent);
-  var NATIVE_REJECTION_EVENT = isCallable$4(global$2.PromiseRejectionEvent);
-  var UNHANDLED_REJECTION = 'unhandledrejection';
-  var REJECTION_HANDLED = 'rejectionhandled';
-  var PENDING = 0;
-  var FULFILLED = 1;
-  var REJECTED = 2;
-  var HANDLED = 1;
-  var UNHANDLED = 2;
-  var SUBCLASSING = false;
-  var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen;
-
-  var FORCED = isForced(PROMISE, function () {
-    var PROMISE_CONSTRUCTOR_SOURCE = inspectSource(PromiseConstructor);
-    var GLOBAL_CORE_JS_PROMISE = PROMISE_CONSTRUCTOR_SOURCE !== String(PromiseConstructor);
-    // V8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
-    // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
-    // We can't detect it synchronously, so just check versions
-    if (!GLOBAL_CORE_JS_PROMISE && V8_VERSION === 66) return true;
-    // We can't use @@species feature detection in V8 since it causes
-    // deoptimization and performance degradation
-    // https://github.com/zloirock/core-js/issues/679
-    if (V8_VERSION >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return false;
-    // Detect correctness of subclassing with @@species support
-    var promise = new PromiseConstructor(function (resolve) { resolve(1); });
-    var FakePromise = function (exec) {
-      exec(function () { /* empty */ }, function () { /* empty */ });
-    };
-    var constructor = promise.constructor = {};
-    constructor[SPECIES] = FakePromise;
-    SUBCLASSING = promise.then(function () { /* empty */ }) instanceof FakePromise;
-    if (!SUBCLASSING) return true;
-    // Unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-    return !GLOBAL_CORE_JS_PROMISE && IS_BROWSER && !NATIVE_REJECTION_EVENT;
-  });
-
-  var INCORRECT_ITERATION = FORCED || !checkCorrectnessOfIteration(function (iterable) {
-    PromiseConstructor.all(iterable)['catch'](function () { /* empty */ });
-  });
-
-  // helpers
-  var isThenable = function (it) {
-    var then;
-    return isObject(it) && isCallable$4(then = it.then) ? then : false;
-  };
-
-  var notify = function (state, isReject) {
-    if (state.notified) return;
-    state.notified = true;
-    var chain = state.reactions;
-    microtask(function () {
-      var value = state.value;
-      var ok = state.state == FULFILLED;
-      var index = 0;
-      // variable length - can't use forEach
-      while (chain.length > index) {
-        var reaction = chain[index++];
-        var handler = ok ? reaction.ok : reaction.fail;
-        var resolve = reaction.resolve;
-        var reject = reaction.reject;
-        var domain = reaction.domain;
-        var result, then, exited;
-        try {
-          if (handler) {
-            if (!ok) {
-              if (state.rejection === UNHANDLED) onHandleUnhandled(state);
-              state.rejection = HANDLED;
-            }
-            if (handler === true) result = value;
-            else {
-              if (domain) domain.enter();
-              result = handler(value); // can throw
-              if (domain) {
-                domain.exit();
-                exited = true;
-              }
-            }
-            if (result === reaction.promise) {
-              reject(TypeError$1('Promise-chain cycle'));
-            } else if (then = isThenable(result)) {
-              then.call(result, resolve, reject);
-            } else resolve(result);
-          } else reject(value);
-        } catch (error) {
-          if (domain && !exited) domain.exit();
-          reject(error);
-        }
-      }
-      state.reactions = [];
-      state.notified = false;
-      if (isReject && !state.rejection) onUnhandled(state);
-    });
-  };
-
-  var dispatchEvent = function (name, promise, reason) {
-    var event, handler;
-    if (DISPATCH_EVENT) {
-      event = document$1.createEvent('Event');
-      event.promise = promise;
-      event.reason = reason;
-      event.initEvent(name, false, true);
-      global$2.dispatchEvent(event);
-    } else event = { promise: promise, reason: reason };
-    if (!NATIVE_REJECTION_EVENT && (handler = global$2['on' + name])) handler(event);
-    else if (name === UNHANDLED_REJECTION) hostReportErrors('Unhandled promise rejection', reason);
-  };
-
-  var onUnhandled = function (state) {
-    task.call(global$2, function () {
-      var promise = state.facade;
-      var value = state.value;
-      var IS_UNHANDLED = isUnhandled(state);
-      var result;
-      if (IS_UNHANDLED) {
-        result = perform(function () {
-          if (IS_NODE) {
-            process.emit('unhandledRejection', value, promise);
-          } else dispatchEvent(UNHANDLED_REJECTION, promise, value);
-        });
-        // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
-        state.rejection = IS_NODE || isUnhandled(state) ? UNHANDLED : HANDLED;
-        if (result.error) throw result.value;
-      }
-    });
-  };
-
-  var isUnhandled = function (state) {
-    return state.rejection !== HANDLED && !state.parent;
-  };
-
-  var onHandleUnhandled = function (state) {
-    task.call(global$2, function () {
-      var promise = state.facade;
-      if (IS_NODE) {
-        process.emit('rejectionHandled', promise);
-      } else dispatchEvent(REJECTION_HANDLED, promise, state.value);
-    });
-  };
-
-  var bind = function (fn, state, unwrap) {
-    return function (value) {
-      fn(state, value, unwrap);
-    };
-  };
-
-  var internalReject = function (state, value, unwrap) {
-    if (state.done) return;
-    state.done = true;
-    if (unwrap) state = unwrap;
-    state.value = value;
-    state.state = REJECTED;
-    notify(state, true);
-  };
-
-  var internalResolve = function (state, value, unwrap) {
-    if (state.done) return;
-    state.done = true;
-    if (unwrap) state = unwrap;
-    try {
-      if (state.facade === value) throw TypeError$1("Promise can't be resolved itself");
-      var then = isThenable(value);
-      if (then) {
-        microtask(function () {
-          var wrapper = { done: false };
-          try {
-            then.call(value,
-              bind(internalResolve, wrapper, state),
-              bind(internalReject, wrapper, state)
-            );
-          } catch (error) {
-            internalReject(wrapper, error, state);
-          }
-        });
-      } else {
-        state.value = value;
-        state.state = FULFILLED;
-        notify(state, false);
-      }
-    } catch (error) {
-      internalReject({ done: false }, error, state);
-    }
-  };
-
-  // constructor polyfill
-  if (FORCED) {
-    // 25.4.3.1 Promise(executor)
-    PromiseConstructor = function Promise(executor) {
-      anInstance(this, PromiseConstructor, PROMISE);
-      aCallable(executor);
-      Internal.call(this);
-      var state = getInternalState$2(this);
-      try {
-        executor(bind(internalResolve, state), bind(internalReject, state));
-      } catch (error) {
-        internalReject(state, error);
-      }
-    };
-    PromiseConstructorPrototype = PromiseConstructor.prototype;
-    // eslint-disable-next-line no-unused-vars -- required for `.length`
-    Internal = function Promise(executor) {
-      setInternalState$2(this, {
-        type: PROMISE,
-        done: false,
-        notified: false,
-        parent: false,
-        reactions: [],
-        rejection: false,
-        state: PENDING,
-        value: undefined
-      });
-    };
-    Internal.prototype = redefineAll(PromiseConstructorPrototype, {
-      // `Promise.prototype.then` method
-      // https://tc39.es/ecma262/#sec-promise.prototype.then
-      then: function then(onFulfilled, onRejected) {
-        var state = getInternalPromiseState(this);
-        var reaction = newPromiseCapability(speciesConstructor$1(this, PromiseConstructor));
-        reaction.ok = isCallable$4(onFulfilled) ? onFulfilled : true;
-        reaction.fail = isCallable$4(onRejected) && onRejected;
-        reaction.domain = IS_NODE ? process.domain : undefined;
-        state.parent = true;
-        state.reactions.push(reaction);
-        if (state.state != PENDING) notify(state, false);
-        return reaction.promise;
-      },
-      // `Promise.prototype.catch` method
-      // https://tc39.es/ecma262/#sec-promise.prototype.catch
-      'catch': function (onRejected) {
-        return this.then(undefined, onRejected);
-      }
-    });
-    OwnPromiseCapability = function () {
-      var promise = new Internal();
-      var state = getInternalState$2(promise);
-      this.promise = promise;
-      this.resolve = bind(internalResolve, state);
-      this.reject = bind(internalReject, state);
-    };
-    newPromiseCapabilityModule.f = newPromiseCapability = function (C) {
-      return C === PromiseConstructor || C === PromiseWrapper
-        ? new OwnPromiseCapability(C)
-        : newGenericPromiseCapability(C);
-    };
-
-    if (isCallable$4(NativePromise$1) && NativePromisePrototype !== Object.prototype) {
-      nativeThen = NativePromisePrototype.then;
-
-      if (!SUBCLASSING) {
-        // make `Promise#then` return a polyfilled `Promise` for native promise-based APIs
-        redefine$3(NativePromisePrototype, 'then', function then(onFulfilled, onRejected) {
-          var that = this;
-          return new PromiseConstructor(function (resolve, reject) {
-            nativeThen.call(that, resolve, reject);
-          }).then(onFulfilled, onRejected);
-        // https://github.com/zloirock/core-js/issues/640
-        }, { unsafe: true });
-
-        // makes sure that native promise-based APIs `Promise#catch` properly works with patched `Promise#then`
-        redefine$3(NativePromisePrototype, 'catch', PromiseConstructorPrototype['catch'], { unsafe: true });
-      }
-
-      // make `.constructor === Promise` work for native promise-based APIs
-      try {
-        delete NativePromisePrototype.constructor;
-      } catch (error) { /* empty */ }
-
-      // make `instanceof Promise` work for native promise-based APIs
-      if (setPrototypeOf$1) {
-        setPrototypeOf$1(NativePromisePrototype, PromiseConstructorPrototype);
-      }
-    }
-  }
-
-  $$3({ global: true, wrap: true, forced: FORCED }, {
-    Promise: PromiseConstructor
-  });
-
-  setToStringTag$2(PromiseConstructor, PROMISE, false);
-  setSpecies(PROMISE);
-
-  PromiseWrapper = getBuiltIn$1(PROMISE);
-
-  // statics
-  $$3({ target: PROMISE, stat: true, forced: FORCED }, {
-    // `Promise.reject` method
-    // https://tc39.es/ecma262/#sec-promise.reject
-    reject: function reject(r) {
-      var capability = newPromiseCapability(this);
-      capability.reject.call(undefined, r);
-      return capability.promise;
-    }
-  });
-
-  $$3({ target: PROMISE, stat: true, forced: FORCED }, {
-    // `Promise.resolve` method
-    // https://tc39.es/ecma262/#sec-promise.resolve
-    resolve: function resolve(x) {
-      return promiseResolve$1(this, x);
-    }
-  });
-
-  $$3({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
-    // `Promise.all` method
-    // https://tc39.es/ecma262/#sec-promise.all
-    all: function all(iterable) {
-      var C = this;
-      var capability = newPromiseCapability(C);
-      var resolve = capability.resolve;
-      var reject = capability.reject;
-      var result = perform(function () {
-        var $promiseResolve = aCallable(C.resolve);
-        var values = [];
-        var counter = 0;
-        var remaining = 1;
-        iterate(iterable, function (promise) {
-          var index = counter++;
-          var alreadyCalled = false;
-          values.push(undefined);
-          remaining++;
-          $promiseResolve.call(C, promise).then(function (value) {
-            if (alreadyCalled) return;
-            alreadyCalled = true;
-            values[index] = value;
-            --remaining || resolve(values);
-          }, reject);
-        });
-        --remaining || resolve(values);
-      });
-      if (result.error) reject(result.value);
-      return capability.promise;
-    },
-    // `Promise.race` method
-    // https://tc39.es/ecma262/#sec-promise.race
-    race: function race(iterable) {
-      var C = this;
-      var capability = newPromiseCapability(C);
-      var reject = capability.reject;
-      var result = perform(function () {
-        var $promiseResolve = aCallable(C.resolve);
-        iterate(iterable, function (promise) {
-          $promiseResolve.call(C, promise).then(capability.resolve, reject);
-        });
-      });
-      if (result.error) reject(result.value);
-      return capability.promise;
-    }
-  });
-
-  var $$2 = _export;
-  var NativePromise = nativePromiseConstructor;
-  var fails$2 = fails$c;
-  var getBuiltIn = getBuiltIn$8;
-  var isCallable$3 = isCallable$i;
-  var speciesConstructor = speciesConstructor$2;
-  var promiseResolve = promiseResolve$2;
-  var redefine$2 = redefine$7.exports;
-
-  // Safari bug https://bugs.webkit.org/show_bug.cgi?id=200829
-  var NON_GENERIC = !!NativePromise && fails$2(function () {
-    NativePromise.prototype['finally'].call({ then: function () { /* empty */ } }, function () { /* empty */ });
-  });
-
-  // `Promise.prototype.finally` method
-  // https://tc39.es/ecma262/#sec-promise.prototype.finally
-  $$2({ target: 'Promise', proto: true, real: true, forced: NON_GENERIC }, {
-    'finally': function (onFinally) {
-      var C = speciesConstructor(this, getBuiltIn('Promise'));
-      var isFunction = isCallable$3(onFinally);
-      return this.then(
-        isFunction ? function (x) {
-          return promiseResolve(C, onFinally()).then(function () { return x; });
-        } : onFinally,
-        isFunction ? function (e) {
-          return promiseResolve(C, onFinally()).then(function () { throw e; });
-        } : onFinally
-      );
-    }
-  });
-
-  // makes sure that native promise-based APIs `Promise#finally` properly works with patched `Promise#then`
-  if (isCallable$3(NativePromise)) {
-    var method = getBuiltIn('Promise').prototype['finally'];
-    if (NativePromise.prototype['finally'] !== method) {
-      redefine$2(NativePromise.prototype, 'finally', method, { unsafe: true });
-    }
-  }
-
-  var internalObjectKeys = objectKeysInternal;
-  var enumBugKeys$1 = enumBugKeys$3;
-
-  // `Object.keys` method
-  // https://tc39.es/ecma262/#sec-object.keys
-  // eslint-disable-next-line es/no-object-keys -- safe
-  var objectKeys$1 = Object.keys || function keys(O) {
-    return internalObjectKeys(O, enumBugKeys$1);
-  };
-
-  var DESCRIPTORS = descriptors;
-  var definePropertyModule$1 = objectDefineProperty;
-  var anObject$1 = anObject$a;
-  var objectKeys = objectKeys$1;
-
-  // `Object.defineProperties` method
-  // https://tc39.es/ecma262/#sec-object.defineproperties
-  // eslint-disable-next-line es/no-object-defineproperties -- safe
-  var objectDefineProperties = DESCRIPTORS ? Object.defineProperties : function defineProperties(O, Properties) {
-    anObject$1(O);
-    var keys = objectKeys(Properties);
-    var length = keys.length;
-    var index = 0;
-    var key;
-    while (length > index) definePropertyModule$1.f(O, key = keys[index++], Properties[key]);
-    return O;
-  };
-
-  /* global ActiveXObject -- old IE, WSH */
-
-  var anObject = anObject$a;
-  var defineProperties = objectDefineProperties;
-  var enumBugKeys = enumBugKeys$3;
-  var hiddenKeys = hiddenKeys$4;
-  var html = html$2;
-  var documentCreateElement$1 = documentCreateElement$2;
-  var sharedKey$1 = sharedKey$3;
-
-  var GT = '>';
-  var LT = '<';
-  var PROTOTYPE = 'prototype';
-  var SCRIPT = 'script';
-  var IE_PROTO$1 = sharedKey$1('IE_PROTO');
-
-  var EmptyConstructor = function () { /* empty */ };
-
-  var scriptTag = function (content) {
-    return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;
-  };
-
-  // Create object with fake `null` prototype: use ActiveX Object with cleared prototype
-  var NullProtoObjectViaActiveX = function (activeXDocument) {
-    activeXDocument.write(scriptTag(''));
-    activeXDocument.close();
-    var temp = activeXDocument.parentWindow.Object;
-    activeXDocument = null; // avoid memory leak
-    return temp;
-  };
-
-  // Create object with fake `null` prototype: use iframe Object with cleared prototype
-  var NullProtoObjectViaIFrame = function () {
-    // Thrash, waste and sodomy: IE GC bug
-    var iframe = documentCreateElement$1('iframe');
-    var JS = 'java' + SCRIPT + ':';
-    var iframeDocument;
-    iframe.style.display = 'none';
-    html.appendChild(iframe);
-    // https://github.com/zloirock/core-js/issues/475
-    iframe.src = String(JS);
-    iframeDocument = iframe.contentWindow.document;
-    iframeDocument.open();
-    iframeDocument.write(scriptTag('document.F=Object'));
-    iframeDocument.close();
-    return iframeDocument.F;
-  };
-
-  // Check for document.domain and active x support
-  // No need to use active x approach when document.domain is not set
-  // see https://github.com/es-shims/es5-shim/issues/150
-  // variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
-  // avoid IE GC bug
-  var activeXDocument;
-  var NullProtoObject = function () {
-    try {
-      activeXDocument = new ActiveXObject('htmlfile');
-    } catch (error) { /* ignore */ }
-    NullProtoObject = typeof document != 'undefined'
-      ? document.domain && activeXDocument
-        ? NullProtoObjectViaActiveX(activeXDocument) // old IE
-        : NullProtoObjectViaIFrame()
-      : NullProtoObjectViaActiveX(activeXDocument); // WSH
-    var length = enumBugKeys.length;
-    while (length--) delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];
-    return NullProtoObject();
-  };
-
-  hiddenKeys[IE_PROTO$1] = true;
-
-  // `Object.create` method
-  // https://tc39.es/ecma262/#sec-object.create
-  var objectCreate = Object.create || function create(O, Properties) {
-    var result;
-    if (O !== null) {
-      EmptyConstructor[PROTOTYPE] = anObject(O);
-      result = new EmptyConstructor();
-      EmptyConstructor[PROTOTYPE] = null;
-      // add "__proto__" for Object.getPrototypeOf polyfill
-      result[IE_PROTO$1] = O;
-    } else result = NullProtoObject();
-    return Properties === undefined ? result : defineProperties(result, Properties);
-  };
-
-  var wellKnownSymbol$3 = wellKnownSymbol$h;
-  var create$1 = objectCreate;
-  var definePropertyModule = objectDefineProperty;
-
-  var UNSCOPABLES = wellKnownSymbol$3('unscopables');
-  var ArrayPrototype = Array.prototype;
-
-  // Array.prototype[@@unscopables]
-  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  if (ArrayPrototype[UNSCOPABLES] == undefined) {
-    definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {
-      configurable: true,
-      value: create$1(null)
-    });
-  }
-
-  // add a key to Array.prototype[@@unscopables]
-  var addToUnscopables$1 = function (key) {
-    ArrayPrototype[UNSCOPABLES][key] = true;
-  };
-
-  var fails$1 = fails$c;
-
-  var correctPrototypeGetter = !fails$1(function () {
-    function F() { /* empty */ }
-    F.prototype.constructor = null;
-    // eslint-disable-next-line es/no-object-getprototypeof -- required for testing
-    return Object.getPrototypeOf(new F()) !== F.prototype;
-  });
-
-  var hasOwn = hasOwnProperty_1;
-  var isCallable$2 = isCallable$i;
-  var toObject = toObject$3;
-  var sharedKey = sharedKey$3;
-  var CORRECT_PROTOTYPE_GETTER = correctPrototypeGetter;
-
-  var IE_PROTO = sharedKey('IE_PROTO');
-  var ObjectPrototype = Object.prototype;
-
-  // `Object.getPrototypeOf` method
-  // https://tc39.es/ecma262/#sec-object.getprototypeof
-  // eslint-disable-next-line es/no-object-getprototypeof -- safe
-  var objectGetPrototypeOf = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O) {
-    var object = toObject(O);
-    if (hasOwn(object, IE_PROTO)) return object[IE_PROTO];
-    var constructor = object.constructor;
-    if (isCallable$2(constructor) && object instanceof constructor) {
-      return constructor.prototype;
-    } return object instanceof Object ? ObjectPrototype : null;
-  };
-
-  var fails = fails$c;
-  var isCallable$1 = isCallable$i;
-  var getPrototypeOf$1 = objectGetPrototypeOf;
-  var redefine$1 = redefine$7.exports;
-  var wellKnownSymbol$2 = wellKnownSymbol$h;
-
-  var ITERATOR$2 = wellKnownSymbol$2('iterator');
-  var BUGGY_SAFARI_ITERATORS$1 = false;
-
-  // `%IteratorPrototype%` object
-  // https://tc39.es/ecma262/#sec-%iteratorprototype%-object
-  var IteratorPrototype$2, PrototypeOfArrayIteratorPrototype, arrayIterator;
-
-  /* eslint-disable es/no-array-prototype-keys -- safe */
-  if ([].keys) {
-    arrayIterator = [].keys();
-    // Safari 8 has buggy iterators w/o `next`
-    if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS$1 = true;
-    else {
-      PrototypeOfArrayIteratorPrototype = getPrototypeOf$1(getPrototypeOf$1(arrayIterator));
-      if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype$2 = PrototypeOfArrayIteratorPrototype;
-    }
-  }
-
-  var NEW_ITERATOR_PROTOTYPE = IteratorPrototype$2 == undefined || fails(function () {
-    var test = {};
-    // FF44- legacy iterators case
-    return IteratorPrototype$2[ITERATOR$2].call(test) !== test;
-  });
-
-  if (NEW_ITERATOR_PROTOTYPE) IteratorPrototype$2 = {};
-
-  // `%IteratorPrototype%[@@iterator]()` method
-  // https://tc39.es/ecma262/#sec-%iteratorprototype%-@@iterator
-  if (!isCallable$1(IteratorPrototype$2[ITERATOR$2])) {
-    redefine$1(IteratorPrototype$2, ITERATOR$2, function () {
-      return this;
-    });
-  }
-
-  var iteratorsCore = {
-    IteratorPrototype: IteratorPrototype$2,
-    BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS$1
-  };
-
-  var IteratorPrototype$1 = iteratorsCore.IteratorPrototype;
-  var create = objectCreate;
-  var createPropertyDescriptor = createPropertyDescriptor$4;
-  var setToStringTag$1 = setToStringTag$3;
-  var Iterators$2 = iterators;
-
-  var returnThis$1 = function () { return this; };
-
-  var createIteratorConstructor$1 = function (IteratorConstructor, NAME, next) {
-    var TO_STRING_TAG = NAME + ' Iterator';
-    IteratorConstructor.prototype = create(IteratorPrototype$1, { next: createPropertyDescriptor(1, next) });
-    setToStringTag$1(IteratorConstructor, TO_STRING_TAG, false);
-    Iterators$2[TO_STRING_TAG] = returnThis$1;
-    return IteratorConstructor;
-  };
-
-  var $$1 = _export;
-  var FunctionName = functionName;
-  var isCallable = isCallable$i;
-  var createIteratorConstructor = createIteratorConstructor$1;
-  var getPrototypeOf = objectGetPrototypeOf;
-  var setPrototypeOf = objectSetPrototypeOf;
-  var setToStringTag = setToStringTag$3;
-  var createNonEnumerableProperty$1 = createNonEnumerableProperty$5;
-  var redefine = redefine$7.exports;
-  var wellKnownSymbol$1 = wellKnownSymbol$h;
-  var Iterators$1 = iterators;
-  var IteratorsCore = iteratorsCore;
-
-  var PROPER_FUNCTION_NAME = FunctionName.PROPER;
-  var CONFIGURABLE_FUNCTION_NAME = FunctionName.CONFIGURABLE;
-  var IteratorPrototype = IteratorsCore.IteratorPrototype;
-  var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
-  var ITERATOR$1 = wellKnownSymbol$1('iterator');
-  var KEYS = 'keys';
-  var VALUES = 'values';
-  var ENTRIES = 'entries';
-
-  var returnThis = function () { return this; };
-
-  var defineIterator$2 = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
-    createIteratorConstructor(IteratorConstructor, NAME, next);
-
-    var getIterationMethod = function (KIND) {
-      if (KIND === DEFAULT && defaultIterator) return defaultIterator;
-      if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
-      switch (KIND) {
-        case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
-        case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
-        case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
-      } return function () { return new IteratorConstructor(this); };
-    };
-
-    var TO_STRING_TAG = NAME + ' Iterator';
-    var INCORRECT_VALUES_NAME = false;
-    var IterablePrototype = Iterable.prototype;
-    var nativeIterator = IterablePrototype[ITERATOR$1]
-      || IterablePrototype['@@iterator']
-      || DEFAULT && IterablePrototype[DEFAULT];
-    var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
-    var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
-    var CurrentIteratorPrototype, methods, KEY;
-
-    // fix native
-    if (anyNativeIterator) {
-      CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
-      if (CurrentIteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
-        if (getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
-          if (setPrototypeOf) {
-            setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);
-          } else if (!isCallable(CurrentIteratorPrototype[ITERATOR$1])) {
-            redefine(CurrentIteratorPrototype, ITERATOR$1, returnThis);
-          }
-        }
-        // Set @@toStringTag to native iterators
-        setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true);
-      }
-    }
-
-    // fix Array.prototype.{ values, @@iterator }.name in V8 / FF
-    if (PROPER_FUNCTION_NAME && DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
-      if (CONFIGURABLE_FUNCTION_NAME) {
-        createNonEnumerableProperty$1(IterablePrototype, 'name', VALUES);
-      } else {
-        INCORRECT_VALUES_NAME = true;
-        defaultIterator = function values() { return nativeIterator.call(this); };
-      }
-    }
-
-    // export additional methods
-    if (DEFAULT) {
-      methods = {
-        values: getIterationMethod(VALUES),
-        keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
-        entries: getIterationMethod(ENTRIES)
-      };
-      if (FORCED) for (KEY in methods) {
-        if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
-          redefine(IterablePrototype, KEY, methods[KEY]);
-        }
-      } else $$1({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
-    }
-
-    // define iterator
-    if (IterablePrototype[ITERATOR$1] !== defaultIterator) {
-      redefine(IterablePrototype, ITERATOR$1, defaultIterator, { name: DEFAULT });
-    }
-    Iterators$1[NAME] = defaultIterator;
-
-    return methods;
-  };
-
-  var toIndexedObject = toIndexedObject$4;
-  var addToUnscopables = addToUnscopables$1;
-  var Iterators = iterators;
-  var InternalStateModule$1 = internalState;
-  var defineIterator$1 = defineIterator$2;
-
-  var ARRAY_ITERATOR = 'Array Iterator';
-  var setInternalState$1 = InternalStateModule$1.set;
-  var getInternalState$1 = InternalStateModule$1.getterFor(ARRAY_ITERATOR);
-
-  // `Array.prototype.entries` method
-  // https://tc39.es/ecma262/#sec-array.prototype.entries
-  // `Array.prototype.keys` method
-  // https://tc39.es/ecma262/#sec-array.prototype.keys
-  // `Array.prototype.values` method
-  // https://tc39.es/ecma262/#sec-array.prototype.values
-  // `Array.prototype[@@iterator]` method
-  // https://tc39.es/ecma262/#sec-array.prototype-@@iterator
-  // `CreateArrayIterator` internal method
-  // https://tc39.es/ecma262/#sec-createarrayiterator
-  var es_array_iterator = defineIterator$1(Array, 'Array', function (iterated, kind) {
-    setInternalState$1(this, {
-      type: ARRAY_ITERATOR,
-      target: toIndexedObject(iterated), // target
-      index: 0,                          // next index
-      kind: kind                         // kind
-    });
-  // `%ArrayIteratorPrototype%.next` method
-  // https://tc39.es/ecma262/#sec-%arrayiteratorprototype%.next
-  }, function () {
-    var state = getInternalState$1(this);
-    var target = state.target;
-    var kind = state.kind;
-    var index = state.index++;
-    if (!target || index >= target.length) {
-      state.target = undefined;
-      return { value: undefined, done: true };
-    }
-    if (kind == 'keys') return { value: index, done: false };
-    if (kind == 'values') return { value: target[index], done: false };
-    return { value: [index, target[index]], done: false };
-  }, 'values');
-
-  // argumentsList[@@iterator] is %ArrayProto_values%
-  // https://tc39.es/ecma262/#sec-createunmappedargumentsobject
-  // https://tc39.es/ecma262/#sec-createmappedargumentsobject
-  Iterators.Arguments = Iterators.Array;
-
-  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables('keys');
-  addToUnscopables('values');
-  addToUnscopables('entries');
-
-  var classof = classof$5;
-
-  var toString$2 = function (argument) {
-    if (classof(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
-    return String(argument);
-  };
-
-  var toIntegerOrInfinity = toIntegerOrInfinity$3;
-  var toString$1 = toString$2;
-  var requireObjectCoercible = requireObjectCoercible$3;
-
-  var createMethod = function (CONVERT_TO_STRING) {
-    return function ($this, pos) {
-      var S = toString$1(requireObjectCoercible($this));
-      var position = toIntegerOrInfinity(pos);
-      var size = S.length;
-      var first, second;
-      if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
-      first = S.charCodeAt(position);
-      return first < 0xD800 || first > 0xDBFF || position + 1 === size
-        || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
-          ? CONVERT_TO_STRING ? S.charAt(position) : first
-          : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
-    };
-  };
-
-  var stringMultibyte = {
-    // `String.prototype.codePointAt` method
-    // https://tc39.es/ecma262/#sec-string.prototype.codepointat
-    codeAt: createMethod(false),
-    // `String.prototype.at` method
-    // https://github.com/mathiasbynens/String.prototype.at
-    charAt: createMethod(true)
-  };
-
-  var charAt = stringMultibyte.charAt;
-  var toString = toString$2;
-  var InternalStateModule = internalState;
-  var defineIterator = defineIterator$2;
-
-  var STRING_ITERATOR = 'String Iterator';
-  var setInternalState = InternalStateModule.set;
-  var getInternalState = InternalStateModule.getterFor(STRING_ITERATOR);
-
-  // `String.prototype[@@iterator]` method
-  // https://tc39.es/ecma262/#sec-string.prototype-@@iterator
-  defineIterator(String, 'String', function (iterated) {
-    setInternalState(this, {
-      type: STRING_ITERATOR,
-      string: toString(iterated),
-      index: 0
-    });
-  // `%StringIteratorPrototype%.next` method
-  // https://tc39.es/ecma262/#sec-%stringiteratorprototype%.next
-  }, function next() {
-    var state = getInternalState(this);
-    var string = state.string;
-    var index = state.index;
-    var point;
-    if (index >= string.length) return { value: undefined, done: true };
-    point = charAt(string, index);
-    state.index += point.length;
-    return { value: point, done: false };
-  });
-
-  // iterable DOM collections
-  // flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
-  var domIterables = {
-    CSSRuleList: 0,
-    CSSStyleDeclaration: 0,
-    CSSValueList: 0,
-    ClientRectList: 0,
-    DOMRectList: 0,
-    DOMStringList: 0,
-    DOMTokenList: 1,
-    DataTransferItemList: 0,
-    FileList: 0,
-    HTMLAllCollection: 0,
-    HTMLCollection: 0,
-    HTMLFormElement: 0,
-    HTMLSelectElement: 0,
-    MediaList: 0,
-    MimeTypeArray: 0,
-    NamedNodeMap: 0,
-    NodeList: 1,
-    PaintRequestList: 0,
-    Plugin: 0,
-    PluginArray: 0,
-    SVGLengthList: 0,
-    SVGNumberList: 0,
-    SVGPathSegList: 0,
-    SVGPointList: 0,
-    SVGStringList: 0,
-    SVGTransformList: 0,
-    SourceBufferList: 0,
-    StyleSheetList: 0,
-    TextTrackCueList: 0,
-    TextTrackList: 0,
-    TouchList: 0
-  };
-
-  // in old WebKit versions, `element.classList` is not an instance of global `DOMTokenList`
-  var documentCreateElement = documentCreateElement$2;
-
-  var classList = documentCreateElement('span').classList;
-  var DOMTokenListPrototype$1 = classList && classList.constructor && classList.constructor.prototype;
-
-  var domTokenListPrototype = DOMTokenListPrototype$1 === Object.prototype ? undefined : DOMTokenListPrototype$1;
-
-  var global$1 = global$j;
-  var DOMIterables = domIterables;
-  var DOMTokenListPrototype = domTokenListPrototype;
-  var ArrayIteratorMethods = es_array_iterator;
-  var createNonEnumerableProperty = createNonEnumerableProperty$5;
-  var wellKnownSymbol = wellKnownSymbol$h;
-
-  var ITERATOR = wellKnownSymbol('iterator');
-  var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-  var ArrayValues = ArrayIteratorMethods.values;
-
-  var handlePrototype = function (CollectionPrototype, COLLECTION_NAME) {
-    if (CollectionPrototype) {
-      // some Chrome versions have non-configurable methods on DOMTokenList
-      if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
-        createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);
-      } catch (error) {
-        CollectionPrototype[ITERATOR] = ArrayValues;
-      }
-      if (!CollectionPrototype[TO_STRING_TAG]) {
-        createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);
-      }
-      if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
-        // some Chrome versions have non-configurable methods on DOMTokenList
-        if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
-          createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
-        } catch (error) {
-          CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
-        }
-      }
-    }
-  };
-
-  for (var COLLECTION_NAME in DOMIterables) {
-    handlePrototype(global$1[COLLECTION_NAME] && global$1[COLLECTION_NAME].prototype, COLLECTION_NAME);
-  }
-
-  handlePrototype(DOMTokenListPrototype, 'DOMTokenList');
-
-  var localforage$1 = {exports: {}};
-
-  /*!
-      localForage -- Offline Storage, Improved
-      Version 1.10.0
-      https://localforage.github.io/localForage
-      (c) 2013-2017 Mozilla, Apache License 2.0
-  */
-
-  (function (module, exports) {
-  (function(f){{module.exports=f();}})(function(){return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof commonjsRequire=="function"&&commonjsRequire;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw (f.code="MODULE_NOT_FOUND", f)}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r);}return n[o].exports}var i=typeof commonjsRequire=="function"&&commonjsRequire;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
-  (function (global){
-  var Mutation = global.MutationObserver || global.WebKitMutationObserver;
-
-  var scheduleDrain;
-
-  {
-    if (Mutation) {
-      var called = 0;
-      var observer = new Mutation(nextTick);
-      var element = global.document.createTextNode('');
-      observer.observe(element, {
-        characterData: true
-      });
-      scheduleDrain = function () {
-        element.data = (called = ++called % 2);
-      };
-    } else if (!global.setImmediate && typeof global.MessageChannel !== 'undefined') {
-      var channel = new global.MessageChannel();
-      channel.port1.onmessage = nextTick;
-      scheduleDrain = function () {
-        channel.port2.postMessage(0);
-      };
-    } else if ('document' in global && 'onreadystatechange' in global.document.createElement('script')) {
-      scheduleDrain = function () {
-
-        // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
-        // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
-        var scriptEl = global.document.createElement('script');
-        scriptEl.onreadystatechange = function () {
-          nextTick();
-
-          scriptEl.onreadystatechange = null;
-          scriptEl.parentNode.removeChild(scriptEl);
-          scriptEl = null;
-        };
-        global.document.documentElement.appendChild(scriptEl);
-      };
-    } else {
-      scheduleDrain = function () {
-        setTimeout(nextTick, 0);
-      };
-    }
-  }
-
-  var draining;
-  var queue = [];
-  //named nextTick for less confusing stack traces
-  function nextTick() {
-    draining = true;
-    var i, oldQueue;
-    var len = queue.length;
-    while (len) {
-      oldQueue = queue;
-      queue = [];
-      i = -1;
-      while (++i < len) {
-        oldQueue[i]();
-      }
-      len = queue.length;
-    }
-    draining = false;
-  }
-
-  module.exports = immediate;
-  function immediate(task) {
-    if (queue.push(task) === 1 && !draining) {
-      scheduleDrain();
-    }
-  }
-
-  }).call(this,typeof commonjsGlobal !== "undefined" ? commonjsGlobal : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {});
-  },{}],2:[function(_dereq_,module,exports){
-  var immediate = _dereq_(1);
-
-  /* istanbul ignore next */
-  function INTERNAL() {}
-
-  var handlers = {};
-
-  var REJECTED = ['REJECTED'];
-  var FULFILLED = ['FULFILLED'];
-  var PENDING = ['PENDING'];
-
-  module.exports = Promise;
-
-  function Promise(resolver) {
-    if (typeof resolver !== 'function') {
-      throw new TypeError('resolver must be a function');
-    }
-    this.state = PENDING;
-    this.queue = [];
-    this.outcome = void 0;
-    if (resolver !== INTERNAL) {
-      safelyResolveThenable(this, resolver);
-    }
-  }
-
-  Promise.prototype["catch"] = function (onRejected) {
-    return this.then(null, onRejected);
-  };
-  Promise.prototype.then = function (onFulfilled, onRejected) {
-    if (typeof onFulfilled !== 'function' && this.state === FULFILLED ||
-      typeof onRejected !== 'function' && this.state === REJECTED) {
-      return this;
-    }
-    var promise = new this.constructor(INTERNAL);
-    if (this.state !== PENDING) {
-      var resolver = this.state === FULFILLED ? onFulfilled : onRejected;
-      unwrap(promise, resolver, this.outcome);
-    } else {
-      this.queue.push(new QueueItem(promise, onFulfilled, onRejected));
-    }
-
-    return promise;
-  };
-  function QueueItem(promise, onFulfilled, onRejected) {
-    this.promise = promise;
-    if (typeof onFulfilled === 'function') {
-      this.onFulfilled = onFulfilled;
-      this.callFulfilled = this.otherCallFulfilled;
-    }
-    if (typeof onRejected === 'function') {
-      this.onRejected = onRejected;
-      this.callRejected = this.otherCallRejected;
-    }
-  }
-  QueueItem.prototype.callFulfilled = function (value) {
-    handlers.resolve(this.promise, value);
-  };
-  QueueItem.prototype.otherCallFulfilled = function (value) {
-    unwrap(this.promise, this.onFulfilled, value);
-  };
-  QueueItem.prototype.callRejected = function (value) {
-    handlers.reject(this.promise, value);
-  };
-  QueueItem.prototype.otherCallRejected = function (value) {
-    unwrap(this.promise, this.onRejected, value);
-  };
-
-  function unwrap(promise, func, value) {
-    immediate(function () {
-      var returnValue;
-      try {
-        returnValue = func(value);
-      } catch (e) {
-        return handlers.reject(promise, e);
-      }
-      if (returnValue === promise) {
-        handlers.reject(promise, new TypeError('Cannot resolve promise with itself'));
-      } else {
-        handlers.resolve(promise, returnValue);
-      }
-    });
-  }
-
-  handlers.resolve = function (self, value) {
-    var result = tryCatch(getThen, value);
-    if (result.status === 'error') {
-      return handlers.reject(self, result.value);
-    }
-    var thenable = result.value;
-
-    if (thenable) {
-      safelyResolveThenable(self, thenable);
-    } else {
-      self.state = FULFILLED;
-      self.outcome = value;
-      var i = -1;
-      var len = self.queue.length;
-      while (++i < len) {
-        self.queue[i].callFulfilled(value);
-      }
-    }
-    return self;
-  };
-  handlers.reject = function (self, error) {
-    self.state = REJECTED;
-    self.outcome = error;
-    var i = -1;
-    var len = self.queue.length;
-    while (++i < len) {
-      self.queue[i].callRejected(error);
-    }
-    return self;
-  };
-
-  function getThen(obj) {
-    // Make sure we only access the accessor once as required by the spec
-    var then = obj && obj.then;
-    if (obj && (typeof obj === 'object' || typeof obj === 'function') && typeof then === 'function') {
-      return function appyThen() {
-        then.apply(obj, arguments);
-      };
-    }
-  }
-
-  function safelyResolveThenable(self, thenable) {
-    // Either fulfill, reject or reject with error
-    var called = false;
-    function onError(value) {
-      if (called) {
-        return;
-      }
-      called = true;
-      handlers.reject(self, value);
-    }
-
-    function onSuccess(value) {
-      if (called) {
-        return;
-      }
-      called = true;
-      handlers.resolve(self, value);
-    }
-
-    function tryToUnwrap() {
-      thenable(onSuccess, onError);
-    }
-
-    var result = tryCatch(tryToUnwrap);
-    if (result.status === 'error') {
-      onError(result.value);
-    }
-  }
-
-  function tryCatch(func, value) {
-    var out = {};
-    try {
-      out.value = func(value);
-      out.status = 'success';
-    } catch (e) {
-      out.status = 'error';
-      out.value = e;
-    }
-    return out;
-  }
-
-  Promise.resolve = resolve;
-  function resolve(value) {
-    if (value instanceof this) {
-      return value;
-    }
-    return handlers.resolve(new this(INTERNAL), value);
-  }
-
-  Promise.reject = reject;
-  function reject(reason) {
-    var promise = new this(INTERNAL);
-    return handlers.reject(promise, reason);
-  }
-
-  Promise.all = all;
-  function all(iterable) {
-    var self = this;
-    if (Object.prototype.toString.call(iterable) !== '[object Array]') {
-      return this.reject(new TypeError('must be an array'));
-    }
-
-    var len = iterable.length;
-    var called = false;
-    if (!len) {
-      return this.resolve([]);
-    }
-
-    var values = new Array(len);
-    var resolved = 0;
-    var i = -1;
-    var promise = new this(INTERNAL);
-
-    while (++i < len) {
-      allResolver(iterable[i], i);
-    }
-    return promise;
-    function allResolver(value, i) {
-      self.resolve(value).then(resolveFromAll, function (error) {
-        if (!called) {
-          called = true;
-          handlers.reject(promise, error);
-        }
-      });
-      function resolveFromAll(outValue) {
-        values[i] = outValue;
-        if (++resolved === len && !called) {
-          called = true;
-          handlers.resolve(promise, values);
-        }
-      }
-    }
-  }
-
-  Promise.race = race;
-  function race(iterable) {
-    var self = this;
-    if (Object.prototype.toString.call(iterable) !== '[object Array]') {
-      return this.reject(new TypeError('must be an array'));
-    }
-
-    var len = iterable.length;
-    var called = false;
-    if (!len) {
-      return this.resolve([]);
-    }
-
-    var i = -1;
-    var promise = new this(INTERNAL);
-
-    while (++i < len) {
-      resolver(iterable[i]);
-    }
-    return promise;
-    function resolver(value) {
-      self.resolve(value).then(function (response) {
-        if (!called) {
-          called = true;
-          handlers.resolve(promise, response);
-        }
-      }, function (error) {
-        if (!called) {
-          called = true;
-          handlers.reject(promise, error);
-        }
-      });
-    }
-  }
-
-  },{"1":1}],3:[function(_dereq_,module,exports){
-  (function (global){
-  if (typeof global.Promise !== 'function') {
-    global.Promise = _dereq_(2);
-  }
-
-  }).call(this,typeof commonjsGlobal !== "undefined" ? commonjsGlobal : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {});
-  },{"2":2}],4:[function(_dereq_,module,exports){
-
-  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-  function getIDB() {
-      /* global indexedDB,webkitIndexedDB,mozIndexedDB,OIndexedDB,msIndexedDB */
-      try {
-          if (typeof indexedDB !== 'undefined') {
-              return indexedDB;
-          }
-          if (typeof webkitIndexedDB !== 'undefined') {
-              return webkitIndexedDB;
-          }
-          if (typeof mozIndexedDB !== 'undefined') {
-              return mozIndexedDB;
-          }
-          if (typeof OIndexedDB !== 'undefined') {
-              return OIndexedDB;
-          }
-          if (typeof msIndexedDB !== 'undefined') {
-              return msIndexedDB;
-          }
-      } catch (e) {
-          return;
-      }
-  }
-
-  var idb = getIDB();
-
-  function isIndexedDBValid() {
-      try {
-          // Initialize IndexedDB; fall back to vendor-prefixed versions
-          // if needed.
-          if (!idb || !idb.open) {
-              return false;
-          }
-          // We mimic PouchDB here;
-          //
-          // We test for openDatabase because IE Mobile identifies itself
-          // as Safari. Oh the lulz...
-          var isSafari = typeof openDatabase !== 'undefined' && /(Safari|iPhone|iPad|iPod)/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent) && !/BlackBerry/.test(navigator.platform);
-
-          var hasFetch = typeof fetch === 'function' && fetch.toString().indexOf('[native code') !== -1;
-
-          // Safari <10.1 does not meet our requirements for IDB support
-          // (see: https://github.com/pouchdb/pouchdb/issues/5572).
-          // Safari 10.1 shipped with fetch, we can use that to detect it.
-          // Note: this creates issues with `window.fetch` polyfills and
-          // overrides; see:
-          // https://github.com/localForage/localForage/issues/856
-          return (!isSafari || hasFetch) && typeof indexedDB !== 'undefined' &&
-          // some outdated implementations of IDB that appear on Samsung
-          // and HTC Android devices <4.4 are missing IDBKeyRange
-          // See: https://github.com/mozilla/localForage/issues/128
-          // See: https://github.com/mozilla/localForage/issues/272
-          typeof IDBKeyRange !== 'undefined';
-      } catch (e) {
-          return false;
-      }
-  }
-
-  // Abstracts constructing a Blob object, so it also works in older
-  // browsers that don't support the native Blob constructor. (i.e.
-  // old QtWebKit versions, at least).
-  // Abstracts constructing a Blob object, so it also works in older
-  // browsers that don't support the native Blob constructor. (i.e.
-  // old QtWebKit versions, at least).
-  function createBlob(parts, properties) {
-      /* global BlobBuilder,MSBlobBuilder,MozBlobBuilder,WebKitBlobBuilder */
-      parts = parts || [];
-      properties = properties || {};
-      try {
-          return new Blob(parts, properties);
-      } catch (e) {
-          if (e.name !== 'TypeError') {
-              throw e;
-          }
-          var Builder = typeof BlobBuilder !== 'undefined' ? BlobBuilder : typeof MSBlobBuilder !== 'undefined' ? MSBlobBuilder : typeof MozBlobBuilder !== 'undefined' ? MozBlobBuilder : WebKitBlobBuilder;
-          var builder = new Builder();
-          for (var i = 0; i < parts.length; i += 1) {
-              builder.append(parts[i]);
-          }
-          return builder.getBlob(properties.type);
-      }
-  }
-
-  // This is CommonJS because lie is an external dependency, so Rollup
-  // can just ignore it.
-  if (typeof Promise === 'undefined') {
-      // In the "nopromises" build this will just throw if you don't have
-      // a global promise object, but it would throw anyway later.
-      _dereq_(3);
-  }
-  var Promise$1 = Promise;
-
-  function executeCallback(promise, callback) {
-      if (callback) {
-          promise.then(function (result) {
-              callback(null, result);
-          }, function (error) {
-              callback(error);
-          });
-      }
-  }
-
-  function executeTwoCallbacks(promise, callback, errorCallback) {
-      if (typeof callback === 'function') {
-          promise.then(callback);
-      }
-
-      if (typeof errorCallback === 'function') {
-          promise["catch"](errorCallback);
-      }
-  }
-
-  function normalizeKey(key) {
-      // Cast the key to a string, as that's all we can set as a key.
-      if (typeof key !== 'string') {
-          console.warn(key + ' used as a key, but it is not a string.');
-          key = String(key);
-      }
-
-      return key;
-  }
-
-  function getCallback() {
-      if (arguments.length && typeof arguments[arguments.length - 1] === 'function') {
-          return arguments[arguments.length - 1];
-      }
-  }
-
-  // Some code originally from async_storage.js in
-  // [Gaia](https://github.com/mozilla-b2g/gaia).
-
-  var DETECT_BLOB_SUPPORT_STORE = 'local-forage-detect-blob-support';
-  var supportsBlobs = void 0;
-  var dbContexts = {};
-  var toString = Object.prototype.toString;
-
-  // Transaction Modes
-  var READ_ONLY = 'readonly';
-  var READ_WRITE = 'readwrite';
-
-  // Transform a binary string to an array buffer, because otherwise
-  // weird stuff happens when you try to work with the binary string directly.
-  // It is known.
-  // From http://stackoverflow.com/questions/14967647/ (continues on next line)
-  // encode-decode-image-with-base64-breaks-image (2013-04-21)
-  function _binStringToArrayBuffer(bin) {
-      var length = bin.length;
-      var buf = new ArrayBuffer(length);
-      var arr = new Uint8Array(buf);
-      for (var i = 0; i < length; i++) {
-          arr[i] = bin.charCodeAt(i);
-      }
-      return buf;
-  }
-
-  //
-  // Blobs are not supported in all versions of IndexedDB, notably
-  // Chrome <37 and Android <5. In those versions, storing a blob will throw.
-  //
-  // Various other blob bugs exist in Chrome v37-42 (inclusive).
-  // Detecting them is expensive and confusing to users, and Chrome 37-42
-  // is at very low usage worldwide, so we do a hacky userAgent check instead.
-  //
-  // content-type bug: https://code.google.com/p/chromium/issues/detail?id=408120
-  // 404 bug: https://code.google.com/p/chromium/issues/detail?id=447916
-  // FileReader bug: https://code.google.com/p/chromium/issues/detail?id=447836
-  //
-  // Code borrowed from PouchDB. See:
-  // https://github.com/pouchdb/pouchdb/blob/master/packages/node_modules/pouchdb-adapter-idb/src/blobSupport.js
-  //
-  function _checkBlobSupportWithoutCaching(idb) {
-      return new Promise$1(function (resolve) {
-          var txn = idb.transaction(DETECT_BLOB_SUPPORT_STORE, READ_WRITE);
-          var blob = createBlob(['']);
-          txn.objectStore(DETECT_BLOB_SUPPORT_STORE).put(blob, 'key');
-
-          txn.onabort = function (e) {
-              // If the transaction aborts now its due to not being able to
-              // write to the database, likely due to the disk being full
-              e.preventDefault();
-              e.stopPropagation();
-              resolve(false);
-          };
-
-          txn.oncomplete = function () {
-              var matchedChrome = navigator.userAgent.match(/Chrome\/(\d+)/);
-              var matchedEdge = navigator.userAgent.match(/Edge\//);
-              // MS Edge pretends to be Chrome 42:
-              // https://msdn.microsoft.com/en-us/library/hh869301%28v=vs.85%29.aspx
-              resolve(matchedEdge || !matchedChrome || parseInt(matchedChrome[1], 10) >= 43);
-          };
-      })["catch"](function () {
-          return false; // error, so assume unsupported
-      });
-  }
-
-  function _checkBlobSupport(idb) {
-      if (typeof supportsBlobs === 'boolean') {
-          return Promise$1.resolve(supportsBlobs);
-      }
-      return _checkBlobSupportWithoutCaching(idb).then(function (value) {
-          supportsBlobs = value;
-          return supportsBlobs;
-      });
-  }
-
-  function _deferReadiness(dbInfo) {
-      var dbContext = dbContexts[dbInfo.name];
-
-      // Create a deferred object representing the current database operation.
-      var deferredOperation = {};
-
-      deferredOperation.promise = new Promise$1(function (resolve, reject) {
-          deferredOperation.resolve = resolve;
-          deferredOperation.reject = reject;
-      });
-
-      // Enqueue the deferred operation.
-      dbContext.deferredOperations.push(deferredOperation);
-
-      // Chain its promise to the database readiness.
-      if (!dbContext.dbReady) {
-          dbContext.dbReady = deferredOperation.promise;
-      } else {
-          dbContext.dbReady = dbContext.dbReady.then(function () {
-              return deferredOperation.promise;
-          });
-      }
-  }
-
-  function _advanceReadiness(dbInfo) {
-      var dbContext = dbContexts[dbInfo.name];
-
-      // Dequeue a deferred operation.
-      var deferredOperation = dbContext.deferredOperations.pop();
-
-      // Resolve its promise (which is part of the database readiness
-      // chain of promises).
-      if (deferredOperation) {
-          deferredOperation.resolve();
-          return deferredOperation.promise;
-      }
-  }
-
-  function _rejectReadiness(dbInfo, err) {
-      var dbContext = dbContexts[dbInfo.name];
-
-      // Dequeue a deferred operation.
-      var deferredOperation = dbContext.deferredOperations.pop();
-
-      // Reject its promise (which is part of the database readiness
-      // chain of promises).
-      if (deferredOperation) {
-          deferredOperation.reject(err);
-          return deferredOperation.promise;
-      }
-  }
-
-  function _getConnection(dbInfo, upgradeNeeded) {
-      return new Promise$1(function (resolve, reject) {
-          dbContexts[dbInfo.name] = dbContexts[dbInfo.name] || createDbContext();
-
-          if (dbInfo.db) {
-              if (upgradeNeeded) {
-                  _deferReadiness(dbInfo);
-                  dbInfo.db.close();
-              } else {
-                  return resolve(dbInfo.db);
-              }
-          }
-
-          var dbArgs = [dbInfo.name];
-
-          if (upgradeNeeded) {
-              dbArgs.push(dbInfo.version);
-          }
-
-          var openreq = idb.open.apply(idb, dbArgs);
-
-          if (upgradeNeeded) {
-              openreq.onupgradeneeded = function (e) {
-                  var db = openreq.result;
-                  try {
-                      db.createObjectStore(dbInfo.storeName);
-                      if (e.oldVersion <= 1) {
-                          // Added when support for blob shims was added
-                          db.createObjectStore(DETECT_BLOB_SUPPORT_STORE);
-                      }
-                  } catch (ex) {
-                      if (ex.name === 'ConstraintError') {
-                          console.warn('The database "' + dbInfo.name + '"' + ' has been upgraded from version ' + e.oldVersion + ' to version ' + e.newVersion + ', but the storage "' + dbInfo.storeName + '" already exists.');
-                      } else {
-                          throw ex;
-                      }
-                  }
-              };
-          }
-
-          openreq.onerror = function (e) {
-              e.preventDefault();
-              reject(openreq.error);
-          };
-
-          openreq.onsuccess = function () {
-              var db = openreq.result;
-              db.onversionchange = function (e) {
-                  // Triggered when the database is modified (e.g. adding an objectStore) or
-                  // deleted (even when initiated by other sessions in different tabs).
-                  // Closing the connection here prevents those operations from being blocked.
-                  // If the database is accessed again later by this instance, the connection
-                  // will be reopened or the database recreated as needed.
-                  e.target.close();
-              };
-              resolve(db);
-              _advanceReadiness(dbInfo);
-          };
-      });
-  }
-
-  function _getOriginalConnection(dbInfo) {
-      return _getConnection(dbInfo, false);
-  }
-
-  function _getUpgradedConnection(dbInfo) {
-      return _getConnection(dbInfo, true);
-  }
-
-  function _isUpgradeNeeded(dbInfo, defaultVersion) {
-      if (!dbInfo.db) {
-          return true;
-      }
-
-      var isNewStore = !dbInfo.db.objectStoreNames.contains(dbInfo.storeName);
-      var isDowngrade = dbInfo.version < dbInfo.db.version;
-      var isUpgrade = dbInfo.version > dbInfo.db.version;
-
-      if (isDowngrade) {
-          // If the version is not the default one
-          // then warn for impossible downgrade.
-          if (dbInfo.version !== defaultVersion) {
-              console.warn('The database "' + dbInfo.name + '"' + " can't be downgraded from version " + dbInfo.db.version + ' to version ' + dbInfo.version + '.');
-          }
-          // Align the versions to prevent errors.
-          dbInfo.version = dbInfo.db.version;
-      }
-
-      if (isUpgrade || isNewStore) {
-          // If the store is new then increment the version (if needed).
-          // This will trigger an "upgradeneeded" event which is required
-          // for creating a store.
-          if (isNewStore) {
-              var incVersion = dbInfo.db.version + 1;
-              if (incVersion > dbInfo.version) {
-                  dbInfo.version = incVersion;
-              }
-          }
-
-          return true;
-      }
-
-      return false;
-  }
-
-  // encode a blob for indexeddb engines that don't support blobs
-  function _encodeBlob(blob) {
-      return new Promise$1(function (resolve, reject) {
-          var reader = new FileReader();
-          reader.onerror = reject;
-          reader.onloadend = function (e) {
-              var base64 = btoa(e.target.result || '');
-              resolve({
-                  __local_forage_encoded_blob: true,
-                  data: base64,
-                  type: blob.type
-              });
-          };
-          reader.readAsBinaryString(blob);
-      });
-  }
-
-  // decode an encoded blob
-  function _decodeBlob(encodedBlob) {
-      var arrayBuff = _binStringToArrayBuffer(atob(encodedBlob.data));
-      return createBlob([arrayBuff], { type: encodedBlob.type });
-  }
-
-  // is this one of our fancy encoded blobs?
-  function _isEncodedBlob(value) {
-      return value && value.__local_forage_encoded_blob;
-  }
-
-  // Specialize the default `ready()` function by making it dependent
-  // on the current database operations. Thus, the driver will be actually
-  // ready when it's been initialized (default) *and* there are no pending
-  // operations on the database (initiated by some other instances).
-  function _fullyReady(callback) {
-      var self = this;
-
-      var promise = self._initReady().then(function () {
-          var dbContext = dbContexts[self._dbInfo.name];
-
-          if (dbContext && dbContext.dbReady) {
-              return dbContext.dbReady;
-          }
-      });
-
-      executeTwoCallbacks(promise, callback, callback);
-      return promise;
-  }
-
-  // Try to establish a new db connection to replace the
-  // current one which is broken (i.e. experiencing
-  // InvalidStateError while creating a transaction).
-  function _tryReconnect(dbInfo) {
-      _deferReadiness(dbInfo);
-
-      var dbContext = dbContexts[dbInfo.name];
-      var forages = dbContext.forages;
-
-      for (var i = 0; i < forages.length; i++) {
-          var forage = forages[i];
-          if (forage._dbInfo.db) {
-              forage._dbInfo.db.close();
-              forage._dbInfo.db = null;
-          }
-      }
-      dbInfo.db = null;
-
-      return _getOriginalConnection(dbInfo).then(function (db) {
-          dbInfo.db = db;
-          if (_isUpgradeNeeded(dbInfo)) {
-              // Reopen the database for upgrading.
-              return _getUpgradedConnection(dbInfo);
-          }
-          return db;
-      }).then(function (db) {
-          // store the latest db reference
-          // in case the db was upgraded
-          dbInfo.db = dbContext.db = db;
-          for (var i = 0; i < forages.length; i++) {
-              forages[i]._dbInfo.db = db;
-          }
-      })["catch"](function (err) {
-          _rejectReadiness(dbInfo, err);
-          throw err;
-      });
-  }
-
-  // FF doesn't like Promises (micro-tasks) and IDDB store operations,
-  // so we have to do it with callbacks
-  function createTransaction(dbInfo, mode, callback, retries) {
-      if (retries === undefined) {
-          retries = 1;
-      }
-
-      try {
-          var tx = dbInfo.db.transaction(dbInfo.storeName, mode);
-          callback(null, tx);
-      } catch (err) {
-          if (retries > 0 && (!dbInfo.db || err.name === 'InvalidStateError' || err.name === 'NotFoundError')) {
-              return Promise$1.resolve().then(function () {
-                  if (!dbInfo.db || err.name === 'NotFoundError' && !dbInfo.db.objectStoreNames.contains(dbInfo.storeName) && dbInfo.version <= dbInfo.db.version) {
-                      // increase the db version, to create the new ObjectStore
-                      if (dbInfo.db) {
-                          dbInfo.version = dbInfo.db.version + 1;
-                      }
-                      // Reopen the database for upgrading.
-                      return _getUpgradedConnection(dbInfo);
-                  }
-              }).then(function () {
-                  return _tryReconnect(dbInfo).then(function () {
-                      createTransaction(dbInfo, mode, callback, retries - 1);
-                  });
-              })["catch"](callback);
-          }
-
-          callback(err);
-      }
-  }
-
-  function createDbContext() {
-      return {
-          // Running localForages sharing a database.
-          forages: [],
-          // Shared database.
-          db: null,
-          // Database readiness (promise).
-          dbReady: null,
-          // Deferred operations on the database.
-          deferredOperations: []
-      };
-  }
-
-  // Open the IndexedDB database (automatically creates one if one didn't
-  // previously exist), using any options set in the config.
-  function _initStorage(options) {
-      var self = this;
-      var dbInfo = {
-          db: null
-      };
-
-      if (options) {
-          for (var i in options) {
-              dbInfo[i] = options[i];
-          }
-      }
-
-      // Get the current context of the database;
-      var dbContext = dbContexts[dbInfo.name];
-
-      // ...or create a new context.
-      if (!dbContext) {
-          dbContext = createDbContext();
-          // Register the new context in the global container.
-          dbContexts[dbInfo.name] = dbContext;
-      }
-
-      // Register itself as a running localForage in the current context.
-      dbContext.forages.push(self);
-
-      // Replace the default `ready()` function with the specialized one.
-      if (!self._initReady) {
-          self._initReady = self.ready;
-          self.ready = _fullyReady;
-      }
-
-      // Create an array of initialization states of the related localForages.
-      var initPromises = [];
-
-      function ignoreErrors() {
-          // Don't handle errors here,
-          // just makes sure related localForages aren't pending.
-          return Promise$1.resolve();
-      }
-
-      for (var j = 0; j < dbContext.forages.length; j++) {
-          var forage = dbContext.forages[j];
-          if (forage !== self) {
-              // Don't wait for itself...
-              initPromises.push(forage._initReady()["catch"](ignoreErrors));
-          }
-      }
-
-      // Take a snapshot of the related localForages.
-      var forages = dbContext.forages.slice(0);
-
-      // Initialize the connection process only when
-      // all the related localForages aren't pending.
-      return Promise$1.all(initPromises).then(function () {
-          dbInfo.db = dbContext.db;
-          // Get the connection or open a new one without upgrade.
-          return _getOriginalConnection(dbInfo);
-      }).then(function (db) {
-          dbInfo.db = db;
-          if (_isUpgradeNeeded(dbInfo, self._defaultConfig.version)) {
-              // Reopen the database for upgrading.
-              return _getUpgradedConnection(dbInfo);
-          }
-          return db;
-      }).then(function (db) {
-          dbInfo.db = dbContext.db = db;
-          self._dbInfo = dbInfo;
-          // Share the final connection amongst related localForages.
-          for (var k = 0; k < forages.length; k++) {
-              var forage = forages[k];
-              if (forage !== self) {
-                  // Self is already up-to-date.
-                  forage._dbInfo.db = dbInfo.db;
-                  forage._dbInfo.version = dbInfo.version;
-              }
-          }
-      });
-  }
-
-  function getItem(key, callback) {
-      var self = this;
-
-      key = normalizeKey(key);
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
-                  if (err) {
-                      return reject(err);
-                  }
-
-                  try {
-                      var store = transaction.objectStore(self._dbInfo.storeName);
-                      var req = store.get(key);
-
-                      req.onsuccess = function () {
-                          var value = req.result;
-                          if (value === undefined) {
-                              value = null;
-                          }
-                          if (_isEncodedBlob(value)) {
-                              value = _decodeBlob(value);
-                          }
-                          resolve(value);
-                      };
-
-                      req.onerror = function () {
-                          reject(req.error);
-                      };
-                  } catch (e) {
-                      reject(e);
-                  }
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // Iterate over all items stored in database.
-  function iterate(iterator, callback) {
-      var self = this;
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
-                  if (err) {
-                      return reject(err);
-                  }
-
-                  try {
-                      var store = transaction.objectStore(self._dbInfo.storeName);
-                      var req = store.openCursor();
-                      var iterationNumber = 1;
-
-                      req.onsuccess = function () {
-                          var cursor = req.result;
-
-                          if (cursor) {
-                              var value = cursor.value;
-                              if (_isEncodedBlob(value)) {
-                                  value = _decodeBlob(value);
-                              }
-                              var result = iterator(value, cursor.key, iterationNumber++);
-
-                              // when the iterator callback returns any
-                              // (non-`undefined`) value, then we stop
-                              // the iteration immediately
-                              if (result !== void 0) {
-                                  resolve(result);
-                              } else {
-                                  cursor["continue"]();
-                              }
-                          } else {
-                              resolve();
-                          }
-                      };
-
-                      req.onerror = function () {
-                          reject(req.error);
-                      };
-                  } catch (e) {
-                      reject(e);
-                  }
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-
-      return promise;
-  }
-
-  function setItem(key, value, callback) {
-      var self = this;
-
-      key = normalizeKey(key);
-
-      var promise = new Promise$1(function (resolve, reject) {
-          var dbInfo;
-          self.ready().then(function () {
-              dbInfo = self._dbInfo;
-              if (toString.call(value) === '[object Blob]') {
-                  return _checkBlobSupport(dbInfo.db).then(function (blobSupport) {
-                      if (blobSupport) {
-                          return value;
-                      }
-                      return _encodeBlob(value);
-                  });
-              }
-              return value;
-          }).then(function (value) {
-              createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
-                  if (err) {
-                      return reject(err);
-                  }
-
-                  try {
-                      var store = transaction.objectStore(self._dbInfo.storeName);
-
-                      // The reason we don't _save_ null is because IE 10 does
-                      // not support saving the `null` type in IndexedDB. How
-                      // ironic, given the bug below!
-                      // See: https://github.com/mozilla/localForage/issues/161
-                      if (value === null) {
-                          value = undefined;
-                      }
-
-                      var req = store.put(value, key);
-
-                      transaction.oncomplete = function () {
-                          // Cast to undefined so the value passed to
-                          // callback/promise is the same as what one would get out
-                          // of `getItem()` later. This leads to some weirdness
-                          // (setItem('foo', undefined) will return `null`), but
-                          // it's not my fault localStorage is our baseline and that
-                          // it's weird.
-                          if (value === undefined) {
-                              value = null;
-                          }
-
-                          resolve(value);
-                      };
-                      transaction.onabort = transaction.onerror = function () {
-                          var err = req.error ? req.error : req.transaction.error;
-                          reject(err);
-                      };
-                  } catch (e) {
-                      reject(e);
-                  }
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function removeItem(key, callback) {
-      var self = this;
-
-      key = normalizeKey(key);
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
-                  if (err) {
-                      return reject(err);
-                  }
-
-                  try {
-                      var store = transaction.objectStore(self._dbInfo.storeName);
-                      // We use a Grunt task to make this safe for IE and some
-                      // versions of Android (including those used by Cordova).
-                      // Normally IE won't like `.delete()` and will insist on
-                      // using `['delete']()`, but we have a build step that
-                      // fixes this for us now.
-                      var req = store["delete"](key);
-                      transaction.oncomplete = function () {
-                          resolve();
-                      };
-
-                      transaction.onerror = function () {
-                          reject(req.error);
-                      };
-
-                      // The request will be also be aborted if we've exceeded our storage
-                      // space.
-                      transaction.onabort = function () {
-                          var err = req.error ? req.error : req.transaction.error;
-                          reject(err);
-                      };
-                  } catch (e) {
-                      reject(e);
-                  }
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function clear(callback) {
-      var self = this;
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
-                  if (err) {
-                      return reject(err);
-                  }
-
-                  try {
-                      var store = transaction.objectStore(self._dbInfo.storeName);
-                      var req = store.clear();
-
-                      transaction.oncomplete = function () {
-                          resolve();
-                      };
-
-                      transaction.onabort = transaction.onerror = function () {
-                          var err = req.error ? req.error : req.transaction.error;
-                          reject(err);
-                      };
-                  } catch (e) {
-                      reject(e);
-                  }
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function length(callback) {
-      var self = this;
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
-                  if (err) {
-                      return reject(err);
-                  }
-
-                  try {
-                      var store = transaction.objectStore(self._dbInfo.storeName);
-                      var req = store.count();
-
-                      req.onsuccess = function () {
-                          resolve(req.result);
-                      };
-
-                      req.onerror = function () {
-                          reject(req.error);
-                      };
-                  } catch (e) {
-                      reject(e);
-                  }
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function key(n, callback) {
-      var self = this;
-
-      var promise = new Promise$1(function (resolve, reject) {
-          if (n < 0) {
-              resolve(null);
-
-              return;
-          }
-
-          self.ready().then(function () {
-              createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
-                  if (err) {
-                      return reject(err);
-                  }
-
-                  try {
-                      var store = transaction.objectStore(self._dbInfo.storeName);
-                      var advanced = false;
-                      var req = store.openKeyCursor();
-
-                      req.onsuccess = function () {
-                          var cursor = req.result;
-                          if (!cursor) {
-                              // this means there weren't enough keys
-                              resolve(null);
-
-                              return;
-                          }
-
-                          if (n === 0) {
-                              // We have the first key, return it if that's what they
-                              // wanted.
-                              resolve(cursor.key);
-                          } else {
-                              if (!advanced) {
-                                  // Otherwise, ask the cursor to skip ahead n
-                                  // records.
-                                  advanced = true;
-                                  cursor.advance(n);
-                              } else {
-                                  // When we get here, we've got the nth key.
-                                  resolve(cursor.key);
-                              }
-                          }
-                      };
-
-                      req.onerror = function () {
-                          reject(req.error);
-                      };
-                  } catch (e) {
-                      reject(e);
-                  }
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function keys(callback) {
-      var self = this;
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
-                  if (err) {
-                      return reject(err);
-                  }
-
-                  try {
-                      var store = transaction.objectStore(self._dbInfo.storeName);
-                      var req = store.openKeyCursor();
-                      var keys = [];
-
-                      req.onsuccess = function () {
-                          var cursor = req.result;
-
-                          if (!cursor) {
-                              resolve(keys);
-                              return;
-                          }
-
-                          keys.push(cursor.key);
-                          cursor["continue"]();
-                      };
-
-                      req.onerror = function () {
-                          reject(req.error);
-                      };
-                  } catch (e) {
-                      reject(e);
-                  }
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function dropInstance(options, callback) {
-      callback = getCallback.apply(this, arguments);
-
-      var currentConfig = this.config();
-      options = typeof options !== 'function' && options || {};
-      if (!options.name) {
-          options.name = options.name || currentConfig.name;
-          options.storeName = options.storeName || currentConfig.storeName;
-      }
-
-      var self = this;
-      var promise;
-      if (!options.name) {
-          promise = Promise$1.reject('Invalid arguments');
-      } else {
-          var isCurrentDb = options.name === currentConfig.name && self._dbInfo.db;
-
-          var dbPromise = isCurrentDb ? Promise$1.resolve(self._dbInfo.db) : _getOriginalConnection(options).then(function (db) {
-              var dbContext = dbContexts[options.name];
-              var forages = dbContext.forages;
-              dbContext.db = db;
-              for (var i = 0; i < forages.length; i++) {
-                  forages[i]._dbInfo.db = db;
-              }
-              return db;
-          });
-
-          if (!options.storeName) {
-              promise = dbPromise.then(function (db) {
-                  _deferReadiness(options);
-
-                  var dbContext = dbContexts[options.name];
-                  var forages = dbContext.forages;
-
-                  db.close();
-                  for (var i = 0; i < forages.length; i++) {
-                      var forage = forages[i];
-                      forage._dbInfo.db = null;
-                  }
-
-                  var dropDBPromise = new Promise$1(function (resolve, reject) {
-                      var req = idb.deleteDatabase(options.name);
-
-                      req.onerror = function () {
-                          var db = req.result;
-                          if (db) {
-                              db.close();
-                          }
-                          reject(req.error);
-                      };
-
-                      req.onblocked = function () {
-                          // Closing all open connections in onversionchange handler should prevent this situation, but if
-                          // we do get here, it just means the request remains pending - eventually it will succeed or error
-                          console.warn('dropInstance blocked for database "' + options.name + '" until all open connections are closed');
-                      };
-
-                      req.onsuccess = function () {
-                          var db = req.result;
-                          if (db) {
-                              db.close();
-                          }
-                          resolve(db);
-                      };
-                  });
-
-                  return dropDBPromise.then(function (db) {
-                      dbContext.db = db;
-                      for (var i = 0; i < forages.length; i++) {
-                          var _forage = forages[i];
-                          _advanceReadiness(_forage._dbInfo);
-                      }
-                  })["catch"](function (err) {
-                      (_rejectReadiness(options, err) || Promise$1.resolve())["catch"](function () {});
-                      throw err;
-                  });
-              });
-          } else {
-              promise = dbPromise.then(function (db) {
-                  if (!db.objectStoreNames.contains(options.storeName)) {
-                      return;
-                  }
-
-                  var newVersion = db.version + 1;
-
-                  _deferReadiness(options);
-
-                  var dbContext = dbContexts[options.name];
-                  var forages = dbContext.forages;
-
-                  db.close();
-                  for (var i = 0; i < forages.length; i++) {
-                      var forage = forages[i];
-                      forage._dbInfo.db = null;
-                      forage._dbInfo.version = newVersion;
-                  }
-
-                  var dropObjectPromise = new Promise$1(function (resolve, reject) {
-                      var req = idb.open(options.name, newVersion);
-
-                      req.onerror = function (err) {
-                          var db = req.result;
-                          db.close();
-                          reject(err);
-                      };
-
-                      req.onupgradeneeded = function () {
-                          var db = req.result;
-                          db.deleteObjectStore(options.storeName);
-                      };
-
-                      req.onsuccess = function () {
-                          var db = req.result;
-                          db.close();
-                          resolve(db);
-                      };
-                  });
-
-                  return dropObjectPromise.then(function (db) {
-                      dbContext.db = db;
-                      for (var j = 0; j < forages.length; j++) {
-                          var _forage2 = forages[j];
-                          _forage2._dbInfo.db = db;
-                          _advanceReadiness(_forage2._dbInfo);
-                      }
-                  })["catch"](function (err) {
-                      (_rejectReadiness(options, err) || Promise$1.resolve())["catch"](function () {});
-                      throw err;
-                  });
-              });
-          }
-      }
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  var asyncStorage = {
-      _driver: 'asyncStorage',
-      _initStorage: _initStorage,
-      _support: isIndexedDBValid(),
-      iterate: iterate,
-      getItem: getItem,
-      setItem: setItem,
-      removeItem: removeItem,
-      clear: clear,
-      length: length,
-      key: key,
-      keys: keys,
-      dropInstance: dropInstance
-  };
-
-  function isWebSQLValid() {
-      return typeof openDatabase === 'function';
-  }
-
-  // Sadly, the best way to save binary data in WebSQL/localStorage is serializing
-  // it to Base64, so this is how we store it to prevent very strange errors with less
-  // verbose ways of binary <-> string data storage.
-  var BASE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-
-  var BLOB_TYPE_PREFIX = '~~local_forage_type~';
-  var BLOB_TYPE_PREFIX_REGEX = /^~~local_forage_type~([^~]+)~/;
-
-  var SERIALIZED_MARKER = '__lfsc__:';
-  var SERIALIZED_MARKER_LENGTH = SERIALIZED_MARKER.length;
-
-  // OMG the serializations!
-  var TYPE_ARRAYBUFFER = 'arbf';
-  var TYPE_BLOB = 'blob';
-  var TYPE_INT8ARRAY = 'si08';
-  var TYPE_UINT8ARRAY = 'ui08';
-  var TYPE_UINT8CLAMPEDARRAY = 'uic8';
-  var TYPE_INT16ARRAY = 'si16';
-  var TYPE_INT32ARRAY = 'si32';
-  var TYPE_UINT16ARRAY = 'ur16';
-  var TYPE_UINT32ARRAY = 'ui32';
-  var TYPE_FLOAT32ARRAY = 'fl32';
-  var TYPE_FLOAT64ARRAY = 'fl64';
-  var TYPE_SERIALIZED_MARKER_LENGTH = SERIALIZED_MARKER_LENGTH + TYPE_ARRAYBUFFER.length;
-
-  var toString$1 = Object.prototype.toString;
-
-  function stringToBuffer(serializedString) {
-      // Fill the string into a ArrayBuffer.
-      var bufferLength = serializedString.length * 0.75;
-      var len = serializedString.length;
-      var i;
-      var p = 0;
-      var encoded1, encoded2, encoded3, encoded4;
-
-      if (serializedString[serializedString.length - 1] === '=') {
-          bufferLength--;
-          if (serializedString[serializedString.length - 2] === '=') {
-              bufferLength--;
-          }
-      }
-
-      var buffer = new ArrayBuffer(bufferLength);
-      var bytes = new Uint8Array(buffer);
-
-      for (i = 0; i < len; i += 4) {
-          encoded1 = BASE_CHARS.indexOf(serializedString[i]);
-          encoded2 = BASE_CHARS.indexOf(serializedString[i + 1]);
-          encoded3 = BASE_CHARS.indexOf(serializedString[i + 2]);
-          encoded4 = BASE_CHARS.indexOf(serializedString[i + 3]);
-
-          /*jslint bitwise: true */
-          bytes[p++] = encoded1 << 2 | encoded2 >> 4;
-          bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;
-          bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;
-      }
-      return buffer;
-  }
-
-  // Converts a buffer to a string to store, serialized, in the backend
-  // storage library.
-  function bufferToString(buffer) {
-      // base64-arraybuffer
-      var bytes = new Uint8Array(buffer);
-      var base64String = '';
-      var i;
-
-      for (i = 0; i < bytes.length; i += 3) {
-          /*jslint bitwise: true */
-          base64String += BASE_CHARS[bytes[i] >> 2];
-          base64String += BASE_CHARS[(bytes[i] & 3) << 4 | bytes[i + 1] >> 4];
-          base64String += BASE_CHARS[(bytes[i + 1] & 15) << 2 | bytes[i + 2] >> 6];
-          base64String += BASE_CHARS[bytes[i + 2] & 63];
-      }
-
-      if (bytes.length % 3 === 2) {
-          base64String = base64String.substring(0, base64String.length - 1) + '=';
-      } else if (bytes.length % 3 === 1) {
-          base64String = base64String.substring(0, base64String.length - 2) + '==';
-      }
-
-      return base64String;
-  }
-
-  // Serialize a value, afterwards executing a callback (which usually
-  // instructs the `setItem()` callback/promise to be executed). This is how
-  // we store binary data with localStorage.
-  function serialize(value, callback) {
-      var valueType = '';
-      if (value) {
-          valueType = toString$1.call(value);
-      }
-
-      // Cannot use `value instanceof ArrayBuffer` or such here, as these
-      // checks fail when running the tests using casper.js...
-      //
-      // TODO: See why those tests fail and use a better solution.
-      if (value && (valueType === '[object ArrayBuffer]' || value.buffer && toString$1.call(value.buffer) === '[object ArrayBuffer]')) {
-          // Convert binary arrays to a string and prefix the string with
-          // a special marker.
-          var buffer;
-          var marker = SERIALIZED_MARKER;
-
-          if (value instanceof ArrayBuffer) {
-              buffer = value;
-              marker += TYPE_ARRAYBUFFER;
-          } else {
-              buffer = value.buffer;
-
-              if (valueType === '[object Int8Array]') {
-                  marker += TYPE_INT8ARRAY;
-              } else if (valueType === '[object Uint8Array]') {
-                  marker += TYPE_UINT8ARRAY;
-              } else if (valueType === '[object Uint8ClampedArray]') {
-                  marker += TYPE_UINT8CLAMPEDARRAY;
-              } else if (valueType === '[object Int16Array]') {
-                  marker += TYPE_INT16ARRAY;
-              } else if (valueType === '[object Uint16Array]') {
-                  marker += TYPE_UINT16ARRAY;
-              } else if (valueType === '[object Int32Array]') {
-                  marker += TYPE_INT32ARRAY;
-              } else if (valueType === '[object Uint32Array]') {
-                  marker += TYPE_UINT32ARRAY;
-              } else if (valueType === '[object Float32Array]') {
-                  marker += TYPE_FLOAT32ARRAY;
-              } else if (valueType === '[object Float64Array]') {
-                  marker += TYPE_FLOAT64ARRAY;
-              } else {
-                  callback(new Error('Failed to get type for BinaryArray'));
-              }
-          }
-
-          callback(marker + bufferToString(buffer));
-      } else if (valueType === '[object Blob]') {
-          // Conver the blob to a binaryArray and then to a string.
-          var fileReader = new FileReader();
-
-          fileReader.onload = function () {
-              // Backwards-compatible prefix for the blob type.
-              var str = BLOB_TYPE_PREFIX + value.type + '~' + bufferToString(this.result);
-
-              callback(SERIALIZED_MARKER + TYPE_BLOB + str);
-          };
-
-          fileReader.readAsArrayBuffer(value);
-      } else {
-          try {
-              callback(JSON.stringify(value));
-          } catch (e) {
-              console.error("Couldn't convert value into a JSON string: ", value);
-
-              callback(null, e);
-          }
-      }
-  }
-
-  // Deserialize data we've inserted into a value column/field. We place
-  // special markers into our strings to mark them as encoded; this isn't
-  // as nice as a meta field, but it's the only sane thing we can do whilst
-  // keeping localStorage support intact.
-  //
-  // Oftentimes this will just deserialize JSON content, but if we have a
-  // special marker (SERIALIZED_MARKER, defined above), we will extract
-  // some kind of arraybuffer/binary data/typed array out of the string.
-  function deserialize(value) {
-      // If we haven't marked this string as being specially serialized (i.e.
-      // something other than serialized JSON), we can just return it and be
-      // done with it.
-      if (value.substring(0, SERIALIZED_MARKER_LENGTH) !== SERIALIZED_MARKER) {
-          return JSON.parse(value);
-      }
-
-      // The following code deals with deserializing some kind of Blob or
-      // TypedArray. First we separate out the type of data we're dealing
-      // with from the data itself.
-      var serializedString = value.substring(TYPE_SERIALIZED_MARKER_LENGTH);
-      var type = value.substring(SERIALIZED_MARKER_LENGTH, TYPE_SERIALIZED_MARKER_LENGTH);
-
-      var blobType;
-      // Backwards-compatible blob type serialization strategy.
-      // DBs created with older versions of localForage will simply not have the blob type.
-      if (type === TYPE_BLOB && BLOB_TYPE_PREFIX_REGEX.test(serializedString)) {
-          var matcher = serializedString.match(BLOB_TYPE_PREFIX_REGEX);
-          blobType = matcher[1];
-          serializedString = serializedString.substring(matcher[0].length);
-      }
-      var buffer = stringToBuffer(serializedString);
-
-      // Return the right type based on the code/type set during
-      // serialization.
-      switch (type) {
-          case TYPE_ARRAYBUFFER:
-              return buffer;
-          case TYPE_BLOB:
-              return createBlob([buffer], { type: blobType });
-          case TYPE_INT8ARRAY:
-              return new Int8Array(buffer);
-          case TYPE_UINT8ARRAY:
-              return new Uint8Array(buffer);
-          case TYPE_UINT8CLAMPEDARRAY:
-              return new Uint8ClampedArray(buffer);
-          case TYPE_INT16ARRAY:
-              return new Int16Array(buffer);
-          case TYPE_UINT16ARRAY:
-              return new Uint16Array(buffer);
-          case TYPE_INT32ARRAY:
-              return new Int32Array(buffer);
-          case TYPE_UINT32ARRAY:
-              return new Uint32Array(buffer);
-          case TYPE_FLOAT32ARRAY:
-              return new Float32Array(buffer);
-          case TYPE_FLOAT64ARRAY:
-              return new Float64Array(buffer);
-          default:
-              throw new Error('Unkown type: ' + type);
-      }
-  }
-
-  var localforageSerializer = {
-      serialize: serialize,
-      deserialize: deserialize,
-      stringToBuffer: stringToBuffer,
-      bufferToString: bufferToString
-  };
-
-  /*
-   * Includes code from:
-   *
-   * base64-arraybuffer
-   * https://github.com/niklasvh/base64-arraybuffer
-   *
-   * Copyright (c) 2012 Niklas von Hertzen
-   * Licensed under the MIT license.
-   */
-
-  function createDbTable(t, dbInfo, callback, errorCallback) {
-      t.executeSql('CREATE TABLE IF NOT EXISTS ' + dbInfo.storeName + ' ' + '(id INTEGER PRIMARY KEY, key unique, value)', [], callback, errorCallback);
-  }
-
-  // Open the WebSQL database (automatically creates one if one didn't
-  // previously exist), using any options set in the config.
-  function _initStorage$1(options) {
-      var self = this;
-      var dbInfo = {
-          db: null
-      };
-
-      if (options) {
-          for (var i in options) {
-              dbInfo[i] = typeof options[i] !== 'string' ? options[i].toString() : options[i];
-          }
-      }
-
-      var dbInfoPromise = new Promise$1(function (resolve, reject) {
-          // Open the database; the openDatabase API will automatically
-          // create it for us if it doesn't exist.
-          try {
-              dbInfo.db = openDatabase(dbInfo.name, String(dbInfo.version), dbInfo.description, dbInfo.size);
-          } catch (e) {
-              return reject(e);
-          }
-
-          // Create our key/value table if it doesn't exist.
-          dbInfo.db.transaction(function (t) {
-              createDbTable(t, dbInfo, function () {
-                  self._dbInfo = dbInfo;
-                  resolve();
-              }, function (t, error) {
-                  reject(error);
-              });
-          }, reject);
-      });
-
-      dbInfo.serializer = localforageSerializer;
-      return dbInfoPromise;
-  }
-
-  function tryExecuteSql(t, dbInfo, sqlStatement, args, callback, errorCallback) {
-      t.executeSql(sqlStatement, args, callback, function (t, error) {
-          if (error.code === error.SYNTAX_ERR) {
-              t.executeSql('SELECT name FROM sqlite_master ' + "WHERE type='table' AND name = ?", [dbInfo.storeName], function (t, results) {
-                  if (!results.rows.length) {
-                      // if the table is missing (was deleted)
-                      // re-create it table and retry
-                      createDbTable(t, dbInfo, function () {
-                          t.executeSql(sqlStatement, args, callback, errorCallback);
-                      }, errorCallback);
-                  } else {
-                      errorCallback(t, error);
-                  }
-              }, errorCallback);
-          } else {
-              errorCallback(t, error);
-          }
-      }, errorCallback);
-  }
-
-  function getItem$1(key, callback) {
-      var self = this;
-
-      key = normalizeKey(key);
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              var dbInfo = self._dbInfo;
-              dbInfo.db.transaction(function (t) {
-                  tryExecuteSql(t, dbInfo, 'SELECT * FROM ' + dbInfo.storeName + ' WHERE key = ? LIMIT 1', [key], function (t, results) {
-                      var result = results.rows.length ? results.rows.item(0).value : null;
-
-                      // Check to see if this is serialized content we need to
-                      // unpack.
-                      if (result) {
-                          result = dbInfo.serializer.deserialize(result);
-                      }
-
-                      resolve(result);
-                  }, function (t, error) {
-                      reject(error);
-                  });
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function iterate$1(iterator, callback) {
-      var self = this;
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              var dbInfo = self._dbInfo;
-
-              dbInfo.db.transaction(function (t) {
-                  tryExecuteSql(t, dbInfo, 'SELECT * FROM ' + dbInfo.storeName, [], function (t, results) {
-                      var rows = results.rows;
-                      var length = rows.length;
-
-                      for (var i = 0; i < length; i++) {
-                          var item = rows.item(i);
-                          var result = item.value;
-
-                          // Check to see if this is serialized content
-                          // we need to unpack.
-                          if (result) {
-                              result = dbInfo.serializer.deserialize(result);
-                          }
-
-                          result = iterator(result, item.key, i + 1);
-
-                          // void(0) prevents problems with redefinition
-                          // of `undefined`.
-                          if (result !== void 0) {
-                              resolve(result);
-                              return;
-                          }
-                      }
-
-                      resolve();
-                  }, function (t, error) {
-                      reject(error);
-                  });
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function _setItem(key, value, callback, retriesLeft) {
-      var self = this;
-
-      key = normalizeKey(key);
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              // The localStorage API doesn't return undefined values in an
-              // "expected" way, so undefined is always cast to null in all
-              // drivers. See: https://github.com/mozilla/localForage/pull/42
-              if (value === undefined) {
-                  value = null;
-              }
-
-              // Save the original value to pass to the callback.
-              var originalValue = value;
-
-              var dbInfo = self._dbInfo;
-              dbInfo.serializer.serialize(value, function (value, error) {
-                  if (error) {
-                      reject(error);
-                  } else {
-                      dbInfo.db.transaction(function (t) {
-                          tryExecuteSql(t, dbInfo, 'INSERT OR REPLACE INTO ' + dbInfo.storeName + ' ' + '(key, value) VALUES (?, ?)', [key, value], function () {
-                              resolve(originalValue);
-                          }, function (t, error) {
-                              reject(error);
-                          });
-                      }, function (sqlError) {
-                          // The transaction failed; check
-                          // to see if it's a quota error.
-                          if (sqlError.code === sqlError.QUOTA_ERR) {
-                              // We reject the callback outright for now, but
-                              // it's worth trying to re-run the transaction.
-                              // Even if the user accepts the prompt to use
-                              // more storage on Safari, this error will
-                              // be called.
-                              //
-                              // Try to re-run the transaction.
-                              if (retriesLeft > 0) {
-                                  resolve(_setItem.apply(self, [key, originalValue, callback, retriesLeft - 1]));
-                                  return;
-                              }
-                              reject(sqlError);
-                          }
-                      });
-                  }
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function setItem$1(key, value, callback) {
-      return _setItem.apply(this, [key, value, callback, 1]);
-  }
-
-  function removeItem$1(key, callback) {
-      var self = this;
-
-      key = normalizeKey(key);
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              var dbInfo = self._dbInfo;
-              dbInfo.db.transaction(function (t) {
-                  tryExecuteSql(t, dbInfo, 'DELETE FROM ' + dbInfo.storeName + ' WHERE key = ?', [key], function () {
-                      resolve();
-                  }, function (t, error) {
-                      reject(error);
-                  });
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // Deletes every item in the table.
-  // TODO: Find out if this resets the AUTO_INCREMENT number.
-  function clear$1(callback) {
-      var self = this;
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              var dbInfo = self._dbInfo;
-              dbInfo.db.transaction(function (t) {
-                  tryExecuteSql(t, dbInfo, 'DELETE FROM ' + dbInfo.storeName, [], function () {
-                      resolve();
-                  }, function (t, error) {
-                      reject(error);
-                  });
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // Does a simple `COUNT(key)` to get the number of items stored in
-  // localForage.
-  function length$1(callback) {
-      var self = this;
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              var dbInfo = self._dbInfo;
-              dbInfo.db.transaction(function (t) {
-                  // Ahhh, SQL makes this one soooooo easy.
-                  tryExecuteSql(t, dbInfo, 'SELECT COUNT(key) as c FROM ' + dbInfo.storeName, [], function (t, results) {
-                      var result = results.rows.item(0).c;
-                      resolve(result);
-                  }, function (t, error) {
-                      reject(error);
-                  });
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // Return the key located at key index X; essentially gets the key from a
-  // `WHERE id = ?`. This is the most efficient way I can think to implement
-  // this rarely-used (in my experience) part of the API, but it can seem
-  // inconsistent, because we do `INSERT OR REPLACE INTO` on `setItem()`, so
-  // the ID of each key will change every time it's updated. Perhaps a stored
-  // procedure for the `setItem()` SQL would solve this problem?
-  // TODO: Don't change ID on `setItem()`.
-  function key$1(n, callback) {
-      var self = this;
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              var dbInfo = self._dbInfo;
-              dbInfo.db.transaction(function (t) {
-                  tryExecuteSql(t, dbInfo, 'SELECT key FROM ' + dbInfo.storeName + ' WHERE id = ? LIMIT 1', [n + 1], function (t, results) {
-                      var result = results.rows.length ? results.rows.item(0).key : null;
-                      resolve(result);
-                  }, function (t, error) {
-                      reject(error);
-                  });
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function keys$1(callback) {
-      var self = this;
-
-      var promise = new Promise$1(function (resolve, reject) {
-          self.ready().then(function () {
-              var dbInfo = self._dbInfo;
-              dbInfo.db.transaction(function (t) {
-                  tryExecuteSql(t, dbInfo, 'SELECT key FROM ' + dbInfo.storeName, [], function (t, results) {
-                      var keys = [];
-
-                      for (var i = 0; i < results.rows.length; i++) {
-                          keys.push(results.rows.item(i).key);
-                      }
-
-                      resolve(keys);
-                  }, function (t, error) {
-                      reject(error);
-                  });
-              });
-          })["catch"](reject);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // https://www.w3.org/TR/webdatabase/#databases
-  // > There is no way to enumerate or delete the databases available for an origin from this API.
-  function getAllStoreNames(db) {
-      return new Promise$1(function (resolve, reject) {
-          db.transaction(function (t) {
-              t.executeSql('SELECT name FROM sqlite_master ' + "WHERE type='table' AND name <> '__WebKitDatabaseInfoTable__'", [], function (t, results) {
-                  var storeNames = [];
-
-                  for (var i = 0; i < results.rows.length; i++) {
-                      storeNames.push(results.rows.item(i).name);
-                  }
-
-                  resolve({
-                      db: db,
-                      storeNames: storeNames
-                  });
-              }, function (t, error) {
-                  reject(error);
-              });
-          }, function (sqlError) {
-              reject(sqlError);
-          });
-      });
-  }
-
-  function dropInstance$1(options, callback) {
-      callback = getCallback.apply(this, arguments);
-
-      var currentConfig = this.config();
-      options = typeof options !== 'function' && options || {};
-      if (!options.name) {
-          options.name = options.name || currentConfig.name;
-          options.storeName = options.storeName || currentConfig.storeName;
-      }
-
-      var self = this;
-      var promise;
-      if (!options.name) {
-          promise = Promise$1.reject('Invalid arguments');
-      } else {
-          promise = new Promise$1(function (resolve) {
-              var db;
-              if (options.name === currentConfig.name) {
-                  // use the db reference of the current instance
-                  db = self._dbInfo.db;
-              } else {
-                  db = openDatabase(options.name, '', '', 0);
-              }
-
-              if (!options.storeName) {
-                  // drop all database tables
-                  resolve(getAllStoreNames(db));
-              } else {
-                  resolve({
-                      db: db,
-                      storeNames: [options.storeName]
-                  });
-              }
-          }).then(function (operationInfo) {
-              return new Promise$1(function (resolve, reject) {
-                  operationInfo.db.transaction(function (t) {
-                      function dropTable(storeName) {
-                          return new Promise$1(function (resolve, reject) {
-                              t.executeSql('DROP TABLE IF EXISTS ' + storeName, [], function () {
-                                  resolve();
-                              }, function (t, error) {
-                                  reject(error);
-                              });
-                          });
-                      }
-
-                      var operations = [];
-                      for (var i = 0, len = operationInfo.storeNames.length; i < len; i++) {
-                          operations.push(dropTable(operationInfo.storeNames[i]));
-                      }
-
-                      Promise$1.all(operations).then(function () {
-                          resolve();
-                      })["catch"](function (e) {
-                          reject(e);
-                      });
-                  }, function (sqlError) {
-                      reject(sqlError);
-                  });
-              });
-          });
-      }
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  var webSQLStorage = {
-      _driver: 'webSQLStorage',
-      _initStorage: _initStorage$1,
-      _support: isWebSQLValid(),
-      iterate: iterate$1,
-      getItem: getItem$1,
-      setItem: setItem$1,
-      removeItem: removeItem$1,
-      clear: clear$1,
-      length: length$1,
-      key: key$1,
-      keys: keys$1,
-      dropInstance: dropInstance$1
-  };
-
-  function isLocalStorageValid() {
-      try {
-          return typeof localStorage !== 'undefined' && 'setItem' in localStorage &&
-          // in IE8 typeof localStorage.setItem === 'object'
-          !!localStorage.setItem;
-      } catch (e) {
-          return false;
-      }
-  }
-
-  function _getKeyPrefix(options, defaultConfig) {
-      var keyPrefix = options.name + '/';
-
-      if (options.storeName !== defaultConfig.storeName) {
-          keyPrefix += options.storeName + '/';
-      }
-      return keyPrefix;
-  }
-
-  // Check if localStorage throws when saving an item
-  function checkIfLocalStorageThrows() {
-      var localStorageTestKey = '_localforage_support_test';
-
-      try {
-          localStorage.setItem(localStorageTestKey, true);
-          localStorage.removeItem(localStorageTestKey);
-
-          return false;
-      } catch (e) {
-          return true;
-      }
-  }
-
-  // Check if localStorage is usable and allows to save an item
-  // This method checks if localStorage is usable in Safari Private Browsing
-  // mode, or in any other case where the available quota for localStorage
-  // is 0 and there wasn't any saved items yet.
-  function _isLocalStorageUsable() {
-      return !checkIfLocalStorageThrows() || localStorage.length > 0;
-  }
-
-  // Config the localStorage backend, using options set in the config.
-  function _initStorage$2(options) {
-      var self = this;
-      var dbInfo = {};
-      if (options) {
-          for (var i in options) {
-              dbInfo[i] = options[i];
-          }
-      }
-
-      dbInfo.keyPrefix = _getKeyPrefix(options, self._defaultConfig);
-
-      if (!_isLocalStorageUsable()) {
-          return Promise$1.reject();
-      }
-
-      self._dbInfo = dbInfo;
-      dbInfo.serializer = localforageSerializer;
-
-      return Promise$1.resolve();
-  }
-
-  // Remove all keys from the datastore, effectively destroying all data in
-  // the app's key/value store!
-  function clear$2(callback) {
-      var self = this;
-      var promise = self.ready().then(function () {
-          var keyPrefix = self._dbInfo.keyPrefix;
-
-          for (var i = localStorage.length - 1; i >= 0; i--) {
-              var key = localStorage.key(i);
-
-              if (key.indexOf(keyPrefix) === 0) {
-                  localStorage.removeItem(key);
-              }
-          }
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // Retrieve an item from the store. Unlike the original async_storage
-  // library in Gaia, we don't modify return values at all. If a key's value
-  // is `undefined`, we pass that value to the callback function.
-  function getItem$2(key, callback) {
-      var self = this;
-
-      key = normalizeKey(key);
-
-      var promise = self.ready().then(function () {
-          var dbInfo = self._dbInfo;
-          var result = localStorage.getItem(dbInfo.keyPrefix + key);
-
-          // If a result was found, parse it from the serialized
-          // string into a JS object. If result isn't truthy, the key
-          // is likely undefined and we'll pass it straight to the
-          // callback.
-          if (result) {
-              result = dbInfo.serializer.deserialize(result);
-          }
-
-          return result;
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // Iterate over all items in the store.
-  function iterate$2(iterator, callback) {
-      var self = this;
-
-      var promise = self.ready().then(function () {
-          var dbInfo = self._dbInfo;
-          var keyPrefix = dbInfo.keyPrefix;
-          var keyPrefixLength = keyPrefix.length;
-          var length = localStorage.length;
-
-          // We use a dedicated iterator instead of the `i` variable below
-          // so other keys we fetch in localStorage aren't counted in
-          // the `iterationNumber` argument passed to the `iterate()`
-          // callback.
-          //
-          // See: github.com/mozilla/localForage/pull/435#discussion_r38061530
-          var iterationNumber = 1;
-
-          for (var i = 0; i < length; i++) {
-              var key = localStorage.key(i);
-              if (key.indexOf(keyPrefix) !== 0) {
-                  continue;
-              }
-              var value = localStorage.getItem(key);
-
-              // If a result was found, parse it from the serialized
-              // string into a JS object. If result isn't truthy, the
-              // key is likely undefined and we'll pass it straight
-              // to the iterator.
-              if (value) {
-                  value = dbInfo.serializer.deserialize(value);
-              }
-
-              value = iterator(value, key.substring(keyPrefixLength), iterationNumber++);
-
-              if (value !== void 0) {
-                  return value;
-              }
-          }
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // Same as localStorage's key() method, except takes a callback.
-  function key$2(n, callback) {
-      var self = this;
-      var promise = self.ready().then(function () {
-          var dbInfo = self._dbInfo;
-          var result;
-          try {
-              result = localStorage.key(n);
-          } catch (error) {
-              result = null;
-          }
-
-          // Remove the prefix from the key, if a key is found.
-          if (result) {
-              result = result.substring(dbInfo.keyPrefix.length);
-          }
-
-          return result;
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function keys$2(callback) {
-      var self = this;
-      var promise = self.ready().then(function () {
-          var dbInfo = self._dbInfo;
-          var length = localStorage.length;
-          var keys = [];
-
-          for (var i = 0; i < length; i++) {
-              var itemKey = localStorage.key(i);
-              if (itemKey.indexOf(dbInfo.keyPrefix) === 0) {
-                  keys.push(itemKey.substring(dbInfo.keyPrefix.length));
-              }
-          }
-
-          return keys;
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // Supply the number of keys in the datastore to the callback function.
-  function length$2(callback) {
-      var self = this;
-      var promise = self.keys().then(function (keys) {
-          return keys.length;
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // Remove an item from the store, nice and simple.
-  function removeItem$2(key, callback) {
-      var self = this;
-
-      key = normalizeKey(key);
-
-      var promise = self.ready().then(function () {
-          var dbInfo = self._dbInfo;
-          localStorage.removeItem(dbInfo.keyPrefix + key);
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  // Set a key's value and run an optional callback once the value is set.
-  // Unlike Gaia's implementation, the callback function is passed the value,
-  // in case you want to operate on that value only after you're sure it
-  // saved, or something like that.
-  function setItem$2(key, value, callback) {
-      var self = this;
-
-      key = normalizeKey(key);
-
-      var promise = self.ready().then(function () {
-          // Convert undefined values to null.
-          // https://github.com/mozilla/localForage/pull/42
-          if (value === undefined) {
-              value = null;
-          }
-
-          // Save the original value to pass to the callback.
-          var originalValue = value;
-
-          return new Promise$1(function (resolve, reject) {
-              var dbInfo = self._dbInfo;
-              dbInfo.serializer.serialize(value, function (value, error) {
-                  if (error) {
-                      reject(error);
-                  } else {
-                      try {
-                          localStorage.setItem(dbInfo.keyPrefix + key, value);
-                          resolve(originalValue);
-                      } catch (e) {
-                          // localStorage capacity exceeded.
-                          // TODO: Make this a specific error/event.
-                          if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
-                              reject(e);
-                          }
-                          reject(e);
-                      }
-                  }
-              });
-          });
-      });
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  function dropInstance$2(options, callback) {
-      callback = getCallback.apply(this, arguments);
-
-      options = typeof options !== 'function' && options || {};
-      if (!options.name) {
-          var currentConfig = this.config();
-          options.name = options.name || currentConfig.name;
-          options.storeName = options.storeName || currentConfig.storeName;
-      }
-
-      var self = this;
-      var promise;
-      if (!options.name) {
-          promise = Promise$1.reject('Invalid arguments');
-      } else {
-          promise = new Promise$1(function (resolve) {
-              if (!options.storeName) {
-                  resolve(options.name + '/');
-              } else {
-                  resolve(_getKeyPrefix(options, self._defaultConfig));
-              }
-          }).then(function (keyPrefix) {
-              for (var i = localStorage.length - 1; i >= 0; i--) {
-                  var key = localStorage.key(i);
-
-                  if (key.indexOf(keyPrefix) === 0) {
-                      localStorage.removeItem(key);
-                  }
-              }
-          });
-      }
-
-      executeCallback(promise, callback);
-      return promise;
-  }
-
-  var localStorageWrapper = {
-      _driver: 'localStorageWrapper',
-      _initStorage: _initStorage$2,
-      _support: isLocalStorageValid(),
-      iterate: iterate$2,
-      getItem: getItem$2,
-      setItem: setItem$2,
-      removeItem: removeItem$2,
-      clear: clear$2,
-      length: length$2,
-      key: key$2,
-      keys: keys$2,
-      dropInstance: dropInstance$2
-  };
-
-  var sameValue = function sameValue(x, y) {
-      return x === y || typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y);
-  };
-
-  var includes = function includes(array, searchElement) {
-      var len = array.length;
-      var i = 0;
-      while (i < len) {
-          if (sameValue(array[i], searchElement)) {
-              return true;
-          }
-          i++;
-      }
-
-      return false;
-  };
-
-  var isArray = Array.isArray || function (arg) {
-      return Object.prototype.toString.call(arg) === '[object Array]';
-  };
-
-  // Drivers are stored here when `defineDriver()` is called.
-  // They are shared across all instances of localForage.
-  var DefinedDrivers = {};
-
-  var DriverSupport = {};
-
-  var DefaultDrivers = {
-      INDEXEDDB: asyncStorage,
-      WEBSQL: webSQLStorage,
-      LOCALSTORAGE: localStorageWrapper
-  };
-
-  var DefaultDriverOrder = [DefaultDrivers.INDEXEDDB._driver, DefaultDrivers.WEBSQL._driver, DefaultDrivers.LOCALSTORAGE._driver];
-
-  var OptionalDriverMethods = ['dropInstance'];
-
-  var LibraryMethods = ['clear', 'getItem', 'iterate', 'key', 'keys', 'length', 'removeItem', 'setItem'].concat(OptionalDriverMethods);
-
-  var DefaultConfig = {
-      description: '',
-      driver: DefaultDriverOrder.slice(),
-      name: 'localforage',
-      // Default DB size is _JUST UNDER_ 5MB, as it's the highest size
-      // we can use without a prompt.
-      size: 4980736,
-      storeName: 'keyvaluepairs',
-      version: 1.0
-  };
-
-  function callWhenReady(localForageInstance, libraryMethod) {
-      localForageInstance[libraryMethod] = function () {
-          var _args = arguments;
-          return localForageInstance.ready().then(function () {
-              return localForageInstance[libraryMethod].apply(localForageInstance, _args);
-          });
-      };
-  }
-
-  function extend() {
-      for (var i = 1; i < arguments.length; i++) {
-          var arg = arguments[i];
-
-          if (arg) {
-              for (var _key in arg) {
-                  if (arg.hasOwnProperty(_key)) {
-                      if (isArray(arg[_key])) {
-                          arguments[0][_key] = arg[_key].slice();
-                      } else {
-                          arguments[0][_key] = arg[_key];
-                      }
-                  }
-              }
-          }
-      }
-
-      return arguments[0];
-  }
-
-  var LocalForage = function () {
-      function LocalForage(options) {
-          _classCallCheck(this, LocalForage);
-
-          for (var driverTypeKey in DefaultDrivers) {
-              if (DefaultDrivers.hasOwnProperty(driverTypeKey)) {
-                  var driver = DefaultDrivers[driverTypeKey];
-                  var driverName = driver._driver;
-                  this[driverTypeKey] = driverName;
-
-                  if (!DefinedDrivers[driverName]) {
-                      // we don't need to wait for the promise,
-                      // since the default drivers can be defined
-                      // in a blocking manner
-                      this.defineDriver(driver);
-                  }
-              }
-          }
-
-          this._defaultConfig = extend({}, DefaultConfig);
-          this._config = extend({}, this._defaultConfig, options);
-          this._driverSet = null;
-          this._initDriver = null;
-          this._ready = false;
-          this._dbInfo = null;
-
-          this._wrapLibraryMethodsWithReady();
-          this.setDriver(this._config.driver)["catch"](function () {});
-      }
-
-      // Set any config values for localForage; can be called anytime before
-      // the first API call (e.g. `getItem`, `setItem`).
-      // We loop through options so we don't overwrite existing config
-      // values.
-
-
-      LocalForage.prototype.config = function config(options) {
-          // If the options argument is an object, we use it to set values.
-          // Otherwise, we return either a specified config value or all
-          // config values.
-          if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
-              // If localforage is ready and fully initialized, we can't set
-              // any new configuration values. Instead, we return an error.
-              if (this._ready) {
-                  return new Error("Can't call config() after localforage " + 'has been used.');
-              }
-
-              for (var i in options) {
-                  if (i === 'storeName') {
-                      options[i] = options[i].replace(/\W/g, '_');
-                  }
-
-                  if (i === 'version' && typeof options[i] !== 'number') {
-                      return new Error('Database version must be a number.');
-                  }
-
-                  this._config[i] = options[i];
-              }
-
-              // after all config options are set and
-              // the driver option is used, try setting it
-              if ('driver' in options && options.driver) {
-                  return this.setDriver(this._config.driver);
-              }
-
-              return true;
-          } else if (typeof options === 'string') {
-              return this._config[options];
-          } else {
-              return this._config;
-          }
-      };
-
-      // Used to define a custom driver, shared across all instances of
-      // localForage.
-
-
-      LocalForage.prototype.defineDriver = function defineDriver(driverObject, callback, errorCallback) {
-          var promise = new Promise$1(function (resolve, reject) {
-              try {
-                  var driverName = driverObject._driver;
-                  var complianceError = new Error('Custom driver not compliant; see ' + 'https://mozilla.github.io/localForage/#definedriver');
-
-                  // A driver name should be defined and not overlap with the
-                  // library-defined, default drivers.
-                  if (!driverObject._driver) {
-                      reject(complianceError);
-                      return;
-                  }
-
-                  var driverMethods = LibraryMethods.concat('_initStorage');
-                  for (var i = 0, len = driverMethods.length; i < len; i++) {
-                      var driverMethodName = driverMethods[i];
-
-                      // when the property is there,
-                      // it should be a method even when optional
-                      var isRequired = !includes(OptionalDriverMethods, driverMethodName);
-                      if ((isRequired || driverObject[driverMethodName]) && typeof driverObject[driverMethodName] !== 'function') {
-                          reject(complianceError);
-                          return;
-                      }
-                  }
-
-                  var configureMissingMethods = function configureMissingMethods() {
-                      var methodNotImplementedFactory = function methodNotImplementedFactory(methodName) {
-                          return function () {
-                              var error = new Error('Method ' + methodName + ' is not implemented by the current driver');
-                              var promise = Promise$1.reject(error);
-                              executeCallback(promise, arguments[arguments.length - 1]);
-                              return promise;
-                          };
-                      };
-
-                      for (var _i = 0, _len = OptionalDriverMethods.length; _i < _len; _i++) {
-                          var optionalDriverMethod = OptionalDriverMethods[_i];
-                          if (!driverObject[optionalDriverMethod]) {
-                              driverObject[optionalDriverMethod] = methodNotImplementedFactory(optionalDriverMethod);
-                          }
-                      }
-                  };
-
-                  configureMissingMethods();
-
-                  var setDriverSupport = function setDriverSupport(support) {
-                      if (DefinedDrivers[driverName]) {
-                          console.info('Redefining LocalForage driver: ' + driverName);
-                      }
-                      DefinedDrivers[driverName] = driverObject;
-                      DriverSupport[driverName] = support;
-                      // don't use a then, so that we can define
-                      // drivers that have simple _support methods
-                      // in a blocking manner
-                      resolve();
-                  };
-
-                  if ('_support' in driverObject) {
-                      if (driverObject._support && typeof driverObject._support === 'function') {
-                          driverObject._support().then(setDriverSupport, reject);
-                      } else {
-                          setDriverSupport(!!driverObject._support);
-                      }
-                  } else {
-                      setDriverSupport(true);
-                  }
-              } catch (e) {
-                  reject(e);
-              }
-          });
-
-          executeTwoCallbacks(promise, callback, errorCallback);
-          return promise;
-      };
-
-      LocalForage.prototype.driver = function driver() {
-          return this._driver || null;
-      };
-
-      LocalForage.prototype.getDriver = function getDriver(driverName, callback, errorCallback) {
-          var getDriverPromise = DefinedDrivers[driverName] ? Promise$1.resolve(DefinedDrivers[driverName]) : Promise$1.reject(new Error('Driver not found.'));
-
-          executeTwoCallbacks(getDriverPromise, callback, errorCallback);
-          return getDriverPromise;
-      };
-
-      LocalForage.prototype.getSerializer = function getSerializer(callback) {
-          var serializerPromise = Promise$1.resolve(localforageSerializer);
-          executeTwoCallbacks(serializerPromise, callback);
-          return serializerPromise;
-      };
-
-      LocalForage.prototype.ready = function ready(callback) {
-          var self = this;
-
-          var promise = self._driverSet.then(function () {
-              if (self._ready === null) {
-                  self._ready = self._initDriver();
-              }
-
-              return self._ready;
-          });
-
-          executeTwoCallbacks(promise, callback, callback);
-          return promise;
-      };
-
-      LocalForage.prototype.setDriver = function setDriver(drivers, callback, errorCallback) {
-          var self = this;
-
-          if (!isArray(drivers)) {
-              drivers = [drivers];
-          }
-
-          var supportedDrivers = this._getSupportedDrivers(drivers);
-
-          function setDriverToConfig() {
-              self._config.driver = self.driver();
-          }
-
-          function extendSelfWithDriver(driver) {
-              self._extend(driver);
-              setDriverToConfig();
-
-              self._ready = self._initStorage(self._config);
-              return self._ready;
-          }
-
-          function initDriver(supportedDrivers) {
-              return function () {
-                  var currentDriverIndex = 0;
-
-                  function driverPromiseLoop() {
-                      while (currentDriverIndex < supportedDrivers.length) {
-                          var driverName = supportedDrivers[currentDriverIndex];
-                          currentDriverIndex++;
-
-                          self._dbInfo = null;
-                          self._ready = null;
-
-                          return self.getDriver(driverName).then(extendSelfWithDriver)["catch"](driverPromiseLoop);
-                      }
-
-                      setDriverToConfig();
-                      var error = new Error('No available storage method found.');
-                      self._driverSet = Promise$1.reject(error);
-                      return self._driverSet;
-                  }
-
-                  return driverPromiseLoop();
-              };
-          }
-
-          // There might be a driver initialization in progress
-          // so wait for it to finish in order to avoid a possible
-          // race condition to set _dbInfo
-          var oldDriverSetDone = this._driverSet !== null ? this._driverSet["catch"](function () {
-              return Promise$1.resolve();
-          }) : Promise$1.resolve();
-
-          this._driverSet = oldDriverSetDone.then(function () {
-              var driverName = supportedDrivers[0];
-              self._dbInfo = null;
-              self._ready = null;
-
-              return self.getDriver(driverName).then(function (driver) {
-                  self._driver = driver._driver;
-                  setDriverToConfig();
-                  self._wrapLibraryMethodsWithReady();
-                  self._initDriver = initDriver(supportedDrivers);
-              });
-          })["catch"](function () {
-              setDriverToConfig();
-              var error = new Error('No available storage method found.');
-              self._driverSet = Promise$1.reject(error);
-              return self._driverSet;
-          });
-
-          executeTwoCallbacks(this._driverSet, callback, errorCallback);
-          return this._driverSet;
-      };
-
-      LocalForage.prototype.supports = function supports(driverName) {
-          return !!DriverSupport[driverName];
-      };
-
-      LocalForage.prototype._extend = function _extend(libraryMethodsAndProperties) {
-          extend(this, libraryMethodsAndProperties);
-      };
-
-      LocalForage.prototype._getSupportedDrivers = function _getSupportedDrivers(drivers) {
-          var supportedDrivers = [];
-          for (var i = 0, len = drivers.length; i < len; i++) {
-              var driverName = drivers[i];
-              if (this.supports(driverName)) {
-                  supportedDrivers.push(driverName);
-              }
-          }
-          return supportedDrivers;
-      };
-
-      LocalForage.prototype._wrapLibraryMethodsWithReady = function _wrapLibraryMethodsWithReady() {
-          // Add a stub for each driver API method that delays the call to the
-          // corresponding driver method until localForage is ready. These stubs
-          // will be replaced by the driver methods as soon as the driver is
-          // loaded, so there is no performance impact.
-          for (var i = 0, len = LibraryMethods.length; i < len; i++) {
-              callWhenReady(this, LibraryMethods[i]);
-          }
-      };
-
-      LocalForage.prototype.createInstance = function createInstance(options) {
-          return new LocalForage(options);
-      };
-
-      return LocalForage;
-  }();
-
-  // The actual localForage object that we expose as a module or via a
-  // global. It's extended by pulling in one of our other libraries.
-
-
-  var localforage_js = new LocalForage();
-
-  module.exports = localforage_js;
-
-  },{"3":3}]},{},[4])(4)
-  });
-  }(localforage$1));
-
-  var localforage = localforage$1.exports;
 
   var PROJECT_ID_NYPH = 2;
   var NyphApp = /*#__PURE__*/function (_App) {
@@ -24246,457 +19800,412 @@
       _defineProperty(_assertThisInitialized(_this), "projectId", PROJECT_ID_NYPH);
 
       return _this;
-    }
+    } // /**
+    //  *
+    //  * @param {Survey} survey
+    //  */
+    // addSurvey(survey) {
+    //     if (survey.projectId !== this.projectId) {
+    //         throw new Error(`Survey project id '${survey.projectId} does not match with current project ('${this.projectId}')`);
+    //     }
+    //
+    //     if (!this.surveys.has(survey.id)) {
+    //         console.log("setting survey's modified/save handler");
+    //         survey.addListener(
+    //             Survey.EVENT_MODIFIED,
+    //             (survey) => {
+    //                 this.fireEvent(App.EVENT_SURVEYS_CHANGED);
+    //                 return survey.save();
+    //             }
+    //             );
+    //     }
+    //
+    //     this.surveys.set(survey.id, survey);
+    //     this.fireEvent(App.EVENT_SURVEYS_CHANGED);
+    // }
+    // /**
+    //  * tests whether occurrences have been defined, excluding any that have been deleted
+    //  *
+    //  * @returns {boolean}
+    //  */
+    // haveExtantOccurrences() {
+    //     for (let occurrence of this.occurrences) {
+    //         if (!occurrence.deleted) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+    // /**
+    //  *
+    //  * @param {Occurrence} occurrence
+    //  */
+    // addOccurrence(occurrence) {
+    //     if (!occurrence.surveyId) {
+    //         throw new InternalAppError('Survey id must set prior to registering occurrence.');
+    //     }
+    //
+    //     if (this.occurrences.size === 0) {
+    //         // this is the first occurrence added, set the survey creation stamp to match
+    //         // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
+    //         // for a protracted period
+    //
+    //         const survey = this.surveys.get(occurrence.surveyId);
+    //         survey.createdStamp = occurrence.createdStamp;
+    //     }
+    //     console.log(`in addOccurrence setting id '${occurrence.id}'`);
+    //     this.occurrences.set(occurrence.id, occurrence);
+    //
+    //     occurrence.addListener(Occurrence.EVENT_MODIFIED,
+    //         () => {
+    //             const survey = this.surveys.get(occurrence.surveyId);
+    //             if (!survey) {
+    //                 throw new Error(`Failed to look up survey id ${occurrence.surveyId}`);
+    //             } else {
+    //                 survey.isPristine = false;
+    //
+    //                 // need to ensure that currentSurvey is saved before occurrence
+    //                 // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
+    //                 // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
+    //                 if (survey.unsaved()) {
+    //                     // noinspection JSIgnoredPromiseFromCall
+    //                     survey.save();
+    //                 }
+    //                 occurrence.save(survey.id);
+    //             }
+    //         });
+    // }
+    // /**
+    //  * attempts to refresh the state of local storage for the specified survey ids
+    //  * if fetch fails then return a failed promise
+    //  *
+    //  * updates local copy of surveys and occurrences
+    //  *
+    //  * no service worker interception of this call - passed through and not cached
+    //  *
+    //  * @param {Array.<string>} surveyIds
+    //  * @return {Promise}
+    //  */
+    // refreshFromServer(surveyIds) {
+    //     const formData = new FormData;
+    //
+    //     let n = 0;
+    //     for (let key of surveyIds) {
+    //         formData.append(`surveyId[${n++}]`, key);
+    //     }
+    //
+    //     return fetch(NyphApp.LOAD_SURVEYS_ENDPOINT, {
+    //         method: 'POST',
+    //         body: formData
+    //     }).then(response => {
+    //         if (response.ok) {
+    //             return response.json();
+    //         } else {
+    //             return Promise.reject(`Invalid response from server when refreshing survey ids`);
+    //         }
+    //     }).then((jsonResponse) => {
+    //         /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
+    //
+    //         console.log({'refresh from server json response' : jsonResponse});
+    //
+    //         // if external objects newer than local version then place in local storage
+    //         const promises = [];
+    //
+    //         for (let type in jsonResponse) {
+    //             if (jsonResponse.hasOwnProperty(type)) {
+    //                 for (let object of jsonResponse[type]) {
+    //                     promises.push(this._conditionallyReplaceObject(object));
+    //                 }
+    //             }
+    //         }
+    //
+    //
+    //         return Promise.all(promises);
+    //     });
+    // }
+    // /**
+    //  * compare modified stamp of indexeddb and external objects and write external version locally if more recent
+    //  *
+    //  * @param {{id : string, type : string, modified : number, created : number, saveState : string, deleted : boolean}} externalVersion
+    //  * @returns {Promise}
+    //  * @private
+    //  */
+    // _conditionallyReplaceObject(externalVersion) {
+    //     const objectType = externalVersion.type;
+    //     const id = externalVersion.id;
+    //     const key = `${objectType}.${id}`;
+    //
+    //     return localforage.getItem(key)
+    //         .then((localVersion) => {
+    //             if (localVersion) {
+    //                 // compare stamps
+    //
+    //                 // if (externalVersion.deleted) {
+    //                 //     // if the external copy is deleted then remove the local copy
+    //                 //     return localforage.removeItem(key);
+    //                 // }
+    //
+    //                 if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
+    //                     console.log(`Local copy of ${key} is the same or newer than the server copy. (${localVersion.modified} >= ${externalVersion.modified}) `);
+    //                     return Promise.resolve();
+    //                 }
+    //             }
+    //
+    //             // no local copy or stale copy
+    //             // so store response locally
+    //             console.log(`Adding or replacing local copy of ${key}`);
+    //             return localforage.setItem(key, externalVersion);
+    //         });
+    // }
+    // /**
+    //  * retrieve the full set of keys from local storage (IndexedDb)
+    //  *
+    //  * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
+    //  * @returns {Promise}
+    //  */
+    // seekKeys(storedObjectKeys) {
+    //     return localforage.keys().then((keys) => {
+    //         for (let key of keys) {
+    //             let type,id;
+    //
+    //             [type, id] = key.split('.', 2);
+    //
+    //             if (storedObjectKeys.hasOwnProperty(type)) {
+    //                 if (!storedObjectKeys[type].includes(id)) {
+    //                     storedObjectKeys[type].push(id);
+    //                 }
+    //             } else {
+    //                 console.log(`Unrecognised stored key type '${type}.`);
+    //             }
+    //         }
+    //
+    //         return storedObjectKeys;
+    //     });
+    // }
+    // /**
+    //  * @returns {Promise}
+    //  */
+    // syncAll() {
+    //     const storedObjectKeys = {
+    //         survey : [],
+    //         occurrence : [],
+    //         image : []
+    //     };
+    //
+    //     return this.seekKeys(storedObjectKeys)
+    //         .then((storedObjectKeys) => {
+    //             return this._syncLocalUnsaved(storedObjectKeys);
+    //         }, (failedResult) => {
+    //             console.log(`Failed to sync all: ${failedResult}`);
+    //         });
+    // }
+    // /**
+    //  *
+    //  * @param storedObjectKeys
+    //  * @returns {Promise}
+    //  * @private
+    //  */
+    // _syncLocalUnsaved(storedObjectKeys) {
+    //     // syncs surveys first, then occurrences, then images from indexedDb
+    //
+    //     const promises = [];
+    //     for(let surveyKey of storedObjectKeys.survey) {
+    //         promises.push(Survey.retrieveFromLocal(surveyKey, new Survey)
+    //             .then((survey) => {
+    //                 if (survey.unsaved()) {
+    //                     return survey.save();
+    //                 }
+    //             })
+    //         );
+    //     }
+    //
+    //     for(let occurrenceKey of storedObjectKeys.occurrence) {
+    //         promises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
+    //             .then((occurrence) => {
+    //                 if (occurrence.unsaved()) {
+    //                     return occurrence.save();
+    //                 }
+    //             })
+    //         );
+    //     }
+    //
+    //     for(let imageKey of storedObjectKeys.image) {
+    //         promises.push(OccurrenceImage.retrieveFromLocal(imageKey, new OccurrenceImage)
+    //             .then((image) => {
+    //                 if (image.unsaved()) {
+    //                     return image.save();
+    //                 }
+    //             })
+    //         );
+    //     }
+    //
+    //     return Promise.all(promises).catch((result) => {
+    //         console.log(`Save failure: ${result}`);
+    //     });
+    // }
+    // /**
+    //  * restore previous state, pulling back from local and external store
+    //  * @todo this needs a save phase, so that local changes are saved back to the server
+    //  *
+    //  * @param {string} [targetSurveyId] if specified then select this id as the current survey
+    //  * @return {Promise}
+    //  */
+    // restoreOccurrences(targetSurveyId) {
+    //
+    //     // need to check for a special case where restoring a survey that has never been saved even locally
+    //     // i.e. new and unmodified
+    //     // only present in current App.surveys
+    //     // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
+    //     if (this.surveys.has(targetSurveyId)) {
+    //         const localSurvey = this.surveys.get(targetSurveyId);
+    //
+    //         if (localSurvey.isPristine) {
+    //             this.currentSurvey = localSurvey;
+    //             this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
+    //             return Promise.resolve();
+    //         }
+    //     }
+    //
+    //     const storedObjectKeys = {
+    //         survey: [],
+    //         occurrence: [],
+    //         image: []
+    //     };
+    //
+    //     if (targetSurveyId) {
+    //         storedObjectKeys.survey[0] = targetSurveyId;
+    //     }
+    //
+    //     return this.seekKeys(storedObjectKeys).then((storedObjectKeys) => {
+    //         if (storedObjectKeys.survey.length) {
+    //             return this.refreshFromServer(storedObjectKeys.survey).finally(() => {
+    //                 // re-seek keys from indexed db, to take account of any new occurrences received from the server
+    //                 return this.seekKeys(storedObjectKeys);
+    //             });
+    //         } else {
+    //             return null;
+    //         }
+    //     }).finally(() => {
+    //         // called regardless of whether a server refresh was successful
+    //         // storedObjectKeys and indexed db should be as up-to-date as possible
+    //
+    //         if (storedObjectKeys.survey.length) {
+    //
+    //             // arbitrarily set first survey key as current
+    //             // this will be the specified targetSurveyId if that was set
+    //             return this._restoreSurveyFromLocal(storedObjectKeys.survey[0], storedObjectKeys)
+    //                 .finally(() => {
+    //                     this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
+    //
+    //                     if (!this.currentSurvey) {
+    //                         // survey doesn't actually exist
+    //                         // this could have happened in an invalid survey id was provided as a targetSurveyId
+    //                         console.log(`Failed to retrieve survey id '${targetSurveyId}'`);
+    //                         return Promise.reject(new Error(`Failed to retrieve survey id '${targetSurveyId}'`));
+    //                     }
+    //
+    //                     if (this.currentSurvey.deleted) {
+    //                         // unusual case where survey is deleted
+    //                         // substitute a new one
+    //
+    //                         // this should probably never happen, as items deleted on the server ought to have been
+    //                         // removed locally
+    //                         this.setNewSurvey();
+    //                     } else {
+    //                         this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
+    //                     }
+    //                     return Promise.resolve();
+    //                 });
+    //         } else {
+    //             // no pre-existing surveys, so create a new one
+    //             this.setNewSurvey();
+    //
+    //             return Promise.resolve();
+    //         }
+    //     });
+    // }
+    // setNewSurvey() {
+    //     this.currentSurvey = new Survey();
+    //     this.currentSurvey.projectId = this.projectId;
+    //     this.currentSurvey.isPristine = true;
+    //     this.addSurvey(this.currentSurvey);
+    // }
+    // /**
+    //  * @return {Occurrence}
+    //  */
+    // addNewOccurrence() {
+    //     const occurrence = new Occurrence();
+    //     occurrence.surveyId = this.currentSurvey.id;
+    //     occurrence.projectId = this.projectId;
+    //
+    //     occurrence.isNew = true;
+    //     occurrence.isPristine = true;
+    //
+    //     this.addOccurrence(occurrence);
+    //
+    //     this.fireEvent(NyphApp.EVENT_OCCURRENCE_ADDED, {occurrenceId: occurrence.id, surveyId: occurrence.surveyId});
+    //
+    //     return occurrence;
+    // }
+    // /**
+    //  *
+    //  * @param surveyId
+    //  * @param storedObjectKeys
+    //  * @returns {Promise}
+    //  * @private
+    //  */
+    // _restoreSurveyFromLocal(surveyId, storedObjectKeys) {
+    //     // retrieve surveys first, then occurrences, then images from indexedDb
+    //
+    //     return Survey.retrieveFromLocal(surveyId, new Survey).then((survey) => {
+    //         // the apps occurrences should only relate to the current survey
+    //         // (the reset are remote or in IndexedDb)
+    //         this.clearCurrentSurvey();
+    //
+    //         this.addSurvey(survey);
+    //         const occurrenceFetchingPromises = [];
+    //
+    //         for(let occurrenceKey of storedObjectKeys.occurrence) {
+    //             occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
+    //                 .then((occurrence) => {
+    //                     if (occurrence.surveyId === surveyId) {
+    //                         this.addOccurrence(occurrence);
+    //                     }
+    //                 }));
+    //         }
+    //
+    //         return Promise.all(occurrenceFetchingPromises);
+    //     }).finally(() => {
+    //         //console.log('Reached image fetching part');
+    //         const imageFetchingPromises = [];
+    //
+    //         for(let occurrenceImageKey of storedObjectKeys.image) {
+    //             imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage)
+    //                 .then((occurrenceImage) => {
+    //                     if (occurrenceImage.surveyId === surveyId) {
+    //                         OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
+    //                     }
+    //                 }, (reason) => {
+    //                     console.log(`Failed to retrieve an image: ${reason}`);
+    //                 }));
+    //         }
+    //
+    //         return Promise.all(imageFetchingPromises);
+    //     });
+    // }
+    // /**
+    //  *
+    //  * @returns {Promise<void>}
+    //  */
+    // clearLocalForage() {
+    //     return localforage.clear();
+    // }
 
-    _createClass(NyphApp, [{
-      key: "restoreOccurrences",
-      value: // /**
-      //  *
-      //  * @param {Survey} survey
-      //  */
-      // addSurvey(survey) {
-      //     if (survey.projectId !== this.projectId) {
-      //         throw new Error(`Survey project id '${survey.projectId} does not match with current project ('${this.projectId}')`);
-      //     }
-      //
-      //     if (!this.surveys.has(survey.id)) {
-      //         console.log("setting survey's modified/save handler");
-      //         survey.addListener(
-      //             Survey.EVENT_MODIFIED,
-      //             (survey) => {
-      //                 this.fireEvent(App.EVENT_SURVEYS_CHANGED);
-      //                 return survey.save();
-      //             }
-      //             );
-      //     }
-      //
-      //     this.surveys.set(survey.id, survey);
-      //     this.fireEvent(App.EVENT_SURVEYS_CHANGED);
-      // }
-      // /**
-      //  * tests whether occurrences have been defined, excluding any that have been deleted
-      //  *
-      //  * @returns {boolean}
-      //  */
-      // haveExtantOccurrences() {
-      //     for (let occurrence of this.occurrences) {
-      //         if (!occurrence.deleted) {
-      //             return true;
-      //         }
-      //     }
-      //     return false;
-      // }
-      // /**
-      //  *
-      //  * @param {Occurrence} occurrence
-      //  */
-      // addOccurrence(occurrence) {
-      //     if (!occurrence.surveyId) {
-      //         throw new InternalAppError('Survey id must set prior to registering occurrence.');
-      //     }
-      //
-      //     if (this.occurrences.size === 0) {
-      //         // this is the first occurrence added, set the survey creation stamp to match
-      //         // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
-      //         // for a protracted period
-      //
-      //         const survey = this.surveys.get(occurrence.surveyId);
-      //         survey.createdStamp = occurrence.createdStamp;
-      //     }
-      //     console.log(`in addOccurrence setting id '${occurrence.id}'`);
-      //     this.occurrences.set(occurrence.id, occurrence);
-      //
-      //     occurrence.addListener(Occurrence.EVENT_MODIFIED,
-      //         () => {
-      //             const survey = this.surveys.get(occurrence.surveyId);
-      //             if (!survey) {
-      //                 throw new Error(`Failed to look up survey id ${occurrence.surveyId}`);
-      //             } else {
-      //                 survey.isPristine = false;
-      //
-      //                 // need to ensure that currentSurvey is saved before occurrence
-      //                 // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
-      //                 // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
-      //                 if (survey.unsaved()) {
-      //                     // noinspection JSIgnoredPromiseFromCall
-      //                     survey.save();
-      //                 }
-      //                 occurrence.save(survey.id);
-      //             }
-      //         });
-      // }
-      // /**
-      //  * attempts to refresh the state of local storage for the specified survey ids
-      //  * if fetch fails then return a failed promise
-      //  *
-      //  * updates local copy of surveys and occurrences
-      //  *
-      //  * no service worker interception of this call - passed through and not cached
-      //  *
-      //  * @param {Array.<string>} surveyIds
-      //  * @return {Promise}
-      //  */
-      // refreshFromServer(surveyIds) {
-      //     const formData = new FormData;
-      //
-      //     let n = 0;
-      //     for (let key of surveyIds) {
-      //         formData.append(`surveyId[${n++}]`, key);
-      //     }
-      //
-      //     return fetch(NyphApp.LOAD_SURVEYS_ENDPOINT, {
-      //         method: 'POST',
-      //         body: formData
-      //     }).then(response => {
-      //         if (response.ok) {
-      //             return response.json();
-      //         } else {
-      //             return Promise.reject(`Invalid response from server when refreshing survey ids`);
-      //         }
-      //     }).then((jsonResponse) => {
-      //         /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
-      //
-      //         console.log({'refresh from server json response' : jsonResponse});
-      //
-      //         // if external objects newer than local version then place in local storage
-      //         const promises = [];
-      //
-      //         for (let type in jsonResponse) {
-      //             if (jsonResponse.hasOwnProperty(type)) {
-      //                 for (let object of jsonResponse[type]) {
-      //                     promises.push(this._conditionallyReplaceObject(object));
-      //                 }
-      //             }
-      //         }
-      //
-      //
-      //         return Promise.all(promises);
-      //     });
-      // }
-      // /**
-      //  * compare modified stamp of indexeddb and external objects and write external version locally if more recent
-      //  *
-      //  * @param {{id : string, type : string, modified : number, created : number, saveState : string, deleted : boolean}} externalVersion
-      //  * @returns {Promise}
-      //  * @private
-      //  */
-      // _conditionallyReplaceObject(externalVersion) {
-      //     const objectType = externalVersion.type;
-      //     const id = externalVersion.id;
-      //     const key = `${objectType}.${id}`;
-      //
-      //     return localforage.getItem(key)
-      //         .then((localVersion) => {
-      //             if (localVersion) {
-      //                 // compare stamps
-      //
-      //                 // if (externalVersion.deleted) {
-      //                 //     // if the external copy is deleted then remove the local copy
-      //                 //     return localforage.removeItem(key);
-      //                 // }
-      //
-      //                 if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
-      //                     console.log(`Local copy of ${key} is the same or newer than the server copy. (${localVersion.modified} >= ${externalVersion.modified}) `);
-      //                     return Promise.resolve();
-      //                 }
-      //             }
-      //
-      //             // no local copy or stale copy
-      //             // so store response locally
-      //             console.log(`Adding or replacing local copy of ${key}`);
-      //             return localforage.setItem(key, externalVersion);
-      //         });
-      // }
-      // /**
-      //  * retrieve the full set of keys from local storage (IndexedDb)
-      //  *
-      //  * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
-      //  * @returns {Promise}
-      //  */
-      // seekKeys(storedObjectKeys) {
-      //     return localforage.keys().then((keys) => {
-      //         for (let key of keys) {
-      //             let type,id;
-      //
-      //             [type, id] = key.split('.', 2);
-      //
-      //             if (storedObjectKeys.hasOwnProperty(type)) {
-      //                 if (!storedObjectKeys[type].includes(id)) {
-      //                     storedObjectKeys[type].push(id);
-      //                 }
-      //             } else {
-      //                 console.log(`Unrecognised stored key type '${type}.`);
-      //             }
-      //         }
-      //
-      //         return storedObjectKeys;
-      //     });
-      // }
-      // /**
-      //  * @returns {Promise}
-      //  */
-      // syncAll() {
-      //     const storedObjectKeys = {
-      //         survey : [],
-      //         occurrence : [],
-      //         image : []
-      //     };
-      //
-      //     return this.seekKeys(storedObjectKeys)
-      //         .then((storedObjectKeys) => {
-      //             return this._syncLocalUnsaved(storedObjectKeys);
-      //         }, (failedResult) => {
-      //             console.log(`Failed to sync all: ${failedResult}`);
-      //         });
-      // }
-      // /**
-      //  *
-      //  * @param storedObjectKeys
-      //  * @returns {Promise}
-      //  * @private
-      //  */
-      // _syncLocalUnsaved(storedObjectKeys) {
-      //     // syncs surveys first, then occurrences, then images from indexedDb
-      //
-      //     const promises = [];
-      //     for(let surveyKey of storedObjectKeys.survey) {
-      //         promises.push(Survey.retrieveFromLocal(surveyKey, new Survey)
-      //             .then((survey) => {
-      //                 if (survey.unsaved()) {
-      //                     return survey.save();
-      //                 }
-      //             })
-      //         );
-      //     }
-      //
-      //     for(let occurrenceKey of storedObjectKeys.occurrence) {
-      //         promises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
-      //             .then((occurrence) => {
-      //                 if (occurrence.unsaved()) {
-      //                     return occurrence.save();
-      //                 }
-      //             })
-      //         );
-      //     }
-      //
-      //     for(let imageKey of storedObjectKeys.image) {
-      //         promises.push(OccurrenceImage.retrieveFromLocal(imageKey, new OccurrenceImage)
-      //             .then((image) => {
-      //                 if (image.unsaved()) {
-      //                     return image.save();
-      //                 }
-      //             })
-      //         );
-      //     }
-      //
-      //     return Promise.all(promises).catch((result) => {
-      //         console.log(`Save failure: ${result}`);
-      //     });
-      // }
-
-      /**
-       * restore previous state, pulling back from local and external store
-       * @todo this needs a save phase, so that local changes are saved back to the server
-       *
-       * @param {string} [targetSurveyId] if specified then select this id as the current survey
-       * @return {Promise}
-       */
-      function restoreOccurrences(targetSurveyId) {
-        var _this2 = this;
-
-        // need to check for a special case where restoring a survey that has never been saved even locally
-        // i.e. new and unmodified
-        // only present in current App.surveys
-        // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
-        if (this.surveys.has(targetSurveyId)) {
-          var localSurvey = this.surveys.get(targetSurveyId);
-
-          if (localSurvey.isPristine) {
-            this.currentSurvey = localSurvey;
-            this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-
-            return Promise.resolve();
-          }
-        }
-
-        var storedObjectKeys = {
-          survey: [],
-          occurrence: [],
-          image: []
-        };
-
-        if (targetSurveyId) {
-          storedObjectKeys.survey[0] = targetSurveyId;
-        }
-
-        return this.seekKeys(storedObjectKeys).then(function (storedObjectKeys) {
-          if (storedObjectKeys.survey.length) {
-            return _this2.refreshFromServer(storedObjectKeys.survey).finally(function () {
-              // re-seek keys from indexed db, to take account of any new occurrences received from the server
-              return _this2.seekKeys(storedObjectKeys);
-            });
-          } else {
-            return null;
-          }
-        }).finally(function () {
-          // called regardless of whether a server refresh was successful
-          // storedObjectKeys and indexed db should be as up-to-date as possible
-          if (storedObjectKeys.survey.length) {
-            // arbitrarily set first survey key as current
-            // this will be the specified targetSurveyId if that was set
-            return _this2._restoreSurveyFromLocal(storedObjectKeys.survey[0], storedObjectKeys).finally(function () {
-              _this2.currentSurvey = _this2.surveys.get(storedObjectKeys.survey[0]);
-
-              if (!_this2.currentSurvey) {
-                // survey doesn't actually exist
-                // this could have happened in an invalid survey id was provided as a targetSurveyId
-                console.log("Failed to retrieve survey id '".concat(targetSurveyId, "'"));
-                return Promise.reject(new Error("Failed to retrieve survey id '".concat(targetSurveyId, "'")));
-              }
-
-              if (_this2.currentSurvey.deleted) {
-                // unusual case where survey is deleted
-                // substitute a new one
-                // this should probably never happen, as items deleted on the server ought to have been
-                // removed locally
-                _this2.setNewSurvey();
-              } else {
-                _this2.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-
-              }
-
-              return Promise.resolve();
-            });
-          } else {
-            // no pre-existing surveys, so create a new one
-            _this2.setNewSurvey();
-
-            return Promise.resolve();
-          }
-        });
-      }
-    }, {
-      key: "setNewSurvey",
-      value: function setNewSurvey() {
-        this.currentSurvey = new Survey();
-        this.currentSurvey.projectId = this.projectId;
-        this.currentSurvey.isPristine = true;
-        this.addSurvey(this.currentSurvey);
-      }
-      /**
-       * @return {Occurrence}
-       */
-
-    }, {
-      key: "addNewOccurrence",
-      value: function addNewOccurrence() {
-        var occurrence = new Occurrence();
-        occurrence.surveyId = this.currentSurvey.id;
-        occurrence.projectId = this.projectId;
-        occurrence.isNew = true;
-        occurrence.isPristine = true;
-        this.addOccurrence(occurrence);
-        this.fireEvent(NyphApp.EVENT_OCCURRENCE_ADDED, {
-          occurrenceId: occurrence.id,
-          surveyId: occurrence.surveyId
-        });
-        return occurrence;
-      }
-      /**
-       *
-       * @param surveyId
-       * @param storedObjectKeys
-       * @returns {Promise}
-       * @private
-       */
-
-    }, {
-      key: "_restoreSurveyFromLocal",
-      value: function _restoreSurveyFromLocal(surveyId, storedObjectKeys) {
-        var _this3 = this;
-
-        // retrieve surveys first, then occurrences, then images from indexedDb
-        return Survey.retrieveFromLocal(surveyId, new Survey()).then(function (survey) {
-          // the apps occurrences should only relate to the current survey
-          // (the reset are remote or in IndexedDb)
-          _this3.clearCurrentSurvey();
-
-          _this3.addSurvey(survey);
-
-          var occurrenceFetchingPromises = [];
-
-          var _iterator = _createForOfIteratorHelper(storedObjectKeys.occurrence),
-              _step;
-
-          try {
-            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-              var occurrenceKey = _step.value;
-              occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence()).then(function (occurrence) {
-                if (occurrence.surveyId === surveyId) {
-                  _this3.addOccurrence(occurrence);
-                }
-              }));
-            }
-          } catch (err) {
-            _iterator.e(err);
-          } finally {
-            _iterator.f();
-          }
-
-          return Promise.all(occurrenceFetchingPromises);
-        }).finally(function () {
-          //console.log('Reached image fetching part');
-          var imageFetchingPromises = [];
-
-          var _iterator2 = _createForOfIteratorHelper(storedObjectKeys.image),
-              _step2;
-
-          try {
-            var _loop = function _loop() {
-              var occurrenceImageKey = _step2.value;
-              imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage()).then(function (occurrenceImage) {
-                if (occurrenceImage.surveyId === surveyId) {
-                  OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
-                }
-              }, function (reason) {
-                console.log("Failed to retrieve an image: ".concat(reason));
-              }));
-            };
-
-            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-              _loop();
-            }
-          } catch (err) {
-            _iterator2.e(err);
-          } finally {
-            _iterator2.f();
-          }
-
-          return Promise.all(imageFetchingPromises);
-        });
-      }
-      /**
-       *
-       * @returns {Promise<void>}
-       */
-
-    }, {
-      key: "clearLocalForage",
-      value: function clearLocalForage() {
-        return localforage.clear();
-      }
-    }]);
 
     return NyphApp;
   }(App);
 
   _defineProperty(NyphApp, "forageName", 'Nyph App');
-
-  _defineProperty(NyphApp, "LOAD_SURVEYS_ENDPOINT", '/loadsurveys.php');
-
-  _defineProperty(NyphApp, "EVENT_OCCURRENCE_ADDED", 'occurrenceadded');
-
-  _defineProperty(NyphApp, "EVENT_SURVEYS_CHANGED", 'surveyschanged');
 
   _defineProperty(NyphApp, "devMode", false);
 
@@ -24714,7 +20223,7 @@
     '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap'],
-    version: '1.0.1.1637689808'
+    version: '1.0.1.1637762565'
   });
 
 })();

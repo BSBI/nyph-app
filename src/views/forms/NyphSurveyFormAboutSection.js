@@ -1,6 +1,7 @@
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 import helpPanelText from "../../templates/formHelp/surveyAboutHelp.html";
 import {FormField, InputField, SelectField} from "bsbi-app-framework";
+import {MapGeorefField} from "../formfields/MapGeorefField";
 
 export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
 
@@ -36,18 +37,18 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
                 completion: FormField.COMPLETION_COMPULSORY,
             }},
         georef: {
-            field: InputField,
+            field: MapGeorefField,
             attributes: {
-                label: 'Postcode or grid-reference',
+                label: 'Starting point of your walk.',
                 helpText: 'We need to be able to put your survey on our map. Detailed locations won\'t be made public.',
                 placeholder: 'Grid-reference or postcode',
-                autocomplete: 'postal-code',
+                //autocomplete: 'postal-code',
                 completion: FormField.COMPLETION_COMPULSORY,
             }},
         recorder: {
             field: InputField,
             attributes: {
-                label: 'Your name',
+                label: 'Your name(s)',
                 helpText: '(optional) This helps us follow-up if we have any queries about your records and allows us to properly acknowledge the origin of your observations.',
                 placeholder: 'full name',
                 autocomplete: 'name'
@@ -71,7 +72,8 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
                 label: 'Your email address',
                 helpText: '(optional) We\'ll never share your email with anyone else.',
                 autocomplete: 'email',
-                type: 'email'
+                type: 'email',
+                completion: FormField.COMPLETION_DESIRED,
             }},
     };
 }

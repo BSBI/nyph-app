@@ -4,7 +4,7 @@ import {
     FormField,
     ImageField,
     //OptionsField,
-    SelectField,
+    //SelectField,
     TaxonPickerField,
     TextAreaField
 } from "bsbi-app-framework";
@@ -81,22 +81,23 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 label: 'Grid-reference',
                 helpText: '',
                 completion: FormField.COMPLETION_COMPULSORY,
+                includeSearchBox: true,
             }
         },
-        idConfidence : {
-            field: SelectField,
-            attributes: {
-                label: 'How confident are you about your identification of this plant?',
-                helpText: '',
-                placeholder : 'please choose an option',
-                options: {
-                    "1" : {label: "very sure"},
-                    "2" : {label: "not really sure"},
-                    "3" : {label: "could be wrong"}
-                },
-                includeOtherFreeText : false,
-                completion: FormField.COMPLETION_DESIRED,
-            }},
+        // idConfidence : {
+        //     field: SelectField,
+        //     attributes: {
+        //         label: 'How confident are you about your identification of this plant?',
+        //         helpText: '',
+        //         placeholder : 'please choose an option',
+        //         options: {
+        //             "1" : {label: "very sure"},
+        //             "2" : {label: "not really sure"},
+        //             "3" : {label: "could be wrong"}
+        //         },
+        //         includeOtherFreeText : false,
+        //         completion: FormField.COMPLETION_DESIRED,
+        //     }},
         images : {
             field: ImageField,
             attributes: {
@@ -232,19 +233,19 @@ export class NyphOccurrenceForm extends OccurrenceForm {
         //         },
         //         includeOtherFreeText : true
         //     }},
-        local : {
-            field: SelectField,
-            attributes: {
-                label: 'Is the plant growing locally outside your garden?',
-                //helpText: '(estimate)',
-                placeholder : 'please select a response',
-                options: {
-                    'yes' : {label: 'yes'},
-                    'no' : {label: 'no'},
-                    'notknown' : {label: "I don't know"}
-                },
-                includeOtherFreeText : false
-            }},
+        // local : {
+        //     field: SelectField,
+        //     attributes: {
+        //         label: 'Is the plant growing locally outside your garden?',
+        //         //helpText: '(estimate)',
+        //         placeholder : 'please select a response',
+        //         options: {
+        //             'yes' : {label: 'yes'},
+        //             'no' : {label: 'no'},
+        //             'notknown' : {label: "I don't know"}
+        //         },
+        //         includeOtherFreeText : false
+        //     }},
         // warning : {
         //     field: SelectField,
         //     attributes: {

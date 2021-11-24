@@ -2,6 +2,7 @@ import {GridCoords} from "british-isles-gridrefs";
 import {escapeHTML, FormField, TextGeorefField} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
 import mapboxgl from 'mapbox-gl';
+//import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 export class MapGeorefField extends TextGeorefField {
 
@@ -38,24 +39,42 @@ export class MapGeorefField extends TextGeorefField {
 
     /**
      *
-     * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
+     * @type {?int}
+     */
+    baseSquareResolution = null;
+
+    /**
+     *
+     * @type {boolean}
+     */
+    includeSearchBox = false;
+
+    /**
+     *
+     * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string, [baseSquareResolution]: ?int, [includeSearchBox]: boolean}} [params]
      */
     constructor (params) {
         super(params);
 
-        console.log('Called georef field constructor.');
-
         if (params) {
-            if (params.type) {
-                this._inputType = params.type;
+            // if (params.type) {
+            //     this._inputType = params.type;
+            // }
+            //
+            // if (params.placeholder) {
+            //     this.placeholder = params.placeholder;
+            // }
+            //
+            // if (params.autocomplete) {
+            //     this._autocomplete = params.autocomplete;
+            // }
+
+            if (params.baseSquareResolution) {
+                this.baseSquareResolution = params.baseSquareResolution;
             }
 
-            if (params.placeholder) {
-                this.placeholder = params.placeholder;
-            }
-
-            if (params.autocomplete) {
-                this._autocomplete = params.autocomplete;
+            if (params.includeSearchBox) {
+                this.includeSearchBox = params.includeSearchBox;
             }
         }
     }
@@ -202,7 +221,19 @@ export class MapGeorefField extends TextGeorefField {
             zoom: 9 // starting zoom
         });
 
+        if (this.includeSearchBox) {
+            const geocoder = new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl,
 
+            });
+
+            geocoder.on('result', (result) => {
+                console.log({'geocode result' : result});
+            });
+
+            map.addControl(geocoder);
+        }
     }
 
     /**
@@ -223,10 +254,23 @@ export class MapGeorefField extends TextGeorefField {
     inputChangeHandler (event) {
         event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
 
-        console.log('got input field change event');
+        //console.log('got input field change event');
 
         this.value = FormField.cleanRawString(document.getElementById(this.#inputId).value);
+
+        if (this.value) {
+            let result = this.tryGeocoding(this.value);
+        }
+
         this.fireEvent(FormField.EVENT_CHANGE);
+    }
+
+    /**
+     *
+     * @param {string} query
+     */
+    tryGeocoding(query) {
+
     }
 
     /**
