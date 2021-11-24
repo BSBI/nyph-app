@@ -40,5 +40,6 @@ serviceWorker.initialise({
         'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap',
         'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'
     ],
+    passThroughNoCache : /(?:^https:\/\/api\.mapbox\.com)/,
     version : 'VERSION'
 });
