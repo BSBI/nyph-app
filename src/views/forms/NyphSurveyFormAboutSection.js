@@ -44,6 +44,7 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
                 placeholder: 'Grid-reference or postcode',
                 //autocomplete: 'postal-code',
                 completion: FormField.COMPLETION_COMPULSORY,
+                baseSquareResolution: 1000,
             }},
         recorder: {
             field: InputField,

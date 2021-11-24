@@ -1,4 +1,4 @@
-import {GridCoords} from "british-isles-gridrefs";
+//import {GridCoords} from "british-isles-gridrefs";
 import {escapeHTML, FormField, TextGeorefField} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
 import mapboxgl from 'mapbox-gl';
@@ -39,40 +39,18 @@ export class MapGeorefField extends TextGeorefField {
 
     /**
      *
-     * @type {?int}
-     */
-    baseSquareResolution = null;
-
-    /**
-     *
      * @type {boolean}
      */
     includeSearchBox = false;
 
     /**
      *
-     * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string, [baseSquareResolution]: ?int, [includeSearchBox]: boolean}} [params]
+     * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string, [baseSquareResolution]: ?number, [includeSearchBox]: boolean}} [params]
      */
     constructor (params) {
         super(params);
 
         if (params) {
-            // if (params.type) {
-            //     this._inputType = params.type;
-            // }
-            //
-            // if (params.placeholder) {
-            //     this.placeholder = params.placeholder;
-            // }
-            //
-            // if (params.autocomplete) {
-            //     this._autocomplete = params.autocomplete;
-            // }
-
-            if (params.baseSquareResolution) {
-                this.baseSquareResolution = params.baseSquareResolution;
-            }
-
             if (params.includeSearchBox) {
                 this.includeSearchBox = params.includeSearchBox;
             }
@@ -230,6 +208,7 @@ export class MapGeorefField extends TextGeorefField {
 
             geocoder.on('result', (result) => {
                 console.log({'geocode result' : result});
+                this.#setGridrefFromGeocodedResult(result);
             });
 
             map.addControl(geocoder);
@@ -238,18 +217,29 @@ export class MapGeorefField extends TextGeorefField {
 
     /**
      *
-     * @param {(boolean|null)} isValid
+     * @param {{bbox : Array<number>, center : Array<number>, geometry : {coordinates:Array<number>, type:string}, type:string, place_type:Array<string>}} result
      */
-    markValidity(isValid) {
-        const el = document.getElementById(this.#inputId);
+    #setGridrefFromGeocodedResult(result) {
+        // currently just use the centre-point
+        this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1);
 
-        if (null === isValid) {
-            el.classList.remove('is-invalid', 'is-valid');
-        } else {
-            el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
-            el.classList.add(isValid ? 'is-valid' : 'is-invalid');
-        }
+        // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
     }
+
+    // /**
+    //  *
+    //  * @param {(boolean|null)} isValid
+    //  */
+    // markValidity(isValid) {
+    //     const el = document.getElementById(this.#inputId);
+    //
+    //     if (null === isValid) {
+    //         el.classList.remove('is-invalid', 'is-valid');
+    //     } else {
+    //         el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
+    //         el.classList.add(isValid ? 'is-valid' : 'is-invalid');
+    //     }
+    // }
 
     inputChangeHandler (event) {
         event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
@@ -258,9 +248,9 @@ export class MapGeorefField extends TextGeorefField {
 
         this.value = FormField.cleanRawString(document.getElementById(this.#inputId).value);
 
-        if (this.value) {
-            let result = this.tryGeocoding(this.value);
-        }
+        // if (this.value) {
+        //     let result = this.tryGeocoding(this.value);
+        // }
 
         this.fireEvent(FormField.EVENT_CHANGE);
     }
@@ -271,32 +261,6 @@ export class MapGeorefField extends TextGeorefField {
      */
     tryGeocoding(query) {
 
-    }
-
-    /**
-     *
-     * @param {MouseEvent} event
-     */
-    gpsButtonClickHandler (event) {
-        console.log('got gps button click event');
-
-        navigator.geolocation.getCurrentPosition((position) => {
-            const latitude  = position.coords.latitude;
-            const longitude = position.coords.longitude;
-
-            console.log(`Got GPS fix ${latitude} , ${longitude}`);
-
-            // const latLng = new LatLngWGS84(latitude, longitude);
-            const gridCoords = GridCoords.from_latlng(latitude, longitude);
-            const gridRef = gridCoords.to_gridref(1000);
-
-            console.log(`Got grid-ref: ${gridRef}`);
-            this.value = gridRef;
-            this.fireEvent(FormField.EVENT_CHANGE);
-        }, (error) => {
-            console.log('gps look-up failed');
-            console.log(error);
-        });
     }
 
     /**

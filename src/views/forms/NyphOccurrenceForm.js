@@ -82,6 +82,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 helpText: '',
                 completion: FormField.COMPLETION_COMPULSORY,
                 includeSearchBox: true,
+                baseSquareResolution: 1000,
             }
         },
         // idConfidence : {
