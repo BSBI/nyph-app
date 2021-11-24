@@ -14,7 +14,7 @@ var BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
 const serviceWorker = new BSBIServiceWorker();
 serviceWorker.initialise({
     forageName : NyphApp.forageName,
-    postPassThroughWhitelist : /^https:\/\/nyphtest\.bsbi\.org\/loadsurveys.php/,
+    postPassThroughWhitelist : /(?:^https:\/\/nyphtest\.bsbi\.org\/loadsurveys.php|)/,
     postImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.org\/saveimage.php/,
     getImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.org\/image\.php/,
     interceptUrlMatches : /(?:^https:\/\/nyphtest\.bsbi\.org\/app\/|^https:\/\/nyphtest\.bsbi\.org\/app$)/,
@@ -40,6 +40,6 @@ serviceWorker.initialise({
         'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap',
         'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'
     ],
-    passThroughNoCache : /(?:^https:\/\/api\.mapbox\.com)/,
+    passThroughNoCache : /(?:^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com)/,
     version : 'VERSION'
 });

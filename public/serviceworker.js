@@ -12286,7 +12286,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1637766575-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1637768365-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -12342,19 +12342,24 @@
         self.addEventListener('fetch',
         /** @param {FetchEvent} evt */
         function (evt) {
-          console.log("The service worker is serving: '".concat(evt.request.url, "'"));
+          //console.log(`The service worker is serving: '${evt.request.url}'`);
           evt.preventDefault();
 
           if (evt.request.method === 'POST') {
-            console.log("Got a post request");
-
-            if (evt.request.url.match(POST_PASS_THROUGH_WHITELIST)) {
+            //console.log(`Got a post request`);
+            //if (evt.request.url.match(POST_PASS_THROUGH_WHITELIST)) {
+            if (POST_PASS_THROUGH_WHITELIST.test(evt.request.url)) {
               console.log("Passing through whitelisted post request for: ".concat(evt.request.url));
               evt.respondWith(fetch(evt.request));
             } else {
-              if (evt.request.url.match(POST_IMAGE_URL_MATCH)) {
+              //if (evt.request.url.match(POST_IMAGE_URL_MATCH)) {
+              if (POST_IMAGE_URL_MATCH.test(evt.request.url)) {
+                console.log("Got an image post request: '".concat(evt.request.url, "'"));
+
                 _this.handle_image_post(evt);
               } else {
+                console.log("Got post request: '".concat(evt.request.url, "'"));
+
                 _this.handle_post(evt);
               }
             }
@@ -12364,7 +12369,7 @@
             // console.log(`about to test url '${evt.request.url}'`);
             if (SERVICE_WORKER_INTERCEPT_URL_MATCHES.test(evt.request.url) && !SERVICE_WORKER_IGNORE_URL_MATCHES.test(evt.request.url)) {
               // serving single page app instead
-              console.log('redirecting to the root of the SPA');
+              console.log("redirecting to the root of the SPA for '".concat(evt.request.url, "'"));
               var spaRequest = new Request(INDEX_URL);
               evt.respondWith(_this.fromCache(spaRequest));
               evt.waitUntil(_this.update(spaRequest));
@@ -20217,7 +20222,7 @@
   var serviceWorker = new BSBIServiceWorker();
   serviceWorker.initialise({
     forageName: NyphApp.forageName,
-    postPassThroughWhitelist: /^https:\/\/nyphtest\.bsbi\.org\/loadsurveys.php/,
+    postPassThroughWhitelist: /(?:^https:\/\/nyphtest\.bsbi\.org\/loadsurveys.php|)/,
     postImageUrlMatch: /^https:\/\/nyphtest\.bsbi\.org\/saveimage.php/,
     getImageUrlMatch: /^https:\/\/nyphtest\.bsbi\.org\/image\.php/,
     interceptUrlMatches: /(?:^https:\/\/nyphtest\.bsbi\.org\/app\/|^https:\/\/nyphtest\.bsbi\.org\/app$)/,
@@ -20227,8 +20232,8 @@
     '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
-    passThroughNoCache: /(?:^https:\/\/api\.mapbox\.com)/,
-    version: '1.0.1.1637766838'
+    passThroughNoCache: /(?:^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com)/,
+    version: '1.0.1.1637768827'
   });
 
 })();
