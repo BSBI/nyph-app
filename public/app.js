@@ -28763,7 +28763,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637762565</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637763698</p>";
 	    }
 	  }]);
 

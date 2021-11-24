@@ -18,7 +18,7 @@ serviceWorker.initialise({
     postImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.org\/saveimage.php/,
     getImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.org\/image\.php/,
     interceptUrlMatches : /(?:^https:\/\/nyphtest\.bsbi\.org\/app\/|^https:\/\/nyphtest\.bsbi\.org\/app$)/,
-    ignoreUrlMatches : /(?:^https:\/\/nyphtest\.bsbi\.org\/app\/app\.js|^https:\/\/nyphtest\.bsbi\.org\/app\/serviceworker\.js|^https:\/\/nyphtest\.bsbi\.org\/app\/manifest\.webmanifest|^https:\/\/nyphtest\.bsbi\.org\/app\/index\.html)/,
+    ignoreUrlMatches : /(?:^https:\/\/nyphtest\.bsbi\.org\/app\/app\.js|^https:\/\/nyphtest\.bsbi\.org\/app\/serviceworker\.js|^https:\/\/nyphtest\.bsbi\.org\/app\/manifest\.webmanifest|^https:\/\/nyphtest\.bsbi\.org\/app\/index\.html|^https:\/\/api\.mapbox\.com)/,
     indexUrl : 'https://nyphtest.bsbi.org/app/index.html',
     urlCacheSet : [
         './index.html',
@@ -37,7 +37,8 @@ serviceWorker.initialise({
         'https://code.jquery.com/jquery-3.3.1.slim.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
         'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js',
-        'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap'
+        'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap',
+        'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'
     ],
     version : 'VERSION'
 });
