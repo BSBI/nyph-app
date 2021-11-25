@@ -52,4 +52,5 @@ div.card.is-invalid div.card-invalid-feedback {
 
 div.map-container {
     height: 400px;
+    width: 100%;
 }

@@ -208,7 +208,7 @@ export class MapGeorefField extends TextGeorefField {
 
             geocoder.on('result', (result) => {
                 console.log({'geocode result' : result});
-                this.#setGridrefFromGeocodedResult(result);
+                this.#setGridrefFromGeocodedResult(result.result);
             });
 
             map.addControl(geocoder);

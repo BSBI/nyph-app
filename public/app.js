@@ -27289,7 +27289,7 @@
 	            'geocode result': result
 	          });
 
-	          _classPrivateMethodGet$5(_this2, _setGridrefFromGeocodedResult, _setGridrefFromGeocodedResult2).call(_this2, result);
+	          _classPrivateMethodGet$5(_this2, _setGridrefFromGeocodedResult, _setGridrefFromGeocodedResult2).call(_this2, result.result);
 	        });
 	        map.addControl(geocoder);
 	      }
@@ -28787,7 +28787,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637783915</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637837348</p>";
 	    }
 	  }]);
 
