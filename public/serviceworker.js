@@ -11166,11 +11166,26 @@
           });
 
           if (storedObjectKeys.survey.length) {
-            // arbitrarily set first survey key as current
-            // this will be the specified targetSurveyId if that was set
-            return _this7._restoreSurveyFromLocal(storedObjectKeys.survey[0], storedObjectKeys).finally(function () {
-              _this7.currentSurvey = _this7.surveys.get(storedObjectKeys.survey[0]);
+            var surveyFetchingPromises = [];
+            var n = 0;
 
+            var _iterator10 = _createForOfIteratorHelper$7(storedObjectKeys.survey),
+                _step10;
+
+            try {
+              for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+                var surveyKey = _step10.value;
+                // arbitrarily set first survey key as current if a target id hasn't been specified
+                surveyFetchingPromises.push(_this7._restoreSurveyFromLocal(surveyKey, storedObjectKeys, targetSurveyId === surveyKey || !targetSurveyId && n++ === 0));
+              }
+            } catch (err) {
+              _iterator10.e(err);
+            } finally {
+              _iterator10.f();
+            }
+
+            return Promise.all(surveyFetchingPromises).finally(function () {
+              //this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
               if (!_this7.currentSurvey) {
                 // survey doesn't actually exist
                 // this could have happened in an invalid survey id was provided as a targetSurveyId
@@ -11229,85 +11244,99 @@
       }
       /**
        *
-       * @param surveyId
-       * @param storedObjectKeys
+       * @param {string} surveyId
+       * @param {{survey: Array, occurrence: Array, image: Array}} storedObjectKeys
+       * @param {boolean} setAsCurrent
        * @returns {Promise}
        * @private
        */
 
     }, {
       key: "_restoreSurveyFromLocal",
-      value: function _restoreSurveyFromLocal(surveyId, storedObjectKeys) {
+      value: function _restoreSurveyFromLocal(surveyId, storedObjectKeys, setAsCurrent) {
         var _this8 = this;
 
         // retrieve surveys first, then occurrences, then images from indexedDb
-        return Survey.retrieveFromLocal(surveyId, new Survey()).then(function (survey) {
-          console.log("retrieving local survey ".concat(surveyId)); // the apps occurrences should only relate to the current survey
-          // (the reset are remote or in IndexedDb)
+        var promise = Survey.retrieveFromLocal(surveyId, new Survey()).then(function (survey) {
+          console.log("retrieving local survey ".concat(surveyId));
 
-          _this8.clearCurrentSurvey();
+          if (setAsCurrent) {
+            // the apps occurrences should only relate to the current survey
+            // (the reset are remote or in IndexedDb)
+            _this8.clearCurrentSurvey();
 
-          _this8.addSurvey(survey);
+            _this8.addSurvey(survey);
 
-          var occurrenceFetchingPromises = [];
+            var occurrenceFetchingPromises = [];
 
-          var _iterator10 = _createForOfIteratorHelper$7(storedObjectKeys.occurrence),
-              _step10;
+            var _iterator11 = _createForOfIteratorHelper$7(storedObjectKeys.occurrence),
+                _step11;
 
-          try {
-            var _loop = function _loop() {
-              var occurrenceKey = _step10.value;
-              occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence()).then(function (occurrence) {
-                if (occurrence.surveyId === surveyId) {
-                  console.log("adding occurrence ".concat(occurrenceKey));
+            try {
+              var _loop = function _loop() {
+                var occurrenceKey = _step11.value;
+                occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence()).then(function (occurrence) {
+                  if (occurrence.surveyId === surveyId) {
+                    console.log("adding occurrence ".concat(occurrenceKey));
 
-                  _this8.addOccurrence(occurrence);
-                }
-              }));
-            };
+                    _this8.addOccurrence(occurrence);
+                  }
+                }));
+              };
 
-            for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
-              _loop();
+              for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+                _loop();
+              }
+            } catch (err) {
+              _iterator11.e(err);
+            } finally {
+              _iterator11.f();
             }
-          } catch (err) {
-            _iterator10.e(err);
-          } finally {
-            _iterator10.f();
+
+            return Promise.all(occurrenceFetchingPromises);
+          } else {
+            // not the current survey, so just add it but don't load occurrences
+            _this8.addSurvey(survey);
           }
-
-          return Promise.all(occurrenceFetchingPromises);
-        }).finally(function () {
-          //console.log('Reached image fetching part');
-          var imageFetchingPromises = [];
-
-          var _iterator11 = _createForOfIteratorHelper$7(storedObjectKeys.image),
-              _step11;
-
-          try {
-            var _loop2 = function _loop2() {
-              var occurrenceImageKey = _step11.value;
-              imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage()).then(function (occurrenceImage) {
-                console.log("restoring image id '".concat(occurrenceImageKey, "'"));
-
-                if (occurrenceImage.surveyId === surveyId) {
-                  OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
-                }
-              }, function (reason) {
-                console.log("Failed to retrieve an image: ".concat(reason));
-              }));
-            };
-
-            for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
-              _loop2();
-            }
-          } catch (err) {
-            _iterator11.e(err);
-          } finally {
-            _iterator11.f();
-          }
-
-          return Promise.all(imageFetchingPromises);
         });
+
+        if (setAsCurrent) {
+          promise.finally(function () {
+            //console.log('Reached image fetching part');
+            var imageFetchingPromises = [];
+
+            var _iterator12 = _createForOfIteratorHelper$7(storedObjectKeys.image),
+                _step12;
+
+            try {
+              var _loop2 = function _loop2() {
+                var occurrenceImageKey = _step12.value;
+                imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage()).then(function (occurrenceImage) {
+                  console.log("restoring image id '".concat(occurrenceImageKey, "'"));
+
+                  if (occurrenceImage.surveyId === surveyId) {
+                    OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
+                  }
+                }, function (reason) {
+                  console.log("Failed to retrieve an image: ".concat(reason));
+                }));
+              };
+
+              for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+                _loop2();
+              }
+            } catch (err) {
+              _iterator12.e(err);
+            } finally {
+              _iterator12.f();
+            }
+
+            _this8.currentSurvey = _this8.surveys.get(storedObjectKeys.survey[0]);
+            return Promise.all(imageFetchingPromises);
+          });
+        }
+
+        return promise;
       }
       /**
        *
@@ -12314,7 +12343,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1637952201-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1637963928-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -20265,7 +20294,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1637952362'
+    version: '1.0.1.1637964134'
   });
 
 })();
