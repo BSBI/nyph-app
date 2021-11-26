@@ -12961,7 +12961,7 @@
 	    key: "setLocalForageName",
 	    value: function setLocalForageName(name) {
 	      localforage$2.config({
-	        name: NyphApp.forageName
+	        name: name
 	      });
 	    }
 	  }, {
@@ -21880,7 +21880,7 @@
 	_defineProperty(MainView$1, "NEXT_IS_FINAL", 'last');
 
 	var PROJECT_ID_NYPH = 2;
-	var NyphApp$1 = /*#__PURE__*/function (_App) {
+	var NyphApp = /*#__PURE__*/function (_App) {
 	  _inherits$1(NyphApp, _App);
 
 	  var _super = _createSuper$9(NyphApp);
@@ -22304,9 +22304,9 @@
 	  return NyphApp;
 	}(App);
 
-	_defineProperty$1(NyphApp$1, "forageName", 'Nyph App');
+	_defineProperty$1(NyphApp, "forageName", 'Nyph App');
 
-	_defineProperty$1(NyphApp$1, "devMode", false);
+	_defineProperty$1(NyphApp, "devMode", false);
 
 	var internalObjectKeys = objectKeysInternal$1;
 	var enumBugKeys$1 = enumBugKeys$6;
@@ -28236,7 +28236,7 @@
 	        }
 	      }
 
-	      if (NyphApp$1.devMode) {
+	      if (NyphApp.devMode) {
 	        html += "<p class=\"mb-0\">(<i>id ".concat(occurrence.id, "</i>)</p>");
 	      }
 
@@ -28812,7 +28812,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637949796</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637950783</p>";
 	    }
 	  }]);
 
@@ -38034,14 +38034,14 @@
 	  });
 	}
 
-	var app = new NyphApp$1();
+	var app = new NyphApp();
 	app.router = new PatchedNavigo('https://nyphtest.bsbi.org/app/');
 	app.containerId = 'appcontainer';
 	app.setLayout(new NyphLayout());
 	app.registerController(new StaticContentController(new HelpView(), '/help'));
 	app.registerController(new MainController(new MainView()));
 	app.registerController(new SurveyPickerController(new SurveyPickerView()));
-	app.setLocalForageName(NyphApp$1.forageName); // test detection of cameras
+	app.setLocalForageName(NyphApp.forageName); // test detection of cameras
 	// see https://stackoverflow.com/questions/23288918/check-if-user-has-webcam-or-not-using-javascript-only
 	// navigator.mediaDevices.enumerateDevices()
 	//     .then(function(devices) {
