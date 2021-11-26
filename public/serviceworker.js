@@ -10864,6 +10864,9 @@
       value: function refreshFromServer(surveyIds) {
         var _this5 = this;
 
+        console.log({
+          'Refresh from server, ids': surveyIds
+        });
         var formData = new FormData();
         var n = 0;
 
@@ -10962,7 +10965,12 @@
     }, {
       key: "seekKeys",
       value: function seekKeys(storedObjectKeys) {
+        console.log('starting seekKeys');
         return localforage.keys().then(function (keys) {
+          console.log({
+            "in seekKeys: local forage keys": keys
+          });
+
           var _iterator6 = _createForOfIteratorHelper$7(keys),
               _step6;
 
@@ -11101,11 +11109,12 @@
       value: function restoreOccurrences(targetSurveyId) {
         var _this7 = this;
 
-        // need to check for a special case where restoring a survey that has never been saved even locally
+        console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId)); // need to check for a special case where restoring a survey that has never been saved even locally
         // i.e. new and unmodified
         // only present in current App.surveys
         // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
-        if (this.surveys.has(targetSurveyId)) {
+
+        if (targetSurveyId && this.surveys.has(targetSurveyId)) {
           var localSurvey = this.surveys.get(targetSurveyId);
 
           if (localSurvey.isPristine) {
@@ -11140,6 +11149,10 @@
         }).finally(function () {
           // called regardless of whether a server refresh was successful
           // storedObjectKeys and indexed db should be as up-to-date as possible
+          console.log({
+            storedObjectKeys: storedObjectKeys
+          });
+
           if (storedObjectKeys.survey.length) {
             // arbitrarily set first survey key as current
             // this will be the specified targetSurveyId if that was set
@@ -11167,7 +11180,8 @@
               return Promise.resolve();
             });
           } else {
-            // no pre-existing surveys, so create a new one
+            console.log('no pre-existing surveys, so creating a new one'); // no pre-existing surveys, so create a new one
+
             _this7.setNewSurvey();
 
             return Promise.resolve();
@@ -11216,8 +11230,9 @@
 
         // retrieve surveys first, then occurrences, then images from indexedDb
         return Survey.retrieveFromLocal(surveyId, new Survey()).then(function (survey) {
-          // the apps occurrences should only relate to the current survey
+          console.log("retrieving local survey ".concat(surveyId)); // the apps occurrences should only relate to the current survey
           // (the reset are remote or in IndexedDb)
+
           _this8.clearCurrentSurvey();
 
           _this8.addSurvey(survey);
@@ -12287,7 +12302,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1637943199-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1637947720-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -20238,7 +20253,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1637945068'
+    version: '1.0.1.1637948020'
   });
 
 })();
