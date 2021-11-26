@@ -30,7 +30,6 @@
     "bsbi-app-framework": "git+https://github.com/BSBI/bsbi-app-framework.git",
     "core-js": "^3.18.2",
     "element-closest-polyfill": "1.0.4",
-    "localforage": "^1.10.0",
     "mapbox-gl": "^2.6.1",
     "@mapbox/mapbox-gl-geocoder": "^4.7.4",
     "navigo": "^7.1.2",

@@ -4,7 +4,7 @@ import {NyphApp} from './framework/NyphApp';
 import {MainController} from "./controllers/MainController";
 import {MainView} from "./views/MainView";
 import {HelpView} from "./views/HelpView";
-import localforage from 'localforage';
+//import localforage from 'localforage';
 import {SurveyPickerController} from "./controllers/SurveyPickerController";
 import {NyphLayout} from "./views/layout/NyphLayout";
 import './theme.scss';
@@ -18,9 +18,9 @@ import 'whatwg-fetch';
 import {PatchedNavigo, StaticContentController, TaxaLoadedHook} from "bsbi-app-framework";
 import {SurveyPickerView} from "./views/SurveyPickerView";
 
-localforage.config({
-    name: NyphApp.forageName
-});
+// localforage.config({
+//     name: NyphApp.forageName
+// });
 
 // work around Edge bug
 if (!Promise.prototype.finally) {
@@ -60,6 +60,8 @@ app.setLayout(new NyphLayout());
 app.registerController(new StaticContentController(new HelpView, '/help'));
 app.registerController(new MainController(new MainView));
 app.registerController(new SurveyPickerController(new SurveyPickerView));
+
+app.setLocalForageName(NyphApp.forageName);
 
 // test detection of cameras
 // see https://stackoverflow.com/questions/23288918/check-if-user-has-webcam-or-not-using-javascript-only

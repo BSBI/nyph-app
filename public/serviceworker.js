@@ -10588,8 +10588,20 @@
 
       return _this;
     }
+    /**
+     *
+     * @param {string} name
+     */
+
 
     _createClass(App, [{
+      key: "setLocalForageName",
+      value: function setLocalForageName(name) {
+        localforage.config({
+          name: NyphApp.forageName
+        });
+      }
+    }, {
       key: "reset",
       value: function reset() {
         this.surveys = new Map();
@@ -12302,7 +12314,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1637947720-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1637949454-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -19810,7 +19822,7 @@
   });
 
   var PROJECT_ID_NYPH = 2;
-  var NyphApp = /*#__PURE__*/function (_App) {
+  var NyphApp$1 = /*#__PURE__*/function (_App) {
     _inherits(NyphApp, _App);
 
     var _super = _createSuper(NyphApp);
@@ -20234,14 +20246,14 @@
     return NyphApp;
   }(App);
 
-  _defineProperty(NyphApp, "forageName", 'Nyph App');
+  _defineProperty(NyphApp$1, "forageName", 'Nyph App');
 
-  _defineProperty(NyphApp, "devMode", false);
+  _defineProperty(NyphApp$1, "devMode", false);
 
   // service worker for Nyph app
   var serviceWorker = new BSBIServiceWorker();
   serviceWorker.initialise({
-    forageName: NyphApp.forageName,
+    forageName: NyphApp$1.forageName,
     postPassThroughWhitelist: /^https:\/\/nyphtest\.bsbi\.org\/loadsurveys.php/,
     postImageUrlMatch: /^https:\/\/nyphtest\.bsbi\.org\/saveimage.php/,
     getImageUrlMatch: /^https:\/\/nyphtest\.bsbi\.org\/image\.php/,
@@ -20253,7 +20265,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1637948020'
+    version: '1.0.1.1637949796'
   });
 
 })();

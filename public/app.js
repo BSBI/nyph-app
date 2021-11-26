@@ -6870,7 +6870,7 @@
 
 	_defineProperty(EventHarness, "STOP_PROPAGATION", 'STOP_PROPAGATION');
 
-	var localforage$1$1 = {exports: {}};
+	var localforage$1 = {exports: {}};
 
 	/*!
 	    localForage -- Offline Storage, Improved
@@ -9686,9 +9686,9 @@
 
 	},{"3":3}]},{},[4])(4)
 	});
-	}(localforage$1$1));
+	}(localforage$1));
 
-	var localforage$2 = localforage$1$1.exports;
+	var localforage$2 = localforage$1.exports;
 
 	function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
@@ -12951,8 +12951,20 @@
 
 	    return _this;
 	  }
+	  /**
+	   *
+	   * @param {string} name
+	   */
+
 
 	  _createClass(App, [{
+	    key: "setLocalForageName",
+	    value: function setLocalForageName(name) {
+	      localforage$2.config({
+	        name: NyphApp.forageName
+	      });
+	    }
+	  }, {
 	    key: "reset",
 	    value: function reset() {
 	      this.surveys = new Map();
@@ -21868,7 +21880,7 @@
 	_defineProperty(MainView$1, "NEXT_IS_FINAL", 'last');
 
 	var PROJECT_ID_NYPH = 2;
-	var NyphApp = /*#__PURE__*/function (_App) {
+	var NyphApp$1 = /*#__PURE__*/function (_App) {
 	  _inherits$1(NyphApp, _App);
 
 	  var _super = _createSuper$9(NyphApp);
@@ -22292,9 +22304,9 @@
 	  return NyphApp;
 	}(App);
 
-	_defineProperty$1(NyphApp, "forageName", 'Nyph App');
+	_defineProperty$1(NyphApp$1, "forageName", 'Nyph App');
 
-	_defineProperty$1(NyphApp, "devMode", false);
+	_defineProperty$1(NyphApp$1, "devMode", false);
 
 	var internalObjectKeys = objectKeysInternal$1;
 	var enumBugKeys$1 = enumBugKeys$6;
@@ -24194,7 +24206,7 @@
 	  });
 	}
 
-	var localforage$1 = {exports: {}};
+	var localforage = {exports: {}};
 
 	/*!
 	    localForage -- Offline Storage, Improved
@@ -27010,9 +27022,7 @@
 
 	},{"3":3}]},{},[4])(4)
 	});
-	}(localforage$1));
-
-	var localforage = localforage$1.exports;
+	}(localforage));
 
 	//import uuidv3 from "uuid/v3";
 
@@ -28226,7 +28236,7 @@
 	        }
 	      }
 
-	      if (NyphApp.devMode) {
+	      if (NyphApp$1.devMode) {
 	        html += "<p class=\"mb-0\">(<i>id ".concat(occurrence.id, "</i>)</p>");
 	      }
 
@@ -28802,7 +28812,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637948020</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637949796</p>";
 	    }
 	  }]);
 
@@ -37998,9 +38008,9 @@
 	  return SurveyPickerView;
 	}(Page);
 
-	localforage.config({
-	  name: NyphApp.forageName
-	}); // work around Edge bug
+	//     name: NyphApp.forageName
+	// });
+	// work around Edge bug
 
 	if (!Promise.prototype.finally) {
 	  Promise.prototype.finally = function (callback) {
@@ -38024,13 +38034,14 @@
 	  });
 	}
 
-	var app = new NyphApp();
+	var app = new NyphApp$1();
 	app.router = new PatchedNavigo('https://nyphtest.bsbi.org/app/');
 	app.containerId = 'appcontainer';
 	app.setLayout(new NyphLayout());
 	app.registerController(new StaticContentController(new HelpView(), '/help'));
 	app.registerController(new MainController(new MainView()));
-	app.registerController(new SurveyPickerController(new SurveyPickerView())); // test detection of cameras
+	app.registerController(new SurveyPickerController(new SurveyPickerView()));
+	app.setLocalForageName(NyphApp$1.forageName); // test detection of cameras
 	// see https://stackoverflow.com/questions/23288918/check-if-user-has-webcam-or-not-using-javascript-only
 	// navigator.mediaDevices.enumerateDevices()
 	//     .then(function(devices) {
