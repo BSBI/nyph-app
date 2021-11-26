@@ -12268,6 +12268,7 @@
        *  getImageUrlMatch : RegExp,
        *  interceptUrlMatches : RegExp,
        *  ignoreUrlMatches : RegExp,
+       *  passThroughNoCache : RegExp,
        *  indexUrl : string,
        *  urlCacheSet : Array.<string>,
        *  version : string
@@ -12286,7 +12287,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1637776539-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1637943199-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -12350,6 +12351,9 @@
             //if (evt.request.url.match(POST_PASS_THROUGH_WHITELIST)) {
             if (POST_PASS_THROUGH_WHITELIST.test(evt.request.url)) {
               console.log("Passing through whitelisted post request for: ".concat(evt.request.url));
+              evt.respondWith(fetch(evt.request));
+            } else if (SERVICE_WORKER_PASS_THROUGH_NO_CACHE.test(evt.request.url)) {
+              console.log("Passing through nocache list post request for: ".concat(evt.request.url));
               evt.respondWith(fetch(evt.request));
             } else {
               //if (evt.request.url.match(POST_IMAGE_URL_MATCH)) {
@@ -12419,9 +12423,10 @@
             return Promise.resolve(response).then(function (response) {
               // save the response locally
               // before returning it to the client
+              console.log('About to clone the json response.');
               return response.clone().json();
             }).then(function (jsonResponseData) {
-              console.log('Following successful remote post about to save locally.');
+              console.log('Following successful remote post, about to save locally.');
               return ResponseFactory.fromPostResponse(jsonResponseData).setPrebuiltResponse(response).populateLocalSave().storeLocally();
             }).catch(function (error) {
               // for some reason local storage failed, after a successful server save
@@ -20233,7 +20238,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1637841178'
+    version: '1.0.1.1637945068'
   });
 
 })();
