@@ -5,7 +5,6 @@ import {MainController} from "./controllers/MainController";
 import {MainView} from "./views/MainView";
 import {HelpView} from "./views/HelpView";
 //import localforage from 'localforage';
-import {SurveyPickerController} from "./controllers/SurveyPickerController";
 import {NyphLayout} from "./views/layout/NyphLayout";
 import './theme.scss';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -15,8 +14,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import "core-js/stable";
 import 'element-closest-polyfill'; // still needed for IE11
 import 'whatwg-fetch';
-import {PatchedNavigo, StaticContentController, TaxaLoadedHook} from "bsbi-app-framework";
-import {SurveyPickerView} from "./views/SurveyPickerView";
+import {PatchedNavigo, StaticContentController, TaxaLoadedHook, SurveyPickerController, SurveyPickerView} from "bsbi-app-framework";
 
 // localforage.config({
 //     name: NyphApp.forageName
