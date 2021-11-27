@@ -25986,7 +25986,7 @@
 
 	      if (gridRefParser) {
 	        var latLng = gridRefParser.gridCoords.to_latLng();
-	        this.processLatLngPosition(latLng.y, latLng.x, gridRefParser.length);
+	        this.processLatLngPosition(latLng.lat, latLng.lng, gridRefParser.length);
 	      }
 	    }
 	    /**
@@ -27445,7 +27445,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638041815</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638042150</p>";
 	    }
 	  }]);
 
