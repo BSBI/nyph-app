@@ -25976,6 +25976,24 @@
 	    }
 	    /**
 	     *
+	     * @param {number} length (should already have been normalised)
+	     * @returns {number} zoom level
+	     */
+
+	  }, {
+	    key: "zoomMapping",
+	    value: function zoomMapping(length) {
+	      return {
+	        1: 12,
+	        10: 12,
+	        100: 11,
+	        1000: 10,
+	        2000: 8,
+	        10000: 7
+	      }[length];
+	    }
+	    /**
+	     *
 	     * @param {string} query may be a grid-reference or postcode
 	     */
 
@@ -25987,6 +26005,10 @@
 	      if (gridRefParser) {
 	        var latLng = gridRefParser.gridCoords.to_latLng();
 	        this.processLatLngPosition(latLng.lat, latLng.lng, gridRefParser.length);
+	        this.map.jumpTo({
+	          center: [latLng.lng, latLng.lat],
+	          zoom: this.zoomMapping(gridRefParser.length)
+	        });
 	      }
 	    }
 	    /**
@@ -27445,7 +27467,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638042150</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638044600</p>";
 	    }
 	  }]);
 

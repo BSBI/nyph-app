@@ -290,6 +290,22 @@ export class MapGeorefField extends TextGeorefField {
 
     /**
      *
+     * @param {number} length (should already have been normalised)
+     * @returns {number} zoom level
+     */
+    zoomMapping(length) {
+        return {
+            1: 12,
+            10: 12,
+            100: 11,
+            1000: 10,
+            2000: 8,
+            10000: 7,
+        }[length];
+    }
+
+    /**
+     *
      * @param {string} query may be a grid-reference or postcode
      */
     tryGeocoding(query) {
@@ -303,6 +319,11 @@ export class MapGeorefField extends TextGeorefField {
                 latLng.lng,
                 gridRefParser.length
             );
+
+            this.map.jumpTo({
+                center: [latLng.lng, latLng.lat],
+                zoom: this.zoomMapping(gridRefParser.length),
+            });
         } else {
             // try to decipher postcode or place-name using remote geo-coder
 
