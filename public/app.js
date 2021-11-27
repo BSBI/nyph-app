@@ -15857,7 +15857,7 @@
 	 * @external $
 	 */
 
-	var _inputId$2 = /*#__PURE__*/new WeakMap();
+	var _inputId$1 = /*#__PURE__*/new WeakMap();
 
 	var _containerId$6 = /*#__PURE__*/new WeakMap();
 
@@ -15919,7 +15919,7 @@
 
 	    _classPrivateMethodInitSpec$4(_assertThisInitialized(_this), _addFiles);
 
-	    _classPrivateFieldInitSpec$7(_assertThisInitialized(_this), _inputId$2, {
+	    _classPrivateFieldInitSpec$7(_assertThisInitialized(_this), _inputId$1, {
 	      writable: true,
 	      value: void 0
 	    });
@@ -16070,10 +16070,10 @@
 
 	      _classPrivateFieldSet(this, _containerId$6, container.id = FormField.nextId);
 
-	      _classPrivateFieldSet(this, _inputId$2, FormField.nextId);
+	      _classPrivateFieldSet(this, _inputId$1, FormField.nextId);
 
 	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$2);
+	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$1);
 	      labelEl.textContent = this.label;
 	      var inputGroupEl = container.appendChild(document.createElement('div'));
 	      inputGroupEl.className = 'input-group';
@@ -16083,14 +16083,14 @@
 	      var filePickerField = filePickerWrapper.appendChild(document.createElement('input'));
 	      filePickerField.type = 'file';
 	      filePickerField.className = "custom-file-input";
-	      filePickerField.id = _classPrivateFieldGet(this, _inputId$2);
+	      filePickerField.id = _classPrivateFieldGet(this, _inputId$1);
 	      filePickerField.accept = ".jpeg, .jpg, image/png, image/jpeg";
 	      filePickerField.multiple = true;
 
 	      if (this.placeholder) {
 	        var pickerLabelEl = filePickerWrapper.appendChild(document.createElement('label'));
 	        pickerLabelEl.className = 'custom-file-label';
-	        pickerLabelEl.htmlFor = _classPrivateFieldGet(this, _inputId$2);
+	        pickerLabelEl.htmlFor = _classPrivateFieldGet(this, _inputId$1);
 	        pickerLabelEl.textContent = this.placeholder;
 	      }
 
@@ -16317,7 +16317,7 @@
 
 	function _checkPrivateRedeclaration$6(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 
-	var _inputId$1 = /*#__PURE__*/new WeakMap();
+	var _inputId = /*#__PURE__*/new WeakMap();
 
 	var _containerId$5 = /*#__PURE__*/new WeakMap();
 
@@ -16363,7 +16363,7 @@
 
 	    _this = _super.call(this, params);
 
-	    _classPrivateFieldInitSpec$6(_assertThisInitialized(_this), _inputId$1, {
+	    _classPrivateFieldInitSpec$6(_assertThisInitialized(_this), _inputId, {
 	      writable: true,
 	      value: void 0
 	    });
@@ -16420,7 +16420,7 @@
 	    value: function updateView() {
 	      if (this._fieldEl) {
 	        // do nothing until the view has been constructed
-	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputId$1));
+	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputId));
 	        inputEl.value = FormField.cleanRawString(this._value);
 	      }
 	    }
@@ -16443,14 +16443,14 @@
 
 	      _classPrivateFieldSet(this, _containerId$5, container.id = FormField.nextId);
 
-	      _classPrivateFieldSet(this, _inputId$1, FormField.nextId);
+	      _classPrivateFieldSet(this, _inputId, FormField.nextId);
 
 	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$1);
+	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId);
 	      labelEl.textContent = this.label;
 	      var inputField = container.appendChild(document.createElement('input'));
 	      inputField.className = "form-control";
-	      inputField.id = _classPrivateFieldGet(this, _inputId$1);
+	      inputField.id = _classPrivateFieldGet(this, _inputId);
 
 	      try {
 	        // this is needed for compatibility with IE11
@@ -16498,7 +16498,7 @@
 	  }, {
 	    key: "markValidity",
 	    value: function markValidity(isValid) {
-	      var el = document.getElementById(_classPrivateFieldGet(this, _inputId$1));
+	      var el = document.getElementById(_classPrivateFieldGet(this, _inputId));
 
 	      if (null === isValid) {
 	        el.classList.remove('is-invalid', 'is-valid');
@@ -16513,7 +16513,7 @@
 	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
 
 	      console.log('got input field change event');
-	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _inputId$1)).value);
+	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _inputId)).value);
 	      this.fireEvent(FormField.EVENT_CHANGE);
 	    }
 	    /**
@@ -20301,8 +20301,6 @@
 
 	function _checkPrivateRedeclaration$1(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 
-	var _inputId$3 = /*#__PURE__*/new WeakMap();
-
 	var _containerId$7 = /*#__PURE__*/new WeakMap();
 
 	var TextGeorefField = /*#__PURE__*/function (_FormField) {
@@ -20352,10 +20350,7 @@
 
 	    _this = _super.call(this, params);
 
-	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _inputId$3, {
-	      writable: true,
-	      value: void 0
-	    });
+	    _defineProperty(_assertThisInitialized(_this), "_inputId", void 0);
 
 	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _containerId$7, {
 	      writable: true,
@@ -20415,7 +20410,7 @@
 	    value: function updateView() {
 	      if (this._fieldEl) {
 	        // do nothing until the view has been constructed
-	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputId$3));
+	        var inputEl = document.getElementById(this._inputId);
 	        inputEl.value = FormField.cleanRawString(this._value);
 	      }
 	    }
@@ -20450,16 +20445,15 @@
 
 	      _classPrivateFieldSet(this, _containerId$7, container.id = FormField.nextId);
 
-	      _classPrivateFieldSet(this, _inputId$3, FormField.nextId);
-
+	      this._inputId = FormField.nextId;
 	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$3);
+	      labelEl.htmlFor = this._inputId;
 	      labelEl.textContent = this.label;
 	      var inputGroupEl = container.appendChild(document.createElement('div'));
 	      inputGroupEl.className = 'input-group';
 	      var inputField = inputGroupEl.appendChild(document.createElement('input'));
 	      inputField.className = "form-control";
-	      inputField.id = _classPrivateFieldGet(this, _inputId$3);
+	      inputField.id = this._inputId;
 	      inputField.type = 'text';
 
 	      if (this.placeholder) {
@@ -20516,7 +20510,7 @@
 	  }, {
 	    key: "markValidity",
 	    value: function markValidity(isValid) {
-	      var el = document.getElementById(_classPrivateFieldGet(this, _inputId$3));
+	      var el = document.getElementById(this._inputId);
 
 	      if (null === isValid) {
 	        el.classList.remove('is-invalid', 'is-valid');
@@ -20531,7 +20525,7 @@
 	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
 
 	      console.log('got input field change event');
-	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _inputId$3)).value);
+	      this.value = FormField.cleanRawString(document.getElementById(this._inputId).value);
 	      this.fireEvent(FormField.EVENT_CHANGE);
 	    } // /**
 	    //  *
@@ -24192,7 +24186,7 @@
 
 	_defineProperty$1(NyphSurveyFormSection, "properties", void 0);
 
-	var helpPanelText$1 = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Localising your records</h5>\r\n        <p class=\"card-text\">To make sense of the national coverage of the records we receive, we need to know the approximate location\r\n        of your garden. Usually a postcode works well for this, but you can provide a grid-reference if you prefer (in Ireland please use a grid-reference as we don't yet have a way to convert postcodes).\r\n            We also need a place name, as a way to double check that the postcode or grid-reference makes sense.\r\n        </p>\r\n        <p><strong>Please don't provide your full address, as we would need to remove that from our data.</strong></p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Your name and email</h5>\r\n        <p class=\"card-text\">Both of these are optional, but providing an email address is important if you want to return\r\n            to your survey later or to revise your records. It is also really useful for our experts to be able to contact you\r\n            if we have questions about the records that you've sent.\r\n        </p>\r\n        <p>We'd like to be able to include your name with the records in our archive, but your email address won't be stored long-term\r\n            after your plant records have been checked.</p>\r\n    </div>\r\n</div>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
+	var helpPanelText$1 = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Localising your records</h5>\r\n        <p class=\"card-text\">To make sense of the national coverage of the records we receive, we need to know the approximate location\r\n        of your garden. Usually a postcode works well for this, but you can provide a grid-reference if you prefer (in Ireland please use a grid-reference as we don't yet have a way to convert postcodes).\r\n            We also need a place name, as a way to double-check that the postcode or grid-reference makes sense.\r\n        </p>\r\n        <p><strong>Please don't provide your full address, as we would need to remove that from our data.</strong></p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Your name and email</h5>\r\n        <p class=\"card-text\">Both of these are optional, but providing an email address is important if you want to return\r\n            to your survey later or to revise your records. It is also really useful for our experts to be able to contact you\r\n            if we have questions about the records that you've sent.\r\n        </p>\r\n        <p>We'd like to be able to include your name with the records in our archive, but your email address won't be stored long-term\r\n            after your plant records have been checked.</p>\r\n    </div>\r\n</div>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
 
 	// a string of all valid unicode whitespaces
 	var whitespaces$4 = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
@@ -27151,8 +27145,6 @@
 
 	var mapboxgl = mapboxGl.exports;
 
-	var _inputId = /*#__PURE__*/new WeakMap();
-
 	var _containerId = /*#__PURE__*/new WeakMap();
 
 	var _setGridrefFromGeocodedResult = /*#__PURE__*/new WeakSet();
@@ -27162,9 +27154,10 @@
 
 	  var _super = _createSuper$a(MapGeorefField);
 
-	  /**
-	   * @type {string}
-	   */
+	  // /**
+	  //  * @type {string}
+	  //  */
+	  // _inputId;
 
 	  /**
 	   * @type {string}
@@ -27205,11 +27198,6 @@
 	    _this = _super.call(this, params);
 
 	    _classPrivateMethodInitSpec$5(_assertThisInitialized$1(_this), _setGridrefFromGeocodedResult);
-
-	    _classPrivateFieldInitSpec$8(_assertThisInitialized$1(_this), _inputId, {
-	      writable: true,
-	      value: void 0
-	    });
 
 	    _classPrivateFieldInitSpec$8(_assertThisInitialized$1(_this), _containerId, {
 	      writable: true,
@@ -27257,7 +27245,7 @@
 	    value: function updateView() {
 	      if (this._fieldEl) {
 	        // do nothing until the view has been constructed
-	        var inputEl = document.getElementById(_classPrivateFieldGet$1(this, _inputId));
+	        var inputEl = document.getElementById(this._inputId);
 	        inputEl.value = FormField.cleanRawString(this._value);
 	      }
 	    }
@@ -27292,16 +27280,15 @@
 
 	      _classPrivateFieldSet$1(this, _containerId, container.id = FormField.nextId);
 
-	      _classPrivateFieldSet$1(this, _inputId, FormField.nextId);
-
+	      this._inputId = FormField.nextId;
 	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet$1(this, _inputId);
+	      labelEl.htmlFor = this._inputId;
 	      labelEl.textContent = this.label;
 	      var inputGroupEl = container.appendChild(document.createElement('div'));
 	      inputGroupEl.className = 'input-group';
 	      var inputField = inputGroupEl.appendChild(document.createElement('input'));
 	      inputField.className = "form-control";
-	      inputField.id = _classPrivateFieldGet$1(this, _inputId);
+	      inputField.id = this._inputId;
 	      inputField.type = 'text';
 
 	      if (this.placeholder) {
@@ -27418,7 +27405,7 @@
 	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
 	      //console.log('got input field change event');
 
-	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet$1(this, _inputId)).value); // if (this.value) {
+	      this.value = FormField.cleanRawString(document.getElementById(this._inputId).value); // if (this.value) {
 	      //     let result = this.tryGeocoding(this.value);
 	      // }
 
@@ -27539,7 +27526,7 @@
 	  }
 	});
 
-	var helpPanelText = "<!-- begin: templates/formHelp/recordsHelp.html -->\r\n<p>In this section, please list the ornamental plants that are spreading in your\r\ngarden and are difficult to control.</p>\r\n<p> Many plants in your garden will spread and this is a sign that they are growing well. We only want to know about those that are spreading to an extent that\r\n    you have to control them to prevent them overgrowing other plants or parts of your garden where you do not want them.</p>\r\n<p>Please note in this project we are dealing with ornamental plants only (no vegetables, no weeds -\r\n    unless they are ornamentals that you now regard as weeds).</p>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Using the forms</h5>\r\n        <p class=\"card-text\">You can enter as many plant records as you need. To add another record click the 'Add a plant' button.</p>\r\n        <p class=\"card-text\">If you are currently online then the entries will be saved as you go, automatically. Otherwise the records\r\n            will be remembered on your device, but you will need to click '<a href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>' (on the Surveys menu) when you have a network connection again.\r\n        </p>\r\n        <p class=\"card-text\">To delete a plant record, find it in the list and click the red 'bin' icon.\r\n        </p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Identifying your plants</h5>\r\n        </p>\r\n        <h6 class=\"card-subtitle mb-2 text-muted\">Plant names</h6>\r\n        <p class=\"card-text\">If possible, please enter the scientific or common name of the plant, but don't worry if you dont know the full details.\r\n            The list of suggested names includes a very wide range of both native and horticultural plants, but if the name you need\r\n            isn't on the list then you can still type it in.\r\n        </p>\r\n        <h6 class=\"card-subtitle mb-2 text-muted\">Photos</h6>\r\n        <p class=\"card-text\">Photos of the plant will help us confirm your record. Please provide a picture showing the whole plant, but it will\r\n            also help us if you can provide close-up views of the flowers and leaves.\r\n        </p>\r\n    </div>\r\n</div>\r\n<!-- begin: templates/formHelp/recordsHelp.html -->\r\n";
+	var helpPanelText = "<!-- begin: templates/formHelp/recordsHelp.html -->\r\n<p>recordsHelp.html</p>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Using the forms</h5>\r\n        <p class=\"card-text\">You can enter as many plant records as you need. To add another record click the 'Add a plant' button.</p>\r\n        <p class=\"card-text\">If you are currently online then the entries will be saved as you go, automatically. Otherwise the records\r\n            will be remembered on your device, but you will need to click '<a href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>' (on the Surveys menu) when you have a network connection again.\r\n        </p>\r\n        <p class=\"card-text\">To delete a plant record, find it in the list and click the red 'bin' icon.\r\n        </p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Identifying your plants</h5>\r\n        </p>\r\n        <h6 class=\"card-subtitle mb-2 text-muted\">Plant names</h6>\r\n        <p class=\"card-text\">If possible, please enter the scientific or common name of the plant, but don't worry if you dont know the full details.\r\n            The list of suggested names includes a very wide range of both native and horticultural plants, but if the name you need\r\n            isn't on the list then you can still type it in.\r\n        </p>\r\n        <h6 class=\"card-subtitle mb-2 text-muted\">Photos</h6>\r\n        <p class=\"card-text\">Photos of the plant will help us confirm your record. Please provide a picture showing the whole plant, but it will\r\n            also help us if you can provide close-up views of the flowers and leaves.\r\n        </p>\r\n    </div>\r\n</div>\r\n<!-- begin: templates/formHelp/recordsHelp.html -->\r\n";
 
 	var NyphOccurrenceForm = /*#__PURE__*/function (_OccurrenceForm) {
 	  _inherits$1(NyphOccurrenceForm, _OccurrenceForm);
@@ -28868,7 +28855,7 @@
 
 	_defineProperty$1(MainView, "NEXT_IS_FINAL", 'last');
 
-	var htmlContent = "<!-- begin: templates/helpPage.html -->\r\n<div class=\"accordion\" id=\"helpaccordion\">\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helphelpheadingOne\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseOne\" aria-expanded=\"true\" aria-controls=\"collapseOne\">\r\n                    About the New Year Plant Hunt\r\n                </button>\r\n            </h5>\r\n        </div>\r\n\r\n        <div id=\"collapseOne\" class=\"collapse show\" aria-labelledby=\"helpheadingOne\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                <p></p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helpheadingTwo\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link collapsed\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseTwo\" aria-expanded=\"false\" aria-controls=\"collapseTwo\">\r\n                    What happens to my records?\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseTwo\" class=\"collapse\" aria-labelledby=\"helpheadingTwo\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                <p></p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helpheadingwhatreport\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link collapsed\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseWhatReport\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    Which plants should I record?\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseWhatReport\" class=\"collapse\" aria-labelledby=\"helpheadingwhatreport\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                <p></p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helpheadingThree\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link collapsed\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseThree\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    Help and support\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseThree\" class=\"collapse\" aria-labelledby=\"helpheadingThree\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                <p>If you encounter problems, would like to provide feedback about the survey or for more information about the plant hunt, please contact\r\n                <a href=\"mailto:support@nyph.bsbi.org\">support@nyph.bsbi.org</a>.</p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helpheadingFour\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link collapsed\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseFour\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    Links to further information\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseFour\" class=\"collapse\" aria-labelledby=\"helpheadingFour\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                <p></p>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helpheadingFive\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link collapsed\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseFive\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    About us\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseFive\" class=\"collapse\" aria-labelledby=\"helpheadingFive\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                Nyph is run by the <a href=\"https://bsbi.org/\" target=\"_blank\" title=\"BSBI\">Botanical Society of Britain and Ireland</a>.\r\n                <p>For more information, please contact <a href=\"mailto:support@nyph.bsbi.org\">support@nyph.bsbi.org</a>.</p>\r\n                <p>Follow us on twitter <a href=\"https://twitter.com/NYPlantHunt\" target=\"_blank\">@NYPlantHunt</a></p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<!-- end: templates/helpPage.html -->\r\n";
+	var htmlContent = "<!-- begin: templates/helpPage.html -->\r\n<div class=\"accordion\" id=\"helpaccordion\">\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helphelpheadingOne\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseOne\" aria-expanded=\"true\" aria-controls=\"collapseOne\">\r\n                    About the New Year Plant Hunt\r\n                </button>\r\n            </h5>\r\n        </div>\r\n\r\n        <div id=\"collapseOne\" class=\"collapse show\" aria-labelledby=\"helpheadingOne\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                <p></p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helpheadingTwo\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link collapsed\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseTwo\" aria-expanded=\"false\" aria-controls=\"collapseTwo\">\r\n                    What happens to my records?\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseTwo\" class=\"collapse\" aria-labelledby=\"helpheadingTwo\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                <p></p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helpheadingwhatreport\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link collapsed\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseWhatReport\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    Which plants should I record?\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseWhatReport\" class=\"collapse\" aria-labelledby=\"helpheadingwhatreport\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                <p></p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helpheadingThree\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link collapsed\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseThree\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    Help and support\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseThree\" class=\"collapse\" aria-labelledby=\"helpheadingThree\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                <p>If you encounter problems, would like to provide feedback about the survey or for more information about the plant hunt, please contact\r\n                <a href=\"mailto:support@nyph.bsbi.org\">support@nyph.bsbi.org</a>.</p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helpheadingFour\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link collapsed\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseFour\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    Links to further information\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseFour\" class=\"collapse\" aria-labelledby=\"helpheadingFour\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                <p></p>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"card\">\r\n        <div class=\"card-header\" id=\"helpheadingFive\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"btn btn-link collapsed\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseFive\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    About us\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseFive\" class=\"collapse\" aria-labelledby=\"helpheadingFive\" data-parent=\"#helpaccordion\">\r\n            <div class=\"card-body\">\r\n                The New Year Plant Hunt is run by the <a href=\"https://bsbi.org/\" target=\"_blank\" title=\"BSBI\">Botanical Society of Britain and Ireland</a>.\r\n                <p>For more information, please contact <a href=\"mailto:support@nyph.bsbi.org\">support@nyph.bsbi.org</a>.</p>\r\n                <p>Follow us on twitter <a href=\"https://twitter.com/NYPlantHunt\" target=\"_blank\">@NYPlantHunt</a></p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<!-- end: templates/helpPage.html -->\r\n";
 
 	var HelpView = /*#__PURE__*/function (_Page) {
 	  _inherits$1(HelpView, _Page);
@@ -28886,7 +28873,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637970511</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637973347</p>";
 	    }
 	  }]);
 

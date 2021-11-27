@@ -13806,7 +13806,7 @@
    * @external $
    */
 
-  var _inputId$2 = /*#__PURE__*/new WeakMap();
+  var _inputId$1 = /*#__PURE__*/new WeakMap();
 
   var _containerId$6 = /*#__PURE__*/new WeakMap();
 
@@ -13868,7 +13868,7 @@
 
       _classPrivateMethodInitSpec$4(_assertThisInitialized$1(_this), _addFiles);
 
-      _classPrivateFieldInitSpec$7(_assertThisInitialized$1(_this), _inputId$2, {
+      _classPrivateFieldInitSpec$7(_assertThisInitialized$1(_this), _inputId$1, {
         writable: true,
         value: void 0
       });
@@ -14019,10 +14019,10 @@
 
         _classPrivateFieldSet(this, _containerId$6, container.id = FormField.nextId);
 
-        _classPrivateFieldSet(this, _inputId$2, FormField.nextId);
+        _classPrivateFieldSet(this, _inputId$1, FormField.nextId);
 
         var labelEl = container.appendChild(document.createElement('label'));
-        labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$2);
+        labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$1);
         labelEl.textContent = this.label;
         var inputGroupEl = container.appendChild(document.createElement('div'));
         inputGroupEl.className = 'input-group';
@@ -14032,14 +14032,14 @@
         var filePickerField = filePickerWrapper.appendChild(document.createElement('input'));
         filePickerField.type = 'file';
         filePickerField.className = "custom-file-input";
-        filePickerField.id = _classPrivateFieldGet(this, _inputId$2);
+        filePickerField.id = _classPrivateFieldGet(this, _inputId$1);
         filePickerField.accept = ".jpeg, .jpg, image/png, image/jpeg";
         filePickerField.multiple = true;
 
         if (this.placeholder) {
           var pickerLabelEl = filePickerWrapper.appendChild(document.createElement('label'));
           pickerLabelEl.className = 'custom-file-label';
-          pickerLabelEl.htmlFor = _classPrivateFieldGet(this, _inputId$2);
+          pickerLabelEl.htmlFor = _classPrivateFieldGet(this, _inputId$1);
           pickerLabelEl.textContent = this.placeholder;
         }
 
@@ -20303,7 +20303,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1637970511'
+    version: '1.0.1.1637973347'
   });
 
 })();
