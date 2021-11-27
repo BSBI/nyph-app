@@ -44,6 +44,11 @@ export class MapGeorefField extends TextGeorefField {
     includeSearchBox = false;
 
     /**
+     * @type {mapboxgl.Map}
+     */
+    map;
+
+    /**
      *
      * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string, [baseSquareResolution]: ?number, [includeSearchBox]: boolean}} [params]
      */
@@ -192,7 +197,7 @@ export class MapGeorefField extends TextGeorefField {
         // see https://docs.mapbox.com/mapbox-gl-js/example/simple-map/
         mapboxgl.accessToken = 'pk.eyJ1IjoiamFwb25pY3VzIiwiYSI6ImNramV1dnRpeTJvNzczMG10c2s3NnZ2bHMifQ.C8BsQepXT6KE-hoQaEerRw';
 
-        const map = new mapboxgl.Map({
+        this.map = new mapboxgl.Map({
             container: divEl,
             style: 'mapbox://styles/mapbox/streets-v11', // style URL
             center: [-74.5, 40], // starting position [lng, lat]
@@ -211,8 +216,37 @@ export class MapGeorefField extends TextGeorefField {
                 this.#setGridrefFromGeocodedResult(result.result);
             });
 
-            map.addControl(geocoder);
+            this.map.addControl(geocoder);
         }
+
+        this.respondToVisibility(divEl, (visible) => {
+            if (visible) {
+                console.log('Map is visible');
+                this.map.resize()
+            }
+        });
+    }
+
+    /**
+     * Start observing visibility of element. On change, the
+     * the callback is called with Boolean visibility as argument.
+     * see https://stackoverflow.com/a/44670818
+     *
+     * @param element
+     * @param callback
+     */
+    respondToVisibility(element, callback) {
+        let options = {
+            root: document.documentElement,
+        };
+
+        let observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                callback(entry.intersectionRatio > 0);
+            });
+        }, options);
+
+        observer.observe(element);
     }
 
     /**
