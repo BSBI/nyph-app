@@ -25985,7 +25985,7 @@
 	      var gridRefParser = Oo.from_string(query);
 
 	      if (gridRefParser) {
-	        var latLng = gridRefParser.gridCoords.to_latlng();
+	        var latLng = gridRefParser.gridCoords.to_latLng();
 	        this.processLatLngPosition(latLng.y, latLng.x, gridRefParser.length);
 	      }
 	    }
@@ -27445,7 +27445,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638040244</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638040479</p>";
 	    }
 	  }]);
 

@@ -296,7 +296,7 @@ export class MapGeorefField extends TextGeorefField {
         let gridRefParser = GridRef.from_string(query);
 
         if (gridRefParser) {
-            let latLng = gridRefParser.gridCoords.to_latlng();
+            let latLng = gridRefParser.gridCoords.to_latLng();
 
             this.processLatLngPosition(
                 latLng.y,
