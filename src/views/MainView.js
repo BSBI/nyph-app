@@ -705,7 +705,7 @@ export class MainView extends Page {
         const content = document.createDocumentFragment();
         const summaryEl = content.appendChild(document.createElement('p'));
         // noinspection HtmlUnknownTarget
-        summaryEl.innerHTML = 'Records of invasive plants in your garden.<small class="d-block d-md-none"><a href="/app/list/record/help">(help)</a></small>';
+        summaryEl.innerHTML = 'Records of plants in bloom.<small class="d-block d-md-none"><a href="/app/list/record/help">(help)</a></small>';
 
         const newButtonEl = content.appendChild(document.createElement('button'));
         newButtonEl.type = 'button';

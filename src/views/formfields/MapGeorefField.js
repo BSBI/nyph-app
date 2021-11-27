@@ -3,6 +3,7 @@ import {escapeHTML, FormField, TextGeorefField} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
 import mapboxgl from 'mapbox-gl';
 import {GridRef} from "british-isles-gridrefs";
+import {MapMarker} from "../MapMarker";
 //import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 export class MapGeorefField extends TextGeorefField {
@@ -312,18 +313,41 @@ export class MapGeorefField extends TextGeorefField {
         let gridRefParser = GridRef.from_string(query);
 
         if (gridRefParser) {
-            let latLng = gridRefParser.gridCoords.to_latLng();
+            const latLngSW = gridRefParser.gridCoords.to_latLng();
+            const latLngNW = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x, gridRefParser.gridCoords.y + gridRefParser.length)).to_latLng();
+            const latLngNE = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y + gridRefParser.length)).to_latLng();
+            const latLngSE = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y)).to_latLng();
 
-            this.processLatLngPosition(
-                latLng.lat,
-                latLng.lng,
-                gridRefParser.length
-            );
+            const latCentre = (latLngSW.lat + latLngNW.lat + latLngSE.lat + latLngNE.lat) / 4;
+            const lngCentre = (latLngSW.lng + latLngNW.lng + latLngSE.lng + latLngNE.lng) / 4;
+
+            // this.processLatLngPosition(
+            //     latCentre,
+            //     lngCentre,
+            //     gridRefParser.length
+            // );
 
             this.map.jumpTo({
-                center: [latLng.lng, latLng.lat],
+                center: [lngCentre, latCentre],
                 zoom: this.zoomMapping(gridRefParser.length),
             });
+
+            const marker = new MapMarker({
+                name : gridRefParser.preciseGridRef,
+                type : MapMarker.TYPE_POLYGON,
+                coordinates : [[
+                    [latLngSW.lng, latLngSW.lat],
+                    [latLngNW.lng, latLngNW.lat],
+                    [latLngNE.lng, latLngNE.lat],
+                    [latLngSE.lng, latLngSE.lat]
+                ]],
+                fillColour: '#008800',
+                fillOpacity: 0.5,
+                lineColour: '#00aa00',
+            });
+
+            marker.addToMap(this.map);
+
         } else {
             // try to decipher postcode or place-name using remote geo-coder
 
