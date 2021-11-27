@@ -65,6 +65,14 @@
       _defineProperty$1(this, "handle", void 0);
 
       _defineProperty$1(this, "app", void 0);
+
+      _defineProperty$1(this, "beforeRouteHandler", null);
+
+      _defineProperty$1(this, "afterRouteHandler", null);
+
+      _defineProperty$1(this, "leaveRouteHandler", null);
+
+      _defineProperty$1(this, "alreadyRouteHandler", null);
     }
 
     _createClass(AppController, [{
@@ -8950,7 +8958,7 @@
        * registers the default route from this.route
        * or alternatively is overridden in a child class
        *
-       * @param {Navigo} router
+       * @param {PatchedNavigo} router
        */
 
     }, {
@@ -10840,7 +10848,8 @@
 
         console.log("in addOccurrence setting id '".concat(occurrence.id, "'"));
         this.occurrences.set(occurrence.id, occurrence);
-        occurrence.addListener(Occurrence.EVENT_MODIFIED, function () {
+        occurrence.addListener(Occurrence.EVENT_MODIFIED, // possibly this should be async, with await on the survey and occurrence save
+        function () {
           var survey = _this4.surveys.get(occurrence.surveyId);
 
           if (!survey) {
@@ -11536,7 +11545,7 @@
      * registers the default route from this.route
      * or alternatively is overridden in a child class
      *
-     * @param {Navigo} router
+     * @param {PatchedNavigo} router
      */
 
 
@@ -12343,7 +12352,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1637963928-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1637969769-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -20294,7 +20303,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1637964134'
+    version: '1.0.1.1637970511'
   });
 
 })();

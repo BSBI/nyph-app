@@ -2378,6 +2378,14 @@
 	    _defineProperty(this, "handle", void 0);
 
 	    _defineProperty(this, "app", void 0);
+
+	    _defineProperty(this, "beforeRouteHandler", null);
+
+	    _defineProperty(this, "afterRouteHandler", null);
+
+	    _defineProperty(this, "leaveRouteHandler", null);
+
+	    _defineProperty(this, "alreadyRouteHandler", null);
 	  }
 
 	  _createClass(AppController, [{
@@ -11263,7 +11271,7 @@
 	     * registers the default route from this.route
 	     * or alternatively is overridden in a child class
 	     *
-	     * @param {Navigo} router
+	     * @param {PatchedNavigo} router
 	     */
 
 	  }, {
@@ -13203,7 +13211,8 @@
 
 	      console.log("in addOccurrence setting id '".concat(occurrence.id, "'"));
 	      this.occurrences.set(occurrence.id, occurrence);
-	      occurrence.addListener(Occurrence.EVENT_MODIFIED, function () {
+	      occurrence.addListener(Occurrence.EVENT_MODIFIED, // possibly this should be async, with await on the survey and occurrence save
+	      function () {
 	        var survey = _this4.surveys.get(occurrence.surveyId);
 
 	        if (!survey) {
@@ -13899,7 +13908,7 @@
 	   * registers the default route from this.route
 	   * or alternatively is overridden in a child class
 	   *
-	   * @param {Navigo} router
+	   * @param {PatchedNavigo} router
 	   */
 
 
@@ -28877,7 +28886,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637964134</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1637970511</p>";
 	    }
 	  }]);
 
