@@ -183,8 +183,6 @@ export class MapGeorefField extends TextGeorefField {
         this._fieldEl = container;
     }
 
-    // static mapSerialCounter = 0;
-
     /**
      *
      * @param {HTMLElement} container
@@ -282,16 +280,16 @@ export class MapGeorefField extends TextGeorefField {
 
         this.value = FormField.cleanRawString(document.getElementById(this._inputId).value);
 
-        // if (this.value) {
-        //     let result = this.tryGeocoding(this.value);
-        // }
+        if (this.value) {
+            let result = this.tryGeocoding(this.value);
+        }
 
         this.fireEvent(FormField.EVENT_CHANGE);
     }
 
     /**
      *
-     * @param {string} query
+     * @param {string} query may be a grid-reference or postcode
      */
     tryGeocoding(query) {
 
