@@ -292,7 +292,20 @@ export class MapGeorefField extends TextGeorefField {
      * @param {string} query may be a grid-reference or postcode
      */
     tryGeocoding(query) {
+        let gridRefParser = GridRef.from_string(query);
 
+        if (gridRefParser) {
+            let latLng = gridRefParser.gridCoords.to_latlng();
+
+            this.processLatLngPosition(
+                latLng.y,
+                latLng.x,
+                gridRefParser.length
+            );
+        } else {
+            // try to decipher postcode or place-name using remote geo-coder
+
+        }
     }
 
     /**

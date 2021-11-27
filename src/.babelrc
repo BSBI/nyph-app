@@ -2,10 +2,10 @@
   "presets": [
     ["@babel/env", {
       "targets" : {
-        "browsers" : "last 2 versions"
+        "browsers" : "> 0.2%, last 2 versions, not dead"
       },
       "useBuiltIns": "usage",
-      "corejs" : "3.18",
+      "corejs" : "3.19",
       "modules": false,
       "debug": false
     }
