@@ -2,6 +2,7 @@
 import {escapeHTML, FormField, TextGeorefField} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
 import mapboxgl from 'mapbox-gl';
+import {GridRef} from "british-isles-gridrefs";
 //import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 export class MapGeorefField extends TextGeorefField {
