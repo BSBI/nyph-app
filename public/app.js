@@ -27222,16 +27222,6 @@
 	        zoom: 9 // starting zoom
 
 	      });
-	      map.on('styledata', function (e) {
-	        if (checking_style_status) {
-	          // If already checking style status, bail out
-	          // (important because styledata event may fire multiple times)
-	          return;
-	        } else {
-	          checking_style_status = true;
-	          check_style_status();
-	        }
-	      });
 
 	      if (this.includeSearchBox) {
 	        var geocoder = new MapboxGeocoder({
@@ -28870,7 +28860,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638228955</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638229397</p>";
 	    }
 	  }]);
 
