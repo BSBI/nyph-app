@@ -53,7 +53,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
             attributes: {
                 label: 'plant name',
                 validationMessage: 'Please specify a taxon name or provide some photos if you cannot identify the plant.',
-                helpText: 'Type the common or scientific name of the invasive plant and, if possible, pick a suggestion from the list. If you do not know the name of the plant then please leave this blank and include some photos.'
+                helpText: 'Type the common or scientific name of the plant and, if possible, pick a suggestion from the list. If you do not know the name of the plant then please leave this blank and include some photos.'
             },
             /**
              *

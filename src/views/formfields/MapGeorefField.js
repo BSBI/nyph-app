@@ -2,7 +2,7 @@
 import {escapeHTML, FormField, TextGeorefField} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
 import mapboxgl from 'mapbox-gl';
-import {GridRef} from "british-isles-gridrefs";
+import {GridRef, LatLngWGS84} from "british-isles-gridrefs";
 import {MapMarker} from "../MapMarker";
 //import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
@@ -51,6 +51,12 @@ export class MapGeorefField extends TextGeorefField {
     map;
 
     /**
+     * @type {MapMarker}
+     * @private
+     */
+    _squareMarker;
+
+    /**
      *
      * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string, [baseSquareResolution]: ?number, [includeSearchBox]: boolean}} [params]
      */
@@ -87,6 +93,8 @@ export class MapGeorefField extends TextGeorefField {
 
             const inputEl = document.getElementById(this._inputId);
             inputEl.value = FormField.cleanRawString(this._value);
+
+            this.tryValue(inputEl.value);
         }
     }
 
@@ -282,9 +290,9 @@ export class MapGeorefField extends TextGeorefField {
 
         this.value = FormField.cleanRawString(document.getElementById(this._inputId).value);
 
-        if (this.value) {
-            let result = this.tryGeocoding(this.value);
-        }
+        // if (this.value) {
+        //     let result = this.tryValue(this.value);
+        // }
 
         this.fireEvent(FormField.EVENT_CHANGE);
     }
@@ -309,10 +317,10 @@ export class MapGeorefField extends TextGeorefField {
      *
      * @param {string} query may be a grid-reference or postcode
      */
-    tryGeocoding(query) {
+    tryValue(query) {
         let gridRefParser = GridRef.from_string(query);
 
-        if (gridRefParser) {
+        if (query && gridRefParser) {
             const latLngSW = gridRefParser.gridCoords.to_latLng();
             const latLngNW = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x, gridRefParser.gridCoords.y + gridRefParser.length)).to_latLng();
             const latLngNE = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y + gridRefParser.length)).to_latLng();
@@ -332,25 +340,79 @@ export class MapGeorefField extends TextGeorefField {
                 zoom: this.zoomMapping(gridRefParser.length),
             });
 
-            const marker = new MapMarker({
-                name : gridRefParser.preciseGridRef,
+            // const marker = new MapMarker({
+            //     name : gridRefParser.preciseGridRef,
+            //     type : MapMarker.TYPE_POLYGON,
+            //     coordinates : [[
+            //         [latLngSW.lng, latLngSW.lat],
+            //         [latLngNW.lng, latLngNW.lat],
+            //         [latLngNE.lng, latLngNE.lat],
+            //         [latLngSE.lng, latLngSE.lat]
+            //     ]],
+            //     fillColour: '#008800',
+            //     fillOpacity: 0.5,
+            //     lineColour: '#00aa00',
+            // });
+            //
+            // marker.addToMap(this.map);
+
+            this.setSquareMarker(latLngSW, latLngNW, latLngNE, latLngSE, gridRefParser.preciseGridRef);
+
+        } else {
+            this.hideSquareMarker();
+
+            // try to decipher postcode or place-name using remote geo-coder
+
+        }
+    }
+
+    /**
+     *
+     */
+    hideSquareMarker() {
+        if (this._squareMarker && this._squareMarker.visible) {
+            this._squareMarker.removeFromMap(this.map);
+        }
+    }
+
+    /**
+     *
+     * @param {LatLngWGS84} sw
+     * @param {LatLngWGS84} nw
+     * @param {LatLngWGS84} ne
+     * @param {LatLngWGS84} se
+     * @param {string=} name
+     */
+    setSquareMarker(sw, nw, ne, se,name = '') {
+        if (this._squareMarker) {
+            // marker has already been defined, so only need to update its position data and redisplay
+
+            this._squareMarker.updateCoordinates(
+                this.map,
+                [[
+                    [sw.lng, sw.lat],
+                    [nw.lng, nw.lat],
+                    [ne.lng, ne.lat],
+                    [se.lng, se.lat]
+                ]],
+                name
+            );
+        } else {
+            this._squareMarker = new MapMarker({
+                name : name,
                 type : MapMarker.TYPE_POLYGON,
                 coordinates : [[
-                    [latLngSW.lng, latLngSW.lat],
-                    [latLngNW.lng, latLngNW.lat],
-                    [latLngNE.lng, latLngNE.lat],
-                    [latLngSE.lng, latLngSE.lat]
+                    [sw.lng, sw.lat],
+                    [nw.lng, nw.lat],
+                    [ne.lng, ne.lat],
+                    [se.lng, se.lat]
                 ]],
                 fillColour: '#008800',
                 fillOpacity: 0.5,
                 lineColour: '#00aa00',
             });
 
-            marker.addToMap(this.map);
-
-        } else {
-            // try to decipher postcode or place-name using remote geo-coder
-
+            this._squareMarker.addToMap(this.map);
         }
     }
 

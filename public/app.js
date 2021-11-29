@@ -2102,7 +2102,7 @@
 	  return _setPrototypeOf$1(o, p);
 	}
 
-	function _isNativeReflectConstruct$a() {
+	function _isNativeReflectConstruct$b() {
 	  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
 	  if (Reflect.construct.sham) return false;
 	  if (typeof Proxy === "function") return true;
@@ -2133,8 +2133,8 @@
 	  return _assertThisInitialized$1(self);
 	}
 
-	function _createSuper$a(Derived) {
-	  var hasNativeReflectConstruct = _isNativeReflectConstruct$a();
+	function _createSuper$b(Derived) {
+	  var hasNativeReflectConstruct = _isNativeReflectConstruct$b();
 
 	  return function _createSuperInternal() {
 	    var Super = _getPrototypeOf$1(Derived),
@@ -5203,7 +5203,7 @@
 	  return Function.toString.call(fn).indexOf("[native code]") !== -1;
 	}
 
-	function _isNativeReflectConstruct$w() {
+	function _isNativeReflectConstruct$x() {
 	  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
 	  if (Reflect.construct.sham) return false;
 	  if (typeof Proxy === "function") return true;
@@ -5217,7 +5217,7 @@
 	}
 
 	function _construct(Parent, args, Class) {
-	  if (_isNativeReflectConstruct$w()) {
+	  if (_isNativeReflectConstruct$x()) {
 	    _construct = Reflect.construct;
 	  } else {
 	    _construct = function _construct(Parent, args, Class) {
@@ -5267,14 +5267,14 @@
 	  return _wrapNativeSuper(Class);
 	}
 
-	function _createSuper$v(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$v(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$w(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$w(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$v() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$w() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	var NotFoundError = /*#__PURE__*/function (_Error) {
 	  _inherits(NotFoundError, _Error);
 
-	  var _super = _createSuper$v(NotFoundError);
+	  var _super = _createSuper$w(NotFoundError);
 
 	  function NotFoundError(message) {
 	    _classCallCheck(this, NotFoundError);
@@ -10109,9 +10109,9 @@
 
 	var localforage$2 = localforage$1.exports;
 
-	function _createSuper$u(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$u(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$v(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$v(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$u() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$v() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	function uuid$1(a) {
 	  return a ? (a ^ Math.random() * 16 >> a / 4).toString(16) : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, uuid$1);
 	}
@@ -10126,7 +10126,7 @@
 	var Model = /*#__PURE__*/function (_EventHarness) {
 	  _inherits(Model, _EventHarness);
 
-	  var _super = _createSuper$u(Model);
+	  var _super = _createSuper$v(Model);
 
 	  /**
 	   * @type {string}
@@ -10502,14 +10502,14 @@
 
 	_defineProperty(Model, "_tasks", []);
 
-	function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$u(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$u(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$t() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$u() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	var TaxonError = /*#__PURE__*/function (_Error) {
 	  _inherits(TaxonError, _Error);
 
-	  var _super = _createSuper$t(TaxonError);
+	  var _super = _createSuper$u(TaxonError);
 
 	  function TaxonError() {
 	    _classCallCheck(this, TaxonError);
@@ -10710,9 +10710,9 @@
 	  }
 	});
 
-	function _createSuper$s(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$s(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$s() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$t() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function _classStaticPrivateFieldSpecSet$1(receiver, classConstructor, descriptor, value) { _classCheckPrivateStaticAccess$3(receiver, classConstructor); _classCheckPrivateStaticFieldDescriptor$3(descriptor, "set"); _classApplyDescriptorSet$1(receiver, descriptor, value); return value; }
 
@@ -10728,7 +10728,7 @@
 	var FormField = /*#__PURE__*/function (_EventHarness) {
 	  _inherits(FormField, _EventHarness);
 
-	  var _super = _createSuper$s(FormField);
+	  var _super = _createSuper$t(FormField);
 
 	  /**
 	   * overall wrapped field element (not necessarily the form element itself)
@@ -10932,7 +10932,7 @@
 	     * by the time summariseImpl has been called have already checked that summary is wanted
 	     *
 	     * @param {string} key
-	     * @param {{field : FormField, summary : {}}} property properties of the form descriptor
+	     * @param {{field : FormField, [attributes]: {}, summary : {}}} property properties of the form descriptor
 	     * @param {{}} attributes attributes of the model object
 	     * @returns {string}
 	     */
@@ -10960,9 +10960,9 @@
 
 	_defineProperty(FormField, "EVENT_CHANGE", 'fieldChange');
 
-	function _createSuper$r(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$r(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$s(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$s(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$r() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$s() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function _classPrivateFieldInitSpec$b(obj, privateMap, value) { _checkPrivateRedeclaration$b(obj, privateMap); privateMap.set(obj, value); }
 
@@ -10985,7 +10985,7 @@
 	var Form = /*#__PURE__*/function (_EventHarness) {
 	  _inherits(Form, _EventHarness);
 
-	  var _super = _createSuper$r(Form);
+	  var _super = _createSuper$s(Form);
 
 	  function Form() {
 	    var _this;
@@ -11202,13 +11202,13 @@
 
 	_defineProperty(Form, "COMPLETION_STATUS_IN_PROGRESS", 'inProgress');
 
-	function _createSuper$q(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$q(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$r(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$r(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$q() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$r() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	var Occurrence = /*#__PURE__*/function (_Model) {
 	  _inherits(Occurrence, _Model);
 
-	  var _super = _createSuper$q(Occurrence);
+	  var _super = _createSuper$r(Occurrence);
 
 	  function Occurrence() {
 	    var _this;
@@ -11357,9 +11357,9 @@
 
 	_defineProperty(Occurrence, "EVENT_MODIFIED", 'modified');
 
-	function _createSuper$p(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$p(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$q(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$q(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$p() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$q() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	/**
 	 *
@@ -11367,7 +11367,7 @@
 	var InternalAppError = /*#__PURE__*/function (_Error) {
 	  _inherits(InternalAppError, _Error);
 
-	  var _super = _createSuper$p(InternalAppError);
+	  var _super = _createSuper$q(InternalAppError);
 
 	  function InternalAppError() {
 	    _classCallCheck(this, InternalAppError);
@@ -11378,9 +11378,9 @@
 	  return InternalAppError;
 	}( /*#__PURE__*/_wrapNativeSuper(Error));
 
-	function _createSuper$o(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$o(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$p(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$p(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$o() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$p() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function _classPrivateFieldInitSpec$a(obj, privateMap, value) { _checkPrivateRedeclaration$a(obj, privateMap); privateMap.set(obj, value); }
 
@@ -11391,7 +11391,7 @@
 	var MainController$1 = /*#__PURE__*/function (_AppController) {
 	  _inherits(MainController, _AppController);
 
-	  var _super = _createSuper$o(MainController);
+	  var _super = _createSuper$p(MainController);
 
 	  /**
 	   *
@@ -11802,13 +11802,13 @@
 
 	_defineProperty(MainController$1, "EVENT_NEXT_TO_RECORDS", 'nexttorecords');
 
-	function _createSuper$n(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$n(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$o(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$o(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$n() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$o() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	var StaticContentController = /*#__PURE__*/function (_AppController) {
 	  _inherits(StaticContentController, _AppController);
 
-	  var _super = _createSuper$n(StaticContentController);
+	  var _super = _createSuper$o(StaticContentController);
 
 	  /**
 	   * @type {string}
@@ -12681,13 +12681,13 @@
 	  ];
 	}, !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC$1, UNSUPPORTED_Y$2$1);
 
-	function _createSuper$m(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$m(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$n(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$n(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$m() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$n() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	var Page = /*#__PURE__*/function (_EventHarness) {
 	  _inherits(Page, _EventHarness);
 
-	  var _super = _createSuper$m(Page);
+	  var _super = _createSuper$n(Page);
 
 	  function Page() {
 	    var _this;
@@ -12850,13 +12850,13 @@
 	  return Page;
 	}(EventHarness);
 
-	function _createSuper$l(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$l(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$m(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$m(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$l() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$m() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	var NotFoundView = /*#__PURE__*/function (_Page) {
 	  _inherits(NotFoundView, _Page);
 
-	  var _super = _createSuper$l(NotFoundView);
+	  var _super = _createSuper$m(NotFoundView);
 
 	  function NotFoundView() {
 	    _classCallCheck(this, NotFoundView);
@@ -12876,13 +12876,13 @@
 	  return NotFoundView;
 	}(Page);
 
-	function _createSuper$k(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$k(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$l(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$l(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$k() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$l() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	var SurveyForm = /*#__PURE__*/function (_Form) {
 	  _inherits(SurveyForm, _Form);
 
-	  var _super = _createSuper$k(SurveyForm);
+	  var _super = _createSuper$l(SurveyForm);
 
 	  /**
 	   * sections keyed by numerical order
@@ -13040,13 +13040,13 @@
 
 	_defineProperty(SurveyForm, "sectionsByKey", {});
 
-	function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$k(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$k(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$j() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$k() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	var Survey = /*#__PURE__*/function (_Model) {
 	  _inherits(Survey, _Model);
 
-	  var _super = _createSuper$j(Survey);
+	  var _super = _createSuper$k(Survey);
 
 	  function Survey() {
 	    var _this;
@@ -13168,13 +13168,13 @@
 
 	_defineProperty(Survey, "EVENT_MODIFIED", 'modified');
 
-	function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$i() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$j() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	var OccurrenceImage = /*#__PURE__*/function (_Model) {
 	  _inherits(OccurrenceImage, _Model);
 
-	  var _super = _createSuper$i(OccurrenceImage);
+	  var _super = _createSuper$j(OccurrenceImage);
 
 	  function OccurrenceImage() {
 	    var _this;
@@ -13333,9 +13333,9 @@
 
 	function _arrayLikeToArray$7(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-	function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$h() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$i() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function _classPrivateFieldInitSpec$9(obj, privateMap, value) { _checkPrivateRedeclaration$9(obj, privateMap); privateMap.set(obj, value); }
 
@@ -13348,7 +13348,7 @@
 	var App = /*#__PURE__*/function (_EventHarness) {
 	  _inherits(App, _EventHarness);
 
-	  var _super = _createSuper$h(App);
+	  var _super = _createSuper$i(App);
 
 	  /**
 	   * @type {PatchedNavigo}
@@ -14228,13 +14228,13 @@
 
 	function _arrayLikeToArray$6(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-	function _createSuper$g(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$g(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$g() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$h() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	var Layout = /*#__PURE__*/function (_EventHarness) {
 	  _inherits(Layout, _EventHarness);
 
-	  var _super = _createSuper$g(Layout);
+	  var _super = _createSuper$h(Layout);
 
 	  function Layout() {
 	    var _this;
@@ -14353,9 +14353,9 @@
 
 	_defineProperty(Layout, "SAVE_ALL_FAILURE_MODAL_ID", 'saveallfailure');
 
-	function _createSuper$f(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$f(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$g(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$g(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$f() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$g() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	/**
 	 * @external $
 	 */
@@ -14363,7 +14363,7 @@
 	var SurveyPickerController = /*#__PURE__*/function (_AppController) {
 	  _inherits(SurveyPickerController, _AppController);
 
-	  var _super = _createSuper$f(SurveyPickerController);
+	  var _super = _createSuper$g(SurveyPickerController);
 
 	  /**
 	   *
@@ -15261,13 +15261,13 @@
 	Navigo.FOLLOWED_BY_SLASH_REGEXP = '(?:\/$|$)';
 	Navigo.MATCH_REGEXP_FLAGS = '';
 
-	function _createSuper$b(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$b(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$c(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$c(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$b() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$c() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	var PatchedNavigo = /*#__PURE__*/function (_Navigo) {
 	  _inherits(PatchedNavigo, _Navigo);
 
-	  var _super = _createSuper$b(PatchedNavigo);
+	  var _super = _createSuper$c(PatchedNavigo);
 
 	  function PatchedNavigo() {
 	    _classCallCheck(this, PatchedNavigo);
@@ -16397,9 +16397,9 @@
 
 	function _arrayLikeToArray$4(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-	function _createSuper$9(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$9(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$a(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$a(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$9() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$a() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function _classPrivateMethodInitSpec$4(obj, privateSet) { _checkPrivateRedeclaration$7(obj, privateSet); privateSet.add(obj); }
 
@@ -16429,7 +16429,7 @@
 	var ImageField = /*#__PURE__*/function (_FormField) {
 	  _inherits(ImageField, _FormField);
 
-	  var _super = _createSuper$9(ImageField);
+	  var _super = _createSuper$a(ImageField);
 
 	  /**
 	   * @type {string}
@@ -16868,9 +16868,9 @@
 
 	_defineProperty(ImageField, "LICENSE_MODAL", 'imagelicensemodal');
 
-	function _createSuper$8(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$8(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$9(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$9(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$8() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$9() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function _classPrivateFieldInitSpec$6(obj, privateMap, value) { _checkPrivateRedeclaration$6(obj, privateMap); privateMap.set(obj, value); }
 
@@ -16883,7 +16883,7 @@
 	var InputField = /*#__PURE__*/function (_FormField) {
 	  _inherits(InputField, _FormField);
 
-	  var _super = _createSuper$8(InputField);
+	  var _super = _createSuper$9(InputField);
 
 	  /**
 	   * @type {string}
@@ -17116,9 +17116,9 @@
 
 	function _arrayLikeToArray$3(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-	function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$8(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$8(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$8() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function _classPrivateMethodInitSpec$3(obj, privateSet) { _checkPrivateRedeclaration$5(obj, privateSet); privateSet.add(obj); }
 
@@ -17148,7 +17148,7 @@
 	var OptionsField = /*#__PURE__*/function (_FormField) {
 	  _inherits(OptionsField, _FormField);
 
-	  var _super = _createSuper$7(OptionsField);
+	  var _super = _createSuper$8(OptionsField);
 
 	  /**
 	   * @type {string}
@@ -17449,9 +17449,9 @@
 
 	function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-	function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function _classPrivateMethodInitSpec$2(obj, privateSet) { _checkPrivateRedeclaration$4(obj, privateSet); privateSet.add(obj); }
 
@@ -17483,7 +17483,7 @@
 	var SelectField = /*#__PURE__*/function (_FormField) {
 	  _inherits(SelectField, _FormField);
 
-	  var _super = _createSuper$6(SelectField);
+	  var _super = _createSuper$7(SelectField);
 
 	  /**
 	   * @type {string}
@@ -17879,9 +17879,9 @@
 
 	function _arrayLikeToArray$1(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-	function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function _classPrivateMethodInitSpec$1(obj, privateSet) { _checkPrivateRedeclaration$3(obj, privateSet); privateSet.add(obj); }
 
@@ -17912,7 +17912,7 @@
 	var TaxonPickerField = /*#__PURE__*/function (_FormField) {
 	  _inherits(TaxonPickerField, _FormField);
 
-	  var _super = _createSuper$5(TaxonPickerField);
+	  var _super = _createSuper$6(TaxonPickerField);
 
 	  /**
 	   * @type {TaxonSearch}
@@ -18530,9 +18530,9 @@
 
 	_defineProperty(TaxonPickerField, "timeoutDelay", 50);
 
-	function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function _classPrivateFieldInitSpec$2(obj, privateMap, value) { _checkPrivateRedeclaration$2(obj, privateMap); privateMap.set(obj, value); }
 
@@ -18545,7 +18545,7 @@
 	var TextAreaField = /*#__PURE__*/function (_FormField) {
 	  _inherits(TextAreaField, _FormField);
 
-	  var _super = _createSuper$4(TextAreaField);
+	  var _super = _createSuper$5(TextAreaField);
 
 	  /**
 	   * @type {string}
@@ -18711,6 +18711,1018 @@
 
 	var t$1="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},e$1=function(t){return t&&t.Math==Math&&t},S$1=e$1("object"==typeof globalThis&&globalThis)||e$1("object"==typeof window&&window)||e$1("object"==typeof self&&self)||e$1("object"==typeof t$1&&t$1)||function(){return this}()||Function("return this")(),r$1={},N$1=function(t){try{return !!t()}catch(t){return !0}},n$1=!N$1((function(){return 7!=Object.defineProperty({},1,{get:function(){return 7}})[1]})),o$1=Function.prototype.call,a$1=o$1.bind?o$1.bind(o$1):function(){return o$1.apply(o$1,arguments)},i$1={},s$1={}.propertyIsEnumerable,u$1=Object.getOwnPropertyDescriptor,T$1=u$1&&!s$1.call({1:2},1);i$1.f=T$1?function(t){var e=u$1(this,t);return !!e&&e.enumerable}:s$1;var c$1,h$1,f$1=function(t,e){return {enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:e}},l$1=Function.prototype,d$1=l$1.bind,M$1=l$1.call,g$1=d$1&&d$1.bind(M$1),O$1=d$1?function(t){return t&&g$1(M$1,t)}:function(t){return t&&function(){return M$1.apply(t,arguments)}},p$1=O$1,H$1=p$1({}.toString),v$1=p$1("".slice),y$1=function(t){return v$1(H$1(t),8,-1)},J$1=O$1,U$1=N$1,P$1=y$1,C$1=S$1.Object,L$1=J$1("".split),R$1=U$1((function(){return !C$1("z").propertyIsEnumerable(0)}))?function(t){return "String"==P$1(t)?L$1(t,""):C$1(t)}:C$1,E$3=S$1.TypeError,Y$1=function(t){if(null==t)throw E$3("Can't call method on "+t);return t},b$1=R$1,w$1=Y$1,D$1=function(t){return b$1(w$1(t))},K$1=function(t){return "function"==typeof t},X$1=K$1,G$1=function(t){return "object"==typeof t?null!==t:X$1(t)},Q$1=S$1,F$1=K$1,_$1=function(t){return F$1(t)?t:void 0},m$1=function(t,e){return arguments.length<2?_$1(Q$1[t]):Q$1[t]&&Q$1[t][e]},A$1=O$1({}.isPrototypeOf),x$1=S$1,Z$1=m$1("navigator","userAgent")||"",B$1=x$1.process,W$1=x$1.Deno,k$1=B$1&&B$1.versions||W$1&&W$1.version,I$1=k$1&&k$1.v8;I$1&&(h$1=(c$1=I$1.split("."))[0]>0&&c$1[0]<4?1:+(c$1[0]+c$1[1])),!h$1&&Z$1&&(!(c$1=Z$1.match(/Edge\/(\d+)/))||c$1[1]>=74)&&(c$1=Z$1.match(/Chrome\/(\d+)/))&&(h$1=+c$1[1]);var q$1=h$1,j$3=q$1,V$1=N$1,$$1$1=!!Object.getOwnPropertySymbols&&!V$1((function(){var t=Symbol();return !String(t)||!(Object(t)instanceof Symbol)||!Symbol.sham&&j$3&&j$3<41})),z$1=$$1$1&&!Symbol.sham&&"symbol"==typeof Symbol.iterator,tt$1=m$1,et$1=K$1,St$1=A$1,rt$1=z$1,Nt$1=S$1.Object,nt$1=rt$1?function(t){return "symbol"==typeof t}:function(t){var e=tt$1("Symbol");return et$1(e)&&St$1(e.prototype,Nt$1(t))},ot$1=S$1.String,at$1=function(t){try{return ot$1(t)}catch(t){return "Object"}},it$1=K$1,st$1=at$1,ut$1=S$1.TypeError,Tt$1=function(t){if(it$1(t))return t;throw ut$1(st$1(t)+" is not a function")},ct$1=Tt$1,ht$1=function(t,e){var S=t[e];return null==S?void 0:ct$1(S)},ft$1=a$1,lt$1=K$1,dt$1=G$1,Mt$1=S$1.TypeError,gt$1={exports:{}},Ot$1=S$1,pt$1=Object.defineProperty,Ht$1=function(t,e){try{pt$1(Ot$1,t,{value:e,configurable:!0,writable:!0});}catch(S){Ot$1[t]=e;}return e},vt$1=Ht$1,yt$1=S$1["__core-js_shared__"]||vt$1("__core-js_shared__",{}),Jt$1=yt$1;(gt$1.exports=function(t,e){return Jt$1[t]||(Jt$1[t]=void 0!==e?e:{})})("versions",[]).push({version:"3.19.1",mode:"global",copyright:"© 2021 Denis Pushkarev (zloirock.ru)"});var Ut$1=Y$1,Pt$1=S$1.Object,Ct$1=function(t){return Pt$1(Ut$1(t))},Lt$1=Ct$1,Rt$1=O$1({}.hasOwnProperty),Et$1=Object.hasOwn||function(t,e){return Rt$1(Lt$1(t),e)},Yt$1=O$1,bt$1=0,wt$1=Math.random(),Dt$1=Yt$1(1..toString),Kt$1=function(t){return "Symbol("+(void 0===t?"":t)+")_"+Dt$1(++bt$1+wt$1,36)},Xt$1=S$1,Gt$1=gt$1.exports,Qt$1=Et$1,Ft$1=Kt$1,_t$1=$$1$1,mt$1=z$1,At$1=Gt$1("wks"),xt$1=Xt$1.Symbol,Zt$1=xt$1&&xt$1.for,Bt$1=mt$1?xt$1:xt$1&&xt$1.withoutSetter||Ft$1,Wt$1=function(t){if(!Qt$1(At$1,t)||!_t$1&&"string"!=typeof At$1[t]){var e="Symbol."+t;_t$1&&Qt$1(xt$1,t)?At$1[t]=xt$1[t]:At$1[t]=mt$1&&Zt$1?Zt$1(e):Bt$1(e);}return At$1[t]},kt$1=a$1,It$1=G$1,qt$1=nt$1,jt$1=ht$1,Vt$1=function(t,e){var S,r;if("string"===e&&lt$1(S=t.toString)&&!dt$1(r=ft$1(S,t)))return r;if(lt$1(S=t.valueOf)&&!dt$1(r=ft$1(S,t)))return r;if("string"!==e&&lt$1(S=t.toString)&&!dt$1(r=ft$1(S,t)))return r;throw Mt$1("Can't convert object to primitive value")},$t$1=Wt$1,zt$1=S$1.TypeError,te$1=$t$1("toPrimitive"),ee$1=function(t,e){if(!It$1(t)||qt$1(t))return t;var S,r=jt$1(t,te$1);if(r){if(void 0===e&&(e="default"),S=kt$1(r,t,e),!It$1(S)||qt$1(S))return S;throw zt$1("Can't convert object to primitive value")}return void 0===e&&(e="number"),Vt$1(t,e)},Se$1=nt$1,re$1=function(t){var e=ee$1(t,"string");return Se$1(e)?e:e+""},Ne$1=G$1,ne$1=S$1.document,oe$1=Ne$1(ne$1)&&Ne$1(ne$1.createElement),ae$1=function(t){return oe$1?ne$1.createElement(t):{}},ie$1=ae$1,se$1=!n$1&&!N$1((function(){return 7!=Object.defineProperty(ie$1("div"),"a",{get:function(){return 7}}).a})),ue$1=n$1,Te$1=a$1,ce$1=i$1,he$1=f$1,fe$1=D$1,le$1=re$1,de$1=Et$1,Me$1=se$1,ge$1=Object.getOwnPropertyDescriptor;r$1.f=ue$1?ge$1:function(t,e){if(t=fe$1(t),e=le$1(e),Me$1)try{return ge$1(t,e)}catch(t){}if(de$1(t,e))return he$1(!Te$1(ce$1.f,t,e),t[e])};var Oe$1={},pe$1=S$1,He$1=G$1,ve$1=pe$1.String,ye$1=pe$1.TypeError,Je$1=function(t){if(He$1(t))return t;throw ye$1(ve$1(t)+" is not an object")},Ue$1=n$1,Pe$1=se$1,Ce$1=Je$1,Le$1=re$1,Re$1=S$1.TypeError,Ee$1=Object.defineProperty;Oe$1.f=Ue$1?Ee$1:function(t,e,S){if(Ce$1(t),e=Le$1(e),Ce$1(S),Pe$1)try{return Ee$1(t,e,S)}catch(t){}if("get"in S||"set"in S)throw Re$1("Accessors not supported");return "value"in S&&(t[e]=S.value),t};var Ye$1=Oe$1,be$1=f$1,we$1=n$1?function(t,e,S){return Ye$1.f(t,e,be$1(1,S))}:function(t,e,S){return t[e]=S,t},De$1={exports:{}},Ke$1=K$1,Xe$1=yt$1,Ge$1=O$1(Function.toString);Ke$1(Xe$1.inspectSource)||(Xe$1.inspectSource=function(t){return Ge$1(t)});var Qe$1,Fe$1,_e$1,me$1=Xe$1.inspectSource,Ae$1=K$1,xe$1=me$1,Ze$1=S$1.WeakMap,Be$1=Ae$1(Ze$1)&&/native code/.test(xe$1(Ze$1)),We$1=gt$1.exports,ke$1=Kt$1,Ie$1=We$1("keys"),qe$1=function(t){return Ie$1[t]||(Ie$1[t]=ke$1(t))},je$1={},Ve$1=Be$1,$e$1=S$1,ze$1=O$1,tS$1=G$1,eS$1=we$1,SS$1=Et$1,rS$1=yt$1,NS$1=qe$1,nS$1=je$1,oS$1=$e$1.TypeError,aS$1=$e$1.WeakMap;if(Ve$1||rS$1.state){var iS$1=rS$1.state||(rS$1.state=new aS$1),sS$1=ze$1(iS$1.get),uS$1=ze$1(iS$1.has),TS$1=ze$1(iS$1.set);Qe$1=function(t,e){if(uS$1(iS$1,t))throw new oS$1("Object already initialized");return e.facade=t,TS$1(iS$1,t,e),e},Fe$1=function(t){return sS$1(iS$1,t)||{}},_e$1=function(t){return uS$1(iS$1,t)};}else {var cS$1=NS$1("state");nS$1[cS$1]=!0,Qe$1=function(t,e){if(SS$1(t,cS$1))throw new oS$1("Object already initialized");return e.facade=t,eS$1(t,cS$1,e),e},Fe$1=function(t){return SS$1(t,cS$1)?t[cS$1]:{}},_e$1=function(t){return SS$1(t,cS$1)};}var hS$1={set:Qe$1,get:Fe$1,has:_e$1,enforce:function(t){return _e$1(t)?Fe$1(t):Qe$1(t,{})},getterFor:function(t){return function(e){var S;if(!tS$1(e)||(S=Fe$1(e)).type!==t)throw oS$1("Incompatible receiver, "+t+" required");return S}}},fS$1=n$1,lS$1=Et$1,dS$1=Function.prototype,MS$1=fS$1&&Object.getOwnPropertyDescriptor,gS$1=lS$1(dS$1,"name"),OS$1={EXISTS:gS$1,PROPER:gS$1&&"something"===function(){}.name,CONFIGURABLE:gS$1&&(!fS$1||fS$1&&MS$1(dS$1,"name").configurable)},pS$1=S$1,HS$1=K$1,vS$1=Et$1,yS$1=we$1,JS$1=Ht$1,US$1=me$1,PS$1=OS$1.CONFIGURABLE,CS$1=hS$1.get,LS$1=hS$1.enforce,RS$1=String(String).split("String");(De$1.exports=function(t,e,S,r){var N,n=!!r&&!!r.unsafe,o=!!r&&!!r.enumerable,a=!!r&&!!r.noTargetGet,i=r&&void 0!==r.name?r.name:e;HS$1(S)&&("Symbol("===String(i).slice(0,7)&&(i="["+String(i).replace(/^Symbol\(([^)]*)\)/,"$1")+"]"),(!vS$1(S,"name")||PS$1&&S.name!==i)&&yS$1(S,"name",i),(N=LS$1(S)).source||(N.source=RS$1.join("string"==typeof i?i:""))),t!==pS$1?(n?!a&&t[e]&&(o=!0):delete t[e],o?t[e]=S:yS$1(t,e,S)):o?t[e]=S:JS$1(e,S);})(Function.prototype,"toString",(function(){return HS$1(this)&&CS$1(this).source||US$1(this)}));var ES$1={},YS$1=Math.ceil,bS$1=Math.floor,wS$1=function(t){var e=+t;return e!=e||0===e?0:(e>0?bS$1:YS$1)(e)},DS$1=wS$1,KS$1=Math.max,XS$1=Math.min,GS$1=function(t,e){var S=DS$1(t);return S<0?KS$1(S+e,0):XS$1(S,e)},QS$1=wS$1,FS$1=Math.min,_S$1=function(t){return t>0?FS$1(QS$1(t),9007199254740991):0},mS$1=_S$1,AS$1=function(t){return mS$1(t.length)},xS$1=D$1,ZS$1=GS$1,BS$1=AS$1,WS$1=function(t){return function(e,S,r){var N,n=xS$1(e),o=BS$1(n),a=ZS$1(r,o);if(t&&S!=S){for(;o>a;)if((N=n[a++])!=N)return !0}else for(;o>a;a++)if((t||a in n)&&n[a]===S)return t||a||0;return !t&&-1}},kS$1={includes:WS$1(!0),indexOf:WS$1(!1)},IS$1=Et$1,qS$1=D$1,jS$1=kS$1.indexOf,VS$1=je$1,$S$1=O$1([].push),zS$1=function(t,e){var S,r=qS$1(t),N=0,n=[];for(S in r)!IS$1(VS$1,S)&&IS$1(r,S)&&$S$1(n,S);for(;e.length>N;)IS$1(r,S=e[N++])&&(~jS$1(n,S)||$S$1(n,S));return n},tr$1=["constructor","hasOwnProperty","isPrototypeOf","propertyIsEnumerable","toLocaleString","toString","valueOf"],er$1=zS$1,Sr$1=tr$1.concat("length","prototype");ES$1.f=Object.getOwnPropertyNames||function(t){return er$1(t,Sr$1)};var rr$1={};rr$1.f=Object.getOwnPropertySymbols;var Nr$1=m$1,nr$1=ES$1,or$1=rr$1,ar$1=Je$1,ir$1=O$1([].concat),sr$1=Nr$1("Reflect","ownKeys")||function(t){var e=nr$1.f(ar$1(t)),S=or$1.f;return S?ir$1(e,S(t)):e},ur$1=Et$1,Tr$1=sr$1,cr$1=r$1,hr$1=Oe$1,fr$1=N$1,lr$1=K$1,dr$1=/#|\.prototype\./,Mr$1=function(t,e){var S=Or$1[gr$1(t)];return S==Hr$1||S!=pr$1&&(lr$1(e)?fr$1(e):!!e)},gr$1=Mr$1.normalize=function(t){return String(t).replace(dr$1,".").toLowerCase()},Or$1=Mr$1.data={},pr$1=Mr$1.NATIVE="N",Hr$1=Mr$1.POLYFILL="P",vr$1=Mr$1,yr$1=S$1,Jr$1=r$1.f,Ur$1=we$1,Pr$1=De$1.exports,Cr$1=Ht$1,Lr$1=function(t,e){for(var S=Tr$1(e),r=hr$1.f,N=cr$1.f,n=0;n<S.length;n++){var o=S[n];ur$1(t,o)||r(t,o,N(e,o));}},Rr$1=vr$1,Er$1=function(t,e){var S,r,N,n,o,a=t.target,i=t.global,s=t.stat;if(S=i?yr$1:s?yr$1[a]||Cr$1(a,{}):(yr$1[a]||{}).prototype)for(r in e){if(n=e[r],N=t.noTargetGet?(o=Jr$1(S,r))&&o.value:S[r],!Rr$1(i?r:a+(s?".":"#")+r,t.forced)&&void 0!==N){if(typeof n==typeof N)continue;Lr$1(n,N);}(t.sham||N&&N.sham)&&Ur$1(n,"sham",!0),Pr$1(S,r,n,t);}},Yr$1={};Yr$1[Wt$1("toStringTag")]="z";var br$1="[object z]"===String(Yr$1),wr$1=S$1,Dr$1=br$1,Kr$1=K$1,Xr$1=y$1,Gr$1=Wt$1("toStringTag"),Qr$1=wr$1.Object,Fr$1="Arguments"==Xr$1(function(){return arguments}()),_r$1=Dr$1?Xr$1:function(t){var e,S,r;return void 0===t?"Undefined":null===t?"Null":"string"==typeof(S=function(t,e){try{return t[e]}catch(t){}}(e=Qr$1(t),Gr$1))?S:Fr$1?Xr$1(e):"Object"==(r=Xr$1(e))&&Kr$1(e.callee)?"Arguments":r},mr$1=_r$1,Ar$1=S$1.String,xr$1=function(t){if("Symbol"===mr$1(t))throw TypeError("Cannot convert a Symbol value to a string");return Ar$1(t)},Zr$1=Je$1,Br$1=function(){var t=Zr$1(this),e="";return t.global&&(e+="g"),t.ignoreCase&&(e+="i"),t.multiline&&(e+="m"),t.dotAll&&(e+="s"),t.unicode&&(e+="u"),t.sticky&&(e+="y"),e},Wr$1={},kr$1=N$1,Ir$1=S$1.RegExp;Wr$1.UNSUPPORTED_Y=kr$1((function(){var t=Ir$1("a","y");return t.lastIndex=2,null!=t.exec("abcd")})),Wr$1.BROKEN_CARET=kr$1((function(){var t=Ir$1("^r","gy");return t.lastIndex=2,null!=t.exec("str")}));var qr$1,jr$1=zS$1,Vr$1=tr$1,$r$1=Object.keys||function(t){return jr$1(t,Vr$1)},zr$1=Oe$1,tN$1=Je$1,eN$1=D$1,SN$1=$r$1,rN$1=n$1?Object.defineProperties:function(t,e){tN$1(t);for(var S,r=eN$1(e),N=SN$1(e),n=N.length,o=0;n>o;)zr$1.f(t,S=N[o++],r[S]);return t},NN$1=m$1("document","documentElement"),nN$1=Je$1,oN$1=rN$1,aN$1=tr$1,iN$1=je$1,sN$1=NN$1,uN$1=ae$1,TN$1=qe$1("IE_PROTO"),cN$1=function(){},hN$1=function(t){return "<script>"+t+"<\/script>"},fN$1=function(t){t.write(hN$1("")),t.close();var e=t.parentWindow.Object;return t=null,e},lN$1=function(){try{qr$1=new ActiveXObject("htmlfile");}catch(t){}var t,e;lN$1="undefined"!=typeof document?document.domain&&qr$1?fN$1(qr$1):((e=uN$1("iframe")).style.display="none",sN$1.appendChild(e),e.src=String("javascript:"),(t=e.contentWindow.document).open(),t.write(hN$1("document.F=Object")),t.close(),t.F):fN$1(qr$1);for(var S=aN$1.length;S--;)delete lN$1.prototype[aN$1[S]];return lN$1()};iN$1[TN$1]=!0;var dN$1,MN$1,gN$1=Object.create||function(t,e){var S;return null!==t?(cN$1.prototype=nN$1(t),S=new cN$1,cN$1.prototype=null,S[TN$1]=t):S=lN$1(),void 0===e?S:oN$1(S,e)},ON$1=N$1,pN$1=S$1.RegExp,HN$1=ON$1((function(){var t=pN$1(".","s");return !(t.dotAll&&t.exec("\n")&&"s"===t.flags)})),vN$1=N$1,yN$1=S$1.RegExp,JN$1=vN$1((function(){var t=yN$1("(?<a>b)","g");return "b"!==t.exec("b").groups.a||"bc"!=="b".replace(t,"$<a>c")})),UN$1=a$1,PN$1=O$1,CN$1=xr$1,LN$1=Br$1,RN$1=Wr$1,EN$1=gt$1.exports,YN$1=gN$1,bN$1=hS$1.get,wN$1=HN$1,DN$1=JN$1,KN$1=EN$1("native-string-replace",String.prototype.replace),XN$1=RegExp.prototype.exec,GN$1=XN$1,QN$1=PN$1("".charAt),FN$1=PN$1("".indexOf),_N$1=PN$1("".replace),mN$1=PN$1("".slice),AN$1=(MN$1=/b*/g,UN$1(XN$1,dN$1=/a/,"a"),UN$1(XN$1,MN$1,"a"),0!==dN$1.lastIndex||0!==MN$1.lastIndex),xN$1=RN$1.UNSUPPORTED_Y||RN$1.BROKEN_CARET,ZN$1=void 0!==/()??/.exec("")[1];(AN$1||ZN$1||xN$1||wN$1||DN$1)&&(GN$1=function(t){var e,S,r,N,n,o,a,i=this,s=bN$1(i),u=CN$1(t),T=s.raw;if(T)return T.lastIndex=i.lastIndex,e=UN$1(GN$1,T,u),i.lastIndex=T.lastIndex,e;var c=s.groups,h=xN$1&&i.sticky,f=UN$1(LN$1,i),l=i.source,d=0,M=u;if(h&&(f=_N$1(f,"y",""),-1===FN$1(f,"g")&&(f+="g"),M=mN$1(u,i.lastIndex),i.lastIndex>0&&(!i.multiline||i.multiline&&"\n"!==QN$1(u,i.lastIndex-1))&&(l="(?: "+l+")",M=" "+M,d++),S=new RegExp("^(?:"+l+")",f)),ZN$1&&(S=new RegExp("^"+l+"$(?!\\s)",f)),AN$1&&(r=i.lastIndex),N=UN$1(XN$1,h?S:i,M),h?N?(N.input=mN$1(N.input,d),N[0]=mN$1(N[0],d),N.index=i.lastIndex,i.lastIndex+=N[0].length):i.lastIndex=0:AN$1&&N&&(i.lastIndex=i.global?N.index+N[0].length:r),ZN$1&&N&&N.length>1&&UN$1(KN$1,N[0],S,(function(){for(n=1;n<arguments.length-2;n++)void 0===arguments[n]&&(N[n]=void 0);})),N&&c)for(N.groups=o=YN$1(null),n=0;n<c.length;n++)o[(a=c[n])[0]]=N[a[1]];return N});var BN$1=GN$1;Er$1({target:"RegExp",proto:!0,forced:/./.exec!==BN$1},{exec:BN$1});var WN$1=Function.prototype,kN$1=WN$1.apply,IN$1=WN$1.bind,qN$1=WN$1.call,jN$1="object"==typeof Reflect&&Reflect.apply||(IN$1?qN$1.bind(kN$1):function(){return qN$1.apply(kN$1,arguments)}),VN$1=O$1,$N$1=De$1.exports,zN$1=BN$1,tn$1=N$1,en$1=Wt$1,Sn$1=we$1,rn$1=en$1("species"),Nn$1=RegExp.prototype,nn$1=function(t,e,S,r){var N=en$1(t),n=!tn$1((function(){var e={};return e[N]=function(){return 7},7!=""[t](e)})),o=n&&!tn$1((function(){var e=!1,S=/a/;return "split"===t&&((S={}).constructor={},S.constructor[rn$1]=function(){return S},S.flags="",S[N]=/./[N]),S.exec=function(){return e=!0,null},S[N](""),!e}));if(!n||!o||S){var a=VN$1(/./[N]),i=e(N,""[t],(function(t,e,S,r,N){var o=VN$1(t),i=e.exec;return i===zN$1||i===Nn$1.exec?n&&!N?{done:!0,value:a(e,S,r)}:{done:!0,value:o(S,e,r)}:{done:!1}}));$N$1(String.prototype,t,i[0]),$N$1(Nn$1,N,i[1]);}r&&Sn$1(Nn$1[N],"sham",!0);},on$1=O$1,an$1=wS$1,sn$1=xr$1,un$1=Y$1,Tn$1=on$1("".charAt),cn$1=on$1("".charCodeAt),hn$1=on$1("".slice),fn$1=function(t){return function(e,S){var r,N,n=sn$1(un$1(e)),o=an$1(S),a=n.length;return o<0||o>=a?t?"":void 0:(r=cn$1(n,o))<55296||r>56319||o+1===a||(N=cn$1(n,o+1))<56320||N>57343?t?Tn$1(n,o):r:t?hn$1(n,o,o+2):N-56320+(r-55296<<10)+65536}},ln$1={codeAt:fn$1(!1),charAt:fn$1(!0)}.charAt,dn$1=function(t,e,S){return e+(S?ln$1(t,e).length:1)},Mn$1=O$1,gn$1=Ct$1,On$1=Math.floor,pn$1=Mn$1("".charAt),Hn$1=Mn$1("".replace),vn$1=Mn$1("".slice),yn$1=/\$([$&'`]|\d{1,2}|<[^>]*>)/g,Jn$1=/\$([$&'`]|\d{1,2})/g,Un$1=a$1,Pn$1=Je$1,Cn$1=K$1,Ln$1=y$1,Rn$1=BN$1,En$1=S$1.TypeError,Yn$1=function(t,e){var S=t.exec;if(Cn$1(S)){var r=Un$1(S,t,e);return null!==r&&Pn$1(r),r}if("RegExp"===Ln$1(t))return Un$1(Rn$1,t,e);throw En$1("RegExp#exec called on incompatible receiver")},bn$1=jN$1,wn$1=a$1,Dn$1=O$1,Kn$1=nn$1,Xn$1=N$1,Gn$1=Je$1,Qn$1=K$1,Fn$1=wS$1,_n$1=_S$1,mn$1=xr$1,An$1=Y$1,xn$1=dn$1,Zn$1=ht$1,Bn$1=function(t,e,S,r,N,n){var o=S+t.length,a=r.length,i=Jn$1;return void 0!==N&&(N=gn$1(N),i=yn$1),Hn$1(n,i,(function(n,i){var s;switch(pn$1(i,0)){case"$":return "$";case"&":return t;case"`":return vn$1(e,0,S);case"'":return vn$1(e,o);case"<":s=N[vn$1(i,1,-1)];break;default:var u=+i;if(0===u)return n;if(u>a){var T=On$1(u/10);return 0===T?n:T<=a?void 0===r[T-1]?pn$1(i,1):r[T-1]+pn$1(i,1):n}s=r[u-1];}return void 0===s?"":s}))},Wn$1=Yn$1,kn$1=Wt$1("replace"),In$1=Math.max,qn$1=Math.min,jn$1=Dn$1([].concat),Vn$1=Dn$1([].push),$n$1=Dn$1("".indexOf),zn$1=Dn$1("".slice),to$1="$0"==="a".replace(/./,"$0"),eo$1=!!/./[kn$1]&&""===/./[kn$1]("a","$0"),So$1=!Xn$1((function(){var t=/./;return t.exec=function(){var t=[];return t.groups={a:"7"},t},"7"!=="".replace(t,"$<a>")}));Kn$1("replace",(function(t,e,S){var r=eo$1?"$":"$0";return [function(t,S){var r=An$1(this),N=null==t?void 0:Zn$1(t,kn$1);return N?wn$1(N,t,r,S):wn$1(e,mn$1(r),t,S)},function(t,N){var n=Gn$1(this),o=mn$1(t);if("string"==typeof N&&-1===$n$1(N,r)&&-1===$n$1(N,"$<")){var a=S(e,n,o,N);if(a.done)return a.value}var i=Qn$1(N);i||(N=mn$1(N));var s=n.global;if(s){var u=n.unicode;n.lastIndex=0;}for(var T=[];;){var c=Wn$1(n,o);if(null===c)break;if(Vn$1(T,c),!s)break;""===mn$1(c[0])&&(n.lastIndex=xn$1(o,_n$1(n.lastIndex),u));}for(var h,f="",l=0,d=0;d<T.length;d++){for(var M=mn$1((c=T[d])[0]),g=In$1(qn$1(Fn$1(c.index),o.length),0),O=[],p=1;p<c.length;p++)Vn$1(O,void 0===(h=c[p])?h:String(h));var H=c.groups;if(i){var v=jn$1([M],O,g,o);void 0!==H&&Vn$1(v,H);var y=mn$1(bn$1(N,void 0,v));}else y=Bn$1(M,o,g,O,H,N);g>=l&&(f+=zn$1(o,l,g)+y,l=g+M.length);}return f+zn$1(o,l)}]}),!So$1||!to$1||eo$1);var ro$1,No$1,no$1=Er$1,oo$1=S$1,ao$1=a$1,io$1=O$1,so$1=K$1,uo$1=G$1,To$1=(ro$1=!1,(No$1=/[ac]/).exec=function(){return ro$1=!0,/./.exec.apply(this,arguments)},!0===No$1.test("abc")&&ro$1),co$1=oo$1.Error,ho$1=io$1(/./.test);function fo$1(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function lo$1(t,e){for(var S=0;S<e.length;S++){var r=e[S];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r);}}function Mo$1(t,e,S){return e&&lo$1(t.prototype,e),S&&lo$1(t,S),t}function go$1(t,e,S){return e in t?Object.defineProperty(t,e,{value:S,enumerable:!0,configurable:!0,writable:!0}):t[e]=S,t}no$1({target:"RegExp",proto:!0,forced:!To$1},{test:function(t){var e=this.exec;if(!so$1(e))return ho$1(this,t);var S=ao$1(e,this,t);if(null!==S&&!uo$1(S))throw new co$1("RegExp exec method returned something other than an Object or null");return !!S}});var Oo$1=function(){function t(){fo$1(this,t),go$1(this,"preciseGridRef",""),go$1(this,"length",0),go$1(this,"hectad",""),go$1(this,"tetrad",""),go$1(this,"tetradLetter",""),go$1(this,"quadrant",""),go$1(this,"quadrantCode",""),go$1(this,"gridCoords",null),go$1(this,"error",!1),go$1(this,"errorMessage","");}return Mo$1(t,[{key:"set_tetrad",value:function(){if(this.tetradLetter=t.tetradLetters.substr(5*(Math.floor(this.gridCoords.x%1e4/1e3)>>1)+(Math.floor(this.gridCoords.y%1e4/1e3)>>1),1),!this.tetradLetter)throw new Error("Failed to get tetrad letter when processing '"+this.preciseGridRef+"', easting="+this.gridCoords.x+" northing="+this.gridCoords.y);this.tetrad=this.hectad+this.tetradLetter;}}],[{key:"get_normalized_precision",value:function(t,e){return t>2e3?1e4:t>1e3?2e3:t>100?1e3:t>10?100:t>1?10:e||1}}]),t}();go$1(Oo$1,"tetradOffsets",{E:[0,8e3],J:[2e3,8e3],P:[4e3,8e3],U:[6e3,8e3],Z:[8e3,8e3],D:[0,6e3],I:[2e3,6e3],N:[4e3,6e3],T:[6e3,6e3],Y:[8e3,6e3],C:[0,4e3],H:[2e3,4e3],M:[4e3,4e3],S:[6e3,4e3],X:[8e3,4e3],B:[0,2e3],G:[2e3,2e3],L:[4e3,2e3],R:[6e3,2e3],W:[8e3,2e3],A:[0,0],F:[2e3,0],K:[4e3,0],Q:[6e3,0],V:[8e3,0]}),go$1(Oo$1,"quadrantOffsets",{NW:[0,5e3],NE:[5e3,5e3],SW:[0,0],SE:[5e3,0]}),go$1(Oo$1,"letterMapping",{A:0,B:1,C:2,D:3,E:4,F:5,G:6,H:7,J:8,K:9,L:10,M:11,N:12,O:13,P:14,Q:15,R:16,S:17,T:18,U:19,V:20,W:21,X:22,Y:23,Z:24}),go$1(Oo$1,"tetradLetters","ABCDEFGHIJKLMNPQRSTUVWXYZ");var po$1=_r$1,Ho$1=br$1?{}.toString:function(){return "[object "+po$1(this)+"]"},vo$1=br$1,yo$1=De$1.exports,Jo$1=Ho$1;vo$1||yo$1(Object.prototype,"toString",Jo$1,{unsafe:!0});var Uo$1=Oe$1.f,Po$1=Et$1,Co$1=Wt$1("toStringTag"),Lo$1=S$1,Ro$1=function(t,e,S){t&&!Po$1(t=S?t:t.prototype,Co$1)&&Uo$1(t,Co$1,{configurable:!0,value:e});};Er$1({global:!0},{Reflect:{}}),Ro$1(Lo$1.Reflect,"Reflect",!0);var Eo$1=O$1([].slice),Yo$1=O$1,bo$1=Tt$1,wo$1=G$1,Do$1=Et$1,Ko$1=Eo$1,Xo$1=S$1.Function,Go$1=Yo$1([].concat),Qo$1=Yo$1([].join),Fo$1={},_o$1=function(t,e,S){if(!Do$1(Fo$1,e)){for(var r=[],N=0;N<e;N++)r[N]="a["+N+"]";Fo$1[e]=Xo$1("C,a","return new C("+Qo$1(r,",")+")");}return Fo$1[e](t,S)},mo$1=Xo$1.bind||function(t){var e=bo$1(this),S=e.prototype,r=Ko$1(arguments,1),N=function(){var S=Go$1(r,Ko$1(arguments));return this instanceof N?_o$1(e,S.length,S):e.apply(t,S)};return wo$1(S)&&(N.prototype=S),N},Ao$1=O$1,xo$1=N$1,Zo$1=K$1,Bo$1=_r$1,Wo$1=me$1,ko$1=function(){},Io$1=[],qo$1=m$1("Reflect","construct"),jo$1=/^\s*(?:class|function)\b/,Vo$1=Ao$1(jo$1.exec),$o$1=!jo$1.exec(ko$1),zo$1=function(t){if(!Zo$1(t))return !1;try{return qo$1(ko$1,Io$1,t),!0}catch(t){return !1}},ta$1=!qo$1||xo$1((function(){var t;return zo$1(zo$1.call)||!zo$1(Object)||!zo$1((function(){t=!0;}))||t}))?function(t){if(!Zo$1(t))return !1;switch(Bo$1(t)){case"AsyncFunction":case"GeneratorFunction":case"AsyncGeneratorFunction":return !1}return $o$1||!!Vo$1(jo$1,Wo$1(t))}:zo$1,ea$1=ta$1,Sa$1=at$1,ra$1=S$1.TypeError,Na$1=Er$1,na$1=jN$1,oa$1=mo$1,aa$1=function(t){if(ea$1(t))return t;throw ra$1(Sa$1(t)+" is not a constructor")},ia$1=Je$1,sa$1=G$1,ua$1=gN$1,Ta$1=N$1,ca$1=m$1("Reflect","construct"),ha$1=Object.prototype,fa$1=[].push,la$1=Ta$1((function(){function t(){}return !(ca$1((function(){}),[],t)instanceof t)})),da$1=!Ta$1((function(){ca$1((function(){}));})),Ma$1=la$1||da$1;function ga$1(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function Oa$1(t,e){return Oa$1=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t},Oa$1(t,e)}function pa$1(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&Oa$1(t,e);}function Ha$1(t){return Ha$1="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},Ha$1(t)}function va$1(t,e){if(e&&("object"===Ha$1(e)||"function"==typeof e))return e;if(void 0!==e)throw new TypeError("Derived constructors may only return object or undefined");return ga$1(t)}function ya$1(t){return ya$1=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)},ya$1(t)}Na$1({target:"Reflect",stat:!0,forced:Ma$1,sham:Ma$1},{construct:function(t,e){aa$1(t),ia$1(e);var S=arguments.length<3?t:aa$1(arguments[2]);if(da$1&&!la$1)return ca$1(t,e,S);if(t==S){switch(e.length){case 0:return new t;case 1:return new t(e[0]);case 2:return new t(e[0],e[1]);case 3:return new t(e[0],e[1],e[2]);case 4:return new t(e[0],e[1],e[2],e[3])}var r=[null];return na$1(fa$1,r,e),new(na$1(oa$1,t,r))}var N=S.prototype,n=ua$1(sa$1(N)?N:ha$1),o=na$1(t,n,e);return sa$1(o)?o:n}});var Ja$1=O$1,Ua$1=OS$1.PROPER,Pa$1=De$1.exports,Ca$1=Je$1,La$1=A$1,Ra$1=xr$1,Ea$1=N$1,Ya$1=Br$1,ba$1=RegExp.prototype,wa$1=ba$1.toString,Da$1=Ja$1(Ya$1),Ka$1=Ea$1((function(){return "/a/b"!=wa$1.call({source:"a",flags:"b"})})),Xa$1=Ua$1&&"toString"!=wa$1.name;(Ka$1||Xa$1)&&Pa$1(RegExp.prototype,"toString",(function(){var t=Ca$1(this),e=Ra$1(t.source),S=t.flags;return "/"+e+"/"+Ra$1(void 0===S&&La$1(ba$1,t)&&!("flags"in ba$1)?Da$1(t):S)}),{unsafe:!0});var Ga$1=Er$1,Qa$1=Math.log,Fa$1=Math.LOG10E;Ga$1({target:"Math",stat:!0},{log10:function(t){return Qa$1(t)*Fa$1}});var _a$1=y$1,ma$1=Array.isArray||function(t){return "Array"==_a$1(t)},Aa$1=re$1,xa$1=Oe$1,Za$1=f$1,Ba$1=N$1,Wa$1=q$1,ka$1=Wt$1("species"),Ia$1=Er$1,qa$1=S$1,ja$1=ma$1,Va$1=ta$1,$a$1=G$1,za$1=GS$1,ti$1=AS$1,ei$1=D$1,Si$1=function(t,e,S){var r=Aa$1(e);r in t?xa$1.f(t,r,Za$1(0,S)):t[r]=S;},ri$1=Wt$1,Ni$1=Eo$1,ni$1=function(t){return Wa$1>=51||!Ba$1((function(){var e=[];return (e.constructor={})[ka$1]=function(){return {foo:1}},1!==e[t](Boolean).foo}))}("slice"),oi$1=ri$1("species"),ai$1=qa$1.Array,ii$1=Math.max;Ia$1({target:"Array",proto:!0,forced:!ni$1},{slice:function(t,e){var S,r,N,n=ei$1(this),o=ti$1(n),a=za$1(t,o),i=za$1(void 0===e?o:e,o);if(ja$1(n)&&(S=n.constructor,(Va$1(S)&&(S===ai$1||ja$1(S.prototype))||$a$1(S)&&null===(S=S[oi$1]))&&(S=void 0),S===ai$1||void 0===S))return Ni$1(n,a,i);for(r=new(void 0===S?ai$1:S)(ii$1(i-a,0)),N=0;a<i;a++,N++)a in n&&Si$1(r,N,n[a]);return r.length=N,r}});var si$1=Math.PI/180,ui$1=180/Math.PI,Ti$1=function(){function t(e,S){fo$1(this,t),go$1(this,"lat",void 0),go$1(this,"lng",void 0),this.lat=e,this.lng=S;}return Mo$1(t,null,[{key:"_transform",value:function(e,S,r,N,n,o,a,i,s,u,T,c,h,f){var l=1e-6*f,d=r/Math.sqrt(1-N*(Math.sin(e)*Math.sin(e))),M=(d+n)*Math.cos(e)*Math.cos(S),g=(d+n)*Math.cos(e)*Math.sin(S),O=((1-N)*d+n)*Math.sin(e),p=T/3600*si$1,H=c/3600*si$1,v=h/3600*si$1,y=M+M*l-g*v+O*H+i,J=M*v+g+g*l-O*p+s,U=-1*M*H+g*p+O+O*l+u;S=Math.atan(J/y);var P=Math.sqrt(y*y+J*J);e=Math.atan(U/(P*(1-a))),d=o/Math.sqrt(1-a*(Math.sin(e)*Math.sin(e)));for(var C=1,L=0;C>.001;)L=Math.atan((U+a*d*Math.sin(e))/P),C=Math.abs(L-e),e=L;return new t(e,S)}},{key:"_Marc",value:function(t,e,S,r){return t*((1+e+5/4*(e*e)+5/4*(e*e*e))*(r-S)-(3*e+e*e*3+21/8*(e*e*e))*Math.sin(r-S)*Math.cos(r+S)+(15/8*(e*e)+15/8*(e*e*e))*Math.sin(2*(r-S))*Math.cos(2*(r+S))-35/24*(e*e*e)*Math.sin(3*(r-S))*Math.cos(3*(r+S)))}}]),t}();function ci$1(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya$1(t);if(e){var N=ya$1(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va$1(this,S)}}var hi$2=function(t){pa$1(S,Ti$1);var e=ci$1(S);function S(t,r){return fo$1(this,S),e.call(this,t,r)}return S}();function fi$1(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya$1(t);if(e){var N=ya$1(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va$1(this,S)}}var li$1=function(t){pa$1(S,Ti$1);var e=fi$1(S);function S(t,r){return fo$1(this,S),e.call(this,t,r)}return Mo$1(S,[{key:"to_WGS84",value:function(){var t=6377563.396,e=.00667054007,S=this.lat*si$1,r=Math.sin(S),N=this.lng*si$1,n=t/Math.sqrt(1-e*(r*r)),o=n*Math.cos(S)*Math.cos(N),a=n*Math.cos(S)*Math.sin(N),i=(1-e)*n*r,s=-204894e-10,u=7.28190110241429e-7,T=119748977294801e-20,c=446.448+o*(1+s)+-u*a+T*i,h=408261589226812e-20*o-124.157+a*(1+s)+-u*i,f=542.06+-T*o+u*a+i*(1+s);t=6378137,e=.00669438003;for(var l=Math.sqrt(c*c+h*h),d=Math.atan(f/(l*(1-e))),M=1;M<10;++M){var g=Math.sin(d);d=Math.atan((f+e*(t/Math.sqrt(1-e*(g*g)))*g)/l);}return new hi$2(ui$1*d,ui$1*Math.atan(h/c))}}],[{key:"from_wgs84",value:function(t){var e=t.lat*si$1,r=t.lng*si$1,N=.00669438037928458,n=.0066705397616,o=20.4894*1e-6,a=6378137/Math.sqrt(1-N*Math.sin(e)*Math.sin(e)),i=(a+0)*Math.cos(e)*Math.cos(r),s=(a+0)*Math.cos(e)*Math.sin(r),u=((1-N)*a+0)*Math.sin(e),T=-.1502/3600*si$1,c=-.247/3600*si$1,h=-.8421/3600*si$1,f=i+i*o-s*h+u*c-446.448,l=i*h+s+s*o-u*T+125.157,d=-1*i*c+s*T+u+u*o+-542.06,M=Math.atan(l/f),g=Math.sqrt(f*f+l*l),O=Math.atan(d/(g*(1-n)));a=6377563.396/Math.sqrt(1-n*(Math.sin(O)*Math.sin(O)));for(var p=1,H=0;p>.001;)H=Math.atan((d+n*a*Math.sin(O))/g),p=Math.abs(H-O),O=H;return new S(O*ui$1,M*ui$1)}}]),S}();function di$1(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya$1(t);if(e){var N=ya$1(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va$1(this,S)}}var Mi$1=function(t){pa$1(S,Ti$1);var e=di$1(S);function S(t,r){return fo$1(this,S),e.call(this,t,r)}return Mo$1(S,null,[{key:"from_wgs84",value:function(t){var e=t.lat*si$1,r=t.lng*si$1,N=Ti$1._transform(e,r,6378137,.00669438037928458,0,6378388,.0067226700223333,83.901,98.127,118.635,0,0,0,0);return new S(N.lat*ui$1,N.lng*ui$1)}}]),S}();function gi$1(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya$1(t);if(e){var N=ya$1(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va$1(this,S)}}var Oi$1=function(t){pa$1(S,Ti$1);var e=gi$1(S);function S(t,r){return fo$1(this,S),e.call(this,t,r)}return Mo$1(S,[{key:"to_WGS84",value:function(){var t=Ti$1._transform(this.lat*si$1,this.lng*si$1,6377340.189,.00667054015,0,6378137,.00669438037928458,482.53,-130.596,564.557,-1.042,-.214,-.631,-8.15);return new hi$2(t.lat*ui$1,t.lng*ui$1)}}],[{key:"from_wgs84",value:function(t){var e=t.lat*si$1,r=t.lng*si$1,N=Ti$1._transform(e,r,6378137,.00669438037928458,0,6377340.189,.00667054015,-482.53,130.596,-564.557,1.042,.214,.631,8.15);return new S(N.lat*ui$1,N.lng*ui$1)}}]),S}(),pi$1=function(){function t(){fo$1(this,t),go$1(this,"x",void 0),go$1(this,"y",void 0);}return Mo$1(t,[{key:"to_latLng",value:function(){}},{key:"to_gridref",value:function(t){}},{key:"toString",value:function(){return this.x+","+this.y}}],[{key:"from_latlng",value:function(t,e){if(e>=-8.74&&t>49.88){var S=new li$1.from_wgs84(new hi$2(t,e)).to_os_coords();if(S.x>=0&&S.is_gb_hectad())return S}if(e<-5.3&&t>51.34&&e>-11&&t<55.73){var r=new Oi$1.from_wgs84(new hi$2(t,e)).to_os_coords();return r.x<0||r.y<0?null:r}var N=new Mi$1.from_wgs84(new hi$2(t,e)).to_os_coords();return N.x>=5e5&&N.x<6e5&&N.y>=54e5&&N.y<56e5?N:null}},{key:"calculate_tetrad",value:function(e,S){return e>=0&&S>=0?t.tetradLetters.charAt(5*Math.floor(e%1e4/2e3)+Math.floor(S%1e4/2e3)):""}}]),t}();go$1(pi$1,"tetradLetters","ABCDEFGHIJKLMNPQRSTUVWXYZ"),go$1(pi$1,"tetradLettersRowFirst","AFKQVBGLRWCHMSXDINTYEJPUZ");var Hi$1=function(t,e,S,r){var N="00000"+Math.floor(e),n="00000"+Math.floor(S);if(2e3===r)return t+N.charAt(N.length-5)+n.charAt(n.length-5)+pi$1.calculate_tetrad(e,S);if(1e5===r)return t;5e3===r&&(r=1e4);var o=Math.round(Math.log10(r));return t+(o?N.slice(-5,-o)+n.slice(-5,-o):N.slice(-5)+n.slice(-5))};function vi$1(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya$1(t);if(e){var N=ya$1(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va$1(this,S)}}var yi$1=function(t){pa$1(S,pi$1);var e=vi$1(S);function S(t,r){var N;return fo$1(this,S),go$1(ga$1(N=e.call(this)),"country","CI"),N.x=t,N.y=r,N}return Mo$1(S,[{key:"to_latLng",value:function(){var t=.9996,e=.0067226700223333,S=6378388*t,r=6356911.946*t,N=this.x-5e5,n=Ui$1(this.y,0,S,0,.0016863406508729017,r),o=S/Math.sqrt(1-e*(Math.sin(n)*Math.sin(n))),a=o*(1-e)/(1-e*Math.sin(n)*Math.sin(n)),i=o/a-1,s=Math.tan(n)*Math.tan(n),u=Math.pow(Math.tan(n),4),T=Math.pow(Math.tan(n),6),c=Math.pow(Math.cos(n),-1),h=Math.tan(n)/(2*a*o),f=Math.tan(n)/(24*a*(o*o*o))*(5+3*s+i-9*i*s),l=Math.tan(n)/(720*a*Math.pow(o,5))*(61+90*s+45*u),d=n-N*N*h+Math.pow(N,4)*f-Math.pow(N,6)*l,M=Math.pow(Math.cos(n),-1)/o,g=c/(o*o*o*6)*(o/a+2*s),O=c/(120*Math.pow(o,5))*(5+28*s+24*u),p=c/(5040*Math.pow(o,7))*(61+662*s+1320*u+720*T),H=N*M-.0523598775598-N*N*N*g+Math.pow(N,5)*O-Math.pow(N,7)*p,v=Ji$1(d,H);return new hi$2(v.lat*ui$1,v.lng*ui$1)}},{key:"to_gridref",value:function(t){return this.y>=55e5?Hi$1("WA",this.x-5e5,this.y-55e5,t||1):this.y<55e5?Hi$1("WV",this.x-5e5,this.y-54e5,t||1):null}},{key:"to_hectad",value:function(){return this.y>55e5?"WA"+this.x.toString().substring(1,2)+this.y.toString().substring(2,3):this.y<55e5?"WV"+this.x.toString().substring(1,2)+this.y.toString().substring(2,3):null}}]),S}(),Ji$1=function(t,e){return Ti$1._transform(t,e,6378388,.0067226700223333,10,6378137,.00669438037928458,-83.901,-98.127,-118.635,0,0,0,0)},Ui$1=function(t,e,S,r,N,n){for(var o=(t-e)/S+r,a=Ti$1._Marc(n,N,r,o),i=(t-e-a)/S+o,s=0;Math.abs(t-e-a)>1e-5&&s<20;)s+=1,i=(t-e-a)/S+o,a=Ti$1._Marc(n,N,r,i),o=i;return i};function Pi$1(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya$1(t);if(e){var N=ya$1(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va$1(this,S)}}var Ci$1=function(t){pa$1(S,pi$1);var e=Pi$1(S);function S(t,r){var N;return fo$1(this,S),go$1(ga$1(N=e.call(this)),"gridCoords",null),go$1(ga$1(N),"country","GB"),N.x=t,N.y=r,N}return Mo$1(S,[{key:"to_gridref",value:function(t){var e,S=this.x/1e5|0,r=this.y/1e5|0;e=r<5?S<5?"S":"T":r<10?S<5?"N":"O":S<5?"H":"J";var N=65+5*(4-r%5)+S%5;N>=73&&N++;var n=String.fromCharCode(N);return Hi$1(e+n,this.x-1e5*S,this.y-1e5*r,t||1)}},{key:"to_hectad",value:function(){var t=this.x/1e5|0,e=this.y/1e5|0,S=65+5*(4-e%5)+t%5;return S>=73&&S++,(e<5?t<5?"S":"T":e<10?t<5?"N":"O":t<5?"H":"J")+String.fromCharCode(S)+((this.x-1e5*t)/1e4|0)+((this.y-1e5*e)/1e4|0)}},{key:"is_gb_hectad",value:function(){return -1!==S.gbHectads.indexOf(this.to_hectad())}},{key:"to_latLng",value:function(){var t,e=4e5,S=.85521133347722,r=6377563.396,N=.00667054007,n=this.x,o=this.y,a=.0016732203289875,i=(o+1e5)/(.9996012717*r)+S;do{i+=(t=o+1e5-6353722.489*(1.0016767257674*(i-S)-.00502807228247412*Math.sin(i-S)*Math.cos(i+S)+(1.875*a*a+1.875*a*a*a)*Math.sin(2*(i-S))*Math.cos(2*(i+S))-35/24*a*a*a*Math.sin(3*(i-S))*Math.cos(3*(i+S))))/6375020.48098897;}while(t>=.001);var s=Math.sin(i)*Math.sin(i),u=Math.tan(i)*Math.tan(i),T=1/Math.cos(i),c=.9996012717*r*Math.pow(1-N*s,-.5),h=6332495.651423464*Math.pow(1-N*s,-1.5),f=c/h-1,l=Math.tan(i)/(2*h*c),d=Math.tan(i)/(24*h*Math.pow(c,3))*(5+3*u+f-9*u*f),M=Math.tan(i)/(720*h*Math.pow(c,5))*(61+90*u+45*u*u),g=T/c,O=T/(6*c*c*c)*(c/h+2*u),p=T/(120*Math.pow(c,5))*(5+28*u+24*u*u),H=T/(5040*Math.pow(c,7))*(61+662*u+1320*u*u+720*u*u*u),v=i-l*Math.pow(n-e,2)+d*Math.pow(n-e,4)-M*Math.pow(n-e,6),y=g*(n-e)-.034906585039887-O*Math.pow(n-e,3)+p*Math.pow(n-e,5)-H*Math.pow(n-e,7);return new li$1(ui$1*v,ui$1*y).to_WGS84()}}]),S}();function Li$1(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya$1(t);if(e){var N=ya$1(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va$1(this,S)}}go$1(Ci$1,"gbHectads","SV80SV81SV90SV91SW32SW33SW42SW43SW44SW52SW53SW54SW61SW62SW63SW64SW65SW71SW72SW73SW74SW75SW76SW81SW82SW83SW84SW85SW86SW87SW95SW96SW97SS10SS11SS20SS21SS30SW83SW84SW85SW93SW94SW95SW96SW97SW98SX03SX04SX05SX06SX07SX08SX09SX14SX15SX16SX17SX18SX19SX25SX26SX27SX28SX29SX35SX36SX37SX38SX39SX44SX45SX46SX47SS70SS80SS81SS90SS91ST00ST01ST10ST11ST20ST21ST30SX37SX44SX45SX46SX47SX48SX54SX55SX56SX57SX58SX63SX64SX65SX66SX67SX68SX69SX73SX74SX75SX76SX77SX78SX79SX83SX84SX85SX86SX87SX88SX89SX94SX95SX96SX97SX98SX99SY07SY08SY09SY18SY19SY28SY29SY38SY39SS14SS20SS21SS22SS30SS31SS32SS40SS41SS42SS43SS44SS50SS51SS52SS53SS54SS60SS61SS62SS63SS64SS70SS71SS72SS73SS74SS75SS80SS81SS82SS83SS91SS92ST01ST02SX28SX29SX37SX38SX39SX48SX49SX58SX59SX68SX69SX79SS73SS74SS82SS83SS84SS92SS93SS94ST01ST02ST03ST04ST11ST12ST13ST14ST20ST21ST22ST23ST24ST25ST30ST31ST32ST33ST34ST40ST41ST42ST50ST51ST52ST61ST62ST71ST72ST24ST25ST26ST32ST33ST34ST35ST36ST37ST42ST43ST44ST45ST46ST47ST52ST53ST54ST55ST56ST57ST62ST63ST64ST65ST66ST67ST72ST73ST74ST75ST76ST77ST83ST84ST85ST86SP00SP10ST76ST77ST85ST86ST87ST88ST89ST96ST97ST98ST99SU06SU07SU08SU09SU16SU17SU18SU19SU26SU27SU28SU29SU36SU37ST73ST74ST75ST76ST82ST83ST84ST85ST86ST91ST92ST93ST94ST95ST96SU01SU02SU03SU04SU05SU06SU11SU12SU13SU14SU15SU16SU21SU22SU23SU24SU25SU26SU31SU32SU34SU35SU36ST20ST30ST40ST50ST51ST60ST61ST70ST71ST72ST73ST80ST81ST82ST83ST90ST91ST92SU00SU01SU02SU10SU11SY39SY48SY49SY58SY59SY66SY67SY68SY69SY77SY78SY79SY87SY88SY89SY97SY98SY99SZ07SZ08SZ09SZ28SZ38SZ39SZ47SZ48SZ49SZ57SZ58SZ59SZ68SZ69SU00SU01SU02SU10SU11SU12SU20SU21SU22SU23SU30SU31SU32SU33SU40SU41SU42SU43SU50SU51SU52SU60SU61SU62SU70SU71SU72SZ08SZ09SZ19SZ29SZ38SZ39SZ49SZ59SZ69SZ79SU23SU24SU25SU33SU34SU35SU36SU42SU43SU44SU45SU46SU52SU53SU54SU55SU56SU62SU63SU64SU65SU66SU72SU73SU74SU75SU76SU82SU83SU84SU85SU86SU70SU71SU72SU80SU81SU82SU83SU90SU91SU92SU93SZ79SZ89SZ99TQ00TQ01TQ02TQ03TQ10TQ11TQ12TQ13TQ20TQ21TQ22TQ23TQ30TQ31TQ32TQ20TQ21TQ22TQ23TQ30TQ31TQ32TQ33TQ40TQ41TQ42TQ43TQ44TQ50TQ51TQ52TQ53TQ54TQ60TQ61TQ62TQ63TQ70TQ71TQ72TQ80TQ81TQ82TQ91TQ92TV49TV59TV69TQ65TQ72TQ73TQ74TQ75TQ76TQ77TQ82TQ83TQ84TQ85TQ86TQ87TQ91TQ92TQ93TQ94TQ95TQ96TQ97TR01TR02TR03TR04TR05TR06TR07TR12TR13TR14TR15TR16TR23TR24TR25TR26TR27TR33TR34TR35TR36TR37TR46TR47TQ35TQ36TQ37TQ38TQ43TQ44TQ45TQ46TQ47TQ48TQ53TQ54TQ55TQ56TQ57TQ58TQ63TQ64TQ65TQ66TQ67TQ72TQ73TQ74TQ75TQ76TQ77TQ78TQ87TQ88TQ97SU83SU84SU85SU86SU93SU94SU95SU96SU97TQ03TQ04TQ05TQ06TQ07TQ13TQ14TQ15TQ16TQ17TQ23TQ24TQ25TQ26TQ27TQ33TQ34TQ35TQ36TQ37TQ38TQ43TQ44TQ45TL30TL40TL50TL60TL70TL80TL90TM00TQ38TQ39TQ47TQ48TQ49TQ57TQ58TQ59TQ67TQ68TQ69TQ77TQ78TQ79TQ88TQ89TQ98TQ99TR08TR09TR19TL30TL31TL34TL40TL41TL42TL43TL44TL50TL51TL52TL53TL54TL60TL61TL62TL63TL64TL70TL71TL72TL73TL74TL80TL81TL82TL83TL84TL90TL91TL92TL93TM01TM02TM03TM11TM12TM13TM21TM22TM23TQ49SP81SP90SP91TL00TL01TL02TL10TL11TL12TL13TL20TL21TL22TL23TL24TL30TL31TL32TL33TL34TL41TL42TL43TL44TL51TL52TQ09TQ19TQ29TQ39TL20TL30TQ06TQ07TQ08TQ09TQ16TQ17TQ18TQ19TQ27TQ28TQ29TQ37TQ38TQ39SP20SP30SP40SP41SP50SU19SU26SU27SU28SU29SU36SU37SU38SU39SU46SU47SU48SU49SU56SU57SU58SU59SU66SU67SU68SU69SU76SU77SU78SU86SU87SU88SU96SU97SU98SP10SP20SP21SP22SP23SP30SP31SP32SP33SP34SP40SP41SP42SP43SP44SP45SP50SP51SP52SP53SP54SP60SP61SP62SP63SP70SU29SU39SU49SU57SU58SU59SU67SU68SU69SU77SU78SU79SP51SP53SP60SP61SP62SP63SP64SP70SP71SP72SP73SP74SP80SP81SP82SP83SP84SP85SP90SP91SP92SP93SP94SP95SU78SU79SU88SU89SU97SU98SU99TL00TL01TQ07TQ08TQ09TG40TG50TM03TM04TM05TM06TM07TM13TM14TM15TM16TM17TM23TM24TM25TM26TM27TM28TM33TM34TM35TM36TM37TM38TM39TM44TM45TM46TM47TM48TM49TM57TM58TM59TL64TL65TL66TL67TL68TL74TL75TL76TL77TL78TL83TL84TL85TL86TL87TL88TL93TL94TL95TL96TL97TL98TM03TM04TM05TM06TM07TM08TG00TG01TG02TG03TG04TG10TG11TG12TG13TG14TG20TG21TG22TG23TG24TG30TG31TG32TG33TG40TG41TG42TG50TG51TM07TM08TM09TM17TM18TM19TM27TM28TM29TM38TM39TM49TM59TF40TF41TF42TF50TF51TF52TF53TF60TF61TF62TF63TF64TF70TF71TF72TF73TF74TF80TF81TF82TF83TF84TF90TF91TF92TF93TF94TG00TG01TG02TG03TG04TL49TL59TL68TL69TL78TL79TL87TL88TL89TL98TL99TM07TM08TM09TF20TF30TF31TF40TF41TF50TL15TL19TL23TL24TL25TL26TL28TL29TL33TL34TL35TL36TL37TL38TL39TL44TL45TL46TL47TL48TL49TL54TL55TL56TL57TL58TL59TL63TL64TL65TL66TL67TL68TL69TL75TL76SP91SP92SP93SP94SP95SP96TL01TL02TL03TL04TL05TL06TL07TL11TL12TL13TL14TL15TL16TL23TL24TL25TL06TL07TL08TL09TL15TL16TL17TL18TL19TL25TL26TL27TL28TL29TL36TL37TL38TL39SK90SP43SP44SP45SP46SP53SP54SP55SP56SP57SP58SP63SP64SP65SP66SP67SP68SP73SP74SP75SP76SP77SP78SP79SP84SP85SP86SP87SP88SP89SP95SP96SP97SP98SP99TF00TF10TF20TL06TL07TL08TL09TL18TL19TL29SO70SO71SO80SO81SO82SO83SO90SO91SO92SO93SO94SP00SP01SP02SP03SP04SP10SP11SP12SP13SP14SP15SP20SP21SP22SP23SP24SP25ST99SU09SU19SU29SO50SO51SO60SO61SO62SO63SO70SO71SO72SO73SO80SO81SO82SO83SO90ST57ST58ST59ST66ST67ST68ST69ST76ST77ST78ST79ST87ST88ST89ST98ST99SO10SO11SO20SO21SO22SO23SO30SO31SO32SO40SO41SO42SO50SO51ST18ST19ST27ST28ST29ST37ST38ST39ST47ST48ST49ST58ST59SO22SO23SO24SO25SO26SO32SO33SO34SO35SO36SO37SO41SO42SO43SO44SO45SO46SO47SO51SO52SO53SO54SO55SO56SO57SO61SO62SO63SO64SO65SO66SO73SO74SO75SO76SO56SO64SO65SO66SO67SO72SO73SO74SO75SO76SO77SO78SO82SO83SO84SO85SO86SO87SO88SO93SO94SO95SO96SO97SO98SO99SP03SP04SP05SP06SP07SP08SP13SP14SP16SP17SP18SK10SK20SK30SP04SP05SP06SP07SP08SP09SP14SP15SP16SP17SP18SP19SP22SP23SP24SP25SP26SP27SP28SP29SP33SP34SP35SP36SP37SP38SP39SP44SP45SP46SP47SP48SP49SP55SP56SP57SP58SJ63SJ70SJ71SJ72SJ73SJ74SJ75SJ80SJ81SJ82SJ83SJ84SJ85SJ86SJ90SJ91SJ92SJ93SJ94SJ95SJ96SK00SK01SK02SK03SK04SK05SK06SK10SK11SK12SK13SK14SK15SK16SK20SK21SK22SO77SO78SO79SO88SO89SO98SO99SP08SP09SP19SP29SJ20SJ21SJ22SJ23SJ30SJ31SJ32SJ33SJ34SJ40SJ41SJ42SJ43SJ50SJ51SJ52SJ53SJ54SJ60SJ61SJ62SJ63SJ64SJ70SJ71SJ72SJ73SJ74SJ80SO17SO18SO27SO28SO29SO37SO38SO39SO46SO47SO48SO49SO56SO57SO58SO59SO66SO67SO68SO69SO77SO78SO79SO88SO89SN50SN60SN61SN70SN71SN80SN81SN90SO00SO01SO10SO11SS38SS39SS48SS49SS58SS59SS68SS69SS77SS78SS79SS87SS88SS89SS96SS97SS98SS99ST06ST07ST08ST09ST16ST17ST18ST19ST26ST27ST28SN70SN71SN74SN80SN81SN82SN83SN84SN85SN86SN90SN91SN92SN93SN94SN95SN96SO00SO01SO02SO03SO04SO05SO06SO10SO11SO12SO13SO14SO21SO22SO23SO24SN86SN87SN96SN97SO04SO05SO06SO07SO08SO13SO14SO15SO16SO17SO18SO24SO25SO26SO27SO36SO37SN01SN02SN10SN11SN12SN20SN21SN22SN23SN24SN30SN31SN32SN33SN34SN40SN41SN42SN43SN44SN50SN51SN52SN53SN54SN60SN61SN62SN63SN64SN65SN71SN72SN73SN74SN75SN81SN82SN83SN84SS39SS49SS59SM50SM62SM70SM71SM72SM73SM80SM81SM82SM83SM84SM90SM91SM92SM93SM94SN00SN01SN02SN03SN04SN10SN11SN12SN13SN14SN22SN23SN24SR89SR99SS09SS19SN14SN15SN24SN25SN33SN34SN35SN36SN44SN45SN46SN54SN55SN56SN57SN58SN64SN65SN66SN67SN68SN69SN74SN75SN76SN77SN78SN79SN84SN85SN86SN87SN88SN89SH70SH71SH80SH81SH90SH91SH92SJ00SJ01SJ02SJ03SJ10SJ11SJ12SJ20SJ21SJ22SJ31SN69SN78SN79SN87SN88SN89SN97SN98SN99SO07SO08SO09SO18SO19SO28SO29SO39SH50SH51SH52SH53SH54SH60SH61SH62SH63SH64SH70SH71SH72SH73SH74SH80SH81SH82SH83SH84SH91SH92SH93SH94SH95SJ03SJ04SJ05SJ13SJ14SN59SN69SN79SH12SH13SH22SH23SH24SH32SH33SH34SH43SH44SH45SH46SH53SH54SH55SH56SH57SH64SH65SH66SH67SH74SH75SH76SH77SH78SH84SH85SH86SH87SH88SH74SH75SH76SH77SH84SH85SH86SH87SH88SH94SH95SH96SH97SH98SJ02SJ03SJ04SJ05SJ06SJ07SJ08SJ12SJ13SJ14SJ15SJ16SJ17SJ22SJ23SJ24SJ25SJ26SJ33SJ34SJ35SJ43SJ44SJ45SJ53SJ54SH97SH98SJ06SJ07SJ08SJ15SJ16SJ17SJ18SJ25SJ26SJ27SJ35SJ36SJ37SH27SH28SH29SH36SH37SH38SH39SH46SH47SH48SH49SH56SH57SH58SH59SH67SH68SK81SK82SK83SK84SK85SK86SK87SK90SK91SK92SK93SK94SK95SK96SK97TF00TF01TF02TF03TF04TF05TF06TF07TF10TF11TF12TF13TF14TF15TF16TF17TF20TF21TF22TF23TF24TF25TF30TF31TF32TF33TF34TF41TF42TF43TF44TF52SE60SE70SE71SE80SE81SE82SE90SE91SE92SK78SK79SK87SK88SK89SK97SK98SK99TA00TA01TA02TA10TA11TA12TA20TA21TA30TA31TA40TF07TF08TF09TF15TF16TF17TF18TF19TF24TF25TF26TF27TF28TF29TF33TF34TF35TF36TF37TF38TF39TF43TF44TF45TF46TF47TF48TF49TF54TF55TF56TF57TF58SK20SK21SK30SK31SK32SK40SK41SK42SK43SK50SK51SK52SK60SK61SK62SK70SK71SK72SK73SK74SK80SK81SK82SK83SK84SK90SK91SP39SP48SP49SP57SP58SP59SP68SP69SP78SP79SP89SP99TF00TF01SE60SE70SK42SK43SK44SK45SK46SK52SK53SK54SK55SK56SK57SK58SK59SK62SK63SK64SK65SK66SK67SK68SK69SK72SK73SK74SK75SK76SK77SK78SK79SK84SK85SK86SK87SK88SK89SK97SJ98SJ99SK03SK06SK07SK08SK09SK11SK12SK13SK14SK15SK16SK17SK18SK19SK21SK22SK23SK24SK25SK26SK27SK28SK31SK32SK33SK34SK35SK36SK37SK38SK42SK43SK44SK45SK46SK47SK48SK53SK56SK57SD90SE00SE10SJ18SJ19SJ27SJ28SJ29SJ35SJ36SJ37SJ38SJ39SJ44SJ45SJ46SJ47SJ48SJ54SJ55SJ56SJ57SJ58SJ63SJ64SJ65SJ66SJ67SJ68SJ69SJ74SJ75SJ76SJ77SJ78SJ79SJ85SJ86SJ87SJ88SJ89SJ96SJ97SJ98SJ99SK06SK07SK08SK09SK19SD20SD21SD22SD30SD31SD32SD40SD41SD42SD50SD51SD52SD53SD60SD61SD62SD63SD70SD71SD72SD73SD74SD80SD81SD82SD83SD84SD90SD91SD92SD93SD94SJ29SJ38SJ39SJ48SJ49SJ58SJ59SJ68SJ69SJ79SJ88SJ89SJ99SD22SD23SD32SD33SD34SD35SD36SD42SD43SD44SD45SD46SD47SD52SD53SD54SD55SD56SD57SD63SD64SD65SD66SD67SD68SD73SD78SE53SE54SE62SE63SE64SE65SE72SE73SE74SE75SE76SE82SE83SE84SE85SE86SE87SE92SE93SE94SE95SE96SE97SE98TA02TA03TA04TA05TA06TA07TA08TA12TA13TA14TA15TA16TA17TA18TA21TA22TA23TA24TA26TA27TA31TA32TA33TA41TA42NZ30NZ31NZ40NZ41NZ42NZ50NZ51NZ52NZ60NZ61NZ62NZ70NZ71NZ72NZ80NZ81NZ90NZ91SE37SE38SE39SE46SE47SE48SE49SE55SE56SE57SE58SE59SE64SE65SE66SE67SE68SE69SE75SE76SE77SE78SE79SE86SE87SE88SE89SE97SE98SE99TA08TA09TA18SD84SD90SD91SD92SD93SD94SD95SE00SE01SE02SE03SE04SE10SE11SE12SE13SE14SE20SE21SE22SE23SE30SE31SE32SE33SE40SE41SE42SE50SE51SE52SE60SE61SE62SE70SE71SE72SE81SE82SK18SK19SK28SK29SK38SK39SK47SK48SK49SK57SK58SK59SK69SD54SD55SD64SD65SD66SD67SD68SD73SD74SD75SD76SD77SD78SD84SD85SD86SD87SD88SD94SD95SD96SD97SD98SE04SE05SE06SE07SE13SE14SE15SE16SE17SE23SE24SE25SE26SE27SE32SE33SE34SE35SE36SE37SE42SE43SE44SE45SE46SE52SE53SE54SE55SE56SE62SE63SE64SE65SE72NY72NY80NY81NY82NY90NY91NY92NZ00NZ01NZ02NZ10NZ11NZ20NZ21NZ30NZ31SD68SD69SD78SD79SD88SD89SD97SD98SD99SE07SE08SE09SE17SE18SE19SE27SE28SE29SE36SE37SE38SE39SE46SE47NY73NY74NY82NY83NY84NY92NY93NY94NY95NZ01NZ02NZ03NZ04NZ05NZ11NZ12NZ13NZ14NZ15NZ16NZ20NZ21NZ22NZ23NZ24NZ25NZ26NZ30NZ31NZ32NZ33NZ34NZ35NZ36NZ41NZ42NZ43NZ44NZ45NZ46NZ52NZ53NT60NT70NT80NT90NU00NU10NU20NY58NY59NY64NY65NY66NY67NY68NY69NY74NY75NY76NY77NY78NY79NY84NY85NY86NY87NY88NY89NY94NY95NY96NY97NY98NY99NZ04NZ05NZ06NZ07NZ08NZ09NZ15NZ16NZ17NZ18NZ19NZ26NZ27NZ28NZ29NZ36NZ37NZ38NZ39NT70NT71NT73NT80NT81NT82NT83NT84NT90NT91NT92NT93NT94NT95NU00NU01NU02NU03NU04NU05NU10NU11NU12NU13NU14NU20NU21NU22NU23NZ09NZ19NY20NY21NY30NY31NY40NY41NY42NY50NY51NY52NY53NY60NY61NY62NY63NY70NY71NY72NY73NY80NY81NY82NY83SD16SD17SD18SD19SD26SD27SD28SD29SD36SD37SD38SD39SD46SD47SD48SD49SD57SD58SD59SD67SD68SD69SD78SD79SD89NX90NX91NX92NX93NY00NY01NY02NY03NY04NY05NY10NY11NY12NY13NY14NY15NY16NY20NY21NY22NY23NY24NY25NY26NY31NY32NY33NY34NY35NY36NY37NY41NY42NY43NY44NY45NY46NY47NY48NY52NY53NY54NY55NY56NY57NY58NY62NY63NY64NY65NY66NY67NY68NY73NY74NY75NY84SD08SD09SD17SD18SD19SD28SD29NX30NX40SC16SC17SC26SC27SC28SC36SC37SC38SC39SC47SC48SC49NS60NS61NS70NS71NS72NS80NS81NS90NT00NT01NT10NT11NT20NT21NT30NX69NX78NX79NX88NX89NX96NX97NX98NX99NY05NY06NY07NY08NY09NY16NY17NY18NY19NY26NY27NY28NY29NY36NY37NY38NY39NY47NY48NY49NS50NS60NX36NX37NX38NX45NX46NX47NX48NX49NX54NX55NX56NX57NX58NX59NX64NX65NX66NX67NX68NX69NX74NX75NX76NX77NX78NX79NX84NX85NX86NX87NX88NX95NX96NX97NX98NY05NY06NW95NW96NW97NX03NX04NX05NX06NX07NX13NX14NX15NX16NX17NX24NX25NX26NX27NX33NX34NX35NX36NX37NX43NX44NX45NX46NS00NS10NS14NS15NS16NS20NS21NS23NS24NS25NS26NS30NS31NS32NS33NS34NS35NS36NS40NS41NS42NS43NS44NS45NS50NS51NS52NS53NS54NS55NS60NS61NS62NS63NS64NS71NS72NS73NX07NX08NX09NX17NX18NX19NX27NX28NX29NX37NX38NX39NX48NX49NX59NS16NS17NS26NS27NS35NS36NS37NS44NS45NS46NS47NS54NS55NS56NS64NS65NS66NS53NS54NS55NS56NS57NS63NS64NS65NS66NS67NS71NS72NS73NS74NS75NS76NS77NS80NS81NS82NS83NS84NS85NS86NS87NS90NS91NS92NS93NS94NS95NS96NT00NT01NT02NT03NT04NT05NT14NT01NT02NT03NT04NT05NT11NT12NT13NT14NT15NT21NT22NT23NT24NT25NT32NT33NT34NT10NT11NT20NT21NT22NT23NT30NT31NT32NT33NT34NT41NT42NT43NT44NT53NT20NT30NT31NT40NT41NT42NT43NT44NT50NT51NT52NT53NT54NT60NT61NT62NT63NT64NT70NT71NT72NT73NT74NT81NT82NT83NY39NY47NY48NY49NY58NY59NY69NT44NT45NT46NT53NT54NT55NT56NT63NT64NT65NT66NT73NT74NT75NT76NT77NT83NT84NT85NT86NT87NT94NT95NT96NT36NT37NT45NT46NT47NT48NT55NT56NT57NT58NT65NT66NT67NT68NT76NT77NS95NS96NT05NT06NT15NT16NT17NT24NT25NT26NT27NT34NT35NT36NT37NT43NT44NT45NT46NS86NS87NS95NS96NS97NS98NT06NT07NT08NT16NT17NO00NO01NO10NO11NO20NO21NO22NO30NO31NO32NO40NO41NO42NO50NO51NO52NO60NO61NS99NT08NT09NT18NT19NT28NT29NT39NT49NT59NT69NN30NN31NN40NN41NS38NS39NS47NS48NS49NS57NS58NS59NS67NS68NS69NS77NS78NS79NS86NS87NS88NS89NS97NS98NN21NN22NN30NN31NN32NN40NN41NN42NN50NN51NN52NN60NN61NN70NN71NN80NN81NN90NN91NO00NS49NS59NS69NS79NS88NS89NS98NS99NT08NT09NN22NN23NN32NN33NN34NN35NN42NN43NN44NN45NN46NN47NN51NN52NN53NN54NN55NN56NN57NN61NN62NN63NN64NN65NN66NN67NN71NN72NN73NN74NN75NN76NN77NN81NN82NN83NN84NN85NN86NN90NN91NN92NN93NN94NN95NN96NO00NO01NO02NO03NO04NO11NO12NO13NO21NN56NN57NN66NN67NN68NN76NN77NN78NN86NN87NN88NN94NN95NN96NN97NN98NO02NO03NO04NO05NO06NO07NO08NO11NO12NO13NO14NO15NO16NO17NO21NO22NO23NO24NO25NO32NO33NO34NO15NO16NO17NO23NO24NO25NO26NO27NO28NO32NO33NO34NO35NO36NO37NO38NO42NO43NO44NO45NO46NO47NO48NO53NO54NO55NO56NO57NO58NO63NO64NO65NO66NO67NO74NO75NO76NJ60NJ70NJ80NJ90NO57NO58NO66NO67NO68NO69NO76NO77NO78NO79NO86NO87NO88NO89NO99NH90NJ00NJ10NJ11NJ20NJ21NJ30NJ31NJ32NJ40NJ41NJ42NJ50NJ51NJ52NJ60NJ61NJ62NJ70NJ71NJ72NJ80NJ81NJ82NJ90NJ91NJ92NK02NN98NN99NO07NO08NO09NO17NO18NO19NO27NO28NO29NO37NO38NO39NO48NO49NO58NO59NO68NO69NO79NO89NJ31NJ32NJ33NJ34NJ42NJ43NJ44NJ52NJ53NJ54NJ55NJ62NJ63NJ64NJ65NJ72NJ73NJ74NJ75NJ76NJ82NJ83NJ84NJ85NJ86NJ92NJ93NJ94NJ95NJ96NK02NK03NK04NK05NK06NK13NK14NK15NH90NJ00NJ01NJ10NJ11NJ12NJ13NJ14NJ21NJ22NJ23NJ24NJ25NJ32NJ33NJ34NJ35NJ36NJ42NJ43NJ44NJ45NJ46NJ54NJ55NJ56NJ64NJ65NJ66NJ74NJ75NJ76NJ86NN99NH72NH81NH82NH91NH92NH93NH94NH95NH96NJ00NJ01NJ02NJ03NJ04NJ05NJ06NJ11NJ12NJ13NJ14NJ15NJ16NJ17NJ23NJ24NJ25NJ26NJ27NJ34NJ35NJ36NJ45NH01NH02NH10NH11NH12NH13NH14NH20NH21NH22NH23NH24NH30NH31NH32NH33NH34NH40NH41NH42NH43NH44NH50NH51NH52NH53NH54NH60NH61NH62NH63NH64NH70NH71NH72NH73NH74NH75NH80NH81NH82NH83NH84NH85NH90NH91NH92NH93NH94NH95NH96NJ00NJ01NN39NN46NN47NN48NN49NN56NN57NN58NN59NN67NN68NN69NN77NN78NN79NN88NN89NN98NN99NG60NG70NG71NG72NG80NG81NG82NG90NG91NH00NH01NH10NH20NH30NM46NM47NM54NM55NM56NM57NM64NM65NM66NM67NM68NM69NM74NM75NM76NM77NM78NM79NM84NM85NM86NM87NM88NM89NM95NM96NM97NM98NM99NN05NN06NN07NN08NN09NN16NN17NN18NN19NN26NN27NN28NN29NN35NN36NN37NN38NN39NN46NN47NN48NN49NN57NN58NN59NM70NM71NM72NM73NM80NM81NM82NM83NM84NM90NM91NM92NM93NM94NM95NN00NN01NN02NN03NN04NN05NN10NN11NN12NN13NN14NN15NN16NN20NN21NN22NN23NN24NN25NN26NN30NN33NN34NN35NN36NN44NN45NN46NR79NR88NR89NR96NR97NR98NR99NS06NS07NS08NS09NS16NS17NS18NS19NS28NS29NN20NN21NN30NN31NS28NS29NS37NS38NS39NS46NS47NS48NS56NS57NR82NR83NR84NR92NR93NR94NR95NR96NR97NS01NS02NS03NS04NS05NS06NS07NS15NS16NR50NR51NR60NR61NR62NR63NR64NR65NR67NR68NR70NR71NR72NR73NR74NR75NR76NR77NR78NR79NR83NR84NR85NR86NR87NR88NR89NR95NR96NM40NM60NM61NM70NM71NR15NR16NR24NR25NR26NR27NR34NR35NR36NR37NR38NR39NR44NR45NR46NR47NR48NR49NR56NR57NR58NR59NR67NR68NR69NR79NL93NL94NM04NM05NM15NM16NM21NM22NM23NM24NM25NM26NM31NM32NM33NM34NM35NM41NM42NM43NM44NM45NM51NM52NM53NM54NM55NM61NM62NM63NM64NM72NM73NG13NG14NG15NG20NG23NG24NG25NG26NG30NG31NG32NG33NG34NG35NG36NG37NG38NG40NG41NG42NG43NG44NG45NG46NG47NG50NG51NG52NG53NG54NG55NG56NG60NG61NG62NG63NG64NG65NG66NG71NG72NG82NM19NM29NM37NM38NM39NM47NM48NM49NM59NB90NB91NC00NC01NC10NC11NC20NC21NG63NG64NG65NG72NG73NG74NG75NG76NG77NG78NG79NG82NG83NG84NG85NG86NG87NG88NG89NG91NG92NG93NG94NG95NG96NG97NG98NG99NH00NH01NH02NH03NH04NH05NH06NH07NH08NH09NH10NH11NH15NH16NH17NH18NH19NH27NH28NH29NC10NC20NC21NC30NC31NC40NH02NH03NH04NH05NH06NH07NH12NH13NH14NH15NH16NH17NH19NH23NH24NH25NH26NH27NH28NH29NH34NH35NH36NH37NH38NH39NH44NH45NH46NH47NH48NH49NH54NH55NH56NH57NH58NH59NH64NH65NH66NH67NH68NH69NH75NH76NH77NH78NH86NH87NH88NH97NH98NC22NC30NC31NC32NC33NC40NC41NC42NC43NC50NC51NC52NC60NC61NC62NC63NC70NC71NC72NC73NC74NC80NC81NC82NC83NC84NC90NC91NC92NC93ND01ND02NH49NH59NH68NH69NH78NH79NH88NH89NC01NC02NC03NC10NC11NC12NC13NC14NC15NC16NC20NC21NC22NC23NC24NC25NC26NC27NC31NC32NC33NC34NC35NC36NC37NC42NC43NC44NC45NC46NC52NC53NC54NC55NC56NC62NC63NC64NC65NC66NC73NC74NC75NC76NC83NC84NC85NC86NC93NC94NC95NC96NC92NC93NC94NC95NC96ND01ND02ND03ND04ND05ND06ND07ND12ND13ND14ND15ND16ND17ND23ND24ND25ND26ND27ND33ND34ND35ND36ND37ND47HW63HW83HX62NA00NA10NA64NA74NA81NA90NA91NA92NA93NB00NB01NB02NB03NB10NB11NB12NB13NB14NB20NB21NB22NB23NB24NB30NB31NB32NB33NB34NB35NB40NB41NB42NB43NB44NB45NB46NB52NB53NB54NB55NB56NF09NF19NF56NF58NF60NF61NF66NF67NF68NF70NF71NF72NF73NF74NF75NF76NF77NF80NF81NF82NF83NF84NF85NF86NF87NF88NF89NF95NF96NF97NF98NF99NG07NG08NG09NG18NG19NG29NG49NL57NL58NL68NL69NL79HY10HY20HY21HY22HY23HY30HY31HY32HY33HY34HY35HY40HY41HY42HY43HY44HY45HY50HY51HY52HY53HY54HY55HY60HY61HY62HY63HY64HY73HY74HY75ND19ND28ND29ND38ND39ND47ND48ND49ND59HP40HP50HP51HP60HP61HT93HT94HU14HU15HU16HU24HU25HU26HU27HU28HU30HU31HU32HU33HU34HU35HU36HU37HU38HU39HU40HU41HU42HU43HU44HU45HU46HU47HU48HU49HU53HU54HU55HU56HU57HU58HU59HU66HU67HU68HU69HZ16HZ17HZ26HZ27");var Ri$1=function(t){pa$1(S,Oo$1);var e=Li$1(S);function S(){var t;return fo$1(this,S),go$1(ga$1(t=e.call(this)),"country","CI"),go$1(ga$1(t),"GridCoords",yi$1),go$1(ga$1(t),"gridCoords",null),t.parse_well_formed=t.from_string,t}return Mo$1(S,[{key:"from_string",value:function(t){var e,r=t.replace(/[\[\]\s\t.\/-]+/g,"").toUpperCase(),N="";/[ABCDEFGHIJKLMNPQRSTUVWXYZ]$/.test(r)&&(Oo$1.quadrantOffsets.hasOwnProperty(r.substr(r.length-2))?(this.quadrantCode=r.substr(r.length-2),r=r.substr(0,r.length-2)):(N=r.substr(r.length-1),r=r.substr(0,r.length-1))),/^(W[AV](?:\d\d){1,5})$/.test(r)?(e=S.gridref_string_to_e_n_l(r))?(this.length=e.length,this.gridCoords=new yi$1(e.e,e.n),this.hectad=this.gridCoords.to_gridref(1e4),1e4===this.length&&(N||this.quadrantCode)?N?(this.preciseGridRef=r+N,this.tetrad=this.hectad+N,this.tetradLetter=N,this.length=2e3,this.gridCoords.x+=Oo$1.tetradOffsets[N][0],this.gridCoords.y+=Oo$1.tetradOffsets[N][1]):(this.preciseGridRef=r+this.quadrantCode,this.tetradLetter="",this.tetrad="",this.quadrant=this.preciseGridRef,this.length=5e3,this.gridCoords.x+=Oo$1.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo$1.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=r,this.length<=1e3&&this.set_tetrad())):(this.error=!0,this.errorMessage="Grid reference format not understood (odd length)."):(this.error=!0,this.errorMessage="Channel Island grid reference format not understood. ('"+t+"')");}}],[{key:"gridref_string_to_e_n_l",value:function(t){var e,S,r,N,n=t.substr(0,2);if("WA"===n)e=55e5;else {if("WV"!==n)return console.log("Bad Channel Island grid letters: '"+n+"'"),!1;e=54e5;}var o=t.substr(2);switch(o.length){case 2:S=1e4*o.charAt(0),r=1e4*o.charAt(1),N=1e4;break;case 4:S=1e3*o.substr(0,2),r=1e3*o.substr(2),N=1e3;break;case 6:S=100*o.substr(0,3),r=100*o.substr(3),N=100;break;case 8:S=10*o.substr(0,4),r=10*o.substr(4),N=10;break;case 10:S=parseInt(o.substr(0,5),10),r=parseInt(o.substr(5),10),N=1;break;default:return console.log("Bad length for Channel Island grid ref '"+t+"'"),!1}return {e:S+5e5,n:r+e,length:N}}}]),S}(),Ei$1=a$1,Yi$1=Je$1,bi$1=_S$1,wi$1=xr$1,Di$1=Y$1,Ki$1=ht$1,Xi$1=dn$1,Gi$1=Yn$1;function Qi$1(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya$1(t);if(e){var N=ya$1(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va$1(this,S)}}nn$1("match",(function(t,e,S){return [function(e){var S=Di$1(this),r=null==e?void 0:Ki$1(e,t);return r?Ei$1(r,e,S):new RegExp(e)[t](wi$1(S))},function(t){var r=Yi$1(this),N=wi$1(t),n=S(e,r,N);if(n.done)return n.value;if(!r.global)return Gi$1(r,N);var o=r.unicode;r.lastIndex=0;for(var a,i=[],s=0;null!==(a=Gi$1(r,N));){var u=wi$1(a[0]);i[s]=u,""===u&&(r.lastIndex=Xi$1(N,bi$1(r.lastIndex),o)),s++;}return 0===s?null:i}]}));var Fi$1=function(t){pa$1(S,Oo$1);var e=Qi$1(S);function S(){var t;return fo$1(this,S),go$1(ga$1(t=e.call(this)),"country","GB"),go$1(ga$1(t),"GridCoords",Ci$1),go$1(ga$1(t),"gridCoords",null),t}return Mo$1(S,[{key:"parse_well_formed",value:function(t){t.length>=5&&/^[A-Z]/.test(t.charAt(4))&&(Oo$1.quadrantOffsets.hasOwnProperty(t.substr(t.length-2))?this.quadrantCode=t.substr(t.length-2):this.tetradLetter=t.charAt(4),t=t.substr(0,4)),this.parse_wellformed_gb_gr_string_no_tetrads(t),this.tetradLetter||this.quadrantCode?this.tetradLetter?(this.preciseGridRef=this.tetrad=this.hectad+this.tetradLetter,this.length=2e3,this.gridCoords.x+=Oo$1.tetradOffsets[this.tetradLetter][0],this.gridCoords.y+=Oo$1.tetradOffsets[this.tetradLetter][1]):(this.preciseGridRef=this.quadrant=t+this.quadrantCode,this.length=5e3,this.gridCoords.x+=Oo$1.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo$1.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=t,this.length<=1e3&&this.set_tetrad());}},{key:"from_string",value:function(t){var e,S=t.replace(/[\[\]\s\t.-]+/g,"").toUpperCase(),r="";if(/[ABCDEFGHIJKLMNPQRSTUVWXYZ]$/.test(S)&&(Oo$1.quadrantOffsets.hasOwnProperty(S.substr(S.length-2))?(this.quadrantCode=S.substr(S.length-2),S=S.substr(0,S.length-2)):(r=S.substr(S.length-1),S=S.substr(0,S.length-1))),S===parseInt(S,10).toString()?S=S.substr(0,2)+"/"+S.substr(2):S.length>3&&"/"===S.charAt(2)&&/^[A-Z]{2}$/.test(S.substr(0,2))&&(S=S.replace("/","")),"VC"===S.substr(0,2))this.error=!0,this.errorMessage="Misplaced vice-county code in grid-reference field. ('"+S+"')",this.gridCoords=null,this.length=0;else if(null!==(e=S.match(/^([HJNOST][ABCDEFGHJKLMNOPQRSTUVWXYZ](?:\d\d){1,5})$/)))S=e[0],this.parse_wellformed_gb_gr_string_no_tetrads(S),this.length>0?1e4===this.length&&(r||this.quadrantCode)?r?(this.preciseGridRef=S+r,this.tetradLetter=r,this.tetrad=this.hectad+r,this.length=2e3,this.gridCoords.x+=Oo$1.tetradOffsets[r][0],this.gridCoords.y+=Oo$1.tetradOffsets[r][1]):(this.preciseGridRef=S+this.quadrantCode,this.tetradLetter="",this.tetrad="",this.quadrant=this.preciseGridRef,this.length=5e3,this.gridCoords.x+=Oo$1.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo$1.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=S,this.length<=1e3&&this.set_tetrad()):(this.error=!0,this.errorMessage="GB grid reference format not understood (strange length).");else if(/^([\d]{2})\/((?:\d\d){1,5})$/.test(S)){switch(this.parse_gr_string_without_tetrads(S),this.length){case 1e4:S=this.gridCoords.to_gridref(1e4),this.hectad=S,r?(S+=r,this.tetradLetter=r,this.tetrad=this.hectad+r,this.length=2e3,this.gridCoords.x+=Oo$1.tetradOffsets[r][0],this.gridCoords.y+=Oo$1.tetradOffsets[r][1]):this.quadrantCode&&(S+=this.quadrantCode,this.quadrant=S,this.length=5e3,this.gridCoords.x+=Oo$1.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo$1.quadrantOffsets[this.quadrantCode][1]);break;case 1e3:case 100:case 10:case 1:S=this.gridCoords.to_gridref(this.length),this.hectad=this.gridCoords.to_gridref(1e4),this.set_tetrad();break;default:this.error=!0,this.errorMessage="Bad grid square dimension ("+this.length+" m).",this.gridCoords=null,this.length=0;}this.preciseGridRef=S;}else this.gridCoords=null,this.length=0,this.error=!0,this.errorMessage="Grid reference format not understood. ('"+t+"')";}},{key:"parse_gr_string_without_tetrads",value:function(t){var e,S,r,N;if(null!==(e=t.match(/^(\d{2})\/((?:\d\d){1,5})$/))){switch(e[1]){case"57":S=3e5,r=1e6;break;case"67":S=4e5,r=1e6;break;case"58":S=3e5,r=11e5;break;case"68":S=4e5,r=11e5;break;case"69":S=4e5,r=12e5;break;default:S=1e5*t.charAt(0),r=1e5*t.charAt(1);}N=e[2];}else {if(!Oo$1.letterMapping.hasOwnProperty(t.charAt(0))||!Oo$1.letterMapping.hasOwnProperty(t.charAt(1)))return this.length=0,void(this.gridCoords=null);var n=Oo$1.letterMapping[t.charAt(0)],o=Oo$1.letterMapping[t.charAt(1)];N=t.substr(2),S=n%5*5e5+o%5*1e5-1e6,r=5e5*-Math.floor(n/5)-1e5*Math.floor(o/5)+19e5;}switch(N.length){case 2:this.gridCoords=new Ci$1(S+1e4*N.charAt(0),r+1e4*N.charAt(1)),this.length=1e4;break;case 4:this.gridCoords=new Ci$1(S+1e3*Math.floor(N/100),r+N%100*1e3),this.length=1e3;break;case 6:this.gridCoords=new Ci$1(S+100*Math.floor(N/1e3),r+N%1e3*100),this.length=100;break;case 8:this.gridCoords=new Ci$1(S+10*Math.floor(N/1e4),r+N%1e4*10),this.length=10;break;case 10:this.gridCoords=new Ci$1(S+Math.floor(N/1e5),r+N%1e5),this.length=1;break;default:console.log("Bad grid ref length, ref="+t),this.gridCoords=null,this.length=0;}}},{key:"parse_wellformed_gb_gr_string_no_tetrads",value:function(t){var e,S,r,N,n;switch(e=Oo$1.letterMapping[t.charAt(0)],S=Oo$1.letterMapping[t.charAt(1)],r=t.substr(2),N=e%5*5e5+S%5*1e5-1e6,n=5e5*-Math.floor(e/5)-1e5*Math.floor(S/5)+19e5,r.length){case 2:this.gridCoords=new Ci$1(N+1e4*r.charAt(0),n+1e4*r.charAt(1)),this.length=1e4,this.hectad=t;break;case 4:this.gridCoords=new Ci$1(N+1e3*Math.floor(r/100),n+r%100*1e3),this.length=1e3,this.hectad=t.substr(0,3)+t.substr(4,1);break;case 6:this.gridCoords=new Ci$1(N+100*Math.floor(r/1e3),n+r%1e3*100),this.length=100,this.hectad=t.substr(0,3)+t.substr(5,1);break;case 8:this.gridCoords=new Ci$1(N+10*Math.floor(r/1e4),n+r%1e4*10),this.length=10,this.hectad=t.substr(0,3)+t.substr(6,1);break;case 10:this.gridCoords=new Ci$1(N+Math.floor(r/1e5),n+r%1e5),this.length=1,this.hectad=t.substr(0,3)+t.substr(7,1);break;default:throw this.gridCoords=null,new Error("Bad grid ref length when parsing supposedly well-formed ref, ref='"+t+"'")}}}]),S}();function _i$1(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya$1(t);if(e){var N=ya$1(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va$1(this,S)}}var mi$1=function(t){pa$1(S,pi$1);var e=_i$1(S);function S(t,r){var N;return fo$1(this,S),go$1(ga$1(N=e.call(this)),"country","IE"),go$1(ga$1(N),"gridCoords",null),N.x=t,N.y=r,N}return Mo$1(S,[{key:"to_latLng",value:function(){var t=1.000035,e=6377340.189,S=.0066705402933363,r=.0016732203841521,N=this.x-2e5,n=.0067153352074207,o=(5929615.3530033+(this.y-25e4)/t)/6366691.7742864415,a=o+.002509826623715886*Math.sin(2*o)+36745487490091978e-22*Math.sin(4*o)+151*r*r*r/96*Math.sin(6*o),i=e/Math.sqrt(1-S*Math.sin(a)*Math.sin(a)),s=Math.tan(a)*Math.tan(a),u=n*Math.cos(a)*Math.cos(a),T=e*(1-S)/Math.pow(1-S*Math.sin(a)*Math.sin(a),1.5),c=N/(i*t),h=a-i*Math.tan(a)/T*(c*c/2-(5+3*s+10*u-4*u*u-9*n)*c*c*c*c/24+(61+90*s+298*u+45*s*s-1.6922644722700164-3*u*u)*c*c*c*c*c*c/720);h*=ui$1;var f=(c-(1+2*s+u)*c*c*c/6+(5-2*u+28*s-3*u*u+8*n+24*s*s)*c*c*c*c*c/120)/Math.cos(a);return new Oi$1(h,f=f*ui$1-8).to_WGS84()}},{key:"to_gridref",value:function(t){var e=Math.floor(this.x/1e5),r=Math.floor(this.y/1e5);return S.irishGrid[e]&&S.irishGrid[e][r]?Hi$1(S.irishGrid[e][r],this.x-1e5*e,this.y-1e5*r,t||1):null}},{key:"to_hectad",value:function(){var t=Math.floor(this.x/1e5),e=Math.floor(this.y/1e5);return S.irishGrid[t]&&S.irishGrid[t][e]?S.irishGrid[t][e]+Math.floor(this.x%1e5/1e4)+Math.floor(this.y%1e5/1e4):""}}]),S}();function Ai$1(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya$1(t);if(e){var N=ya$1(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va$1(this,S)}}go$1(mi$1,"irishGrid",{0:["V","Q","L","F","A"],1:["W","R","M","G","B"],2:["X","S","N","H","C"],3:["Y","T","O","J","D"]});var xi$1=function(t){pa$1(S,Oo$1);var e=Ai$1(S);function S(){var t;return fo$1(this,S),go$1(ga$1(t=e.call(this)),"country","IE"),go$1(ga$1(t),"GridCoords",mi$1),go$1(ga$1(t),"gridCoords",null),t.parse_well_formed=t.from_string,t}return Mo$1(S,[{key:"from_string",value:function(t){var e=t.replace(/[\[\]\s\t.-]+/g,"").toUpperCase();/[ABCDEFGHIJKLMNPQRSTUVWXYZ]$/.test(e)&&(S.quadrantOffsets.hasOwnProperty(e.substr(e.length-2))?(this.quadrantCode=e.substr(e.length-2),e=e.substr(0,e.length-2)):(this.tetradLetter=e.substr(e.length-1),e=e.substr(0,e.length-1))),this.parse_gr_string_without_tetrads(e),this.length>0?this.tetradLetter||this.quadrantCode?this.tetradLetter?(this.preciseGridRef=this.hectad+this.tetradLetter,this.tetrad=this.preciseGridRef,this.length=2e3,this.gridCoords.x+=S.tetradOffsets[this.tetradLetter][0],this.gridCoords.y+=S.tetradOffsets[this.tetradLetter][1]):(this.preciseGridRef=this.hectad+this.quadrantCode,this.quadrant=this.preciseGridRef,this.length=5e3,this.gridCoords.x+=S.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=S.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=e,this.length<=1e3&&this.set_tetrad()):(this.error=!0,this.errorMessage="Irish grid reference format not understood. ('"+t+"')");}},{key:"parse_gr_string_without_tetrads",value:function(t){var e,r,N,n;if(/^\d{2}\/(?:\d\d){1,5}$/.test(t)){if(e=parseInt(t.charAt(0),10),r=parseInt(t.charAt(1),10),e>3||r>4)return console.log("bad grid square, ref='"+t+"' (Ireland)"),this.length=0,!1;N=t.substr(3),n=S._IE_GRID_LETTERS.charAt(5*e+r),e*=1e5,r*=1e5;}else {if(t=t.replace("/",""),!/^[ABCDFGHJLMNOQRSTVWXY](?:\d\d){1,5}$/.test(t))return this.length=0,this.gridCoords=null,!1;if(!t)return console.log("Bad (empty) Irish grid ref"),this.length=0,this.gridCoords=null,!1;n=t.charAt(0);var o=S._IE_GRID_LETTERS.indexOf(n);if(-1===o)return console.log("Bad grid ref grid-letter, ref='"+t+"' (Ireland)"),this.length=0,this.gridCoords=null,!1;e=1e5*Math.floor(o/5),r=o%5*1e5,N=t.substr(1);}switch(N.length){case 2:this.gridCoords=new mi$1(e+1e4*N.charAt(0),r+1e4*N.charAt(1)),this.length=1e4,this.hectad=n+N;break;case 4:this.gridCoords=new mi$1(e+1e3*Math.floor(N/100),r+N%100*1e3),this.length=1e3,this.hectad=n+N.charAt(0)+N.charAt(2);break;case 6:this.gridCoords=new mi$1(e+100*Math.floor(N/1e3),r+N%1e3*100),this.length=100,this.hectad=n+N.charAt(0)+N.charAt(3);break;case 8:this.gridCoords=new mi$1(e+10*Math.floor(N/1e4),r+N%1e4*10),this.length=10,this.hectad=n+N.charAt(0)+N.charAt(4);break;case 10:this.gridCoords=new mi$1(e+Math.floor(N/1e5),r+N%1e5),this.length=1,this.hectad=n+N.charAt(0)+N.charAt(5);break;default:return console.log("Bad grid ref length, ref='"+t+"' (Ireland)"),this.length=0,this.gridCoords=null,!1}return !0}}]),S}();go$1(xi$1,"gridLetter",{A:[0,4],B:[1,4],C:[2,4],D:[3,4],F:[0,3],G:[1,3],H:[2,3],J:[3,3],L:[0,2],M:[1,2],N:[2,2],O:[3,2],Q:[0,1],R:[1,1],S:[2,1],T:[3,1],V:[0,0],W:[1,0],X:[2,0],Y:[3,0]}),go$1(xi$1,"_IE_GRID_LETTERS","VQLFAWRMGBXSNHCYTOJD"),Oo$1.from_string=function(t){var e,S=t.replace(/\s+/g,"").toUpperCase();if(!S)return !1;if(/^(?:[BCDFGHJLMNOQRSTVWXY]|[HJNOST][ABCDEFGHJKLMNOPQRSTUVWXYZ]|W[VA])\d{2}(?:[A-Z]|[NS][EW]|(?:\d{2}){0,4})?$/.test(S))return (e=/^.\d/.test(S)?new xi$1:"W"===S.charAt(0)?new Ri$1:new Fi$1).parse_well_formed(S),!(!e.length||e.error)&&e;if((e=new Fi$1).from_string(S),e.length&&!e.error)return e;if("W"===S.charAt(0)){if((e=new Ri$1).from_string(S),e.length&&!e.error)return e}else if((e=new xi$1).from_string(S),e.length&&!e.error)return e;return !1};var Zi$1=Ci$1;(li$1.prototype.to_os_coords=function(){var t=this.lat*si$1,e=this.lng*si$1,S=.9996012717,r=.0066705397616,N=6377563.396*S,n=6356256.91*S,o=Math.sin(t)*Math.sin(t),a=N/Math.sqrt(1-r*o),i=a*(1-r)/(1-r*o),s=a/i-1,u=e- -.03490658503988659,T=a*Math.cos(t),c=Math.pow(Math.cos(t),3),h=Math.tan(t)*Math.tan(t),f=a/6*c*(a/i-h),l=Math.pow(Math.cos(t),5),d=Math.pow(Math.tan(t),4),M=a/120*l*(5-18*h+d+14*s-58*h*s),g=4e5+u*T+Math.pow(u,3)*f+Math.pow(u,5)*M,O=Ti$1._Marc(n,.0016732202503250907,.8552113334772214,t)+-1e5,p=a/2*Math.sin(t)*Math.cos(t),H=a/24*Math.sin(t)*Math.pow(Math.cos(t),3)*(5-Math.pow(Math.tan(t),2)+9*s),v=a/720*Math.sin(t)*l*(61-58*h+d),y=O+u*u*p+Math.pow(u,4)*H+Math.pow(u,6)*v;return new Zi$1(Math.round(g),Math.round(y))});var Wi$1=mi$1;(Oi$1.prototype.to_os_coords=function(){var t=this.lat*si$1,e=this.lng*si$1,S=1.000035,r=.00667054015,N=6377340.189*S,n=6356034.447*S,o=Math.sin(t)*Math.sin(t),a=N/Math.sqrt(1-r*o),i=a*(1-r)/(1-r*o),s=a/i-1,u=e- -.13962634015954636,T=a*Math.cos(t),c=Math.pow(Math.cos(t),3),h=Math.tan(t)*Math.tan(t),f=a/6*c*(a/i-h),l=Math.pow(Math.cos(t),5),d=Math.pow(Math.tan(t),4),M=a/120*l*(5-18*h+d+14*s-58*h*s),g=2e5+u*T+Math.pow(u,3)*f+Math.pow(u,5)*M,O=Ti$1._Marc(n,.0016732203841520518,.9337511498169663,t)+25e4,p=a/2*Math.sin(t)*Math.cos(t),H=a/24*Math.sin(t)*Math.pow(Math.cos(t),3)*(5-Math.pow(Math.tan(t),2)+9*s),v=a/720*Math.sin(t)*l*(61-58*h+d),y=O+u*u*p+Math.pow(u,4)*H+Math.pow(u,6)*v;return new Wi$1(Math.round(g),Math.round(y))});var Ii$1=yi$1;(Mi$1.prototype.to_os_coords=function(){var t=this.lat*si$1,e=this.lng*si$1,S=.9996,r=.0067226700223333,N=6378388*S,n=6356911.946*S,o=Math.sin(t)*Math.sin(t),a=N/Math.sqrt(1-r*o),i=a*(1-r)/(1-r*o),s=a/i-1,u=e- -.0523598775598,T=a*Math.cos(t),c=Math.pow(Math.cos(t),3),h=Math.tan(t)*Math.tan(t),f=a/6*c*(a/i-h),l=Math.pow(Math.cos(t),5),d=Math.pow(Math.tan(t),4),M=a/120*l*(5-18*h+d+14*s-58*h*s),g=5e5+u*T+Math.pow(u,3)*f+Math.pow(u,5)*M,O=Ti$1._Marc(n,.0016863406508729017,0,t)+0,p=a/2*Math.sin(t)*Math.cos(t),H=a/24*Math.sin(t)*Math.pow(Math.cos(t),3)*(5-Math.pow(Math.tan(t),2)+9*s),v=a/720*Math.sin(t)*l*(61-58*h+d),y=O+u*u*p+Math.pow(u,4)*H+Math.pow(u,6)*v;return new Ii$1(Math.round(g),Math.round(y))});
 
+	function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+	  try {
+	    var info = gen[key](arg);
+	    var value = info.value;
+	  } catch (error) {
+	    reject(error);
+	    return;
+	  }
+
+	  if (info.done) {
+	    resolve(value);
+	  } else {
+	    Promise.resolve(value).then(_next, _throw);
+	  }
+	}
+
+	function _asyncToGenerator(fn) {
+	  return function () {
+	    var self = this,
+	        args = arguments;
+	    return new Promise(function (resolve, reject) {
+	      var gen = fn.apply(self, args);
+
+	      function _next(value) {
+	        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+	      }
+
+	      function _throw(err) {
+	        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+	      }
+
+	      _next(undefined);
+	    });
+	  };
+	}
+
+	var runtime = {exports: {}};
+
+	/**
+	 * Copyright (c) 2014-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 */
+
+	(function (module) {
+	var runtime = (function (exports) {
+
+	  var Op = Object.prototype;
+	  var hasOwn = Op.hasOwnProperty;
+	  var undefined$1; // More compressible than void 0.
+	  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+	  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+	  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+	  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+	  function define(obj, key, value) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	    return obj[key];
+	  }
+	  try {
+	    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+	    define({}, "");
+	  } catch (err) {
+	    define = function(obj, key, value) {
+	      return obj[key] = value;
+	    };
+	  }
+
+	  function wrap(innerFn, outerFn, self, tryLocsList) {
+	    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+	    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+	    var generator = Object.create(protoGenerator.prototype);
+	    var context = new Context(tryLocsList || []);
+
+	    // The ._invoke method unifies the implementations of the .next,
+	    // .throw, and .return methods.
+	    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+	    return generator;
+	  }
+	  exports.wrap = wrap;
+
+	  // Try/catch helper to minimize deoptimizations. Returns a completion
+	  // record like context.tryEntries[i].completion. This interface could
+	  // have been (and was previously) designed to take a closure to be
+	  // invoked without arguments, but in all the cases we care about we
+	  // already have an existing method we want to call, so there's no need
+	  // to create a new function object. We can even get away with assuming
+	  // the method takes exactly one argument, since that happens to be true
+	  // in every case, so we don't have to touch the arguments object. The
+	  // only additional allocation required is the completion record, which
+	  // has a stable shape and so hopefully should be cheap to allocate.
+	  function tryCatch(fn, obj, arg) {
+	    try {
+	      return { type: "normal", arg: fn.call(obj, arg) };
+	    } catch (err) {
+	      return { type: "throw", arg: err };
+	    }
+	  }
+
+	  var GenStateSuspendedStart = "suspendedStart";
+	  var GenStateSuspendedYield = "suspendedYield";
+	  var GenStateExecuting = "executing";
+	  var GenStateCompleted = "completed";
+
+	  // Returning this object from the innerFn has the same effect as
+	  // breaking out of the dispatch switch statement.
+	  var ContinueSentinel = {};
+
+	  // Dummy constructor functions that we use as the .constructor and
+	  // .constructor.prototype properties for functions that return Generator
+	  // objects. For full spec compliance, you may wish to configure your
+	  // minifier not to mangle the names of these two functions.
+	  function Generator() {}
+	  function GeneratorFunction() {}
+	  function GeneratorFunctionPrototype() {}
+
+	  // This is a polyfill for %IteratorPrototype% for environments that
+	  // don't natively support it.
+	  var IteratorPrototype = {};
+	  define(IteratorPrototype, iteratorSymbol, function () {
+	    return this;
+	  });
+
+	  var getProto = Object.getPrototypeOf;
+	  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+	  if (NativeIteratorPrototype &&
+	      NativeIteratorPrototype !== Op &&
+	      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+	    // This environment has a native %IteratorPrototype%; use it instead
+	    // of the polyfill.
+	    IteratorPrototype = NativeIteratorPrototype;
+	  }
+
+	  var Gp = GeneratorFunctionPrototype.prototype =
+	    Generator.prototype = Object.create(IteratorPrototype);
+	  GeneratorFunction.prototype = GeneratorFunctionPrototype;
+	  define(Gp, "constructor", GeneratorFunctionPrototype);
+	  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
+	  GeneratorFunction.displayName = define(
+	    GeneratorFunctionPrototype,
+	    toStringTagSymbol,
+	    "GeneratorFunction"
+	  );
+
+	  // Helper for defining the .next, .throw, and .return methods of the
+	  // Iterator interface in terms of a single ._invoke method.
+	  function defineIteratorMethods(prototype) {
+	    ["next", "throw", "return"].forEach(function(method) {
+	      define(prototype, method, function(arg) {
+	        return this._invoke(method, arg);
+	      });
+	    });
+	  }
+
+	  exports.isGeneratorFunction = function(genFun) {
+	    var ctor = typeof genFun === "function" && genFun.constructor;
+	    return ctor
+	      ? ctor === GeneratorFunction ||
+	        // For the native GeneratorFunction constructor, the best we can
+	        // do is to check its .name property.
+	        (ctor.displayName || ctor.name) === "GeneratorFunction"
+	      : false;
+	  };
+
+	  exports.mark = function(genFun) {
+	    if (Object.setPrototypeOf) {
+	      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+	    } else {
+	      genFun.__proto__ = GeneratorFunctionPrototype;
+	      define(genFun, toStringTagSymbol, "GeneratorFunction");
+	    }
+	    genFun.prototype = Object.create(Gp);
+	    return genFun;
+	  };
+
+	  // Within the body of any async function, `await x` is transformed to
+	  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+	  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+	  // meant to be awaited.
+	  exports.awrap = function(arg) {
+	    return { __await: arg };
+	  };
+
+	  function AsyncIterator(generator, PromiseImpl) {
+	    function invoke(method, arg, resolve, reject) {
+	      var record = tryCatch(generator[method], generator, arg);
+	      if (record.type === "throw") {
+	        reject(record.arg);
+	      } else {
+	        var result = record.arg;
+	        var value = result.value;
+	        if (value &&
+	            typeof value === "object" &&
+	            hasOwn.call(value, "__await")) {
+	          return PromiseImpl.resolve(value.__await).then(function(value) {
+	            invoke("next", value, resolve, reject);
+	          }, function(err) {
+	            invoke("throw", err, resolve, reject);
+	          });
+	        }
+
+	        return PromiseImpl.resolve(value).then(function(unwrapped) {
+	          // When a yielded Promise is resolved, its final value becomes
+	          // the .value of the Promise<{value,done}> result for the
+	          // current iteration.
+	          result.value = unwrapped;
+	          resolve(result);
+	        }, function(error) {
+	          // If a rejected Promise was yielded, throw the rejection back
+	          // into the async generator function so it can be handled there.
+	          return invoke("throw", error, resolve, reject);
+	        });
+	      }
+	    }
+
+	    var previousPromise;
+
+	    function enqueue(method, arg) {
+	      function callInvokeWithMethodAndArg() {
+	        return new PromiseImpl(function(resolve, reject) {
+	          invoke(method, arg, resolve, reject);
+	        });
+	      }
+
+	      return previousPromise =
+	        // If enqueue has been called before, then we want to wait until
+	        // all previous Promises have been resolved before calling invoke,
+	        // so that results are always delivered in the correct order. If
+	        // enqueue has not been called before, then it is important to
+	        // call invoke immediately, without waiting on a callback to fire,
+	        // so that the async generator function has the opportunity to do
+	        // any necessary setup in a predictable way. This predictability
+	        // is why the Promise constructor synchronously invokes its
+	        // executor callback, and why async functions synchronously
+	        // execute code before the first await. Since we implement simple
+	        // async functions in terms of async generators, it is especially
+	        // important to get this right, even though it requires care.
+	        previousPromise ? previousPromise.then(
+	          callInvokeWithMethodAndArg,
+	          // Avoid propagating failures to Promises returned by later
+	          // invocations of the iterator.
+	          callInvokeWithMethodAndArg
+	        ) : callInvokeWithMethodAndArg();
+	    }
+
+	    // Define the unified helper method that is used to implement .next,
+	    // .throw, and .return (see defineIteratorMethods).
+	    this._invoke = enqueue;
+	  }
+
+	  defineIteratorMethods(AsyncIterator.prototype);
+	  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+	    return this;
+	  });
+	  exports.AsyncIterator = AsyncIterator;
+
+	  // Note that simple async functions are implemented on top of
+	  // AsyncIterator objects; they just return a Promise for the value of
+	  // the final result produced by the iterator.
+	  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+	    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+	    var iter = new AsyncIterator(
+	      wrap(innerFn, outerFn, self, tryLocsList),
+	      PromiseImpl
+	    );
+
+	    return exports.isGeneratorFunction(outerFn)
+	      ? iter // If outerFn is a generator, return the full iterator.
+	      : iter.next().then(function(result) {
+	          return result.done ? result.value : iter.next();
+	        });
+	  };
+
+	  function makeInvokeMethod(innerFn, self, context) {
+	    var state = GenStateSuspendedStart;
+
+	    return function invoke(method, arg) {
+	      if (state === GenStateExecuting) {
+	        throw new Error("Generator is already running");
+	      }
+
+	      if (state === GenStateCompleted) {
+	        if (method === "throw") {
+	          throw arg;
+	        }
+
+	        // Be forgiving, per 25.3.3.3.3 of the spec:
+	        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+	        return doneResult();
+	      }
+
+	      context.method = method;
+	      context.arg = arg;
+
+	      while (true) {
+	        var delegate = context.delegate;
+	        if (delegate) {
+	          var delegateResult = maybeInvokeDelegate(delegate, context);
+	          if (delegateResult) {
+	            if (delegateResult === ContinueSentinel) continue;
+	            return delegateResult;
+	          }
+	        }
+
+	        if (context.method === "next") {
+	          // Setting context._sent for legacy support of Babel's
+	          // function.sent implementation.
+	          context.sent = context._sent = context.arg;
+
+	        } else if (context.method === "throw") {
+	          if (state === GenStateSuspendedStart) {
+	            state = GenStateCompleted;
+	            throw context.arg;
+	          }
+
+	          context.dispatchException(context.arg);
+
+	        } else if (context.method === "return") {
+	          context.abrupt("return", context.arg);
+	        }
+
+	        state = GenStateExecuting;
+
+	        var record = tryCatch(innerFn, self, context);
+	        if (record.type === "normal") {
+	          // If an exception is thrown from innerFn, we leave state ===
+	          // GenStateExecuting and loop back for another invocation.
+	          state = context.done
+	            ? GenStateCompleted
+	            : GenStateSuspendedYield;
+
+	          if (record.arg === ContinueSentinel) {
+	            continue;
+	          }
+
+	          return {
+	            value: record.arg,
+	            done: context.done
+	          };
+
+	        } else if (record.type === "throw") {
+	          state = GenStateCompleted;
+	          // Dispatch the exception by looping back around to the
+	          // context.dispatchException(context.arg) call above.
+	          context.method = "throw";
+	          context.arg = record.arg;
+	        }
+	      }
+	    };
+	  }
+
+	  // Call delegate.iterator[context.method](context.arg) and handle the
+	  // result, either by returning a { value, done } result from the
+	  // delegate iterator, or by modifying context.method and context.arg,
+	  // setting context.delegate to null, and returning the ContinueSentinel.
+	  function maybeInvokeDelegate(delegate, context) {
+	    var method = delegate.iterator[context.method];
+	    if (method === undefined$1) {
+	      // A .throw or .return when the delegate iterator has no .throw
+	      // method always terminates the yield* loop.
+	      context.delegate = null;
+
+	      if (context.method === "throw") {
+	        // Note: ["return"] must be used for ES3 parsing compatibility.
+	        if (delegate.iterator["return"]) {
+	          // If the delegate iterator has a return method, give it a
+	          // chance to clean up.
+	          context.method = "return";
+	          context.arg = undefined$1;
+	          maybeInvokeDelegate(delegate, context);
+
+	          if (context.method === "throw") {
+	            // If maybeInvokeDelegate(context) changed context.method from
+	            // "return" to "throw", let that override the TypeError below.
+	            return ContinueSentinel;
+	          }
+	        }
+
+	        context.method = "throw";
+	        context.arg = new TypeError(
+	          "The iterator does not provide a 'throw' method");
+	      }
+
+	      return ContinueSentinel;
+	    }
+
+	    var record = tryCatch(method, delegate.iterator, context.arg);
+
+	    if (record.type === "throw") {
+	      context.method = "throw";
+	      context.arg = record.arg;
+	      context.delegate = null;
+	      return ContinueSentinel;
+	    }
+
+	    var info = record.arg;
+
+	    if (! info) {
+	      context.method = "throw";
+	      context.arg = new TypeError("iterator result is not an object");
+	      context.delegate = null;
+	      return ContinueSentinel;
+	    }
+
+	    if (info.done) {
+	      // Assign the result of the finished delegate to the temporary
+	      // variable specified by delegate.resultName (see delegateYield).
+	      context[delegate.resultName] = info.value;
+
+	      // Resume execution at the desired location (see delegateYield).
+	      context.next = delegate.nextLoc;
+
+	      // If context.method was "throw" but the delegate handled the
+	      // exception, let the outer generator proceed normally. If
+	      // context.method was "next", forget context.arg since it has been
+	      // "consumed" by the delegate iterator. If context.method was
+	      // "return", allow the original .return call to continue in the
+	      // outer generator.
+	      if (context.method !== "return") {
+	        context.method = "next";
+	        context.arg = undefined$1;
+	      }
+
+	    } else {
+	      // Re-yield the result returned by the delegate method.
+	      return info;
+	    }
+
+	    // The delegate iterator is finished, so forget it and continue with
+	    // the outer generator.
+	    context.delegate = null;
+	    return ContinueSentinel;
+	  }
+
+	  // Define Generator.prototype.{next,throw,return} in terms of the
+	  // unified ._invoke helper method.
+	  defineIteratorMethods(Gp);
+
+	  define(Gp, toStringTagSymbol, "Generator");
+
+	  // A Generator should always return itself as the iterator object when the
+	  // @@iterator function is called on it. Some browsers' implementations of the
+	  // iterator prototype chain incorrectly implement this, causing the Generator
+	  // object to not be returned from this call. This ensures that doesn't happen.
+	  // See https://github.com/facebook/regenerator/issues/274 for more details.
+	  define(Gp, iteratorSymbol, function() {
+	    return this;
+	  });
+
+	  define(Gp, "toString", function() {
+	    return "[object Generator]";
+	  });
+
+	  function pushTryEntry(locs) {
+	    var entry = { tryLoc: locs[0] };
+
+	    if (1 in locs) {
+	      entry.catchLoc = locs[1];
+	    }
+
+	    if (2 in locs) {
+	      entry.finallyLoc = locs[2];
+	      entry.afterLoc = locs[3];
+	    }
+
+	    this.tryEntries.push(entry);
+	  }
+
+	  function resetTryEntry(entry) {
+	    var record = entry.completion || {};
+	    record.type = "normal";
+	    delete record.arg;
+	    entry.completion = record;
+	  }
+
+	  function Context(tryLocsList) {
+	    // The root entry object (effectively a try statement without a catch
+	    // or a finally block) gives us a place to store values thrown from
+	    // locations where there is no enclosing try statement.
+	    this.tryEntries = [{ tryLoc: "root" }];
+	    tryLocsList.forEach(pushTryEntry, this);
+	    this.reset(true);
+	  }
+
+	  exports.keys = function(object) {
+	    var keys = [];
+	    for (var key in object) {
+	      keys.push(key);
+	    }
+	    keys.reverse();
+
+	    // Rather than returning an object with a next method, we keep
+	    // things simple and return the next function itself.
+	    return function next() {
+	      while (keys.length) {
+	        var key = keys.pop();
+	        if (key in object) {
+	          next.value = key;
+	          next.done = false;
+	          return next;
+	        }
+	      }
+
+	      // To avoid creating an additional object, we just hang the .value
+	      // and .done properties off the next function object itself. This
+	      // also ensures that the minifier will not anonymize the function.
+	      next.done = true;
+	      return next;
+	    };
+	  };
+
+	  function values(iterable) {
+	    if (iterable) {
+	      var iteratorMethod = iterable[iteratorSymbol];
+	      if (iteratorMethod) {
+	        return iteratorMethod.call(iterable);
+	      }
+
+	      if (typeof iterable.next === "function") {
+	        return iterable;
+	      }
+
+	      if (!isNaN(iterable.length)) {
+	        var i = -1, next = function next() {
+	          while (++i < iterable.length) {
+	            if (hasOwn.call(iterable, i)) {
+	              next.value = iterable[i];
+	              next.done = false;
+	              return next;
+	            }
+	          }
+
+	          next.value = undefined$1;
+	          next.done = true;
+
+	          return next;
+	        };
+
+	        return next.next = next;
+	      }
+	    }
+
+	    // Return an iterator with no values.
+	    return { next: doneResult };
+	  }
+	  exports.values = values;
+
+	  function doneResult() {
+	    return { value: undefined$1, done: true };
+	  }
+
+	  Context.prototype = {
+	    constructor: Context,
+
+	    reset: function(skipTempReset) {
+	      this.prev = 0;
+	      this.next = 0;
+	      // Resetting context._sent for legacy support of Babel's
+	      // function.sent implementation.
+	      this.sent = this._sent = undefined$1;
+	      this.done = false;
+	      this.delegate = null;
+
+	      this.method = "next";
+	      this.arg = undefined$1;
+
+	      this.tryEntries.forEach(resetTryEntry);
+
+	      if (!skipTempReset) {
+	        for (var name in this) {
+	          // Not sure about the optimal order of these conditions:
+	          if (name.charAt(0) === "t" &&
+	              hasOwn.call(this, name) &&
+	              !isNaN(+name.slice(1))) {
+	            this[name] = undefined$1;
+	          }
+	        }
+	      }
+	    },
+
+	    stop: function() {
+	      this.done = true;
+
+	      var rootEntry = this.tryEntries[0];
+	      var rootRecord = rootEntry.completion;
+	      if (rootRecord.type === "throw") {
+	        throw rootRecord.arg;
+	      }
+
+	      return this.rval;
+	    },
+
+	    dispatchException: function(exception) {
+	      if (this.done) {
+	        throw exception;
+	      }
+
+	      var context = this;
+	      function handle(loc, caught) {
+	        record.type = "throw";
+	        record.arg = exception;
+	        context.next = loc;
+
+	        if (caught) {
+	          // If the dispatched exception was caught by a catch block,
+	          // then let that catch block handle the exception normally.
+	          context.method = "next";
+	          context.arg = undefined$1;
+	        }
+
+	        return !! caught;
+	      }
+
+	      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+	        var entry = this.tryEntries[i];
+	        var record = entry.completion;
+
+	        if (entry.tryLoc === "root") {
+	          // Exception thrown outside of any try block that could handle
+	          // it, so set the completion value of the entire function to
+	          // throw the exception.
+	          return handle("end");
+	        }
+
+	        if (entry.tryLoc <= this.prev) {
+	          var hasCatch = hasOwn.call(entry, "catchLoc");
+	          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+	          if (hasCatch && hasFinally) {
+	            if (this.prev < entry.catchLoc) {
+	              return handle(entry.catchLoc, true);
+	            } else if (this.prev < entry.finallyLoc) {
+	              return handle(entry.finallyLoc);
+	            }
+
+	          } else if (hasCatch) {
+	            if (this.prev < entry.catchLoc) {
+	              return handle(entry.catchLoc, true);
+	            }
+
+	          } else if (hasFinally) {
+	            if (this.prev < entry.finallyLoc) {
+	              return handle(entry.finallyLoc);
+	            }
+
+	          } else {
+	            throw new Error("try statement without catch or finally");
+	          }
+	        }
+	      }
+	    },
+
+	    abrupt: function(type, arg) {
+	      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+	        var entry = this.tryEntries[i];
+	        if (entry.tryLoc <= this.prev &&
+	            hasOwn.call(entry, "finallyLoc") &&
+	            this.prev < entry.finallyLoc) {
+	          var finallyEntry = entry;
+	          break;
+	        }
+	      }
+
+	      if (finallyEntry &&
+	          (type === "break" ||
+	           type === "continue") &&
+	          finallyEntry.tryLoc <= arg &&
+	          arg <= finallyEntry.finallyLoc) {
+	        // Ignore the finally entry if control is not jumping to a
+	        // location outside the try/catch block.
+	        finallyEntry = null;
+	      }
+
+	      var record = finallyEntry ? finallyEntry.completion : {};
+	      record.type = type;
+	      record.arg = arg;
+
+	      if (finallyEntry) {
+	        this.method = "next";
+	        this.next = finallyEntry.finallyLoc;
+	        return ContinueSentinel;
+	      }
+
+	      return this.complete(record);
+	    },
+
+	    complete: function(record, afterLoc) {
+	      if (record.type === "throw") {
+	        throw record.arg;
+	      }
+
+	      if (record.type === "break" ||
+	          record.type === "continue") {
+	        this.next = record.arg;
+	      } else if (record.type === "return") {
+	        this.rval = this.arg = record.arg;
+	        this.method = "return";
+	        this.next = "end";
+	      } else if (record.type === "normal" && afterLoc) {
+	        this.next = afterLoc;
+	      }
+
+	      return ContinueSentinel;
+	    },
+
+	    finish: function(finallyLoc) {
+	      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+	        var entry = this.tryEntries[i];
+	        if (entry.finallyLoc === finallyLoc) {
+	          this.complete(entry.completion, entry.afterLoc);
+	          resetTryEntry(entry);
+	          return ContinueSentinel;
+	        }
+	      }
+	    },
+
+	    "catch": function(tryLoc) {
+	      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+	        var entry = this.tryEntries[i];
+	        if (entry.tryLoc === tryLoc) {
+	          var record = entry.completion;
+	          if (record.type === "throw") {
+	            var thrown = record.arg;
+	            resetTryEntry(entry);
+	          }
+	          return thrown;
+	        }
+	      }
+
+	      // The context.catch method must only be called with a location
+	      // argument that corresponds to a known catch block.
+	      throw new Error("illegal catch attempt");
+	    },
+
+	    delegateYield: function(iterable, resultName, nextLoc) {
+	      this.delegate = {
+	        iterator: values(iterable),
+	        resultName: resultName,
+	        nextLoc: nextLoc
+	      };
+
+	      if (this.method === "next") {
+	        // Deliberately forget the last sent value so that we don't
+	        // accidentally pass it on to the delegate.
+	        this.arg = undefined$1;
+	      }
+
+	      return ContinueSentinel;
+	    }
+	  };
+
+	  // Regardless of whether this script is executing as a CommonJS module
+	  // or not, return the runtime object so that we can declare the variable
+	  // regeneratorRuntime in the outer scope, which allows this module to be
+	  // injected easily by `bin/regenerator --include-runtime script.js`.
+	  return exports;
+
+	}(
+	  // If this script is executing as a CommonJS module, use module.exports
+	  // as the regeneratorRuntime namespace. Otherwise create a new empty
+	  // object. Either way, the resulting object will be used to initialize
+	  // the regeneratorRuntime variable at the top of this file.
+	  module.exports 
+	));
+
+	try {
+	  regeneratorRuntime = runtime;
+	} catch (accidentalStrictMode) {
+	  // This module should not be running in strict mode, so the above
+	  // assignment should always work unless something is misconfigured. Just
+	  // in case runtime.js accidentally runs in strict mode, in modern engines
+	  // we can explicitly access globalThis. In older engines we can escape
+	  // strict mode using a global Function call. This could conceivably fail
+	  // if a Content Security Policy forbids using Function, but in that case
+	  // the proper solution is to fix the accidental strict mode problem. If
+	  // you've misconfigured your bundler to force strict mode and applied a
+	  // CSP to forbid Function, and you're not willing to fix either of those
+	  // problems, please detail your unique predicament in a GitHub issue.
+	  if (typeof globalThis === "object") {
+	    globalThis.regeneratorRuntime = runtime;
+	  } else {
+	    Function("r", "regeneratorRuntime = r")(runtime);
+	  }
+	}
+	}(runtime));
+
+	var regenerator = runtime.exports;
+
+	function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * Wrapper for GPS access, including support for user-interface nudges
+	 */
+
+	var GPSRequest = /*#__PURE__*/function (_EventHarness) {
+	  _inherits(GPSRequest, _EventHarness);
+
+	  var _super = _createSuper$4(GPSRequest);
+
+	  function GPSRequest() {
+	    _classCallCheck(this, GPSRequest);
+
+	    return _super.apply(this, arguments);
+	  }
+
+	  _createClass(GPSRequest, null, [{
+	    key: "getDeviceType",
+	    value:
+	    /**
+	     * global flag affecting behaviour of some GPS functionality
+	     * e.g. on a non-mobile device, don't automatically seek GPS locality for new records
+	     *
+	     * @type {string}
+	     */
+
+	    /**
+	     * @returns {string}
+	     */
+	    function getDeviceType() {
+	      if (GPSRequest._deviceType === GPSRequest.DEVICE_TYPE_UNCHECKED) {
+	        if (navigator.userAgentData) {
+	          GPSRequest._deviceType = navigator.userAgentData.mobile ? GPSRequest.DEVICE_TYPE_MOBILE : GPSRequest.DEVICE_TYPE_IMMOBILE;
+	          console.log("Evaluated device using mobile flag, result: ".concat(GPSRequest._deviceType));
+	        } else if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+	          // see https://javascript.plainenglish.io/how-to-detect-a-mobile-device-with-javascript-1c26e0002b31
+	          console.log("Detected mobile via use-agent string: ".concat(navigator.userAgent));
+	          GPSRequest._deviceType = GPSRequest.DEVICE_TYPE_MOBILE;
+	        } else {
+	          console.log('Flagging device type as unknown.');
+	          GPSRequest._deviceType = GPSRequest.DEVICE_TYPE_UNKNOWN;
+	        }
+	      }
+
+	      return GPSRequest._deviceType;
+	    }
+	  }, {
+	    key: "haveGPSPermission",
+	    value:
+	    /**
+	     * @returns {string} GPSRequest.GPS_PERMISSION_
+	     */
+	    function () {
+	      var _haveGPSPermission = _asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee() {
+	        return regenerator.wrap(function _callee$(_context) {
+	          while (1) {
+	            switch (_context.prev = _context.next) {
+	              case 0:
+	                if (!(GPSRequest._gpsPermission === GPSRequest.GPS_PERMISSION_UNCHECKED)) {
+	                  _context.next = 8;
+	                  break;
+	                }
+
+	                GPSRequest.gpsEventObject = new GPSRequest();
+
+	                if (!(navigator.permissions && navigator.permissions.query)) {
+	                  _context.next = 7;
+	                  break;
+	                }
+
+	                _context.next = 5;
+	                return navigator.permissions.query({
+	                  name: 'geolocation'
+	                }).then(function (permissionStatus) {
+	                  permissionStatus.onchange = function () {
+	                    console.log('geolocation permission status has changed to ', this.state);
+	                    GPSRequest._gpsPermission = this.state;
+	                    GPSRequest.gpsEventObject.fireEvent(GPSRequest.EVENT_GPS_PERMISSION_CHANGE, GPSRequest._gpsPermission);
+	                  };
+
+	                  console.log({
+	                    'GPS permission state': permissionStatus.state
+	                  });
+	                });
+
+	              case 5:
+	                _context.next = 8;
+	                break;
+
+	              case 7:
+	                GPSRequest._gpsPermission = GPSRequest.GPS_PERMISSION_UNKNOWN;
+
+	              case 8:
+	                return _context.abrupt("return", GPSRequest._gpsPermission);
+
+	              case 9:
+	              case "end":
+	                return _context.stop();
+	            }
+	          }
+	        }, _callee);
+	      }));
+
+	      function haveGPSPermission() {
+	        return _haveGPSPermission.apply(this, arguments);
+	      }
+
+	      return haveGPSPermission;
+	    }()
+	    /**
+	     *
+	     * @param {string=} gpsPromptBannerId
+	     * @return Promise
+	     */
+
+	  }, {
+	    key: "seekGPS",
+	    value: function seekGPS(gpsPromptBannerId) {
+	      GPSRequest.haveGPSPermission(); // ensures that GPSRequest._gpsPermission is initialised
+	      // for delayed prompt see Google's UI advice here: https://developers.google.com/web/fundamentals/native-hardware/user-location
+
+	      var nudge = gpsPromptBannerId ? document.getElementById(gpsPromptBannerId) : null;
+	      var showNudgeBanner = nudge ? function () {
+	        nudge.style.display = "block";
+	      } : function () {};
+	      var hideNudgeBanner = nudge ? function () {
+	        nudge.style.display = "none";
+	      } : function () {};
+	      var nudgeTimeoutId;
+
+	      if (nudge && GPSRequest._gpsPermission !== GPSRequest.GPS_PERMISSION_GRANTED) {
+	        nudgeTimeoutId = setTimeout(showNudgeBanner, 5000);
+	      } else {
+	        nudgeTimeoutId = null;
+	      }
+
+	      return new Promise(function (resolve, reject) {
+	        return navigator.geolocation.getCurrentPosition(resolve, reject, {
+	          enableHighAccuracy: true,
+	          timeout: 60 * 1000 // 60 second timeout
+
+	        });
+	      }).then(function (position) {
+	        // const latitude  = position.coords.latitude;
+	        // const longitude = position.coords.longitude;
+	        //
+	        //
+	        // const gridCoords = GridCoords.from_latlng(latitude, longitude);
+	        // const gridRef = gridCoords.to_gridref(1000);
+	        //
+	        // console.log(`Got grid-ref: ${gridRef}`);
+	        // this.value = gridRef;
+	        // this.fireEvent(FormField.EVENT_CHANGE);
+	        var latitude = position.coords.latitude;
+	        var longitude = position.coords.longitude;
+	        console.log("Got GPS fix ".concat(latitude, " , ").concat(longitude)); //@todo maybe should prevent use of readings if speed is too great (which might imply use of GPS in a moving vehicle)
+	        // this.processLatLngPosition(
+	        //     position.coords.latitude,
+	        //     position.coords.longitude,
+	        //     position.coords.accuracy * 2
+	        // );
+
+	        if (nudge) {
+	          clearTimeout(nudgeTimeoutId);
+	          hideNudgeBanner();
+	        } // unsure if this should be set as permission may only have been one-off
+
+
+	        GPSRequest._gpsPermission = GPSRequest.GPS_PERMISSION_GRANTED;
+	        return position;
+	      }, function (error) {
+	        console.log('gps look-up failed');
+	        console.log(error);
+
+	        switch (error.code) {
+	          case error.TIMEOUT:
+	          case error.PERMISSION_DENIED:
+	            // The user didn't accept the callout
+	            nudge && showNudgeBanner();
+	            break;
+	        }
+	      });
+	    }
+	  }]);
+
+	  return GPSRequest;
+	}(EventHarness);
+
+	_defineProperty(GPSRequest, "DEVICE_TYPE_UNKNOWN", 'unknown');
+
+	_defineProperty(GPSRequest, "DEVICE_TYPE_UNCHECKED", 'unchecked');
+
+	_defineProperty(GPSRequest, "DEVICE_TYPE_MOBILE", 'mobile');
+
+	_defineProperty(GPSRequest, "DEVICE_TYPE_IMMOBILE", 'immobile');
+
+	_defineProperty(GPSRequest, "EVENT_GPS_PERMISSION_CHANGE", 'gpspermissionchange');
+
+	_defineProperty(GPSRequest, "_deviceType", GPSRequest.DEVICE_TYPE_UNCHECKED);
+
+	_defineProperty(GPSRequest, "GPS_PERMISSION_UNKNOWN", 'unknown');
+
+	_defineProperty(GPSRequest, "GPS_PERMISSION_UNCHECKED", 'unchecked');
+
+	_defineProperty(GPSRequest, "GPS_PERMISSION_GRANTED", 'granted');
+
+	_defineProperty(GPSRequest, "GPS_PERMISSION_DENIED", 'denied');
+
+	_defineProperty(GPSRequest, "GPS_PERMISSION_PROMPT", 'prompt');
+
+	_defineProperty(GPSRequest, "_gpsPermission", GPSRequest.GPS_PERMISSION_UNCHECKED);
+
+	_defineProperty(GPSRequest, "gpsEventObject", void 0);
+
 	function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 	function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
@@ -18759,7 +19771,27 @@
 
 	  /**
 	   *
-	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string, [baseSquareResolution]: ?number}} [params]
+	   * @type {string}
+	   */
+
+	  /**
+	   *
+	   * @type {null|string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @param {{
+	   * [label] : string,
+	   * [helpText]: string,
+	   * [options]: {},
+	   * [placeholder]: string,
+	   * [type]: string,
+	   * [autocomplete]: string,
+	   * [baseSquareResolution]: ?number,
+	   * [gpsPermissionPromptText]: string,
+	   * }} [params]
 	   */
 	  function TextGeorefField(params) {
 	    var _this;
@@ -18783,6 +19815,10 @@
 
 	    _defineProperty(_assertThisInitialized(_this), "baseSquareResolution", null);
 
+	    _defineProperty(_assertThisInitialized(_this), "gpsPermissionsPromptText", '<p class="gps-nudge">Allowing access to GPS will save you time by allowing the app to locate your records automatically.</p>');
+
+	    _defineProperty(_assertThisInitialized(_this), "_gpsPermissionsPromptId", null);
+
 	    if (params) {
 	      if (params.type) {
 	        _this._inputType = params.type;
@@ -18798,6 +19834,10 @@
 
 	      if (params.baseSquareResolution) {
 	        _this.baseSquareResolution = params.baseSquareResolution;
+	      }
+
+	      if (params.gpsPermissionPromptText) {
+	        _this.gpsPermissionsPromptText = params.gpsPermissionPromptText;
 	      }
 	    }
 
@@ -18912,6 +19952,14 @@
 	        validationMessageElement.innerHTML = this.validationMessage;
 	      }
 
+	      if (this.gpsPermissionsPromptText && navigator.geolocation) {
+	        var gpsPermissionsPromptField = container.appendChild(document.createElement('small'));
+	        this._gpsPermissionsPromptId = gpsPermissionsPromptField.id = FormField.nextId;
+	        gpsPermissionsPromptField.style.display = 'none'; // hidden initially
+
+	        gpsPermissionsPromptField.innerHTML = this.gpsPermissionsPromptText;
+	      }
+
 	      if (this.helpText) {
 	        var helpTextField = container.appendChild(document.createElement('small'));
 	        helpTextField.innerHTML = this.helpText;
@@ -18982,7 +20030,7 @@
 	      var _this2 = this;
 
 	      //console.log('got gps button click event');
-	      navigator.geolocation.getCurrentPosition(function (position) {
+	      GPSRequest.seekGPS(this._gpsPermissionsPromptId).then(function (position) {
 	        // const latitude  = position.coords.latitude;
 	        // const longitude = position.coords.longitude;
 	        // console.log(`Got GPS fix ${latitude} , ${longitude}`);
@@ -18998,7 +20046,35 @@
 	      }, function (error) {
 	        console.log('gps look-up failed');
 	        console.log(error);
-	      });
+	      }); // navigator.geolocation.getCurrentPosition((position) => {
+	      //         // const latitude  = position.coords.latitude;
+	      //         // const longitude = position.coords.longitude;
+	      //
+	      //         // console.log(`Got GPS fix ${latitude} , ${longitude}`);
+	      //         //
+	      //         // const gridCoords = GridCoords.from_latlng(latitude, longitude);
+	      //         // const gridRef = gridCoords.to_gridref(1000);
+	      //         //
+	      //         // console.log(`Got grid-ref: ${gridRef}`);
+	      //         // this.value = gridRef;
+	      //         // this.fireEvent(FormField.EVENT_CHANGE);
+	      //
+	      //         //@todo maybe should prevent use of readings if speed is too great (which might imply use of GPS in a moving vehicle)
+	      //
+	      //         this.processLatLngPosition(
+	      //             position.coords.latitude,
+	      //             position.coords.longitude,
+	      //             position.coords.accuracy * 2
+	      //         );
+	      //     }, (error) => {
+	      //         console.log('gps look-up failed');
+	      //         console.log(error);
+	      //     }
+	      //     ,
+	      // {
+	      //     enableHighAccuracy : true,
+	      //     timeout : 60 * 1000, // 60 second timeout
+	      // });
 	    }
 	    /**
 	     *
@@ -19026,7 +20102,11 @@
 	     * by the time summariseImpl has been called have already checked that summary is wanted
 	     *
 	     * @param {string} key
-	     * @param {{field : TextGeorefField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {{
+	     *          field : TextGeorefField,
+	     *          attributes : {options : Object.<string, {label : string}>},
+	     *          summary : {summaryPrefix: string}
+	     *          }} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
 	     */
@@ -20371,7 +21451,7 @@
 	var NyphApp = /*#__PURE__*/function (_App) {
 	  _inherits$1(NyphApp, _App);
 
-	  var _super = _createSuper$a(NyphApp);
+	  var _super = _createSuper$b(NyphApp);
 
 	  function NyphApp() {
 	    var _this;
@@ -21888,7 +22968,7 @@
 	var MainController = /*#__PURE__*/function (_AppController) {
 	  _inherits$1(MainController, _AppController);
 
-	  var _super = _createSuper$a(MainController);
+	  var _super = _createSuper$b(MainController);
 
 	  /**
 	   *
@@ -22517,7 +23597,7 @@
 	var NyphSurveyForm = /*#__PURE__*/function (_SurveyForm) {
 	  _inherits$1(NyphSurveyForm, _SurveyForm);
 
-	  var _super = _createSuper$a(NyphSurveyForm);
+	  var _super = _createSuper$b(NyphSurveyForm);
 
 	  function NyphSurveyForm() {
 	    _classCallCheck$1(this, NyphSurveyForm);
@@ -25693,6 +26773,12 @@
 
 	  /**
 	   *
+	   * @type {number}
+	   * @private
+	   */
+
+	  /**
+	   *
 	   * @param {{name : string,
 	   * type : string,
 	   * [coordinates] : Array,
@@ -25709,9 +26795,13 @@
 
 	    _classPrivateMethodInitSpec$5(this, _addPolygon);
 
-	    _defineProperty$1(this, "markerName", void 0);
+	    _defineProperty$1(this, "markerId", void 0);
 
 	    _defineProperty$1(this, "definition", void 0);
+
+	    _defineProperty$1(this, "visible", false);
+
+	    this.markerId = "marker".concat(MapMarker._markerSerial++);
 
 	    if (definition) {
 	      this.setDefinition(definition);
@@ -25736,7 +26826,6 @@
 	    key: "setDefinition",
 	    value: function setDefinition(definition) {
 	      this.definition = definition;
-	      this.markerName = definition.name;
 	    }
 	    /**
 	     *
@@ -25765,14 +26854,96 @@
 	     */
 
 	  }, {
-	    key: "removeFromMap",
+	    key: "_addPolygonMarkerLayersToMap",
 	    value:
 	    /**
 	     *
 	     * @param {mapboxgl.Map} map
 	     */
-	    function removeFromMap(map) {
-	      map.removeSource(this.markerName);
+	    function _addPolygonMarkerLayersToMap(map) {
+	      if (this.definition.fillColour) {
+	        var paint = {
+	          'fill-color': this.definition.fillColour
+	        };
+
+	        if (this.definition.fillOpacity) {
+	          paint['fill-opacity'] = this.definition.fillOpacity;
+	        }
+
+	        map.addLayer({
+	          'id': "".concat(this.markerId, "-fill"),
+	          'type': 'fill',
+	          'source': this.markerId,
+	          // reference the data source
+	          'layout': {},
+	          'paint': paint
+	        });
+	      }
+
+	      if (this.definition.lineColour) {
+	        var _paint = {
+	          'line-color': this.definition.lineColour
+	        };
+
+	        if (this.definition.lineOpacity) {
+	          _paint['line-opacity'] = this.definition.lineOpacity;
+	        }
+
+	        if (this.definition.lineWidth) {
+	          _paint['line-width'] = this.definition.lineWidth;
+	        }
+
+	        map.addLayer({
+	          'id': "".concat(this.markerId, "-line"),
+	          'type': 'line',
+	          'source': this.markerId,
+	          // reference the data source
+	          'layout': {},
+	          'paint': _paint
+	        });
+	      }
+
+	      this.visible = true;
+	    }
+	    /**
+	     *
+	     * @param {mapboxgl.Map} map
+	     * @param {Array} newCoordinates
+	     * @param {string} newName
+	     */
+
+	  }, {
+	    key: "updateCoordinates",
+	    value: function updateCoordinates(map, newCoordinates, newName) {
+	      this.definition.coordinates = newCoordinates;
+	      this.definition.name = newName;
+	      var source = map.getSource(this.markerId);
+	      source.setData({
+	        'type': 'Feature',
+	        "properties": {
+	          "name": this.definition.name
+	        },
+	        'geometry': {
+	          'type': 'Polygon',
+	          'coordinates': this.definition.coordinates // each shape consists of array pairs of lat/lng wrapped in an array, with outer array ?for multiple polygons (i.e. three levels of array nesting)
+
+	        }
+	      });
+
+	      if (!this.visible) {
+	        this._addPolygonMarkerLayersToMap(map);
+	      }
+	    }
+	    /**
+	     *
+	     * @param {mapboxgl.Map} map
+	     */
+
+	  }, {
+	    key: "removeFromMap",
+	    value: function removeFromMap(map) {
+	      map.removeSource(this.markerId);
+	      this.visible = false;
 	    }
 	  }]);
 
@@ -25781,10 +26952,13 @@
 
 	function _addPolygon2(map) {
 	  // e.g. see https://docs.mapbox.com/mapbox-gl-js/example/geojson-polygon/
-	  map.addSource(this.markerName, {
+	  map.addSource(this.markerId, {
 	    'type': 'geojson',
 	    'data': {
 	      'type': 'Feature',
+	      "properties": {
+	        "name": this.definition.name
+	      },
 	      'geometry': {
 	        'type': 'Polygon',
 	        'coordinates': this.definition.coordinates // each shape consists of array pairs of lat/lng wrapped in an array, with outer array ?for multiple polygons (i.e. three levels of array nesting)
@@ -25793,52 +26967,14 @@
 	    }
 	  });
 
-	  if (this.definition.fillColour) {
-	    var paint = {
-	      'fill-color': this.definition.fillColour
-	    };
-
-	    if (this.definition.fillOpacity) {
-	      paint['fill-opacity'] = this.definition.fillOpacity;
-	    }
-
-	    map.addLayer({
-	      'id': "".concat(this.markerName, "-fill"),
-	      'type': 'fill',
-	      'source': this.markerName,
-	      // reference the data source
-	      'layout': {},
-	      'paint': paint
-	    });
-	  }
-
-	  if (this.definition.lineColour) {
-	    var _paint = {
-	      'line-color': this.definition.lineColour
-	    };
-
-	    if (this.definition.lineOpacity) {
-	      _paint['line-opacity'] = this.definition.lineOpacity;
-	    }
-
-	    if (this.definition.lineWidth) {
-	      _paint['line-width'] = this.definition.lineWidth;
-	    }
-
-	    map.addLayer({
-	      'id': "".concat(this.markerName, "-line"),
-	      'type': 'line',
-	      'source': this.markerName,
-	      // reference the data source
-	      'layout': {},
-	      'paint': _paint
-	    });
-	  }
+	  this._addPolygonMarkerLayersToMap(map);
 	}
 
 	_defineProperty$1(MapMarker, "TYPE_POLYGON", 'polygon');
 
 	_defineProperty$1(MapMarker, "TYPE_POINT", 'point');
+
+	_defineProperty$1(MapMarker, "_markerSerial", 0);
 
 	var _containerId = /*#__PURE__*/new WeakMap();
 
@@ -25847,7 +26983,7 @@
 	var MapGeorefField = /*#__PURE__*/function (_TextGeorefField) {
 	  _inherits$1(MapGeorefField, _TextGeorefField);
 
-	  var _super = _createSuper$a(MapGeorefField);
+	  var _super = _createSuper$b(MapGeorefField);
 
 	  // /**
 	  //  * @type {string}
@@ -25886,6 +27022,11 @@
 	   */
 
 	  /**
+	   * @type {MapMarker}
+	   * @private
+	   */
+
+	  /**
 	   *
 	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string, [baseSquareResolution]: ?number, [includeSearchBox]: boolean}} [params]
 	   */
@@ -25912,6 +27053,8 @@
 	    _defineProperty$1(_assertThisInitialized$1(_this), "includeSearchBox", false);
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "map", void 0);
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "_squareMarker", void 0);
 
 	    if (params) {
 	      if (params.includeSearchBox) {
@@ -25948,6 +27091,7 @@
 	        // do nothing until the view has been constructed
 	        var inputEl = document.getElementById(this._inputId);
 	        inputEl.value = FormField.cleanRawString(this._value);
+	        this.tryValue(inputEl.value);
 	      }
 	    }
 	    /**
@@ -26135,11 +27279,9 @@
 	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
 	      //console.log('got input field change event');
 
-	      this.value = FormField.cleanRawString(document.getElementById(this._inputId).value);
-
-	      if (this.value) {
-	        this.tryGeocoding(this.value);
-	      }
+	      this.value = FormField.cleanRawString(document.getElementById(this._inputId).value); // if (this.value) {
+	      //     let result = this.tryValue(this.value);
+	      // }
 
 	      this.fireEvent(FormField.EVENT_CHANGE);
 	    }
@@ -26167,11 +27309,11 @@
 	     */
 
 	  }, {
-	    key: "tryGeocoding",
-	    value: function tryGeocoding(query) {
+	    key: "tryValue",
+	    value: function tryValue(query) {
 	      var gridRefParser = Oo.from_string(query);
 
-	      if (gridRefParser) {
+	      if (query && gridRefParser) {
 	        var latLngSW = gridRefParser.gridCoords.to_latLng();
 	        var latLngNW = new gridRefParser.GridCoords(gridRefParser.gridCoords.x, gridRefParser.gridCoords.y + gridRefParser.length).to_latLng();
 	        var latLngNE = new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y + gridRefParser.length).to_latLng();
@@ -26186,16 +27328,66 @@
 	        this.map.jumpTo({
 	          center: [lngCentre, latCentre],
 	          zoom: this.zoomMapping(gridRefParser.length)
-	        });
-	        var marker = new MapMarker({
-	          name: gridRefParser.preciseGridRef,
+	        }); // const marker = new MapMarker({
+	        //     name : gridRefParser.preciseGridRef,
+	        //     type : MapMarker.TYPE_POLYGON,
+	        //     coordinates : [[
+	        //         [latLngSW.lng, latLngSW.lat],
+	        //         [latLngNW.lng, latLngNW.lat],
+	        //         [latLngNE.lng, latLngNE.lat],
+	        //         [latLngSE.lng, latLngSE.lat]
+	        //     ]],
+	        //     fillColour: '#008800',
+	        //     fillOpacity: 0.5,
+	        //     lineColour: '#00aa00',
+	        // });
+	        //
+	        // marker.addToMap(this.map);
+
+	        this.setSquareMarker(latLngSW, latLngNW, latLngNE, latLngSE, gridRefParser.preciseGridRef);
+	      } else {
+	        this.hideSquareMarker(); // try to decipher postcode or place-name using remote geo-coder
+	      }
+	    }
+	    /**
+	     *
+	     */
+
+	  }, {
+	    key: "hideSquareMarker",
+	    value: function hideSquareMarker() {
+	      if (this._squareMarker && this._squareMarker.visible) {
+	        this._squareMarker.removeFromMap(this.map);
+	      }
+	    }
+	    /**
+	     *
+	     * @param {LatLngWGS84} sw
+	     * @param {LatLngWGS84} nw
+	     * @param {LatLngWGS84} ne
+	     * @param {LatLngWGS84} se
+	     * @param {string=} name
+	     */
+
+	  }, {
+	    key: "setSquareMarker",
+	    value: function setSquareMarker(sw, nw, ne, se) {
+	      var name = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+
+	      if (this._squareMarker) {
+	        // marker has already been defined, so only need to update its position data and redisplay
+	        this._squareMarker.updateCoordinates(this.map, [[[sw.lng, sw.lat], [nw.lng, nw.lat], [ne.lng, ne.lat], [se.lng, se.lat]]], name);
+	      } else {
+	        this._squareMarker = new MapMarker({
+	          name: name,
 	          type: MapMarker.TYPE_POLYGON,
-	          coordinates: [[[latLngSW.lng, latLngSW.lat], [latLngNW.lng, latLngNW.lat], [latLngNE.lng, latLngNE.lat], [latLngSE.lng, latLngSE.lat]]],
+	          coordinates: [[[sw.lng, sw.lat], [nw.lng, nw.lat], [ne.lng, ne.lat], [se.lng, se.lat]]],
 	          fillColour: '#008800',
 	          fillOpacity: 0.5,
 	          lineColour: '#00aa00'
 	        });
-	        marker.addToMap(this.map);
+
+	        this._squareMarker.addToMap(this.map);
 	      }
 	    }
 	    /**
@@ -26225,7 +27417,7 @@
 	var NyphSurveyFormAboutSection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
 	  _inherits$1(NyphSurveyFormAboutSection, _NyphSurveyFormSectio);
 
-	  var _super = _createSuper$a(NyphSurveyFormAboutSection);
+	  var _super = _createSuper$b(NyphSurveyFormAboutSection);
 
 	  function NyphSurveyFormAboutSection() {
 	    _classCallCheck$1(this, NyphSurveyFormAboutSection);
@@ -26310,7 +27502,7 @@
 	var NyphOccurrenceForm = /*#__PURE__*/function (_OccurrenceForm) {
 	  _inherits$1(NyphOccurrenceForm, _OccurrenceForm);
 
-	  var _super = _createSuper$a(NyphOccurrenceForm);
+	  var _super = _createSuper$b(NyphOccurrenceForm);
 
 	  function NyphOccurrenceForm() {
 	    _classCallCheck$1(this, NyphOccurrenceForm);
@@ -26397,7 +27589,7 @@
 	    attributes: {
 	      label: 'plant name',
 	      validationMessage: 'Please specify a taxon name or provide some photos if you cannot identify the plant.',
-	      helpText: 'Type the common or scientific name of the invasive plant and, if possible, pick a suggestion from the list. If you do not know the name of the plant then please leave this blank and include some photos.'
+	      helpText: 'Type the common or scientific name of the plant and, if possible, pick a suggestion from the list. If you do not know the name of the plant then please leave this blank and include some photos.'
 	    },
 
 	    /**
@@ -26663,7 +27855,7 @@
 	var MainView = /*#__PURE__*/function (_Page) {
 	  _inherits$1(MainView, _Page);
 
-	  var _super = _createSuper$a(MainView);
+	  var _super = _createSuper$b(MainView);
 
 	  function MainView() {
 	    var _this;
@@ -27641,7 +28833,7 @@
 	var HelpView = /*#__PURE__*/function (_Page) {
 	  _inherits$1(HelpView, _Page);
 
-	  var _super = _createSuper$a(HelpView);
+	  var _super = _createSuper$b(HelpView);
 
 	  function HelpView() {
 	    _classCallCheck$1(this, HelpView);
@@ -27654,7 +28846,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638054561</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638225933</p>";
 	    }
 	  }]);
 
@@ -27664,7 +28856,7 @@
 	var NyphLayout = /*#__PURE__*/function (_Layout) {
 	  _inherits$1(NyphLayout, _Layout);
 
-	  var _super = _createSuper$a(NyphLayout);
+	  var _super = _createSuper$b(NyphLayout);
 
 	  function NyphLayout() {
 	    var _this;

@@ -2,7 +2,7 @@ export class MapMarker {
     /**
      * @type {string}
      */
-    markerName;
+    markerId;
 
     /**
      * @type {{name : string,
@@ -18,8 +18,17 @@ export class MapMarker {
      */
     definition;
 
+    visible = false;
+
     static TYPE_POLYGON = 'polygon';
     static TYPE_POINT = 'point';
+
+    /**
+     *
+     * @type {number}
+     * @private
+     */
+    static _markerSerial = 0;
 
     /**
      *
@@ -35,6 +44,8 @@ export class MapMarker {
      * }} [definition]
      */
     constructor(definition) {
+        this.markerId = `marker${MapMarker._markerSerial++}`;
+
         if (definition) {
             this.setDefinition(definition);
         }
@@ -55,7 +66,6 @@ export class MapMarker {
      */
     setDefinition(definition) {
         this.definition = definition;
-        this.markerName = definition.name;
     }
 
     /**
@@ -83,10 +93,11 @@ export class MapMarker {
     #addPolygon(map) {
 
         // e.g. see https://docs.mapbox.com/mapbox-gl-js/example/geojson-polygon/
-        map.addSource(this.markerName, {
+        map.addSource(this.markerId, {
             'type': 'geojson',
             'data': {
                 'type': 'Feature',
+                "properties": {"name": this.definition.name},
                 'geometry': {
                     'type': 'Polygon',
                     'coordinates': this.definition.coordinates // each shape consists of array pairs of lat/lng wrapped in an array, with outer array ?for multiple polygons (i.e. three levels of array nesting)
@@ -94,6 +105,14 @@ export class MapMarker {
             }
         });
 
+        this._addPolygonMarkerLayersToMap(map);
+    }
+
+    /**
+     *
+     * @param {mapboxgl.Map} map
+     */
+    _addPolygonMarkerLayersToMap(map) {
         if (this.definition.fillColour) {
             let paint = {
                 'fill-color':this.definition.fillColour
@@ -104,9 +123,9 @@ export class MapMarker {
             }
 
             map.addLayer({
-                'id': `${this.markerName}-fill`,
+                'id': `${this.markerId}-fill`,
                 'type': 'fill',
-                'source': this.markerName, // reference the data source
+                'source': this.markerId, // reference the data source
                 'layout': {},
                 'paint': paint
             });
@@ -126,12 +145,38 @@ export class MapMarker {
             }
 
             map.addLayer({
-                'id': `${this.markerName}-line`,
+                'id': `${this.markerId}-line`,
                 'type': 'line',
-                'source': this.markerName, // reference the data source
+                'source': this.markerId, // reference the data source
                 'layout': {},
                 'paint': paint
             });
+        }
+
+        this.visible = true;
+    }
+
+    /**
+     *
+     * @param {mapboxgl.Map} map
+     * @param {Array} newCoordinates
+     * @param {string} newName
+     */
+    updateCoordinates(map, newCoordinates, newName) {
+        this.definition.coordinates = newCoordinates;
+        this.definition.name = newName;
+
+        let source = map.getSource(this.markerId);
+        source.setData({
+            'type': 'Feature',
+            "properties": {"name": this.definition.name},
+            'geometry': {
+                'type': 'Polygon',
+                'coordinates': this.definition.coordinates // each shape consists of array pairs of lat/lng wrapped in an array, with outer array ?for multiple polygons (i.e. three levels of array nesting)
+            }});
+
+        if (!this.visible) {
+            this._addPolygonMarkerLayersToMap(map);
         }
     }
 
@@ -140,6 +185,7 @@ export class MapMarker {
      * @param {mapboxgl.Map} map
      */
     removeFromMap(map) {
-        map.removeSource(this.markerName)
+        map.removeSource(this.markerId);
+        this.visible = false;
     }
 }
