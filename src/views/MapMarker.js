@@ -91,7 +91,17 @@ export class MapMarker {
      * @param {mapboxgl.Map} map
      */
     #addPolygon(map) {
+        // mapbox life-cycle is broken can't add source until map has finished loading
+        if (map.isStyleLoaded()) {
+            this._addPolygonImpl(map);
+        } else {
+            setTimeout(() => {
+                this.#addPolygon(map);
+            }, 1000);
+        }
+    }
 
+    _addPolygonImpl(map) {
         // e.g. see https://docs.mapbox.com/mapbox-gl-js/example/geojson-polygon/
         map.addSource(this.markerId, {
             'type': 'geojson',

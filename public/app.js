@@ -26854,13 +26854,34 @@
 	     */
 
 	  }, {
-	    key: "_addPolygonMarkerLayersToMap",
-	    value:
+	    key: "_addPolygonImpl",
+	    value: function _addPolygonImpl(map) {
+	      // e.g. see https://docs.mapbox.com/mapbox-gl-js/example/geojson-polygon/
+	      map.addSource(this.markerId, {
+	        'type': 'geojson',
+	        'data': {
+	          'type': 'Feature',
+	          "properties": {
+	            "name": this.definition.name
+	          },
+	          'geometry': {
+	            'type': 'Polygon',
+	            'coordinates': this.definition.coordinates // each shape consists of array pairs of lat/lng wrapped in an array, with outer array ?for multiple polygons (i.e. three levels of array nesting)
+
+	          }
+	        }
+	      });
+
+	      this._addPolygonMarkerLayersToMap(map);
+	    }
 	    /**
 	     *
 	     * @param {mapboxgl.Map} map
 	     */
-	    function _addPolygonMarkerLayersToMap(map) {
+
+	  }, {
+	    key: "_addPolygonMarkerLayersToMap",
+	    value: function _addPolygonMarkerLayersToMap(map) {
 	      if (this.definition.fillColour) {
 	        var paint = {
 	          'fill-color': this.definition.fillColour
@@ -26951,23 +26972,16 @@
 	}();
 
 	function _addPolygon2(map) {
-	  // e.g. see https://docs.mapbox.com/mapbox-gl-js/example/geojson-polygon/
-	  map.addSource(this.markerId, {
-	    'type': 'geojson',
-	    'data': {
-	      'type': 'Feature',
-	      "properties": {
-	        "name": this.definition.name
-	      },
-	      'geometry': {
-	        'type': 'Polygon',
-	        'coordinates': this.definition.coordinates // each shape consists of array pairs of lat/lng wrapped in an array, with outer array ?for multiple polygons (i.e. three levels of array nesting)
+	  var _this = this;
 
-	      }
-	    }
-	  });
-
-	  this._addPolygonMarkerLayersToMap(map);
+	  // mapbox life-cycle is broken can't add source until map has finished loading
+	  if (map.isStyleLoaded()) {
+	    this._addPolygonImpl(map);
+	  } else {
+	    setTimeout(function () {
+	      _classPrivateMethodGet$5(_this, _addPolygon, _addPolygon2).call(_this, map);
+	    }, 1000);
+	  }
 	}
 
 	_defineProperty$1(MapMarker, "TYPE_POLYGON", 'polygon');
@@ -27207,6 +27221,16 @@
 	        // starting position [lng, lat]
 	        zoom: 9 // starting zoom
 
+	      });
+	      map.on('styledata', function (e) {
+	        if (checking_style_status) {
+	          // If already checking style status, bail out
+	          // (important because styledata event may fire multiple times)
+	          return;
+	        } else {
+	          checking_style_status = true;
+	          check_style_status();
+	        }
 	      });
 
 	      if (this.includeSearchBox) {
@@ -28846,7 +28870,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638225933</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638228955</p>";
 	    }
 	  }]);
 

@@ -212,6 +212,17 @@ export class MapGeorefField extends TextGeorefField {
             zoom: 9 // starting zoom
         });
 
+        map.on('styledata', function (e) {
+            if (checking_style_status){
+                // If already checking style status, bail out
+                // (important because styledata event may fire multiple times)
+                return;
+            } else {
+                checking_style_status = true;
+                check_style_status();
+            }
+        });
+
         if (this.includeSearchBox) {
             const geocoder = new MapboxGeocoder({
                 accessToken: mapboxgl.accessToken,
