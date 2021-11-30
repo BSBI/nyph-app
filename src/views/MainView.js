@@ -700,7 +700,7 @@ export class MainView extends Page {
         // cannot call registerForm until the form is part of the document
         this.controller.survey.registerForm(surveyFormSection);
 
-        surveyFormSection.addListener(NyphSurveyForm.EVENT_VALIDATION_STATE_CHANGE, (context, eventName, isValid) => {
+        surveyFormSection.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, (context, eventName, isValid) => {
             const cardEl = document.getElementById(cardId);
             if (isValid) {
                 cardEl.classList.remove('is-invalid');
@@ -713,7 +713,7 @@ export class MainView extends Page {
                  * @type {HTMLButtonElement}
                  */
                 let nextButton = document.getElementById(surveyFormSection.nextButtonId);
-                nextButton.disabled = isValid;
+                nextButton.disabled = !isValid;
             //}
 
             this._refreshVisibilityOfAccordionSections();
@@ -772,6 +772,8 @@ export class MainView extends Page {
             bodyContentElement: content,
             dataAttributes : {sectionkey : 'record'}
         }));
+
+        this._refreshVisibilityOfAccordionSections(); // this section was added last, need to ensure that it also reflects the state of accordion section hiding
     }
 
     /**

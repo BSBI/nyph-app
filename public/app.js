@@ -13044,10 +13044,11 @@
 	  }, {
 	    key: "changeHandler",
 	    value: function changeHandler(event) {
-	      console.log('survey form change event');
 	      console.log({
-	        event: event
+	        'survey form change event': event
 	      });
+	      this.liveValidation = true; // after the first change start reflecting state
+
 	      this.fireEvent(Form.CHANGE_EVENT, {
 	        form: this
 	      });
@@ -28077,7 +28078,7 @@
 	  })); // cannot call registerForm until the form is part of the document
 
 	  this.controller.survey.registerForm(surveyFormSection);
-	  surveyFormSection.addListener(NyphSurveyForm.EVENT_VALIDATION_STATE_CHANGE, function (context, eventName, isValid) {
+	  surveyFormSection.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, function (context, eventName, isValid) {
 	    var cardEl = document.getElementById(cardId);
 
 	    if (isValid) {
@@ -28092,7 +28093,7 @@
 
 
 	    var nextButton = document.getElementById(surveyFormSection.nextButtonId);
-	    nextButton.disabled = isValid; //}
+	    nextButton.disabled = !isValid; //}
 
 	    _this7._refreshVisibilityOfAccordionSections();
 	  });
@@ -28126,6 +28127,9 @@
 	      sectionkey: 'record'
 	    }
 	  }));
+
+	  this._refreshVisibilityOfAccordionSections(); // this section was added last, need to ensure that it also reflects the state of accordion section hiding
+
 	}
 
 	function _buildOccurrenceList2() {
@@ -28214,7 +28218,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638314976</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638316742</p>";
 	    }
 	  }]);
 
