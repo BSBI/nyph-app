@@ -10594,7 +10594,14 @@
        * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
        */
       function get() {
-        return this.attributes.georef || null;
+        return this.attributes.georef || {
+          gridRef: '',
+          rawString: '',
+          // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+          source: TextGeorefField.GEOREF_SOURCE_UNKNOWN,
+          latLng: null,
+          precision: null
+        };
       }
     }, {
       key: "formChangedHandler",
@@ -10672,7 +10679,7 @@
     }, {
       key: "generateSurveyName",
       value: function generateSurveyName() {
-        var place = (this.attributes.place || this.attributes.georef || '(unlocalised)').trim();
+        var place = (this.attributes.place || this.attributes.georef.gridRef || '(unlocalised)').trim();
         var createdDate = new Date(this.createdStamp * 1000);
         var dateString;
 
@@ -12738,7 +12745,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1638297576-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1638301887-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -16781,7 +16788,7 @@
 
   var _containerId = /*#__PURE__*/new WeakMap();
 
-  var TextGeorefField = /*#__PURE__*/function (_FormField) {
+  var TextGeorefField$1 = /*#__PURE__*/function (_FormField) {
     _inherits$1(TextGeorefField, _FormField);
 
     var _super = _createSuper$2(TextGeorefField);
@@ -17253,17 +17260,17 @@
     return TextGeorefField;
   }(FormField);
 
-  _defineProperty$1(TextGeorefField, "GEOREF_SOURCE_UNKNOWN", null);
+  _defineProperty$1(TextGeorefField$1, "GEOREF_SOURCE_UNKNOWN", null);
 
-  _defineProperty$1(TextGeorefField, "GEOREF_SOURCE_GRIDREF", 'gridref');
+  _defineProperty$1(TextGeorefField$1, "GEOREF_SOURCE_GRIDREF", 'gridref');
 
-  _defineProperty$1(TextGeorefField, "GEOREF_SOURCE_MAP", 'map');
+  _defineProperty$1(TextGeorefField$1, "GEOREF_SOURCE_MAP", 'map');
 
-  _defineProperty$1(TextGeorefField, "GEOREF_SOURCE_GPS", 'gps');
+  _defineProperty$1(TextGeorefField$1, "GEOREF_SOURCE_GPS", 'gps');
 
-  _defineProperty$1(TextGeorefField, "GEOREF_SOURCE_POSTCODE", 'postcode');
+  _defineProperty$1(TextGeorefField$1, "GEOREF_SOURCE_POSTCODE", 'postcode');
 
-  _defineProperty$1(TextGeorefField, "GEOREF_SOURCE_PLACE", 'place');
+  _defineProperty$1(TextGeorefField$1, "GEOREF_SOURCE_PLACE", 'place');
 
   function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
@@ -19152,7 +19159,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1638301403'
+    version: '1.0.1.1638301979'
   });
 
 })();

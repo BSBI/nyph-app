@@ -13117,7 +13117,14 @@
 	     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
 	     */
 	    function get() {
-	      return this.attributes.georef || null;
+	      return this.attributes.georef || {
+	        gridRef: '',
+	        rawString: '',
+	        // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+	        source: TextGeorefField.GEOREF_SOURCE_UNKNOWN,
+	        latLng: null,
+	        precision: null
+	      };
 	    }
 	  }, {
 	    key: "formChangedHandler",
@@ -13195,7 +13202,7 @@
 	  }, {
 	    key: "generateSurveyName",
 	    value: function generateSurveyName() {
-	      var place = (this.attributes.place || this.attributes.georef || '(unlocalised)').trim();
+	      var place = (this.attributes.place || this.attributes.georef.gridRef || '(unlocalised)').trim();
 	      var createdDate = new Date(this.createdStamp * 1000);
 	      var dateString;
 
@@ -19788,7 +19795,7 @@
 
 	var _containerId$7 = /*#__PURE__*/new WeakMap();
 
-	var TextGeorefField = /*#__PURE__*/function (_FormField) {
+	var TextGeorefField$1 = /*#__PURE__*/function (_FormField) {
 	  _inherits(TextGeorefField, _FormField);
 
 	  var _super = _createSuper$2(TextGeorefField);
@@ -20260,17 +20267,17 @@
 	  return TextGeorefField;
 	}(FormField);
 
-	_defineProperty(TextGeorefField, "GEOREF_SOURCE_UNKNOWN", null);
+	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_UNKNOWN", null);
 
-	_defineProperty(TextGeorefField, "GEOREF_SOURCE_GRIDREF", 'gridref');
+	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_GRIDREF", 'gridref');
 
-	_defineProperty(TextGeorefField, "GEOREF_SOURCE_MAP", 'map');
+	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_MAP", 'map');
 
-	_defineProperty(TextGeorefField, "GEOREF_SOURCE_GPS", 'gps');
+	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_GPS", 'gps');
 
-	_defineProperty(TextGeorefField, "GEOREF_SOURCE_POSTCODE", 'postcode');
+	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_POSTCODE", 'postcode');
 
-	_defineProperty(TextGeorefField, "GEOREF_SOURCE_PLACE", 'place');
+	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_PLACE", 'place');
 
 	function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
@@ -26613,14 +26620,14 @@
 	  }]);
 
 	  return MapGeorefField;
-	}(TextGeorefField);
+	}(TextGeorefField$1);
 
 	function _setGridrefFromGeocodedResult2(result) {
 	  console.log({
 	    'geocoded result': result
 	  }); // currently just use the centre-point
 
-	  this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1, TextGeorefField.GEOREF_SOURCE_PLACE); // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
+	  this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1, TextGeorefField$1.GEOREF_SOURCE_PLACE); // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
 	}
 
 	_defineProperty$1(MapGeorefField, "GPS_INITIALISATION_MODE_ALWAYS", 'always');
@@ -28077,7 +28084,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638301403</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638301979</p>";
 	    }
 	  }]);
 
