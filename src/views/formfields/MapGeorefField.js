@@ -233,12 +233,16 @@ export class MapGeorefField extends TextGeorefField {
         this._fieldEl = container;
     }
 
-    addField () {
+    /**
+     *
+     * @param {HTMLElement} contentContainer
+     */
+    addField (contentContainer) {
         // const formEl = this.parentForm.formElement;
         //
         // formEl.appendChild(this.fieldElement);
 
-        super.addField();
+        super.addField(contentContainer);
         this.parentForm.addListener(Form.EVENT_INITIALISE_NEW, (/** @type {{[survey] : Survey}} */ params) => {
             console.log('Handling initialisation of new MapGeoRefField.');
 
@@ -309,7 +313,7 @@ export class MapGeorefField extends TextGeorefField {
         this.map = new mapboxgl.Map({
             container: divEl,
             style: 'mapbox://styles/mapbox/streets-v11', // style URL
-            center: [this.defaultLat, this.defaultLng], // starting position [lng, lat]
+            center: [this.defaultLng, this.defaultLat], // starting position [lng, lat]
             zoom: this.defaultZoom // starting zoom
         });
 

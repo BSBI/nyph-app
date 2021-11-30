@@ -10868,9 +10868,16 @@
 
 	  }, {
 	    key: "addField",
-	    value: function addField() {
-	      var formEl = this.parentForm.formElement;
-	      formEl.appendChild(this.fieldElement);
+	    value:
+	    /**
+	     *
+	     * @param {HTMLElement} contentContainer
+	     */
+	    function addField(contentContainer) {
+	      // const formEl = this.parentForm.formElement;
+	      //
+	      // formEl.appendChild(this.fieldElement);
+	      contentContainer.appendChild(this.fieldElement);
 	    }
 	    /**
 	     *
@@ -11121,10 +11128,9 @@
 	        if (this.fields.hasOwnProperty(key)) {
 	          var field = this.fields[key];
 	          field.parentForm = this;
-	          field.attributeName = key;
+	          field.attributeName = key; //this._formContentContainer.appendChild(field.fieldElement);
 
-	          this._formContentContainer.appendChild(field.fieldElement);
-
+	          field.addField(this._formContentContainer);
 	          field.addListener(FormField.EVENT_CHANGE, this.changeHandler.bind(this));
 	        }
 	      }
@@ -27384,15 +27390,20 @@
 	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
 	      this._fieldEl = container;
 	    }
+	    /**
+	     *
+	     * @param {HTMLElement} contentContainer
+	     */
+
 	  }, {
 	    key: "addField",
-	    value: function addField() {
+	    value: function addField(contentContainer) {
 	      var _this2 = this;
 
 	      // const formEl = this.parentForm.formElement;
 	      //
 	      // formEl.appendChild(this.fieldElement);
-	      _get$1(_getPrototypeOf$1(MapGeorefField.prototype), "addField", this).call(this);
+	      _get$1(_getPrototypeOf$1(MapGeorefField.prototype), "addField", this).call(this, contentContainer);
 
 	      this.parentForm.addListener(Form.EVENT_INITIALISE_NEW, function (
 	      /** @type {{[survey] : Survey}} */
@@ -27465,7 +27476,7 @@
 	        container: divEl,
 	        style: 'mapbox://styles/mapbox/streets-v11',
 	        // style URL
-	        center: [this.defaultLat, this.defaultLng],
+	        center: [this.defaultLng, this.defaultLat],
 	        // starting position [lng, lat]
 	        zoom: this.defaultZoom // starting zoom
 
@@ -29128,7 +29139,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638293830</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638295630</p>";
 	    }
 	  }]);
 
