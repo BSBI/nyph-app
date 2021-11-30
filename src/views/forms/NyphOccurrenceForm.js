@@ -80,9 +80,11 @@ export class NyphOccurrenceForm extends OccurrenceForm {
             attributes: {
                 label: 'Grid-reference',
                 helpText: '',
-                completion: FormField.COMPLETION_COMPULSORY,
+                completion: FormField.COMPLETION_DESIRED,
                 includeSearchBox: true,
                 baseSquareResolution: 1000,
+                gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED,
+                initialiseFromDefaultSurveyGeoref: true,
             }
         },
         // idConfidence : {

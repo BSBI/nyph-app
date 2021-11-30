@@ -45,6 +45,7 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
                 //autocomplete: 'postal-code',
                 completion: FormField.COMPLETION_COMPULSORY,
                 baseSquareResolution: 1000,
+                gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED,
             }},
         recorder: {
             field: InputField,

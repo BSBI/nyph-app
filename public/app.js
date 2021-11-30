@@ -2152,6 +2152,36 @@
 	  };
 	}
 
+	function _superPropBase$1(object, property) {
+	  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+	    object = _getPrototypeOf$1(object);
+	    if (object === null) break;
+	  }
+
+	  return object;
+	}
+
+	function _get$1() {
+	  if (typeof Reflect !== "undefined" && Reflect.get) {
+	    _get$1 = Reflect.get;
+	  } else {
+	    _get$1 = function _get(target, property, receiver) {
+	      var base = _superPropBase$1(target, property);
+
+	      if (!base) return;
+	      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+	      if (desc.get) {
+	        return desc.get.call(arguments.length < 3 ? target : receiver);
+	      }
+
+	      return desc.value;
+	    };
+	  }
+
+	  return _get$1.apply(this, arguments);
+	}
+
 	function _toConsumableArray$1(arr) {
 	  return _arrayWithoutHoles$1(arr) || _iterableToArray$1(arr) || _unsupportedIterableToArray$9(arr) || _nonIterableSpread$1();
 	}
@@ -11184,6 +11214,8 @@
 
 	_defineProperty(Form, "CHANGE_EVENT", 'change');
 
+	_defineProperty(Form, "EVENT_INITIALISE_NEW", 'initialisenew');
+
 	var _formSerial = {
 	  writable: true,
 	  value: 0
@@ -11256,15 +11288,21 @@
 	    value:
 	    /**
 	     *
-	     * @param {Form} form
-	     * @returns {Form}
+	     * @param {OccurrenceForm} form
+	     * @param {Survey} survey unfortunate smudging of concerns, but needed because occurrence may need access to default survey geo-ref
+	     * @returns {OccurrenceForm}
 	     */
-	    function setForm(form) {
+	    function setForm(form, survey) {
+	      form.addListener(Form.CHANGE_EVENT, this.formChangedHandler.bind(this));
+
 	      if (!this.isNew) {
 	        form.liveValidation = true;
+	      } else {
+	        form.fireEvent(Form.EVENT_INITIALISE_NEW, {
+	          survey: survey
+	        }); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
 	      }
 
-	      form.addListener(Form.CHANGE_EVENT, this.formChangedHandler.bind(this));
 	      return form;
 	    }
 	    /**
@@ -13065,10 +13103,22 @@
 
 	    _defineProperty(_assertThisInitialized(_this), "attributes", {});
 
+	    _defineProperty(_assertThisInitialized(_this), "isNew", false);
+
 	    return _this;
 	  }
 
 	  _createClass(Survey, [{
+	    key: "geoReference",
+	    get:
+	    /**
+	     *
+	     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
+	     */
+	    function get() {
+	      return this.attributes.geoRef || null;
+	    }
+	  }, {
 	    key: "formChangedHandler",
 	    value:
 	    /**
@@ -13098,6 +13148,10 @@
 	    value: function registerForm(form) {
 	      form.model = this;
 	      form.addListener(Form.CHANGE_EVENT, this.formChangedHandler.bind(this));
+
+	      if (this.isNew) {
+	        form.fireEvent(Form.EVENT_INITIALISE_NEW, {}); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
+	      }
 	    }
 	    /**
 	     * if not securely saved then makes a post to /savesurvey.php
@@ -19748,7 +19802,13 @@
 
 	  /**
 	   *
-	   * @type {string}
+	   * @type {{}}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @type {{rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: Array|null}}
 	   * @private
 	   */
 
@@ -19791,6 +19851,7 @@
 	   * [autocomplete]: string,
 	   * [baseSquareResolution]: ?number,
 	   * [gpsPermissionPromptText]: string,
+	   * [initialiseFromDefaultSurveyGeoref] : boolean
 	   * }} [params]
 	   */
 	  function TextGeorefField(params) {
@@ -19807,7 +19868,14 @@
 	      value: void 0
 	    });
 
-	    _defineProperty(_assertThisInitialized(_this), "_value", '');
+	    _defineProperty(_assertThisInitialized(_this), "_value", {
+	      gridRef: '',
+	      rawString: '',
+	      // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+	      source: TextGeorefField.GEOREF_SOURCE_UNKNOWN,
+	      latLng: null,
+	      precision: null
+	    });
 
 	    _defineProperty(_assertThisInitialized(_this), "_inputType", 'text');
 
@@ -19816,6 +19884,8 @@
 	    _defineProperty(_assertThisInitialized(_this), "baseSquareResolution", null);
 
 	    _defineProperty(_assertThisInitialized(_this), "gpsPermissionsPromptText", '<p class="gps-nudge">Allowing access to GPS will save you time by allowing the app to locate your records automatically.</p>');
+
+	    _defineProperty(_assertThisInitialized(_this), "initialiseFromDefaultSurveyGeoref", false);
 
 	    _defineProperty(_assertThisInitialized(_this), "_gpsPermissionsPromptId", null);
 
@@ -19839,13 +19909,17 @@
 	      if (params.gpsPermissionPromptText) {
 	        _this.gpsPermissionsPromptText = params.gpsPermissionPromptText;
 	      }
+
+	      if (params.hasOwnProperty('initialiseFromDefaultSurveyGeoref')) {
+	        _this.initialiseFromDefaultSurveyGeoref = params.initialiseFromDefaultSurveyGeoref;
+	      }
 	    }
 
 	    return _this;
 	  }
 	  /**
 	   *
-	   * @param {(string|null|undefined)} textContent
+	   * @param {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: Array|null}|string|null)} georefSpec
 	   */
 
 
@@ -19854,13 +19928,38 @@
 	    get:
 	    /**
 	     *
-	     * @returns {string}
+	     * @returns {{rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: Array|null}}
 	     */
 	    function get() {
 	      return this._value;
 	    },
-	    set: function set(textContent) {
-	      this._value = undefined === textContent || null == textContent ? '' : textContent.trim();
+	    set: function set(georefSpec) {
+	      //this._value = (undefined === textContent || null == textContent) ? '' : textContent.trim();
+	      if (georefSpec) {
+	        if (typeof georefSpec === 'string') {
+	          // backward compatible string gridref
+	          this._value = {
+	            gridRef: georefSpec,
+	            rawString: georefSpec,
+	            // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+	            source: null,
+	            latLng: null,
+	            precision: null
+	          };
+	        } else {
+	          this._value = georefSpec;
+	        }
+	      } else {
+	        this._value = {
+	          gridRef: '',
+	          rawString: '',
+	          // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+	          source: null,
+	          latLng: null,
+	          precision: null
+	        };
+	      }
+
 	      this.updateView();
 	    }
 	  }, {
@@ -19869,7 +19968,7 @@
 	      if (this._fieldEl) {
 	        // do nothing until the view has been constructed
 	        var inputEl = document.getElementById(this._inputId);
-	        inputEl.value = FormField.cleanRawString(this._value);
+	        inputEl.value = FormField.cleanRawString(this._value.gridRef);
 	      }
 	    }
 	    /**
@@ -19991,7 +20090,30 @@
 	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
 
 	      console.log('got input field change event');
-	      this.value = FormField.cleanRawString(document.getElementById(this._inputId).value);
+	      var rawValue = FormField.cleanRawString(document.getElementById(this._inputId).value);
+	      var gridRefParser = Oo$1.from_string(rawValue);
+
+	      if (gridRefParser) {
+	        this.value = {
+	          gridRef: gridRefParser.preciseGridRef,
+	          rawString: rawValue,
+	          // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+	          source: TextGeorefField.GEOREF_SOURCE_GRIDREF,
+	          latLng: null,
+	          precision: null
+	        };
+	      } else {
+	        // should try geo-coding the value
+	        this.value = {
+	          gridRef: '',
+	          rawString: rawValue,
+	          // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+	          source: TextGeorefField.GEOREF_SOURCE_UNKNOWN,
+	          latLng: null,
+	          precision: null
+	        };
+	      }
+
 	      this.fireEvent(FormField.EVENT_CHANGE);
 	    } // /**
 	    //  *
@@ -20027,10 +20149,46 @@
 	  }, {
 	    key: "gpsButtonClickHandler",
 	    value: function gpsButtonClickHandler(event) {
+	      this.seekGPS().catch(function (error) {
+	        console.log({
+	          'gps look-up failed, error': error
+	        });
+	      }); // GPSRequest.seekGPS(this._gpsPermissionsPromptId).then((position) => {
+	      //     // const latitude  = position.coords.latitude;
+	      //     // const longitude = position.coords.longitude;
+	      //
+	      //     // console.log(`Got GPS fix ${latitude} , ${longitude}`);
+	      //     //
+	      //     // const gridCoords = GridCoords.from_latlng(latitude, longitude);
+	      //     // const gridRef = gridCoords.to_gridref(1000);
+	      //     //
+	      //     // console.log(`Got grid-ref: ${gridRef}`);
+	      //     // this.value = gridRef;
+	      //     // this.fireEvent(FormField.EVENT_CHANGE);
+	      //
+	      //     //@todo maybe should prevent use of readings if speed is too great (which might imply use of GPS in a moving vehicle)
+	      //
+	      //     this.processLatLngPosition(
+	      //         position.coords.latitude,
+	      //         position.coords.longitude,
+	      //         position.coords.accuracy * 2
+	      //     );
+	      // }, (error) => {
+	      //     console.log('gps look-up failed');
+	      //     console.log(error);
+	      // });
+	    }
+	    /**
+	     *
+	     * @returns {Promise<unknown>}
+	     */
+
+	  }, {
+	    key: "seekGPS",
+	    value: function seekGPS() {
 	      var _this2 = this;
 
-	      //console.log('got gps button click event');
-	      GPSRequest.seekGPS(this._gpsPermissionsPromptId).then(function (position) {
+	      return GPSRequest.seekGPS(this._gpsPermissionsPromptId).then(function (position) {
 	        // const latitude  = position.coords.latitude;
 	        // const longitude = position.coords.longitude;
 	        // console.log(`Got GPS fix ${latitude} , ${longitude}`);
@@ -20042,50 +20200,20 @@
 	        // this.value = gridRef;
 	        // this.fireEvent(FormField.EVENT_CHANGE);
 	        //@todo maybe should prevent use of readings if speed is too great (which might imply use of GPS in a moving vehicle)
-	        _this2.processLatLngPosition(position.coords.latitude, position.coords.longitude, position.coords.accuracy * 2);
-	      }, function (error) {
-	        console.log('gps look-up failed');
-	        console.log(error);
-	      }); // navigator.geolocation.getCurrentPosition((position) => {
-	      //         // const latitude  = position.coords.latitude;
-	      //         // const longitude = position.coords.longitude;
-	      //
-	      //         // console.log(`Got GPS fix ${latitude} , ${longitude}`);
-	      //         //
-	      //         // const gridCoords = GridCoords.from_latlng(latitude, longitude);
-	      //         // const gridRef = gridCoords.to_gridref(1000);
-	      //         //
-	      //         // console.log(`Got grid-ref: ${gridRef}`);
-	      //         // this.value = gridRef;
-	      //         // this.fireEvent(FormField.EVENT_CHANGE);
-	      //
-	      //         //@todo maybe should prevent use of readings if speed is too great (which might imply use of GPS in a moving vehicle)
-	      //
-	      //         this.processLatLngPosition(
-	      //             position.coords.latitude,
-	      //             position.coords.longitude,
-	      //             position.coords.accuracy * 2
-	      //         );
-	      //     }, (error) => {
-	      //         console.log('gps look-up failed');
-	      //         console.log(error);
-	      //     }
-	      //     ,
-	      // {
-	      //     enableHighAccuracy : true,
-	      //     timeout : 60 * 1000, // 60 second timeout
-	      // });
+	        _this2.processLatLngPosition(position.coords.latitude, position.coords.longitude, position.coords.accuracy * 2, TextGeorefField.GEOREF_SOURCE_GPS);
+	      });
 	    }
 	    /**
 	     *
 	     * @param {number} latitude
 	     * @param {number} longitude
 	     * @param {number} precision diameter in metres
+	     * @param {string} source
 	     */
 
 	  }, {
 	    key: "processLatLngPosition",
-	    value: function processLatLngPosition(latitude, longitude, precision) {
+	    value: function processLatLngPosition(latitude, longitude, precision, source) {
 	      var gridCoords = pi$1.from_latlng(latitude, longitude);
 	      var scaledPrecision = Oo$1.get_normalized_precision(precision);
 
@@ -20094,8 +20222,18 @@
 	      }
 
 	      var gridRef = gridCoords.to_gridref(scaledPrecision);
-	      console.log("Got grid-ref: ".concat(gridRef));
-	      this.value = gridRef;
+	      console.log("Got grid-ref: ".concat(gridRef)); //this.value = gridRef;
+
+	      this.value = {
+	        gridRef: gridRef,
+	        rawString: '',
+	        source: source,
+	        latLng: {
+	          lat: latitude,
+	          lng: longitude
+	        },
+	        precision: precision
+	      };
 	      this.fireEvent(FormField.EVENT_CHANGE);
 	    }
 	    /**
@@ -20120,6 +20258,18 @@
 
 	  return TextGeorefField;
 	}(FormField);
+
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_UNKNOWN", null);
+
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_GRIDREF", 'gridref');
+
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_MAP", 'map');
+
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_GPS", 'gps');
+
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_POSTCODE", 'postcode');
+
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_PLACE", 'place');
 
 	function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
@@ -20959,7 +21109,7 @@
 	        } // form has not been initialised or current occurrence has changed
 
 
-	        _classPrivateFieldSet(this, _occurrenceForm$1, occurrence.setForm(new OccurrenceForm(occurrence))); //this.#occurrenceForm = occurrence.getForm();
+	        _classPrivateFieldSet(this, _occurrenceForm$1, occurrence.setForm(new OccurrenceForm(occurrence), this.controller.app.currentSurvey)); //this.#occurrenceForm = occurrence.getForm();
 
 
 	        _classPrivateFieldGet(this, _occurrenceForm$1).surveyId = this.controller.app.currentSurvey.id; // scroll to the top of the panel
@@ -23738,16 +23888,92 @@
 
 	var helpPanelText$1 = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Localising your records</h5>\r\n        <p class=\"card-text\">To make sense of the national coverage of the records we receive, we need to know the approximate location\r\n        of your garden. Usually a postcode works well for this, but you can provide a grid-reference if you prefer (in Ireland please use a grid-reference as we don't yet have a way to convert postcodes).\r\n            We also need a place name, as a way to double-check that the postcode or grid-reference makes sense.\r\n        </p>\r\n        <p><strong>Please don't provide your full address, as we would need to remove that from our data.</strong></p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Your name and email</h5>\r\n        <p class=\"card-text\">Both of these are optional, but providing an email address is important if you want to return\r\n            to your survey later or to revise your records. It is also really useful for our experts to be able to contact you\r\n            if we have questions about the records that you've sent.\r\n        </p>\r\n        <p>We'd like to be able to include your name with the records in our archive, but your email address won't be stored long-term\r\n            after your plant records have been checked.</p>\r\n    </div>\r\n</div>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
 
+	var DESCRIPTORS$p = descriptors$1;
+	var FUNCTION_NAME_EXISTS = functionName$1.EXISTS;
+	var uncurryThis$Q = functionUncurryThis$1;
+	var defineProperty$a = objectDefineProperty$1.f;
+
+	var FunctionPrototype$1 = Function.prototype;
+	var functionToString = uncurryThis$Q(FunctionPrototype$1.toString);
+	var nameRE = /^\s*function ([^ (]*)/;
+	var regExpExec$4 = uncurryThis$Q(nameRE.exec);
+	var NAME$1 = 'name';
+
+	// Function instances `.name` property
+	// https://tc39.es/ecma262/#sec-function-instances-name
+	if (DESCRIPTORS$p && !FUNCTION_NAME_EXISTS) {
+	  defineProperty$a(FunctionPrototype$1, NAME$1, {
+	    configurable: true,
+	    get: function () {
+	      try {
+	        return regExpExec$4(nameRE, functionToString(this))[1];
+	      } catch (error) {
+	        return '';
+	      }
+	    }
+	  });
+	}
+
+	var $$2n = _export$1;
+	var $map$1 = arrayIteration.map;
+	var arrayMethodHasSpeciesSupport$3 = arrayMethodHasSpeciesSupport$8;
+
+	var HAS_SPECIES_SUPPORT$3 = arrayMethodHasSpeciesSupport$3('map');
+
+	// `Array.prototype.map` method
+	// https://tc39.es/ecma262/#sec-array.prototype.map
+	// with adding support of @@species
+	$$2n({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$3 }, {
+	  map: function map(callbackfn /* , thisArg */) {
+	    return $map$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+	  }
+	});
+
+	var $forEach$2 = arrayIteration.forEach;
+	var arrayMethodIsStrict$6 = arrayMethodIsStrict$9;
+
+	var STRICT_METHOD$6 = arrayMethodIsStrict$6('forEach');
+
+	// `Array.prototype.forEach` method implementation
+	// https://tc39.es/ecma262/#sec-array.prototype.foreach
+	var arrayForEach = !STRICT_METHOD$6 ? function forEach(callbackfn /* , thisArg */) {
+	  return $forEach$2(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+	// eslint-disable-next-line es/no-array-prototype-foreach -- safe
+	} : [].forEach;
+
+	var global$X = global$1A;
+	var DOMIterables = domIterables;
+	var DOMTokenListPrototype = domTokenListPrototype;
+	var forEach$2 = arrayForEach;
+	var createNonEnumerableProperty$7 = createNonEnumerableProperty$e;
+
+	var handlePrototype = function (CollectionPrototype) {
+	  // some Chrome versions have non-configurable methods on DOMTokenList
+	  if (CollectionPrototype && CollectionPrototype.forEach !== forEach$2) try {
+	    createNonEnumerableProperty$7(CollectionPrototype, 'forEach', forEach$2);
+	  } catch (error) {
+	    CollectionPrototype.forEach = forEach$2;
+	  }
+	};
+
+	for (var COLLECTION_NAME in DOMIterables) {
+	  if (DOMIterables[COLLECTION_NAME]) {
+	    handlePrototype(global$X[COLLECTION_NAME] && global$X[COLLECTION_NAME].prototype);
+	  }
+	}
+
+	handlePrototype(DOMTokenListPrototype);
+
 	// a string of all valid unicode whitespaces
 	var whitespaces$4 = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
 	  '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
 
-	var uncurryThis$Q = functionUncurryThis$1;
+	var uncurryThis$P = functionUncurryThis$1;
 	var requireObjectCoercible$e = requireObjectCoercible$j;
 	var toString$n = toString$r;
 	var whitespaces$3 = whitespaces$4;
 
-	var replace$a = uncurryThis$Q(''.replace);
+	var replace$a = uncurryThis$P(''.replace);
 	var whitespace = '[' + whitespaces$3 + ']';
 	var ltrim = RegExp('^' + whitespace + whitespace + '*');
 	var rtrim = RegExp(whitespace + whitespace + '*$');
@@ -23790,93 +24016,17 @@
 	  });
 	};
 
-	var $$2n = _export$1;
+	var $$2m = _export$1;
 	var $trim = stringTrim.trim;
 	var forcedStringTrimMethod$2 = stringTrimForced;
 
 	// `String.prototype.trim` method
 	// https://tc39.es/ecma262/#sec-string.prototype.trim
-	$$2n({ target: 'String', proto: true, forced: forcedStringTrimMethod$2('trim') }, {
+	$$2m({ target: 'String', proto: true, forced: forcedStringTrimMethod$2('trim') }, {
 	  trim: function trim() {
 	    return $trim(this);
 	  }
 	});
-
-	var DESCRIPTORS$p = descriptors$1;
-	var FUNCTION_NAME_EXISTS = functionName$1.EXISTS;
-	var uncurryThis$P = functionUncurryThis$1;
-	var defineProperty$a = objectDefineProperty$1.f;
-
-	var FunctionPrototype$1 = Function.prototype;
-	var functionToString = uncurryThis$P(FunctionPrototype$1.toString);
-	var nameRE = /^\s*function ([^ (]*)/;
-	var regExpExec$4 = uncurryThis$P(nameRE.exec);
-	var NAME$1 = 'name';
-
-	// Function instances `.name` property
-	// https://tc39.es/ecma262/#sec-function-instances-name
-	if (DESCRIPTORS$p && !FUNCTION_NAME_EXISTS) {
-	  defineProperty$a(FunctionPrototype$1, NAME$1, {
-	    configurable: true,
-	    get: function () {
-	      try {
-	        return regExpExec$4(nameRE, functionToString(this))[1];
-	      } catch (error) {
-	        return '';
-	      }
-	    }
-	  });
-	}
-
-	var $$2m = _export$1;
-	var $map$1 = arrayIteration.map;
-	var arrayMethodHasSpeciesSupport$3 = arrayMethodHasSpeciesSupport$8;
-
-	var HAS_SPECIES_SUPPORT$3 = arrayMethodHasSpeciesSupport$3('map');
-
-	// `Array.prototype.map` method
-	// https://tc39.es/ecma262/#sec-array.prototype.map
-	// with adding support of @@species
-	$$2m({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$3 }, {
-	  map: function map(callbackfn /* , thisArg */) {
-	    return $map$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-	  }
-	});
-
-	var $forEach$2 = arrayIteration.forEach;
-	var arrayMethodIsStrict$6 = arrayMethodIsStrict$9;
-
-	var STRICT_METHOD$6 = arrayMethodIsStrict$6('forEach');
-
-	// `Array.prototype.forEach` method implementation
-	// https://tc39.es/ecma262/#sec-array.prototype.foreach
-	var arrayForEach = !STRICT_METHOD$6 ? function forEach(callbackfn /* , thisArg */) {
-	  return $forEach$2(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-	// eslint-disable-next-line es/no-array-prototype-foreach -- safe
-	} : [].forEach;
-
-	var global$X = global$1A;
-	var DOMIterables = domIterables;
-	var DOMTokenListPrototype = domTokenListPrototype;
-	var forEach$2 = arrayForEach;
-	var createNonEnumerableProperty$7 = createNonEnumerableProperty$e;
-
-	var handlePrototype = function (CollectionPrototype) {
-	  // some Chrome versions have non-configurable methods on DOMTokenList
-	  if (CollectionPrototype && CollectionPrototype.forEach !== forEach$2) try {
-	    createNonEnumerableProperty$7(CollectionPrototype, 'forEach', forEach$2);
-	  } catch (error) {
-	    CollectionPrototype.forEach = forEach$2;
-	  }
-	};
-
-	for (var COLLECTION_NAME in DOMIterables) {
-	  if (DOMIterables[COLLECTION_NAME]) {
-	    handlePrototype(global$X[COLLECTION_NAME] && global$X[COLLECTION_NAME].prototype);
-	  }
-	}
-
-	handlePrototype(DOMTokenListPrototype);
 
 	var localforage = {exports: {}};
 
@@ -27007,12 +27157,12 @@
 	  /**
 	   * @type {string}
 	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
+	  // /**
+	  //  *
+	  //  * @type {string}
+	  //  * @private
+	  //  */
+	  // _value = '';
 
 	  /**
 	   *
@@ -27032,6 +27182,21 @@
 	   */
 
 	  /**
+	   *
+	   * @type {number}
+	   */
+
+	  /**
+	   *
+	   * @type {number}
+	   */
+
+	  /**
+	   *
+	   * @type {number}
+	   */
+
+	  /**
 	   * @type {mapboxgl.Map}
 	   */
 
@@ -27039,10 +27204,25 @@
 	   * @type {MapMarker}
 	   * @private
 	   */
+	  // for fresh form always start GPS lookup on ay type of device
+	  // for fresh form start GPS lookup automatically if already permitted
+	  // for fresh form start GPS lookup if on mobile device
+	  // for fresh form start GPS lookup if on mobile device and GPS already allowed
+	  // don't automatically attempt GPS lookup
 
 	  /**
 	   *
-	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string, [baseSquareResolution]: ?number, [includeSearchBox]: boolean}} [params]
+	   * @param {{
+	   * [label] : string,
+	   * [helpText]: string,
+	   * [options]: {},
+	   * [placeholder]: string,
+	   * [type]: string,
+	   * [autocomplete]: string,
+	   * [baseSquareResolution]: ?number,
+	   * [includeSearchBox]: boolean,
+	   * [gpsInitialisationMode]: string
+	   * }} [params]
 	   */
 	  function MapGeorefField(params) {
 	    var _this;
@@ -27058,53 +27238,59 @@
 	      value: void 0
 	    });
 
-	    _defineProperty$1(_assertThisInitialized$1(_this), "_value", '');
-
 	    _defineProperty$1(_assertThisInitialized$1(_this), "_inputType", 'text');
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "_autocomplete", '');
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "includeSearchBox", false);
 
+	    _defineProperty$1(_assertThisInitialized$1(_this), "defaultLat", 55.15793);
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "defaultLng", -4.68);
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "defaultZoom", 7);
+
 	    _defineProperty$1(_assertThisInitialized$1(_this), "map", void 0);
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "_squareMarker", void 0);
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "gpsInitialisationMode", MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED);
 
 	    if (params) {
 	      if (params.includeSearchBox) {
 	        _this.includeSearchBox = params.includeSearchBox;
 	      }
+
+	      if (params.gpsInitialisationMode) {
+	        _this.gpsInitialisationMode = params.gpsInitialisationMode;
+	      }
 	    }
 
 	    return _this;
-	  }
-	  /**
-	   *
-	   * @param {(string|null|undefined)} textContent
-	   */
+	  } // /**
+	  //  *
+	  //  * @param {(string|null|undefined)} textContent
+	  //  */
+	  // set value(textContent) {
+	  //     this._value = (undefined === textContent || null == textContent) ? '' : textContent.trim();
+	  //     this.updateView();
+	  // }
+	  // /**
+	  //  *
+	  //  * @returns {string}
+	  //  */
+	  // get value() {
+	  //     return this._value;
+	  // }
 
 
 	  _createClass$1(MapGeorefField, [{
-	    key: "value",
-	    get:
-	    /**
-	     *
-	     * @returns {string}
-	     */
-	    function get() {
-	      return this._value;
-	    },
-	    set: function set(textContent) {
-	      this._value = undefined === textContent || null == textContent ? '' : textContent.trim();
-	      this.updateView();
-	    }
-	  }, {
 	    key: "updateView",
 	    value: function updateView() {
 	      if (this._fieldEl) {
 	        // do nothing until the view has been constructed
 	        var inputEl = document.getElementById(this._inputId);
-	        inputEl.value = FormField.cleanRawString(this._value);
+	        inputEl.value = FormField.cleanRawString(this._value.gridRef);
 	        this.tryValue(inputEl.value);
 	      }
 	    }
@@ -27198,6 +27384,68 @@
 	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
 	      this._fieldEl = container;
 	    }
+	  }, {
+	    key: "addField",
+	    value: function addField() {
+	      var _this2 = this;
+
+	      // const formEl = this.parentForm.formElement;
+	      //
+	      // formEl.appendChild(this.fieldElement);
+	      _get$1(_getPrototypeOf$1(MapGeorefField.prototype), "addField", this).call(this);
+
+	      this.parentForm.addListener(Form.EVENT_INITIALISE_NEW, function (
+	      /** @type {{[survey] : Survey}} */
+	      params) {
+	        console.log('Handling initialisation of new MapGeoRefField.');
+
+	        if (_this2._value.gridRef) {
+	          console.log({
+	            'In georef form initialisation already have a value set, so aborting.': _this2._value
+	          });
+	          return;
+	        }
+
+	        var doGPSInitialisation;
+
+	        if (navigator.geolocation && _this2.gpsInitialisationMode !== MapGeorefField.GPS_INITIALISATION_MODE_NEVER) {
+	          if (_this2.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_ALWAYS || _this2.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED) {
+	            doGPSInitialisation = GPSRequest.getDeviceType() === GPSRequest.DEVICE_TYPE_MOBILE && (_this2.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_ALWAYS || GPSRequest.haveGPSPermission() === GPSRequest.GPS_PERMISSION_GRANTED);
+	          } else {
+	            // either 'always' or 'always-if-permitted'
+	            doGPSInitialisation = _this2.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_ALWAYS || GPSRequest.haveGPSPermission() === GPSRequest.GPS_PERMISSION_GRANTED;
+	          }
+	        } else {
+	          doGPSInitialisation = false;
+	        }
+
+	        if (doGPSInitialisation) {
+	          _this2.seekGPS().then(function () {
+	            console.log('GPS initialisation succeeded.');
+	          }, function (error) {
+	            console.log({
+	              'GPS initialisation failed': error
+	            });
+
+	            _this2._tryDefaultGeoreferenceFromSurvey(params.survey);
+	          });
+	        } else {
+	          _this2._tryDefaultGeoreferenceFromSurvey(params.survey);
+	        }
+	      });
+	    }
+	  }, {
+	    key: "_tryDefaultGeoreferenceFromSurvey",
+	    value: function _tryDefaultGeoreferenceFromSurvey(survey) {
+	      if (this.initialiseFromDefaultSurveyGeoref) {
+	        var geoRef = survey.geoReference;
+	        console.log({
+	          "Default occurrence georef": geoRef
+	        });
+
+	        if (geoRef && geoRef.latLng) ;
+	      }
+	    }
 	    /**
 	     *
 	     * @param {HTMLElement} container
@@ -27206,7 +27454,7 @@
 	  }, {
 	    key: "addMapBox",
 	    value: function addMapBox(container) {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      var divEl = container.appendChild(document.createElement('div'));
 	      divEl.id = "map".concat(FormField.nextId);
@@ -27217,23 +27465,26 @@
 	        container: divEl,
 	        style: 'mapbox://styles/mapbox/streets-v11',
 	        // style URL
-	        center: [-74.5, 40],
+	        center: [this.defaultLat, this.defaultLng],
 	        // starting position [lng, lat]
-	        zoom: 9 // starting zoom
+	        zoom: this.defaultZoom // starting zoom
 
 	      });
 
 	      if (this.includeSearchBox) {
 	        var geocoder = new MapboxGeocoder({
 	          accessToken: mapboxgl.accessToken,
-	          mapboxgl: mapboxgl
+	          mapboxgl: mapboxgl,
+	          marker: false,
+	          bbox: [-11, 49.1, 2, 61] // [minX, minY, maxX, maxY] {lat: 49.1, lng: -11}, {lat: 61, lng: 2}
+
 	        });
 	        geocoder.on('result', function (result) {
 	          console.log({
 	            'geocode result': result
 	          });
 
-	          _classPrivateMethodGet$5(_this2, _setGridrefFromGeocodedResult, _setGridrefFromGeocodedResult2).call(_this2, result.result);
+	          _classPrivateMethodGet$5(_this3, _setGridrefFromGeocodedResult, _setGridrefFromGeocodedResult2).call(_this3, result.result);
 	        });
 	        this.map.addControl(geocoder);
 	      }
@@ -27242,7 +27493,7 @@
 	        if (visible) {
 	          console.log('Map is visible');
 
-	          _this2.map.resize();
+	          _this3.map.resize();
 	        }
 	      });
 	    }
@@ -27274,7 +27525,7 @@
 	     */
 
 	  }, {
-	    key: "inputChangeHandler",
+	    key: "zoomMapping",
 	    value: // /**
 	    //  *
 	    //  * @param {(boolean|null)} isValid
@@ -27289,25 +27540,26 @@
 	    //         el.classList.add(isValid ? 'is-valid' : 'is-invalid');
 	    //     }
 	    // }
-	    function inputChangeHandler(event) {
-	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
-	      //console.log('got input field change event');
+	    // inputChangeHandler (event) {
+	    //     event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+	    //
+	    //     //console.log('got input field change event');
+	    //
+	    //     this.value = FormField.cleanRawString(document.getElementById(this._inputId).value);
+	    //
+	    //     // if (this.value) {
+	    //     //     let result = this.tryValue(this.value);
+	    //     // }
+	    //
+	    //     this.fireEvent(FormField.EVENT_CHANGE);
+	    // }
 
-	      this.value = FormField.cleanRawString(document.getElementById(this._inputId).value); // if (this.value) {
-	      //     let result = this.tryValue(this.value);
-	      // }
-
-	      this.fireEvent(FormField.EVENT_CHANGE);
-	    }
 	    /**
 	     *
 	     * @param {number} length (should already have been normalised)
 	     * @returns {number} zoom level
 	     */
-
-	  }, {
-	    key: "zoomMapping",
-	    value: function zoomMapping(length) {
+	    function zoomMapping(length) {
 	      return {
 	        1: 12,
 	        10: 12,
@@ -27424,9 +27676,22 @@
 	}(TextGeorefField);
 
 	function _setGridrefFromGeocodedResult2(result) {
-	  // currently just use the centre-point
-	  this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1); // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
+	  console.log({
+	    'geocoded result': result
+	  }); // currently just use the centre-point
+
+	  this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1, TextGeorefField.GEOREF_SOURCE_PLACE); // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
 	}
+
+	_defineProperty$1(MapGeorefField, "GPS_INITIALISATION_MODE_ALWAYS", 'always');
+
+	_defineProperty$1(MapGeorefField, "GPS_INITIALISATION_MODE_PERMITTED", 'permitted');
+
+	_defineProperty$1(MapGeorefField, "GPS_INITIALISATION_MODE_MOBILE_ALWAYS", 'mobilealways');
+
+	_defineProperty$1(MapGeorefField, "GPS_INITIALISATION_MODE_MOBILE_PERMITTED", 'mobilepermitted');
+
+	_defineProperty$1(MapGeorefField, "GPS_INITIALISATION_MODE_NEVER", 'never');
 
 	var NyphSurveyFormAboutSection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
 	  _inherits$1(NyphSurveyFormAboutSection, _NyphSurveyFormSectio);
@@ -27469,7 +27734,8 @@
 	      placeholder: 'Grid-reference or postcode',
 	      //autocomplete: 'postal-code',
 	      completion: FormField.COMPLETION_COMPULSORY,
-	      baseSquareResolution: 1000
+	      baseSquareResolution: 1000,
+	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED
 	    }
 	  },
 	  recorder: {
@@ -27627,9 +27893,11 @@
 	    attributes: {
 	      label: 'Grid-reference',
 	      helpText: '',
-	      completion: FormField.COMPLETION_COMPULSORY,
+	      completion: FormField.COMPLETION_DESIRED,
 	      includeSearchBox: true,
-	      baseSquareResolution: 1000
+	      baseSquareResolution: 1000,
+	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED,
+	      initialiseFromDefaultSurveyGeoref: true
 	    }
 	  },
 	  // idConfidence : {
@@ -28860,7 +29128,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638229397</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638293830</p>";
 	    }
 	  }]);
 

@@ -1,5 +1,5 @@
 //import {GridCoords} from "british-isles-gridrefs";
-import {escapeHTML, FormField, TextGeorefField} from "bsbi-app-framework";
+import {escapeHTML, Form, FormField, GPSRequest, TextGeorefField} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
 import mapboxgl from 'mapbox-gl';
 import {GridRef, LatLngWGS84} from "british-isles-gridrefs";
@@ -18,12 +18,12 @@ export class MapGeorefField extends TextGeorefField {
      */
     #containerId;
 
-    /**
-     *
-     * @type {string}
-     * @private
-     */
-    _value = '';
+    // /**
+    //  *
+    //  * @type {string}
+    //  * @private
+    //  */
+    // _value = '';
 
     /**
      *
@@ -46,6 +46,24 @@ export class MapGeorefField extends TextGeorefField {
     includeSearchBox = false;
 
     /**
+     *
+     * @type {number}
+     */
+    defaultLat = 55.15793;
+
+    /**
+     *
+     * @type {number}
+     */
+    defaultLng = -4.68;
+
+    /**
+     *
+     * @type {number}
+     */
+    defaultZoom = 7;
+
+    /**
      * @type {mapboxgl.Map}
      */
     map;
@@ -56,43 +74,65 @@ export class MapGeorefField extends TextGeorefField {
      */
     _squareMarker;
 
+    static GPS_INITIALISATION_MODE_ALWAYS = 'always'; // for fresh form always start GPS lookup on ay type of device
+    static GPS_INITIALISATION_MODE_PERMITTED = 'permitted'; // for fresh form start GPS lookup automatically if already permitted
+    static GPS_INITIALISATION_MODE_MOBILE_ALWAYS = 'mobilealways'; // for fresh form start GPS lookup if on mobile device
+    static GPS_INITIALISATION_MODE_MOBILE_PERMITTED = 'mobilepermitted'; // for fresh form start GPS lookup if on mobile device and GPS already allowed
+    static GPS_INITIALISATION_MODE_NEVER = 'never'; // don't automatically attempt GPS lookup
+
+    gpsInitialisationMode = MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED;
+
     /**
      *
-     * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string, [baseSquareResolution]: ?number, [includeSearchBox]: boolean}} [params]
+     * @param {{
+     * [label] : string,
+     * [helpText]: string,
+     * [options]: {},
+     * [placeholder]: string,
+     * [type]: string,
+     * [autocomplete]: string,
+     * [baseSquareResolution]: ?number,
+     * [includeSearchBox]: boolean,
+     * [gpsInitialisationMode]: string
+     * }} [params]
      */
     constructor (params) {
-        super(params);
+        super(params)
 
         if (params) {
             if (params.includeSearchBox) {
                 this.includeSearchBox = params.includeSearchBox;
             }
+
+            if (params.gpsInitialisationMode) {
+                this.gpsInitialisationMode = params.gpsInitialisationMode;
+            }
         }
     }
 
-    /**
-     *
-     * @param {(string|null|undefined)} textContent
-     */
-    set value(textContent) {
-        this._value = (undefined === textContent || null == textContent) ? '' : textContent.trim();
-        this.updateView();
-    }
+    // /**
+    //  *
+    //  * @param {(string|null|undefined)} textContent
+    //  */
+    // set value(textContent) {
+    //     this._value = (undefined === textContent || null == textContent) ? '' : textContent.trim();
+    //     this.updateView();
+    // }
 
-    /**
-     *
-     * @returns {string}
-     */
-    get value() {
-        return this._value;
-    }
+    // /**
+    //  *
+    //  * @returns {string}
+    //  */
+    // get value() {
+    //     return this._value;
+    // }
 
     updateView() {
         if (this._fieldEl) {
             // do nothing until the view has been constructed
 
             const inputEl = document.getElementById(this._inputId);
-            inputEl.value = FormField.cleanRawString(this._value);
+            inputEl.value = FormField.cleanRawString(this._value.gridRef);
 
             this.tryValue(inputEl.value);
         }
@@ -193,6 +233,67 @@ export class MapGeorefField extends TextGeorefField {
         this._fieldEl = container;
     }
 
+    addField () {
+        // const formEl = this.parentForm.formElement;
+        //
+        // formEl.appendChild(this.fieldElement);
+
+        super.addField();
+        this.parentForm.addListener(Form.EVENT_INITIALISE_NEW, (/** @type {{[survey] : Survey}} */ params) => {
+            console.log('Handling initialisation of new MapGeoRefField.');
+
+            if (this._value.gridRef) {
+                console.log({'In georef form initialisation already have a value set, so aborting.' : this._value});
+                return;
+            }
+
+            let doGPSInitialisation;
+
+            if (navigator.geolocation && this.gpsInitialisationMode !== MapGeorefField.GPS_INITIALISATION_MODE_NEVER) {
+                if (this.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_ALWAYS ||
+                    this.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED) {
+
+                    doGPSInitialisation = ((GPSRequest.getDeviceType() === GPSRequest.DEVICE_TYPE_MOBILE) &&
+                        (this.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_ALWAYS ||
+                            GPSRequest.haveGPSPermission() === GPSRequest.GPS_PERMISSION_GRANTED));
+
+                } else {
+                    // either 'always' or 'always-if-permitted'
+
+                    doGPSInitialisation = (this.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_ALWAYS ||
+                        GPSRequest.haveGPSPermission() === GPSRequest.GPS_PERMISSION_GRANTED);
+                }
+
+            } else {
+                doGPSInitialisation = false;
+            }
+
+            if (doGPSInitialisation) {
+                this.seekGPS().then(() => {
+                    console.log('GPS initialisation succeeded.');
+                },
+                    (error) => {
+                        console.log({'GPS initialisation failed': error});
+                        this._tryDefaultGeoreferenceFromSurvey(params.survey);
+                    });
+            } else {
+                this._tryDefaultGeoreferenceFromSurvey(params.survey);
+            }
+        });
+    }
+
+    _tryDefaultGeoreferenceFromSurvey(survey) {
+        if (this.initialiseFromDefaultSurveyGeoref) {
+            let geoRef = survey.geoReference;
+
+            console.log({"Default occurrence georef" : geoRef});
+
+            if (geoRef && geoRef.latLng) {
+
+            }
+        }
+    }
+
     /**
      *
      * @param {HTMLElement} container
@@ -208,15 +309,16 @@ export class MapGeorefField extends TextGeorefField {
         this.map = new mapboxgl.Map({
             container: divEl,
             style: 'mapbox://styles/mapbox/streets-v11', // style URL
-            center: [-74.5, 40], // starting position [lng, lat]
-            zoom: 9 // starting zoom
+            center: [this.defaultLat, this.defaultLng], // starting position [lng, lat]
+            zoom: this.defaultZoom // starting zoom
         });
 
         if (this.includeSearchBox) {
             const geocoder = new MapboxGeocoder({
                 accessToken: mapboxgl.accessToken,
                 mapboxgl: mapboxgl,
-
+                marker: false,
+                bbox: [-11, 49.1, 2, 61] // [minX, minY, maxX, maxY] {lat: 49.1, lng: -11}, {lat: 61, lng: 2}
             });
 
             geocoder.on('result', (result) => {
@@ -262,8 +364,15 @@ export class MapGeorefField extends TextGeorefField {
      * @param {{bbox : Array<number>, center : Array<number>, geometry : {coordinates:Array<number>, type:string}, type:string, place_type:Array<string>}} result
      */
     #setGridrefFromGeocodedResult(result) {
+        console.log({'geocoded result' : result})
+
         // currently just use the centre-point
-        this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1);
+        this.processLatLngPosition(
+            result.center[1],
+            result.center[0],
+            this.baseSquareResolution || 1,
+            TextGeorefField.GEOREF_SOURCE_PLACE
+        );
 
         // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
     }
@@ -283,19 +392,19 @@ export class MapGeorefField extends TextGeorefField {
     //     }
     // }
 
-    inputChangeHandler (event) {
-        event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
-
-        //console.log('got input field change event');
-
-        this.value = FormField.cleanRawString(document.getElementById(this._inputId).value);
-
-        // if (this.value) {
-        //     let result = this.tryValue(this.value);
-        // }
-
-        this.fireEvent(FormField.EVENT_CHANGE);
-    }
+    // inputChangeHandler (event) {
+    //     event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+    //
+    //     //console.log('got input field change event');
+    //
+    //     this.value = FormField.cleanRawString(document.getElementById(this._inputId).value);
+    //
+    //     // if (this.value) {
+    //     //     let result = this.tryValue(this.value);
+    //     // }
+    //
+    //     this.fireEvent(FormField.EVENT_CHANGE);
+    // }
 
     /**
      *
