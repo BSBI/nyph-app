@@ -61,7 +61,7 @@ export class MapGeorefField extends TextGeorefField {
      *
      * @type {number}
      */
-    defaultZoom = 7;
+    defaultZoom = 5;
 
     /**
      * @type {mapboxgl.Map}

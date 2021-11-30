@@ -11295,18 +11295,13 @@
 	    /**
 	     *
 	     * @param {OccurrenceForm} form
-	     * @param {Survey} survey unfortunate smudging of concerns, but needed because occurrence may need access to default survey geo-ref
 	     * @returns {OccurrenceForm}
 	     */
-	    function setForm(form, survey) {
+	    function setForm(form) {
 	      form.addListener(Form.CHANGE_EVENT, this.formChangedHandler.bind(this));
 
 	      if (!this.isNew) {
 	        form.liveValidation = true;
-	      } else {
-	        form.fireEvent(Form.EVENT_INITIALISE_NEW, {
-	          survey: survey
-	        }); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
 	      }
 
 	      return form;
@@ -21115,7 +21110,7 @@
 	        } // form has not been initialised or current occurrence has changed
 
 
-	        _classPrivateFieldSet(this, _occurrenceForm$1, occurrence.setForm(new OccurrenceForm(occurrence), this.controller.app.currentSurvey)); //this.#occurrenceForm = occurrence.getForm();
+	        _classPrivateFieldSet(this, _occurrenceForm$1, occurrence.setForm(new OccurrenceForm(occurrence))); //this.#occurrenceForm = occurrence.getForm();
 
 
 	        _classPrivateFieldGet(this, _occurrenceForm$1).surveyId = this.controller.app.currentSurvey.id; // scroll to the top of the panel
@@ -21130,6 +21125,15 @@
 	      editorContainer.appendChild(formEl);
 
 	      _classPrivateFieldGet(this, _occurrenceForm$1).populateFormContent();
+
+	      if (occurrence.isNew) {
+	        console.log('Firing event for initialisation of new occurrence.');
+
+	        _classPrivateFieldGet(this, _occurrenceForm$1).fireEvent(Form.EVENT_INITIALISE_NEW, {
+	          survey: this.controller.app.currentSurvey
+	        }); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
+
+	      }
 
 	      this.refreshOccurrenceFooterControls(editorContainer); // ensures that the accordion matches the navigation state
 
@@ -27254,7 +27258,7 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "defaultLng", -4.68);
 
-	    _defineProperty$1(_assertThisInitialized$1(_this), "defaultZoom", 7);
+	    _defineProperty$1(_assertThisInitialized$1(_this), "defaultZoom", 5);
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "map", void 0);
 
@@ -29139,7 +29143,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638295630</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638296961</p>";
 	    }
 	  }]);
 

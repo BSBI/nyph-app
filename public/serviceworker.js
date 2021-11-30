@@ -8822,18 +8822,13 @@
       /**
        *
        * @param {OccurrenceForm} form
-       * @param {Survey} survey unfortunate smudging of concerns, but needed because occurrence may need access to default survey geo-ref
        * @returns {OccurrenceForm}
        */
-      function setForm(form, survey) {
+      function setForm(form) {
         form.addListener(Form.CHANGE_EVENT, this.formChangedHandler.bind(this));
 
         if (!this.isNew) {
           form.liveValidation = true;
-        } else {
-          form.fireEvent(Form.EVENT_INITIALISE_NEW, {
-            survey: survey
-          }); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
         }
 
         return form;
@@ -12743,7 +12738,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1638295282-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1638296862-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -18109,7 +18104,7 @@
           } // form has not been initialised or current occurrence has changed
 
 
-          _classPrivateFieldSet(this, _occurrenceForm, occurrence.setForm(new OccurrenceForm(occurrence), this.controller.app.currentSurvey)); //this.#occurrenceForm = occurrence.getForm();
+          _classPrivateFieldSet(this, _occurrenceForm, occurrence.setForm(new OccurrenceForm(occurrence))); //this.#occurrenceForm = occurrence.getForm();
 
 
           _classPrivateFieldGet(this, _occurrenceForm).surveyId = this.controller.app.currentSurvey.id; // scroll to the top of the panel
@@ -18124,6 +18119,15 @@
         editorContainer.appendChild(formEl);
 
         _classPrivateFieldGet(this, _occurrenceForm).populateFormContent();
+
+        if (occurrence.isNew) {
+          console.log('Firing event for initialisation of new occurrence.');
+
+          _classPrivateFieldGet(this, _occurrenceForm).fireEvent(Form.EVENT_INITIALISE_NEW, {
+            survey: this.controller.app.currentSurvey
+          }); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
+
+        }
 
         this.refreshOccurrenceFooterControls(editorContainer); // ensures that the accordion matches the navigation state
 
@@ -20224,7 +20228,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1638295630'
+    version: '1.0.1.1638296961'
   });
 
 })();
