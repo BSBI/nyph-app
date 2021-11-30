@@ -16,6 +16,7 @@ import {
     OccurrenceImage,
     Page, escapeHTML, App
 } from "bsbi-app-framework";
+import {NyphSurveyFormSurveySection} from "./forms/NyphSurveyFormSurveySection";
 
 const LEFT_PANEL_ID = 'col1panel';
 const RIGHT_PANEL_ID = 'col2panel';
@@ -31,6 +32,7 @@ const FINISH_MODAL_ID = 'finishmodal';
 
 const OCCURRENCE_LIST_CONTAINER_ID = 'occurrencelistcontainer';
 NyphSurveyForm.registerSection(NyphSurveyFormAboutSection);
+NyphSurveyForm.registerSection(NyphSurveyFormSurveySection);
 
 export class MainView extends Page {
 
@@ -369,8 +371,8 @@ export class MainView extends Page {
         this.leftPanelAccordionId = accordionEl.id = Form.nextId;
 
         this.#appendWelcomeSection();
-        this.#appendSurveyForm(0, accordionEl, MainView.NEXT_RECORDS); // about you
-
+        this.#appendSurveyForm(0, accordionEl, MainView.NEXT_SURVEY_SECTION); // about you
+        this.#appendSurveyForm(1, accordionEl, MainView.NEXT_RECORDS); // about your survey
         this.#appendOccurrenceListContainer();
 
         // Keep this as is useful as guide for building other app layouts
@@ -622,7 +624,7 @@ export class MainView extends Page {
     #appendSurveyForm(formIndex, accordionEl, next) {
         const sectionClass = NyphSurveyForm.sections[formIndex];
 
-        let surveyFormSection = new NyphSurveyForm(sectionClass);
+        const surveyFormSection = new NyphSurveyForm(sectionClass);
 
         this.#surveyFormSections[sectionClass.sectionNavigationKey] = surveyFormSection;
 
@@ -633,6 +635,8 @@ export class MainView extends Page {
         nextButton.className = 'btn btn-primary';
         nextButton.type = 'button';
         nextButton.textContent = 'next »';
+
+        surveyFormSection.nextButtonId = nextButton.id = Form.nextId;
 
         switch (next) {
             case MainView.NEXT_RECORDS:
@@ -677,6 +681,8 @@ export class MainView extends Page {
 
         let cardId = Form.nextId;
 
+        //surveyFormSection.cardId = cardId; // need to register this so that subsequent cards can be hidden completely while earlier sections are invalid
+
         accordionEl.appendChild(this.card({
             cardId: cardId,
             cardHeadingId: Form.nextId,
@@ -701,7 +707,38 @@ export class MainView extends Page {
             } else {
                 cardEl.classList.add('is-invalid');
             }
+
+            //if (surveyFormSection.sectionCompletionRequired()) {
+                /**
+                 * @type {HTMLButtonElement}
+                 */
+                let nextButton = document.getElementById(surveyFormSection.nextButtonId);
+                nextButton.disabled = isValid;
+            //}
+
+            this._refreshVisibilityOfAccordionSections();
         });
+
+        surveyFormSection.testRequiredComplete(); // will trigger event if required sections are incomplete
+    }
+
+    _refreshVisibilityOfAccordionSections() {
+        //const accordionEl = document.getElementById(this.leftPanelAccordionId);
+
+        const accordionSections = document.querySelectorAll(`div#${this.leftPanelAccordionId} > div`);
+
+        let valid = true;
+        for (let cardEl of accordionSections) {
+            if (valid) {
+                cardEl.classList.remove('hidden-card');
+            } else {
+                cardEl.classList.add('hidden-card');
+            }
+
+            if (cardEl.classList.contains('is-invalid')) {
+                valid = false; // subsequent entries should be hidden
+            }
+        }
     }
 
     #appendOccurrenceListContainer() {
@@ -722,8 +759,10 @@ export class MainView extends Page {
         const recordListContainer = content.appendChild(document.createElement('div'));
         recordListContainer.id = OCCURRENCE_LIST_CONTAINER_ID;
 
+        let cardId = Form.nextId;
+
         accordionEl.appendChild(this.card({
-            cardId: Form.nextId,
+            cardId: cardId,
             cardHeadingId: Form.nextId,
             collapsed: this.controller.viewSubcontext !== 'record',
             headingButtonId: Form.nextId,

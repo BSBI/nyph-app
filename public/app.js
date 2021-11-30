@@ -11050,6 +11050,8 @@
 
 	    _defineProperty(_assertThisInitialized(_this), "isValid", null);
 
+	    _defineProperty(_assertThisInitialized(_this), "nextButtonId", null);
+
 	    _defineProperty(_assertThisInitialized(_this), "_formFieldsBuilt", false);
 
 	    return _this;
@@ -11148,6 +11150,25 @@
 	      if (this.liveValidation) {
 	        this.validateForm();
 	      }
+	    }
+	    /**
+	     * similar to validateForm but does not update form validity UI
+	     * @returns {boolean}
+	     */
+
+	  }, {
+	    key: "testRequiredComplete",
+	    value: function testRequiredComplete() {
+	      var validityResult = this.model.evaluateCompletionStatus(this.getFormSectionProperties()).requiredFieldsPresent;
+
+	      if (this.isValid !== validityResult) {
+	        this.isValid = validityResult;
+	        this.fireEvent(Form.EVENT_VALIDATION_STATE_CHANGE, {
+	          isValid: this.isValid
+	        });
+	      }
+
+	      return validityResult;
 	    }
 	    /**
 	     *
@@ -12942,6 +12963,12 @@
 	  /**
 	   * @type {typeof SurveyFormSection}
 	   */
+	  // /**
+	  //  * id of this section on the left-pane carousel
+	  //  *
+	  //  * @type {string|null}
+	  //  */
+	  // cardId = null;
 
 	  /**
 	   *
@@ -13063,6 +13090,16 @@
 	    key: "getFormSectionProperties",
 	    value: function getFormSectionProperties() {
 	      return this.section.properties;
+	    }
+	    /**
+	     *
+	     * @returns {boolean}
+	     */
+
+	  }, {
+	    key: "sectionCompletionRequired",
+	    value: function sectionCompletionRequired() {
+	      return this.section.completionRequired;
 	    }
 	  }], [{
 	    key: "registerSection",
@@ -20503,6 +20540,8 @@
 
 	_defineProperty(SurveyFormSection, "properties", void 0);
 
+	_defineProperty(SurveyFormSection, "completionRequired", false);
+
 	function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 	function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
@@ -22682,9 +22721,23 @@
 
 	var htmlLayout = "\r\n<div class=\"container-fluid\">\r\n    <div class=\"row\" style=\"height: 90vh;\">\r\n        <div class=\"col d-md-block pr-md-0 pt-3\" id=\"col1panel\" style=\"overflow-y: auto; max-height: calc(100vh - 5rem);\">\r\n        </div>\r\n        <div class=\"col d-md-none pl-0 pr-0\" id=\"ctrlpanel\" style=\"background-color: aliceblue; width: 28px; max-width: 28px; overflow-y: hidden; \">\r\n            <button class=\"navbar-light navbar-toggler pl-0 pr-0\" type=\"button\" aria-label=\"Back\" id=\"right-panel-back\">\r\n                <i class=\"material-icons-round\" style=\"color: gray;\">view_list</i>\r\n            </button>\r\n        </div>\r\n        <div class=\"col d-md-block pr-md-0\" id=\"col2panel\" style=\"overflow-y: auto; height: 100%;\">\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
-	var welcomeContent = "<!-- begin: templates/welcome.html -->\r\n<p>Using your experience as gardener, please help us identify\r\npotentially invasive plant species in gardens before they become a problem for\r\nbiodiversity and conservation in wild situations in Britain or Ireland.</p>\r\n<p>The survey is divided into three sections and usually takes between 15 and 20 minutes to complete. You can pause and come back\r\n    later at any point.</p>\r\n<p>The information that you provide will be used by the <a href=\"https://www.coventry.ac.uk/research/areas-of-research/agroecology-water-resilience/\" target=\"_blank\" title=\"CAWR\">Centre for Agroecology, Water and Resilience</a> at Coventry University and by\r\n    <a href=\"https://bsbi.org/\" target=\"_blank\" title=\"Botanical Society of Britain and Ireland\">BSBI</a> for a\r\n    study of invasive plants. We'll include your plant records in a permanent archive held by BSBI, to help us track\r\n    long term changes in plant distribution.</p>\r\n<p>To follow up any queries about the survey we request that you please provide your name and email address. You can choose whether or not\r\n    to include your name in our archive of plant records. Your email address (if provided) will be\r\nconfidential and won't be archived.</p>\r\n<p>A summary of records will appear on the project website, but the full survey details including the exact location of your garden will only be accessible to the research team.</p>\r\n<!-- end: templates/welcome.html -->\r\n";
+	var welcomeContent = "<!-- begin: templates/welcome.html -->\r\n<p>templates/welcome.html</p>\r\n<p>The information that you provide will be used by\r\n    <a href=\"https://bsbi.org/\" target=\"_blank\" title=\"Botanical Society of Britain and Ireland\">BSBI</a> as part of a long-term study looking at changes in plant phenology and distribution. We'll include your plant records in a permanent archive held by BSBI.</p>\r\n<p>To follow up any queries about the survey we request that you please provide your name and email address. You can choose whether or not\r\n    to include your name in our archive of plant records. Your email address will be\r\nconfidential and won't be archived.</p>\r\n<p>A summary of the New Year Plant Hunt surveys will appear on the project website.</p>\r\n<!-- end: templates/welcome.html -->\r\n";
 
 	var defaultRightHandSideHelp = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<h3>Background to the project</h3>\r\n<p></p>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
+
+	var NyphSurveyFormSection = function NyphSurveyFormSection() {
+	  _classCallCheck$1(this, NyphSurveyFormSection);
+	};
+
+	_defineProperty$1(NyphSurveyFormSection, "sectionTitle", void 0);
+
+	_defineProperty$1(NyphSurveyFormSection, "sectionSortOrder", void 0);
+
+	_defineProperty$1(NyphSurveyFormSection, "sectionNavigationKey", void 0);
+
+	_defineProperty$1(NyphSurveyFormSection, "help", '');
+
+	_defineProperty$1(NyphSurveyFormSection, "properties", void 0);
 
 	var NyphSurveyForm = /*#__PURE__*/function (_SurveyForm) {
 	  _inherits$1(NyphSurveyForm, _SurveyForm);
@@ -22813,20 +22866,6 @@
 	_defineProperty$1(NyphSurveyForm, "sections", []);
 
 	_defineProperty$1(NyphSurveyForm, "sectionsByKey", {});
-
-	var NyphSurveyFormSection = function NyphSurveyFormSection() {
-	  _classCallCheck$1(this, NyphSurveyFormSection);
-	};
-
-	_defineProperty$1(NyphSurveyFormSection, "sectionTitle", void 0);
-
-	_defineProperty$1(NyphSurveyFormSection, "sectionSortOrder", void 0);
-
-	_defineProperty$1(NyphSurveyFormSection, "sectionNavigationKey", void 0);
-
-	_defineProperty$1(NyphSurveyFormSection, "help", '');
-
-	_defineProperty$1(NyphSurveyFormSection, "properties", void 0);
 
 	var helpPanelText$1 = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Localising your records</h5>\r\n        <p class=\"card-text\">To make sense of the national coverage of the records we receive, we need to know the approximate location\r\n        of your garden. Usually a postcode works well for this, but you can provide a grid-reference if you prefer (in Ireland please use a grid-reference as we don't yet have a way to convert postcodes).\r\n            We also need a place name, as a way to double-check that the postcode or grid-reference makes sense.\r\n        </p>\r\n        <p><strong>Please don't provide your full address, as we would need to remove that from our data.</strong></p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Your name and email</h5>\r\n        <p class=\"card-text\">Both of these are optional, but providing an email address is important if you want to return\r\n            to your survey later or to revise your records. It is also really useful for our experts to be able to contact you\r\n            if we have questions about the records that you've sent.\r\n        </p>\r\n        <p>We'd like to be able to include your name with the records in our archive, but your email address won't be stored long-term\r\n            after your plant records have been checked.</p>\r\n    </div>\r\n</div>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
 
@@ -26390,7 +26429,9 @@
 	          "Default occurrence georef": geoRef
 	        });
 
-	        if (geoRef && geoRef.latLng) ;
+	        if (geoRef && geoRef.gridRef) {
+	          this.tryValue(geoRef.gridRef);
+	        }
 	      }
 	    }
 	    /**
@@ -26517,6 +26558,7 @@
 	      }[length];
 	    }
 	    /**
+	     * this pans and zooms the map, but does not update the field value or displayed grid-reference
 	     *
 	     * @param {string} query may be a grid-reference or postcode
 	     */
@@ -26656,67 +26698,30 @@
 
 	_defineProperty$1(NyphSurveyFormAboutSection, "sectionNavigationKey", 'about');
 
-	_defineProperty$1(NyphSurveyFormAboutSection, "sectionTitle", 'About you and your survey');
+	_defineProperty$1(NyphSurveyFormAboutSection, "sectionTitle", 'Your details');
 
 	_defineProperty$1(NyphSurveyFormAboutSection, "sectionSortOrder", 0);
 
 	_defineProperty$1(NyphSurveyFormAboutSection, "help", helpPanelText$1);
 
+	_defineProperty$1(NyphSurveyFormAboutSection, "completionRequired", true);
+
 	_defineProperty$1(NyphSurveyFormAboutSection, "properties", {
-	  place: {
-	    field: InputField,
-	    attributes: {
-	      label: 'Where did you survey?',
-	      helpText: 'e.g. town or village. Please don\'t give an address.',
-	      placeholder: 'Nearest named place',
-	      autocomplete: 'address-level2',
-	      completion: FormField.COMPLETION_COMPULSORY
-	    }
-	  },
-	  georef: {
-	    field: MapGeorefField,
-	    attributes: {
-	      label: 'Starting point of your walk.',
-	      helpText: 'We need to be able to put your survey on our map. Detailed locations won\'t be made public.',
-	      placeholder: 'Grid-reference or postcode',
-	      //autocomplete: 'postal-code',
-	      completion: FormField.COMPLETION_COMPULSORY,
-	      baseSquareResolution: 1000,
-	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED
-	    }
-	  },
 	  recorder: {
 	    field: InputField,
 	    attributes: {
-	      label: 'Your name(s)',
-	      helpText: '(optional) This helps us follow-up if we have any queries about your records and allows us to properly acknowledge the origin of your observations.',
+	      label: 'Your name',
+	      helpText: 'This helps us follow-up if we have any queries about your records. If several people are taking part in your Plant Hunt you can list them in the next section.',
 	      placeholder: 'full name',
+	      completion: FormField.COMPLETION_COMPULSORY,
 	      autocomplete: 'name'
-	    }
-	  },
-	  namearchive: {
-	    field: SelectField,
-	    attributes: {
-	      label: 'Can we include your name in our archive of plant records?',
-	      helpText: '',
-	      placeholder: 'please choose an option',
-	      options: {
-	        "yes": {
-	          label: "yes"
-	        },
-	        "no": {
-	          label: "no, I'd prefer my records to be anonymous"
-	        }
-	      },
-	      includeOtherFreeText: false,
-	      completion: FormField.COMPLETION_DESIRED
 	    }
 	  },
 	  email: {
 	    field: InputField,
 	    attributes: {
 	      label: 'Your email address',
-	      helpText: '(optional) We\'ll never share your email with anyone else.',
+	      helpText: 'We need to be able to send you an acknowledgement email with a link to view and edit your list.',
 	      autocomplete: 'email',
 	      type: 'email',
 	      completion: FormField.COMPLETION_DESIRED
@@ -27040,6 +27045,83 @@
 	  }
 	});
 
+	var NyphSurveyFormSurveySection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
+	  _inherits$1(NyphSurveyFormSurveySection, _NyphSurveyFormSectio);
+
+	  var _super = _createSuper$a(NyphSurveyFormSurveySection);
+
+	  function NyphSurveyFormSurveySection() {
+	    _classCallCheck$1(this, NyphSurveyFormSurveySection);
+
+	    return _super.apply(this, arguments);
+	  }
+
+	  return NyphSurveyFormSurveySection;
+	}(NyphSurveyFormSection);
+
+	_defineProperty$1(NyphSurveyFormSurveySection, "sectionNavigationKey", 'about');
+
+	_defineProperty$1(NyphSurveyFormSurveySection, "sectionTitle", 'Your plant hunt');
+
+	_defineProperty$1(NyphSurveyFormSurveySection, "sectionSortOrder", 1);
+
+	_defineProperty$1(NyphSurveyFormSurveySection, "help", helpPanelText$1);
+
+	_defineProperty$1(NyphSurveyFormSurveySection, "completionRequired", true);
+
+	_defineProperty$1(NyphSurveyFormSurveySection, "properties", {
+	  place: {
+	    field: InputField,
+	    attributes: {
+	      label: 'Where did you survey?',
+	      helpText: 'e.g. town or village. Please don\'t give an address.',
+	      placeholder: 'Nearest named place',
+	      autocomplete: 'address-level2',
+	      completion: FormField.COMPLETION_COMPULSORY
+	    }
+	  },
+	  georef: {
+	    field: MapGeorefField,
+	    attributes: {
+	      label: 'Starting point of your walk.',
+	      helpText: 'We need to be able to put your survey on our map.',
+	      placeholder: 'Grid-reference or postcode',
+	      //autocomplete: 'postal-code',
+	      completion: FormField.COMPLETION_COMPULSORY,
+	      baseSquareResolution: 1000,
+	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED
+	    }
+	  },
+	  recorder: {
+	    field: InputField,
+	    attributes: {
+	      label: 'Who is taking part',
+	      helpText: "(optional) Please list everyone who is taking part - we'd like to be able to acknowledge your efforts.",
+	      placeholder: 'Name(s)',
+	      completion: FormField.COMPLETION_DESIRED,
+	      autocomplete: 'name'
+	    }
+	  },
+	  namearchive: {
+	    field: SelectField,
+	    attributes: {
+	      label: 'Can we include your name in our archive of plant records?',
+	      helpText: '',
+	      placeholder: 'please choose an option',
+	      options: {
+	        "yes": {
+	          label: "yes"
+	        },
+	        "no": {
+	          label: "no, I'd prefer my records to be anonymous"
+	        }
+	      },
+	      includeOtherFreeText: false,
+	      completion: FormField.COMPLETION_COMPULSORY
+	    }
+	  }
+	});
+
 	var LEFT_PANEL_ID = 'col1panel';
 	var RIGHT_PANEL_ID = 'col2panel';
 	var CONTROL_PANEL_ID = 'ctrlpanel';
@@ -27050,6 +27132,7 @@
 	var FINISH_MODAL_ID = 'finishmodal';
 	var OCCURRENCE_LIST_CONTAINER_ID = 'occurrencelistcontainer';
 	NyphSurveyForm.registerSection(NyphSurveyFormAboutSection);
+	NyphSurveyForm.registerSection(NyphSurveyFormSurveySection);
 
 	var _surveyFormSections = /*#__PURE__*/new WeakMap();
 
@@ -27393,6 +27476,36 @@
 	     */
 
 	  }, {
+	    key: "_refreshVisibilityOfAccordionSections",
+	    value: function _refreshVisibilityOfAccordionSections() {
+	      //const accordionEl = document.getElementById(this.leftPanelAccordionId);
+	      var accordionSections = document.querySelectorAll("div#".concat(this.leftPanelAccordionId, " > div"));
+	      var valid = true;
+
+	      var _iterator4 = _createForOfIteratorHelper$7(accordionSections),
+	          _step4;
+
+	      try {
+	        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+	          var cardEl = _step4.value;
+
+	          if (valid) {
+	            cardEl.classList.remove('hidden-card');
+	          } else {
+	            cardEl.classList.add('hidden-card');
+	          }
+
+	          if (cardEl.classList.contains('is-invalid')) {
+	            valid = false; // subsequent entries should be hidden
+	          }
+	        }
+	      } catch (err) {
+	        _iterator4.e(err);
+	      } finally {
+	        _iterator4.f();
+	      }
+	    }
+	  }, {
 	    key: "newButtonClickHandler",
 	    value:
 	    /**
@@ -27681,7 +27794,10 @@
 
 	  _classPrivateMethodGet$4(this, _appendWelcomeSection, _appendWelcomeSection2).call(this);
 
-	  _classPrivateMethodGet$4(this, _appendSurveyForm, _appendSurveyForm2).call(this, 0, accordionEl, MainView.NEXT_RECORDS); // about you
+	  _classPrivateMethodGet$4(this, _appendSurveyForm, _appendSurveyForm2).call(this, 0, accordionEl, MainView.NEXT_SURVEY_SECTION); // about you
+
+
+	  _classPrivateMethodGet$4(this, _appendSurveyForm, _appendSurveyForm2).call(this, 1, accordionEl, MainView.NEXT_RECORDS); // about your survey
 
 
 	  _classPrivateMethodGet$4(this, _appendOccurrenceListContainer, _appendOccurrenceListContainer2).call(this); // Keep this as is useful as guide for building other app layouts
@@ -27899,6 +28015,7 @@
 	  nextButton.className = 'btn btn-primary';
 	  nextButton.type = 'button';
 	  nextButton.textContent = 'next »';
+	  surveyFormSection.nextButtonId = nextButton.id = Form.nextId;
 
 	  switch (next) {
 	    case MainView.NEXT_RECORDS:
@@ -27940,7 +28057,8 @@
 	  }
 
 	  formElement.appendChild(nextButton);
-	  var cardId = Form.nextId;
+	  var cardId = Form.nextId; //surveyFormSection.cardId = cardId; // need to register this so that subsequent cards can be hidden completely while earlier sections are invalid
+
 	  accordionEl.appendChild(this.card({
 	    cardId: cardId,
 	    cardHeadingId: Form.nextId,
@@ -27966,8 +28084,19 @@
 	      cardEl.classList.remove('is-invalid');
 	    } else {
 	      cardEl.classList.add('is-invalid');
-	    }
+	    } //if (surveyFormSection.sectionCompletionRequired()) {
+
+	    /**
+	     * @type {HTMLButtonElement}
+	     */
+
+
+	    var nextButton = document.getElementById(surveyFormSection.nextButtonId);
+	    nextButton.disabled = isValid; //}
+
+	    _this7._refreshVisibilityOfAccordionSections();
 	  });
+	  surveyFormSection.testRequiredComplete(); // will trigger event if required sections are incomplete
 	}
 
 	function _appendOccurrenceListContainer2() {
@@ -27983,8 +28112,9 @@
 	  newButtonEl.addEventListener('click', this.newButtonClickHandler.bind(this));
 	  var recordListContainer = content.appendChild(document.createElement('div'));
 	  recordListContainer.id = OCCURRENCE_LIST_CONTAINER_ID;
+	  var cardId = Form.nextId;
 	  accordionEl.appendChild(this.card({
-	    cardId: Form.nextId,
+	    cardId: cardId,
 	    cardHeadingId: Form.nextId,
 	    collapsed: this.controller.viewSubcontext !== 'record',
 	    headingButtonId: Form.nextId,
@@ -28009,14 +28139,14 @@
 
 	  var occurrencesHtml = []; // loop through entries sorted by creation date, most recent first
 
-	  var _iterator4 = _createForOfIteratorHelper$7(_toConsumableArray(this.controller.occurrences.entries()).sort(function (a, b) {
+	  var _iterator5 = _createForOfIteratorHelper$7(_toConsumableArray(this.controller.occurrences.entries()).sort(function (a, b) {
 	    return b[1].createdStamp - a[1].createdStamp;
 	  })),
-	      _step4;
+	      _step5;
 
 	  try {
-	    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-	      var occurrenceTuple = _step4.value;
+	    for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+	      var occurrenceTuple = _step5.value;
 	      var occurrence = occurrenceTuple[1];
 
 	      if (!occurrence.deleted) {
@@ -28028,9 +28158,9 @@
 	      }
 	    }
 	  } catch (err) {
-	    _iterator4.e(err);
+	    _iterator5.e(err);
 	  } finally {
-	    _iterator4.f();
+	    _iterator5.f();
 	  }
 
 	  listContainer.className = 'accordion';
@@ -28084,7 +28214,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638301979</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638314976</p>";
 	    }
 	  }]);
 

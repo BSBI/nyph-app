@@ -292,8 +292,8 @@ export class MapGeorefField extends TextGeorefField {
 
             console.log({"Default occurrence georef" : geoRef});
 
-            if (geoRef && geoRef.latLng) {
-
+            if (geoRef && geoRef.gridRef) {
+                this.tryValue(geoRef.gridRef);
             }
         }
     }
@@ -427,6 +427,7 @@ export class MapGeorefField extends TextGeorefField {
     }
 
     /**
+     * this pans and zooms the map, but does not update the field value or displayed grid-reference
      *
      * @param {string} query may be a grid-reference or postcode
      */

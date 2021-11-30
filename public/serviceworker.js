@@ -8577,6 +8577,8 @@
 
       _defineProperty$1(_assertThisInitialized$1(_this), "isValid", null);
 
+      _defineProperty$1(_assertThisInitialized$1(_this), "nextButtonId", null);
+
       _defineProperty$1(_assertThisInitialized$1(_this), "_formFieldsBuilt", false);
 
       return _this;
@@ -8675,6 +8677,25 @@
         if (this.liveValidation) {
           this.validateForm();
         }
+      }
+      /**
+       * similar to validateForm but does not update form validity UI
+       * @returns {boolean}
+       */
+
+    }, {
+      key: "testRequiredComplete",
+      value: function testRequiredComplete() {
+        var validityResult = this.model.evaluateCompletionStatus(this.getFormSectionProperties()).requiredFieldsPresent;
+
+        if (this.isValid !== validityResult) {
+          this.isValid = validityResult;
+          this.fireEvent(Form.EVENT_VALIDATION_STATE_CHANGE, {
+            isValid: this.isValid
+          });
+        }
+
+        return validityResult;
       }
       /**
        *
@@ -10419,6 +10440,12 @@
     /**
      * @type {typeof SurveyFormSection}
      */
+    // /**
+    //  * id of this section on the left-pane carousel
+    //  *
+    //  * @type {string|null}
+    //  */
+    // cardId = null;
 
     /**
      *
@@ -10540,6 +10567,16 @@
       key: "getFormSectionProperties",
       value: function getFormSectionProperties() {
         return this.section.properties;
+      }
+      /**
+       *
+       * @returns {boolean}
+       */
+
+    }, {
+      key: "sectionCompletionRequired",
+      value: function sectionCompletionRequired() {
+        return this.section.completionRequired;
       }
     }], [{
       key: "registerSection",
@@ -12745,7 +12782,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1638301887-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1638314264-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -17496,6 +17533,8 @@
 
   _defineProperty$1(SurveyFormSection, "properties", void 0);
 
+  _defineProperty$1(SurveyFormSection, "completionRequired", false);
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -19154,12 +19193,12 @@
     interceptUrlMatches: /^https:\/\/nyphtest\.bsbi\.org\/app\/|^https:\/\/nyphtest\.bsbi\.org\/app$/,
     ignoreUrlMatches: /^https:\/\/nyphtest\.bsbi\.org\/app\/app\.js|^https:\/\/nyphtest\.bsbi\.org\/app\/serviceworker\.js|^https:\/\/nyphtest\.bsbi\.org\/app\/manifest\.webmanifest|^https:\/\/nyphtest\.bsbi\.org\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
     indexUrl: 'https://nyphtest.bsbi.org/app/index.html',
-    urlCacheSet: ['./index.html', './manifest.webmanifest', '/appcss/app.css', // note no leading '.' - this is an absolute path
+    urlCacheSet: ['./index.html', './manifest.webmanifest', '/appcss/app.2021-11-30.css', // note no leading '.' - this is an absolute path
     '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1638301979'
+    version: '1.0.1.1638314976'
   });
 
 })();
