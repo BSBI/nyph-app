@@ -225,6 +225,11 @@ export class MainView extends Page {
                 editorContainer.appendChild(formEl);
                 this.#occurrenceForm.populateFormContent();
 
+                if (occurrence.isNew) {
+                    console.log('Firing event for initialisation of new occurrence.');
+                    this.#occurrenceForm.fireEvent(Form.EVENT_INITIALISE_NEW, {survey : this.controller.app.currentSurvey}); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
+                }
+
                 this.refreshOccurrenceFooterControls(editorContainer);
 
                 // ensures that the accordion matches the navigation state
