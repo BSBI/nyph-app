@@ -13117,7 +13117,7 @@
 	     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
 	     */
 	    function get() {
-	      return this.attributes.geoRef || null;
+	      return this.attributes.georef || null;
 	    }
 	  }, {
 	    key: "formChangedHandler",
@@ -28077,7 +28077,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638297694</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638301403</p>";
 	    }
 	  }]);
 
