@@ -26952,7 +26952,7 @@
 	      params) {
 	        console.log('Handling re-initialisation of new MapGeoRefField.'); // set the geo-ref field placeholder to match the survey grid-ref and center the map there if no grid-ref has been specified
 
-	        _this2._tryDefaultGeoreferenceFromSurvey(params.survey, !!_this2._value.gridRef);
+	        _this2._tryDefaultGeoreferenceFromSurvey(params.survey, !_this2._value.gridRef);
 	      });
 	    }
 	    /**
@@ -28884,7 +28884,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638396918</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638397354</p>";
 	    }
 	  }]);
 

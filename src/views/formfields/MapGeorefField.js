@@ -296,7 +296,7 @@ export class MapGeorefField extends TextGeorefField {
 
             // set the geo-ref field placeholder to match the survey grid-ref and center the map there if no grid-ref has been specified
 
-            this._tryDefaultGeoreferenceFromSurvey(params.survey, !!this._value.gridRef);
+            this._tryDefaultGeoreferenceFromSurvey(params.survey, !this._value.gridRef);
         });
     }
 
