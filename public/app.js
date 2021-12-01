@@ -15019,7 +15019,7 @@
 	    key: "router",
 	    get:
 	    /**
-	     * 
+	     *
 	     * @returns {PatchedNavigo}
 	     */
 	    function get() {
@@ -15776,6 +15776,10 @@
 	function _createSuper$e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$e(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 	function _isNativeReflectConstruct$e() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * @external $
+	 */
+
 	var Layout = /*#__PURE__*/function (_EventHarness) {
 	  _inherits(Layout, _EventHarness);
 
@@ -15858,6 +15862,9 @@
 
 	          if (event.detail < 2) {
 	            // only if not a double click
+	            // force hide the new survey modal
+	            $("#".concat(Layout.NEW_SURVEY_MODAL_ID)).modal('hide');
+
 	            _this3.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);
 	          }
 	        });
@@ -28928,7 +28935,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638401060</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638402542</p>";
 	    }
 	  }]);
 

@@ -12630,7 +12630,7 @@
       key: "router",
       get:
       /**
-       * 
+       *
        * @returns {PatchedNavigo}
        */
       function get() {
@@ -13387,6 +13387,10 @@
   function _createSuper$e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$e(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
 
   function _isNativeReflectConstruct$e() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  /**
+   * @external $
+   */
+
   var Layout = /*#__PURE__*/function (_EventHarness) {
     _inherits$1(Layout, _EventHarness);
 
@@ -13469,6 +13473,9 @@
 
             if (event.detail < 2) {
               // only if not a double click
+              // force hide the new survey modal
+              $("#".concat(Layout.NEW_SURVEY_MODAL_ID)).modal('hide');
+
               _this3.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);
             }
           });
@@ -14385,7 +14392,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1638400929-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1638402204-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -18343,7 +18350,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1638401060'
+    version: '1.0.1.1638402542'
   });
 
 })();
