@@ -28078,10 +28078,10 @@
 	  })); // cannot call registerForm until the form is part of the document
 
 	  this.controller.survey.registerForm(surveyFormSection);
-	  surveyFormSection.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, function (context, eventName, isValid) {
+	  surveyFormSection.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, function (params) {
 	    var cardEl = document.getElementById(cardId);
 
-	    if (isValid) {
+	    if (params.isValid) {
 	      cardEl.classList.remove('is-invalid');
 	    } else {
 	      cardEl.classList.add('is-invalid');
@@ -28093,7 +28093,7 @@
 
 
 	    var nextButton = document.getElementById(surveyFormSection.nextButtonId);
-	    nextButton.disabled = !isValid; //}
+	    nextButton.disabled = !params.isValid; //}
 
 	    _this7._refreshVisibilityOfAccordionSections();
 	  });
@@ -28218,7 +28218,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638316742</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638319032</p>";
 	    }
 	  }]);
 

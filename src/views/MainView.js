@@ -700,9 +700,9 @@ export class MainView extends Page {
         // cannot call registerForm until the form is part of the document
         this.controller.survey.registerForm(surveyFormSection);
 
-        surveyFormSection.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, (context, eventName, isValid) => {
+        surveyFormSection.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, (params) => {
             const cardEl = document.getElementById(cardId);
-            if (isValid) {
+            if (params.isValid) {
                 cardEl.classList.remove('is-invalid');
             } else {
                 cardEl.classList.add('is-invalid');
@@ -713,7 +713,7 @@ export class MainView extends Page {
                  * @type {HTMLButtonElement}
                  */
                 let nextButton = document.getElementById(surveyFormSection.nextButtonId);
-                nextButton.disabled = !isValid;
+                nextButton.disabled = !params.isValid;
             //}
 
             this._refreshVisibilityOfAccordionSections();
