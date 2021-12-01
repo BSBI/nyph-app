@@ -14460,7 +14460,12 @@
 	        // this.value = gridRef;
 	        // this.fireEvent(FormField.EVENT_CHANGE);
 	        //@todo maybe should prevent use of readings if speed is too great (which might imply use of GPS in a moving vehicle)
-	        _this2.processLatLngPosition(position.coords.latitude, position.coords.longitude, position.coords.accuracy * 2, TextGeorefField.GEOREF_SOURCE_GPS);
+	        console.log({
+	          'gps position': position
+	        });
+	        var accuracy = position.coords.accuracy * 2;
+
+	        _this2.processLatLngPosition(position.coords.latitude, position.coords.longitude, accuracy, TextGeorefField.GEOREF_SOURCE_GPS);
 	      });
 	    }
 	    /**
@@ -14479,6 +14484,10 @@
 
 	      if (this.baseSquareResolution && scaledPrecision < this.baseSquareResolution) {
 	        scaledPrecision = this.baseSquareResolution;
+	      }
+
+	      if (this.minResolution && scaledPrecision > this.minResolution) {
+	        scaledPrecision = this.minResolution;
 	      }
 
 	      var gridRef = gridCoords.to_gridref(scaledPrecision);
@@ -15008,7 +15017,12 @@
 
 	  }, {
 	    key: "router",
-	    get: function get() {
+	    get:
+	    /**
+	     * 
+	     * @returns {PatchedNavigo}
+	     */
+	    function get() {
 	      return _classPrivateFieldGet(this, _router);
 	    },
 	    set: function set(router) {
@@ -28818,6 +28832,7 @@
 	      sectionkey: 'record'
 	    }
 	  }));
+	  this.controller.app.router.updatePageLinks();
 
 	  this._refreshVisibilityOfAccordionSections(); // this section was added last, need to ensure that it also reflects the state of accordion section hiding
 
@@ -28913,7 +28928,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638399103</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638401060</p>";
 	    }
 	  }]);
 

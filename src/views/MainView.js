@@ -836,6 +836,8 @@ export class MainView extends Page {
             dataAttributes : {sectionkey : 'record'}
         }));
 
+        this.controller.app.router.updatePageLinks();
+
         this._refreshVisibilityOfAccordionSections(); // this section was added last, need to ensure that it also reflects the state of accordion section hiding
     }
 
