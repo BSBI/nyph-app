@@ -47,17 +47,18 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
             attributes: {
                 label: 'Starting point of your walk.',
                 helpText: 'We need to be able to put your survey on our map.',
-                placeholder: 'Grid-reference or postcode',
+                placeholder: 'OS grid-reference or full postcode',
                 //autocomplete: 'postal-code',
                 completion: FormField.COMPLETION_COMPULSORY,
-                baseSquareResolution: 1000,
+                includeSearchBox: true,
+                baseSquareResolution: 2000,
                 gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED,
             }},
         date: {
             field: DateField,
             attributes: {
                 label: 'Date',
-                helpText: 'When did you survey?',
+                helpText: 'When did you survey? Please start a new list if you explore for a second day.',
                 placeholder: 'date',
                 type: 'date',
                 completion: FormField.COMPLETION_COMPULSORY,

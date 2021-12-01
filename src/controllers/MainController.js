@@ -3,7 +3,7 @@
 // probably as an accordion (collapsible list, e.g. https://getbootstrap.com/docs/4.3/components/collapse/#accordion-example)
 // that should target the detailed view of the occurrence into either a full screen (on mobile) or a right-hand panel.
 
-import {AppController, InternalAppError, NotFoundError} from "bsbi-app-framework";
+import {AppController, InternalAppError, NotFoundError, Occurrence, Survey, PatchedNavigo} from "bsbi-app-framework";
 
 export class MainController extends AppController {
     route = '/list/:action/:id';

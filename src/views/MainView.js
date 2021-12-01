@@ -96,6 +96,10 @@ export class MainView extends Page {
 
         // register handler on right-pane back button
         document.getElementById(PANEL_BACK_BUTTON_ID).addEventListener('click', (event) => {
+            if (doubleClickIntercepted(event)) {
+                return;
+            }
+
             event.stopPropagation();
             event.preventDefault();
 
@@ -297,7 +301,11 @@ export class MainView extends Page {
             nextButton.title = nextSection.sectionTitle;
         }
 
-        buttonContainer.addEventListener('click', (event) => {
+        buttonContainer.addEventListener('click', /** @param {MouseEvent} event */ (event) => {
+            if (doubleClickIntercepted(event)) {
+                return;
+            }
+
             const buttonEl = event.target.closest('button');
 
             if (buttonEl && buttonEl.hasAttribute('data-buttonaction')) {
@@ -390,6 +398,10 @@ export class MainView extends Page {
          * to prevent click also triggering an accordion toggle
          */
         accordionEl.addEventListener('click', /** @param {MouseEvent} event */ (event) => {
+            if (doubleClickIntercepted(event)) {
+                return;
+            }
+
             const targetLinkEl = event.target.closest('a');
 
             if (targetLinkEl && targetLinkEl.hasAttribute('data-help-link')) {
@@ -445,7 +457,11 @@ export class MainView extends Page {
             }
         });
 
-        document.getElementById(`${DELETE_OCCURRENCE_MODAL_ID}confirmed`).addEventListener('click', (event) => {
+        document.getElementById(`${DELETE_OCCURRENCE_MODAL_ID}confirmed`).addEventListener('click', /** @param {MouseEvent} event */ (event) => {
+            if (doubleClickIntercepted(event)) {
+                return;
+            }
+
             const confirmButtonEl = event.target.closest('button');
 
             if (confirmButtonEl && confirmButtonEl.hasAttribute('data-occurrenceid')) {
@@ -510,7 +526,11 @@ export class MainView extends Page {
 </div>`;
         container.appendChild(imageModalEl.firstChild);
 
-        document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID).addEventListener('click', (event) => {
+        document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID).addEventListener('click',/** @param {MouseEvent} event */ (event) => {
+            if (doubleClickIntercepted(event)) {
+                return;
+            }
+
             const deleteButtonEl = event.target.closest('button');
 
             if (deleteButtonEl && deleteButtonEl.hasAttribute('data-imageid')) {
@@ -650,7 +670,7 @@ export class MainView extends Page {
                 // if there are no records then clicking the button should add a new one automatically
                 // the complexity of this dual action requires a click handler
 
-                nextButton.addEventListener('click', (event) => {
+                nextButton.addEventListener('click', /** @param {MouseEvent} event */ (event) => {
                     if (!doubleClickIntercepted(event)) {
                         event.preventDefault();
                         event.stopPropagation();
@@ -668,7 +688,7 @@ export class MainView extends Page {
                 // there's another survey section
                 const nextSection = NyphSurveyForm.sections[formIndex + 1];
 
-                nextButton.addEventListener('click', (event) => {
+                nextButton.addEventListener('click', /** @param {MouseEvent} event */ (event) => {
                     if (!doubleClickIntercepted(event)) {
                         surveyFormSection.liveValidation = true;
 
@@ -691,7 +711,7 @@ export class MainView extends Page {
                 nextButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3';
                 nextButton.type = 'button';
 
-                nextButton.addEventListener('click', (event) => {
+                nextButton.addEventListener('click', /** @param {MouseEvent} event */ (event) => {
                     if (!doubleClickIntercepted(event)) {
                         this.controller.app.router.navigate('/list/');
                         // display the finish dialogue box
@@ -820,6 +840,10 @@ export class MainView extends Page {
      * @param {MouseEvent} event
      */
     newButtonClickHandler(event) {
+        if (doubleClickIntercepted(event)) {
+            return;
+        }
+
         event.preventDefault();
         event.stopPropagation();
 
@@ -867,6 +891,10 @@ export class MainView extends Page {
          * to prevent click also triggering an accordion toggle
          */
         listContainer.addEventListener('click', /** @param {MouseEvent} event */ (event) => {
+            if (doubleClickIntercepted(event)) {
+                return;
+            }
+
             const targetButtonEl = event.target.closest('button');
 
             if (targetButtonEl && targetButtonEl.hasAttribute('data-toggle') && targetButtonEl.getAttribute('data-toggle') === 'modal') {

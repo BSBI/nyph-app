@@ -26,7 +26,6 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "bootstrap": "^4.5.0",
-    "british-isles-gridrefs": "https://github.com/japonicus/js-british-isles-gridrefs.git",
     "bsbi-app-framework": "git+https://github.com/BSBI/bsbi-app-framework.git",
     "core-js": "^3.19.1",
     "element-closest-polyfill": "1.0.4",

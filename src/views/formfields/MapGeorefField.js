@@ -1,8 +1,8 @@
 //import {GridCoords} from "british-isles-gridrefs";
-import {escapeHTML, Form, FormField, GPSRequest, TextGeorefField} from "bsbi-app-framework";
+import {escapeHTML, Form, FormField, GPSRequest, TextGeorefField, Survey, GridRef, LatLngWGS84} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
 import mapboxgl from 'mapbox-gl';
-import {GridRef, LatLngWGS84} from "british-isles-gridrefs";
+//import {GridRef, LatLngWGS84} from "british-isles-gridrefs";
 import {MapMarker} from "../MapMarker";
 //import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
@@ -279,26 +279,52 @@ export class MapGeorefField extends TextGeorefField {
             if (doGPSInitialisation) {
                 this.seekGPS().then(() => {
                     console.log('GPS initialisation succeeded.');
+
+                    this._tryDefaultGeoreferenceFromSurvey(params.survey, false); // don't move the map, but do set a placeholder value
                 },
                     (error) => {
                         console.log({'GPS initialisation failed': error});
-                        this._tryDefaultGeoreferenceFromSurvey(params.survey);
+                        this._tryDefaultGeoreferenceFromSurvey(params.survey, true);
                     });
             } else {
-                this._tryDefaultGeoreferenceFromSurvey(params.survey);
+                this._tryDefaultGeoreferenceFromSurvey(params.survey, true);
             }
         });
     }
 
-    _tryDefaultGeoreferenceFromSurvey(survey) {
+    /**
+     *
+     * @param {Survey} survey
+     * @param {boolean} setMap
+     * @private
+     */
+    _tryDefaultGeoreferenceFromSurvey(survey, setMap) {
         if (this.initialiseFromDefaultSurveyGeoref) {
             let geoRef = survey.geoReference;
 
             console.log({"Default occurrence georef" : geoRef});
 
             if (geoRef && geoRef.gridRef) {
-                this.tryValue(geoRef.gridRef);
+                if (setMap) {
+                    this.tryValue(geoRef.gridRef);
+                }
+
+                const inputEl = document.getElementById(this._inputId);
+                if (inputEl) {
+                    inputEl.placeholder = geoRef.gridRef;
+                }
             }
+
+            survey.addListener(Survey.EVENT_MODIFIED, (param) => {
+                const newGeoRef = survey.geoReference;
+
+                if (newGeoRef && newGeoRef.gridRef) {
+                    const inputEl = document.getElementById(this._inputId);
+                    if (inputEl) {
+                        inputEl.placeholder = geoRef.gridRef;
+                    }
+                }
+            });
         }
     }
 
@@ -318,10 +344,12 @@ export class MapGeorefField extends TextGeorefField {
             container: divEl,
             style: 'mapbox://styles/mapbox/streets-v11', // style URL
             center: [this.defaultLng, this.defaultLat], // starting position [lng, lat]
-            zoom: this.defaultZoom // starting zoom
+            zoom: this.defaultZoom, // starting zoom
+            cooperativeGestures: true // see https://github.com/mapbox/mapbox-gl-js/issues/6884
         });
 
         if (this.includeSearchBox) {
+            // noinspection JSUnresolvedFunction
             const geocoder = new MapboxGeocoder({
                 accessToken: mapboxgl.accessToken,
                 mapboxgl: mapboxgl,
@@ -334,13 +362,13 @@ export class MapGeorefField extends TextGeorefField {
                 this.#setGridrefFromGeocodedResult(result.result);
             });
 
-            this.map.addControl(geocoder);
+            this.map.addControl(geocoder, 'top-right');
         }
 
         this.respondToVisibility(divEl, (visible) => {
             if (visible) {
                 console.log('Map is visible');
-                this.map.resize()
+                this.map.resize(null);
             }
         });
     }
@@ -456,7 +484,7 @@ export class MapGeorefField extends TextGeorefField {
             this.map.jumpTo({
                 center: [lngCentre, latCentre],
                 zoom: this.zoomMapping(gridRefParser.length),
-            });
+            }, null);
 
             // const marker = new MapMarker({
             //     name : gridRefParser.preciseGridRef,
