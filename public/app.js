@@ -72,12 +72,12 @@
 
 	var global$1x = global$1A;
 
-	var TypeError$z = global$1x.TypeError;
+	var TypeError$y = global$1x.TypeError;
 
 	// `RequireObjectCoercible` abstract operation
 	// https://tc39.es/ecma262/#sec-requireobjectcoercible
 	var requireObjectCoercible$j = function (it) {
-	  if (it == undefined) throw TypeError$z("Can't call method on " + it);
+	  if (it == undefined) throw TypeError$y("Can't call method on " + it);
 	  return it;
 	};
 
@@ -172,7 +172,7 @@
 
 	/* eslint-disable es/no-symbol -- required for testing */
 
-	var V8_VERSION$7 = engineV8Version$1;
+	var V8_VERSION$6 = engineV8Version$1;
 	var fails$15 = fails$16;
 
 	// eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
@@ -182,7 +182,7 @@
 	  // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
 	  return !String(symbol) || !(Object(symbol) instanceof Symbol) ||
 	    // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
-	    !Symbol.sham && V8_VERSION$7 && V8_VERSION$7 < 41;
+	    !Symbol.sham && V8_VERSION$6 && V8_VERSION$6 < 41;
 	});
 
 	/* eslint-disable es/no-symbol -- required for testing */
@@ -205,7 +205,7 @@
 	var symbolFor$1 = Symbol$3 && Symbol$3['for'];
 	var createWellKnownSymbol$1 = USE_SYMBOL_AS_UID$3 ? Symbol$3 : Symbol$3 && Symbol$3.withoutSetter || uid$7;
 
-	var wellKnownSymbol$F = function (name) {
+	var wellKnownSymbol$C = function (name) {
 	  if (!hasOwn$q(WellKnownSymbolsStore$3, name) || !(NATIVE_SYMBOL$5 || typeof WellKnownSymbolsStore$3[name] == 'string')) {
 	    var description = 'Symbol.' + name;
 	    if (NATIVE_SYMBOL$5 && hasOwn$q(Symbol$3, name)) {
@@ -218,9 +218,9 @@
 	  } return WellKnownSymbolsStore$3[name];
 	};
 
-	var wellKnownSymbol$E = wellKnownSymbol$F;
+	var wellKnownSymbol$B = wellKnownSymbol$C;
 
-	var TO_STRING_TAG$7 = wellKnownSymbol$E('toStringTag');
+	var TO_STRING_TAG$7 = wellKnownSymbol$B('toStringTag');
 	var test$3 = {};
 
 	test$3[TO_STRING_TAG$7] = 'z';
@@ -272,12 +272,12 @@
 	var isObject$x = isObject$z;
 
 	var String$9 = global$1r.String;
-	var TypeError$y = global$1r.TypeError;
+	var TypeError$x = global$1r.TypeError;
 
 	// `Assert: Type(argument) is Object`
 	var anObject$A = function (argument) {
 	  if (isObject$x(argument)) return argument;
-	  throw TypeError$y(String$9(argument) + ' is not an object');
+	  throw TypeError$x(String$9(argument) + ' is not an object');
 	};
 
 	var call$w = Function.prototype.call;
@@ -321,12 +321,12 @@
 	var isCallable$C = isCallable$G;
 	var tryToString$9 = tryToString$a;
 
-	var TypeError$x = global$1o.TypeError;
+	var TypeError$w = global$1o.TypeError;
 
 	// `Assert: IsCallable(argument) is true`
 	var aCallable$g = function (argument) {
 	  if (isCallable$C(argument)) return argument;
-	  throw TypeError$x(tryToString$9(argument) + ' is not a function');
+	  throw TypeError$w(tryToString$9(argument) + ' is not a function');
 	};
 
 	var aCallable$f = aCallable$g;
@@ -343,7 +343,7 @@
 	var isCallable$B = isCallable$G;
 	var isObject$w = isObject$z;
 
-	var TypeError$w = global$1n.TypeError;
+	var TypeError$v = global$1n.TypeError;
 
 	// `OrdinaryToPrimitive` abstract operation
 	// https://tc39.es/ecma262/#sec-ordinarytoprimitive
@@ -352,7 +352,7 @@
 	  if (pref === 'string' && isCallable$B(fn = input.toString) && !isObject$w(val = call$v(fn, input))) return val;
 	  if (isCallable$B(fn = input.valueOf) && !isObject$w(val = call$v(fn, input))) return val;
 	  if (pref !== 'string' && isCallable$B(fn = input.toString) && !isObject$w(val = call$v(fn, input))) return val;
-	  throw TypeError$w("Can't convert object to primitive value");
+	  throw TypeError$v("Can't convert object to primitive value");
 	};
 
 	var global$1m = global$1A;
@@ -361,10 +361,10 @@
 	var isSymbol$6 = isSymbol$7;
 	var getMethod$b = getMethod$c;
 	var ordinaryToPrimitive$3 = ordinaryToPrimitive$4;
-	var wellKnownSymbol$D = wellKnownSymbol$F;
+	var wellKnownSymbol$A = wellKnownSymbol$C;
 
-	var TypeError$v = global$1m.TypeError;
-	var TO_PRIMITIVE$3 = wellKnownSymbol$D('toPrimitive');
+	var TypeError$u = global$1m.TypeError;
+	var TO_PRIMITIVE$3 = wellKnownSymbol$A('toPrimitive');
 
 	// `ToPrimitive` abstract operation
 	// https://tc39.es/ecma262/#sec-toprimitive
@@ -376,7 +376,7 @@
 	    if (pref === undefined) pref = 'default';
 	    result = call$u(exoticToPrim, input, pref);
 	    if (!isObject$v(result) || isSymbol$6(result)) return result;
-	    throw TypeError$v("Can't convert object to primitive value");
+	    throw TypeError$u("Can't convert object to primitive value");
 	  }
 	  if (pref === undefined) pref = 'number';
 	  return ordinaryToPrimitive$3(input, pref);
@@ -398,7 +398,7 @@
 	var anObject$z = anObject$A;
 	var toPropertyKey$8 = toPropertyKey$9;
 
-	var TypeError$u = global$1l.TypeError;
+	var TypeError$t = global$1l.TypeError;
 	// eslint-disable-next-line es/no-object-defineproperty -- safe
 	var $defineProperty$3 = Object.defineProperty;
 
@@ -411,7 +411,7 @@
 	  if (IE8_DOM_DEFINE$3) try {
 	    return $defineProperty$3(O, P, Attributes);
 	  } catch (error) { /* empty */ }
-	  if ('get' in Attributes || 'set' in Attributes) throw TypeError$u('Accessors not supported');
+	  if ('get' in Attributes || 'set' in Attributes) throw TypeError$t('Accessors not supported');
 	  if ('value' in Attributes) O[P] = Attributes.value;
 	  return O;
 	};
@@ -481,7 +481,7 @@
 	var hiddenKeys$a = hiddenKeys$b;
 
 	var OBJECT_ALREADY_INITIALIZED$1 = 'Object already initialized';
-	var TypeError$t = global$1j.TypeError;
+	var TypeError$s = global$1j.TypeError;
 	var WeakMap$3 = global$1j.WeakMap;
 	var set$4, get$3, has$1;
 
@@ -493,7 +493,7 @@
 	  return function (it) {
 	    var state;
 	    if (!isObject$u(it) || (state = get$3(it)).type !== TYPE) {
-	      throw TypeError$t('Incompatible receiver, ' + TYPE + ' required');
+	      throw TypeError$s('Incompatible receiver, ' + TYPE + ' required');
 	    } return state;
 	  };
 	};
@@ -504,7 +504,7 @@
 	  var wmhas$1 = uncurryThis$16(store$4.has);
 	  var wmset$1 = uncurryThis$16(store$4.set);
 	  set$4 = function (it, metadata) {
-	    if (wmhas$1(store$4, it)) throw new TypeError$t(OBJECT_ALREADY_INITIALIZED$1);
+	    if (wmhas$1(store$4, it)) throw new TypeError$s(OBJECT_ALREADY_INITIALIZED$1);
 	    metadata.facade = it;
 	    wmset$1(store$4, it, metadata);
 	    return metadata;
@@ -519,7 +519,7 @@
 	  var STATE$1 = sharedKey$6('state');
 	  hiddenKeys$a[STATE$1] = true;
 	  set$4 = function (it, metadata) {
-	    if (hasOwn$p(it, STATE$1)) throw new TypeError$t(OBJECT_ALREADY_INITIALIZED$1);
+	    if (hasOwn$p(it, STATE$1)) throw new TypeError$s(OBJECT_ALREADY_INITIALIZED$1);
 	    metadata.facade = it;
 	    createNonEnumerableProperty$d(it, STATE$1, metadata);
 	    return metadata;
@@ -618,9 +618,9 @@
 	var TO_STRING_TAG_SUPPORT$5 = toStringTagSupport$1;
 	var isCallable$x = isCallable$G;
 	var classofRaw$2 = classofRaw$3;
-	var wellKnownSymbol$C = wellKnownSymbol$F;
+	var wellKnownSymbol$z = wellKnownSymbol$C;
 
-	var TO_STRING_TAG$6 = wellKnownSymbol$C('toStringTag');
+	var TO_STRING_TAG$6 = wellKnownSymbol$z('toStringTag');
 	var Object$7 = global$1h.Object;
 
 	// ES3 wrong here
@@ -634,7 +634,7 @@
 	};
 
 	// getting tag from ES6+ `Object.prototype.toString`
-	var classof$m = TO_STRING_TAG_SUPPORT$5 ? classofRaw$2 : function (it) {
+	var classof$l = TO_STRING_TAG_SUPPORT$5 ? classofRaw$2 : function (it) {
 	  var O, tag, result;
 	  return it === undefined ? 'Undefined' : it === null ? 'Null'
 	    // @@toStringTag case
@@ -646,12 +646,12 @@
 	};
 
 	var TO_STRING_TAG_SUPPORT$4 = toStringTagSupport$1;
-	var classof$l = classof$m;
+	var classof$k = classof$l;
 
 	// `Object.prototype.toString` method implementation
 	// https://tc39.es/ecma262/#sec-object.prototype.tostring
 	var objectToString$1 = TO_STRING_TAG_SUPPORT$4 ? {}.toString : function toString() {
-	  return '[object ' + classof$l(this) + ']';
+	  return '[object ' + classof$k(this) + ']';
 	};
 
 	var TO_STRING_TAG_SUPPORT$3 = toStringTagSupport$1;
@@ -685,7 +685,7 @@
 	var global$1g = global$1A;
 	var uncurryThis$14 = functionUncurryThis$1;
 	var fails$12 = fails$16;
-	var classof$k = classofRaw$3;
+	var classof$j = classofRaw$3;
 
 	var Object$6 = global$1g.Object;
 	var split$5 = uncurryThis$14(''.split);
@@ -696,7 +696,7 @@
 	  // eslint-disable-next-line no-prototype-builtins -- safe
 	  return !Object$6('z').propertyIsEnumerable(0);
 	}) ? function (it) {
-	  return classof$k(it) == 'String' ? split$5(it, '') : Object$6(it);
+	  return classof$j(it) == 'String' ? split$5(it, '') : Object$6(it);
 	} : Object$6;
 
 	// toObject with fallback for non-array-like ES3 strings
@@ -980,11 +980,11 @@
 	var isCallable$v = isCallable$G;
 
 	var String$7 = global$1d.String;
-	var TypeError$s = global$1d.TypeError;
+	var TypeError$r = global$1d.TypeError;
 
 	var aPossiblePrototype$4 = function (argument) {
 	  if (typeof argument == 'object' || isCallable$v(argument)) return argument;
-	  throw TypeError$s("Can't set " + String$7(argument) + ' as a prototype');
+	  throw TypeError$r("Can't set " + String$7(argument) + ' as a prototype');
 	};
 
 	/* eslint-disable no-proto -- safe */
@@ -1018,9 +1018,9 @@
 
 	var defineProperty$d = objectDefineProperty$1.f;
 	var hasOwn$j = hasOwnProperty_1$1;
-	var wellKnownSymbol$B = wellKnownSymbol$F;
+	var wellKnownSymbol$y = wellKnownSymbol$C;
 
-	var TO_STRING_TAG$5 = wellKnownSymbol$B('toStringTag');
+	var TO_STRING_TAG$5 = wellKnownSymbol$y('toStringTag');
 
 	var setToStringTag$c = function (it, TAG, STATIC) {
 	  if (it && !hasOwn$j(it = STATIC ? it : it.prototype, TO_STRING_TAG$5)) {
@@ -1030,17 +1030,17 @@
 
 	var getBuiltIn$h = getBuiltIn$l;
 	var definePropertyModule$b = objectDefineProperty$1;
-	var wellKnownSymbol$A = wellKnownSymbol$F;
+	var wellKnownSymbol$x = wellKnownSymbol$C;
 	var DESCRIPTORS$s = descriptors$1;
 
-	var SPECIES$c = wellKnownSymbol$A('species');
+	var SPECIES$a = wellKnownSymbol$x('species');
 
 	var setSpecies$7 = function (CONSTRUCTOR_NAME) {
 	  var Constructor = getBuiltIn$h(CONSTRUCTOR_NAME);
 	  var defineProperty = definePropertyModule$b.f;
 
-	  if (DESCRIPTORS$s && Constructor && !Constructor[SPECIES$c]) {
-	    defineProperty(Constructor, SPECIES$c, {
+	  if (DESCRIPTORS$s && Constructor && !Constructor[SPECIES$a]) {
+	    defineProperty(Constructor, SPECIES$a, {
 	      configurable: true,
 	      get: function () { return this; }
 	    });
@@ -1050,11 +1050,11 @@
 	var global$1c = global$1A;
 	var isPrototypeOf$b = objectIsPrototypeOf$1;
 
-	var TypeError$r = global$1c.TypeError;
+	var TypeError$q = global$1c.TypeError;
 
 	var anInstance$9 = function (it, Prototype) {
 	  if (isPrototypeOf$b(Prototype, it)) return it;
-	  throw TypeError$r('Incorrect invocation');
+	  throw TypeError$q('Incorrect invocation');
 	};
 
 	var uncurryThis$10 = functionUncurryThis$1;
@@ -1072,10 +1072,10 @@
 
 	var iterators$1 = {};
 
-	var wellKnownSymbol$z = wellKnownSymbol$F;
+	var wellKnownSymbol$w = wellKnownSymbol$C;
 	var Iterators$7 = iterators$1;
 
-	var ITERATOR$b = wellKnownSymbol$z('iterator');
+	var ITERATOR$b = wellKnownSymbol$w('iterator');
 	var ArrayPrototype$3 = Array.prototype;
 
 	// check on default Array iterator
@@ -1083,17 +1083,17 @@
 	  return it !== undefined && (Iterators$7.Array === it || ArrayPrototype$3[ITERATOR$b] === it);
 	};
 
-	var classof$j = classof$m;
+	var classof$i = classof$l;
 	var getMethod$a = getMethod$c;
 	var Iterators$6 = iterators$1;
-	var wellKnownSymbol$y = wellKnownSymbol$F;
+	var wellKnownSymbol$v = wellKnownSymbol$C;
 
-	var ITERATOR$a = wellKnownSymbol$y('iterator');
+	var ITERATOR$a = wellKnownSymbol$v('iterator');
 
 	var getIteratorMethod$7 = function (it) {
 	  if (it != undefined) return getMethod$a(it, ITERATOR$a)
 	    || getMethod$a(it, '@@iterator')
-	    || Iterators$6[classof$j(it)];
+	    || Iterators$6[classof$i(it)];
 	};
 
 	var global$1b = global$1A;
@@ -1103,12 +1103,12 @@
 	var tryToString$8 = tryToString$a;
 	var getIteratorMethod$6 = getIteratorMethod$7;
 
-	var TypeError$q = global$1b.TypeError;
+	var TypeError$p = global$1b.TypeError;
 
 	var getIterator$5 = function (argument, usingIterator) {
 	  var iteratorMethod = arguments.length < 2 ? getIteratorMethod$6(argument) : usingIterator;
 	  if (aCallable$d(iteratorMethod)) return anObject$w(call$s(iteratorMethod, argument));
-	  throw TypeError$q(tryToString$8(argument) + ' is not iterable');
+	  throw TypeError$p(tryToString$8(argument) + ' is not iterable');
 	};
 
 	var call$r = functionCall$1;
@@ -1147,7 +1147,7 @@
 	var getIteratorMethod$5 = getIteratorMethod$7;
 	var iteratorClose$4 = iteratorClose$5;
 
-	var TypeError$p = global$1a.TypeError;
+	var TypeError$o = global$1a.TypeError;
 
 	var Result$1 = function (stopped, result) {
 	  this.stopped = stopped;
@@ -1180,7 +1180,7 @@
 	    iterator = iterable;
 	  } else {
 	    iterFn = getIteratorMethod$5(iterable);
-	    if (!iterFn) throw TypeError$p(tryToString$7(iterable) + ' is not iterable');
+	    if (!iterFn) throw TypeError$o(tryToString$7(iterable) + ' is not iterable');
 	    // optimisation for array iterators
 	    if (isArrayIteratorMethod$4(iterFn)) {
 	      for (index = 0, length = lengthOfArrayLike$j(iterable); length > index; index++) {
@@ -1202,9 +1202,9 @@
 	  } return new Result$1(false);
 	};
 
-	var wellKnownSymbol$x = wellKnownSymbol$F;
+	var wellKnownSymbol$u = wellKnownSymbol$C;
 
-	var ITERATOR$9 = wellKnownSymbol$x('iterator');
+	var ITERATOR$9 = wellKnownSymbol$u('iterator');
 	var SAFE_CLOSING$1 = false;
 
 	try {
@@ -1244,7 +1244,7 @@
 	var uncurryThis$$ = functionUncurryThis$1;
 	var fails$10 = fails$16;
 	var isCallable$u = isCallable$G;
-	var classof$i = classof$m;
+	var classof$h = classof$l;
 	var getBuiltIn$g = getBuiltIn$l;
 	var inspectSource$6 = inspectSource$9;
 
@@ -1267,7 +1267,7 @@
 
 	var isConstructorLegacy$1 = function (argument) {
 	  if (!isCallable$u(argument)) return false;
-	  switch (classof$i(argument)) {
+	  switch (classof$h(argument)) {
 	    case 'AsyncFunction':
 	    case 'GeneratorFunction':
 	    case 'AsyncGeneratorFunction': return false;
@@ -1277,7 +1277,7 @@
 
 	// `IsConstructor` abstract operation
 	// https://tc39.es/ecma262/#sec-isconstructor
-	var isConstructor$8 = !construct$3 || fails$10(function () {
+	var isConstructor$7 = !construct$3 || fails$10(function () {
 	  var called;
 	  return isConstructorModern$1(isConstructorModern$1.call)
 	    || !isConstructorModern$1(Object)
@@ -1286,29 +1286,29 @@
 	}) ? isConstructorLegacy$1 : isConstructorModern$1;
 
 	var global$19 = global$1A;
-	var isConstructor$7 = isConstructor$8;
+	var isConstructor$6 = isConstructor$7;
 	var tryToString$6 = tryToString$a;
 
-	var TypeError$o = global$19.TypeError;
+	var TypeError$n = global$19.TypeError;
 
 	// `Assert: IsConstructor(argument) is true`
 	var aConstructor$5 = function (argument) {
-	  if (isConstructor$7(argument)) return argument;
-	  throw TypeError$o(tryToString$6(argument) + ' is not a constructor');
+	  if (isConstructor$6(argument)) return argument;
+	  throw TypeError$n(tryToString$6(argument) + ' is not a constructor');
 	};
 
 	var anObject$t = anObject$A;
 	var aConstructor$4 = aConstructor$5;
-	var wellKnownSymbol$w = wellKnownSymbol$F;
+	var wellKnownSymbol$t = wellKnownSymbol$C;
 
-	var SPECIES$b = wellKnownSymbol$w('species');
+	var SPECIES$9 = wellKnownSymbol$t('species');
 
 	// `SpeciesConstructor` abstract operation
 	// https://tc39.es/ecma262/#sec-speciesconstructor
 	var speciesConstructor$8 = function (O, defaultConstructor) {
 	  var C = anObject$t(O).constructor;
 	  var S;
-	  return C === undefined || (S = anObject$t(C)[SPECIES$b]) == undefined ? defaultConstructor : aConstructor$4(S);
+	  return C === undefined || (S = anObject$t(C)[SPECIES$9]) == undefined ? defaultConstructor : aConstructor$4(S);
 	};
 
 	var FunctionPrototype$5 = Function.prototype;
@@ -1333,10 +1333,10 @@
 
 	var engineIsIos$1 = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent$9);
 
-	var classof$h = classofRaw$3;
+	var classof$g = classofRaw$3;
 	var global$18 = global$1A;
 
-	var engineIsNode$1 = classof$h(global$18.process) == 'process';
+	var engineIsNode$1 = classof$g(global$18.process) == 'process';
 
 	var global$17 = global$1A;
 	var apply$a = functionApply$2;
@@ -1626,12 +1626,12 @@
 	var perform$3 = perform$4;
 	var InternalStateModule$b = internalState$1;
 	var isForced$6 = isForced_1$1;
-	var wellKnownSymbol$v = wellKnownSymbol$F;
+	var wellKnownSymbol$s = wellKnownSymbol$C;
 	var IS_BROWSER$1 = engineIsBrowser$1;
 	var IS_NODE$4 = engineIsNode$1;
-	var V8_VERSION$6 = engineV8Version$1;
+	var V8_VERSION$5 = engineV8Version$1;
 
-	var SPECIES$a = wellKnownSymbol$v('species');
+	var SPECIES$8 = wellKnownSymbol$s('species');
 	var PROMISE$1 = 'Promise';
 
 	var getInternalState$a = InternalStateModule$b.get;
@@ -1640,7 +1640,7 @@
 	var NativePromisePrototype$1 = NativePromise$3 && NativePromise$3.prototype;
 	var PromiseConstructor$1 = NativePromise$3;
 	var PromisePrototype$1 = NativePromisePrototype$1;
-	var TypeError$n = global$13.TypeError;
+	var TypeError$m = global$13.TypeError;
 	var document$4 = global$13.document;
 	var process$5 = global$13.process;
 	var newPromiseCapability$3 = newPromiseCapabilityModule$3.f;
@@ -1665,18 +1665,18 @@
 	  // V8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
 	  // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
 	  // We can't detect it synchronously, so just check versions
-	  if (!GLOBAL_CORE_JS_PROMISE && V8_VERSION$6 === 66) return true;
+	  if (!GLOBAL_CORE_JS_PROMISE && V8_VERSION$5 === 66) return true;
 	  // We can't use @@species feature detection in V8 since it causes
 	  // deoptimization and performance degradation
 	  // https://github.com/zloirock/core-js/issues/679
-	  if (V8_VERSION$6 >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return false;
+	  if (V8_VERSION$5 >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return false;
 	  // Detect correctness of subclassing with @@species support
 	  var promise = new PromiseConstructor$1(function (resolve) { resolve(1); });
 	  var FakePromise = function (exec) {
 	    exec(function () { /* empty */ }, function () { /* empty */ });
 	  };
 	  var constructor = promise.constructor = {};
-	  constructor[SPECIES$a] = FakePromise;
+	  constructor[SPECIES$8] = FakePromise;
 	  SUBCLASSING$1 = promise.then(function () { /* empty */ }) instanceof FakePromise;
 	  if (!SUBCLASSING$1) return true;
 	  // Unhandled rejections tracking support, NodeJS Promise without it fails @@species test
@@ -1725,7 +1725,7 @@
 	            }
 	          }
 	          if (result === reaction.promise) {
-	            reject(TypeError$n('Promise-chain cycle'));
+	            reject(TypeError$m('Promise-chain cycle'));
 	          } else if (then = isThenable$1(result)) {
 	            call$o(then, result, resolve, reject);
 	          } else resolve(result);
@@ -1806,7 +1806,7 @@
 	  state.done = true;
 	  if (unwrap) state = unwrap;
 	  try {
-	    if (state.facade === value) throw TypeError$n("Promise can't be resolved itself");
+	    if (state.facade === value) throw TypeError$m("Promise can't be resolved itself");
 	    var then = isThenable$1(value);
 	    if (then) {
 	      microtask$3(function () {
@@ -2339,140 +2339,6 @@
 
 	  privateSet.add(obj);
 	}
-
-	var classof$g = classofRaw$3;
-
-	// `IsArray` abstract operation
-	// https://tc39.es/ecma262/#sec-isarray
-	// eslint-disable-next-line es/no-array-isarray -- safe
-	var isArray$8 = Array.isArray || function isArray(argument) {
-	  return classof$g(argument) == 'Array';
-	};
-
-	var toPropertyKey$6 = toPropertyKey$9;
-	var definePropertyModule$a = objectDefineProperty$1;
-	var createPropertyDescriptor$8 = createPropertyDescriptor$b;
-
-	var createProperty$8 = function (object, key, value) {
-	  var propertyKey = toPropertyKey$6(key);
-	  if (propertyKey in object) definePropertyModule$a.f(object, propertyKey, createPropertyDescriptor$8(0, value));
-	  else object[propertyKey] = value;
-	};
-
-	var global$12 = global$1A;
-	var isArray$7 = isArray$8;
-	var isConstructor$6 = isConstructor$8;
-	var isObject$r = isObject$z;
-	var wellKnownSymbol$u = wellKnownSymbol$F;
-
-	var SPECIES$9 = wellKnownSymbol$u('species');
-	var Array$8 = global$12.Array;
-
-	// a part of `ArraySpeciesCreate` abstract operation
-	// https://tc39.es/ecma262/#sec-arrayspeciescreate
-	var arraySpeciesConstructor$3 = function (originalArray) {
-	  var C;
-	  if (isArray$7(originalArray)) {
-	    C = originalArray.constructor;
-	    // cross-realm fallback
-	    if (isConstructor$6(C) && (C === Array$8 || isArray$7(C.prototype))) C = undefined;
-	    else if (isObject$r(C)) {
-	      C = C[SPECIES$9];
-	      if (C === null) C = undefined;
-	    }
-	  } return C === undefined ? Array$8 : C;
-	};
-
-	var arraySpeciesConstructor$2 = arraySpeciesConstructor$3;
-
-	// `ArraySpeciesCreate` abstract operation
-	// https://tc39.es/ecma262/#sec-arrayspeciescreate
-	var arraySpeciesCreate$6 = function (originalArray, length) {
-	  return new (arraySpeciesConstructor$2(originalArray))(length === 0 ? 0 : length);
-	};
-
-	var fails$Z = fails$16;
-	var wellKnownSymbol$t = wellKnownSymbol$F;
-	var V8_VERSION$5 = engineV8Version$1;
-
-	var SPECIES$8 = wellKnownSymbol$t('species');
-
-	var arrayMethodHasSpeciesSupport$8 = function (METHOD_NAME) {
-	  // We can't use this feature detection in V8 since it causes
-	  // deoptimization and serious performance degradation
-	  // https://github.com/zloirock/core-js/issues/677
-	  return V8_VERSION$5 >= 51 || !fails$Z(function () {
-	    var array = [];
-	    var constructor = array.constructor = {};
-	    constructor[SPECIES$8] = function () {
-	      return { foo: 1 };
-	    };
-	    return array[METHOD_NAME](Boolean).foo !== 1;
-	  });
-	};
-
-	var $$2s = _export$1;
-	var global$11 = global$1A;
-	var fails$Y = fails$16;
-	var isArray$6 = isArray$8;
-	var isObject$q = isObject$z;
-	var toObject$p = toObject$r;
-	var lengthOfArrayLike$i = lengthOfArrayLike$l;
-	var createProperty$7 = createProperty$8;
-	var arraySpeciesCreate$5 = arraySpeciesCreate$6;
-	var arrayMethodHasSpeciesSupport$7 = arrayMethodHasSpeciesSupport$8;
-	var wellKnownSymbol$s = wellKnownSymbol$F;
-	var V8_VERSION$4 = engineV8Version$1;
-
-	var IS_CONCAT_SPREADABLE$1 = wellKnownSymbol$s('isConcatSpreadable');
-	var MAX_SAFE_INTEGER$3 = 0x1FFFFFFFFFFFFF;
-	var MAXIMUM_ALLOWED_INDEX_EXCEEDED$1 = 'Maximum allowed index exceeded';
-	var TypeError$m = global$11.TypeError;
-
-	// We can't use this feature detection in V8 since it causes
-	// deoptimization and serious performance degradation
-	// https://github.com/zloirock/core-js/issues/679
-	var IS_CONCAT_SPREADABLE_SUPPORT$1 = V8_VERSION$4 >= 51 || !fails$Y(function () {
-	  var array = [];
-	  array[IS_CONCAT_SPREADABLE$1] = false;
-	  return array.concat()[0] !== array;
-	});
-
-	var SPECIES_SUPPORT$1 = arrayMethodHasSpeciesSupport$7('concat');
-
-	var isConcatSpreadable$1 = function (O) {
-	  if (!isObject$q(O)) return false;
-	  var spreadable = O[IS_CONCAT_SPREADABLE$1];
-	  return spreadable !== undefined ? !!spreadable : isArray$6(O);
-	};
-
-	var FORCED$s = !IS_CONCAT_SPREADABLE_SUPPORT$1 || !SPECIES_SUPPORT$1;
-
-	// `Array.prototype.concat` method
-	// https://tc39.es/ecma262/#sec-array.prototype.concat
-	// with adding support of @@isConcatSpreadable and @@species
-	$$2s({ target: 'Array', proto: true, forced: FORCED$s }, {
-	  // eslint-disable-next-line no-unused-vars -- required for `.length`
-	  concat: function concat(arg) {
-	    var O = toObject$p(this);
-	    var A = arraySpeciesCreate$5(O, 0);
-	    var n = 0;
-	    var i, k, length, len, E;
-	    for (i = -1, length = arguments.length; i < length; i++) {
-	      E = i === -1 ? O : arguments[i];
-	      if (isConcatSpreadable$1(E)) {
-	        len = lengthOfArrayLike$i(E);
-	        if (n + len > MAX_SAFE_INTEGER$3) throw TypeError$m(MAXIMUM_ALLOWED_INDEX_EXCEEDED$1);
-	        for (k = 0; k < len; k++, n++) if (k in E) createProperty$7(A, n, E[k]);
-	      } else {
-	        if (n >= MAX_SAFE_INTEGER$3) throw TypeError$m(MAXIMUM_ALLOWED_INDEX_EXCEEDED$1);
-	        createProperty$7(A, n++, E);
-	      }
-	    }
-	    A.length = n;
-	    return A;
-	  }
-	});
 
 	function _classCallCheck(instance, Constructor) {
 	  if (!(instance instanceof Constructor)) {
@@ -3076,7 +2942,7 @@
 	var anObject$k$1 = anObject$l$1;
 	var toPropertyKey$2$1 = toPropertyKey$4$1;
 
-	var TypeError$g = global$J$1.TypeError;
+	var TypeError$g$1 = global$J$1.TypeError;
 	// eslint-disable-next-line es/no-object-defineproperty -- safe
 	var $defineProperty$1 = Object.defineProperty;
 
@@ -3089,7 +2955,7 @@
 	  if (IE8_DOM_DEFINE) try {
 	    return $defineProperty$1(O, P, Attributes);
 	  } catch (error) { /* empty */ }
-	  if ('get' in Attributes || 'set' in Attributes) throw TypeError$g('Accessors not supported');
+	  if ('get' in Attributes || 'set' in Attributes) throw TypeError$g$1('Accessors not supported');
 	  if ('value' in Attributes) O[P] = Attributes.value;
 	  return O;
 	};
@@ -3580,9 +3446,9 @@
 	  return boundFunction;
 	};
 
-	var wellKnownSymbol$n = wellKnownSymbol$q;
+	var wellKnownSymbol$n$1 = wellKnownSymbol$q;
 
-	var TO_STRING_TAG$2$1 = wellKnownSymbol$n('toStringTag');
+	var TO_STRING_TAG$2$1 = wellKnownSymbol$n$1('toStringTag');
 	var test$1$1 = {};
 
 	test$1$1[TO_STRING_TAG$2$1] = 'z';
@@ -3593,9 +3459,9 @@
 	var TO_STRING_TAG_SUPPORT$2 = toStringTagSupport;
 	var isCallable$f = isCallable$p;
 	var classofRaw = classofRaw$1;
-	var wellKnownSymbol$m = wellKnownSymbol$q;
+	var wellKnownSymbol$m$1 = wellKnownSymbol$q;
 
-	var TO_STRING_TAG$1$1 = wellKnownSymbol$m('toStringTag');
+	var TO_STRING_TAG$1$1 = wellKnownSymbol$m$1('toStringTag');
 	var Object$2 = global$C$1.Object;
 
 	// ES3 wrong here
@@ -3609,7 +3475,7 @@
 	};
 
 	// getting tag from ES6+ `Object.prototype.toString`
-	var classof$d = TO_STRING_TAG_SUPPORT$2 ? classofRaw : function (it) {
+	var classof$d$1 = TO_STRING_TAG_SUPPORT$2 ? classofRaw : function (it) {
 	  var O, tag, result;
 	  return it === undefined ? 'Undefined' : it === null ? 'Null'
 	    // @@toStringTag case
@@ -3623,7 +3489,7 @@
 	var uncurryThis$p$1 = functionUncurryThis;
 	var fails$r$1 = fails$x$1;
 	var isCallable$e$1 = isCallable$p;
-	var classof$c$1 = classof$d;
+	var classof$c$1 = classof$d$1;
 	var getBuiltIn$7 = getBuiltIn$b;
 	var inspectSource$1 = inspectSource$4;
 
@@ -3665,14 +3531,14 @@
 	}) ? isConstructorLegacy : isConstructorModern;
 
 	var global$B$1 = global$Z$1;
-	var isConstructor$3 = isConstructor$4;
+	var isConstructor$3$1 = isConstructor$4;
 	var tryToString$2 = tryToString$4;
 
 	var TypeError$e$1 = global$B$1.TypeError;
 
 	// `Assert: IsConstructor(argument) is true`
 	var aConstructor$2 = function (argument) {
-	  if (isConstructor$3(argument)) return argument;
+	  if (isConstructor$3$1(argument)) return argument;
 	  throw TypeError$e$1(tryToString$2(argument) + ' is not a constructor');
 	};
 
@@ -3955,11 +3821,11 @@
 	  return _classApplyDescriptorGet$4(receiver, descriptor);
 	}
 
-	var wellKnownSymbol$l = wellKnownSymbol$q;
+	var wellKnownSymbol$l$1 = wellKnownSymbol$q;
 	var create$3$1 = objectCreate$1;
 	var definePropertyModule$3$1 = objectDefineProperty;
 
-	var UNSCOPABLES$1 = wellKnownSymbol$l('unscopables');
+	var UNSCOPABLES$1 = wellKnownSymbol$l$1('unscopables');
 	var ArrayPrototype$1 = Array.prototype;
 
 	// Array.prototype[@@unscopables]
@@ -4261,7 +4127,7 @@
 	addToUnscopables$2$1('entries');
 
 	var TO_STRING_TAG_SUPPORT$1 = toStringTagSupport;
-	var classof$b$1 = classof$d;
+	var classof$b$1 = classof$d$1;
 
 	// `Object.prototype.toString` method implementation
 	// https://tc39.es/ecma262/#sec-object.prototype.tostring
@@ -4280,7 +4146,7 @@
 	}
 
 	var global$y$1 = global$Z$1;
-	var classof$a$1 = classof$d;
+	var classof$a$1 = classof$d$1;
 
 	var String$2$1 = global$y$1.String;
 
@@ -4541,7 +4407,7 @@
 	  return it !== undefined && (Iterators$1$1.Array === it || ArrayPrototype$2[ITERATOR$3$1] === it);
 	};
 
-	var classof$7$1 = classof$d;
+	var classof$7$1 = classof$d$1;
 	var getMethod$5$1 = getMethod$7;
 	var Iterators$5 = iterators;
 	var wellKnownSymbol$h$1 = wellKnownSymbol$q;
@@ -4853,7 +4719,7 @@
 
 	// a part of `ArraySpeciesCreate` abstract operation
 	// https://tc39.es/ecma262/#sec-arrayspeciescreate
-	var arraySpeciesConstructor$1 = function (originalArray) {
+	var arraySpeciesConstructor$1$1 = function (originalArray) {
 	  var C;
 	  if (isArray$3$1(originalArray)) {
 	    C = originalArray.constructor;
@@ -4866,12 +4732,12 @@
 	  } return C === undefined ? Array$4$1 : C;
 	};
 
-	var arraySpeciesConstructor = arraySpeciesConstructor$1;
+	var arraySpeciesConstructor$2 = arraySpeciesConstructor$1$1;
 
 	// `ArraySpeciesCreate` abstract operation
 	// https://tc39.es/ecma262/#sec-arrayspeciescreate
 	var arraySpeciesCreate$3$1 = function (originalArray, length) {
-	  return new (arraySpeciesConstructor(originalArray))(length === 0 ? 0 : length);
+	  return new (arraySpeciesConstructor$2(originalArray))(length === 0 ? 0 : length);
 	};
 
 	var bind$5$1 = functionBindContext;
@@ -5360,7 +5226,7 @@
 
 	var SPECIES$5 = wellKnownSymbol$d$1('species');
 
-	var arrayMethodHasSpeciesSupport$5 = function (METHOD_NAME) {
+	var arrayMethodHasSpeciesSupport$5$1 = function (METHOD_NAME) {
 	  // We can't use this feature detection in V8 since it causes
 	  // deoptimization and serious performance degradation
 	  // https://github.com/zloirock/core-js/issues/677
@@ -5383,33 +5249,33 @@
 	var lengthOfArrayLike$4$1 = lengthOfArrayLike$8$1;
 	var createProperty$4$1 = createProperty$5$1;
 	var arraySpeciesCreate$1$1 = arraySpeciesCreate$3$1;
-	var arrayMethodHasSpeciesSupport$4 = arrayMethodHasSpeciesSupport$5;
+	var arrayMethodHasSpeciesSupport$4$1 = arrayMethodHasSpeciesSupport$5$1;
 	var wellKnownSymbol$c$1 = wellKnownSymbol$q;
-	var V8_VERSION$1 = engineV8Version;
+	var V8_VERSION$1$1 = engineV8Version;
 
-	var IS_CONCAT_SPREADABLE = wellKnownSymbol$c$1('isConcatSpreadable');
-	var MAX_SAFE_INTEGER$1 = 0x1FFFFFFFFFFFFF;
-	var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
+	var IS_CONCAT_SPREADABLE$1 = wellKnownSymbol$c$1('isConcatSpreadable');
+	var MAX_SAFE_INTEGER$1$1 = 0x1FFFFFFFFFFFFF;
+	var MAXIMUM_ALLOWED_INDEX_EXCEEDED$1 = 'Maximum allowed index exceeded';
 	var TypeError$9$1 = global$q$1.TypeError;
 
 	// We can't use this feature detection in V8 since it causes
 	// deoptimization and serious performance degradation
 	// https://github.com/zloirock/core-js/issues/679
-	var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION$1 >= 51 || !fails$i$1(function () {
+	var IS_CONCAT_SPREADABLE_SUPPORT$1 = V8_VERSION$1$1 >= 51 || !fails$i$1(function () {
 	  var array = [];
-	  array[IS_CONCAT_SPREADABLE] = false;
+	  array[IS_CONCAT_SPREADABLE$1] = false;
 	  return array.concat()[0] !== array;
 	});
 
-	var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport$4('concat');
+	var SPECIES_SUPPORT$1 = arrayMethodHasSpeciesSupport$4$1('concat');
 
-	var isConcatSpreadable = function (O) {
+	var isConcatSpreadable$1 = function (O) {
 	  if (!isObject$6$1(O)) return false;
-	  var spreadable = O[IS_CONCAT_SPREADABLE];
+	  var spreadable = O[IS_CONCAT_SPREADABLE$1];
 	  return spreadable !== undefined ? !!spreadable : isArray$2$1(O);
 	};
 
-	var FORCED$5$1 = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
+	var FORCED$5$1 = !IS_CONCAT_SPREADABLE_SUPPORT$1 || !SPECIES_SUPPORT$1;
 
 	// `Array.prototype.concat` method
 	// https://tc39.es/ecma262/#sec-array.prototype.concat
@@ -5423,12 +5289,12 @@
 	    var i, k, length, len, E;
 	    for (i = -1, length = arguments.length; i < length; i++) {
 	      E = i === -1 ? O : arguments[i];
-	      if (isConcatSpreadable(E)) {
+	      if (isConcatSpreadable$1(E)) {
 	        len = lengthOfArrayLike$4$1(E);
-	        if (n + len > MAX_SAFE_INTEGER$1) throw TypeError$9$1(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+	        if (n + len > MAX_SAFE_INTEGER$1$1) throw TypeError$9$1(MAXIMUM_ALLOWED_INDEX_EXCEEDED$1);
 	        for (k = 0; k < len; k++, n++) if (k in E) createProperty$4$1(A, n, E[k]);
 	      } else {
-	        if (n >= MAX_SAFE_INTEGER$1) throw TypeError$9$1(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+	        if (n >= MAX_SAFE_INTEGER$1$1) throw TypeError$9$1(MAXIMUM_ALLOWED_INDEX_EXCEEDED$1);
 	        createProperty$4$1(A, n++, E);
 	      }
 	    }
@@ -5556,14 +5422,14 @@
 	var aConstructor$3 = aConstructor$2;
 	var wellKnownSymbol$a$1 = wellKnownSymbol$q;
 
-	var SPECIES$3 = wellKnownSymbol$a$1('species');
+	var SPECIES$3$1 = wellKnownSymbol$a$1('species');
 
 	// `SpeciesConstructor` abstract operation
 	// https://tc39.es/ecma262/#sec-speciesconstructor
 	var speciesConstructor$4 = function (O, defaultConstructor) {
 	  var C = anObject$8$1(O).constructor;
 	  var S;
-	  return C === undefined || (S = anObject$8$1(C)[SPECIES$3]) == undefined ? defaultConstructor : aConstructor$3(S);
+	  return C === undefined || (S = anObject$8$1(C)[SPECIES$3$1]) == undefined ? defaultConstructor : aConstructor$3(S);
 	};
 
 	var userAgent$4 = engineUserAgent;
@@ -5866,9 +5732,9 @@
 	var wellKnownSymbol$9$1 = wellKnownSymbol$q;
 	var IS_BROWSER = engineIsBrowser;
 	var IS_NODE$3 = engineIsNode;
-	var V8_VERSION = engineV8Version;
+	var V8_VERSION$4 = engineV8Version;
 
-	var SPECIES$2 = wellKnownSymbol$9$1('species');
+	var SPECIES$2$1 = wellKnownSymbol$9$1('species');
 	var PROMISE = 'Promise';
 
 	var getInternalState$5$1 = InternalStateModule$3$1.get;
@@ -5902,18 +5768,18 @@
 	  // V8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
 	  // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
 	  // We can't detect it synchronously, so just check versions
-	  if (!GLOBAL_CORE_JS_PROMISE && V8_VERSION === 66) return true;
+	  if (!GLOBAL_CORE_JS_PROMISE && V8_VERSION$4 === 66) return true;
 	  // We can't use @@species feature detection in V8 since it causes
 	  // deoptimization and performance degradation
 	  // https://github.com/zloirock/core-js/issues/679
-	  if (V8_VERSION >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return false;
+	  if (V8_VERSION$4 >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return false;
 	  // Detect correctness of subclassing with @@species support
 	  var promise = new PromiseConstructor(function (resolve) { resolve(1); });
 	  var FakePromise = function (exec) {
 	    exec(function () { /* empty */ }, function () { /* empty */ });
 	  };
 	  var constructor = promise.constructor = {};
-	  constructor[SPECIES$2] = FakePromise;
+	  constructor[SPECIES$2$1] = FakePromise;
 	  SUBCLASSING = promise.then(function () { /* empty */ }) instanceof FakePromise;
 	  if (!SUBCLASSING) return true;
 	  // Unhandled rejections tracking support, NodeJS Promise without it fails @@species test
@@ -6782,16 +6648,16 @@
 	var anObject$4$1 = anObject$l$1;
 	var toObject$3$1 = toObject$a$1;
 	var toIndexedObject$4$1 = toIndexedObject$b;
-	var toPropertyKey$5 = toPropertyKey$4$1;
+	var toPropertyKey$6 = toPropertyKey$4$1;
 	var $toString$4 = toString$c$1;
-	var createPropertyDescriptor$7 = createPropertyDescriptor$5$1;
+	var createPropertyDescriptor$8 = createPropertyDescriptor$5$1;
 	var nativeObjectCreate$1 = objectCreate$1;
 	var objectKeys$5 = objectKeys$2$1;
 	var getOwnPropertyNamesModule$3 = objectGetOwnPropertyNames;
 	var getOwnPropertyNamesExternal$1 = objectGetOwnPropertyNamesExternal$1;
 	var getOwnPropertySymbolsModule$2 = objectGetOwnPropertySymbols;
 	var getOwnPropertyDescriptorModule$1$1 = objectGetOwnPropertyDescriptor;
-	var definePropertyModule$9 = objectDefineProperty;
+	var definePropertyModule$a = objectDefineProperty;
 	var propertyIsEnumerableModule$2 = objectPropertyIsEnumerable;
 	var arraySlice$2$1 = arraySlice$6$1;
 	var redefine$2$1 = redefine$d$1.exports;
@@ -6821,7 +6687,7 @@
 	var QObject$1 = global$c$1.QObject;
 	var $stringify$2 = getBuiltIn$c('JSON', 'stringify');
 	var nativeGetOwnPropertyDescriptor$1$1 = getOwnPropertyDescriptorModule$1$1.f;
-	var nativeDefineProperty$2 = definePropertyModule$9.f;
+	var nativeDefineProperty$2 = definePropertyModule$a.f;
 	var nativeGetOwnPropertyNames$1 = getOwnPropertyNamesExternal$1.f;
 	var nativePropertyIsEnumerable$1 = propertyIsEnumerableModule$2.f;
 	var push$2$1 = uncurryThis$a$1([].push);
@@ -6863,15 +6729,15 @@
 	var $defineProperty$2 = function defineProperty(O, P, Attributes) {
 	  if (O === ObjectPrototype$5) $defineProperty$2(ObjectPrototypeSymbols$1, P, Attributes);
 	  anObject$4$1(O);
-	  var key = toPropertyKey$5(P);
+	  var key = toPropertyKey$6(P);
 	  anObject$4$1(Attributes);
 	  if (hasOwn$2$1(AllSymbols$1, key)) {
 	    if (!Attributes.enumerable) {
-	      if (!hasOwn$2$1(O, HIDDEN$1)) nativeDefineProperty$2(O, HIDDEN$1, createPropertyDescriptor$7(1, {}));
+	      if (!hasOwn$2$1(O, HIDDEN$1)) nativeDefineProperty$2(O, HIDDEN$1, createPropertyDescriptor$8(1, {}));
 	      O[HIDDEN$1][key] = true;
 	    } else {
 	      if (hasOwn$2$1(O, HIDDEN$1) && O[HIDDEN$1][key]) O[HIDDEN$1][key] = false;
-	      Attributes = nativeObjectCreate$1(Attributes, { enumerable: createPropertyDescriptor$7(0, false) });
+	      Attributes = nativeObjectCreate$1(Attributes, { enumerable: createPropertyDescriptor$8(0, false) });
 	    } return setSymbolDescriptor$1(O, key, Attributes);
 	  } return nativeDefineProperty$2(O, key, Attributes);
 	};
@@ -6891,7 +6757,7 @@
 	};
 
 	var $propertyIsEnumerable$2 = function propertyIsEnumerable(V) {
-	  var P = toPropertyKey$5(V);
+	  var P = toPropertyKey$6(V);
 	  var enumerable = call$6$1(nativePropertyIsEnumerable$1, this, P);
 	  if (this === ObjectPrototype$5 && hasOwn$2$1(AllSymbols$1, P) && !hasOwn$2$1(ObjectPrototypeSymbols$1, P)) return false;
 	  return enumerable || !hasOwn$2$1(this, P) || !hasOwn$2$1(AllSymbols$1, P) || hasOwn$2$1(this, HIDDEN$1) && this[HIDDEN$1][P]
@@ -6900,7 +6766,7 @@
 
 	var $getOwnPropertyDescriptor$2 = function getOwnPropertyDescriptor(O, P) {
 	  var it = toIndexedObject$4$1(O);
-	  var key = toPropertyKey$5(P);
+	  var key = toPropertyKey$6(P);
 	  if (it === ObjectPrototype$5 && hasOwn$2$1(AllSymbols$1, key) && !hasOwn$2$1(ObjectPrototypeSymbols$1, key)) return;
 	  var descriptor = nativeGetOwnPropertyDescriptor$1$1(it, key);
 	  if (descriptor && hasOwn$2$1(AllSymbols$1, key) && !(hasOwn$2$1(it, HIDDEN$1) && it[HIDDEN$1][key])) {
@@ -6940,7 +6806,7 @@
 	    var setter = function (value) {
 	      if (this === ObjectPrototype$5) call$6$1(setter, ObjectPrototypeSymbols$1, value);
 	      if (hasOwn$2$1(this, HIDDEN$1) && hasOwn$2$1(this[HIDDEN$1], tag)) this[HIDDEN$1][tag] = false;
-	      setSymbolDescriptor$1(this, tag, createPropertyDescriptor$7(1, value));
+	      setSymbolDescriptor$1(this, tag, createPropertyDescriptor$8(1, value));
 	    };
 	    if (DESCRIPTORS$8$1 && USE_SETTER$1) setSymbolDescriptor$1(ObjectPrototype$5, tag, { configurable: true, set: setter });
 	    return wrap$2(tag, description);
@@ -6957,7 +6823,7 @@
 	  });
 
 	  propertyIsEnumerableModule$2.f = $propertyIsEnumerable$2;
-	  definePropertyModule$9.f = $defineProperty$2;
+	  definePropertyModule$a.f = $defineProperty$2;
 	  getOwnPropertyDescriptorModule$1$1.f = $getOwnPropertyDescriptor$2;
 	  getOwnPropertyNamesModule$3.f = getOwnPropertyNamesExternal$1.f = $getOwnPropertyNames$2;
 	  getOwnPropertySymbolsModule$2.f = $getOwnPropertySymbols$1;
@@ -7088,7 +6954,7 @@
 
 	var $$j$1 = _export;
 	var $filter$2 = arrayIteration$1.filter;
-	var arrayMethodHasSpeciesSupport$3$1 = arrayMethodHasSpeciesSupport$5;
+	var arrayMethodHasSpeciesSupport$3$1 = arrayMethodHasSpeciesSupport$5$1;
 
 	var HAS_SPECIES_SUPPORT$3$1 = arrayMethodHasSpeciesSupport$3$1('filter');
 
@@ -11965,7 +11831,7 @@
 
 	var $$f$1 = _export;
 	var global$a$1 = global$Z$1;
-	var isArray$5 = isArray$4$1;
+	var isArray$8 = isArray$4$1;
 	var isConstructor$1$1 = isConstructor$4;
 	var isObject$2$1 = isObject$l$1;
 	var toAbsoluteIndex$1$1 = toAbsoluteIndex$3$1;
@@ -11973,7 +11839,7 @@
 	var toIndexedObject$1$1 = toIndexedObject$b;
 	var createProperty$2$1 = createProperty$5$1;
 	var wellKnownSymbol$4$1 = wellKnownSymbol$q;
-	var arrayMethodHasSpeciesSupport$2$1 = arrayMethodHasSpeciesSupport$5;
+	var arrayMethodHasSpeciesSupport$2$1 = arrayMethodHasSpeciesSupport$5$1;
 	var un$Slice$1 = arraySlice$6$1;
 
 	var HAS_SPECIES_SUPPORT$2$1 = arrayMethodHasSpeciesSupport$2$1('slice');
@@ -11993,10 +11859,10 @@
 	    var fin = toAbsoluteIndex$1$1(end === undefined ? length : end, length);
 	    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
 	    var Constructor, result, n;
-	    if (isArray$5(O)) {
+	    if (isArray$8(O)) {
 	      Constructor = O.constructor;
 	      // cross-realm fallback
-	      if (isConstructor$1$1(Constructor) && (Constructor === Array$2$1 || isArray$5(Constructor.prototype))) {
+	      if (isConstructor$1$1(Constructor) && (Constructor === Array$2$1 || isArray$8(Constructor.prototype))) {
 	        Constructor = undefined;
 	      } else if (isObject$2$1(Constructor)) {
 	        Constructor = Constructor[SPECIES$7];
@@ -12528,7 +12394,7 @@
 	// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
 	addToUnscopables$1$1('includes');
 
-	var isObject$p = isObject$l$1;
+	var isObject$r = isObject$l$1;
 	var classof$3$1 = classofRaw$1;
 	var wellKnownSymbol$3$1 = wellKnownSymbol$q;
 
@@ -12538,7 +12404,7 @@
 	// https://tc39.es/ecma262/#sec-isregexp
 	var isRegexp$1 = function (it) {
 	  var isRegExp;
-	  return isObject$p(it) && ((isRegExp = it[MATCH$2$1]) !== undefined ? !!isRegExp : classof$3$1(it) == 'RegExp');
+	  return isObject$r(it) && ((isRegExp = it[MATCH$2$1]) !== undefined ? !!isRegExp : classof$3$1(it) == 'RegExp');
 	};
 
 	var global$6$1 = global$Z$1;
@@ -16390,7 +16256,7 @@
 
 	var $$6$1 = _export;
 	var $map$2 = arrayIteration$1.map;
-	var arrayMethodHasSpeciesSupport$1$1 = arrayMethodHasSpeciesSupport$5;
+	var arrayMethodHasSpeciesSupport$1$1 = arrayMethodHasSpeciesSupport$5$1;
 
 	var HAS_SPECIES_SUPPORT$1$1 = arrayMethodHasSpeciesSupport$1$1('map');
 
@@ -17327,7 +17193,7 @@
 	var toObject$1$1 = toObject$a$1;
 	var lengthOfArrayLike$1$1 = lengthOfArrayLike$8$1;
 	var toString$s = toString$c$1;
-	var fails$X = fails$x$1;
+	var fails$Z = fails$x$1;
 	var internalSort$2 = arraySort$2;
 	var arrayMethodIsStrict$a = arrayMethodIsStrict$3$1;
 	var FF$2 = engineFfVersion$1;
@@ -17340,17 +17206,17 @@
 	var push$c = uncurryThis$Z(test$2.push);
 
 	// IE8-
-	var FAILS_ON_UNDEFINED$1 = fails$X(function () {
+	var FAILS_ON_UNDEFINED$1 = fails$Z(function () {
 	  test$2.sort(undefined);
 	});
 	// V8 bug
-	var FAILS_ON_NULL$1 = fails$X(function () {
+	var FAILS_ON_NULL$1 = fails$Z(function () {
 	  test$2.sort(null);
 	});
 	// Old WebKit
 	var STRICT_METHOD$9 = arrayMethodIsStrict$a('sort');
 
-	var STABLE_SORT$2 = !fails$X(function () {
+	var STABLE_SORT$2 = !fails$Z(function () {
 	  // feature detection can be too slow, so check engines versions
 	  if (V8$2) return V8$2 < 70;
 	  if (FF$2 && FF$2 > 3) return;
@@ -17430,11 +17296,11 @@
 	var global$1$1 = global$Z$1;
 	var toAbsoluteIndex$7 = toAbsoluteIndex$3$1;
 	var toIntegerOrInfinity$f = toIntegerOrInfinity$5$1;
-	var lengthOfArrayLike$h = lengthOfArrayLike$8$1;
-	var toObject$o = toObject$a$1;
-	var arraySpeciesCreate$4 = arraySpeciesCreate$3$1;
-	var createProperty$6 = createProperty$5$1;
-	var arrayMethodHasSpeciesSupport$6 = arrayMethodHasSpeciesSupport$5;
+	var lengthOfArrayLike$i = lengthOfArrayLike$8$1;
+	var toObject$p = toObject$a$1;
+	var arraySpeciesCreate$6 = arraySpeciesCreate$3$1;
+	var createProperty$8 = createProperty$5$1;
+	var arrayMethodHasSpeciesSupport$6 = arrayMethodHasSpeciesSupport$5$1;
 
 	var HAS_SPECIES_SUPPORT$4 = arrayMethodHasSpeciesSupport$6('splice');
 
@@ -17449,8 +17315,8 @@
 	// with adding support of @@species
 	$$4$1({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$4 }, {
 	  splice: function splice(start, deleteCount /* , ...items */) {
-	    var O = toObject$o(this);
-	    var len = lengthOfArrayLike$h(O);
+	    var O = toObject$p(this);
+	    var len = lengthOfArrayLike$i(O);
 	    var actualStart = toAbsoluteIndex$7(start, len);
 	    var argumentsLength = arguments.length;
 	    var insertCount, actualDeleteCount, A, k, from, to;
@@ -17466,10 +17332,10 @@
 	    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER$2) {
 	      throw TypeError$1$1(MAXIMUM_ALLOWED_LENGTH_EXCEEDED$1);
 	    }
-	    A = arraySpeciesCreate$4(O, actualDeleteCount);
+	    A = arraySpeciesCreate$6(O, actualDeleteCount);
 	    for (k = 0; k < actualDeleteCount; k++) {
 	      from = actualStart + k;
-	      if (from in O) createProperty$6(A, k, O[from]);
+	      if (from in O) createProperty$8(A, k, O[from]);
 	    }
 	    A.length = actualDeleteCount;
 	    if (insertCount < actualDeleteCount) {
@@ -19831,9 +19697,9 @@
 	var $trimStart$1 = stringTrim$1.start;
 	var forcedStringTrimMethod$3 = stringTrimForced$1;
 
-	var FORCED$r = forcedStringTrimMethod$3('trimStart');
+	var FORCED$s = forcedStringTrimMethod$3('trimStart');
 
-	var trimStart$1 = FORCED$r ? function trimStart() {
+	var trimStart$1 = FORCED$s ? function trimStart() {
 	  return $trimStart$1(this);
 	// eslint-disable-next-line es/no-string-prototype-trimstart-trimend -- safe
 	} : ''.trimStart;
@@ -19841,7 +19707,7 @@
 	// `String.prototype.{ trimStart, trimLeft }` methods
 	// https://tc39.es/ecma262/#sec-string.prototype.trimstart
 	// https://tc39.es/ecma262/#String.prototype.trimleft
-	$$2$1({ target: 'String', proto: true, name: 'trimStart', forced: FORCED$r }, {
+	$$2$1({ target: 'String', proto: true, name: 'trimStart', forced: FORCED$s }, {
 	  trimStart: trimStart$1,
 	  trimLeft: trimStart$1
 	});
@@ -20972,421 +20838,495 @@
 
 	  var _super = _createSuper$a(NyphApp);
 
+	  /**
+	   * @type {number}
+	   */
+	  //static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
+	  //static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
+	  //static EVENT_SURVEYS_CHANGED = 'surveyschanged';
+
+	  /**
+	   *
+	   * @type {boolean}
+	   */
 	  function NyphApp() {
 	    var _this;
 
 	    _classCallCheck$1(this, NyphApp);
 
-	    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    _this = _super.call.apply(_super, [this].concat(args));
+	    _this = _super.call(this);
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "projectId", PROJECT_ID_NYPH);
 
-	    return _this;
-	  } // /**
-	  //  *
-	  //  * @param {Survey} survey
-	  //  */
-	  // addSurvey(survey) {
-	  //     if (survey.projectId !== this.projectId) {
-	  //         throw new Error(`Survey project id '${survey.projectId} does not match with current project ('${this.projectId}')`);
-	  //     }
-	  //
-	  //     if (!this.surveys.has(survey.id)) {
-	  //         console.log("setting survey's modified/save handler");
-	  //         survey.addListener(
-	  //             Survey.EVENT_MODIFIED,
-	  //             (survey) => {
-	  //                 this.fireEvent(App.EVENT_SURVEYS_CHANGED);
-	  //                 return survey.save();
-	  //             }
-	  //             );
-	  //     }
-	  //
-	  //     this.surveys.set(survey.id, survey);
-	  //     this.fireEvent(App.EVENT_SURVEYS_CHANGED);
-	  // }
-	  // /**
-	  //  * tests whether occurrences have been defined, excluding any that have been deleted
-	  //  *
-	  //  * @returns {boolean}
-	  //  */
-	  // haveExtantOccurrences() {
-	  //     for (let occurrence of this.occurrences) {
-	  //         if (!occurrence.deleted) {
-	  //             return true;
-	  //         }
-	  //     }
-	  //     return false;
-	  // }
-	  // /**
-	  //  *
-	  //  * @param {Occurrence} occurrence
-	  //  */
-	  // addOccurrence(occurrence) {
-	  //     if (!occurrence.surveyId) {
-	  //         throw new InternalAppError('Survey id must set prior to registering occurrence.');
-	  //     }
-	  //
-	  //     if (this.occurrences.size === 0) {
-	  //         // this is the first occurrence added, set the survey creation stamp to match
-	  //         // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
-	  //         // for a protracted period
-	  //
-	  //         const survey = this.surveys.get(occurrence.surveyId);
-	  //         survey.createdStamp = occurrence.createdStamp;
-	  //     }
-	  //     console.log(`in addOccurrence setting id '${occurrence.id}'`);
-	  //     this.occurrences.set(occurrence.id, occurrence);
-	  //
-	  //     occurrence.addListener(Occurrence.EVENT_MODIFIED,
-	  //         () => {
-	  //             const survey = this.surveys.get(occurrence.surveyId);
-	  //             if (!survey) {
-	  //                 throw new Error(`Failed to look up survey id ${occurrence.surveyId}`);
-	  //             } else {
-	  //                 survey.isPristine = false;
-	  //
-	  //                 // need to ensure that currentSurvey is saved before occurrence
-	  //                 // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
-	  //                 // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
-	  //                 if (survey.unsaved()) {
-	  //                     // noinspection JSIgnoredPromiseFromCall
-	  //                     survey.save();
-	  //                 }
-	  //                 occurrence.save(survey.id);
-	  //             }
-	  //         });
-	  // }
-	  // /**
-	  //  * attempts to refresh the state of local storage for the specified survey ids
-	  //  * if fetch fails then return a failed promise
-	  //  *
-	  //  * updates local copy of surveys and occurrences
-	  //  *
-	  //  * no service worker interception of this call - passed through and not cached
-	  //  *
-	  //  * @param {Array.<string>} surveyIds
-	  //  * @return {Promise}
-	  //  */
-	  // refreshFromServer(surveyIds) {
-	  //     const formData = new FormData;
-	  //
-	  //     let n = 0;
-	  //     for (let key of surveyIds) {
-	  //         formData.append(`surveyId[${n++}]`, key);
-	  //     }
-	  //
-	  //     return fetch(NyphApp.LOAD_SURVEYS_ENDPOINT, {
-	  //         method: 'POST',
-	  //         body: formData
-	  //     }).then(response => {
-	  //         if (response.ok) {
-	  //             return response.json();
-	  //         } else {
-	  //             return Promise.reject(`Invalid response from server when refreshing survey ids`);
-	  //         }
-	  //     }).then((jsonResponse) => {
-	  //         /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
-	  //
-	  //         console.log({'refresh from server json response' : jsonResponse});
-	  //
-	  //         // if external objects newer than local version then place in local storage
-	  //         const promises = [];
-	  //
-	  //         for (let type in jsonResponse) {
-	  //             if (jsonResponse.hasOwnProperty(type)) {
-	  //                 for (let object of jsonResponse[type]) {
-	  //                     promises.push(this._conditionallyReplaceObject(object));
-	  //                 }
-	  //             }
-	  //         }
-	  //
-	  //
-	  //         return Promise.all(promises);
-	  //     });
-	  // }
-	  // /**
-	  //  * compare modified stamp of indexeddb and external objects and write external version locally if more recent
-	  //  *
-	  //  * @param {{id : string, type : string, modified : number, created : number, saveState : string, deleted : boolean}} externalVersion
-	  //  * @returns {Promise}
-	  //  * @private
-	  //  */
-	  // _conditionallyReplaceObject(externalVersion) {
-	  //     const objectType = externalVersion.type;
-	  //     const id = externalVersion.id;
-	  //     const key = `${objectType}.${id}`;
-	  //
-	  //     return localforage.getItem(key)
-	  //         .then((localVersion) => {
-	  //             if (localVersion) {
-	  //                 // compare stamps
-	  //
-	  //                 // if (externalVersion.deleted) {
-	  //                 //     // if the external copy is deleted then remove the local copy
-	  //                 //     return localforage.removeItem(key);
-	  //                 // }
-	  //
-	  //                 if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
-	  //                     console.log(`Local copy of ${key} is the same or newer than the server copy. (${localVersion.modified} >= ${externalVersion.modified}) `);
-	  //                     return Promise.resolve();
-	  //                 }
-	  //             }
-	  //
-	  //             // no local copy or stale copy
-	  //             // so store response locally
-	  //             console.log(`Adding or replacing local copy of ${key}`);
-	  //             return localforage.setItem(key, externalVersion);
-	  //         });
-	  // }
-	  // /**
-	  //  * retrieve the full set of keys from local storage (IndexedDb)
-	  //  *
-	  //  * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
-	  //  * @returns {Promise}
-	  //  */
-	  // seekKeys(storedObjectKeys) {
-	  //     return localforage.keys().then((keys) => {
-	  //         for (let key of keys) {
-	  //             let type,id;
-	  //
-	  //             [type, id] = key.split('.', 2);
-	  //
-	  //             if (storedObjectKeys.hasOwnProperty(type)) {
-	  //                 if (!storedObjectKeys[type].includes(id)) {
-	  //                     storedObjectKeys[type].push(id);
-	  //                 }
-	  //             } else {
-	  //                 console.log(`Unrecognised stored key type '${type}.`);
-	  //             }
-	  //         }
-	  //
-	  //         return storedObjectKeys;
-	  //     });
-	  // }
-	  // /**
-	  //  * @returns {Promise}
-	  //  */
-	  // syncAll() {
-	  //     const storedObjectKeys = {
-	  //         survey : [],
-	  //         occurrence : [],
-	  //         image : []
-	  //     };
-	  //
-	  //     return this.seekKeys(storedObjectKeys)
-	  //         .then((storedObjectKeys) => {
-	  //             return this._syncLocalUnsaved(storedObjectKeys);
-	  //         }, (failedResult) => {
-	  //             console.log(`Failed to sync all: ${failedResult}`);
-	  //         });
-	  // }
-	  // /**
-	  //  *
-	  //  * @param storedObjectKeys
-	  //  * @returns {Promise}
-	  //  * @private
-	  //  */
-	  // _syncLocalUnsaved(storedObjectKeys) {
-	  //     // syncs surveys first, then occurrences, then images from indexedDb
-	  //
-	  //     const promises = [];
-	  //     for(let surveyKey of storedObjectKeys.survey) {
-	  //         promises.push(Survey.retrieveFromLocal(surveyKey, new Survey)
-	  //             .then((survey) => {
-	  //                 if (survey.unsaved()) {
-	  //                     return survey.save();
-	  //                 }
-	  //             })
-	  //         );
-	  //     }
-	  //
-	  //     for(let occurrenceKey of storedObjectKeys.occurrence) {
-	  //         promises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
-	  //             .then((occurrence) => {
-	  //                 if (occurrence.unsaved()) {
-	  //                     return occurrence.save();
-	  //                 }
-	  //             })
-	  //         );
-	  //     }
-	  //
-	  //     for(let imageKey of storedObjectKeys.image) {
-	  //         promises.push(OccurrenceImage.retrieveFromLocal(imageKey, new OccurrenceImage)
-	  //             .then((image) => {
-	  //                 if (image.unsaved()) {
-	  //                     return image.save();
-	  //                 }
-	  //             })
-	  //         );
-	  //     }
-	  //
-	  //     return Promise.all(promises).catch((result) => {
-	  //         console.log(`Save failure: ${result}`);
-	  //     });
-	  // }
-	  // /**
-	  //  * restore previous state, pulling back from local and external store
-	  //  * @todo this needs a save phase, so that local changes are saved back to the server
-	  //  *
-	  //  * @param {string} [targetSurveyId] if specified then select this id as the current survey
-	  //  * @return {Promise}
-	  //  */
-	  // restoreOccurrences(targetSurveyId) {
-	  //
-	  //     // need to check for a special case where restoring a survey that has never been saved even locally
-	  //     // i.e. new and unmodified
-	  //     // only present in current App.surveys
-	  //     // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
-	  //     if (this.surveys.has(targetSurveyId)) {
-	  //         const localSurvey = this.surveys.get(targetSurveyId);
-	  //
-	  //         if (localSurvey.isPristine) {
-	  //             this.currentSurvey = localSurvey;
-	  //             this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-	  //             return Promise.resolve();
-	  //         }
-	  //     }
-	  //
-	  //     const storedObjectKeys = {
-	  //         survey: [],
-	  //         occurrence: [],
-	  //         image: []
-	  //     };
-	  //
-	  //     if (targetSurveyId) {
-	  //         storedObjectKeys.survey[0] = targetSurveyId;
-	  //     }
-	  //
-	  //     return this.seekKeys(storedObjectKeys).then((storedObjectKeys) => {
-	  //         if (storedObjectKeys.survey.length) {
-	  //             return this.refreshFromServer(storedObjectKeys.survey).finally(() => {
-	  //                 // re-seek keys from indexed db, to take account of any new occurrences received from the server
-	  //                 return this.seekKeys(storedObjectKeys);
-	  //             });
-	  //         } else {
-	  //             return null;
-	  //         }
-	  //     }).finally(() => {
-	  //         // called regardless of whether a server refresh was successful
-	  //         // storedObjectKeys and indexed db should be as up-to-date as possible
-	  //
-	  //         if (storedObjectKeys.survey.length) {
-	  //
-	  //             // arbitrarily set first survey key as current
-	  //             // this will be the specified targetSurveyId if that was set
-	  //             return this._restoreSurveyFromLocal(storedObjectKeys.survey[0], storedObjectKeys)
-	  //                 .finally(() => {
-	  //                     this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
-	  //
-	  //                     if (!this.currentSurvey) {
-	  //                         // survey doesn't actually exist
-	  //                         // this could have happened in an invalid survey id was provided as a targetSurveyId
-	  //                         console.log(`Failed to retrieve survey id '${targetSurveyId}'`);
-	  //                         return Promise.reject(new Error(`Failed to retrieve survey id '${targetSurveyId}'`));
-	  //                     }
-	  //
-	  //                     if (this.currentSurvey.deleted) {
-	  //                         // unusual case where survey is deleted
-	  //                         // substitute a new one
-	  //
-	  //                         // this should probably never happen, as items deleted on the server ought to have been
-	  //                         // removed locally
-	  //                         this.setNewSurvey();
-	  //                     } else {
-	  //                         this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-	  //                     }
-	  //                     return Promise.resolve();
-	  //                 });
-	  //         } else {
-	  //             // no pre-existing surveys, so create a new one
-	  //             this.setNewSurvey();
-	  //
-	  //             return Promise.resolve();
-	  //         }
-	  //     });
-	  // }
-	  // setNewSurvey() {
-	  //     this.currentSurvey = new Survey();
-	  //     this.currentSurvey.projectId = this.projectId;
-	  //     this.currentSurvey.isPristine = true;
-	  //     this.addSurvey(this.currentSurvey);
-	  // }
-	  // /**
-	  //  * @return {Occurrence}
-	  //  */
-	  // addNewOccurrence() {
-	  //     const occurrence = new Occurrence();
-	  //     occurrence.surveyId = this.currentSurvey.id;
-	  //     occurrence.projectId = this.projectId;
-	  //
-	  //     occurrence.isNew = true;
-	  //     occurrence.isPristine = true;
-	  //
-	  //     this.addOccurrence(occurrence);
-	  //
-	  //     this.fireEvent(NyphApp.EVENT_OCCURRENCE_ADDED, {occurrenceId: occurrence.id, surveyId: occurrence.surveyId});
-	  //
-	  //     return occurrence;
-	  // }
-	  // /**
-	  //  *
-	  //  * @param surveyId
-	  //  * @param storedObjectKeys
-	  //  * @returns {Promise}
-	  //  * @private
-	  //  */
-	  // _restoreSurveyFromLocal(surveyId, storedObjectKeys) {
-	  //     // retrieve surveys first, then occurrences, then images from indexedDb
-	  //
-	  //     return Survey.retrieveFromLocal(surveyId, new Survey).then((survey) => {
-	  //         // the apps occurrences should only relate to the current survey
-	  //         // (the reset are remote or in IndexedDb)
-	  //         this.clearCurrentSurvey();
-	  //
-	  //         this.addSurvey(survey);
-	  //         const occurrenceFetchingPromises = [];
-	  //
-	  //         for(let occurrenceKey of storedObjectKeys.occurrence) {
-	  //             occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
-	  //                 .then((occurrence) => {
-	  //                     if (occurrence.surveyId === surveyId) {
-	  //                         this.addOccurrence(occurrence);
-	  //                     }
-	  //                 }));
-	  //         }
-	  //
-	  //         return Promise.all(occurrenceFetchingPromises);
-	  //     }).finally(() => {
-	  //         //console.log('Reached image fetching part');
-	  //         const imageFetchingPromises = [];
-	  //
-	  //         for(let occurrenceImageKey of storedObjectKeys.image) {
-	  //             imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage)
-	  //                 .then((occurrenceImage) => {
-	  //                     if (occurrenceImage.surveyId === surveyId) {
-	  //                         OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
-	  //                     }
-	  //                 }, (reason) => {
-	  //                     console.log(`Failed to retrieve an image: ${reason}`);
-	  //                 }));
-	  //         }
-	  //
-	  //         return Promise.all(imageFetchingPromises);
-	  //     });
-	  // }
-	  // /**
-	  //  *
-	  //  * @returns {Promise<void>}
-	  //  */
-	  // clearLocalForage() {
-	  //     return localforage.clear();
-	  // }
+	    _defineProperty$1(_assertThisInitialized$1(_this), "_coreSurveyFields", ['primaryname', 'email']);
 
+	    _defineProperty$1(_assertThisInitialized$1(_this), "_coreSurveyFieldCache", []);
+
+	    _this.initialiseSurveyFieldsMirror();
+
+	    return _this;
+	  }
+
+	  _createClass$1(NyphApp, [{
+	    key: "initialiseSurveyFieldsMirror",
+	    value:
+	    /**
+	     * Sets handlers to allow certain survey fields to be duplicated from last current survey to new survey
+	     * used for email address and primary recorder name
+	     */
+	    function initialiseSurveyFieldsMirror() {
+	      var _this2 = this;
+
+	      this.addListener(App.EVENT_NEW_SURVEY, function () {
+	        console.log('Try to initialise core fields of new survey.');
+
+	        if (_this2._coreSurveyFieldCache) {
+	          console.log({
+	            'Using cached survey values': _this2._coreSurveyFieldCache
+	          });
+
+	          var _iterator = _createForOfIteratorHelper$7(_this2._coreSurveyFields),
+	              _step;
+
+	          try {
+	            for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	              var key = _step.value;
+	              _this2.currentSurvey.attributes[key] = _this2._coreSurveyFieldCache[key];
+	            }
+	          } catch (err) {
+	            _iterator.e(err);
+	          } finally {
+	            _iterator.f();
+	          }
+	        }
+	      });
+	      this.addListener(App.EVENT_SURVEYS_CHANGED, function () {
+	        if (_this2.currentSurvey && !_this2.currentSurvey.isNew) {
+	          var _iterator2 = _createForOfIteratorHelper$7(_this2._coreSurveyFields),
+	              _step2;
+
+	          try {
+	            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+	              var key = _step2.value;
+	              _this2._coreSurveyFieldCache[key] = _this2.currentSurvey.attributes[key];
+	            }
+	          } catch (err) {
+	            _iterator2.e(err);
+	          } finally {
+	            _iterator2.f();
+	          }
+
+	          console.log({
+	            'Saved core survey fields': _this2._coreSurveyFieldCache
+	          });
+	        }
+	      });
+	      this.addListener(App.EVENT_RESET_SURVEYS, function () {
+	        _this2._coreSurveyFieldCache = [];
+	        console.log('Have reset core survey field cache.');
+	      });
+	    } // /**
+	    //  *
+	    //  * @param {Survey} survey
+	    //  */
+	    // addSurvey(survey) {
+	    //     if (survey.projectId !== this.projectId) {
+	    //         throw new Error(`Survey project id '${survey.projectId} does not match with current project ('${this.projectId}')`);
+	    //     }
+	    //
+	    //     if (!this.surveys.has(survey.id)) {
+	    //         console.log("setting survey's modified/save handler");
+	    //         survey.addListener(
+	    //             Survey.EVENT_MODIFIED,
+	    //             (survey) => {
+	    //                 this.fireEvent(App.EVENT_SURVEYS_CHANGED);
+	    //                 return survey.save();
+	    //             }
+	    //             );
+	    //     }
+	    //
+	    //     this.surveys.set(survey.id, survey);
+	    //     this.fireEvent(App.EVENT_SURVEYS_CHANGED);
+	    // }
+	    // /**
+	    //  * tests whether occurrences have been defined, excluding any that have been deleted
+	    //  *
+	    //  * @returns {boolean}
+	    //  */
+	    // haveExtantOccurrences() {
+	    //     for (let occurrence of this.occurrences) {
+	    //         if (!occurrence.deleted) {
+	    //             return true;
+	    //         }
+	    //     }
+	    //     return false;
+	    // }
+	    // /**
+	    //  *
+	    //  * @param {Occurrence} occurrence
+	    //  */
+	    // addOccurrence(occurrence) {
+	    //     if (!occurrence.surveyId) {
+	    //         throw new InternalAppError('Survey id must set prior to registering occurrence.');
+	    //     }
+	    //
+	    //     if (this.occurrences.size === 0) {
+	    //         // this is the first occurrence added, set the survey creation stamp to match
+	    //         // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
+	    //         // for a protracted period
+	    //
+	    //         const survey = this.surveys.get(occurrence.surveyId);
+	    //         survey.createdStamp = occurrence.createdStamp;
+	    //     }
+	    //     console.log(`in addOccurrence setting id '${occurrence.id}'`);
+	    //     this.occurrences.set(occurrence.id, occurrence);
+	    //
+	    //     occurrence.addListener(Occurrence.EVENT_MODIFIED,
+	    //         () => {
+	    //             const survey = this.surveys.get(occurrence.surveyId);
+	    //             if (!survey) {
+	    //                 throw new Error(`Failed to look up survey id ${occurrence.surveyId}`);
+	    //             } else {
+	    //                 survey.isPristine = false;
+	    //
+	    //                 // need to ensure that currentSurvey is saved before occurrence
+	    //                 // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
+	    //                 // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
+	    //                 if (survey.unsaved()) {
+	    //                     // noinspection JSIgnoredPromiseFromCall
+	    //                     survey.save();
+	    //                 }
+	    //                 occurrence.save(survey.id);
+	    //             }
+	    //         });
+	    // }
+	    // /**
+	    //  * attempts to refresh the state of local storage for the specified survey ids
+	    //  * if fetch fails then return a failed promise
+	    //  *
+	    //  * updates local copy of surveys and occurrences
+	    //  *
+	    //  * no service worker interception of this call - passed through and not cached
+	    //  *
+	    //  * @param {Array.<string>} surveyIds
+	    //  * @return {Promise}
+	    //  */
+	    // refreshFromServer(surveyIds) {
+	    //     const formData = new FormData;
+	    //
+	    //     let n = 0;
+	    //     for (let key of surveyIds) {
+	    //         formData.append(`surveyId[${n++}]`, key);
+	    //     }
+	    //
+	    //     return fetch(NyphApp.LOAD_SURVEYS_ENDPOINT, {
+	    //         method: 'POST',
+	    //         body: formData
+	    //     }).then(response => {
+	    //         if (response.ok) {
+	    //             return response.json();
+	    //         } else {
+	    //             return Promise.reject(`Invalid response from server when refreshing survey ids`);
+	    //         }
+	    //     }).then((jsonResponse) => {
+	    //         /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
+	    //
+	    //         console.log({'refresh from server json response' : jsonResponse});
+	    //
+	    //         // if external objects newer than local version then place in local storage
+	    //         const promises = [];
+	    //
+	    //         for (let type in jsonResponse) {
+	    //             if (jsonResponse.hasOwnProperty(type)) {
+	    //                 for (let object of jsonResponse[type]) {
+	    //                     promises.push(this._conditionallyReplaceObject(object));
+	    //                 }
+	    //             }
+	    //         }
+	    //
+	    //
+	    //         return Promise.all(promises);
+	    //     });
+	    // }
+	    // /**
+	    //  * compare modified stamp of indexeddb and external objects and write external version locally if more recent
+	    //  *
+	    //  * @param {{id : string, type : string, modified : number, created : number, saveState : string, deleted : boolean}} externalVersion
+	    //  * @returns {Promise}
+	    //  * @private
+	    //  */
+	    // _conditionallyReplaceObject(externalVersion) {
+	    //     const objectType = externalVersion.type;
+	    //     const id = externalVersion.id;
+	    //     const key = `${objectType}.${id}`;
+	    //
+	    //     return localforage.getItem(key)
+	    //         .then((localVersion) => {
+	    //             if (localVersion) {
+	    //                 // compare stamps
+	    //
+	    //                 // if (externalVersion.deleted) {
+	    //                 //     // if the external copy is deleted then remove the local copy
+	    //                 //     return localforage.removeItem(key);
+	    //                 // }
+	    //
+	    //                 if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
+	    //                     console.log(`Local copy of ${key} is the same or newer than the server copy. (${localVersion.modified} >= ${externalVersion.modified}) `);
+	    //                     return Promise.resolve();
+	    //                 }
+	    //             }
+	    //
+	    //             // no local copy or stale copy
+	    //             // so store response locally
+	    //             console.log(`Adding or replacing local copy of ${key}`);
+	    //             return localforage.setItem(key, externalVersion);
+	    //         });
+	    // }
+	    // /**
+	    //  * retrieve the full set of keys from local storage (IndexedDb)
+	    //  *
+	    //  * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
+	    //  * @returns {Promise}
+	    //  */
+	    // seekKeys(storedObjectKeys) {
+	    //     return localforage.keys().then((keys) => {
+	    //         for (let key of keys) {
+	    //             let type,id;
+	    //
+	    //             [type, id] = key.split('.', 2);
+	    //
+	    //             if (storedObjectKeys.hasOwnProperty(type)) {
+	    //                 if (!storedObjectKeys[type].includes(id)) {
+	    //                     storedObjectKeys[type].push(id);
+	    //                 }
+	    //             } else {
+	    //                 console.log(`Unrecognised stored key type '${type}.`);
+	    //             }
+	    //         }
+	    //
+	    //         return storedObjectKeys;
+	    //     });
+	    // }
+	    // /**
+	    //  * @returns {Promise}
+	    //  */
+	    // syncAll() {
+	    //     const storedObjectKeys = {
+	    //         survey : [],
+	    //         occurrence : [],
+	    //         image : []
+	    //     };
+	    //
+	    //     return this.seekKeys(storedObjectKeys)
+	    //         .then((storedObjectKeys) => {
+	    //             return this._syncLocalUnsaved(storedObjectKeys);
+	    //         }, (failedResult) => {
+	    //             console.log(`Failed to sync all: ${failedResult}`);
+	    //         });
+	    // }
+	    // /**
+	    //  *
+	    //  * @param storedObjectKeys
+	    //  * @returns {Promise}
+	    //  * @private
+	    //  */
+	    // _syncLocalUnsaved(storedObjectKeys) {
+	    //     // syncs surveys first, then occurrences, then images from indexedDb
+	    //
+	    //     const promises = [];
+	    //     for(let surveyKey of storedObjectKeys.survey) {
+	    //         promises.push(Survey.retrieveFromLocal(surveyKey, new Survey)
+	    //             .then((survey) => {
+	    //                 if (survey.unsaved()) {
+	    //                     return survey.save();
+	    //                 }
+	    //             })
+	    //         );
+	    //     }
+	    //
+	    //     for(let occurrenceKey of storedObjectKeys.occurrence) {
+	    //         promises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
+	    //             .then((occurrence) => {
+	    //                 if (occurrence.unsaved()) {
+	    //                     return occurrence.save();
+	    //                 }
+	    //             })
+	    //         );
+	    //     }
+	    //
+	    //     for(let imageKey of storedObjectKeys.image) {
+	    //         promises.push(OccurrenceImage.retrieveFromLocal(imageKey, new OccurrenceImage)
+	    //             .then((image) => {
+	    //                 if (image.unsaved()) {
+	    //                     return image.save();
+	    //                 }
+	    //             })
+	    //         );
+	    //     }
+	    //
+	    //     return Promise.all(promises).catch((result) => {
+	    //         console.log(`Save failure: ${result}`);
+	    //     });
+	    // }
+	    // /**
+	    //  * restore previous state, pulling back from local and external store
+	    //  * @todo this needs a save phase, so that local changes are saved back to the server
+	    //  *
+	    //  * @param {string} [targetSurveyId] if specified then select this id as the current survey
+	    //  * @return {Promise}
+	    //  */
+	    // restoreOccurrences(targetSurveyId) {
+	    //
+	    //     // need to check for a special case where restoring a survey that has never been saved even locally
+	    //     // i.e. new and unmodified
+	    //     // only present in current App.surveys
+	    //     // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
+	    //     if (this.surveys.has(targetSurveyId)) {
+	    //         const localSurvey = this.surveys.get(targetSurveyId);
+	    //
+	    //         if (localSurvey.isPristine) {
+	    //             this.currentSurvey = localSurvey;
+	    //             this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
+	    //             return Promise.resolve();
+	    //         }
+	    //     }
+	    //
+	    //     const storedObjectKeys = {
+	    //         survey: [],
+	    //         occurrence: [],
+	    //         image: []
+	    //     };
+	    //
+	    //     if (targetSurveyId) {
+	    //         storedObjectKeys.survey[0] = targetSurveyId;
+	    //     }
+	    //
+	    //     return this.seekKeys(storedObjectKeys).then((storedObjectKeys) => {
+	    //         if (storedObjectKeys.survey.length) {
+	    //             return this.refreshFromServer(storedObjectKeys.survey).finally(() => {
+	    //                 // re-seek keys from indexed db, to take account of any new occurrences received from the server
+	    //                 return this.seekKeys(storedObjectKeys);
+	    //             });
+	    //         } else {
+	    //             return null;
+	    //         }
+	    //     }).finally(() => {
+	    //         // called regardless of whether a server refresh was successful
+	    //         // storedObjectKeys and indexed db should be as up-to-date as possible
+	    //
+	    //         if (storedObjectKeys.survey.length) {
+	    //
+	    //             // arbitrarily set first survey key as current
+	    //             // this will be the specified targetSurveyId if that was set
+	    //             return this._restoreSurveyFromLocal(storedObjectKeys.survey[0], storedObjectKeys)
+	    //                 .finally(() => {
+	    //                     this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
+	    //
+	    //                     if (!this.currentSurvey) {
+	    //                         // survey doesn't actually exist
+	    //                         // this could have happened in an invalid survey id was provided as a targetSurveyId
+	    //                         console.log(`Failed to retrieve survey id '${targetSurveyId}'`);
+	    //                         return Promise.reject(new Error(`Failed to retrieve survey id '${targetSurveyId}'`));
+	    //                     }
+	    //
+	    //                     if (this.currentSurvey.deleted) {
+	    //                         // unusual case where survey is deleted
+	    //                         // substitute a new one
+	    //
+	    //                         // this should probably never happen, as items deleted on the server ought to have been
+	    //                         // removed locally
+	    //                         this.setNewSurvey();
+	    //                     } else {
+	    //                         this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
+	    //                     }
+	    //                     return Promise.resolve();
+	    //                 });
+	    //         } else {
+	    //             // no pre-existing surveys, so create a new one
+	    //             this.setNewSurvey();
+	    //
+	    //             return Promise.resolve();
+	    //         }
+	    //     });
+	    // }
+	    // setNewSurvey() {
+	    //     this.currentSurvey = new Survey();
+	    //     this.currentSurvey.projectId = this.projectId;
+	    //     this.currentSurvey.isPristine = true;
+	    //     this.addSurvey(this.currentSurvey);
+	    // }
+	    // /**
+	    //  * @return {Occurrence}
+	    //  */
+	    // addNewOccurrence() {
+	    //     const occurrence = new Occurrence();
+	    //     occurrence.surveyId = this.currentSurvey.id;
+	    //     occurrence.projectId = this.projectId;
+	    //
+	    //     occurrence.isNew = true;
+	    //     occurrence.isPristine = true;
+	    //
+	    //     this.addOccurrence(occurrence);
+	    //
+	    //     this.fireEvent(NyphApp.EVENT_OCCURRENCE_ADDED, {occurrenceId: occurrence.id, surveyId: occurrence.surveyId});
+	    //
+	    //     return occurrence;
+	    // }
+	    // /**
+	    //  *
+	    //  * @param surveyId
+	    //  * @param storedObjectKeys
+	    //  * @returns {Promise}
+	    //  * @private
+	    //  */
+	    // _restoreSurveyFromLocal(surveyId, storedObjectKeys) {
+	    //     // retrieve surveys first, then occurrences, then images from indexedDb
+	    //
+	    //     return Survey.retrieveFromLocal(surveyId, new Survey).then((survey) => {
+	    //         // the apps occurrences should only relate to the current survey
+	    //         // (the reset are remote or in IndexedDb)
+	    //         this.clearCurrentSurvey();
+	    //
+	    //         this.addSurvey(survey);
+	    //         const occurrenceFetchingPromises = [];
+	    //
+	    //         for(let occurrenceKey of storedObjectKeys.occurrence) {
+	    //             occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
+	    //                 .then((occurrence) => {
+	    //                     if (occurrence.surveyId === surveyId) {
+	    //                         this.addOccurrence(occurrence);
+	    //                     }
+	    //                 }));
+	    //         }
+	    //
+	    //         return Promise.all(occurrenceFetchingPromises);
+	    //     }).finally(() => {
+	    //         //console.log('Reached image fetching part');
+	    //         const imageFetchingPromises = [];
+	    //
+	    //         for(let occurrenceImageKey of storedObjectKeys.image) {
+	    //             imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage)
+	    //                 .then((occurrenceImage) => {
+	    //                     if (occurrenceImage.surveyId === surveyId) {
+	    //                         OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
+	    //                     }
+	    //                 }, (reason) => {
+	    //                     console.log(`Failed to retrieve an image: ${reason}`);
+	    //                 }));
+	    //         }
+	    //
+	    //         return Promise.all(imageFetchingPromises);
+	    //     });
+	    // }
+	    // /**
+	    //  *
+	    //  * @returns {Promise<void>}
+	    //  */
+	    // clearLocalForage() {
+	    //     return localforage.clear();
+	    // }
+
+	  }]);
 
 	  return NyphApp;
 	}(App);
@@ -21406,7 +21346,7 @@
 	};
 
 	var DESCRIPTORS$q = descriptors$1;
-	var definePropertyModule$8 = objectDefineProperty$1;
+	var definePropertyModule$9 = objectDefineProperty$1;
 	var anObject$q = anObject$A;
 	var toIndexedObject$a = toIndexedObject$g;
 	var objectKeys$3 = objectKeys$4;
@@ -21421,7 +21361,7 @@
 	  var length = keys.length;
 	  var index = 0;
 	  var key;
-	  while (length > index) definePropertyModule$8.f(O, key = keys[index++], props[key]);
+	  while (length > index) definePropertyModule$9.f(O, key = keys[index++], props[key]);
 	  return O;
 	};
 
@@ -21509,17 +21449,17 @@
 	  return Properties === undefined ? result : defineProperties$2(result, Properties);
 	};
 
-	var wellKnownSymbol$k = wellKnownSymbol$F;
+	var wellKnownSymbol$n = wellKnownSymbol$C;
 	var create$8 = objectCreate;
-	var definePropertyModule$7 = objectDefineProperty$1;
+	var definePropertyModule$8 = objectDefineProperty$1;
 
-	var UNSCOPABLES = wellKnownSymbol$k('unscopables');
+	var UNSCOPABLES = wellKnownSymbol$n('unscopables');
 	var ArrayPrototype = Array.prototype;
 
 	// Array.prototype[@@unscopables]
 	// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
 	if (ArrayPrototype[UNSCOPABLES] == undefined) {
-	  definePropertyModule$7.f(ArrayPrototype, UNSCOPABLES, {
+	  definePropertyModule$8.f(ArrayPrototype, UNSCOPABLES, {
 	    configurable: true,
 	    value: create$8(null)
 	  });
@@ -21530,30 +21470,30 @@
 	  ArrayPrototype[UNSCOPABLES][key] = true;
 	};
 
-	var fails$W = fails$16;
+	var fails$Y = fails$16;
 
-	var correctPrototypeGetter = !fails$W(function () {
+	var correctPrototypeGetter = !fails$Y(function () {
 	  function F() { /* empty */ }
 	  F.prototype.constructor = null;
 	  // eslint-disable-next-line es/no-object-getprototypeof -- required for testing
 	  return Object.getPrototypeOf(new F()) !== F.prototype;
 	});
 
-	var global$10 = global$1A;
+	var global$12 = global$1A;
 	var hasOwn$f = hasOwnProperty_1$1;
 	var isCallable$e = isCallable$G;
-	var toObject$n = toObject$r;
+	var toObject$o = toObject$r;
 	var sharedKey$1 = sharedKey$7;
 	var CORRECT_PROTOTYPE_GETTER$2 = correctPrototypeGetter;
 
 	var IE_PROTO = sharedKey$1('IE_PROTO');
-	var Object$1 = global$10.Object;
+	var Object$1 = global$12.Object;
 	var ObjectPrototype$4 = Object$1.prototype;
 
 	// `Object.getPrototypeOf` method
 	// https://tc39.es/ecma262/#sec-object.getprototypeof
 	var objectGetPrototypeOf$1 = CORRECT_PROTOTYPE_GETTER$2 ? Object$1.getPrototypeOf : function (O) {
-	  var object = toObject$n(O);
+	  var object = toObject$o(O);
 	  if (hasOwn$f(object, IE_PROTO)) return object[IE_PROTO];
 	  var constructor = object.constructor;
 	  if (isCallable$e(constructor) && object instanceof constructor) {
@@ -21561,13 +21501,13 @@
 	  } return object instanceof Object$1 ? ObjectPrototype$4 : null;
 	};
 
-	var fails$V = fails$16;
+	var fails$X = fails$16;
 	var isCallable$d = isCallable$G;
 	var getPrototypeOf$9 = objectGetPrototypeOf$1;
 	var redefine$d = redefine$k.exports;
-	var wellKnownSymbol$j = wellKnownSymbol$F;
+	var wellKnownSymbol$m = wellKnownSymbol$C;
 
-	var ITERATOR$7 = wellKnownSymbol$j('iterator');
+	var ITERATOR$7 = wellKnownSymbol$m('iterator');
 	var BUGGY_SAFARI_ITERATORS$1 = false;
 
 	// `%IteratorPrototype%` object
@@ -21585,7 +21525,7 @@
 	  }
 	}
 
-	var NEW_ITERATOR_PROTOTYPE = IteratorPrototype$2 == undefined || fails$V(function () {
+	var NEW_ITERATOR_PROTOTYPE = IteratorPrototype$2 == undefined || fails$X(function () {
 	  var test = {};
 	  // FF44- legacy iterators case
 	  return IteratorPrototype$2[ITERATOR$7].call(test) !== test;
@@ -21608,7 +21548,7 @@
 
 	var IteratorPrototype$1 = iteratorsCore.IteratorPrototype;
 	var create$7 = objectCreate;
-	var createPropertyDescriptor$6 = createPropertyDescriptor$b;
+	var createPropertyDescriptor$7 = createPropertyDescriptor$b;
 	var setToStringTag$9 = setToStringTag$c;
 	var Iterators$2 = iterators$1;
 
@@ -21616,13 +21556,13 @@
 
 	var createIteratorConstructor$3 = function (IteratorConstructor, NAME, next) {
 	  var TO_STRING_TAG = NAME + ' Iterator';
-	  IteratorConstructor.prototype = create$7(IteratorPrototype$1, { next: createPropertyDescriptor$6(1, next) });
+	  IteratorConstructor.prototype = create$7(IteratorPrototype$1, { next: createPropertyDescriptor$7(1, next) });
 	  setToStringTag$9(IteratorConstructor, TO_STRING_TAG, false);
 	  Iterators$2[TO_STRING_TAG] = returnThis$1;
 	  return IteratorConstructor;
 	};
 
-	var $$2r = _export$1;
+	var $$2s = _export$1;
 	var call$m = functionCall$1;
 	var FunctionName$1 = functionName$1;
 	var isCallable$c = isCallable$G;
@@ -21632,7 +21572,7 @@
 	var setToStringTag$8 = setToStringTag$c;
 	var createNonEnumerableProperty$9 = createNonEnumerableProperty$e;
 	var redefine$c = redefine$k.exports;
-	var wellKnownSymbol$i = wellKnownSymbol$F;
+	var wellKnownSymbol$l = wellKnownSymbol$C;
 	var Iterators$1 = iterators$1;
 	var IteratorsCore = iteratorsCore;
 
@@ -21640,7 +21580,7 @@
 	var CONFIGURABLE_FUNCTION_NAME$1 = FunctionName$1.CONFIGURABLE;
 	var IteratorPrototype = IteratorsCore.IteratorPrototype;
 	var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
-	var ITERATOR$6 = wellKnownSymbol$i('iterator');
+	var ITERATOR$6 = wellKnownSymbol$l('iterator');
 	var KEYS = 'keys';
 	var VALUES = 'values';
 	var ENTRIES = 'entries';
@@ -21707,7 +21647,7 @@
 	      if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
 	        redefine$c(IterablePrototype, KEY, methods[KEY]);
 	      }
-	    } else $$2r({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+	    } else $$2s({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
 	  }
 
 	  // define iterator
@@ -21772,13 +21712,13 @@
 	addToUnscopables$8('values');
 	addToUnscopables$8('entries');
 
-	var global$$ = global$1A;
-	var classof$c = classof$m;
+	var global$11 = global$1A;
+	var classof$d = classof$l;
 
-	var String$2 = global$$.String;
+	var String$2 = global$11.String;
 
 	var toString$r = function (argument) {
-	  if (classof$c(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
+	  if (classof$d(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
 	  return String$2(argument);
 	};
 
@@ -21855,7 +21795,7 @@
 
 	/* eslint-disable es/no-object-getownpropertynames -- safe */
 
-	var classof$b = classofRaw$3;
+	var classof$c = classofRaw$3;
 	var toIndexedObject$8 = toIndexedObject$g;
 	var $getOwnPropertyNames$1 = objectGetOwnPropertyNames$1.f;
 	var arraySlice$b = arraySlice$e;
@@ -21873,15 +21813,15 @@
 
 	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 	objectGetOwnPropertyNamesExternal.f = function getOwnPropertyNames(it) {
-	  return windowNames && classof$b(it) == 'Window'
+	  return windowNames && classof$c(it) == 'Window'
 	    ? getWindowNames(it)
 	    : $getOwnPropertyNames$1(toIndexedObject$8(it));
 	};
 
 	// FF26- bug: ArrayBuffers are non-extensible, but Object.isExtensible does not report it
-	var fails$U = fails$16;
+	var fails$W = fails$16;
 
-	var arrayBufferNonExtensible = fails$U(function () {
+	var arrayBufferNonExtensible = fails$W(function () {
 	  if (typeof ArrayBuffer == 'function') {
 	    var buffer = new ArrayBuffer(8);
 	    // eslint-disable-next-line es/no-object-isextensible, es/no-object-defineproperty -- safe
@@ -21889,34 +21829,34 @@
 	  }
 	});
 
-	var fails$T = fails$16;
-	var isObject$o = isObject$z;
-	var classof$a = classofRaw$3;
+	var fails$V = fails$16;
+	var isObject$q = isObject$z;
+	var classof$b = classofRaw$3;
 	var ARRAY_BUFFER_NON_EXTENSIBLE$2 = arrayBufferNonExtensible;
 
 	// eslint-disable-next-line es/no-object-isextensible -- safe
 	var $isExtensible$2 = Object.isExtensible;
-	var FAILS_ON_PRIMITIVES$9 = fails$T(function () { $isExtensible$2(1); });
+	var FAILS_ON_PRIMITIVES$9 = fails$V(function () { $isExtensible$2(1); });
 
 	// `Object.isExtensible` method
 	// https://tc39.es/ecma262/#sec-object.isextensible
 	var objectIsExtensible = (FAILS_ON_PRIMITIVES$9 || ARRAY_BUFFER_NON_EXTENSIBLE$2) ? function isExtensible(it) {
-	  if (!isObject$o(it)) return false;
-	  if (ARRAY_BUFFER_NON_EXTENSIBLE$2 && classof$a(it) == 'ArrayBuffer') return false;
+	  if (!isObject$q(it)) return false;
+	  if (ARRAY_BUFFER_NON_EXTENSIBLE$2 && classof$b(it) == 'ArrayBuffer') return false;
 	  return $isExtensible$2 ? $isExtensible$2(it) : true;
 	} : $isExtensible$2;
 
-	var fails$S = fails$16;
+	var fails$U = fails$16;
 
-	var freezing = !fails$S(function () {
+	var freezing = !fails$U(function () {
 	  // eslint-disable-next-line es/no-object-isextensible, es/no-object-preventextensions -- required for testing
 	  return Object.isExtensible(Object.preventExtensions({}));
 	});
 
-	var $$2q = _export$1;
+	var $$2r = _export$1;
 	var uncurryThis$X = functionUncurryThis$1;
 	var hiddenKeys$1 = hiddenKeys$b;
-	var isObject$n = isObject$z;
+	var isObject$p = isObject$z;
 	var hasOwn$e = hasOwnProperty_1$1;
 	var defineProperty$b = objectDefineProperty$1.f;
 	var getOwnPropertyNamesModule$1 = objectGetOwnPropertyNames$1;
@@ -21938,7 +21878,7 @@
 
 	var fastKey$1 = function (it, create) {
 	  // return a primitive with prefix
-	  if (!isObject$n(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+	  if (!isObject$p(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
 	  if (!hasOwn$e(it, METADATA)) {
 	    // can't set metadata to uncaught frozen object
 	    if (!isExtensible$1(it)) return 'F';
@@ -21988,7 +21928,7 @@
 	      } return result;
 	    };
 
-	    $$2q({ target: 'Object', stat: true, forced: true }, {
+	    $$2r({ target: 'Object', stat: true, forced: true }, {
 	      getOwnPropertyNames: getOwnPropertyNamesExternalModule.f
 	    });
 	  }
@@ -22004,7 +21944,7 @@
 	hiddenKeys$1[METADATA] = true;
 
 	var isCallable$b = isCallable$G;
-	var isObject$m = isObject$z;
+	var isObject$o = isObject$z;
 	var setPrototypeOf$5 = objectSetPrototypeOf$2;
 
 	// makes subclassing work correct for wrapped built-ins
@@ -22016,14 +21956,14 @@
 	    // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
 	    isCallable$b(NewTarget = dummy.constructor) &&
 	    NewTarget !== Wrapper &&
-	    isObject$m(NewTargetPrototype = NewTarget.prototype) &&
+	    isObject$o(NewTargetPrototype = NewTarget.prototype) &&
 	    NewTargetPrototype !== Wrapper.prototype
 	  ) setPrototypeOf$5($this, NewTargetPrototype);
 	  return $this;
 	};
 
-	var $$2p = _export$1;
-	var global$_ = global$1A;
+	var $$2q = _export$1;
+	var global$10 = global$1A;
 	var uncurryThis$W = functionUncurryThis$1;
 	var isForced$2 = isForced_1$1;
 	var redefine$b = redefine$k.exports;
@@ -22031,8 +21971,8 @@
 	var iterate$6 = iterate$9;
 	var anInstance$6 = anInstance$9;
 	var isCallable$a = isCallable$G;
-	var isObject$l = isObject$z;
-	var fails$R = fails$16;
+	var isObject$n = isObject$z;
+	var fails$T = fails$16;
 	var checkCorrectnessOfIteration$2 = checkCorrectnessOfIteration$6;
 	var setToStringTag$7 = setToStringTag$c;
 	var inheritIfRequired$3 = inheritIfRequired$4;
@@ -22041,7 +21981,7 @@
 	  var IS_MAP = CONSTRUCTOR_NAME.indexOf('Map') !== -1;
 	  var IS_WEAK = CONSTRUCTOR_NAME.indexOf('Weak') !== -1;
 	  var ADDER = IS_MAP ? 'set' : 'add';
-	  var NativeConstructor = global$_[CONSTRUCTOR_NAME];
+	  var NativeConstructor = global$10[CONSTRUCTOR_NAME];
 	  var NativePrototype = NativeConstructor && NativeConstructor.prototype;
 	  var Constructor = NativeConstructor;
 	  var exported = {};
@@ -22053,11 +21993,11 @@
 	        uncurriedNativeMethod(this, value === 0 ? 0 : value);
 	        return this;
 	      } : KEY == 'delete' ? function (key) {
-	        return IS_WEAK && !isObject$l(key) ? false : uncurriedNativeMethod(this, key === 0 ? 0 : key);
+	        return IS_WEAK && !isObject$n(key) ? false : uncurriedNativeMethod(this, key === 0 ? 0 : key);
 	      } : KEY == 'get' ? function get(key) {
-	        return IS_WEAK && !isObject$l(key) ? undefined : uncurriedNativeMethod(this, key === 0 ? 0 : key);
+	        return IS_WEAK && !isObject$n(key) ? undefined : uncurriedNativeMethod(this, key === 0 ? 0 : key);
 	      } : KEY == 'has' ? function has(key) {
-	        return IS_WEAK && !isObject$l(key) ? false : uncurriedNativeMethod(this, key === 0 ? 0 : key);
+	        return IS_WEAK && !isObject$n(key) ? false : uncurriedNativeMethod(this, key === 0 ? 0 : key);
 	      } : function set(key, value) {
 	        uncurriedNativeMethod(this, key === 0 ? 0 : key, value);
 	        return this;
@@ -22067,7 +22007,7 @@
 
 	  var REPLACE = isForced$2(
 	    CONSTRUCTOR_NAME,
-	    !isCallable$a(NativeConstructor) || !(IS_WEAK || NativePrototype.forEach && !fails$R(function () {
+	    !isCallable$a(NativeConstructor) || !(IS_WEAK || NativePrototype.forEach && !fails$T(function () {
 	      new NativeConstructor().entries().next();
 	    }))
 	  );
@@ -22081,12 +22021,12 @@
 	    // early implementations not supports chaining
 	    var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
 	    // V8 ~ Chromium 40- weak-collections throws on primitives, but should return false
-	    var THROWS_ON_PRIMITIVES = fails$R(function () { instance.has(1); });
+	    var THROWS_ON_PRIMITIVES = fails$T(function () { instance.has(1); });
 	    // most early implementations doesn't supports iterables, most modern - not close it correctly
 	    // eslint-disable-next-line no-new -- required for testing
 	    var ACCEPT_ITERABLES = checkCorrectnessOfIteration$2(function (iterable) { new NativeConstructor(iterable); });
 	    // for early implementations -0 and +0 not the same
-	    var BUGGY_ZERO = !IS_WEAK && fails$R(function () {
+	    var BUGGY_ZERO = !IS_WEAK && fails$T(function () {
 	      // V8 ~ Chromium 42- fails only with 5+ elements
 	      var $instance = new NativeConstructor();
 	      var index = 5;
@@ -22118,7 +22058,7 @@
 	  }
 
 	  exported[CONSTRUCTOR_NAME] = Constructor;
-	  $$2p({ global: true, forced: Constructor != NativeConstructor }, exported);
+	  $$2q({ global: true, forced: Constructor != NativeConstructor }, exported);
 
 	  setToStringTag$7(Constructor, CONSTRUCTOR_NAME);
 
@@ -22127,12 +22067,53 @@
 	  return Constructor;
 	};
 
+	var classof$a = classofRaw$3;
+
+	// `IsArray` abstract operation
+	// https://tc39.es/ecma262/#sec-isarray
+	// eslint-disable-next-line es/no-array-isarray -- safe
+	var isArray$7 = Array.isArray || function isArray(argument) {
+	  return classof$a(argument) == 'Array';
+	};
+
+	var global$$ = global$1A;
+	var isArray$6 = isArray$7;
+	var isConstructor$3 = isConstructor$7;
+	var isObject$m = isObject$z;
+	var wellKnownSymbol$k = wellKnownSymbol$C;
+
+	var SPECIES$3 = wellKnownSymbol$k('species');
+	var Array$8 = global$$.Array;
+
+	// a part of `ArraySpeciesCreate` abstract operation
+	// https://tc39.es/ecma262/#sec-arrayspeciescreate
+	var arraySpeciesConstructor$1 = function (originalArray) {
+	  var C;
+	  if (isArray$6(originalArray)) {
+	    C = originalArray.constructor;
+	    // cross-realm fallback
+	    if (isConstructor$3(C) && (C === Array$8 || isArray$6(C.prototype))) C = undefined;
+	    else if (isObject$m(C)) {
+	      C = C[SPECIES$3];
+	      if (C === null) C = undefined;
+	    }
+	  } return C === undefined ? Array$8 : C;
+	};
+
+	var arraySpeciesConstructor = arraySpeciesConstructor$1;
+
+	// `ArraySpeciesCreate` abstract operation
+	// https://tc39.es/ecma262/#sec-arrayspeciescreate
+	var arraySpeciesCreate$5 = function (originalArray, length) {
+	  return new (arraySpeciesConstructor(originalArray))(length === 0 ? 0 : length);
+	};
+
 	var bind$8 = functionBindContext$1;
 	var uncurryThis$V = functionUncurryThis$1;
 	var IndexedObject$3 = indexedObject$1;
-	var toObject$m = toObject$r;
-	var lengthOfArrayLike$g = lengthOfArrayLike$l;
-	var arraySpeciesCreate$3 = arraySpeciesCreate$6;
+	var toObject$n = toObject$r;
+	var lengthOfArrayLike$h = lengthOfArrayLike$l;
+	var arraySpeciesCreate$4 = arraySpeciesCreate$5;
 
 	var push$b = uncurryThis$V([].push);
 
@@ -22146,12 +22127,12 @@
 	  var IS_FILTER_REJECT = TYPE == 7;
 	  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
 	  return function ($this, callbackfn, that, specificCreate) {
-	    var O = toObject$m($this);
+	    var O = toObject$n($this);
 	    var self = IndexedObject$3(O);
 	    var boundFunction = bind$8(callbackfn, that);
-	    var length = lengthOfArrayLike$g(self);
+	    var length = lengthOfArrayLike$h(self);
 	    var index = 0;
-	    var create = specificCreate || arraySpeciesCreate$3;
+	    var create = specificCreate || arraySpeciesCreate$4;
 	    var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_REJECT ? create($this, 0) : undefined;
 	    var value, result;
 	    for (;length > index; index++) if (NO_HOLES || index in self) {
@@ -22205,7 +22186,7 @@
 	var redefineAll$4 = redefineAll$7;
 	var getWeakData = internalMetadata.exports.getWeakData;
 	var anObject$o = anObject$A;
-	var isObject$k = isObject$z;
+	var isObject$l = isObject$z;
 	var anInstance$5 = anInstance$9;
 	var iterate$5 = iterate$9;
 	var ArrayIterationModule = arrayIteration;
@@ -22286,7 +22267,7 @@
 	      // https://tc39.es/ecma262/#sec-weakset.prototype.delete
 	      'delete': function (key) {
 	        var state = getInternalState(this);
-	        if (!isObject$k(key)) return false;
+	        if (!isObject$l(key)) return false;
 	        var data = getWeakData(key);
 	        if (data === true) return uncaughtFrozenStore(state)['delete'](key);
 	        return data && hasOwn$d(data, state.id) && delete data[state.id];
@@ -22296,7 +22277,7 @@
 	      // https://tc39.es/ecma262/#sec-weakset.prototype.has
 	      has: function has(key) {
 	        var state = getInternalState(this);
-	        if (!isObject$k(key)) return false;
+	        if (!isObject$l(key)) return false;
 	        var data = getWeakData(key);
 	        if (data === true) return uncaughtFrozenStore(state).has(key);
 	        return data && hasOwn$d(data, state.id);
@@ -22308,7 +22289,7 @@
 	      // https://tc39.es/ecma262/#sec-weakmap.prototype.get
 	      get: function get(key) {
 	        var state = getInternalState(this);
-	        if (isObject$k(key)) {
+	        if (isObject$l(key)) {
 	          var data = getWeakData(key);
 	          if (data === true) return uncaughtFrozenStore(state).get(key);
 	          return data ? data[state.id] : undefined;
@@ -22331,18 +22312,18 @@
 	  }
 	};
 
-	var global$Z = global$1A;
+	var global$_ = global$1A;
 	var uncurryThis$T = functionUncurryThis$1;
 	var redefineAll$3 = redefineAll$7;
 	var InternalMetadataModule = internalMetadata.exports;
 	var collection$3 = collection$4;
 	var collectionWeak$1 = collectionWeak$2;
-	var isObject$j = isObject$z;
+	var isObject$k = isObject$z;
 	var isExtensible = objectIsExtensible;
 	var enforceIternalState = internalState$1.enforce;
 	var NATIVE_WEAK_MAP = nativeWeakMap$1;
 
-	var IS_IE11 = !global$Z.ActiveXObject && 'ActiveXObject' in global$Z;
+	var IS_IE11 = !global$_.ActiveXObject && 'ActiveXObject' in global$_;
 	var InternalWeakMap;
 
 	var wrapper = function (init) {
@@ -22368,28 +22349,28 @@
 	  var nativeSet = uncurryThis$T(WeakMapPrototype.set);
 	  redefineAll$3(WeakMapPrototype, {
 	    'delete': function (key) {
-	      if (isObject$j(key) && !isExtensible(key)) {
+	      if (isObject$k(key) && !isExtensible(key)) {
 	        var state = enforceIternalState(this);
 	        if (!state.frozen) state.frozen = new InternalWeakMap();
 	        return nativeDelete(this, key) || state.frozen['delete'](key);
 	      } return nativeDelete(this, key);
 	    },
 	    has: function has(key) {
-	      if (isObject$j(key) && !isExtensible(key)) {
+	      if (isObject$k(key) && !isExtensible(key)) {
 	        var state = enforceIternalState(this);
 	        if (!state.frozen) state.frozen = new InternalWeakMap();
 	        return nativeHas(this, key) || state.frozen.has(key);
 	      } return nativeHas(this, key);
 	    },
 	    get: function get(key) {
-	      if (isObject$j(key) && !isExtensible(key)) {
+	      if (isObject$k(key) && !isExtensible(key)) {
 	        var state = enforceIternalState(this);
 	        if (!state.frozen) state.frozen = new InternalWeakMap();
 	        return nativeHas(this, key) ? nativeGet(this, key) : state.frozen.get(key);
 	      } return nativeGet(this, key);
 	    },
 	    set: function set(key, value) {
-	      if (isObject$j(key) && !isExtensible(key)) {
+	      if (isObject$k(key) && !isExtensible(key)) {
 	        var state = enforceIternalState(this);
 	        if (!state.frozen) state.frozen = new InternalWeakMap();
 	        nativeHas(this, key) ? nativeSet(this, key, value) : state.frozen.set(key, value);
@@ -22443,15 +22424,15 @@
 
 	var domTokenListPrototype = DOMTokenListPrototype$2 === Object.prototype ? undefined : DOMTokenListPrototype$2;
 
-	var global$Y = global$1A;
+	var global$Z = global$1A;
 	var DOMIterables$1 = domIterables;
 	var DOMTokenListPrototype$1 = domTokenListPrototype;
 	var ArrayIteratorMethods = es_array_iterator;
 	var createNonEnumerableProperty$8 = createNonEnumerableProperty$e;
-	var wellKnownSymbol$h = wellKnownSymbol$F;
+	var wellKnownSymbol$j = wellKnownSymbol$C;
 
-	var ITERATOR$5 = wellKnownSymbol$h('iterator');
-	var TO_STRING_TAG$2 = wellKnownSymbol$h('toStringTag');
+	var ITERATOR$5 = wellKnownSymbol$j('iterator');
+	var TO_STRING_TAG$2 = wellKnownSymbol$j('toStringTag');
 	var ArrayValues = ArrayIteratorMethods.values;
 
 	var handlePrototype$1 = function (CollectionPrototype, COLLECTION_NAME) {
@@ -22477,7 +22458,7 @@
 	};
 
 	for (var COLLECTION_NAME$1 in DOMIterables$1) {
-	  handlePrototype$1(global$Y[COLLECTION_NAME$1] && global$Y[COLLECTION_NAME$1].prototype, COLLECTION_NAME$1);
+	  handlePrototype$1(global$Z[COLLECTION_NAME$1] && global$Z[COLLECTION_NAME$1].prototype, COLLECTION_NAME$1);
 	}
 
 	handlePrototype$1(DOMTokenListPrototype$1, 'DOMTokenList');
@@ -22522,10 +22503,6 @@
 	    _defineProperty$1(_assertThisInitialized$1(_this), "surveySection", void 0);
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "leftPanelBaseRoute", '');
-
-	    _defineProperty$1(_assertThisInitialized$1(_this), "coreSurveyFields", ['primaryname', 'email']);
-
-	    _defineProperty$1(_assertThisInitialized$1(_this), "coreSurveyFieldCache", []);
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "viewContexts", {
 	      /**
@@ -22578,11 +22555,13 @@
 	    view.addListener(MainController.EVENT_DELETE_OCCURRENCE, _this.deleteOccurrenceHandler.bind(_assertThisInitialized$1(_this)));
 	    view.addListener(MainController.EVENT_BACK, _this.backHandler.bind(_assertThisInitialized$1(_this)));
 	    view.addListener(MainController.EVENT_NEXT_TO_RECORDS, _this.nextTransitionToRecordsHandler.bind(_assertThisInitialized$1(_this)));
-
-	    _this.initialiseSurveyFieldsMirror();
-
 	    return _this;
 	  }
+	  /**
+	   * handler for event fired on and by view when 'next section' button has been click, leading to the records section
+	   * this will expand the list of records, or if none exist, add a first one and open it
+	   */
+
 
 	  _createClass$1(MainController, [{
 	    key: "occurrences",
@@ -22697,70 +22676,6 @@
 	    get: function get() {
 	      return this.app.currentSurvey;
 	    }
-	  }, {
-	    key: "initialiseSurveyFieldsMirror",
-	    value:
-	    /**
-	     * Sets handlers to allow certain survey fields to be duplicated from last current survey to new survey
-	     * used for email address and primary recorder name
-	     */
-	    function initialiseSurveyFieldsMirror() {
-	      var _this2 = this;
-
-	      this.app.addListener(App.EVENT_NEW_SURVEY, function () {
-	        console.log('Try to initialise core fields of new survey.');
-
-	        if (_this2.coreSurveyFieldCache) {
-	          console.log({
-	            'Using cached survey values': _this2.coreSurveyFieldCache
-	          });
-
-	          var _iterator = _createForOfIteratorHelper$7(_this2.coreSurveyFields),
-	              _step;
-
-	          try {
-	            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-	              var key = _step.value;
-	              _this2.app.currentSurvey.attributes[key] = _this2.coreSurveyFieldCache[key];
-	            }
-	          } catch (err) {
-	            _iterator.e(err);
-	          } finally {
-	            _iterator.f();
-	          }
-	        }
-	      });
-	      this.app.addListener(App.EVENT_SURVEYS_CHANGED, function () {
-	        if (_this2.app.currentSurvey && !_this2.app.currentSurvey.isNew) {
-	          var _iterator2 = _createForOfIteratorHelper$7(_this2.coreSurveyFields),
-	              _step2;
-
-	          try {
-	            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-	              var key = _step2.value;
-	              _this2.coreSurveyFieldCache[key] = _this2.app.currentSurvey.attributes[key];
-	            }
-	          } catch (err) {
-	            _iterator2.e(err);
-	          } finally {
-	            _iterator2.f();
-	          }
-
-	          console.log({
-	            'Saved core survey fields': _this2.coreSurveyFieldCache
-	          });
-	        }
-	      });
-	      this.app.addListener(App.EVENT_RESET_SURVEYS, function () {
-	        _this2.coreSurveyFieldCache = [];
-	        console.log('Have reset core survey field cache.');
-	      });
-	    }
-	    /**
-	     * handler for event fired on and by view when 'next section' button has been click, leading to the records section
-	     * this will expand the list of records, or if none exist, add a first one and open it
-	     */
-
 	  }, {
 	    key: "nextTransitionToRecordsHandler",
 	    value: function nextTransitionToRecordsHandler() {
@@ -22968,6 +22883,99 @@
 	_defineProperty$1(MainController, "EVENT_BACK", 'back');
 
 	_defineProperty$1(MainController, "EVENT_NEXT_TO_RECORDS", 'nexttorecords');
+
+	var toPropertyKey$5 = toPropertyKey$9;
+	var definePropertyModule$7 = objectDefineProperty$1;
+	var createPropertyDescriptor$6 = createPropertyDescriptor$b;
+
+	var createProperty$7 = function (object, key, value) {
+	  var propertyKey = toPropertyKey$5(key);
+	  if (propertyKey in object) definePropertyModule$7.f(object, propertyKey, createPropertyDescriptor$6(0, value));
+	  else object[propertyKey] = value;
+	};
+
+	var fails$S = fails$16;
+	var wellKnownSymbol$i = wellKnownSymbol$C;
+	var V8_VERSION$1 = engineV8Version$1;
+
+	var SPECIES$2 = wellKnownSymbol$i('species');
+
+	var arrayMethodHasSpeciesSupport$5 = function (METHOD_NAME) {
+	  // We can't use this feature detection in V8 since it causes
+	  // deoptimization and serious performance degradation
+	  // https://github.com/zloirock/core-js/issues/677
+	  return V8_VERSION$1 >= 51 || !fails$S(function () {
+	    var array = [];
+	    var constructor = array.constructor = {};
+	    constructor[SPECIES$2] = function () {
+	      return { foo: 1 };
+	    };
+	    return array[METHOD_NAME](Boolean).foo !== 1;
+	  });
+	};
+
+	var $$2p = _export$1;
+	var global$Y = global$1A;
+	var fails$R = fails$16;
+	var isArray$5 = isArray$7;
+	var isObject$j = isObject$z;
+	var toObject$m = toObject$r;
+	var lengthOfArrayLike$g = lengthOfArrayLike$l;
+	var createProperty$6 = createProperty$7;
+	var arraySpeciesCreate$3 = arraySpeciesCreate$5;
+	var arrayMethodHasSpeciesSupport$4 = arrayMethodHasSpeciesSupport$5;
+	var wellKnownSymbol$h = wellKnownSymbol$C;
+	var V8_VERSION = engineV8Version$1;
+
+	var IS_CONCAT_SPREADABLE = wellKnownSymbol$h('isConcatSpreadable');
+	var MAX_SAFE_INTEGER$1 = 0x1FFFFFFFFFFFFF;
+	var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
+	var TypeError$g = global$Y.TypeError;
+
+	// We can't use this feature detection in V8 since it causes
+	// deoptimization and serious performance degradation
+	// https://github.com/zloirock/core-js/issues/679
+	var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION >= 51 || !fails$R(function () {
+	  var array = [];
+	  array[IS_CONCAT_SPREADABLE] = false;
+	  return array.concat()[0] !== array;
+	});
+
+	var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport$4('concat');
+
+	var isConcatSpreadable = function (O) {
+	  if (!isObject$j(O)) return false;
+	  var spreadable = O[IS_CONCAT_SPREADABLE];
+	  return spreadable !== undefined ? !!spreadable : isArray$5(O);
+	};
+
+	var FORCED$r = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
+
+	// `Array.prototype.concat` method
+	// https://tc39.es/ecma262/#sec-array.prototype.concat
+	// with adding support of @@isConcatSpreadable and @@species
+	$$2p({ target: 'Array', proto: true, forced: FORCED$r }, {
+	  // eslint-disable-next-line no-unused-vars -- required for `.length`
+	  concat: function concat(arg) {
+	    var O = toObject$m(this);
+	    var A = arraySpeciesCreate$3(O, 0);
+	    var n = 0;
+	    var i, k, length, len, E;
+	    for (i = -1, length = arguments.length; i < length; i++) {
+	      E = i === -1 ? O : arguments[i];
+	      if (isConcatSpreadable(E)) {
+	        len = lengthOfArrayLike$g(E);
+	        if (n + len > MAX_SAFE_INTEGER$1) throw TypeError$g(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+	        for (k = 0; k < len; k++, n++) if (k in E) createProperty$6(A, n, E[k]);
+	      } else {
+	        if (n >= MAX_SAFE_INTEGER$1) throw TypeError$g(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+	        createProperty$6(A, n++, E);
+	      }
+	    }
+	    A.length = n;
+	    return A;
+	  }
+	});
 
 	var collection$2 = collection$4;
 	var collectionWeak = collectionWeak$2;
@@ -23400,7 +23408,7 @@
 
 	var $$2m = _export$1;
 	var $map$1 = arrayIteration.map;
-	var arrayMethodHasSpeciesSupport$3 = arrayMethodHasSpeciesSupport$8;
+	var arrayMethodHasSpeciesSupport$3 = arrayMethodHasSpeciesSupport$5;
 
 	var HAS_SPECIES_SUPPORT$3 = arrayMethodHasSpeciesSupport$3('map');
 
@@ -28863,7 +28871,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638394032</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638395150</p>";
 	    }
 	  }]);
 
@@ -28898,7 +28906,7 @@
 
 	var wellKnownSymbolWrapped = {};
 
-	var wellKnownSymbol$g = wellKnownSymbol$F;
+	var wellKnownSymbol$g = wellKnownSymbol$C;
 
 	wellKnownSymbolWrapped.f = wellKnownSymbol$g;
 
@@ -28928,7 +28936,7 @@
 	var NATIVE_SYMBOL$1 = nativeSymbol$1;
 	var fails$N = fails$16;
 	var hasOwn$b = hasOwnProperty_1$1;
-	var isArray$4 = isArray$8;
+	var isArray$4 = isArray$7;
 	var isCallable$9 = isCallable$G;
 	var isObject$i = isObject$z;
 	var isPrototypeOf$8 = objectIsPrototypeOf$1;
@@ -28953,7 +28961,7 @@
 	var sharedKey = sharedKey$7;
 	var hiddenKeys = hiddenKeys$b;
 	var uid$1 = uid$8;
-	var wellKnownSymbol$f = wellKnownSymbol$F;
+	var wellKnownSymbol$f = wellKnownSymbol$C;
 	var wrappedWellKnownSymbolModule = wellKnownSymbolWrapped;
 	var defineWellKnownSymbol$d = defineWellKnownSymbol$e;
 	var setToStringTag$6 = setToStringTag$c;
@@ -29437,7 +29445,7 @@
 	var installErrorCause = installErrorCause$1;
 	var iterate$4 = iterate$9;
 	var normalizeStringArgument = normalizeStringArgument$1;
-	var wellKnownSymbol$e = wellKnownSymbol$F;
+	var wellKnownSymbol$e = wellKnownSymbol$C;
 	var ERROR_STACK_INSTALLABLE = errorStackInstallable;
 
 	var TO_STRING_TAG$1 = wellKnownSymbol$e('toStringTag');
@@ -29587,7 +29595,7 @@
 
 	var $$2d = _export$1;
 	var $filter$1 = arrayIteration.filter;
-	var arrayMethodHasSpeciesSupport$2 = arrayMethodHasSpeciesSupport$8;
+	var arrayMethodHasSpeciesSupport$2 = arrayMethodHasSpeciesSupport$5;
 
 	var HAS_SPECIES_SUPPORT$2 = arrayMethodHasSpeciesSupport$2('filter');
 
@@ -29643,7 +29651,7 @@
 	addToUnscopables$3(FIND_INDEX);
 
 	var global$S = global$1A;
-	var isArray$3 = isArray$8;
+	var isArray$3 = isArray$7;
 	var lengthOfArrayLike$b = lengthOfArrayLike$l;
 	var bind$7 = functionBindContext$1;
 
@@ -29683,7 +29691,7 @@
 	var toObject$g = toObject$r;
 	var lengthOfArrayLike$a = lengthOfArrayLike$l;
 	var toIntegerOrInfinity$c = toIntegerOrInfinity$i;
-	var arraySpeciesCreate$2 = arraySpeciesCreate$6;
+	var arraySpeciesCreate$2 = arraySpeciesCreate$5;
 
 	// `Array.prototype.flat` method
 	// https://tc39.es/ecma262/#sec-array.prototype.flat
@@ -29703,7 +29711,7 @@
 	var aCallable$8 = aCallable$g;
 	var toObject$f = toObject$r;
 	var lengthOfArrayLike$9 = lengthOfArrayLike$l;
-	var arraySpeciesCreate$1 = arraySpeciesCreate$6;
+	var arraySpeciesCreate$1 = arraySpeciesCreate$5;
 
 	// `Array.prototype.flatMap` method
 	// https://tc39.es/ecma262/#sec-array.prototype.flatmap
@@ -29747,9 +29755,9 @@
 	var toObject$e = toObject$r;
 	var callWithSafeIterationClosing = callWithSafeIterationClosing$1;
 	var isArrayIteratorMethod$1 = isArrayIteratorMethod$5;
-	var isConstructor$2 = isConstructor$8;
+	var isConstructor$2 = isConstructor$7;
 	var lengthOfArrayLike$8 = lengthOfArrayLike$l;
-	var createProperty$5 = createProperty$8;
+	var createProperty$5 = createProperty$7;
 	var getIterator$2 = getIterator$5;
 	var getIteratorMethod$2 = getIteratorMethod$7;
 
@@ -29842,7 +29850,7 @@
 	});
 
 	var $$24 = _export$1;
-	var isArray$2 = isArray$8;
+	var isArray$2 = isArray$7;
 
 	// `Array.isArray` method
 	// https://tc39.es/ecma262/#sec-array.isarray
@@ -29890,8 +29898,8 @@
 	var $$22 = _export$1;
 	var global$Q = global$1A;
 	var fails$L = fails$16;
-	var isConstructor$1 = isConstructor$8;
-	var createProperty$4 = createProperty$8;
+	var isConstructor$1 = isConstructor$7;
+	var createProperty$4 = createProperty$7;
 
 	var Array$6 = global$Q.Array;
 
@@ -29999,7 +30007,7 @@
 
 	var $$1$ = _export$1;
 	var uncurryThis$K = functionUncurryThis$1;
-	var isArray$1 = isArray$8;
+	var isArray$1 = isArray$7;
 
 	var un$Reverse = uncurryThis$K([].reverse);
 	var test = [1, 2];
@@ -30018,15 +30026,15 @@
 
 	var $$1_ = _export$1;
 	var global$O = global$1A;
-	var isArray = isArray$8;
-	var isConstructor = isConstructor$8;
+	var isArray = isArray$7;
+	var isConstructor = isConstructor$7;
 	var isObject$g = isObject$z;
 	var toAbsoluteIndex$4 = toAbsoluteIndex$9;
 	var lengthOfArrayLike$5 = lengthOfArrayLike$l;
 	var toIndexedObject$4 = toIndexedObject$g;
-	var createProperty$3 = createProperty$8;
-	var wellKnownSymbol$d = wellKnownSymbol$F;
-	var arrayMethodHasSpeciesSupport$1 = arrayMethodHasSpeciesSupport$8;
+	var createProperty$3 = createProperty$7;
+	var wellKnownSymbol$d = wellKnownSymbol$C;
+	var arrayMethodHasSpeciesSupport$1 = arrayMethodHasSpeciesSupport$5;
 	var un$Slice = arraySlice$e;
 
 	var HAS_SPECIES_SUPPORT$1 = arrayMethodHasSpeciesSupport$1('slice');
@@ -30092,9 +30100,9 @@
 	var toIntegerOrInfinity$a = toIntegerOrInfinity$i;
 	var lengthOfArrayLike$4 = lengthOfArrayLike$l;
 	var toObject$c = toObject$r;
-	var arraySpeciesCreate = arraySpeciesCreate$6;
-	var createProperty$2 = createProperty$8;
-	var arrayMethodHasSpeciesSupport = arrayMethodHasSpeciesSupport$8;
+	var arraySpeciesCreate = arraySpeciesCreate$5;
+	var createProperty$2 = createProperty$7;
+	var arrayMethodHasSpeciesSupport = arrayMethodHasSpeciesSupport$5;
 
 	var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('splice');
 
@@ -30549,7 +30557,7 @@
 	var isCallable$7 = isCallable$G;
 	var isObject$f = isObject$z;
 	var hasOwn$9 = hasOwnProperty_1$1;
-	var classof$9 = classof$m;
+	var classof$9 = classof$l;
 	var tryToString = tryToString$a;
 	var createNonEnumerableProperty$3 = createNonEnumerableProperty$e;
 	var redefine$9 = redefine$k.exports;
@@ -30557,7 +30565,7 @@
 	var isPrototypeOf$5 = objectIsPrototypeOf$1;
 	var getPrototypeOf$5 = objectGetPrototypeOf$1;
 	var setPrototypeOf$2 = objectSetPrototypeOf$2;
-	var wellKnownSymbol$c = wellKnownSymbol$F;
+	var wellKnownSymbol$c = wellKnownSymbol$C;
 	var uid = uid$8;
 
 	var Int8Array$3 = global$I.Int8Array;
@@ -30984,7 +30992,7 @@
 	var hasOwn$8 = hasOwnProperty_1$1;
 	var redefine$8 = redefine$k.exports;
 	var dateToPrimitive = dateToPrimitive$1;
-	var wellKnownSymbol$b = wellKnownSymbol$F;
+	var wellKnownSymbol$b = wellKnownSymbol$C;
 
 	var TO_PRIMITIVE = wellKnownSymbol$b('toPrimitive');
 	var DatePrototype$1 = Date.prototype;
@@ -31103,7 +31111,7 @@
 	var isObject$d = isObject$z;
 	var definePropertyModule$5 = objectDefineProperty$1;
 	var getPrototypeOf$4 = objectGetPrototypeOf$1;
-	var wellKnownSymbol$a = wellKnownSymbol$F;
+	var wellKnownSymbol$a = wellKnownSymbol$C;
 
 	var HAS_INSTANCE = wellKnownSymbol$a('hasInstance');
 	var FunctionPrototype = Function.prototype;
@@ -32349,7 +32357,7 @@
 
 	var $$19 = _export$1;
 	var iterate$2 = iterate$9;
-	var createProperty$1 = createProperty$8;
+	var createProperty$1 = createProperty$7;
 
 	// `Object.fromEntries` method
 	// https://github.com/tc39/proposal-object-from-entries
@@ -32385,7 +32393,7 @@
 	var ownKeys$1 = ownKeys$6;
 	var toIndexedObject$1 = toIndexedObject$g;
 	var getOwnPropertyDescriptorModule$4 = objectGetOwnPropertyDescriptor$1;
-	var createProperty = createProperty$8;
+	var createProperty = createProperty$7;
 
 	// `Object.getOwnPropertyDescriptors` method
 	// https://tc39.es/ecma262/#sec-object.getownpropertydescriptors
@@ -33045,7 +33053,7 @@
 
 	var isObject$3 = isObject$z;
 	var classof$6 = classofRaw$3;
-	var wellKnownSymbol$9 = wellKnownSymbol$F;
+	var wellKnownSymbol$9 = wellKnownSymbol$C;
 
 	var MATCH$2 = wellKnownSymbol$9('match');
 
@@ -33134,7 +33142,7 @@
 	var hasOwn$3 = hasOwnProperty_1$1;
 	var enforceInternalState = internalState$1.enforce;
 	var setSpecies$1 = setSpecies$7;
-	var wellKnownSymbol$8 = wellKnownSymbol$F;
+	var wellKnownSymbol$8 = wellKnownSymbol$C;
 	var UNSUPPORTED_DOT_ALL$2 = regexpUnsupportedDotAll;
 	var UNSUPPORTED_NCG$1 = regexpUnsupportedNcg;
 
@@ -33637,7 +33645,7 @@
 	  } return it;
 	};
 
-	var wellKnownSymbol$7 = wellKnownSymbol$F;
+	var wellKnownSymbol$7 = wellKnownSymbol$C;
 
 	var MATCH = wellKnownSymbol$7('match');
 
@@ -33750,7 +33758,7 @@
 	var redefine$3 = redefine$k.exports;
 	var regexpExec$2 = regexpExec$3;
 	var fails$b = fails$16;
-	var wellKnownSymbol$6 = wellKnownSymbol$F;
+	var wellKnownSymbol$6 = wellKnownSymbol$C;
 	var createNonEnumerableProperty$1 = createNonEnumerableProperty$e;
 
 	var SPECIES = wellKnownSymbol$6('species');
@@ -33912,7 +33920,7 @@
 	var getMethod$4 = getMethod$c;
 	var redefine$2 = redefine$k.exports;
 	var fails$a = fails$16;
-	var wellKnownSymbol$5 = wellKnownSymbol$F;
+	var wellKnownSymbol$5 = wellKnownSymbol$C;
 	var speciesConstructor$2 = speciesConstructor$8;
 	var advanceStringIndex$2 = advanceStringIndex$4;
 	var regExpExec$2 = regexpExecAbstract;
@@ -34127,7 +34135,7 @@
 	var getMethod$3 = getMethod$c;
 	var getSubstitution$1 = getSubstitution$2;
 	var regExpExec$1 = regexpExecAbstract;
-	var wellKnownSymbol$4 = wellKnownSymbol$F;
+	var wellKnownSymbol$4 = wellKnownSymbol$C;
 
 	var REPLACE$1 = wellKnownSymbol$4('replace');
 	var max$2 = Math.max;
@@ -34259,7 +34267,7 @@
 	var getMethod$2 = getMethod$c;
 	var regExpFlags = regexpFlags$1;
 	var getSubstitution = getSubstitution$2;
-	var wellKnownSymbol$3 = wellKnownSymbol$F;
+	var wellKnownSymbol$3 = wellKnownSymbol$C;
 
 	var REPLACE = wellKnownSymbol$3('replace');
 	var RegExpPrototype = RegExp.prototype;
@@ -34901,7 +34909,7 @@
 	var toOffset$1 = toOffset$2;
 	var toPropertyKey = toPropertyKey$9;
 	var hasOwn$2 = hasOwnProperty_1$1;
-	var classof$1 = classof$m;
+	var classof$1 = classof$l;
 	var isObject$1 = isObject$z;
 	var isSymbol = isSymbol$7;
 	var create$1 = objectCreate;
@@ -35394,7 +35402,7 @@
 	var PROPER_FUNCTION_NAME = functionName$1.PROPER;
 	var ArrayBufferViewCore$d = arrayBufferViewCore;
 	var ArrayIterators = es_array_iterator;
-	var wellKnownSymbol$2 = wellKnownSymbol$F;
+	var wellKnownSymbol$2 = wellKnownSymbol$C;
 
 	var ITERATOR$2 = wellKnownSymbol$2('iterator');
 	var Uint8Array$2 = global$c.Uint8Array;
@@ -35855,7 +35863,7 @@
 	});
 
 	var fails = fails$16;
-	var wellKnownSymbol$1 = wellKnownSymbol$F;
+	var wellKnownSymbol$1 = wellKnownSymbol$C;
 	var IS_PURE = isPure$1;
 
 	var ITERATOR$1 = wellKnownSymbol$1('iterator');
@@ -36085,7 +36093,7 @@
 	var isCallable = isCallable$G;
 	var hasOwn$1 = hasOwnProperty_1$1;
 	var bind$1 = functionBindContext$1;
-	var classof = classof$m;
+	var classof = classof$l;
 	var anObject = anObject$A;
 	var isObject = isObject$z;
 	var $toString$1 = toString$r;
@@ -36093,7 +36101,7 @@
 	var createPropertyDescriptor = createPropertyDescriptor$b;
 	var getIterator = getIterator$5;
 	var getIteratorMethod = getIteratorMethod$7;
-	var wellKnownSymbol = wellKnownSymbol$F;
+	var wellKnownSymbol = wellKnownSymbol$C;
 	var arraySort = arraySort$1;
 
 	var ITERATOR = wellKnownSymbol('iterator');
