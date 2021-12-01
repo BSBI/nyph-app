@@ -177,16 +177,28 @@ export class MapMarker {
         this.definition.name = newName;
 
         let source = map.getSource(this.markerId);
-        source.setData({
-            'type': 'Feature',
-            "properties": {"name": this.definition.name},
-            'geometry': {
-                'type': 'Polygon',
-                'coordinates': this.definition.coordinates // each shape consists of array pairs of lat/lng wrapped in an array, with outer array ?for multiple polygons (i.e. three levels of array nesting)
-            }});
 
-        if (!this.visible) {
-            this._addPolygonMarkerLayersToMap(map);
+        if (source) {
+            try {
+                source.setData({
+                    'type': 'Feature',
+                    "properties": {"name": this.definition.name},
+                    'geometry': {
+                        'type': 'Polygon',
+                        'coordinates': this.definition.coordinates // each shape consists of array pairs of lat/lng wrapped in an array, with outer array ?for multiple polygons (i.e. three levels of array nesting)
+                    }
+                });
+
+                if (!this.visible) {
+                    this._addPolygonMarkerLayersToMap(map);
+                }
+            } catch (e) {
+                console.error({'Exception in MapMarker.updateCoordinates': e});
+            }
+        } else {
+            // this may happen if the map isn't ready yet before a marker is set or moved
+            // however the marker should eventually go in
+            console.error('Source is null in MapMarker.updateCoordinates');
         }
     }
 

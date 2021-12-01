@@ -323,7 +323,7 @@ export class MapGeorefField extends TextGeorefField {
                 }
             }
 
-            survey.addListener(Survey.EVENT_MODIFIED, (param) => {
+            survey.addListener(Survey.EVENT_MODIFIED, () => {
                 const newGeoRef = survey.geoReference;
 
                 if (newGeoRef && newGeoRef.gridRef) {
