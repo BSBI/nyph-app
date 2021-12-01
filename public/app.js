@@ -26934,7 +26934,7 @@
 	          _this2._tryDefaultGeoreferenceFromSurvey(params.survey, true);
 	        }
 	      });
-	      this.parentForm.addListener(Form.EVENT_INITIALISE_NEW, function (
+	      this.parentForm.addListener(Form.EVENT_INITIALISED, function (
 	      /** @type {{[survey] : Survey}} */
 	      params) {
 	        console.log('Handling re-initialisation of new MapGeoRefField.'); // set the geo-ref field placeholder to match the survey grid-ref and center the map there if no grid-ref has been specified
@@ -27104,7 +27104,7 @@
 	        13: 100,
 	        14: 100,
 	        15: 10
-	      }[zoom];
+	      }[Math.round(zoom)];
 	    }
 	    /**
 	     * Start observing visibility of element. On change, the
@@ -28871,7 +28871,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638395150</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638395761</p>";
 	    }
 	  }]);
 

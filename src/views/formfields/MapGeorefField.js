@@ -291,7 +291,7 @@ export class MapGeorefField extends TextGeorefField {
             }
         });
 
-        this.parentForm.addListener(Form.EVENT_INITIALISE_NEW, (/** @type {{[survey] : Survey}} */ params) => {
+        this.parentForm.addListener(Form.EVENT_INITIALISED, (/** @type {{[survey] : Survey}} */ params) => {
             console.log('Handling re-initialisation of new MapGeoRefField.');
 
             // set the geo-ref field placeholder to match the survey grid-ref and center the map there if no grid-ref has been specified
@@ -442,7 +442,7 @@ export class MapGeorefField extends TextGeorefField {
             13: 100,
             14: 100,
             15: 10,
-        }[zoom];
+        }[Math.round(zoom)];
     }
 
     /**
