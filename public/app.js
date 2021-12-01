@@ -14654,7 +14654,7 @@
 	  }, {
 	    key: "generateSurveyName",
 	    value: function generateSurveyName() {
-	      var place = (this.attributes.place || this.attributes.georef.gridRef || '(unlocalised)').trim();
+	      var place = (this.attributes.place || this.attributes.georef && this.attributes.georef.gridRef || '(unlocalised)').trim();
 	      var createdDate = new Date(this.createdStamp * 1000);
 	      var dateString;
 
@@ -15784,6 +15784,8 @@
 
 	    _defineProperty(_assertThisInitialized(_this), "newSurveyLabel", 'new survey');
 
+	    _defineProperty(_assertThisInitialized(_this), "newSurveyContent", newSurveyModal);
+
 	    return _this;
 	  }
 
@@ -15823,7 +15825,7 @@
 
 	      this.refreshSurveysMenu();
 	      var modalContent = document.createElement('div');
-	      modalContent.innerHTML = newSurveyModal;
+	      modalContent.innerHTML = this.newSurveyContent;
 	      document.body.appendChild(modalContent.getElementsByTagName('div')[0]);
 	      modalContent = document.createElement('div');
 	      modalContent.innerHTML = resetModal;
@@ -26419,6 +26421,11 @@
 
 	  /**
 	   *
+	   * @type {Array<string>}
+	   */
+
+	  /**
+	   *
 	   * @param {{name : string,
 	   * type : string,
 	   * [coordinates] : Array,
@@ -26440,6 +26447,8 @@
 	    _defineProperty$1(this, "definition", void 0);
 
 	    _defineProperty$1(this, "visible", false);
+
+	    _defineProperty$1(this, "layerIds", []);
 
 	    this.markerId = "marker".concat(MapMarker._markerSerial++);
 
@@ -26531,14 +26540,16 @@
 	          paint['fill-opacity'] = this.definition.fillOpacity;
 	        }
 
+	        var fillLayerId = "".concat(this.markerId, "-fill");
 	        map.addLayer({
-	          'id': "".concat(this.markerId, "-fill"),
+	          'id': fillLayerId,
 	          'type': 'fill',
 	          'source': this.markerId,
 	          // reference the data source
 	          'layout': {},
 	          'paint': paint
 	        });
+	        this.layerIds.push(fillLayerId);
 	      }
 
 	      if (this.definition.lineColour) {
@@ -26554,14 +26565,16 @@
 	          _paint['line-width'] = this.definition.lineWidth;
 	        }
 
+	        var lineLayerId = "".concat(this.markerId, "-line");
 	        map.addLayer({
-	          'id': "".concat(this.markerId, "-line"),
+	          'id': lineLayerId,
 	          'type': 'line',
 	          'source': this.markerId,
 	          // reference the data source
 	          'layout': {},
 	          'paint': _paint
 	        });
+	        this.layerIds.push(lineLayerId);
 	      }
 
 	      this.visible = true;
@@ -26616,6 +26629,20 @@
 	  }, {
 	    key: "removeFromMap",
 	    value: function removeFromMap(map) {
+	      var _iterator = _createForOfIteratorHelper$7(this.layerIds),
+	          _step;
+
+	      try {
+	        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	          var layerId = _step.value;
+	          map.removeLayer(layerId);
+	        }
+	      } catch (err) {
+	        _iterator.e(err);
+	      } finally {
+	        _iterator.f();
+	      }
+
 	      map.removeSource(this.markerId);
 	      this.visible = false;
 	    }
@@ -27229,6 +27256,8 @@
 	    value: function hideSquareMarker() {
 	      if (this._squareMarker && this._squareMarker.visible) {
 	        this._squareMarker.removeFromMap(this.map);
+
+	        this._squareMarker = null;
 	      }
 	    }
 	    /**
@@ -28884,12 +28913,14 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638397354</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638399103</p>";
 	    }
 	  }]);
 
 	  return HelpView;
 	}(Page);
+
+	var nyphNewSurveyModal = "<!-- begin: templates/nyphNewSurveyModal.html -->\r\n<div class=\"modal fade\" id=\"newsurveymodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"newsurveymodalTitle\" aria-hidden=\"true\">\r\n    <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n            <div class=\"modal-header\">\r\n                <h5 class=\"modal-title\" id=\"newsurveymodalTitle\">Start a new survey?</h5>\r\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                Please confirm that you wish to start a new survey.\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Back</button>\r\n                <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" id=\"newsurveymodalconfirmed\">New survey</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<!-- end: templates/nyphNewSurveyModal.html -->\r\n";
 
 	var NyphLayout = /*#__PURE__*/function (_Layout) {
 	  _inherits$1(NyphLayout, _Layout);
@@ -28910,6 +28941,8 @@
 	    _defineProperty$1(_assertThisInitialized$1(_this), "surveysMenuId", 'surveysmenu');
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "newSurveyLabel", 'start new list');
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "newSurveyContent", nyphNewSurveyModal);
 
 	    return _this;
 	  }

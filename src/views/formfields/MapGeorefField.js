@@ -574,6 +574,7 @@ export class MapGeorefField extends TextGeorefField {
     hideSquareMarker() {
         if (this._squareMarker && this._squareMarker.visible) {
             this._squareMarker.removeFromMap(this.map);
+            this._squareMarker = null;
         }
     }
 

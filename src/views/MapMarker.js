@@ -32,6 +32,12 @@ export class MapMarker {
 
     /**
      *
+     * @type {Array<string>}
+     */
+    layerIds = [];
+
+    /**
+     *
      * @param {{name : string,
      * type : string,
      * [coordinates] : Array,
@@ -132,13 +138,16 @@ export class MapMarker {
                 paint['fill-opacity'] = this.definition.fillOpacity;
             }
 
+            const fillLayerId = `${this.markerId}-fill`;
             map.addLayer({
-                'id': `${this.markerId}-fill`,
+                'id': fillLayerId,
                 'type': 'fill',
                 'source': this.markerId, // reference the data source
                 'layout': {},
                 'paint': paint
             });
+
+            this.layerIds.push(fillLayerId);
         }
 
         if (this.definition.lineColour) {
@@ -154,13 +163,16 @@ export class MapMarker {
                 paint['line-width'] = this.definition.lineWidth;
             }
 
+            const lineLayerId = `${this.markerId}-line`;
             map.addLayer({
-                'id': `${this.markerId}-line`,
+                'id': lineLayerId,
                 'type': 'line',
                 'source': this.markerId, // reference the data source
                 'layout': {},
                 'paint': paint
             });
+
+            this.layerIds.push(lineLayerId);
         }
 
         this.visible = true;
@@ -207,6 +219,10 @@ export class MapMarker {
      * @param {mapboxgl.Map} map
      */
     removeFromMap(map) {
+        for (let layerId of this.layerIds) {
+            map.removeLayer(layerId);
+        }
+
         map.removeSource(this.markerId);
         this.visible = false;
     }
