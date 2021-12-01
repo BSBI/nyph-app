@@ -27060,7 +27060,7 @@
 	  return NyphSurveyFormSurveySection;
 	}(NyphSurveyFormSection);
 
-	_defineProperty$1(NyphSurveyFormSurveySection, "sectionNavigationKey", 'about');
+	_defineProperty$1(NyphSurveyFormSurveySection, "sectionNavigationKey", 'yoursurvey');
 
 	_defineProperty$1(NyphSurveyFormSurveySection, "sectionTitle", 'Your plant hunt');
 
@@ -28218,7 +28218,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638319032</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638319692</p>";
 	    }
 	  }]);
 

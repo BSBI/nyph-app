@@ -5,7 +5,7 @@ import {MapGeorefField} from "../formfields/MapGeorefField";
 
 export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
 
-    static sectionNavigationKey = 'about';
+    static sectionNavigationKey = 'yoursurvey';
 
     /**
      * @type {string}
