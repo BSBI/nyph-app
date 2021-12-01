@@ -239,6 +239,9 @@ export class MainView extends Page {
                 if (occurrence.isNew) {
                     console.log('Firing event for initialisation of new occurrence.');
                     this.#occurrenceForm.fireEvent(Form.EVENT_INITIALISE_NEW, {survey : this.controller.app.currentSurvey}); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
+                } else {
+                    console.log('Firing event for initialisation of new occurrence.');
+                    this.#occurrenceForm.fireEvent(Form.EVENT_INITIALISED, {survey : this.controller.app.currentSurvey}); // allows re-initialisation of dynamic default data, e.g. setting a default geo-ref based on the survey
                 }
 
                 this.refreshOccurrenceFooterControls(editorContainer);

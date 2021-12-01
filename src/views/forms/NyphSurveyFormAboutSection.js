@@ -32,7 +32,7 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
      * @type {Object.<string,{field: typeof FormField, attributes: {label: string, helpText: string, placeholder: string, autocomplete: string}}>}
      */
     static properties = {
-        recorder: {
+        primaryname: {
             field: InputField,
             attributes: {
                 label: 'Your name',

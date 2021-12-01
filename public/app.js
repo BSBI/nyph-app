@@ -2102,7 +2102,7 @@
 	  return _setPrototypeOf$1(o, p);
 	}
 
-	function _isNativeReflectConstruct$c() {
+	function _isNativeReflectConstruct$a() {
 	  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
 	  if (Reflect.construct.sham) return false;
 	  if (typeof Proxy === "function") return true;
@@ -2133,8 +2133,8 @@
 	  return _assertThisInitialized$1(self);
 	}
 
-	function _createSuper$c(Derived) {
-	  var hasNativeReflectConstruct = _isNativeReflectConstruct$c();
+	function _createSuper$a(Derived) {
+	  var hasNativeReflectConstruct = _isNativeReflectConstruct$a();
 
 	  return function _createSuperInternal() {
 	    var Super = _getPrototypeOf$1(Derived),
@@ -11245,6 +11245,8 @@
 
 	_defineProperty(Form, "EVENT_INITIALISE_NEW", 'initialisenew');
 
+	_defineProperty(Form, "EVENT_INITIALISED", 'initialised');
+
 	var _formSerial = {
 	  writable: true,
 	  value: 0
@@ -13118,6044 +13120,7 @@
 
 	_defineProperty(SurveyForm, "sectionsByKey", {});
 
-	function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$j() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-	var Survey = /*#__PURE__*/function (_Model) {
-	  _inherits(Survey, _Model);
-
-	  var _super = _createSuper$j(Survey);
-
-	  function Survey() {
-	    var _this;
-
-	    _classCallCheck(this, Survey);
-
-	    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    _this = _super.call.apply(_super, [this].concat(args));
-
-	    _defineProperty(_assertThisInitialized(_this), "SAVE_ENDPOINT", '/savesurvey.php');
-
-	    _defineProperty(_assertThisInitialized(_this), "TYPE", 'survey');
-
-	    _defineProperty(_assertThisInitialized(_this), "attributes", {});
-
-	    _defineProperty(_assertThisInitialized(_this), "isNew", false);
-
-	    return _this;
-	  }
-
-	  _createClass(Survey, [{
-	    key: "geoReference",
-	    get:
-	    /**
-	     *
-	     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
-	     */
-	    function get() {
-	      return this.attributes.georef || {
-	        gridRef: '',
-	        rawString: '',
-	        // what was provided by the user to generate this grid-ref (might be a postcode or placename)
-	        source: TextGeorefField.GEOREF_SOURCE_UNKNOWN,
-	        latLng: null,
-	        precision: null
-	      };
-	    }
-	  }, {
-	    key: "formChangedHandler",
-	    value:
-	    /**
-	     * called after the form has changed, before the values have been read back in to the occurrence
-	     *
-	     * @param {{form: SurveyForm}} params
-	     */
-	    function formChangedHandler(params) {
-	      console.log('Survey change handler invoked.'); // read new values
-	      // then fire its own change event (Occurrence.EVENT_MODIFIED)
-
-	      params.form.updateModelFromContent(); // refresh the form's validation state
-
-	      params.form.conditionallyValidateForm();
-	      this.touch();
-	      this.fireEvent(Survey.EVENT_MODIFIED, {
-	        surveyId: this.id
-	      });
-	    }
-	    /**
-	     *
-	     * @param {SurveyForm} form
-	     */
-
-	  }, {
-	    key: "registerForm",
-	    value: function registerForm(form) {
-	      form.model = this;
-	      form.addListener(Form.CHANGE_EVENT, this.formChangedHandler.bind(this));
-
-	      if (this.isNew) {
-	        form.fireEvent(Form.EVENT_INITIALISE_NEW, {}); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
-	      }
-	    }
-	    /**
-	     * if not securely saved then makes a post to /savesurvey.php
-	     *
-	     * this may be intercepted by a service worker, which could write the image to indexdb
-	     * a successful save will result in a json response containing the uri from which the image may be retrieved
-	     * and also the state of persistence (whether or not the image was intercepted by a service worker while offline)
-	     *
-	     * if saving fails then the expectation is that there is no service worker, in which case should attempt to write
-	     * the image directly to indexdb
-	     *
-	     * must test indexdb for this eventuality after the save has returned
-	     *
-	     * @returns {Promise}
-	     */
-
-	  }, {
-	    key: "save",
-	    value: function save() {
-	      if (!this._savedRemotely) {
-	        var formData = new FormData();
-	        formData.append('type', this.TYPE);
-	        formData.append('surveyId', this.id);
-	        formData.append('id', this.id);
-	        formData.append('projectId', this.projectId.toString());
-	        formData.append('attributes', JSON.stringify(this.attributes));
-	        formData.append('deleted', this.deleted.toString());
-	        formData.append('created', this.createdStamp.toString());
-	        console.log('queueing survey post');
-	        return this.queuePost(formData);
-	      } else {
-	        return Promise.reject("".concat(this.id, " has already been saved."));
-	      }
-	    }
-	    /**
-	     *
-	     * @returns {string} an html-safe string based on the locality and creation date
-	     */
-
-	  }, {
-	    key: "generateSurveyName",
-	    value: function generateSurveyName() {
-	      var place = (this.attributes.place || this.attributes.georef.gridRef || '(unlocalised)').trim();
-	      var createdDate = new Date(this.createdStamp * 1000);
-	      var dateString;
-
-	      try {
-	        // 'default' locale fails on Edge
-	        dateString = createdDate.toLocaleString('default', {
-	          year: 'numeric',
-	          month: 'long',
-	          day: 'numeric'
-	        });
-	      } catch (e) {
-	        dateString = createdDate.toLocaleString('en-GB', {
-	          year: 'numeric',
-	          month: 'long',
-	          day: 'numeric'
-	        });
-	      }
-
-	      return "".concat(escapeHTML(place), " ").concat(dateString);
-	    }
-	  }]);
-
-	  return Survey;
-	}(Model);
-
-	_defineProperty(Survey, "EVENT_MODIFIED", 'modified');
-
-	function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$i() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-	var OccurrenceImage = /*#__PURE__*/function (_Model) {
-	  _inherits(OccurrenceImage, _Model);
-
-	  var _super = _createSuper$i(OccurrenceImage);
-
-	  function OccurrenceImage() {
-	    var _this;
-
-	    _classCallCheck(this, OccurrenceImage);
-
-	    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    _this = _super.call.apply(_super, [this].concat(args));
-
-	    _defineProperty(_assertThisInitialized(_this), "file", void 0);
-
-	    _defineProperty(_assertThisInitialized(_this), "TYPE", 'image');
-
-	    _defineProperty(_assertThisInitialized(_this), "SAVE_ENDPOINT", '/saveimage.php');
-
-	    return _this;
-	  }
-
-	  _createClass(OccurrenceImage, [{
-	    key: "getUrl",
-	    value:
-	    /**
-	     * fetches a url of the image
-	     * this might be a remote url (or one intercepted by a service worker)
-	     * or a data url of the raw image, (not yet uploaded)
-	     *
-	     * @returns {string}
-	     */
-	    function getUrl() {}
-	  }, {
-	    key: "save",
-	    value:
-	    /**
-	     * if not securely saved then makes a post to /saveimage.php
-	     *
-	     * this may be intercepted by a service worker, which could write the image to indexdb
-	     * a successful save will result in a json response containing the uri from which the image may be retrieved
-	     * and also the state of persistence (whether or not the image was intercepted by a service worker while offline)
-	     *
-	     * if saving fails then the expectation is that there is no service worker, in which case should attempt to write
-	     * the image directly to indexdb
-	     *
-	     * must test indexdb for this eventuality after the save has returned
-	     *
-	     * @param {string} surveyId
-	     * @param {string} occurrenceId
-	     * @param {number} projectId
-	     * @returns {Promise}
-	     */
-	    function save(surveyId, occurrenceId, projectId) {
-	      if (!this._savedRemotely) {
-	        var formData = new FormData();
-	        formData.append('type', this.TYPE);
-	        formData.append('surveyId', surveyId ? surveyId : ''); // avoid 'undefined'
-
-	        formData.append('occurrenceId', occurrenceId ? occurrenceId : this.occurrenceId); // avoid 'undefined'
-
-	        formData.append('projectId', projectId ? projectId.toString() : '');
-	        formData.append('imageId', this.id);
-	        formData.append('id', this.id);
-	        formData.append('image', this.file);
-	        formData.append('deleted', this.deleted.toString());
-	        console.log("queueing image post, image id ".concat(this.id));
-	        return this.queuePost(formData);
-	      } else {
-	        return Promise.reject("".concat(this.id, " has already been saved."));
-	      }
-	    }
-	    /**
-	     * fired from Occurrence when the object's contents have been modified
-	     *
-	     * @type {string}
-	     */
-
-	  }, {
-	    key: "_parseDescriptor",
-	    value:
-	    /**
-	     *
-	     * @param {{surveyId: string, occurrenceId: string, [image]: File}} descriptor
-	     * @private
-	     */
-	    function _parseDescriptor(descriptor) {
-	      _get(_getPrototypeOf(OccurrenceImage.prototype), "_parseDescriptor", this).call(this, descriptor);
-
-	      this.surveyId = descriptor.surveyId; // note lower case
-
-	      this.occurrenceId = descriptor.occurrenceId; // note lower case
-
-	      this.file = descriptor.image;
-	    }
-	    /**
-	     *
-	     * @param {string} id
-	     * @param {(number|null)} width
-	     * @param {(number|null)} height
-	     * @param {{[className] : string}} [attributes]
-	     * @return {string}
-	     */
-
-	  }], [{
-	    key: "fromFile",
-	    value:
-	    /**
-	     *
-	     * @param {File} file
-	     */
-	    function fromFile(file) {
-	      var image = new OccurrenceImage();
-	      image.file = file;
-	      return image;
-	    }
-	  }, {
-	    key: "placeholder",
-	    value:
-	    /**
-	     *
-	     * @param id
-	     * @returns {OccurrenceImage}
-	     */
-	    function placeholder(id) {
-	      var placeholderObject = new OccurrenceImage();
-	      placeholderObject._id = id;
-	      OccurrenceImage.imageCache.set(id, placeholderObject);
-	      return placeholderObject;
-	    }
-	  }, {
-	    key: "imageLink",
-	    value: function imageLink(id, width, height, attributes) {
-	      width = width || 0;
-	      height = height || 0;
-	      var attributesString = '';
-
-	      if (attributes.className) {
-	        attributesString += " class=\"".concat(attributes.className, "\"");
-	      }
-
-	      var renderingConstraint = width > height ? "width=\"".concat(width, "\"") : "height=\"".concat(height, "\"");
-	      return "<picture><source srcset=\"/image.php?imageid=".concat(id, "&amp;height=128&amp;format=webp\" type=\"image/webp\"><img").concat(attributesString, " src=\"/image.php?imageid=").concat(id, "&amp;width=").concat(width, "&amp;height=").concat(height, "&amp;format=jpeg\" ").concat(renderingConstraint, " alt=\"photo\"></picture>");
-	    }
-	  }]);
-
-	  return OccurrenceImage;
-	}(Model);
-
-	_defineProperty(OccurrenceImage, "imageCache", new Map());
-
-	_defineProperty(OccurrenceImage, "EVENT_MODIFIED", 'modified');
-
-	function _createForOfIteratorHelper$6(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$6(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-	function _unsupportedIterableToArray$6(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$6(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$6(o, minLen); }
-
-	function _arrayLikeToArray$6(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-	function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$h() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-	function _classPrivateFieldInitSpec$8(obj, privateMap, value) { _checkPrivateRedeclaration$8(obj, privateMap); privateMap.set(obj, value); }
-
-	function _checkPrivateRedeclaration$8(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-	var _router = /*#__PURE__*/new WeakMap();
-
-	var _containerEl = /*#__PURE__*/new WeakMap();
-
-	var App = /*#__PURE__*/function (_EventHarness) {
-	  _inherits(App, _EventHarness);
-
-	  var _super = _createSuper$h(App);
-
-	  /**
-	   * @type {PatchedNavigo}
-	   */
-
-	  /**
-	   * @type {HTMLElement}
-	   */
-
-	  /**
-	   *
-	   * @type {Array.<AppController>}
-	   */
-
-	  /**
-	   * tracks the handle of the current page controller
-	   * updating this is the responsibility of the controller
-	   *
-	   * @type {number|boolean}
-	   */
-
-	  /**
-	   *
-	   * @type {Array.<{url : string}>}
-	   */
-
-	  /**
-	   * keyed by occurrence id (a UUID string)
-	   *
-	   * @type {Map.<string,Occurrence>}
-	   */
-
-	  /**
-	   * keyed by survey id (a UUID string)
-	   *
-	   * @type {Map.<string,Survey>}
-	   */
-
-	  /**
-	   * @type {Survey}
-	   */
-
-	  /**
-	   * @type {Layout}
-	   */
-
-	  /**
-	   * Event fired when user requests a new blank survey
-	   * @type {string}
-	   */
-
-	  /**
-	   * Event fired when user requests a reset (local clearance) of all surveys
-	   * @type {string}
-	   */
-
-	  /**
-	   *
-	   * @type {boolean}
-	   */
-	  function App() {
-	    var _this;
-
-	    _classCallCheck(this, App);
-
-	    _this = _super.call(this);
-
-	    _classPrivateFieldInitSpec$8(_assertThisInitialized(_this), _router, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$8(_assertThisInitialized(_this), _containerEl, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "controllers", []);
-
-	    _defineProperty(_assertThisInitialized(_this), "currentControllerHandle", false);
-
-	    _defineProperty(_assertThisInitialized(_this), "routeHistory", []);
-
-	    _defineProperty(_assertThisInitialized(_this), "occurrences", void 0);
-
-	    _defineProperty(_assertThisInitialized(_this), "surveys", void 0);
-
-	    _defineProperty(_assertThisInitialized(_this), "currentSurvey", void 0);
-
-	    _defineProperty(_assertThisInitialized(_this), "layout", void 0);
-
-	    _this.reset();
-
-	    return _this;
-	  }
-	  /**
-	   *
-	   * @param {string} name
-	   */
-
-
-	  _createClass(App, [{
-	    key: "setLocalForageName",
-	    value: function setLocalForageName(name) {
-	      localforage$2.config({
-	        name: name
-	      });
-	    }
-	  }, {
-	    key: "reset",
-	    value: function reset() {
-	      this.surveys = new Map();
-	      this.clearCurrentSurvey();
-	    }
-	    /**
-	     * unset the current survey and its associated list of occurrences
-	     * called when switching surveys and during startup
-	     */
-
-	  }, {
-	    key: "clearCurrentSurvey",
-	    value: function clearCurrentSurvey() {
-	      this.occurrences = new Map();
-	      this.currentSurvey = null;
-	    }
-	    /**
-	     * see https://github.com/krasimir/navigo
-	     * @param {PatchedNavigo} router
-	     */
-
-	  }, {
-	    key: "router",
-	    get: function get() {
-	      return _classPrivateFieldGet(this, _router);
-	    },
-	    set: function set(router) {
-	      _classPrivateFieldSet(this, _router, router);
-	    }
-	  }, {
-	    key: "containerId",
-	    set: function set(containerId) {
-	      var el = document.getElementById(containerId);
-
-	      if (!el) {
-	        throw new Error("App container '".concat(containerId, "' not found."));
-	      } else {
-	        _classPrivateFieldSet(this, _containerEl, el);
-	      }
-	    }
-	  }, {
-	    key: "container",
-	    get: function get() {
-	      return _classPrivateFieldGet(this, _containerEl);
-	    }
-	    /**
-	     *
-	     * @param {AppController} controller
-	     */
-
-	  }, {
-	    key: "registerController",
-	    value: function registerController(controller) {
-	      controller.handle = this.controllers.length;
-	      this.controllers[this.controllers.length] = controller;
-	      controller.app = this;
-	      controller.registerRoute(_classPrivateFieldGet(this, _router));
-	    }
-	  }, {
-	    key: "initialise",
-	    value: function initialise() {
-	      var _this2 = this;
-
-	      //Page.initialise_layout(this.#containerEl);
-	      this.layout.initialise();
-
-	      _classPrivateFieldGet(this, _router).notFound(function (query) {
-	        // called when there is path specified but
-	        // there is no route matching
-	        console.log("no route found for '".concat(query, "'")); //this.#router.navigate('/list');
-
-	        var view = new NotFoundView();
-	        view.display();
-	      }); //default homepage
-
-
-	      _classPrivateFieldGet(this, _router).on(function () {
-	        // special-case redirect (replacing in history) from '/' to '/list' without updating browser history
-	        console.log("redirecting from '/' to '/list'");
-
-	        _classPrivateFieldGet(_this2, _router).pause(); //if (this.clearCurrentSurvey && this.currentSurvey.isPristine) { // this appears to be a bug 'this.clearCurrentSurvey'
-	        // rather than 'this.clearCurrentSurvey()' is nonsensical
-	        // and if clearCurrentSurvey() was actually called then the isPristine test would fail (called on null)
-
-
-	        if (_this2.currentSurvey && _this2.currentSurvey.isPristine) {
-	          _classPrivateFieldGet(_this2, _router).navigate('/list/survey/welcome').resume();
-	        } else {
-	          _classPrivateFieldGet(_this2, _router).navigate('/list').resume();
-	        }
-
-	        _classPrivateFieldGet(_this2, _router).resolve();
-	      });
-
-	      var _iterator = _createForOfIteratorHelper$6(this.controllers),
-	          _step;
-
-	      try {
-	        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-	          var controller = _step.value;
-	          controller.initialise();
-	        }
-	      } catch (err) {
-	        _iterator.e(err);
-	      } finally {
-	        _iterator.f();
-	      }
-	    }
-	  }, {
-	    key: "display",
-	    value: function display() {
-	      console.log('App display');
-
-	      _classPrivateFieldGet(this, _router).resolve();
-	    }
-	  }, {
-	    key: "saveRoute",
-	    value: function saveRoute() {
-	      var lastRoute = _classPrivateFieldGet(this, _router).lastRouteResolved();
-
-	      if (this.routeHistory.length) {
-	        if (this.routeHistory[this.routeHistory.length - 1] !== lastRoute) {
-	          this.routeHistory[this.routeHistory.length] = lastRoute;
-	        }
-	      } else {
-	        this.routeHistory[0] = lastRoute;
-	      }
-	    }
-	    /**
-	     * mark the current survey and its constituent records as subject to validation checks (not pristine)
-	     */
-
-	  }, {
-	    key: "markAllNotPristine",
-	    value: function markAllNotPristine() {
-	      var _iterator2 = _createForOfIteratorHelper$6(this.occurrences),
-	          _step2;
-
-	      try {
-	        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-	          var occurrenceTuple = _step2.value;
-	          occurrenceTuple[1].isPristine = false;
-	        }
-	      } catch (err) {
-	        _iterator2.e(err);
-	      } finally {
-	        _iterator2.f();
-	      }
-	    }
-	    /**
-	     *
-	     * @param {Layout} layout
-	     */
-
-	  }, {
-	    key: "setLayout",
-	    value: function setLayout(layout) {
-	      this.layout = layout;
-	      layout.setApp(this);
-	    }
-	    /**
-	     *
-	     * @param {Survey} survey
-	     */
-
-	  }, {
-	    key: "addSurvey",
-	    value: function addSurvey(survey) {
-	      var _this3 = this;
-
-	      if (survey.projectId !== this.projectId) {
-	        throw new Error("Survey project id '".concat(survey.projectId, " does not match with current project ('").concat(this.projectId, "')"));
-	      }
-
-	      if (!this.surveys.has(survey.id)) {
-	        console.log("setting survey's modified/save handler");
-	        survey.addListener(Survey.EVENT_MODIFIED, function () {
-	          _this3.fireEvent(App.EVENT_SURVEYS_CHANGED);
-
-	          return survey.save();
-	        });
-	      }
-
-	      this.surveys.set(survey.id, survey);
-	      this.fireEvent(App.EVENT_SURVEYS_CHANGED);
-	    }
-	    /**
-	     * tests whether occurrences have been defined, excluding any that have been deleted
-	     *
-	     * @returns {boolean}
-	     */
-
-	  }, {
-	    key: "haveExtantOccurrences",
-	    value: function haveExtantOccurrences() {
-	      var _iterator3 = _createForOfIteratorHelper$6(this.occurrences),
-	          _step3;
-
-	      try {
-	        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-	          var occurrence = _step3.value;
-
-	          if (!occurrence.deleted) {
-	            return true;
-	          }
-	        }
-	      } catch (err) {
-	        _iterator3.e(err);
-	      } finally {
-	        _iterator3.f();
-	      }
-
-	      return false;
-	    }
-	    /**
-	     *
-	     * @param {Occurrence} occurrence
-	     */
-
-	  }, {
-	    key: "addOccurrence",
-	    value: function addOccurrence(occurrence) {
-	      var _this4 = this;
-
-	      if (!occurrence.surveyId) {
-	        throw new InternalAppError('Survey id must set prior to registering occurrence.');
-	      }
-
-	      if (this.occurrences.size === 0) {
-	        // this is the first occurrence added, set the survey creation stamp to match
-	        // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
-	        // for a protracted period
-	        var survey = this.surveys.get(occurrence.surveyId);
-	        survey.createdStamp = occurrence.createdStamp;
-	      }
-
-	      console.log("in addOccurrence setting id '".concat(occurrence.id, "'"));
-	      this.occurrences.set(occurrence.id, occurrence);
-	      occurrence.addListener(Occurrence.EVENT_MODIFIED, // possibly this should be async, with await on the survey and occurrence save
-	      function () {
-	        var survey = _this4.surveys.get(occurrence.surveyId);
-
-	        if (!survey) {
-	          throw new Error("Failed to look up survey id ".concat(occurrence.surveyId));
-	        } else {
-	          survey.isPristine = false; // need to ensure that currentSurvey is saved before occurrence
-	          // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
-	          // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
-
-	          if (survey.unsaved()) {
-	            // noinspection JSIgnoredPromiseFromCall
-	            survey.save();
-	          }
-
-	          occurrence.save(survey.id);
-	        }
-	      });
-	    }
-	    /**
-	     * attempts to refresh the state of local storage for the specified survey ids
-	     * if fetch fails then return a failed promise
-	     *
-	     * updates local copy of surveys and occurrences
-	     *
-	     * no service worker interception of this call - passed through and not cached
-	     *
-	     * @param {Array.<string>} surveyIds
-	     * @return {Promise}
-	     */
-
-	  }, {
-	    key: "refreshFromServer",
-	    value: function refreshFromServer(surveyIds) {
-	      var _this5 = this;
-
-	      console.log({
-	        'Refresh from server, ids': surveyIds
-	      });
-	      var formData = new FormData();
-	      var n = 0;
-
-	      var _iterator4 = _createForOfIteratorHelper$6(surveyIds),
-	          _step4;
-
-	      try {
-	        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-	          var key = _step4.value;
-	          formData.append("surveyId[".concat(n++, "]"), key);
-	        }
-	      } catch (err) {
-	        _iterator4.e(err);
-	      } finally {
-	        _iterator4.f();
-	      }
-
-	      return fetch(App.LOAD_SURVEYS_ENDPOINT, {
-	        method: 'POST',
-	        body: formData
-	      }).then(function (response) {
-	        if (response.ok) {
-	          return response.json();
-	        } else {
-	          return Promise.reject("Invalid response from server when refreshing survey ids");
-	        }
-	      }).then(function (jsonResponse) {
-	        /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
-	        console.log({
-	          'refresh from server json response': jsonResponse
-	        }); // if external objects newer than local version then place in local storage
-
-	        var promises = [];
-
-	        for (var type in jsonResponse) {
-	          if (jsonResponse.hasOwnProperty(type)) {
-	            var _iterator5 = _createForOfIteratorHelper$6(jsonResponse[type]),
-	                _step5;
-
-	            try {
-	              for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-	                var object = _step5.value;
-	                promises.push(_this5._conditionallyReplaceObject(object));
-	              }
-	            } catch (err) {
-	              _iterator5.e(err);
-	            } finally {
-	              _iterator5.f();
-	            }
-	          }
-	        }
-
-	        return Promise.all(promises);
-	      });
-	    }
-	    /**
-	     * compare modified stamp of indexeddb and external objects and write external version locally if more recent
-	     *
-	     * @param {{id : string, type : string, modified : number, created : number, saveState : string, deleted : boolean}} externalVersion
-	     * @returns {Promise}
-	     * @private
-	     */
-
-	  }, {
-	    key: "_conditionallyReplaceObject",
-	    value: function _conditionallyReplaceObject(externalVersion) {
-	      var objectType = externalVersion.type;
-	      var id = externalVersion.id;
-	      var key = "".concat(objectType, ".").concat(id);
-	      return localforage$2.getItem(key).then(function (localVersion) {
-	        if (localVersion) {
-	          // compare stamps
-	          // if (externalVersion.deleted) {
-	          //     // if the external copy is deleted then remove the local copy
-	          //     return localforage.removeItem(key);
-	          // }
-	          if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
-	            console.log("Local copy of ".concat(key, " is the same or newer than the server copy. (").concat(localVersion.modified, " >= ").concat(externalVersion.modified, ") "));
-	            return Promise.resolve();
-	          }
-	        } // no local copy or stale copy
-	        // so store response locally
-
-
-	        console.log("Adding or replacing local copy of ".concat(key));
-	        return localforage$2.setItem(key, externalVersion);
-	      });
-	    }
-	    /**
-	     * retrieve the full set of keys from local storage (IndexedDb)
-	     *
-	     * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
-	     * @returns {Promise}
-	     */
-
-	  }, {
-	    key: "seekKeys",
-	    value: function seekKeys(storedObjectKeys) {
-	      console.log('starting seekKeys');
-	      return localforage$2.keys().then(function (keys) {
-	        console.log({
-	          "in seekKeys: local forage keys": keys
-	        });
-
-	        var _iterator6 = _createForOfIteratorHelper$6(keys),
-	            _step6;
-
-	        try {
-	          for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-	            var key = _step6.value;
-	            var type = void 0,
-	                id = void 0;
-
-	            var _key$split = key.split('.', 2);
-
-	            var _key$split2 = _slicedToArray(_key$split, 2);
-
-	            type = _key$split2[0];
-	            id = _key$split2[1];
-
-	            if (storedObjectKeys.hasOwnProperty(type)) {
-	              if (!storedObjectKeys[type].includes(id)) {
-	                storedObjectKeys[type].push(id);
-	              }
-	            } else {
-	              console.log("Unrecognised stored key type '".concat(type, "."));
-	            }
-	          }
-	        } catch (err) {
-	          _iterator6.e(err);
-	        } finally {
-	          _iterator6.f();
-	        }
-
-	        return storedObjectKeys;
-	      });
-	    }
-	    /**
-	     * @returns {Promise}
-	     */
-
-	  }, {
-	    key: "syncAll",
-	    value: function syncAll() {
-	      var _this6 = this;
-
-	      var storedObjectKeys = {
-	        survey: [],
-	        occurrence: [],
-	        image: []
-	      };
-	      return this.seekKeys(storedObjectKeys).then(function (storedObjectKeys) {
-	        return _this6._syncLocalUnsaved(storedObjectKeys);
-	      }, function (failedResult) {
-	        console.log("Failed to sync all: ".concat(failedResult));
-	        return false;
-	      });
-	    }
-	    /**
-	     *
-	     * @param storedObjectKeys
-	     * @returns {Promise}
-	     * @private
-	     */
-
-	  }, {
-	    key: "_syncLocalUnsaved",
-	    value: function _syncLocalUnsaved(storedObjectKeys) {
-	      // syncs surveys first, then occurrences, then images from indexedDb
-	      var promises = [];
-
-	      var _iterator7 = _createForOfIteratorHelper$6(storedObjectKeys.survey),
-	          _step7;
-
-	      try {
-	        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-	          var surveyKey = _step7.value;
-	          promises.push(Survey.retrieveFromLocal(surveyKey, new Survey()).then(function (survey) {
-	            if (survey.unsaved()) {
-	              return survey.save();
-	            }
-	          }));
-	        }
-	      } catch (err) {
-	        _iterator7.e(err);
-	      } finally {
-	        _iterator7.f();
-	      }
-
-	      var _iterator8 = _createForOfIteratorHelper$6(storedObjectKeys.occurrence),
-	          _step8;
-
-	      try {
-	        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-	          var occurrenceKey = _step8.value;
-	          promises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence()).then(function (occurrence) {
-	            if (occurrence.unsaved()) {
-	              return occurrence.save();
-	            }
-	          }));
-	        }
-	      } catch (err) {
-	        _iterator8.e(err);
-	      } finally {
-	        _iterator8.f();
-	      }
-
-	      var _iterator9 = _createForOfIteratorHelper$6(storedObjectKeys.image),
-	          _step9;
-
-	      try {
-	        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-	          var imageKey = _step9.value;
-	          promises.push(OccurrenceImage.retrieveFromLocal(imageKey, new OccurrenceImage()).then(function (image) {
-	            if (image.unsaved()) {
-	              return image.save();
-	            }
-	          }));
-	        }
-	      } catch (err) {
-	        _iterator9.e(err);
-	      } finally {
-	        _iterator9.f();
-	      }
-
-	      return Promise.all(promises).catch(function (result) {
-	        console.log("Save failure: ".concat(result));
-	      });
-	    }
-	    /**
-	     * restore previous state, pulling back from local and external store
-	     * @todo this needs a save phase, so that local changes are saved back to the server
-	     *
-	     * @param {string} [targetSurveyId] if specified then select this id as the current survey
-	     * @return {Promise}
-	     */
-
-	  }, {
-	    key: "restoreOccurrences",
-	    value: function restoreOccurrences(targetSurveyId) {
-	      var _this7 = this;
-
-	      console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId)); // need to check for a special case where restoring a survey that has never been saved even locally
-	      // i.e. new and unmodified
-	      // only present in current App.surveys
-	      // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
-
-	      if (targetSurveyId && this.surveys.has(targetSurveyId)) {
-	        var localSurvey = this.surveys.get(targetSurveyId);
-
-	        if (localSurvey.isPristine) {
-	          this.clearCurrentSurvey(); // clear occurrences from the previous survey
-
-	          this.currentSurvey = localSurvey;
-	          this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-
-	          return Promise.resolve();
-	        }
-	      }
-
-	      var storedObjectKeys = {
-	        survey: [],
-	        occurrence: [],
-	        image: []
-	      };
-
-	      if (targetSurveyId) {
-	        storedObjectKeys.survey[0] = targetSurveyId;
-	      }
-
-	      return this.seekKeys(storedObjectKeys).then(function (storedObjectKeys) {
-	        if (storedObjectKeys.survey.length) {
-	          return _this7.refreshFromServer(storedObjectKeys.survey).finally(function () {
-	            // re-seek keys from indexed db, to take account of any new occurrences received from the server
-	            return _this7.seekKeys(storedObjectKeys);
-	          });
-	        } else {
-	          return null;
-	        }
-	      }).finally(function () {
-	        // called regardless of whether a server refresh was successful
-	        // storedObjectKeys and indexed db should be as up-to-date as possible
-	        console.log({
-	          storedObjectKeys: storedObjectKeys
-	        });
-
-	        if (storedObjectKeys.survey.length) {
-	          var surveyFetchingPromises = [];
-	          var n = 0;
-
-	          var _iterator10 = _createForOfIteratorHelper$6(storedObjectKeys.survey),
-	              _step10;
-
-	          try {
-	            for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
-	              var surveyKey = _step10.value;
-	              // arbitrarily set first survey key as current if a target id hasn't been specified
-	              surveyFetchingPromises.push(_this7._restoreSurveyFromLocal(surveyKey, storedObjectKeys, targetSurveyId === surveyKey || !targetSurveyId && n++ === 0));
-	            }
-	          } catch (err) {
-	            _iterator10.e(err);
-	          } finally {
-	            _iterator10.f();
-	          }
-
-	          return Promise.all(surveyFetchingPromises).finally(function () {
-	            //this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
-	            if (!_this7.currentSurvey) {
-	              // survey doesn't actually exist
-	              // this could have happened in an invalid survey id was provided as a targetSurveyId
-	              console.log("Failed to retrieve survey id '".concat(targetSurveyId, "'"));
-	              return Promise.reject(new Error("Failed to retrieve survey id '".concat(targetSurveyId, "'")));
-	            }
-
-	            if (_this7.currentSurvey.deleted) {
-	              // unusual case where survey is deleted
-	              // substitute a new one
-	              // this should probably never happen, as items deleted on the server ought to have been
-	              // removed locally
-	              _this7.setNewSurvey();
-	            } else {
-	              _this7.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-
-	            }
-
-	            return Promise.resolve();
-	          });
-	        } else {
-	          console.log('no pre-existing surveys, so creating a new one'); // no pre-existing surveys, so create a new one
-
-	          _this7.setNewSurvey();
-
-	          return Promise.resolve();
-	        }
-	      });
-	    }
-	  }, {
-	    key: "setNewSurvey",
-	    value: function setNewSurvey() {
-	      this.currentSurvey = new Survey();
-	      this.currentSurvey.projectId = this.projectId;
-	      this.currentSurvey.isPristine = true;
-	      this.addSurvey(this.currentSurvey);
-	    }
-	    /**
-	     * @return {Occurrence}
-	     */
-
-	  }, {
-	    key: "addNewOccurrence",
-	    value: function addNewOccurrence() {
-	      var occurrence = new Occurrence();
-	      occurrence.surveyId = this.currentSurvey.id;
-	      occurrence.projectId = this.projectId;
-	      occurrence.isNew = true;
-	      occurrence.isPristine = true;
-	      this.addOccurrence(occurrence);
-	      this.fireEvent(App.EVENT_OCCURRENCE_ADDED, {
-	        occurrenceId: occurrence.id,
-	        surveyId: occurrence.surveyId
-	      });
-	      return occurrence;
-	    }
-	    /**
-	     *
-	     * @param {string} surveyId
-	     * @param {{survey: Array, occurrence: Array, image: Array}} storedObjectKeys
-	     * @param {boolean} setAsCurrent
-	     * @returns {Promise}
-	     * @private
-	     */
-
-	  }, {
-	    key: "_restoreSurveyFromLocal",
-	    value: function _restoreSurveyFromLocal(surveyId, storedObjectKeys, setAsCurrent) {
-	      var _this8 = this;
-
-	      // retrieve surveys first, then occurrences, then images from indexedDb
-	      var promise = Survey.retrieveFromLocal(surveyId, new Survey()).then(function (survey) {
-	        console.log("retrieving local survey ".concat(surveyId));
-
-	        if (setAsCurrent) {
-	          // the apps occurrences should only relate to the current survey
-	          // (the reset are remote or in IndexedDb)
-	          _this8.clearCurrentSurvey();
-
-	          _this8.addSurvey(survey);
-
-	          var occurrenceFetchingPromises = [];
-
-	          var _iterator11 = _createForOfIteratorHelper$6(storedObjectKeys.occurrence),
-	              _step11;
-
-	          try {
-	            var _loop = function _loop() {
-	              var occurrenceKey = _step11.value;
-	              occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence()).then(function (occurrence) {
-	                if (occurrence.surveyId === surveyId) {
-	                  console.log("adding occurrence ".concat(occurrenceKey));
-
-	                  _this8.addOccurrence(occurrence);
-	                }
-	              }));
-	            };
-
-	            for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
-	              _loop();
-	            }
-	          } catch (err) {
-	            _iterator11.e(err);
-	          } finally {
-	            _iterator11.f();
-	          }
-
-	          return Promise.all(occurrenceFetchingPromises);
-	        } else {
-	          // not the current survey, so just add it but don't load occurrences
-	          _this8.addSurvey(survey);
-	        }
-	      });
-
-	      if (setAsCurrent) {
-	        promise.finally(function () {
-	          //console.log('Reached image fetching part');
-	          var imageFetchingPromises = [];
-
-	          var _iterator12 = _createForOfIteratorHelper$6(storedObjectKeys.image),
-	              _step12;
-
-	          try {
-	            var _loop2 = function _loop2() {
-	              var occurrenceImageKey = _step12.value;
-	              imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage()).then(function (occurrenceImage) {
-	                console.log("restoring image id '".concat(occurrenceImageKey, "'"));
-
-	                if (occurrenceImage.surveyId === surveyId) {
-	                  OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
-	                }
-	              }, function (reason) {
-	                console.log("Failed to retrieve an image: ".concat(reason));
-	              }));
-	            };
-
-	            for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
-	              _loop2();
-	            }
-	          } catch (err) {
-	            _iterator12.e(err);
-	          } finally {
-	            _iterator12.f();
-	          }
-
-	          _this8.currentSurvey = _this8.surveys.get(storedObjectKeys.survey[0]);
-	          return Promise.all(imageFetchingPromises);
-	        });
-	      }
-
-	      return promise;
-	    }
-	    /**
-	     *
-	     * @returns {Promise<void>}
-	     */
-
-	  }, {
-	    key: "clearLocalForage",
-	    value: function clearLocalForage() {
-	      return localforage$2.clear();
-	    }
-	  }]);
-
-	  return App;
-	}(EventHarness);
-
-	_defineProperty(App, "EVENT_ADD_SURVEY_USER_REQUEST", 'useraddsurveyrequest');
-
-	_defineProperty(App, "EVENT_RESET_SURVEYS", 'userresetsurveys');
-
-	_defineProperty(App, "LOAD_SURVEYS_ENDPOINT", '/loadsurveys.php');
-
-	_defineProperty(App, "EVENT_OCCURRENCE_ADDED", 'occurrenceadded');
-
-	_defineProperty(App, "EVENT_SURVEYS_CHANGED", 'surveyschanged');
-
-	_defineProperty(App, "devMode", false);
-
-	function _createForOfIteratorHelper$5(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$5(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-	function _unsupportedIterableToArray$5(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$5(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$5(o, minLen); }
-
-	function _arrayLikeToArray$5(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-	function _createSuper$g(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$g(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$g() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-	var Layout = /*#__PURE__*/function (_EventHarness) {
-	  _inherits(Layout, _EventHarness);
-
-	  var _super = _createSuper$g(Layout);
-
-	  function Layout() {
-	    var _this;
-
-	    _classCallCheck(this, Layout);
-
-	    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    _this = _super.call.apply(_super, [this].concat(args));
-
-	    _defineProperty(_assertThisInitialized(_this), "app", void 0);
-
-	    _defineProperty(_assertThisInitialized(_this), "surveysMenuId", void 0);
-
-	    _defineProperty(_assertThisInitialized(_this), "newSurveyLabel", 'new survey');
-
-	    return _this;
-	  }
-
-	  _createClass(Layout, [{
-	    key: "setApp",
-	    value:
-	    /**
-	     *
-	     * @param {App} app
-	     */
-	    function setApp(app) {
-	      var _this2 = this;
-
-	      this.app = app;
-	      app.addListener(App.EVENT_SURVEYS_CHANGED, function () {
-	        _this2.refreshSurveysMenu();
-	      });
-
-	      if (navigator.hasOwnProperty('onLine') && navigator.onLine === false) {
-	        this.addOfflineFlag();
-	      }
-
-	      window.addEventListener('online', function () {
-	        document.body.classList.remove('offline');
-	      });
-	      window.addEventListener('offline', this.addOfflineFlag);
-	    }
-	  }, {
-	    key: "addOfflineFlag",
-	    value: function addOfflineFlag() {
-	      document.body.classList.add('offline');
-	    }
-	  }, {
-	    key: "initialise",
-	    value: function initialise() {
-	      var _this3 = this;
-
-	      this.refreshSurveysMenu();
-	      var modalContent = document.createElement('div');
-	      modalContent.innerHTML = newSurveyModal;
-	      document.body.appendChild(modalContent.getElementsByTagName('div')[0]);
-	      modalContent = document.createElement('div');
-	      modalContent.innerHTML = resetModal;
-	      document.body.appendChild(modalContent.getElementsByTagName('div')[0]);
-	      modalContent = document.createElement('div');
-	      modalContent.innerHTML = saveAllSuccessModal;
-	      document.body.appendChild(modalContent.getElementsByTagName('div')[0]);
-	      modalContent = document.createElement('div');
-	      modalContent.innerHTML = saveAllFailureModal;
-	      document.body.appendChild(modalContent.getElementsByTagName('div')[0]); // register event handlers once the content is likely to be in the DOM
-
-	      setTimeout(function () {
-	        document.getElementById("".concat(Layout.NEW_SURVEY_MODAL_ID, "confirmed")).addEventListener('click', function (event) {
-	          event.stopPropagation();
-	          event.preventDefault();
-
-	          if (event.detail < 2) {
-	            // only if not a double click
-	            _this3.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);
-	          }
-	        });
-	        document.getElementById("".concat(Layout.RESET_MODAL_ID, "confirmed")).addEventListener('click', function (event) {
-	          event.stopPropagation();
-	          event.preventDefault();
-
-	          if (event.detail < 2) {
-	            // only if not a double click
-	            _this3.app.fireEvent(App.EVENT_RESET_SURVEYS);
-	          }
-	        });
-	      }, 100);
-	    }
-	  }, {
-	    key: "refreshSurveysMenu",
-	    value: function refreshSurveysMenu() {
-	      var surveyMenuContainer = document.getElementById(this.surveysMenuId);
-	      var items = this.getSurveyItems();
-	      surveyMenuContainer.innerHTML = "<a class=\"dropdown-item\" href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>\n    <div class=\"dropdown-divider\"></div>\n    ".concat(items.join(''), "\n    <div class=\"dropdown-divider\"></div>\n    <a class=\"dropdown-item\" href=\"/app/survey/new\" data-navigo=\"survey/new\">").concat(this.newSurveyLabel, "</a>\n    <a class=\"dropdown-item\" href=\"/app/survey/reset\" data-navigo=\"survey/reset\">reset</a>");
-	      this.app.router.updatePageLinks();
-	    }
-	  }, {
-	    key: "getSurveyItems",
-	    value: function getSurveyItems() {
-	      /**
-	       *
-	       * @type {Array.<string>}
-	       */
-	      var items = [];
-	      var currentSurveyId = this.app.currentSurvey ? this.app.currentSurvey.id : null;
-
-	      var _iterator = _createForOfIteratorHelper$5(this.app.surveys),
-	          _step;
-
-	      try {
-	        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-	          var surveyTuple = _step.value;
-	          var survey = surveyTuple[1];
-	          var label = survey.generateSurveyName() + (surveyTuple[0] === currentSurveyId ? ' <span style="color: green">●</span>' : '');
-	          items[items.length] = "<a class=\"dropdown-item\" href=\"/app/survey/add/".concat(surveyTuple[0], "\" data-navigo=\"survey/add/").concat(surveyTuple[0], "\">").concat(label, "</a>");
-	        }
-	      } catch (err) {
-	        _iterator.e(err);
-	      } finally {
-	        _iterator.f();
-	      }
-
-	      return items;
-	    }
-	  }]);
-
-	  return Layout;
-	}(EventHarness);
-
-	_defineProperty(Layout, "NEW_SURVEY_MODAL_ID", 'newsurveymodal');
-
-	_defineProperty(Layout, "RESET_MODAL_ID", 'resetmodal');
-
-	_defineProperty(Layout, "SAVE_ALL_SUCCESS_MODAL_ID", 'saveallsuccess');
-
-	_defineProperty(Layout, "SAVE_ALL_FAILURE_MODAL_ID", 'saveallfailure');
-
-	function _createSuper$f(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$f(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$f() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-	/**
-	 * @external $
-	 */
-
-	var SurveyPickerController = /*#__PURE__*/function (_AppController) {
-	  _inherits(SurveyPickerController, _AppController);
-
-	  var _super = _createSuper$f(SurveyPickerController);
-
-	  /**
-	   *
-	   * @param {SurveyPickerView} view
-	   */
-	  function SurveyPickerController(view) {
-	    var _this;
-
-	    _classCallCheck(this, SurveyPickerController);
-
-	    _this = _super.call(this);
-
-	    _defineProperty(_assertThisInitialized(_this), "route", '/survey/:action/:id');
-
-	    _defineProperty(_assertThisInitialized(_this), "title", 'Survey picker');
-
-	    _defineProperty(_assertThisInitialized(_this), "app", void 0);
-
-	    _defineProperty(_assertThisInitialized(_this), "view", void 0);
-
-	    _this.view = view;
-	    view.controller = _assertThisInitialized(_this);
-	    _this.handle = AppController.nextHandle;
-	    return _this;
-	  }
-	  /**
-	   * registers the default route from this.route
-	   * or alternatively is overridden in a child class
-	   *
-	   * @param {PatchedNavigo} router
-	   */
-
-
-	  _createClass(SurveyPickerController, [{
-	    key: "survey",
-	    get:
-	    /**
-	     * @type {App}
-	     */
-
-	    /**
-	     *
-	     * @type {SurveyPickerView}
-	     */
-
-	    /**
-	     *
-	     * @returns {Survey}
-	     */
-	    function get() {
-	      return this.app.currentSurvey;
-	    }
-	  }, {
-	    key: "registerRoute",
-	    value: function registerRoute(router) {
-	      router.on('/survey', this.mainRouteHandler.bind(this, 'survey', '', ''), {// before : this.beforeRouteHandler ? this.beforeRouteHandler.bind(this) : null,
-	        // after : this.afterRouteHandler ? this.afterRouteHandler.bind(this) : null,
-	        // leave : this.leaveRouteHandler ? this.leaveRouteHandler.bind(this) : null,
-	        // already : this.alreadyRouteHandler ? this.alreadyRouteHandler.bind(this) : null
-	      });
-	      router.on('/survey/new', this.newSurveyHandler.bind(this, 'survey', 'new', ''), {
-	        before: this.beforeNewHandler.bind(this)
-	      });
-	      router.on('/survey/reset', this.mainRouteHandler.bind(this, 'survey', 'reset', ''), {
-	        before: this.beforeResetHandler.bind(this)
-	      });
-	      router.on('/survey/save', this.mainRouteHandler.bind(this, 'survey', 'save', ''), {
-	        before: this.beforeSaveAllHandler.bind(this)
-	      });
-	      router.on('/survey/add/:surveyId', this.addSurveyHandler.bind(this, 'survey', 'add', ''));
-	      this.app.addListener(App.EVENT_ADD_SURVEY_USER_REQUEST, this.addNewSurveyHandler.bind(this));
-	      this.app.addListener(App.EVENT_RESET_SURVEYS, this.resetSurveysHandler.bind(this));
-	    }
-	  }, {
-	    key: "beforeNewHandler",
-	    value: function beforeNewHandler(done) {
-	      $("#".concat(Layout.NEW_SURVEY_MODAL_ID)).modal();
-	      this.app.router.pause();
-	      window.history.back(); // this could fail if previous url was not under the single-page-app umbrella (should test)
-
-	      this.app.router.resume();
-	      done(false); // block navigation
-	    }
-	  }, {
-	    key: "beforeResetHandler",
-	    value: function beforeResetHandler(done) {
-	      $("#".concat(Layout.RESET_MODAL_ID)).modal();
-	      this.app.router.pause();
-	      window.history.back(); // this could fail if previous url was not under the single-page-app umbrella (should test)
-
-	      this.app.router.resume();
-	      done(false); // block navigation
-	    }
-	  }, {
-	    key: "beforeSaveAllHandler",
-	    value: function beforeSaveAllHandler(done) {
-	      // invoke sync of any/all unsaved data
-	      // show pop-ups on success and failure
-	      this.app.syncAll().then(function (result) {
-	        console.log("In save all handler, success result: ".concat(result));
-
-	        if (Array.isArray(result)) {
-	          $("#".concat(Layout.SAVE_ALL_SUCCESS_MODAL_ID)).modal();
-	        } else {
-	          $("#".concat(Layout.SAVE_ALL_FAILURE_MODAL_ID)).modal();
-	        }
-	      }, function (result) {
-	        console.log("In save all handler, failure result: ".concat(result));
-	        $("#".concat(Layout.SAVE_ALL_FAILURE_MODAL_ID)).modal();
-	      }).finally(function () {// stop the spinner
-	      });
-	      this.app.router.pause();
-	      window.history.back(); // this could fail if previous url was not under the single-page-app umbrella (should test)
-
-	      this.app.router.resume();
-	      done(false); // block navigation
-	    }
-	    /**
-	     *
-	     * @param {string} context typically 'survey'
-	     * @param {('new'|'')} subcontext
-	     * @param {(''|'help')} rhs currently not used
-	     * @param {Object.<string, string>} queryParameters surveyId
-	     */
-
-	  }, {
-	    key: "newSurveyHandler",
-	    value: function newSurveyHandler(context, subcontext, rhs, queryParameters) {// should not get here, as beforeNewHandler ought to have been invoked first
-	    }
-	    /**
-	     * called after user has confirmed add new survey dialog box
-	     */
-
-	  }, {
-	    key: "addNewSurveyHandler",
-	    value: function addNewSurveyHandler() {
-	      console.log("reached addNewSurveyHandler");
-	      this.app.currentControllerHandle = this.handle; // when navigate back need to list need to ensure full view refresh
-	      // the apps occurrences should only relate to the current survey
-	      // (the reset are remote or in IndexedDb)
-
-	      this.app.clearCurrentSurvey();
-	      this.app.setNewSurvey();
-	      this.app.router.pause();
-	      this.app.router.navigate('/list/survey/welcome').resume();
-	      this.app.router.resolve();
-	    }
-	    /**
-	     * called after user has confirmed reset surveys dialog box
-	     */
-
-	  }, {
-	    key: "resetSurveysHandler",
-	    value: function resetSurveysHandler() {
-	      var _this2 = this;
-
-	      this.app.clearLocalForage().then(function () {
-	        _this2.app.reset();
-
-	        _this2.addNewSurveyHandler();
-	      });
-	    }
-	    /**
-	     *
-	     * @param {string} context typically 'survey'
-	     * @param {('add'|'')} subcontext
-	     * @param {(''|'help')} rhs currently not used
-	     * @param {Object.<string, string>} queryParameters surveyId
-	     */
-
-	  }, {
-	    key: "addSurveyHandler",
-	    value: function addSurveyHandler(context, subcontext, rhs, queryParameters) {
-	      var _this3 = this;
-
-	      console.log("reached addSurveyHandler");
-	      console.log({
-	        context: context,
-	        params: subcontext,
-	        query: queryParameters
-	      });
-	      this.app.currentControllerHandle = this.handle; // when navigate back need to list need to ensure full view refresh
-
-	      var surveyId = queryParameters.surveyId;
-
-	      if (!surveyId || !surveyId.match(UUID_REGEX)) {
-	        throw new NotFoundError("Failed to match survey id '".concat(surveyId, "', the id format appears to be incorrect"));
-	      }
-
-	      surveyId = surveyId.toLowerCase();
-	      this.app.restoreOccurrences(surveyId).then(function () {
-	        _this3.app.markAllNotPristine();
-
-	        _this3.app.router.pause();
-
-	        _this3.app.router.navigate('/list').resume();
-
-	        _this3.app.router.resolve();
-	      }, function (error) {
-	        console.log({
-	          'failed survey restoration': error
-	        }); // should display a modal error message
-	        // either the survey was not found or there was no network connection
-	        // should switch to displaying a list of available surveys and an option to start a new survey
-	      });
-	    }
-	    /**
-	     *
-	     * @param {string} context typically 'survey'
-	     * @param {('add'|'')} subcontext
-	     * @param {(''|'help')} rhs currently not used
-	     * @param {Object.<string, string>} queryParameters surveyId
-	     */
-
-	  }, {
-	    key: "mainRouteHandler",
-	    value: function mainRouteHandler(context, subcontext, rhs, queryParameters) {
-	      console.log("reached special route handler for SurveyPickerController.js");
-	      console.log({
-	        context: context,
-	        params: subcontext,
-	        query: queryParameters
-	      });
-	    }
-	  }]);
-
-	  return SurveyPickerController;
-	}(AppController);
-
-	_defineProperty(SurveyPickerController, "EVENT_BACK", 'back');
-
-	/* eslint-disable es/no-string-prototype-matchall -- safe */
-	var $$8$1 = _export;
-	var global$5$1 = global$Z$1;
-	var call$1$1 = functionCall;
-	var uncurryThis$2$1 = functionUncurryThis;
-	var createIteratorConstructor$4 = createIteratorConstructor$2$1;
-	var requireObjectCoercible$g = requireObjectCoercible$9$1;
-	var toLength$c = toLength$5$1;
-	var toString$2$1 = toString$c$1;
-	var anObject$r = anObject$l$1;
-	var classof$2$1 = classofRaw$1;
-	var isPrototypeOf$1$1 = objectIsPrototypeOf;
-	var isRegExp$1$1 = isRegexp$1;
-	var regExpFlags$1$1 = regexpFlags$1$1;
-	var getMethod$8 = getMethod$7;
-	var redefine$1$1 = redefine$d$1.exports;
-	var fails$2$1 = fails$x$1;
-	var wellKnownSymbol$1$1 = wellKnownSymbol$q;
-	var speciesConstructor$5 = speciesConstructor$4;
-	var advanceStringIndex$5 = advanceStringIndex$4$1;
-	var regExpExec$5 = regexpExecAbstract$1;
-	var InternalStateModule$a = internalState;
-	var IS_PURE$2 = isPure;
-
-	var MATCH_ALL$1 = wellKnownSymbol$1$1('matchAll');
-	var REGEXP_STRING$1 = 'RegExp String';
-	var REGEXP_STRING_ITERATOR$1 = REGEXP_STRING$1 + ' Iterator';
-	var setInternalState$a = InternalStateModule$a.set;
-	var getInternalState$2$1 = InternalStateModule$a.getterFor(REGEXP_STRING_ITERATOR$1);
-	var RegExpPrototype$3$1 = RegExp.prototype;
-	var TypeError$4$1 = global$5$1.TypeError;
-	var getFlags$1$1 = uncurryThis$2$1(regExpFlags$1$1);
-	var stringIndexOf$1$1 = uncurryThis$2$1(''.indexOf);
-	var un$MatchAll$1 = uncurryThis$2$1(''.matchAll);
-
-	var WORKS_WITH_NON_GLOBAL_REGEX$1 = !!un$MatchAll$1 && !fails$2$1(function () {
-	  un$MatchAll$1('a', /./);
-	});
-
-	var $RegExpStringIterator$1 = createIteratorConstructor$4(function RegExpStringIterator(regexp, string, $global, fullUnicode) {
-	  setInternalState$a(this, {
-	    type: REGEXP_STRING_ITERATOR$1,
-	    regexp: regexp,
-	    string: string,
-	    global: $global,
-	    unicode: fullUnicode,
-	    done: false
-	  });
-	}, REGEXP_STRING$1, function next() {
-	  var state = getInternalState$2$1(this);
-	  if (state.done) return { value: undefined, done: true };
-	  var R = state.regexp;
-	  var S = state.string;
-	  var match = regExpExec$5(R, S);
-	  if (match === null) return { value: undefined, done: state.done = true };
-	  if (state.global) {
-	    if (toString$2$1(match[0]) === '') R.lastIndex = advanceStringIndex$5(S, toLength$c(R.lastIndex), state.unicode);
-	    return { value: match, done: false };
-	  }
-	  state.done = true;
-	  return { value: match, done: false };
-	});
-
-	var $matchAll$1 = function (string) {
-	  var R = anObject$r(this);
-	  var S = toString$2$1(string);
-	  var C, flagsValue, flags, matcher, $global, fullUnicode;
-	  C = speciesConstructor$5(R, RegExp);
-	  flagsValue = R.flags;
-	  if (flagsValue === undefined && isPrototypeOf$1$1(RegExpPrototype$3$1, R) && !('flags' in RegExpPrototype$3$1)) {
-	    flagsValue = getFlags$1$1(R);
-	  }
-	  flags = flagsValue === undefined ? '' : toString$2$1(flagsValue);
-	  matcher = new C(C === RegExp ? R.source : R, flags);
-	  $global = !!~stringIndexOf$1$1(flags, 'g');
-	  fullUnicode = !!~stringIndexOf$1$1(flags, 'u');
-	  matcher.lastIndex = toLength$c(R.lastIndex);
-	  return new $RegExpStringIterator$1(matcher, S, $global, fullUnicode);
-	};
-
-	// `String.prototype.matchAll` method
-	// https://tc39.es/ecma262/#sec-string.prototype.matchall
-	$$8$1({ target: 'String', proto: true, forced: WORKS_WITH_NON_GLOBAL_REGEX$1 }, {
-	  matchAll: function matchAll(regexp) {
-	    var O = requireObjectCoercible$g(this);
-	    var flags, S, matcher, rx;
-	    if (regexp != null) {
-	      if (isRegExp$1$1(regexp)) {
-	        flags = toString$2$1(requireObjectCoercible$g('flags' in RegExpPrototype$3$1
-	          ? regexp.flags
-	          : getFlags$1$1(regexp)
-	        ));
-	        if (!~stringIndexOf$1$1(flags, 'g')) throw TypeError$4$1('`.matchAll` does not allow non-global regexes');
-	      }
-	      if (WORKS_WITH_NON_GLOBAL_REGEX$1) return un$MatchAll$1(O, regexp);
-	      matcher = getMethod$8(regexp, MATCH_ALL$1);
-	      if (matcher === undefined && IS_PURE$2 && classof$2$1(regexp) == 'RegExp') matcher = $matchAll$1;
-	      if (matcher) return call$1$1(matcher, regexp, O);
-	    } else if (WORKS_WITH_NON_GLOBAL_REGEX$1) return un$MatchAll$1(O, regexp);
-	    S = toString$2$1(O);
-	    rx = new RegExp(regexp, 'g');
-	    return rx[MATCH_ALL$1](S);
-	  }
-	});
-
-	MATCH_ALL$1 in RegExpPrototype$3$1 || redefine$1$1(RegExpPrototype$3$1, MATCH_ALL$1, $matchAll$1);
-
-	var $$7$1 = _export;
-	var $map$2 = arrayIteration$1.map;
-	var arrayMethodHasSpeciesSupport$1$1 = arrayMethodHasSpeciesSupport$5;
-
-	var HAS_SPECIES_SUPPORT$1$1 = arrayMethodHasSpeciesSupport$1$1('map');
-
-	// `Array.prototype.map` method
-	// https://tc39.es/ecma262/#sec-array.prototype.map
-	// with adding support of @@species
-	$$7$1({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$1$1 }, {
-	  map: function map(callbackfn /* , thisArg */) {
-	    return $map$2(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-	  }
-	});
-
-	function _createForOfIteratorHelper$4(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$4(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-	function _unsupportedIterableToArray$4(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$4(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$4(o, minLen); }
-
-	function _arrayLikeToArray$4(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-	var ResponseFactory = /*#__PURE__*/function () {
-	  function ResponseFactory() {
-	    _classCallCheck(this, ResponseFactory);
-	  }
-
-	  _createClass(ResponseFactory, null, [{
-	    key: "fromPostedData",
-	    value:
-	    /**
-	     *
-	     * @param {FormData} formData
-	     * @returns {LocalResponse}
-	     */
-	    function fromPostedData(formData) {
-	      /**
-	       * the object that will be saved to IndexedDb
-	       *
-	       * this needs to be in scope for several stages of the promise chain
-	       * @type {{[saved]: string, [type]: string, [imageId]: string, [surveyId]: string, [occurrenceId]: string, [image]: file, [projectId]: number, saveState: string }}
-	       */
-	      var toSaveLocally = {
-	        saveState: SAVE_STATE_LOCAL // mark as not saved externally
-
-	      };
-
-	      var _iterator = _createForOfIteratorHelper$4(formData.entries()),
-	          _step;
-
-	      try {
-	        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-	          var pair = _step.value;
-	          toSaveLocally[pair[0]] = pair[1];
-	        }
-	      } catch (err) {
-	        _iterator.e(err);
-	      } finally {
-	        _iterator.f();
-	      }
-
-	      if (!toSaveLocally.type) {
-	        throw new Error('Missing type in form data.');
-	      }
-
-	      if (ResponseFactory.responses.hasOwnProperty(toSaveLocally.type)) {
-	        return new ResponseFactory.responses[toSaveLocally.type](toSaveLocally, {});
-	      } else {
-	        throw new Error("Unrecognised post type '".concat(toSaveLocally.type, "'"));
-	      }
-	    }
-	    /**
-	     *
-	     * @param {{}} returnedToClient
-	     */
-
-	  }, {
-	    key: "fromPostResponse",
-	    value: function fromPostResponse(returnedToClient) {
-	      if (!returnedToClient) {
-	        throw new Error('Invalid empty post response.');
-	      }
-
-	      if (!returnedToClient.type) {
-	        throw new Error('Missing type in returned response.');
-	      }
-
-	      if (ResponseFactory.responses.hasOwnProperty(returnedToClient.type)) {
-	        console.log("in fromPostResponse returning a ".concat(returnedToClient.type));
-	        return new ResponseFactory.responses[returnedToClient.type]({}, returnedToClient);
-	      } else {
-	        throw new Error("Unrecognised post type '".concat(returnedToClient.type, "'"));
-	      }
-	    }
-	  }]);
-
-	  return ResponseFactory;
-	}();
-
-	_defineProperty(ResponseFactory, "responses", {});
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-	function isPushStateAvailable() {
-	  return !!(typeof window !== 'undefined' && window.history && window.history.pushState);
-	}
-
-	function Navigo(r, useHash, hash) {
-	  this.root = null;
-	  this._routes = [];
-	  this._useHash = useHash;
-	  this._hash = typeof hash === 'undefined' ? '#' : hash;
-	  this._paused = false;
-	  this._destroyed = false;
-	  this._lastRouteResolved = null;
-	  this._notFoundHandler = null;
-	  this._defaultHandler = null;
-	  this._usePushState = !useHash && isPushStateAvailable();
-	  this._onLocationChange = this._onLocationChange.bind(this);
-	  this._genericHooks = null;
-	  this._historyAPIUpdateMethod = 'pushState';
-
-	  if (r) {
-	    this.root = useHash ? r.replace(/\/$/, '/' + this._hash) : r.replace(/\/$/, '');
-	  } else if (useHash) {
-	    this.root = this._cLoc().split(this._hash)[0].replace(/\/$/, '/' + this._hash);
-	  }
-
-	  this._listen();
-	  this.updatePageLinks();
-	}
-
-	function clean(s) {
-	  if (s instanceof RegExp) return s;
-	  return s.replace(/\/+$/, '').replace(/^\/+/, '^/');
-	}
-
-	function regExpResultToParams(match, names) {
-	  if (names.length === 0) return null;
-	  if (!match) return null;
-	  return match.slice(1, match.length).reduce(function (params, value, index) {
-	    if (params === null) params = {};
-	    params[names[index]] = decodeURIComponent(value);
-	    return params;
-	  }, null);
-	}
-
-	function replaceDynamicURLParts(route) {
-	  var paramNames = [],
-	      regexp;
-
-	  if (route instanceof RegExp) {
-	    regexp = route;
-	  } else {
-	    regexp = new RegExp(route.replace(Navigo.PARAMETER_REGEXP, function (full, dots, name) {
-	      paramNames.push(name);
-	      return Navigo.REPLACE_VARIABLE_REGEXP;
-	    }).replace(Navigo.WILDCARD_REGEXP, Navigo.REPLACE_WILDCARD) + Navigo.FOLLOWED_BY_SLASH_REGEXP, Navigo.MATCH_REGEXP_FLAGS);
-	  }
-	  return { regexp: regexp, paramNames: paramNames };
-	}
-
-	function getUrlDepth(url) {
-	  return url.replace(/\/$/, '').split('/').length;
-	}
-
-	function compareUrlDepth(urlA, urlB) {
-	  return getUrlDepth(urlB) - getUrlDepth(urlA);
-	}
-
-	function findMatchedRoutes(url) {
-	  var routes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-	  return routes.map(function (route) {
-	    var _replaceDynamicURLPar = replaceDynamicURLParts(clean(route.route)),
-	        regexp = _replaceDynamicURLPar.regexp,
-	        paramNames = _replaceDynamicURLPar.paramNames;
-
-	    var match = url.replace(/^\/+/, '/').match(regexp);
-	    var params = regExpResultToParams(match, paramNames);
-
-	    return match ? { match: match, route: route, params: params } : false;
-	  }).filter(function (m) {
-	    return m;
-	  });
-	}
-
-	function match(url, routes) {
-	  return findMatchedRoutes(url, routes)[0] || false;
-	}
-
-	function root(url, routes) {
-	  var matched = routes.map(function (route) {
-	    return route.route === '' || route.route === '*' ? url : url.split(new RegExp(route.route + '($|\/)'))[0];
-	  });
-	  var fallbackURL = clean(url);
-
-	  if (matched.length > 1) {
-	    return matched.reduce(function (result, url) {
-	      if (result.length > url.length) result = url;
-	      return result;
-	    }, matched[0]);
-	  } else if (matched.length === 1) {
-	    return matched[0];
-	  }
-	  return fallbackURL;
-	}
-
-	function isHashChangeAPIAvailable() {
-	  return typeof window !== 'undefined' && 'onhashchange' in window;
-	}
-
-	function extractGETParameters(url) {
-	  return url.split(/\?(.*)?$/).slice(1).join('');
-	}
-
-	function getOnlyURL(url, useHash, hash) {
-	  var onlyURL = url,
-	      split;
-	  var cleanGETParam = function cleanGETParam(str) {
-	    return str.split(/\?(.*)?$/)[0];
-	  };
-
-	  if (typeof hash === 'undefined') {
-	    // To preserve BC
-	    hash = '#';
-	  }
-
-	  if (isPushStateAvailable() && !useHash) {
-	    onlyURL = cleanGETParam(url).split(hash)[0];
-	  } else {
-	    split = url.split(hash);
-	    onlyURL = split.length > 1 ? cleanGETParam(split[1]) : cleanGETParam(split[0]);
-	  }
-
-	  return onlyURL;
-	}
-
-	function manageHooks(handler, hooks, params) {
-	  if (hooks && (typeof hooks === 'undefined' ? 'undefined' : _typeof(hooks)) === 'object') {
-	    if (hooks.before) {
-	      hooks.before(function () {
-	        var shouldRoute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
-	        if (!shouldRoute) return;
-	        handler();
-	        hooks.after && hooks.after(params);
-	      }, params);
-	      return;
-	    } else if (hooks.after) {
-	      handler();
-	      hooks.after && hooks.after(params);
-	      return;
-	    }
-	  }
-	  handler();
-	}
-
-	function isHashedRoot(url, useHash, hash) {
-	  if (isPushStateAvailable() && !useHash) {
-	    return false;
-	  }
-
-	  if (!url.match(hash)) {
-	    return false;
-	  }
-
-	  var split = url.split(hash);
-
-	  return split.length < 2 || split[1] === '';
-	}
-
-	Navigo.prototype = {
-	  helpers: {
-	    match: match,
-	    root: root,
-	    clean: clean,
-	    getOnlyURL: getOnlyURL
-	  },
-	  navigate: function navigate(path, absolute) {
-	    var to;
-
-	    path = path || '';
-	    if (this._usePushState) {
-	      to = (!absolute ? this._getRoot() + '/' : '') + path.replace(/^\/+/, '/');
-	      to = to.replace(/([^:])(\/{2,})/g, '$1/');
-	      history[this._historyAPIUpdateMethod]({}, '', to);
-	      this.resolve();
-	    } else if (typeof window !== 'undefined') {
-	      path = path.replace(new RegExp('^' + this._hash), '');
-	      window.location.href = window.location.href.replace(/#$/, '').replace(new RegExp(this._hash + '.*$'), '') + this._hash + path;
-	    }
-	    return this;
-	  },
-	  on: function on() {
-	    var _this = this;
-
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    if (typeof args[0] === 'function') {
-	      this._defaultHandler = { handler: args[0], hooks: args[1] };
-	    } else if (args.length >= 2) {
-	      if (args[0] === '/') {
-	        var func = args[1];
-
-	        if (_typeof(args[1]) === 'object') {
-	          func = args[1].uses;
-	        }
-
-	        this._defaultHandler = { handler: func, hooks: args[2] };
-	      } else {
-	        this._add(args[0], args[1], args[2]);
-	      }
-	    } else if (_typeof(args[0]) === 'object') {
-	      var orderedRoutes = Object.keys(args[0]).sort(compareUrlDepth);
-
-	      orderedRoutes.forEach(function (route) {
-	        _this.on(route, args[0][route]);
-	      });
-	    }
-	    return this;
-	  },
-	  off: function off(handler) {
-	    if (this._defaultHandler !== null && handler === this._defaultHandler.handler) {
-	      this._defaultHandler = null;
-	    } else if (this._notFoundHandler !== null && handler === this._notFoundHandler.handler) {
-	      this._notFoundHandler = null;
-	    }
-	    this._routes = this._routes.reduce(function (result, r) {
-	      if (r.handler !== handler) result.push(r);
-	      return result;
-	    }, []);
-	    return this;
-	  },
-	  notFound: function notFound(handler, hooks) {
-	    this._notFoundHandler = { handler: handler, hooks: hooks };
-	    return this;
-	  },
-	  resolve: function resolve(current) {
-	    var _this2 = this;
-
-	    var handler, m;
-	    var url = (current || this._cLoc()).replace(this._getRoot(), '');
-
-	    if (this._useHash) {
-	      url = url.replace(new RegExp('^\/' + this._hash), '/');
-	    }
-
-	    var GETParameters = extractGETParameters(current || this._cLoc());
-	    var onlyURL = getOnlyURL(url, this._useHash, this._hash);
-
-	    if (this._paused) return false;
-
-	    if (this._lastRouteResolved && onlyURL === this._lastRouteResolved.url && GETParameters === this._lastRouteResolved.query) {
-	      if (this._lastRouteResolved.hooks && this._lastRouteResolved.hooks.already) {
-	        this._lastRouteResolved.hooks.already(this._lastRouteResolved.params);
-	      }
-	      return false;
-	    }
-
-	    m = match(onlyURL, this._routes);
-
-	    if (m) {
-	      this._callLeave();
-	      this._lastRouteResolved = {
-	        url: onlyURL,
-	        query: GETParameters,
-	        hooks: m.route.hooks,
-	        params: m.params,
-	        name: m.route.name
-	      };
-	      handler = m.route.handler;
-	      manageHooks(function () {
-	        manageHooks(function () {
-	          m.route.route instanceof RegExp ? handler.apply(undefined, m.match.slice(1, m.match.length)) : handler(m.params, GETParameters);
-	        }, m.route.hooks, m.params, _this2._genericHooks);
-	      }, this._genericHooks, m.params);
-	      return m;
-	    } else if (this._defaultHandler && (onlyURL === '' || onlyURL === '/' || onlyURL === this._hash || isHashedRoot(onlyURL, this._useHash, this._hash))) {
-	      manageHooks(function () {
-	        manageHooks(function () {
-	          _this2._callLeave();
-	          _this2._lastRouteResolved = { url: onlyURL, query: GETParameters, hooks: _this2._defaultHandler.hooks };
-	          _this2._defaultHandler.handler(GETParameters);
-	        }, _this2._defaultHandler.hooks);
-	      }, this._genericHooks);
-	      return true;
-	    } else if (this._notFoundHandler) {
-	      manageHooks(function () {
-	        manageHooks(function () {
-	          _this2._callLeave();
-	          _this2._lastRouteResolved = { url: onlyURL, query: GETParameters, hooks: _this2._notFoundHandler.hooks };
-	          _this2._notFoundHandler.handler(GETParameters);
-	        }, _this2._notFoundHandler.hooks);
-	      }, this._genericHooks);
-	    }
-	    return false;
-	  },
-	  destroy: function destroy() {
-	    this._routes = [];
-	    this._destroyed = true;
-	    this._lastRouteResolved = null;
-	    this._genericHooks = null;
-	    clearTimeout(this._listeningInterval);
-	    if (typeof window !== 'undefined') {
-	      window.removeEventListener('popstate', this._onLocationChange);
-	      window.removeEventListener('hashchange', this._onLocationChange);
-	    }
-	  },
-	  updatePageLinks: function updatePageLinks() {
-	    var self = this;
-
-	    if (typeof document === 'undefined') return;
-
-	    this._findLinks().forEach(function (link) {
-	      if (!link.hasListenerAttached) {
-	        link.addEventListener('click', function (e) {
-	          if ((e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() == 'a') {
-	            return false;
-	          }
-	          var location = self.getLinkPath(link);
-
-	          if (!self._destroyed) {
-	            e.preventDefault();
-	            self.navigate(location.replace(/\/+$/, '').replace(/^\/+/, '/'));
-	          }
-	        });
-	        link.hasListenerAttached = true;
-	      }
-	    });
-	  },
-	  generate: function generate(name) {
-	    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-	    var result = this._routes.reduce(function (result, route) {
-	      var key;
-
-	      if (route.name === name) {
-	        result = route.route;
-	        for (key in data) {
-	          result = result.toString().replace(':' + key, data[key]);
-	        }
-	      }
-	      return result;
-	    }, '');
-
-	    return this._useHash ? this._hash + result : result;
-	  },
-	  link: function link(path) {
-	    return this._getRoot() + path;
-	  },
-	  pause: function pause() {
-	    var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
-	    this._paused = status;
-	    if (status) {
-	      this._historyAPIUpdateMethod = 'replaceState';
-	    } else {
-	      this._historyAPIUpdateMethod = 'pushState';
-	    }
-	  },
-	  resume: function resume() {
-	    this.pause(false);
-	  },
-	  historyAPIUpdateMethod: function historyAPIUpdateMethod(value) {
-	    if (typeof value === 'undefined') return this._historyAPIUpdateMethod;
-	    this._historyAPIUpdateMethod = value;
-	    return value;
-	  },
-	  disableIfAPINotAvailable: function disableIfAPINotAvailable() {
-	    if (!isPushStateAvailable()) {
-	      this.destroy();
-	    }
-	  },
-	  lastRouteResolved: function lastRouteResolved() {
-	    return this._lastRouteResolved;
-	  },
-	  getLinkPath: function getLinkPath(link) {
-	    return link.getAttribute('href');
-	  },
-	  hooks: function hooks(_hooks) {
-	    this._genericHooks = _hooks;
-	  },
-
-	  _add: function _add(route) {
-	    var handler = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	    var hooks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-	    if (typeof route === 'string') {
-	      route = encodeURI(route);
-	    }
-	    this._routes.push((typeof handler === 'undefined' ? 'undefined' : _typeof(handler)) === 'object' ? {
-	      route: route,
-	      handler: handler.uses,
-	      name: handler.as,
-	      hooks: hooks || handler.hooks
-	    } : { route: route, handler: handler, hooks: hooks });
-
-	    return this._add;
-	  },
-	  _getRoot: function _getRoot() {
-	    if (this.root !== null) return this.root;
-	    this.root = root(this._cLoc().split('?')[0], this._routes);
-	    return this.root;
-	  },
-	  _listen: function _listen() {
-	    var _this3 = this;
-
-	    if (this._usePushState) {
-	      window.addEventListener('popstate', this._onLocationChange);
-	    } else if (isHashChangeAPIAvailable()) {
-	      window.addEventListener('hashchange', this._onLocationChange);
-	    } else {
-	      var cached = this._cLoc(),
-	          current = void 0,
-	          _check = void 0;
-
-	      _check = function check() {
-	        current = _this3._cLoc();
-	        if (cached !== current) {
-	          cached = current;
-	          _this3.resolve();
-	        }
-	        _this3._listeningInterval = setTimeout(_check, 200);
-	      };
-	      _check();
-	    }
-	  },
-	  _cLoc: function _cLoc() {
-	    if (typeof window !== 'undefined') {
-	      if (typeof window.__NAVIGO_WINDOW_LOCATION_MOCK__ !== 'undefined') {
-	        return window.__NAVIGO_WINDOW_LOCATION_MOCK__;
-	      }
-	      return clean(window.location.href);
-	    }
-	    return '';
-	  },
-	  _findLinks: function _findLinks() {
-	    return [].slice.call(document.querySelectorAll('[data-navigo]'));
-	  },
-	  _onLocationChange: function _onLocationChange() {
-	    this.resolve();
-	  },
-	  _callLeave: function _callLeave() {
-	    var lastRouteResolved = this._lastRouteResolved;
-
-	    if (lastRouteResolved && lastRouteResolved.hooks && lastRouteResolved.hooks.leave) {
-	      lastRouteResolved.hooks.leave(lastRouteResolved.params);
-	    }
-	  }
-	};
-
-	Navigo.PARAMETER_REGEXP = /([:*])(\w+)/g;
-	Navigo.WILDCARD_REGEXP = /\*/g;
-	Navigo.REPLACE_VARIABLE_REGEXP = '([^\/]+)';
-	Navigo.REPLACE_WILDCARD = '(?:.*)';
-	Navigo.FOLLOWED_BY_SLASH_REGEXP = '(?:\/$|$)';
-	Navigo.MATCH_REGEXP_FLAGS = '';
-
-	/**
-	 *
-	 * @param {MouseEvent} event
-	 * @returns {boolean}
-	 */
-	function doubleClickIntercepted(event) {
-	  if (event.detail && event.detail > 1) {
-	    event.preventDefault();
-	    event.stopPropagation();
-	    return true;
-	  }
-
-	  return false;
-	}
-
-	function _createSuper$b(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$b(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$b() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-	var PatchedNavigo = /*#__PURE__*/function (_Navigo) {
-	  _inherits(PatchedNavigo, _Navigo);
-
-	  var _super = _createSuper$b(PatchedNavigo);
-
-	  function PatchedNavigo() {
-	    _classCallCheck(this, PatchedNavigo);
-
-	    return _super.apply(this, arguments);
-	  }
-
-	  _createClass(PatchedNavigo, [{
-	    key: "updatePageLinks",
-	    value: function updatePageLinks() {
-	      var _this = this;
-
-	      if (typeof document === 'undefined') {
-	        return;
-	      }
-
-	      var l = document.createElement("a");
-	      l.href = this.root;
-	      var rootPath = l.pathname;
-
-	      this._findLinks().forEach(function (link) {
-	        if (!link.hasListenerAttached) {
-	          link.addEventListener('click',
-	          /** @param {MouseEvent} e */
-	          function (e) {
-	            if (doubleClickIntercepted(e)) {
-	              return;
-	            }
-
-	            if ((e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() === 'a') {
-	              return false;
-	            }
-
-	            if (!_this._destroyed) {
-	              var path = link.pathname; // console.log({path});
-
-	              var leaf = path.replace(rootPath, ''); // console.log({leaf});
-	              //var location = self.getLinkPath(link);
-
-	              e.preventDefault(); //self.navigate(location.replace(/\/+$/, '').replace(/^\/+/, '/'));
-
-	              _this.navigate(leaf);
-	            }
-	          });
-	          link.hasListenerAttached = true;
-	        }
-	      });
-	    }
-	  }]);
-
-	  return PatchedNavigo;
-	}(Navigo);
-
-	var DESCRIPTORS$2$1 = descriptors;
-	var global$4$1 = global$Z$1;
-	var uncurryThis$1$1 = functionUncurryThis;
-	var isForced$5 = isForced_1;
-	var inheritIfRequired$5 = inheritIfRequired$2$1;
-	var createNonEnumerableProperty$a = createNonEnumerableProperty$8$1;
-	var defineProperty$2$1 = objectDefineProperty.f;
-	var getOwnPropertyNames$5 = objectGetOwnPropertyNames.f;
-	var isPrototypeOf$9 = objectIsPrototypeOf;
-	var isRegExp$5 = isRegexp$1;
-	var toString$1$1 = toString$c$1;
-	var regExpFlags$5 = regexpFlags$1$1;
-	var stickyHelpers$3 = regexpStickyHelpers$1;
-	var redefine$e = redefine$d$1.exports;
-	var fails$1$1 = fails$x$1;
-	var hasOwn$h = hasOwnProperty_1;
-	var enforceInternalState$2 = internalState.enforce;
-	var setSpecies$5 = setSpecies$3$1;
-	var wellKnownSymbol$r = wellKnownSymbol$q;
-	var UNSUPPORTED_DOT_ALL$1$1 = regexpUnsupportedDotAll$1;
-	var UNSUPPORTED_NCG$2 = regexpUnsupportedNcg$1;
-
-	var MATCH$3 = wellKnownSymbol$r('match');
-	var NativeRegExp$1 = global$4$1.RegExp;
-	var RegExpPrototype$2$1 = NativeRegExp$1.prototype;
-	var SyntaxError$1 = global$4$1.SyntaxError;
-	var getFlags$4 = uncurryThis$1$1(regExpFlags$5);
-	var exec$9 = uncurryThis$1$1(RegExpPrototype$2$1.exec);
-	var charAt$d = uncurryThis$1$1(''.charAt);
-	var replace$b = uncurryThis$1$1(''.replace);
-	var stringIndexOf$5 = uncurryThis$1$1(''.indexOf);
-	var stringSlice$f = uncurryThis$1$1(''.slice);
-	// TODO: Use only propper RegExpIdentifierName
-	var IS_NCG$1 = /^\?<[^\s\d!#%&*+<=>@^][^\s!#%&*+<=>@^]*>/;
-	var re1$1 = /a/g;
-	var re2$1 = /a/g;
-
-	// "new" should create a new object, old webkit bug
-	var CORRECT_NEW$1 = new NativeRegExp$1(re1$1) !== re1$1;
-
-	var UNSUPPORTED_Y$1$1 = stickyHelpers$3.UNSUPPORTED_Y;
-
-	var BASE_FORCED$1 = DESCRIPTORS$2$1 &&
-	  (!CORRECT_NEW$1 || UNSUPPORTED_Y$1$1 || UNSUPPORTED_DOT_ALL$1$1 || UNSUPPORTED_NCG$2 || fails$1$1(function () {
-	    re2$1[MATCH$3] = false;
-	    // RegExp constructor can alter flags and IsRegExp works correct with @@match
-	    return NativeRegExp$1(re1$1) != re1$1 || NativeRegExp$1(re2$1) == re2$1 || NativeRegExp$1(re1$1, 'i') != '/a/i';
-	  }));
-
-	var handleDotAll$1 = function (string) {
-	  var length = string.length;
-	  var index = 0;
-	  var result = '';
-	  var brackets = false;
-	  var chr;
-	  for (; index <= length; index++) {
-	    chr = charAt$d(string, index);
-	    if (chr === '\\') {
-	      result += chr + charAt$d(string, ++index);
-	      continue;
-	    }
-	    if (!brackets && chr === '.') {
-	      result += '[\\s\\S]';
-	    } else {
-	      if (chr === '[') {
-	        brackets = true;
-	      } else if (chr === ']') {
-	        brackets = false;
-	      } result += chr;
-	    }
-	  } return result;
-	};
-
-	var handleNCG$1 = function (string) {
-	  var length = string.length;
-	  var index = 0;
-	  var result = '';
-	  var named = [];
-	  var names = {};
-	  var brackets = false;
-	  var ncg = false;
-	  var groupid = 0;
-	  var groupname = '';
-	  var chr;
-	  for (; index <= length; index++) {
-	    chr = charAt$d(string, index);
-	    if (chr === '\\') {
-	      chr = chr + charAt$d(string, ++index);
-	    } else if (chr === ']') {
-	      brackets = false;
-	    } else if (!brackets) switch (true) {
-	      case chr === '[':
-	        brackets = true;
-	        break;
-	      case chr === '(':
-	        if (exec$9(IS_NCG$1, stringSlice$f(string, index + 1))) {
-	          index += 2;
-	          ncg = true;
-	        }
-	        result += chr;
-	        groupid++;
-	        continue;
-	      case chr === '>' && ncg:
-	        if (groupname === '' || hasOwn$h(names, groupname)) {
-	          throw new SyntaxError$1('Invalid capture group name');
-	        }
-	        names[groupname] = true;
-	        named[named.length] = [groupname, groupid];
-	        ncg = false;
-	        groupname = '';
-	        continue;
-	    }
-	    if (ncg) groupname += chr;
-	    else result += chr;
-	  } return [result, named];
-	};
-
-	// `RegExp` constructor
-	// https://tc39.es/ecma262/#sec-regexp-constructor
-	if (isForced$5('RegExp', BASE_FORCED$1)) {
-	  var RegExpWrapper$1 = function RegExp(pattern, flags) {
-	    var thisIsRegExp = isPrototypeOf$9(RegExpPrototype$2$1, this);
-	    var patternIsRegExp = isRegExp$5(pattern);
-	    var flagsAreUndefined = flags === undefined;
-	    var groups = [];
-	    var rawPattern = pattern;
-	    var rawFlags, dotAll, sticky, handled, result, state;
-
-	    if (!thisIsRegExp && patternIsRegExp && flagsAreUndefined && pattern.constructor === RegExpWrapper$1) {
-	      return pattern;
-	    }
-
-	    if (patternIsRegExp || isPrototypeOf$9(RegExpPrototype$2$1, pattern)) {
-	      pattern = pattern.source;
-	      if (flagsAreUndefined) flags = 'flags' in rawPattern ? rawPattern.flags : getFlags$4(rawPattern);
-	    }
-
-	    pattern = pattern === undefined ? '' : toString$1$1(pattern);
-	    flags = flags === undefined ? '' : toString$1$1(flags);
-	    rawPattern = pattern;
-
-	    if (UNSUPPORTED_DOT_ALL$1$1 && 'dotAll' in re1$1) {
-	      dotAll = !!flags && stringIndexOf$5(flags, 's') > -1;
-	      if (dotAll) flags = replace$b(flags, /s/g, '');
-	    }
-
-	    rawFlags = flags;
-
-	    if (UNSUPPORTED_Y$1$1 && 'sticky' in re1$1) {
-	      sticky = !!flags && stringIndexOf$5(flags, 'y') > -1;
-	      if (sticky) flags = replace$b(flags, /y/g, '');
-	    }
-
-	    if (UNSUPPORTED_NCG$2) {
-	      handled = handleNCG$1(pattern);
-	      pattern = handled[0];
-	      groups = handled[1];
-	    }
-
-	    result = inheritIfRequired$5(NativeRegExp$1(pattern, flags), thisIsRegExp ? this : RegExpPrototype$2$1, RegExpWrapper$1);
-
-	    if (dotAll || sticky || groups.length) {
-	      state = enforceInternalState$2(result);
-	      if (dotAll) {
-	        state.dotAll = true;
-	        state.raw = RegExpWrapper$1(handleDotAll$1(pattern), rawFlags);
-	      }
-	      if (sticky) state.sticky = true;
-	      if (groups.length) state.groups = groups;
-	    }
-
-	    if (pattern !== rawPattern) try {
-	      // fails in old engines, but we have no alternatives for unsupported regex syntax
-	      createNonEnumerableProperty$a(result, 'source', rawPattern === '' ? '(?:)' : rawPattern);
-	    } catch (error) { /* empty */ }
-
-	    return result;
-	  };
-
-	  var proxy$1 = function (key) {
-	    key in RegExpWrapper$1 || defineProperty$2$1(RegExpWrapper$1, key, {
-	      configurable: true,
-	      get: function () { return NativeRegExp$1[key]; },
-	      set: function (it) { NativeRegExp$1[key] = it; }
-	    });
-	  };
-
-	  for (var keys$3 = getOwnPropertyNames$5(NativeRegExp$1), index$1 = 0; keys$3.length > index$1;) {
-	    proxy$1(keys$3[index$1++]);
-	  }
-
-	  RegExpPrototype$2$1.constructor = RegExpWrapper$1;
-	  RegExpWrapper$1.prototype = RegExpPrototype$2$1;
-	  redefine$e(global$4$1, 'RegExp', RegExpWrapper$1);
-	}
-
-	// https://tc39.es/ecma262/#sec-get-regexp-@@species
-	setSpecies$5('RegExp');
-
-	var global$3$1 = global$Z$1;
-	var DESCRIPTORS$1$1 = descriptors;
-	var UNSUPPORTED_DOT_ALL$3 = regexpUnsupportedDotAll$1;
-	var classof$1$1 = classofRaw$1;
-	var defineProperty$1$1 = objectDefineProperty.f;
-	var getInternalState$1$1 = internalState.get;
-
-	var RegExpPrototype$1$1 = RegExp.prototype;
-	var TypeError$3$1 = global$3$1.TypeError;
-
-	// `RegExp.prototype.dotAll` getter
-	// https://tc39.es/ecma262/#sec-get-regexp.prototype.dotall
-	if (DESCRIPTORS$1$1 && UNSUPPORTED_DOT_ALL$3) {
-	  defineProperty$1$1(RegExpPrototype$1$1, 'dotAll', {
-	    configurable: true,
-	    get: function () {
-	      if (this === RegExpPrototype$1$1) return undefined;
-	      // We can't use InternalStateModule.getterFor because
-	      // we don't add metadata for regexps created by a literal.
-	      if (classof$1$1(this) === 'RegExp') {
-	        return !!getInternalState$1$1(this).dotAll;
-	      }
-	      throw TypeError$3$1('Incompatible receiver, RegExp required');
-	    }
-	  });
-	}
-
-	var global$2$1 = global$Z$1;
-	var DESCRIPTORS$r = descriptors;
-	var UNSUPPORTED_Y$4 = regexpStickyHelpers$1.UNSUPPORTED_Y;
-	var classof$f = classofRaw$1;
-	var defineProperty$c = objectDefineProperty.f;
-	var getInternalState$9 = internalState.get;
-
-	var RegExpPrototype$8 = RegExp.prototype;
-	var TypeError$2$1 = global$2$1.TypeError;
-
-	// `RegExp.prototype.sticky` getter
-	// https://tc39.es/ecma262/#sec-get-regexp.prototype.sticky
-	if (DESCRIPTORS$r && UNSUPPORTED_Y$4) {
-	  defineProperty$c(RegExpPrototype$8, 'sticky', {
-	    configurable: true,
-	    get: function () {
-	      if (this === RegExpPrototype$8) return undefined;
-	      // We can't use InternalStateModule.getterFor because
-	      // we don't add metadata for regexps created by a literal.
-	      if (classof$f(this) === 'RegExp') {
-	        return !!getInternalState$9(this).sticky;
-	      }
-	      throw TypeError$2$1('Incompatible receiver, RegExp required');
-	    }
-	  });
-	}
-
-	var arraySlice$c = arraySlice$6$1;
-
-	var floor$a = Math.floor;
-
-	var mergeSort$1 = function (array, comparefn) {
-	  var length = array.length;
-	  var middle = floor$a(length / 2);
-	  return length < 8 ? insertionSort$1(array, comparefn) : merge$1(
-	    array,
-	    mergeSort$1(arraySlice$c(array, 0, middle), comparefn),
-	    mergeSort$1(arraySlice$c(array, middle), comparefn),
-	    comparefn
-	  );
-	};
-
-	var insertionSort$1 = function (array, comparefn) {
-	  var length = array.length;
-	  var i = 1;
-	  var element, j;
-
-	  while (i < length) {
-	    j = i;
-	    element = array[i];
-	    while (j && comparefn(array[j - 1], element) > 0) {
-	      array[j] = array[--j];
-	    }
-	    if (j !== i++) array[j] = element;
-	  } return array;
-	};
-
-	var merge$1 = function (array, left, right, comparefn) {
-	  var llength = left.length;
-	  var rlength = right.length;
-	  var lindex = 0;
-	  var rindex = 0;
-
-	  while (lindex < llength || rindex < rlength) {
-	    array[lindex + rindex] = (lindex < llength && rindex < rlength)
-	      ? comparefn(left[lindex], right[rindex]) <= 0 ? left[lindex++] : right[rindex++]
-	      : lindex < llength ? left[lindex++] : right[rindex++];
-	  } return array;
-	};
-
-	var arraySort$2 = mergeSort$1;
-
-	var userAgent$1$1 = engineUserAgent;
-
-	var firefox$1 = userAgent$1$1.match(/firefox\/(\d+)/i);
-
-	var engineFfVersion$1 = !!firefox$1 && +firefox$1[1];
-
-	var UA$1 = engineUserAgent;
-
-	var engineIsIeOrEdge$1 = /MSIE|Trident/.test(UA$1);
-
-	var userAgent$6 = engineUserAgent;
-
-	var webkit$1 = userAgent$6.match(/AppleWebKit\/(\d+)\./);
-
-	var engineWebkitVersion$1 = !!webkit$1 && +webkit$1[1];
-
-	var $$6$1 = _export;
-	var uncurryThis$Z = functionUncurryThis;
-	var aCallable$a = aCallable$7$1;
-	var toObject$1$1 = toObject$a$1;
-	var lengthOfArrayLike$1$1 = lengthOfArrayLike$8$1;
-	var toString$s = toString$c$1;
-	var fails$X = fails$x$1;
-	var internalSort$2 = arraySort$2;
-	var arrayMethodIsStrict$a = arrayMethodIsStrict$3$1;
-	var FF$2 = engineFfVersion$1;
-	var IE_OR_EDGE$2 = engineIsIeOrEdge$1;
-	var V8$2 = engineV8Version;
-	var WEBKIT$3 = engineWebkitVersion$1;
-
-	var test$2 = [];
-	var un$Sort$2 = uncurryThis$Z(test$2.sort);
-	var push$c = uncurryThis$Z(test$2.push);
-
-	// IE8-
-	var FAILS_ON_UNDEFINED$1 = fails$X(function () {
-	  test$2.sort(undefined);
-	});
-	// V8 bug
-	var FAILS_ON_NULL$1 = fails$X(function () {
-	  test$2.sort(null);
-	});
-	// Old WebKit
-	var STRICT_METHOD$9 = arrayMethodIsStrict$a('sort');
-
-	var STABLE_SORT$2 = !fails$X(function () {
-	  // feature detection can be too slow, so check engines versions
-	  if (V8$2) return V8$2 < 70;
-	  if (FF$2 && FF$2 > 3) return;
-	  if (IE_OR_EDGE$2) return true;
-	  if (WEBKIT$3) return WEBKIT$3 < 603;
-
-	  var result = '';
-	  var code, chr, value, index;
-
-	  // generate an array with more 512 elements (Chakra and old V8 fails only in this case)
-	  for (code = 65; code < 76; code++) {
-	    chr = String.fromCharCode(code);
-
-	    switch (code) {
-	      case 66: case 69: case 70: case 72: value = 3; break;
-	      case 68: case 71: value = 4; break;
-	      default: value = 2;
-	    }
-
-	    for (index = 0; index < 47; index++) {
-	      test$2.push({ k: chr + index, v: value });
-	    }
-	  }
-
-	  test$2.sort(function (a, b) { return b.v - a.v; });
-
-	  for (index = 0; index < test$2.length; index++) {
-	    chr = test$2[index].k.charAt(0);
-	    if (result.charAt(result.length - 1) !== chr) result += chr;
-	  }
-
-	  return result !== 'DGBEFHACIJK';
-	});
-
-	var FORCED$1$1 = FAILS_ON_UNDEFINED$1 || !FAILS_ON_NULL$1 || !STRICT_METHOD$9 || !STABLE_SORT$2;
-
-	var getSortCompare$2 = function (comparefn) {
-	  return function (x, y) {
-	    if (y === undefined) return -1;
-	    if (x === undefined) return 1;
-	    if (comparefn !== undefined) return +comparefn(x, y) || 0;
-	    return toString$s(x) > toString$s(y) ? 1 : -1;
-	  };
-	};
-
-	// `Array.prototype.sort` method
-	// https://tc39.es/ecma262/#sec-array.prototype.sort
-	$$6$1({ target: 'Array', proto: true, forced: FORCED$1$1 }, {
-	  sort: function sort(comparefn) {
-	    if (comparefn !== undefined) aCallable$a(comparefn);
-
-	    var array = toObject$1$1(this);
-
-	    if (STABLE_SORT$2) return comparefn === undefined ? un$Sort$2(array) : un$Sort$2(array, comparefn);
-
-	    var items = [];
-	    var arrayLength = lengthOfArrayLike$1$1(array);
-	    var itemsLength, index;
-
-	    for (index = 0; index < arrayLength; index++) {
-	      if (index in array) push$c(items, array[index]);
-	    }
-
-	    internalSort$2(items, getSortCompare$2(comparefn));
-
-	    itemsLength = items.length;
-	    index = 0;
-
-	    while (index < itemsLength) array[index] = items[index++];
-	    while (index < arrayLength) delete array[index++];
-
-	    return array;
-	  }
-	});
-
-	var $$5$1 = _export;
-	var global$1$1 = global$Z$1;
-	var toAbsoluteIndex$7 = toAbsoluteIndex$3$1;
-	var toIntegerOrInfinity$f = toIntegerOrInfinity$5$1;
-	var lengthOfArrayLike$h = lengthOfArrayLike$8$1;
-	var toObject$o = toObject$a$1;
-	var arraySpeciesCreate$4 = arraySpeciesCreate$3$1;
-	var createProperty$6 = createProperty$5$1;
-	var arrayMethodHasSpeciesSupport$6 = arrayMethodHasSpeciesSupport$5;
-
-	var HAS_SPECIES_SUPPORT$4 = arrayMethodHasSpeciesSupport$6('splice');
-
-	var TypeError$1$1 = global$1$1.TypeError;
-	var max$5 = Math.max;
-	var min$8 = Math.min;
-	var MAX_SAFE_INTEGER$2 = 0x1FFFFFFFFFFFFF;
-	var MAXIMUM_ALLOWED_LENGTH_EXCEEDED$1 = 'Maximum allowed length exceeded';
-
-	// `Array.prototype.splice` method
-	// https://tc39.es/ecma262/#sec-array.prototype.splice
-	// with adding support of @@species
-	$$5$1({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$4 }, {
-	  splice: function splice(start, deleteCount /* , ...items */) {
-	    var O = toObject$o(this);
-	    var len = lengthOfArrayLike$h(O);
-	    var actualStart = toAbsoluteIndex$7(start, len);
-	    var argumentsLength = arguments.length;
-	    var insertCount, actualDeleteCount, A, k, from, to;
-	    if (argumentsLength === 0) {
-	      insertCount = actualDeleteCount = 0;
-	    } else if (argumentsLength === 1) {
-	      insertCount = 0;
-	      actualDeleteCount = len - actualStart;
-	    } else {
-	      insertCount = argumentsLength - 2;
-	      actualDeleteCount = min$8(max$5(toIntegerOrInfinity$f(deleteCount), 0), len - actualStart);
-	    }
-	    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER$2) {
-	      throw TypeError$1$1(MAXIMUM_ALLOWED_LENGTH_EXCEEDED$1);
-	    }
-	    A = arraySpeciesCreate$4(O, actualDeleteCount);
-	    for (k = 0; k < actualDeleteCount; k++) {
-	      from = actualStart + k;
-	      if (from in O) createProperty$6(A, k, O[from]);
-	    }
-	    A.length = actualDeleteCount;
-	    if (insertCount < actualDeleteCount) {
-	      for (k = actualStart; k < len - actualDeleteCount; k++) {
-	        from = k + actualDeleteCount;
-	        to = k + insertCount;
-	        if (from in O) O[to] = O[from];
-	        else delete O[to];
-	      }
-	      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
-	    } else if (insertCount > actualDeleteCount) {
-	      for (k = len - actualDeleteCount; k > actualStart; k--) {
-	        from = k + actualDeleteCount - 1;
-	        to = k + insertCount - 1;
-	        if (from in O) O[to] = O[from];
-	        else delete O[to];
-	      }
-	    }
-	    for (k = 0; k < insertCount; k++) {
-	      O[k + actualStart] = arguments[k + 2];
-	    }
-	    O.length = len - actualDeleteCount + insertCount;
-	    return A;
-	  }
-	});
-
-	/**
-	 * @external BsbiDb
-	 */
-
-	var TaxonSearch = /*#__PURE__*/function () {
-	  /**
-	   * see TaxonRank::sort
-	   *
-	   * @type int|null
-	   */
-
-	  /**
-	   * if set then only taxa with records are returned
-	   *
-	   * @type boolean
-	   */
-	  // /**
-	  //  * if set then only taxa with records present in the specified status scheme (scheme id code)
-	  //  * (default null)
-	  //  *
-	  //  * @type string|null
-	  //  */
-	  // requiredStatusSchemeId = null;
-
-	  /**
-	   * if set then require that returned taxon names are >= 3 letters
-	   * and don't contain numerals
-	   *
-	   * @type boolean
-	   */
-
-	  /**
-	   * (static config setting)
-	   *
-	   * @type {boolean}
-	   */
-	  function TaxonSearch() {
-	    _classCallCheck(this, TaxonSearch);
-
-	    _defineProperty(this, "minimumRankSort", null);
-
-	    _defineProperty(this, "requireExtantDDbRecords", false);
-
-	    _defineProperty(this, "skipJunk", true);
-
-	    if (!Taxon.rawTaxa) {
-	      Taxon.rawTaxa = BsbiDb.TaxonNames;
-
-	      if (!Taxon.rawTaxa) {
-	        throw new Error('Taxon list has failed to load in TaxonSearch');
-	      }
-	    }
-	  }
-	  /**
-	   *
-	   * @param {object} taxonResult
-	   * @param {string} queryString
-	   * @returns {string}
-	   */
-
-
-	  _createClass(TaxonSearch, [{
-	    key: "lookup",
-	    value:
-	    /**
-	     *
-	     * @param {string} query
-	     * @returns {Array.<{entityId: string,
-	                        vernacular: string,
-	                        qname: string,
-	                        name: string,
-	                        qualifier: string,
-	                        authority: string,
-	                        uname: string,
-	                        vernacularMatched: boolean,
-	                        exact: boolean,
-	                        near: boolean,
-	                        formatted: string,
-	                        acceptedEntityId: string,
-	                        acceptedNameString: string,
-	                        acceptedQualifier: string,
-	                        acceptedAuthority: string
-	                        }>}
-	     */
-	    function lookup(query) {
-	      var results,
-	          taxonString,
-	          canonical,
-	          matchedIds = {},
-	          preferHybrids; // ignore trailing ' x' from string which would just muck up result matching
-
-	      taxonString = TaxonSearch.normaliseTaxonName(decodeURIComponent(query).trim()).replace(/\s+x$/i, '');
-	      preferHybrids = / x\b/.test(taxonString);
-
-	      if (taxonString !== '') {
-	        var abbreviatedMatches = taxonString.match(TaxonSearch.abbreviatedGenusRegex);
-
-	        if (abbreviatedMatches) {
-	          // matched an abbreviated genus name (or an abbreviated hybrid genus)
-	          var exp, nearMatchExp;
-
-	          if (abbreviatedMatches[2] === 'X' || abbreviatedMatches[2] === 'x') {
-	            // either have a genus name beginning 'X' or a hybrid genus
-	            exp = new RegExp("^(X\\s|X[a-z]+\\s+)(x )?\\b".concat(TaxonSearch.generate_hybrid_combinations_regex(abbreviatedMatches[3]), ".*"), 'i');
-	            nearMatchExp = exp;
-	          } else {
-	            exp = new RegExp("^(X )?".concat(TaxonSearch.escapeRegExp(abbreviatedMatches[2]), "[a-z]+ (x )?.*\\b").concat(TaxonSearch.generate_hybrid_combinations_regex(abbreviatedMatches[3]), ".*"), 'i');
-	            /**
-	             * Similar to exp but without flexibility (.*) after genus part
-	             * used only for result ranking (exact>near>vague)
-	             */
-
-	            nearMatchExp = new RegExp("^(X )?".concat(TaxonSearch.escapeRegExp(abbreviatedMatches[2]), "[a-z]+ (x )?\\b").concat(TaxonSearch.generate_hybrid_combinations_regex(abbreviatedMatches[3]), ".*"), 'i');
-	          }
-
-	          for (var id in Taxon.rawTaxa) {
-	            // noinspection JSUnfilteredForInLoop (assume is safe for rawTaxa object)
-	            var testTaxon = Taxon.rawTaxa[id];
-	            /**
-	             * The canonical name may be identical to the nameString in which case JSON taxon list stores
-	             * zero instead to save file space (and to mark that canonical name should be ignored)
-	             */
-
-	            canonical = testTaxon[TaxonSearch.canonicalColumn] === 0 ? testTaxon[TaxonSearch.nameStringColumn] : testTaxon[TaxonSearch.canonicalColumn];
-
-	            if (exp.test(canonical) || testTaxon[TaxonSearch.hybridCanonicalColumn] !== '' && exp.test(testTaxon[TaxonSearch.hybridCanonicalColumn])) {
-	              matchedIds[id] = {
-	                exact: testTaxon[TaxonSearch.nameStringColumn] === taxonString,
-	                near: nearMatchExp.test(testTaxon[TaxonSearch.nameStringColumn])
-	              };
-	            }
-	          }
-
-	          results = this.compile_results(matchedIds, preferHybrids);
-	        } else {
-	          // genus is not abbreviated
-	          var canonicalQuery, nearMatchRegex;
-	          var escapedTaxonString = TaxonSearch.escapeRegExp(taxonString);
-
-	          if (taxonString.indexOf(' ') !== -1) {
-	            // hybrids of the form Species x nothoname or Species nothoname should be seen as equivalent
-	            canonicalQuery = "".concat(TaxonSearch.escapeRegExp(taxonString.substr(0, taxonString.indexOf(' '))), " (x )?.*\\b").concat(TaxonSearch.generate_hybrid_combinations_regex(taxonString.substr(taxonString.indexOf(' ') + 1)), ".*");
-	            /**
-	             * Similar to canonicalQuery/hybridCanonicalQuery but without flexibility (.*) after genus part
-	             * used only for result ranking (exact>near>vague)
-	             */
-
-	            nearMatchRegex = new RegExp("^(?:Xs+)?".concat(TaxonSearch.escapeRegExp(taxonString.substr(0, taxonString.indexOf(' '))), " (x )?\\b").concat(TaxonSearch.generate_hybrid_combinations_regex(taxonString.substr(taxonString.indexOf(' ') + 1)), ".*"), 'i');
-	          } else {
-	            canonicalQuery = "".concat(escapedTaxonString, ".*");
-	            nearMatchRegex = new RegExp("^".concat(escapedTaxonString, ".*"));
-	          }
-
-	          var strictEscapedTaxonString = "^".concat(escapedTaxonString, ".*"); // var escapedTaxonStringRegExp = new RegExp(strictEscapedTaxonString, 'i');
-	          // var canonicalQueryRegExp = new RegExp('^' + canonicalQuery, 'i');
-	          // var hybridCanonicalQueryregExp = new RegExp('^X ' + canonicalQuery, 'i');
-
-	          var canonicalQueryRegExp = new RegExp("^(?:Xs+)?".concat(canonicalQuery), 'i');
-
-	          if (!TaxonSearch.showVernacular) {
-	            // no vernacular
-	            for (var _id in Taxon.rawTaxa) {
-	              // noinspection JSUnfilteredForInLoop (assume is safe for rawTaxa object)
-	              var _testTaxon = Taxon.rawTaxa[_id];
-	              canonical = _testTaxon[TaxonSearch.canonicalColumn] === 0 ? _testTaxon[TaxonSearch.nameStringColumn] : _testTaxon[TaxonSearch.canonicalColumn];
-
-	              if ( // testTaxon[TaxonSearch.nameStringColumn].search(escapedTaxonStringRegExp) !== -1 ||
-	              canonicalQueryRegExp.test(_testTaxon[TaxonSearch.nameStringColumn]) || canonical !== _testTaxon[TaxonSearch.nameStringColumn] && canonicalQueryRegExp.test(canonical) // testTaxon[TaxonSearch.nameStringColumn].search(hybridCanonicalQueryregExp) !== -1
-	              ) {
-	                matchedIds[_id] = {
-	                  exact: _testTaxon[TaxonSearch.nameStringColumn] === taxonString
-	                };
-	              }
-	            }
-
-	            results = this.compile_results(matchedIds, preferHybrids);
-	          } else {
-	            var caseInsensitiveEscapedTaxonRegex = new RegExp(strictEscapedTaxonString, 'i');
-
-	            for (var _id2 in Taxon.rawTaxa) {
-	              // noinspection JSUnfilteredForInLoop (assume is safe for rawTaxa object)
-	              var _testTaxon2 = Taxon.rawTaxa[_id2];
-	              canonical = _testTaxon2[TaxonSearch.canonicalColumn] === 0 ? _testTaxon2[TaxonSearch.nameStringColumn] : _testTaxon2[TaxonSearch.canonicalColumn];
-
-	              if ( // testTaxon[TaxonSearch.nameStringColumn].search(escapedTaxonStringRegExp) !== -1 ||
-	              canonicalQueryRegExp.test(_testTaxon2[TaxonSearch.nameStringColumn]) || canonical !== _testTaxon2[TaxonSearch.nameStringColumn] && canonicalQueryRegExp.test(canonical) // testTaxon[TaxonSearch.nameStringColumn].search(hybridCanonicalQueryregExp) !== -1
-	              ) {
-	                matchedIds[_id2] = {
-	                  exact: _testTaxon2[TaxonSearch.nameStringColumn] === taxonString,
-	                  near: nearMatchRegex.test(_testTaxon2[TaxonSearch.nameStringColumn]) || nearMatchRegex.test(canonical)
-	                };
-	              } else if (caseInsensitiveEscapedTaxonRegex.test(_testTaxon2[TaxonSearch.vernacularColumn]) || caseInsensitiveEscapedTaxonRegex.test(_testTaxon2[TaxonSearch.vernacularRootColumn])) {
-	                matchedIds[_id2] = {
-	                  exact: _testTaxon2[TaxonSearch.vernacularColumn] === taxonString,
-	                  vernacular: true
-	                };
-	              }
-	            }
-
-	            results = this.compile_results(matchedIds, preferHybrids);
-	            /**
-	             * if very few matches then retry searching using much fuzzier matching
-	             */
-
-	            if (results.length < 5) {
-	              var broadRegExp = new RegExp("\\b".concat(escapedTaxonString, ".*"), 'i'); // match anywhere in string
-
-	              for (var _id3 in Taxon.rawTaxa) {
-	                // noinspection JSUnfilteredForInLoop (assume is safe for rawTaxa object)
-	                if (!matchedIds.hasOwnProperty(_id3)) {
-	                  var _testTaxon3 = Taxon.rawTaxa[_id3];
-
-	                  if (broadRegExp.test(_testTaxon3[TaxonSearch.nameStringColumn])) {
-	                    matchedIds[_id3] = {
-	                      exact: _testTaxon3[TaxonSearch.nameStringColumn] === taxonString
-	                    };
-	                  } else if (_testTaxon3[TaxonSearch.canonicalColumn] !== 0 && broadRegExp.test(_testTaxon3[TaxonSearch.canonicalColumn]) || broadRegExp.test(_testTaxon3[TaxonSearch.vernacularColumn])) {
-	                    matchedIds[_id3] = {
-	                      exact: _testTaxon3[TaxonSearch.nameStringColumn] === taxonString,
-	                      vernacular: true
-	                    };
-	                  }
-	                }
-	              }
-
-	              results = this.compile_results(matchedIds, preferHybrids);
-	            }
-	          }
-	        }
-	      } else {
-	        results = [];
-	      }
-
-	      return results;
-	    }
-	  }, {
-	    key: "compile_results",
-	    value: function compile_results(matchedIds, preferHybrids) {
-	      var results = [];
-
-	      for (var id in matchedIds) {
-	        if (matchedIds.hasOwnProperty(id)) {
-	          var taxon = Taxon.rawTaxa[id];
-
-	          if ((!this.requireExtantDDbRecords || this.requireExtantDDbRecords && taxon[TaxonSearch.usedColumn] === 1) && (!this.minimumRankSort || this.minimumRankSort > 0 && taxon[TaxonSearch.minRankColumn] >= this.minimumRankSort)) {
-	            var qname = taxon[TaxonSearch.nameStringColumn] + (taxon[TaxonSearch.qualifierColumn] ? " ".concat(taxon[TaxonSearch.qualifierColumn]) : '');
-	            var row = {
-	              entityId: id,
-	              vernacular: taxon[TaxonSearch.vernacularColumn],
-	              qname: qname,
-	              name: qname,
-	              // use qualified name for the generic name field
-	              qualifier: taxon[TaxonSearch.qualifierColumn],
-	              authority: taxon[TaxonSearch.authorityColumn],
-	              uname: taxon[TaxonSearch.nameStringColumn],
-	              vernacularMatched: matchedIds[id].hasOwnProperty('vernacular'),
-	              exact: matchedIds[id].hasOwnProperty('exact') && matchedIds[id].exact,
-	              near: matchedIds[id].hasOwnProperty('near') && matchedIds[id].near
-	            };
-	            row.formatted = TaxonSearch.formatter(row);
-
-	            if (taxon[TaxonSearch.acceptedEntityIdColumn]) {
-	              var acceptedTaxon = Taxon.rawTaxa[taxon[TaxonSearch.acceptedEntityIdColumn]];
-
-	              if (!acceptedTaxon) {
-	                if (!Taxon.rawTaxa) {
-	                  throw new Error("Taxon.rawTaxa set is undefined, when trying to find taxon for accepted entity id ".concat(taxon[TaxonSearch.acceptedEntityIdColumn]));
-	                } else {
-	                  throw new Error("Failed to find taxon for accepted entity id ".concat(taxon[TaxonSearch.acceptedEntityIdColumn]));
-	                }
-	              }
-
-	              row.acceptedEntityId = taxon[TaxonSearch.acceptedEntityIdColumn];
-	              row.acceptedNameString = acceptedTaxon[TaxonSearch.nameStringColumn];
-	              row.acceptedQualifier = acceptedTaxon[TaxonSearch.qualifierColumn];
-	              row.acceptedAuthority = acceptedTaxon[TaxonSearch.authorityColumn];
-	            }
-
-	            results.push(row);
-	          }
-	        }
-	      }
-
-	      if (results.length) {
-	        results.sort(function (a, b) {
-	          // if (a.uname == 'Taraxacum \'Irish cambricum\'' || b.uname == 'Taraxacum \'Irish cambricum\'') {
-	          //   console.log(a.uname + " with " + b.uname);
-	          // }
-	          if (a.exact) {
-	            // logger('exact test a: ' + a.uname + ' vs ' + b.uname);
-	            // logger(b);
-	            if (b.exact) {
-	              return a.acceptedEntityId ? 1 : 0; // prefer accepted name
-	            }
-
-	            return -1; // return b.exact ? 0 : -1;
-	          } else if (b.exact) {
-	            // logger('exact test b: ' + b.uname);
-	            return 1;
-	          }
-
-	          if (a.near) {
-	            if (!b.near) {
-	              return -1;
-	            }
-	          } else if (b.near) {
-	            // logger('exact test b: ' + b.uname);
-	            return 1;
-	          }
-
-	          var aIsHybrid = a.uname.match(/\bx\b/i) !== null;
-	          var bIsHybrid = b.uname.match(/\bx\b/i) !== null;
-
-	          if (aIsHybrid) {
-	            // logger('hybrid test: ' + a.qname + ' vs ' + b.qname);
-	            // logger('hybrid test: ' + a.uname + ' vs ' + b.uname);
-	            if (bIsHybrid) {
-	              if (a.uname === b.uname) {
-	                return a.acceptedEntityId ? 1 : 0; // prefer accepted name
-	              }
-
-	              return a.qname < b.qname ? -1 : 1;
-	            }
-
-	            return preferHybrids ? -1 : 1;
-	          } else if (bIsHybrid) {
-	            return preferHybrids ? 1 : -1;
-	          } else if (a.uname === b.uname) {
-	            if ((a.acceptedEntityId || b.acceptedEntityId) && !(a.acceptedEntityId && b.acceptedEntityId)) {
-	              // one of the pair is not an accepted name
-	              return a.acceptedEntityId ? 1 : -1; // prefer accepted name
-	            } else {
-	              // for NYPH purposes agg. and s.l. should be prioritised over
-	              // agg., s.l., empty, s.s.
-	              var aQIndex = ['s.s.', '', null, 's.l.', 'agg.'].indexOf(a.qualifier);
-	              var bQIndex = ['s.s.', '', null, 's.l.', 'agg.'].indexOf(b.qualifier);
-	              return aQIndex === bQIndex ? 0 : aQIndex < bQIndex ? 1 : -1;
-	            }
-	          }
-
-	          return a.uname < b.uname ? -1 : 1;
-	        }); // truncate results
-
-	        if (results.length > TaxonSearch.MAXIMUM_RESULTS) {
-	          results.length = TaxonSearch.MAXIMUM_RESULTS;
-	        }
-	      }
-
-	      return results;
-	    }
-	  }], [{
-	    key: "formatter",
-	    value: function formatter(taxonResult) {
-
-	      if (TaxonSearch.showVernacular) {
-	        if (taxonResult.vernacularMatched) {
-	          if (taxonResult.acceptedEntityId) {
-	            return "<q><b>".concat(taxonResult.vernacular, "</b></q> <span class=\"italictaxon\">").concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>") + " = <span class=\"italictaxon\">".concat(taxonResult.acceptedNameString).concat(taxonResult.acceptedQualifier ? " <b>".concat(taxonResult.acceptedQualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.acceptedAuthority, "</span>");
-	          }
-
-	          return "<q><b>".concat(taxonResult.vernacular, "</b></q> <span class=\"italictaxon\">").concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>");
-	        }
-
-	        if (taxonResult.acceptedEntityId) {
-	          return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>").concat(taxonResult.vernacular ? " <q><b>".concat(taxonResult.vernacular, "</b></q>") : '', " = <span class=\"italictaxon\">").concat(taxonResult.acceptedNameString).concat(taxonResult.acceptedQualifier ? " <b>".concat(taxonResult.acceptedQualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.acceptedAuthority, "</span>");
-	        }
-
-	        return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>").concat(taxonResult.vernacular ? " <q><b>".concat(taxonResult.vernacular, "</b></q>") : '');
-	      }
-
-	      if (taxonResult.acceptedEntityId) {
-	        return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>") + " = <span class=\"italictaxon\">".concat(taxonResult.acceptedNameString).concat(taxonResult.acceptedQualifier ? " <b>".concat(taxonResult.acceptedQualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.acceptedAuthority, "</span>");
-	      }
-
-	      return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>");
-	    }
-	  }, {
-	    key: "normaliseTaxonName",
-	    value:
-	    /**
-	     *
-	     * @param {string} taxonString
-	     * @returns {string}
-	     */
-	    function normaliseTaxonName(taxonString) {
-	      for (var i = 0, l = TaxonSearch.taxonRankNameSearchRegex.length; i < l; i++) {
-	        taxonString = taxonString.replace(TaxonSearch.taxonRankNameSearchRegex[i], TaxonSearch.taxonRankNameReplacement[i]);
-	      }
-
-	      for (var _i = 0, _l = TaxonSearch.taxonQualifierSearchRegex.length; _i < _l; _i++) {
-	        taxonString = taxonString.replace(TaxonSearch.taxonQualifierSearchRegex[_i], TaxonSearch.taxonQualifierReplacement[_i]);
-	      }
-
-	      return taxonString;
-	    }
-	    /**
-	     * from https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
-	     *
-	     * @param {string} literal
-	     * @return string
-	     */
-
-	  }, {
-	    key: "escapeRegExp",
-	    value: function escapeRegExp(literal) {
-	      return literal.replace(TaxonSearch.cleanRegex, '\\$&');
-	    }
-	  }, {
-	    key: "generate_hybrid_combinations_regex",
-	    value:
-	    /**
-	     * generate hybrid name permutations
-	     *
-	     * @param {string} names unescaped series of species e.g. "glandulifera" or "carex x nigra"
-	     * @returns {string} name permutations formatted as a regular expression
-	     */
-	    function generate_hybrid_combinations_regex(names) {
-	      var splitParts = TaxonSearch.escapeRegExp(names).split(/\s+x\s+/i);
-
-	      if (splitParts.length < 2) {
-	        return splitParts[0];
-	      }
-
-	      var hybridPermutations = [];
-	      /**
-	       * generate hybrid name permutations
-	       *
-	       * modified from O'Reilly PHP Cookbook
-	       * http://docstore.mik.ua/orelly/webprog/pcook/ch04_26.htm
-	       *
-	       * @param {Array.<string>} items
-	       * @param {Array.<string>} perms
-	       */
-
-	      var permutate = function permutate(items, perms) {
-	        if (items.length === 0) {
-	          hybridPermutations[hybridPermutations.length] = perms.join('[a-zA-Z]* x ');
-	        } else {
-	          for (var i = items.length - 1; i >= 0; --i) {
-	            var newItems = items.slice(0);
-	            var newPerms = perms.slice(0); // take copies of the array
-
-	            newPerms.unshift(newItems.splice(i, 1)[0]);
-	            permutate(newItems, newPerms);
-	          }
-	        }
-	      };
-
-	      permutate(splitParts, []);
-	      return "(?:".concat(hybridPermutations.join('|'), ")");
-	    }
-	  }]);
-
-	  return TaxonSearch;
-	}();
-
-	_defineProperty(TaxonSearch, "showVernacular", true);
-
-	_defineProperty(TaxonSearch, "MIN_SEARCH_LENGTH", 2);
-
-	_defineProperty(TaxonSearch, "MAXIMUM_RESULTS", 25);
-
-	_defineProperty(TaxonSearch, "abbreviatedGenusRegex", /^(X\s+)?([a-z])[.\s]+(.*?)$/i);
-
-	_defineProperty(TaxonSearch, "nameStringColumn", 0);
-
-	_defineProperty(TaxonSearch, "canonicalColumn", 1);
-
-	_defineProperty(TaxonSearch, "hybridCanonicalColumn", 2);
-
-	_defineProperty(TaxonSearch, "acceptedEntityIdColumn", 3);
-
-	_defineProperty(TaxonSearch, "qualifierColumn", 4);
-
-	_defineProperty(TaxonSearch, "authorityColumn", 5);
-
-	_defineProperty(TaxonSearch, "vernacularColumn", 6);
-
-	_defineProperty(TaxonSearch, "vernacularRootColumn", 7);
-
-	_defineProperty(TaxonSearch, "usedColumn", 8);
-
-	_defineProperty(TaxonSearch, "minRankColumn", 9);
-
-	_defineProperty(TaxonSearch, "taxonRankNameSearchRegex", [/\s+sub-?g(?:en(?:us)?)?[.\s]+/i, /\s+sect(?:ion)?[.\s]+/i, /\s+subsect(?:ion)?[.\s]+/i, /\s+ser(?:ies)?[.\s]+/i, /\s+gp[.\s]+/i, /\s+s(?:ub)?-?sp(?:ecies)?[.\s]+/i, /\s+morphotype\s+/i, /\s+var[.\s]+/i, /\s+cv[.\s]+/i, /\s+n(?:otho)?v(?:ar)?[.\s]+/i, /\s+f[.\s]+|\s+forma?\s+/i, /\s+n(?:otho)?ssp[.\s]+/i]);
-
-	_defineProperty(TaxonSearch, "taxonRankNameReplacement", [' subg. ', ' sect. ', ' subsect. ', ' ser. ', ' group ', ' subsp. ', ' morph. ', ' var. ', ' cv. ', // ddb preference is for single quotes for cultivars
-	' nothovar. ', ' f. ', ' nothosubsp. ']);
-
-	_defineProperty(TaxonSearch, "cleanRankNamesRegex", /\s(subfam\.|subg\.|sect\.|subsect\.|ser\.|subser\.|subsp\.|nothosubsp\.|microsp\.|praesp\.|agsp\.|race|convar\.|nm\.|microgene|f\.|subvar\.|var\.|nothovar\.|cv\.|sublusus|taxon|morph\.|group|sp\.)\s/);
-
-	_defineProperty(TaxonSearch, "taxonQualifierSearchRegex", [/\s*\(?\bf\s*x\s*m or m\s*x\s*f\)?\s*$/i, /\s*\(?\bm\s*x\s*f or f\s*x\s*m\)?\s*$/i, /\s*\(?\bf\s*x\s*m\)?\s*$/i, /\s*\(?\bm\s*x\s*f\)?\s*$/i, /\s*\(?\bfemale\s*x\s*male\)?\s*$/i, /\s*\(?\bmale\s*x\s*female\)?\s*$/i, // stand-alone male/female qualifier (e.g. applied to Petasites hybridus)
-	// removes single quotes
-	/\s*'male'\s*$/i, /\s*'female'\s*$/i, // mid-string ss/sl qualifiers
-	/\b\s*sens\.?\s*lat[.\s]+/i, /\b\s*s\.\s*lat\.?\s*\b/i, /\b\s*s\.?\s*l\.?\s+\b/i, /\b\s*sensu\s*lato\s+\b|\(\s*sensu\s*lato\s*\)/i, /\b\s*sensu\s*stricto\s+\b|\(\s*sensu\s*stricto\s*\)/i, /\b\s*sens\.?\s*strict[.\s]+/i, // '/\b\s*sens\.?\s*str\.?\s*(?=\))|\b\s*sens\.?\s*str\.?\s*\b/i', // the first look-ahead option matches before a closing-paren (\b fails between '.)' )
-	/\b\s*sens\.?\s*str\.?\s*(?=\))|\b\s*sens\.?\s*str[.\s]+/i, // '/\b\s*s\.\s*str\.?\s*\b/i',
-	/\b\s*s\.\s*str[.\s]+/i, /\b\s*s\.?\s*s\.?\s+\b/i, // end-of-string ss/sl qualifiers
-	/\b\s*sens\.?\s*lat\.?\s*$/i, /\b\s*s\.\s*lat\.?\s*$/i, /\b\s*s\.?\s*l\.?\s*$/i, /\b\s*sensu\s*lato\s*$/i, /\b\s*sensu\s*stricto\s*$/i, /\b\s*sens\.?\s*strict\.?\s*$/i, /\b\s*sens\.?\s*str\.?\s*$/i, /\b\s*s\.\s*str\.?\s*$/i, /\b\s*s\.?\s*s\.?\s*$/i, /\b\s*agg\.?\s*$/i, /\b\s*aggregate\s*$/i, /\b\s*sp\.?\s*cultivar\s*$/i, /\b\s*sp\.?\s*cv\.?\s*$/i, /\b\s*cultivars?\s*$/i, /\b\s*cv\s+$/i, /\b\s*cv$/i, /\b\s*cf\s*$/i, /\b\s*aff\s*$/i, /\b\s*s\.?n\.?\s*$/i, /\b\s*sp\.?\s*nov\.?\s*$/i, /\b\s*auct[.\s]*$/i, /\b\s*ined[.\s]*$/i, /\b\s*nom\.?\snud[.\s]*$/i, /\b\s*p\.p[.\s?]*$/i, /\b\s*spp?\.?[\s?]*$/i, /\b\s*species\s*$/i, /\b\s*spp?\.?\s*\(/i, // catch e.g. Ulmus sp. (excluding Ulmus glabra)
-	/\b\s*species\s*\(/i]);
-
-	_defineProperty(TaxonSearch, "taxonQualifierReplacement", [' ', // (f x m or m x f) is the default so an explicit qualifier isn't used
-	' ', // (m x f or f x m) is the default so an explicit qualifier isn't used
-	' (f x m)', ' (m x f)', ' (f x m)', ' (m x f)', // stand-alone male/female qualifier (e.g. applied to Petasites hybridus)
-	// removed single quotes
-	' male', ' female', // mid-string ss/sl qualifiers
-	' s.l. ', ' s.l. ', ' s.l. ', ' s.l. ', ' s.s. ', ' s.s. ', ' s.s. ', ' s.s. ', ' s.s. ', // end-of-string ss/sl qualifiers
-	' s.l.', ' s.l.', ' s.l.', ' s.l.', ' s.s.', ' s.s.', ' s.s.', ' s.s.', ' s.s.', ' agg.', ' agg.', ' cv. ', ' cv. ', ' cv. ', ' cv. ', ' cv. ', ' cf.', ' aff.', ' sp.nov.', ' sp.nov.', ' auct.', ' ined.', ' nom. nud.', ' pro parte', '', '', ' (', ' (']);
-
-	_defineProperty(TaxonSearch, "cleanRegex", /[.*+?^${}()|[\]\\]/g);
-
-	/**
-	 * @external BsbiDb
-	 */
-
-	/**
-	 *
-	 */
-
-	var TaxaLoadedHook = /*#__PURE__*/function () {
-	  function TaxaLoadedHook() {
-	    _classCallCheck(this, TaxaLoadedHook);
-	  }
-
-	  _createClass(TaxaLoadedHook, null, [{
-	    key: "taxaLoadedEntryPoint",
-	    value: function taxaLoadedEntryPoint() {
-	      Taxon.rawTaxa = BsbiDb.TaxonNames;
-
-	      while (TaxaLoadedHook.callbackStack.length) {
-	        var callback = TaxaLoadedHook.callbackStack.shift();
-
-	        try {
-	          callback();
-	        } catch (e) {
-	          console.log({
-	            'Exception after taxon load': e
-	          });
-	        }
-	      }
-	    }
-	    /**
-	     *
-	     * @returns {Promise<any>|Promise<void>}
-	     */
-
-	  }, {
-	    key: "onceTaxaLoaded",
-	    value: function onceTaxaLoaded() {
-	      if (BsbiDb.hasOwnProperty('TaxonNames')) {
-	        return Promise.resolve();
-	      } else {
-	        if (!BsbiDb.taxonNamesLoadedEntryPoint) {
-	          BsbiDb.taxonNamesLoadedEntryPoint = TaxaLoadedHook.taxaLoadedEntryPoint;
-	        }
-
-	        return new Promise(function (resolve) {
-	          TaxaLoadedHook.callbackStack.push(resolve);
-	        });
-	      }
-	    }
-	  }]);
-
-	  return TaxaLoadedHook;
-	}();
-
-	_defineProperty(TaxaLoadedHook, "callbackStack", []);
-
-	var $$4$1 = _export;
-	var call$n = functionCall;
-
-	// `URL.prototype.toJSON` method
-	// https://url.spec.whatwg.org/#dom-url-tojson
-	$$4$1({ target: 'URL', proto: true, enumerable: true }, {
-	  toJSON: function toJSON() {
-	    return call$n(URL.prototype.toString, this);
-	  }
-	});
-
-	function _createSuper$a(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$a(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$a() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-	function _classPrivateFieldInitSpec$7(obj, privateMap, value) { _checkPrivateRedeclaration$7(obj, privateMap); privateMap.set(obj, value); }
-
-	function _checkPrivateRedeclaration$7(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-	var _inputId$2 = /*#__PURE__*/new WeakMap();
-
-	var _containerId$7 = /*#__PURE__*/new WeakMap();
-
-	var DateField = /*#__PURE__*/function (_FormField) {
-	  _inherits(DateField, _FormField);
-
-	  var _super = _createSuper$a(DateField);
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   * minimum date (inclusive) or null if no constraint
-	   */
-
-	  /**
-	   * minimum date (inclusive) or null if no constraint
-	   */
-
-	  /**
-	   *
-	   * @param {{
-	   * [label] : string,
-	   * [helpText]: string,
-	   * [options]: {},
-	   * [placeholder]: string,
-	   * [type]: string,
-	   * [autocomplete]: string,
-	   * [minDate] : string,
-	   * [maxDate] : string,
-	   * }} [params]
-	   */
-	  function DateField(params) {
-	    var _this;
-
-	    _classCallCheck(this, DateField);
-
-	    _this = _super.call(this, params);
-
-	    _classPrivateFieldInitSpec$7(_assertThisInitialized(_this), _inputId$2, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$7(_assertThisInitialized(_this), _containerId$7, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "_value", '');
-
-	    _defineProperty(_assertThisInitialized(_this), "_inputType", 'date');
-
-	    _defineProperty(_assertThisInitialized(_this), "_autocomplete", '');
-
-	    _defineProperty(_assertThisInitialized(_this), "_minDate", null);
-
-	    _defineProperty(_assertThisInitialized(_this), "_maxDate", null);
-
-	    _this._value = new Date().toJSON().slice(0, 10); // default to current date
-
-	    if (params) {
-	      if (params.placeholder) {
-	        _this.placeholder = params.placeholder;
-	      }
-
-	      if (params.autocomplete) {
-	        _this._autocomplete = params.autocomplete;
-	      }
-
-	      if (params.minDate) {
-	        _this._minDate = params.minDate;
-	      }
-
-	      if (params.maxDate) {
-	        _this._maxDate = params.maxDate;
-	      }
-	    }
-
-	    return _this;
-	  }
-	  /**
-	   *
-	   * @param {(string|null|undefined)} textContent
-	   */
-
-
-	  _createClass(DateField, [{
-	    key: "value",
-	    get:
-	    /**
-	     *
-	     * @returns {string}
-	     */
-	    function get() {
-	      return this._value ? this._value.slice(0, 10) : '';
-	    },
-	    set: function set(textContent) {
-	      this._value = undefined === textContent || null == textContent ? new Date().toJSON().slice(0, 10) // current date in ISO format
-	      : textContent.trim();
-	      this.updateView();
-	    }
-	  }, {
-	    key: "updateView",
-	    value: function updateView() {
-	      if (this._fieldEl) {
-	        // do nothing until the view has been constructed
-	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputId$2));
-	        inputEl.value = FormField.cleanRawString(this._value);
-	      }
-	    }
-	    /**
-	     * initialises this._fieldEl
-	     *
-	     * @returns {void}
-	     */
-
-	  }, {
-	    key: "buildField",
-	    value: function buildField() {
-	      var container = document.createElement('div');
-	      container.className = 'form-group';
-
-	      _classPrivateFieldSet(this, _containerId$7, container.id = FormField.nextId);
-
-	      _classPrivateFieldSet(this, _inputId$2, FormField.nextId);
-
-	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$2);
-	      labelEl.textContent = this.label;
-	      var inputField = container.appendChild(document.createElement('input'));
-	      inputField.className = "form-control";
-	      inputField.id = _classPrivateFieldGet(this, _inputId$2);
-
-	      try {
-	        // this is needed for compatibility with IE11
-	        inputField.type = this._inputType;
-	      } catch (e) {
-	        console.log("Failed to set type '".concat(this._inputType, "'"));
-	      }
-
-	      if (this.placeholder) {
-	        inputField.placeholder = this.placeholder;
-	      }
-
-	      if (this._autocomplete) {
-	        inputField.autocomplete = this._autocomplete;
-
-	        if ('off' === this._autocomplete) {
-	          // browsers tend to ignore autocomplete off, so also assign a random 'name' value
-	          inputField.name = uuid$1();
-	        }
-	      }
-
-	      if (this.completion === FormField.COMPLETION_COMPULSORY) {
-	        inputField.required = true;
-	      }
-
-	      if (this.validationMessage) {
-	        var validationMessageElement = container.appendChild(document.createElement('div'));
-	        validationMessageElement.className = 'invalid-feedback';
-	        validationMessageElement.innerHTML = this.validationMessage;
-	      }
-
-	      if (this.helpText) {
-	        var helpTextField = container.appendChild(document.createElement('small'));
-	        helpTextField.innerHTML = this.helpText;
-	      }
-
-	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
-	      this._fieldEl = container;
-	    }
-	    /**
-	     *
-	     * @param {string} key
-	     * @param {{
-	     * field : typeof DateField,
-	     * attributes : {
-	         * [label] : string,
-	         * [helpText]: string,
-	         * [options]: {},
-	         * [placeholder]: string,
-	         * [type]: string,
-	         * [autocomplete]: string,
-	         * [minDate] : string,
-	         * [maxDate] : string
-	         * }
-	     * }} property properties of the form descriptor
-	     * @param attributes attributes of the model object
-	     * @return {(boolean|null)} returns null if validity was not assessed
-	     */
-
-	  }, {
-	    key: "markValidity",
-	    value:
-	    /**
-	     *
-	     * @param {(boolean|null)} isValid
-	     */
-	    function markValidity(isValid) {
-	      var el = document.getElementById(_classPrivateFieldGet(this, _inputId$2));
-
-	      if (null === isValid) {
-	        el.classList.remove('is-invalid', 'is-valid');
-	      } else {
-	        el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
-	        el.classList.add(isValid ? 'is-valid' : 'is-invalid');
-	      }
-	    }
-	  }, {
-	    key: "inputChangeHandler",
-	    value: function inputChangeHandler(event) {
-	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
-
-	      console.log('got date field change event');
-	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _inputId$2)).value);
-	      this.fireEvent(FormField.EVENT_CHANGE);
-	    }
-	    /**
-	     * by the time summariseImpl has been called have already checked that summary is wanted
-	     *
-	     * @param {string} key
-	     * @param {{field : DateField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
-	     * @param {Object.<string, {}>} attributes attributes of the model object
-	     * @return {string}
-	     */
-
-	  }], [{
-	    key: "isValid",
-	    value: function isValid(key, property, attributes) {
-	      if (property.attributes.completion && (property.attributes.completion === FormField.COMPLETION_COMPULSORY || property.attributes.completion === FormField.COMPLETION_DESIRED)) {
-	        // test whether required field is missing
-	        if (!attributes.hasOwnProperty(key) || property.field.isEmpty(attributes[key])) {
-	          return false;
-	        } else {
-	          // check if range constraints are met
-	          var dateValue = attributes[key];
-
-	          if (property.attributes.minDate && dateValue < property.attributes.minDate) {
-	            return false;
-	          }
-
-	          if (property.attributes.maxDate && dateValue > property.attributes.maxDate) {
-	            return false;
-	          }
-
-	          var today = new Date().toJSON().slice(0, 10);
-
-	          if (dateValue > today) {
-	            return false;
-	          }
-	        }
-	      } // field is present or optional
-	      // report as valid unless content is corrupt
-
-
-	      return null; // field not assessed
-	    }
-	  }, {
-	    key: "summariseImpl",
-	    value: function summariseImpl(key, property, attributes) {
-	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined ? escapeHTML(attributes[key].trim()) : '';
-	    }
-	  }]);
-
-	  return DateField;
-	}(FormField);
-
-	var collection$5 = collection$3$1;
-	var collectionWeak$3 = collectionWeak$2$1;
-
-	// `WeakSet` constructor
-	// https://tc39.es/ecma262/#sec-weakset-constructor
-	collection$5('WeakSet', function (init) {
-	  return function WeakSet() { return init(this, arguments.length ? arguments[0] : undefined); };
-	}, collectionWeak$3);
-
-	function _createForOfIteratorHelper$3(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$3(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-	function _unsupportedIterableToArray$3(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$3(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$3(o, minLen); }
-
-	function _arrayLikeToArray$3(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-	function _createSuper$9(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$9(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$9() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-	function _classPrivateMethodInitSpec$3(obj, privateSet) { _checkPrivateRedeclaration$6(obj, privateSet); privateSet.add(obj); }
-
-	function _classPrivateFieldInitSpec$6(obj, privateMap, value) { _checkPrivateRedeclaration$6(obj, privateMap); privateMap.set(obj, value); }
-
-	function _checkPrivateRedeclaration$6(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-	function _classPrivateMethodGet$3(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
-	var IMAGE_MODAL_ID = 'imagemodal';
-	var IMAGE_MODAL_DELETE_BUTTON_ID = 'imagemodaldelete';
-	var DELETE_IMAGE_MODAL_ID = 'deleteimagemodal';
-	var EVENT_DELETE_IMAGE = 'deleteimage';
-	/**
-	 * @external $
-	 */
-
-	var _inputId$1 = /*#__PURE__*/new WeakMap();
-
-	var _containerId$6 = /*#__PURE__*/new WeakMap();
-
-	var _statusBlockId = /*#__PURE__*/new WeakMap();
-
-	var _addFiles = /*#__PURE__*/new WeakSet();
-
-	var _save = /*#__PURE__*/new WeakSet();
-
-	var ImageField = /*#__PURE__*/function (_FormField) {
-	  _inherits(ImageField, _FormField);
-
-	  var _super = _createSuper$9(ImageField);
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {OccurrenceForm}
-	   */
-
-	  /**
-	   *
-	   * @type {{images: Array.<OccurrenceImage>}}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @type {boolean}
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   */
-
-	  /**
-	   *
-	   * @param {{[label] : string, [helpText]: string, [placeholder]: string, [includeCamera]: boolean}} [params]
-	   */
-	  function ImageField(params) {
-	    var _this;
-
-	    _classCallCheck(this, ImageField);
-
-	    _this = _super.call(this, params);
-
-	    _classPrivateMethodInitSpec$3(_assertThisInitialized(_this), _save);
-
-	    _classPrivateMethodInitSpec$3(_assertThisInitialized(_this), _addFiles);
-
-	    _classPrivateFieldInitSpec$6(_assertThisInitialized(_this), _inputId$1, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$6(_assertThisInitialized(_this), _containerId$6, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$6(_assertThisInitialized(_this), _statusBlockId, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "parentForm", void 0);
-
-	    _defineProperty(_assertThisInitialized(_this), "_value", {
-	      images: []
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "includeCamera", true);
-
-	    _defineProperty(_assertThisInitialized(_this), "placeholder", '');
-
-	    if (params) {
-	      if (params.hasOwnProperty('includeCamera')) {
-	        _this.includeCamera = params.includeCamera;
-	      }
-
-	      if (params.placeholder) {
-	        _this.placeholder = params.placeholder;
-	      }
-	    }
-
-	    return _this;
-	  }
-	  /**
-	   * sets content as Images, not as raw files
-	   *
-	   * @param {(Array.<string>|null)} imageIds
-	   */
-
-
-	  _createClass(ImageField, [{
-	    key: "value",
-	    get:
-	    /**
-	     *
-	     * @returns {Array.<string>}
-	     */
-	    function get() {
-	      var ids = [];
-
-	      if (this._value && this._value.images) {
-	        var _iterator = _createForOfIteratorHelper$3(this._value.images),
-	            _step;
-
-	        try {
-	          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-	            var image = _step.value;
-	            ids[ids.length] = image.id;
-	          }
-	        } catch (err) {
-	          _iterator.e(err);
-	        } finally {
-	          _iterator.f();
-	        }
-	      }
-
-	      return ids;
-	    },
-	    set: function set(imageIds) {
-	      this._value = {
-	        images: []
-	      };
-
-	      if (imageIds) {
-	        var _iterator2 = _createForOfIteratorHelper$3(imageIds),
-	            _step2;
-
-	        try {
-	          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-	            var id = _step2.value;
-
-	            if (OccurrenceImage.imageCache.has(id)) {
-	              this._value.images.push(OccurrenceImage.imageCache.get(id));
-	            } else {
-	              console.log("Creating placeholder image object '".concat(id, "'"));
-
-	              this._value.images.push(OccurrenceImage.placeholder(id));
-	            }
-	          }
-	        } catch (err) {
-	          _iterator2.e(err);
-	        } finally {
-	          _iterator2.f();
-	        }
-	      }
-
-	      this.updateView();
-	    }
-	    /**
-	     *
-	     * @param {Array.<string>} value (list of image ids or null)
-	     * @returns {boolean}
-	     */
-
-	  }, {
-	    key: "updateView",
-	    value: function updateView() {
-	      if (this._fieldEl) {
-	        // do nothing until the view has been constructed
-	        var idList = [];
-
-	        var _iterator3 = _createForOfIteratorHelper$3(this._value.images),
-	            _step3;
-
-	        try {
-	          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-	            var image = _step3.value;
-	            idList.push("<picture style=\"cursor: pointer;\" data-imageid=\"".concat(image.id, "\"><source srcset=\"/image.php?imageid=").concat(image.id, "&amp;height=128&amp;format=webp\" type=\"image/webp\"><img data-imageid=\"").concat(image.id, "\" src=\"/image.php?imageid=").concat(image.id, "&amp;height=128&amp;format=jpeg\" height=\"128\" alt=\"photo\"></picture>"));
-	          }
-	        } catch (err) {
-	          _iterator3.e(err);
-	        } finally {
-	          _iterator3.f();
-	        }
-
-	        var statusEl = document.getElementById(_classPrivateFieldGet(this, _statusBlockId));
-	        statusEl.innerHTML = idList.join("\n");
-	      }
-	    }
-	    /**
-	     * initialises this._fieldEl
-	     *
-	     * @returns {void}
-	     */
-
-	  }, {
-	    key: "buildField",
-	    value: function buildField() {
-	      // <div class="custom-file">
-	      //     <input type="file" class="custom-file-input" id="customFile">
-	      //     <label class="custom-file-label" for="customFile">Choose file</label>
-	      // </div>
-	      var container = document.createElement('div');
-	      container.className = 'form-group';
-
-	      _classPrivateFieldSet(this, _containerId$6, container.id = FormField.nextId);
-
-	      _classPrivateFieldSet(this, _inputId$1, FormField.nextId);
-
-	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$1);
-	      labelEl.textContent = this.label;
-	      var inputGroupEl = container.appendChild(document.createElement('div'));
-	      inputGroupEl.className = 'input-group';
-	      var filePickerWrapper = document.createElement('div');
-	      filePickerWrapper.className = 'custom-file';
-	      inputGroupEl.appendChild(filePickerWrapper);
-	      var filePickerField = filePickerWrapper.appendChild(document.createElement('input'));
-	      filePickerField.type = 'file';
-	      filePickerField.className = "custom-file-input";
-	      filePickerField.id = _classPrivateFieldGet(this, _inputId$1);
-	      filePickerField.accept = ".jpeg, .jpg, image/png, image/jpeg";
-	      filePickerField.multiple = true;
-
-	      if (this.placeholder) {
-	        var pickerLabelEl = filePickerWrapper.appendChild(document.createElement('label'));
-	        pickerLabelEl.className = 'custom-file-label';
-	        pickerLabelEl.htmlFor = _classPrivateFieldGet(this, _inputId$1);
-	        pickerLabelEl.textContent = this.placeholder;
-	      }
-
-	      if (this.includeCamera) {
-	        var cameraButtonContainer = document.createElement('div');
-	        cameraButtonContainer.className = 'input-group-append';
-	        var cameraSpan = cameraButtonContainer.appendChild(document.createElement('span'));
-	        cameraSpan.className = 'input-group-text';
-	        var cameraLabel = cameraSpan.appendChild(document.createElement('label'));
-	        cameraLabel.className = 'pl-0 pr-0 ml-0 mr-0 mt-0 mb-0 pt-0 pb-0 material-icons';
-	        var cameraIcon = cameraLabel.appendChild(document.createElement('i'));
-	        cameraIcon.className = 'material-icons pl-0 pr-0 ml-0 mr-0 mt-0 mb-0 pt-0 pb-0';
-	        cameraIcon.textContent = 'add_a_photo';
-	        var cameraInput = cameraLabel.appendChild(document.createElement('input'));
-	        cameraInput.type = 'file';
-	        cameraInput.capture = 'environment';
-	        cameraInput.accept = 'image/*';
-	        cameraInput.style.display = 'none';
-	        cameraInput.id = FormField.nextId;
-	        inputGroupEl.appendChild(cameraButtonContainer);
-	        cameraInput.addEventListener('change', this.inputChangeHandler.bind(this, cameraInput.id));
-	      } // styling save buttons: https://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3
-	      // (partially relevant)
-	      // <label class="img-picker icon icon-camera">
-	      // <input type="file" accept="image/*" capture="environment"/>
-	      // </label>
-
-
-	      if (this.helpText) {
-	        var helpTextField = container.appendChild(document.createElement('small'));
-	        helpTextField.innerHTML = this.helpText;
-	      }
-
-	      var statusBlockEl = container.appendChild(document.createElement('p'));
-
-	      _classPrivateFieldSet(this, _statusBlockId, statusBlockEl.id = FormField.nextId); // register a click handler for images (to open a modal)
-
-
-	      statusBlockEl.addEventListener('click', this.imageClickHandler.bind(this));
-
-	      if (this.validationMessage) {
-	        var validationMessageElement = container.appendChild(document.createElement('div'));
-	        validationMessageElement.className = 'invalid-feedback';
-	        validationMessageElement.innerHTML = this.validationMessage;
-	      }
-
-	      filePickerField.addEventListener('change', this.inputChangeHandler.bind(this, filePickerField.id));
-	      this._fieldEl = container;
-	      this.parentForm.addListener(EVENT_DELETE_IMAGE, this.deleteImageHandler.bind(this));
-	    }
-	    /**
-	     * called after user has clicked delete button on an image
-	     *
-	     * @param {{imageId : string}} params
-	     */
-
-	  }, {
-	    key: "deleteImageHandler",
-	    value: function deleteImageHandler(params) {
-	      console.log("delete image ".concat(params.imageId));
-	      var image;
-
-	      for (var key in this._value.images) {
-	        if (this._value.images.hasOwnProperty(key)) {
-	          if (this._value.images[key].id === params.imageId) {
-	            image = this._value.images.splice(key, 1)[0];
-	            break;
-	          }
-	        }
-	      }
-
-	      if (!image) {
-	        console.log("Failed to find image id ".concat(params.imageId));
-	      } else {
-	        // @todo need to resave image to flag as deleted
-	        this.updateView();
-	        this.fireEvent(FormField.EVENT_CHANGE);
-	      }
-	    }
-	    /**
-	     *
-	     * @param {MouseEvent} event
-	     */
-
-	  }, {
-	    key: "imageClickHandler",
-	    value: function imageClickHandler(event) {
-	      if (doubleClickIntercepted(event)) {
-	        return;
-	      }
-
-	      var targetEl = event.target.closest('picture');
-
-	      if (!targetEl) {
-	        targetEl = event.target.closest('img');
-	      } // console.log({'clicked image' : targetEl});
-
-
-	      var imageId = targetEl.getAttribute('data-imageid');
-
-	      if (imageId) {
-	        var imageModal = document.getElementById(IMAGE_MODAL_ID);
-	        var pictureEl = imageModal.getElementsByTagName('picture')[0];
-	        pictureEl.innerHTML = "<source srcset=\"/image.php?imageid=".concat(imageId, "&amp;width=").concat(window.innerWidth, "&amp;format=webp\" type=\"image/webp\">\n                <img src=\"/image.php?imageid=").concat(imageId, "&amp;width=").concat(window.innerWidth, "&amp;format=jpeg\" width=\"auto\" style=\"max-height: 48vh; max-width: 100%;\" alt=\"photo\">");
-	        var deleteButton = document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID);
-	        deleteButton.setAttribute('data-imageid', imageId);
-	        $("#".concat(IMAGE_MODAL_ID)).modal({});
-	      }
-	    }
-	    /**
-	     * called with an additional bound element id parameter
-	     * (this allows the handler to easily distinguish between the two file pickers)
-	     *
-	     * @param {string} inputId
-	     * @param {Event} event
-	     */
-
-	  }, {
-	    key: "inputChangeHandler",
-	    value: function inputChangeHandler(inputId, event) {
-	      var _this2 = this;
-
-	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
-
-	      console.log('got image field input change event');
-	      var imageEl = document.getElementById(inputId);
-
-	      if (imageEl.files.length) {
-	        _classPrivateMethodGet$3(this, _addFiles, _addFiles2).call(this, imageEl.files).then(function () {
-	          _this2.fireEvent(FormField.EVENT_CHANGE);
-	        });
-	      } else {
-	        this.fireEvent(FormField.EVENT_CHANGE);
-	      }
-	    }
-	    /**
-	     *
-	     * @param {FileList} fileList
-	     * @return {Promise<void>}
-	     */
-
-	  }], [{
-	    key: "isEmpty",
-	    value: function isEmpty(value) {
-	      return !value || value.length === 0;
-	    }
-	  }, {
-	    key: "licenseModal",
-	    value:
-	    /**
-	     *
-	     * @returns {HTMLDivElement}
-	     */
-	    function licenseModal() {
-	      // 'image license' modal
-	      // this pop-up is informational only
-	      var modalEl = document.createElement('div');
-	      modalEl.innerHTML = "<div class=\"modal fade\" id=\"".concat(ImageField.LICENSE_MODAL, "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(ImageField.LICENSE_MODAL, "Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(ImageField.LICENSE_MODAL, "Title\">Image licensing</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <p>By choosing to submit images with your Garden Wildflower Hunt records you agree to license the image under the terms of the Creative Common Attribution 4.0 International license (CC BY 4.0).</p>\n        <p>The following is a summary of (and not a substitute for) the <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">license</a>.</p>\n        <p>Licensees are free to:</p>\n        <ul class=\"license-properties\">\n<li>\n<strong>Share</strong> \u2014 copy and redistribute the material in any medium or format\n</li>\n<li>\n<strong>Adapt</strong> \u2014 remix, transform, and build upon the material for any purpose, even commercially.\n</li>\n</ul>\n<p>Licensees are most follow these term:</p>\n<ul>\n<li>\n<p>\n<strong>Attribution</strong> \u2014 licensees must give appropriate credit, provide a link to the license, and indicate if changes were made.\n</p>\n</li>\n</ul>\n<p>Full details of the license are here: <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">CC BY 4.0 license</a></p>\n\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");
-	      return modalEl.firstChild;
-	    }
-	  }]);
-
-	  return ImageField;
-	}(FormField);
-
-	function _addFiles2(fileList) {
-	  // cannot save until parent occurrence has been saved
-	  // so pre-trigger a save event
-	  this.parentForm.pingOccurrence();
-	  var images = [];
-
-	  var _iterator4 = _createForOfIteratorHelper$3(fileList),
-	      _step4;
-
-	  try {
-	    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-	      var file = _step4.value;
-	      images.push(OccurrenceImage.fromFile(file));
-	    }
-	  } catch (err) {
-	    _iterator4.e(err);
-	  } finally {
-	    _iterator4.f();
-	  }
-
-	  return _classPrivateMethodGet$3(this, _save, _save2).call(this, images);
-	}
-
-	function _save2(images) {
-	  var _this3 = this;
-
-	  if (images.length) {
-	    var image = images.shift();
-	    return image.save(this.parentForm.surveyId, this.parentForm.occurrenceId, this.parentForm.projectId).then(function (jsonImageDescriptor) {
-	      console.log("Added image '".concat(image.id, "'"));
-	      console.log({
-	        jsonDescription: jsonImageDescriptor
-	      });
-
-	      _this3._value.images.push(image);
-
-	      _this3.updateView(); // excessive view updates, should do once when all promises have succeeded
-	      // this may break with multiple images if fileList is live and is cleared when input is cleared
-	      // during view update, need to test
-
-	    }, function (reason) {
-	      console.log("Failed to add image ".concat(image.id));
-	      console.log({
-	        "Failure reason": reason
-	      });
-	    }).finally(function () {
-	      return _classPrivateMethodGet$3(_this3, _save, _save2).call(_this3, images);
-	    });
-	  } else {
-	    return Promise.resolve();
-	  }
-	}
-
-	_defineProperty(ImageField, "LICENSE_MODAL", 'imagelicensemodal');
-
-	function _createSuper$8(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$8(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$8() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-	function _classPrivateFieldInitSpec$5(obj, privateMap, value) { _checkPrivateRedeclaration$5(obj, privateMap); privateMap.set(obj, value); }
-
-	function _checkPrivateRedeclaration$5(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-	var _inputId = /*#__PURE__*/new WeakMap();
-
-	var _containerId$5 = /*#__PURE__*/new WeakMap();
-
-	var InputField = /*#__PURE__*/function (_FormField) {
-	  _inherits(InputField, _FormField);
-
-	  var _super = _createSuper$8(InputField);
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
-	   */
-	  function InputField(params) {
-	    var _this;
-
-	    _classCallCheck(this, InputField);
-
-	    _this = _super.call(this, params);
-
-	    _classPrivateFieldInitSpec$5(_assertThisInitialized(_this), _inputId, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$5(_assertThisInitialized(_this), _containerId$5, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "_value", '');
-
-	    _defineProperty(_assertThisInitialized(_this), "_inputType", 'text');
-
-	    _defineProperty(_assertThisInitialized(_this), "_autocomplete", '');
-
-	    if (params) {
-	      if (params.type) {
-	        _this._inputType = params.type;
-	      }
-
-	      if (params.placeholder) {
-	        _this.placeholder = params.placeholder;
-	      }
-
-	      if (params.autocomplete) {
-	        _this._autocomplete = params.autocomplete;
-	      }
-	    }
-
-	    return _this;
-	  }
-	  /**
-	   *
-	   * @param {(string|null|undefined)} textContent
-	   */
-
-
-	  _createClass(InputField, [{
-	    key: "value",
-	    get:
-	    /**
-	     *
-	     * @returns {string}
-	     */
-	    function get() {
-	      return this._value;
-	    },
-	    set: function set(textContent) {
-	      this._value = undefined === textContent || null == textContent ? '' : textContent.trim();
-	      this.updateView();
-	    }
-	  }, {
-	    key: "updateView",
-	    value: function updateView() {
-	      if (this._fieldEl) {
-	        // do nothing until the view has been constructed
-	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputId));
-	        inputEl.value = FormField.cleanRawString(this._value);
-	      }
-	    }
-	    /**
-	     * initialises this._fieldEl
-	     *
-	     * @returns {void}
-	     */
-
-	  }, {
-	    key: "buildField",
-	    value: function buildField() {
-	      // <div class="form-group">
-	      //     <label for="{baseId}gridref">Postcode or grid-reference</label>
-	      //     <input type="text" class="form-control" id="{baseId}gridref" aria-describedby="grHelp" placeholder="Grid-reference or postcode">
-	      //     <small id="grHelp" class="form-text text-muted">We need to be able to put your survey on our map. Detailed locations won't be made public.</small>
-	      // </div>
-	      var container = document.createElement('div');
-	      container.className = 'form-group';
-
-	      _classPrivateFieldSet(this, _containerId$5, container.id = FormField.nextId);
-
-	      _classPrivateFieldSet(this, _inputId, FormField.nextId);
-
-	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId);
-	      labelEl.textContent = this.label;
-	      var inputField = container.appendChild(document.createElement('input'));
-	      inputField.className = "form-control";
-	      inputField.id = _classPrivateFieldGet(this, _inputId);
-
-	      try {
-	        // this is needed for compatibility with IE11
-	        inputField.type = this._inputType;
-	      } catch (e) {
-	        console.log("Failed to set type '".concat(this._inputType, "'"));
-	      }
-
-	      if (this.placeholder) {
-	        inputField.placeholder = this.placeholder;
-	      }
-
-	      if (this._autocomplete) {
-	        inputField.autocomplete = this._autocomplete;
-
-	        if ('off' === this._autocomplete) {
-	          // browsers tend to ignore autocomplete off, so also assign a random 'name' value
-	          inputField.name = uuid$1();
-	        }
-	      }
-
-	      if (this.completion === FormField.COMPLETION_COMPULSORY) {
-	        inputField.required = true;
-	      }
-
-	      if (this.validationMessage) {
-	        var validationMessageElement = container.appendChild(document.createElement('div'));
-	        validationMessageElement.className = 'invalid-feedback';
-	        validationMessageElement.innerHTML = this.validationMessage;
-	      }
-
-	      if (this.helpText) {
-	        var helpTextField = container.appendChild(document.createElement('small'));
-	        helpTextField.innerHTML = this.helpText;
-	      }
-
-	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
-	      this._fieldEl = container;
-	    }
-	    /**
-	     *
-	     * @param {(boolean|null)} isValid
-	     */
-
-	  }, {
-	    key: "markValidity",
-	    value: function markValidity(isValid) {
-	      var el = document.getElementById(_classPrivateFieldGet(this, _inputId));
-
-	      if (null === isValid) {
-	        el.classList.remove('is-invalid', 'is-valid');
-	      } else {
-	        el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
-	        el.classList.add(isValid ? 'is-valid' : 'is-invalid');
-	      }
-	    }
-	  }, {
-	    key: "inputChangeHandler",
-	    value: function inputChangeHandler(event) {
-	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
-
-	      console.log('got input field change event');
-	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _inputId)).value);
-	      this.fireEvent(FormField.EVENT_CHANGE);
-	    }
-	    /**
-	     * by the time summariseImpl has been called have already checked that summary is wanted
-	     *
-	     * @param {string} key
-	     * @param {{field : typeof InputField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
-	     * @param {Object.<string, {}>} attributes attributes of the model object
-	     * @return {string}
-	     */
-
-	  }], [{
-	    key: "summariseImpl",
-	    value: function summariseImpl(key, property, attributes) {
-	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined ? escapeHTML(attributes[key].trim()) : '';
-	    }
-	  }]);
-
-	  return InputField;
-	}(FormField);
-
-	/**
-	 *
-	 * @param {string} separator
-	 * @param {string} finalSeparator
-	 * @param {Array.<string>} list
-	 * @return string
-	 */
-	function formattedImplode(separator, finalSeparator, list) {
-	  if (list.length > 2) {
-	    var last = list.pop();
-	    return "".concat(list.join(separator + ' '), " ").concat(finalSeparator, " ").concat(last);
-	  } else {
-	    return list.join(" ".concat(finalSeparator, " "));
-	  }
-	}
-
-	function _createForOfIteratorHelper$2(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$2(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-	function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
-
-	function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-	function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-	function _classPrivateMethodInitSpec$2(obj, privateSet) { _checkPrivateRedeclaration$4(obj, privateSet); privateSet.add(obj); }
-
-	function _classPrivateFieldInitSpec$4(obj, privateMap, value) { _checkPrivateRedeclaration$4(obj, privateMap); privateMap.set(obj, value); }
-
-	function _checkPrivateRedeclaration$4(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-	function _classPrivateMethodGet$2(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
-
-	function _classStaticPrivateFieldSpecGet$1(receiver, classConstructor, descriptor) { _classCheckPrivateStaticAccess$1(receiver, classConstructor); _classCheckPrivateStaticFieldDescriptor$1(descriptor, "get"); return _classApplyDescriptorGet$1(receiver, descriptor); }
-
-	function _classCheckPrivateStaticFieldDescriptor$1(descriptor, action) { if (descriptor === undefined) { throw new TypeError("attempted to " + action + " private static field before its declaration"); } }
-
-	function _classCheckPrivateStaticAccess$1(receiver, classConstructor) { if (receiver !== classConstructor) { throw new TypeError("Private static access of wrong provenance"); } }
-
-	function _classApplyDescriptorGet$1(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
-	/**
-	 * used for option-based selections, allowing multiple choices, with optional 'other' field that exposes a text field
-	 */
-
-	var _containerId$4 = /*#__PURE__*/new WeakMap();
-
-	var _otherTextId$1 = /*#__PURE__*/new WeakMap();
-
-	var _buildOption$1 = /*#__PURE__*/new WeakSet();
-
-	var OptionsField = /*#__PURE__*/function (_FormField) {
-	  _inherits(OptionsField, _FormField);
-
-	  var _super = _createSuper$7(OptionsField);
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   *
-	   * @type {Object.<string, {label: string}>}
-	   */
-
-	  /**
-	   * if set then include a free-text input field alongside the 'other' option
-	   *
-	   * @type {boolean}
-	   */
-
-	  /**
-	   *
-	   * @type {({selection : Array.<string>, other : (string|null)}|null)}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @param {{[label] : string, [helpText]: string, [options]: {}, [includeOtherFreeText]: boolean}} [params]
-	   */
-	  function OptionsField(params) {
-	    var _this;
-
-	    _classCallCheck(this, OptionsField);
-
-	    _this = _super.call(this, params);
-
-	    _classPrivateMethodInitSpec$2(_assertThisInitialized(_this), _buildOption$1);
-
-	    _classPrivateFieldInitSpec$4(_assertThisInitialized(_this), _containerId$4, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$4(_assertThisInitialized(_this), _otherTextId$1, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "options", {});
-
-	    _defineProperty(_assertThisInitialized(_this), "includeOtherFreeText", true);
-
-	    _defineProperty(_assertThisInitialized(_this), "_value", {
-	      selection: [],
-	      other: null
-	    });
-
-	    if (params) {
-	      if (params.options) {
-	        _this.options = params.options;
-	      }
-
-	      if (params.hasOwnProperty('includeOtherFreeText')) {
-	        _this.includeOtherFreeText = params.includeOtherFreeText;
-	      }
-	    }
-
-	    return _this;
-	  }
-	  /**
-	   *
-	   * @param {{selection : Array.<string>, other : (string|null)}} selection
-	   */
-
-
-	  _createClass(OptionsField, [{
-	    key: "value",
-	    get:
-	    /**
-	     *
-	     * @returns {{selection: Array.<string>, other: (string|null)}}
-	     */
-	    function get() {
-	      return this._value;
-	    },
-	    set: function set(selection) {
-	      this._value = selection || {
-	        selection: [],
-	        other: null
-	      };
-	      this.updateView();
-	    }
-	  }, {
-	    key: "updateView",
-	    value: function updateView() {
-	      if (this._fieldEl) {
-	        // do nothing until the view has been constructed
-	        var _iterator = _createForOfIteratorHelper$2(document.querySelectorAll("".concat(_classStaticPrivateFieldSpecGet$1(OptionsField, OptionsField, _TOP_LEVEL_ELEMENT$1), "#").concat(_classPrivateFieldGet(this, _containerId$4), " input[type=\"checkbox\"]"))),
-	            _step;
-
-	        try {
-	          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-	            var optionEl = _step.value;
-
-	            var selected = optionEl.checked = this._value.selection.includes(optionEl.name);
-
-	            if (optionEl.name === OptionsField.KEY_OTHER && _classPrivateFieldGet(this, _otherTextId$1)) {
-	              var otherEl = document.getElementById(_classPrivateFieldGet(this, _otherTextId$1));
-	              otherEl.style.display = selected ? 'block' : 'none';
-	              otherEl.value = this._value.other === null ? '' : this._value.other.trim();
-	            }
-	          }
-	        } catch (err) {
-	          _iterator.e(err);
-	        } finally {
-	          _iterator.f();
-	        }
-	      }
-	    }
-	    /**
-	     * initialises this._fieldEl
-	     *
-	     * @returns {void}
-	     */
-
-	  }, {
-	    key: "buildField",
-	    value: function buildField() {
-	      if (!this.options) {
-	        throw new Error('Options have not been set before call to buildField()');
-	      }
-
-	      var container = document.createElement(_classStaticPrivateFieldSpecGet$1(OptionsField, OptionsField, _TOP_LEVEL_ELEMENT$1));
-	      container.className = 'form-group';
-
-	      _classPrivateFieldSet(this, _containerId$4, container.id = FormField.nextId);
-
-	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.style.display = 'block';
-	      labelEl.textContent = this.label;
-
-	      if (this.helpText) {
-	        var helpTextField = container.appendChild(document.createElement('small'));
-	        helpTextField.innerHTML = this.helpText;
-	      }
-
-	      for (var key in this.options) {
-	        if (this.options.hasOwnProperty(key)) {
-	          _classPrivateMethodGet$2(this, _buildOption$1, _buildOption2$1).call(this, container, key, this.options[key]);
-	        }
-	      }
-
-	      if (this.validationMessage) {
-	        var validationMessageElement = container.appendChild(document.createElement('div'));
-	        validationMessageElement.className = 'invalid-feedback';
-	        validationMessageElement.innerHTML = this.validationMessage;
-	      }
-
-	      container.addEventListener('change', this.inputChangeHandler.bind(this));
-	      this._fieldEl = container;
-	    }
-	    /**
-	     *
-	     * @param {HTMLElement} fieldSet
-	     * @param {string} key
-	     * @param {{label : string}} option
-	     */
-
-	  }, {
-	    key: "inputChangeHandler",
-	    value:
-	    /**
-	     *
-	     * @param {Event} event
-	     */
-	    function inputChangeHandler(event) {
-	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
-
-	      var value = {
-	        selection: [],
-	        other: null
-	      };
-	      var otherSelected = false;
-	      var otherEl;
-
-	      if (_classPrivateFieldGet(this, _otherTextId$1)) {
-	        otherEl = document.getElementById(_classPrivateFieldGet(this, _otherTextId$1));
-	      }
-
-	      var options = document.querySelectorAll("".concat(_classStaticPrivateFieldSpecGet$1(OptionsField, OptionsField, _TOP_LEVEL_ELEMENT$1), "#").concat(_classPrivateFieldGet(this, _containerId$4), " input[type=\"checkbox\"]:checked"));
-
-	      var _iterator2 = _createForOfIteratorHelper$2(options),
-	          _step2;
-
-	      try {
-	        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-	          var option = _step2.value;
-	          value.selection[value.selection.length] = option.name;
-
-	          if (option.name === OptionsField.KEY_OTHER && _classPrivateFieldGet(this, _otherTextId$1)) {
-	            value.other = FormField.cleanRawInput(otherEl);
-	            otherSelected = true;
-	          }
-	        }
-	      } catch (err) {
-	        _iterator2.e(err);
-	      } finally {
-	        _iterator2.f();
-	      }
-
-	      this.value = value; // the setter will trigger a refresh of the view
-
-	      this.fireEvent(FormField.EVENT_CHANGE);
-	    }
-	    /**
-	     * by the time summariseImpl has been called have already checked that summary is wanted
-	     *
-	     * @param {string} key
-	     * @param {{field : typeof OptionsField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
-	     * @param {Object.<string, {}>} attributes attributes of the model object
-	     * @return {string}
-	     */
-
-	  }], [{
-	    key: "summariseImpl",
-	    value: function summariseImpl(key, property, attributes) {
-	      var summaryDescriptor = property.summary;
-	      var methods = [];
-
-	      if (attributes[key].selection.length) {
-	        var _iterator3 = _createForOfIteratorHelper$2(attributes[key].selection),
-	            _step3;
-
-	        try {
-	          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-	            var attributeValue = _step3.value;
-
-	            if ('other' === attributeValue && attributes[key].other) {
-	              methods[methods.length] = "".concat(property.attributes.options[attributeValue].summary || property.attributes.options[attributeValue].label, " (").concat(attributes[key].other, ")");
-	            } else {
-	              methods[methods.length] = property.attributes.options[attributeValue].summary || property.attributes.options[attributeValue].label;
-	            }
-	          }
-	        } catch (err) {
-	          _iterator3.e(err);
-	        } finally {
-	          _iterator3.f();
-	        }
-
-	        return escapeHTML("".concat(summaryDescriptor.summaryPrefix, " ").concat(formattedImplode(',', 'or', methods)));
-	      } else {
-	        return '';
-	      }
-	    }
-	  }]);
-
-	  return OptionsField;
-	}(FormField);
-
-	function _buildOption2$1(fieldSet, key, option) {
-	  // <div class="form-check">
-	  //     <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-	  //     <label class="form-check-label" for="defaultCheck1">
-	  //         Default checkbox
-	  //     </label>
-	  // </div><
-	  var container = fieldSet.appendChild(document.createElement('div'));
-	  container.className = 'form-check';
-	  var optionField = container.appendChild(document.createElement('input'));
-	  optionField.type = 'checkbox';
-	  optionField.className = "form-check-input";
-	  optionField.id = FormField.nextId;
-	  optionField.name = key;
-	  var labelEl = container.appendChild(document.createElement('label'));
-	  labelEl.htmlFor = optionField.id;
-	  labelEl.className = 'form-check-label';
-	  labelEl.textContent = option.label;
-
-	  if (OptionsField.KEY_OTHER === key && this.includeOtherFreeText) {
-	    var otherTextEl = container.appendChild(document.createElement('input'));
-	    otherTextEl.id = _classPrivateFieldSet(this, _otherTextId$1, FormField.nextId);
-	    otherTextEl.className = 'form-control';
-	    otherTextEl.style.display = 'none';
-	  }
-	}
-
-	_defineProperty(OptionsField, "KEY_OTHER", 'other');
-
-	var _TOP_LEVEL_ELEMENT$1 = {
-	  writable: true,
-	  value: 'fieldset'
-	};
-
-	function _createForOfIteratorHelper$1(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$1(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-	function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
-
-	function _arrayLikeToArray$1(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-	function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-	function _classPrivateMethodInitSpec$1(obj, privateSet) { _checkPrivateRedeclaration$3(obj, privateSet); privateSet.add(obj); }
-
-	function _classPrivateFieldInitSpec$3(obj, privateMap, value) { _checkPrivateRedeclaration$3(obj, privateMap); privateMap.set(obj, value); }
-
-	function _checkPrivateRedeclaration$3(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-	function _classPrivateMethodGet$1(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
-
-	function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) { _classCheckPrivateStaticAccess(receiver, classConstructor); _classCheckPrivateStaticFieldDescriptor(descriptor, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
-
-	function _classCheckPrivateStaticFieldDescriptor(descriptor, action) { if (descriptor === undefined) { throw new TypeError("attempted to " + action + " private static field before its declaration"); } }
-
-	function _classCheckPrivateStaticAccess(receiver, classConstructor) { if (receiver !== classConstructor) { throw new TypeError("Private static access of wrong provenance"); } }
-
-	function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
-	/**
-	 * used for select based menus, allowing multiple choices, with optional 'other' field that exposes a text field
-	 */
-
-	var _containerId$3 = /*#__PURE__*/new WeakMap();
-
-	var _menuId = /*#__PURE__*/new WeakMap();
-
-	var _otherTextId = /*#__PURE__*/new WeakMap();
-
-	var _buildOption = /*#__PURE__*/new WeakSet();
-
-	var SelectField = /*#__PURE__*/function (_FormField) {
-	  _inherits(SelectField, _FormField);
-
-	  var _super = _createSuper$6(SelectField);
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   *
-	   * @type {Object.<string, {label: string}>}
-	   */
-
-	  /**
-	   * if set then include a free-text input field alongside the 'other' option
-	   *
-	   * @type {boolean}
-	   */
-
-	  /**
-	   *
-	   * @type {{selection : Array.<string>, other : (string|null)}}
-	   * @private
-	   */
-	  // static timeoutDelay = 50;
-	  //static KEY_OTHER = 'other';
-
-	  /**
-	   *
-	   * @param {{[label] : string, [helpText]: string, [options]: {}, [includeOtherFreeText]: boolean}} [params]
-	   */
-	  function SelectField(params) {
-	    var _this;
-
-	    _classCallCheck(this, SelectField);
-
-	    _this = _super.call(this, params);
-
-	    _classPrivateMethodInitSpec$1(_assertThisInitialized(_this), _buildOption);
-
-	    _classPrivateFieldInitSpec$3(_assertThisInitialized(_this), _containerId$3, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$3(_assertThisInitialized(_this), _menuId, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$3(_assertThisInitialized(_this), _otherTextId, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "options", {});
-
-	    _defineProperty(_assertThisInitialized(_this), "placeholder", '');
-
-	    _defineProperty(_assertThisInitialized(_this), "includeOtherFreeText", true);
-
-	    _defineProperty(_assertThisInitialized(_this), "_value", {
-	      selection: [],
-	      other: null
-	    });
-
-	    if (params) {
-	      if (params.options) {
-	        _this.options = params.options;
-	      }
-
-	      if (params.hasOwnProperty('includeOtherFreeText')) {
-	        _this.includeOtherFreeText = params.includeOtherFreeText;
-	      }
-
-	      if (params.placeholder) {
-	        _this.placeholder = params.placeholder;
-	      }
-	    }
-
-	    return _this;
-	  }
-	  /**
-	   *
-	   * @param {({selection : Array.<string>, other : (string|null)}|null)} selection
-	   */
-
-
-	  _createClass(SelectField, [{
-	    key: "value",
-	    get:
-	    /**
-	     *
-	     * @returns {{selection: Array.<string>, other: (string|null)}}
-	     */
-	    function get() {
-	      return this._value;
-	    }
-	    /**
-	     *
-	     * @param value
-	     * @returns {boolean}
-	     */
-	    ,
-	    set: function set(selection) {
-	      this._value = selection || {
-	        selection: [],
-	        other: null
-	      };
-	      this.updateView();
-	    }
-	  }, {
-	    key: "markValidity",
-	    value:
-	    /**
-	     *
-	     * @param {(boolean|null)} isValid
-	     */
-	    function markValidity(isValid) {
-	      var el = document.getElementById(_classPrivateFieldGet(this, _menuId));
-
-	      if (null === isValid) {
-	        el.classList.remove('is-invalid', 'is-valid');
-	      } else {
-	        el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
-	        el.classList.add(isValid ? 'is-valid' : 'is-invalid');
-	      }
-	    }
-	  }, {
-	    key: "updateView",
-	    value: function updateView() {
-	      if (this._fieldEl) {
-	        // do nothing until the view has been constructed
-	        var _iterator = _createForOfIteratorHelper$1(document.querySelectorAll("select#".concat(_classPrivateFieldGet(this, _menuId), " option"))),
-	            _step;
-
-	        try {
-	          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-	            var optionEl = _step.value;
-
-	            if (optionEl.value !== '') {
-	              var selected = optionEl.selected = this._value.selection.includes(optionEl.value);
-
-	              if (optionEl.value === OptionsField.KEY_OTHER && _classPrivateFieldGet(this, _otherTextId)) {
-	                var otherEl = document.getElementById(_classPrivateFieldGet(this, _otherTextId));
-	                otherEl.style.display = selected ? 'block' : 'none';
-	                otherEl.value = this._value.other === null ? '' : this._value.other.trim();
-	              }
-	            } else {
-	              // default placeholder choice
-	              optionEl.selected = this._value.selection.length === 0;
-	            }
-	          }
-	        } catch (err) {
-	          _iterator.e(err);
-	        } finally {
-	          _iterator.f();
-	        }
-	      }
-	    }
-	    /**
-	     * initialises this._fieldEl
-	     *
-	     * @returns {void}
-	     */
-
-	  }, {
-	    key: "buildField",
-	    value: function buildField() {
-	      if (!this.options) {
-	        throw new Error('Options have not been set before call to buildField()');
-	      }
-
-	      var container = document.createElement(_classStaticPrivateFieldSpecGet(SelectField, SelectField, _TOP_LEVEL_ELEMENT));
-	      container.className = 'form-group';
-
-	      _classPrivateFieldSet(this, _containerId$3, container.id = FormField.nextId);
-
-	      _classPrivateFieldSet(this, _menuId, FormField.nextId);
-
-	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet(this, _menuId); //labelEl.className = 'form-check-label';
-
-	      labelEl.style.display = 'block';
-	      labelEl.innerHTML = this.label;
-	      var selectEl = document.createElement('select');
-	      selectEl.id = _classPrivateFieldGet(this, _menuId);
-	      selectEl.className = 'custom-select';
-
-	      if (this.helpText) {
-	        var helpTextField = container.appendChild(document.createElement('small'));
-	        helpTextField.innerHTML = this.helpText;
-	      }
-
-	      if (this.placeholder) {
-	        _classPrivateMethodGet$1(this, _buildOption, _buildOption2).call(this, container, selectEl, '', {
-	          label: this.placeholder
-	        });
-	      }
-
-	      for (var key in this.options) {
-	        if (this.options.hasOwnProperty(key)) {
-	          _classPrivateMethodGet$1(this, _buildOption, _buildOption2).call(this, container, selectEl, key, this.options[key]);
-	        }
-	      }
-
-	      container.appendChild(selectEl);
-
-	      if (this.validationMessage) {
-	        var validationMessageElement = container.appendChild(document.createElement('div'));
-	        validationMessageElement.className = 'invalid-feedback';
-	        validationMessageElement.innerHTML = this.validationMessage;
-	      }
-
-	      container.addEventListener('change', this.inputChangeHandler.bind(this));
-	      this._fieldEl = container;
-	    }
-	    /**
-	     *
-	     * @param {HTMLElement} containerEl
-	     * @param {HTMLSelectElement} selectEl
-	     * @param {string} key
-	     * @param {{label : string}} option
-	     */
-
-	  }, {
-	    key: "inputChangeHandler",
-	    value:
-	    /**
-	     *
-	     * @param {Event} event
-	     */
-	    function inputChangeHandler(event) {
-	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
-	      // console.log('got options change event');
-	      // console.log(event);
-
-	      var value = {
-	        selection: [],
-	        other: null
-	      };
-	      var otherSelected = false;
-	      var otherEl;
-
-	      if (_classPrivateFieldGet(this, _otherTextId)) {
-	        otherEl = document.getElementById(_classPrivateFieldGet(this, _otherTextId));
-	      }
-
-	      var options = document.querySelectorAll("select#".concat(_classPrivateFieldGet(this, _menuId), " option:checked"));
-
-	      var _iterator2 = _createForOfIteratorHelper$1(options),
-	          _step2;
-
-	      try {
-	        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-	          var option = _step2.value;
-
-	          if (option.value !== '') {
-	            value.selection[value.selection.length] = option.value;
-
-	            if (option.name === OptionsField.KEY_OTHER && _classPrivateFieldGet(this, _otherTextId)) {
-	              value.other = FormField.cleanRawInput(otherEl);
-	              otherSelected = true;
-	            }
-	          }
-	        }
-	      } catch (err) {
-	        _iterator2.e(err);
-	      } finally {
-	        _iterator2.f();
-	      }
-
-	      this.value = value; // the setter will trigger a refresh of the view
-
-	      this.fireEvent(FormField.EVENT_CHANGE);
-	    }
-	    /**
-	     * by the time summariseImpl has been called have already checked that summary is wanted
-	     *
-	     * @param {string} key
-	     * @param {{field : typeof SelectField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
-	     * @param {Object.<string, {}>} attributes attributes of the model object
-	     * @return {string}
-	     */
-
-	  }], [{
-	    key: "isEmpty",
-	    value: function isEmpty(value) {
-	      return value.selection.length === 0 || value.selection[0] === '';
-	    }
-	  }, {
-	    key: "summariseImpl",
-	    value: function summariseImpl(key, property, attributes) {
-	      var summaryDescriptor = property.summary;
-	      var methods = [];
-
-	      if (attributes[key].selection.length) {
-	        var _iterator3 = _createForOfIteratorHelper$1(attributes[key].selection),
-	            _step3;
-
-	        try {
-	          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-	            var attributeValue = _step3.value;
-
-	            if ('other' === attributeValue && attributes[key].other) {
-	              methods[methods.length] = "".concat(property.attributes.options[attributeValue].summary || property.attributes.options[attributeValue].label, " (").concat(attributes[key].other, ")");
-	            } else {
-	              methods[methods.length] = property.attributes.options[attributeValue].summary || property.attributes.options[attributeValue].label;
-	            }
-	          }
-	        } catch (err) {
-	          _iterator3.e(err);
-	        } finally {
-	          _iterator3.f();
-	        }
-
-	        return escapeHTML("".concat(summaryDescriptor.summaryPrefix, " ").concat(formattedImplode(',', 'or', methods)));
-	      } else {
-	        return '';
-	      }
-	    }
-	  }]);
-
-	  return SelectField;
-	}(FormField);
-
-	function _buildOption2(containerEl, selectEl, key, option) {
-	  var optionEl = selectEl.appendChild(document.createElement('option')); //optionEl.className = ;
-
-	  optionEl.value = key;
-	  optionEl.innerText = option.label;
-
-	  if (OptionsField.KEY_OTHER === key && this.includeOtherFreeText) {
-	    var otherTextEl = containerEl.appendChild(document.createElement('input'));
-	    otherTextEl.id = _classPrivateFieldSet(this, _otherTextId, FormField.nextId);
-	    otherTextEl.className = 'form-control';
-	  }
-	}
-
-	var _TOP_LEVEL_ELEMENT = {
-	  writable: true,
-	  value: 'fieldset'
-	};
-
-	var $$3$1 = _export;
-	var $trimStart$1 = stringTrim$1.start;
-	var forcedStringTrimMethod$3 = stringTrimForced$1;
-
-	var FORCED$r = forcedStringTrimMethod$3('trimStart');
-
-	var trimStart$1 = FORCED$r ? function trimStart() {
-	  return $trimStart$1(this);
-	// eslint-disable-next-line es/no-string-prototype-trimstart-trimend -- safe
-	} : ''.trimStart;
-
-	// `String.prototype.{ trimStart, trimLeft }` methods
-	// https://tc39.es/ecma262/#sec-string.prototype.trimstart
-	// https://tc39.es/ecma262/#String.prototype.trimleft
-	$$3$1({ target: 'String', proto: true, name: 'trimStart', forced: FORCED$r }, {
-	  trimStart: trimStart$1,
-	  trimLeft: trimStart$1
-	});
-
-	var $$2$1 = _export;
-	var $find$2 = arrayIteration$1.find;
-	var addToUnscopables$a = addToUnscopables$3$1;
-
-	var FIND$1 = 'find';
-	var SKIPS_HOLES$2 = true;
-
-	// Shouldn't skip holes
-	if (FIND$1 in []) Array(1)[FIND$1](function () { SKIPS_HOLES$2 = false; });
-
-	// `Array.prototype.find` method
-	// https://tc39.es/ecma262/#sec-array.prototype.find
-	$$2$1({ target: 'Array', proto: true, forced: SKIPS_HOLES$2 }, {
-	  find: function find(callbackfn /* , that = undefined */) {
-	    return $find$2(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-	  }
-	});
-
-	// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-	addToUnscopables$a(FIND$1);
-
-	function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-	function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-	function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-	function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-	function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration$2(obj, privateSet); privateSet.add(obj); }
-
-	function _classPrivateFieldInitSpec$2(obj, privateMap, value) { _checkPrivateRedeclaration$2(obj, privateMap); privateMap.set(obj, value); }
-
-	function _checkPrivateRedeclaration$2(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-	function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
-
-	var _inputFieldId = /*#__PURE__*/new WeakMap();
-
-	var _dropDownListDivId = /*#__PURE__*/new WeakMap();
-
-	var _dropDownListUlId = /*#__PURE__*/new WeakMap();
-
-	var _containerId$2 = /*#__PURE__*/new WeakMap();
-
-	var _taxonLookupTimeoutHandle = /*#__PURE__*/new WeakMap();
-
-	var _changeEventTimeout = /*#__PURE__*/new WeakMap();
-
-	var _selectedIndex = /*#__PURE__*/new WeakMap();
-
-	var _searchResults = /*#__PURE__*/new WeakMap();
-
-	var _triggerQuery = /*#__PURE__*/new WeakSet();
-
-	var TaxonPickerField = /*#__PURE__*/function (_FormField) {
-	  _inherits(TaxonPickerField, _FormField);
-
-	  var _super = _createSuper$5(TaxonPickerField);
-
-	  /**
-	   * @type {TaxonSearch}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   *
-	   * @type {null|number}
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   * @type {Array.<{entityId: string,
-	                      vernacular: string,
-	                      qname: string,
-	                      name: string,
-	                      qualifier: string,
-	                      authority: string,
-	                      uname: string,
-	                      vernacularMatched: boolean,
-	                      exact: boolean,
-	                      near: boolean,
-	                      formatted: string,
-	                      acceptedEntityId: string,
-	                      acceptedNameString: string,
-	                      acceptedQualifier: string,
-	                      acceptedAuthority: string
-	                      }>}
-	   */
-
-	  /**
-	   *
-	   * @type {{taxonName: string, taxonId: string, vernacularMatch: boolean}}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @param {{label : string, [helpText]: string}} [params]
-	   */
-	  function TaxonPickerField(params) {
-	    var _this;
-
-	    _classCallCheck(this, TaxonPickerField);
-
-	    _this = _super.call(this, params);
-
-	    _classPrivateMethodInitSpec(_assertThisInitialized(_this), _triggerQuery);
-
-	    _defineProperty(_assertThisInitialized(_this), "taxonSearch", void 0);
-
-	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _inputFieldId, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _dropDownListDivId, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _dropDownListUlId, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _containerId$2, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _taxonLookupTimeoutHandle, {
-	      writable: true,
-	      value: null
-	    });
-
-	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _changeEventTimeout, {
-	      writable: true,
-	      value: null
-	    });
-
-	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _selectedIndex, {
-	      writable: true,
-	      value: null
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "_lastInputValue", '');
-
-	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _searchResults, {
-	      writable: true,
-	      value: []
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "_value", {
-	      taxonId: '',
-	      taxonName: '',
-	      vernacularMatch: false
-	    });
-
-	    _this.taxonSearch = new TaxonSearch();
-	    return _this;
-	  }
-	  /**
-	   *
-	   * @param {({taxonName: string, taxonId: string, vernacularMatch: boolean}|null)} taxonSpec
-	   */
-
-
-	  _createClass(TaxonPickerField, [{
-	    key: "value",
-	    get:
-	    /**
-	     *
-	     * @returns {{taxonName: string, taxonId: string, vernacularMatch: boolean}}
-	     */
-	    function get() {
-	      return this._value;
-	    }
-	    /**
-	     *
-	     * @param {({taxonName: string, taxonId: string, vernacularMatch: boolean}|null)} value
-	     * @returns {boolean}
-	     */
-	    ,
-	    set: function set(taxonSpec) {
-	      var taxon;
-
-	      if (taxonSpec && taxonSpec.taxonId) {
-	        // this will trigger an error if somehow an invalid id was supplied
-	        taxon = Taxon.fromId(taxonSpec.taxonId); // build the saved values from the dictionary rather than from the literal user entry (which may use different formatting)
-
-	        this._value = {
-	          taxonId: taxon.id,
-	          taxonName: taxonSpec.vernacularMatch ? taxon.vernacular : taxon.nameString,
-	          vernacularMatch: taxonSpec.vernacularMatch
-	        };
-	      } else {
-	        this._value = {
-	          taxonId: '',
-	          taxonName: taxonSpec && taxonSpec.taxonName ? taxonSpec.taxonName : '',
-	          vernacularMatch: null
-	        };
-	      }
-
-	      this.updateView();
-	    }
-	  }, {
-	    key: "updateView",
-	    value: function updateView() {
-	      if (this._fieldEl) {
-	        // do nothing until the view has been constructed
-	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputFieldId));
-	        inputEl.value = this._value.taxonName;
-	        this._lastInputValue = this._value.taxonName; // probably not necessary
-	      }
-	    }
-	    /**
-	     *
-	     * @param {(boolean|null)} isValid
-	     */
-
-	  }, {
-	    key: "markValidity",
-	    value: function markValidity(isValid) {
-	      var el = document.getElementById(_classPrivateFieldGet(this, _inputFieldId));
-
-	      if (null === isValid) {
-	        el.classList.remove('is-invalid', 'is-valid');
-	      } else {
-	        el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
-	        el.classList.add(isValid ? 'is-valid' : 'is-invalid');
-	      }
-	    }
-	    /**
-	     * initialises this._fieldEl
-	     *
-	     * @returns {void}
-	     */
-
-	  }, {
-	    key: "buildField",
-	    value: function buildField() {
-	      //    <div class="form-group">
-	      //     <label for="exampleFormControlInput1">Email address</label>
-	      //     <div class="dropbox-wrapper">
-	      //     <input type="text" class="form-control dropbox-input" id="exampleFormControlInput1" placeholder="name@example.com">
-	      //     <div class="dropdown-list">
-	      //     </div>
-	      //   </div>
-	      var container = document.createElement('div');
-	      container.className = 'form-group';
-
-	      _classPrivateFieldSet(this, _containerId$2, container.id = FormField.nextId);
-
-	      _classPrivateFieldSet(this, _inputFieldId, FormField.nextId);
-
-	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputFieldId);
-	      labelEl.textContent = this.label;
-	      var wrapperEl = container.appendChild(document.createElement('div'));
-	      wrapperEl.className = 'dropdown-wrapper';
-	      var inputField = wrapperEl.appendChild(document.createElement('input'));
-	      inputField.className = "form-control dropdown-input";
-	      inputField.id = _classPrivateFieldGet(this, _inputFieldId);
-	      inputField.autocomplete = 'off';
-	      inputField.spellcheck = false;
-
-	      if (this.validationMessage) {
-	        // unfortunately the validation message has to be placed immediately after the input field
-	        var validationMessageElement = wrapperEl.appendChild(document.createElement('div'));
-	        validationMessageElement.className = 'invalid-feedback';
-	        validationMessageElement.innerHTML = this.validationMessage;
-	      }
-
-	      var dropDownList = wrapperEl.appendChild(document.createElement('div'));
-	      dropDownList.className = 'dropdown-list';
-
-	      _classPrivateFieldSet(this, _dropDownListDivId, dropDownList.id = FormField.nextId);
-
-	      _classPrivateFieldSet(this, _dropDownListUlId, FormField.nextId);
-
-	      if (this.helpText) {
-	        var helpTextField = container.appendChild(document.createElement('small'));
-	        helpTextField.innerHTML = this.helpText;
-	      }
-
-	      inputField.addEventListener('keydown', this.keydownHandler.bind(this)); //inputField.addEventListener('keyup', this.keyupHandler.bind(this)); // unfortunately keyup doesn't fire for touch keyboards
-
-	      inputField.addEventListener('input', this.inputHandler.bind(this));
-	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
-	      container.addEventListener('focusin', this.focusHandler.bind(this));
-	      container.addEventListener('focusout', this.blurHandler.bind(this));
-	      dropDownList.addEventListener('click', this.dropboxClickHandler.bind(this));
-	      this._fieldEl = container;
-	    }
-	    /**
-	     *
-	     * @param {KeyboardEvent} event
-	     * @param {HTMLInputElement} event.target
-	     * @return {boolean}
-	     */
-
-	  }, {
-	    key: "keydownHandler",
-	    value: function keydownHandler(event) {
-	      this._lastInputValue = event.target.value.trimLeft(); // save value for testing in InputEvent handler
-
-	      switch (event.key) {
-	        case 'Enter':
-	          event.preventDefault(); // exit if no suggestions
-	          // if (this.selectedIndex < 0 || !this.suggestionsCol) {
-	          //     return;
-	          // }
-	          // // find which one is currently selected
-	          // const selectedModel = this.suggestionsCol.at(this.selectedIndex);
-	          //
-	          // const species = selectedModel.toJSON();
-	          // delete species.selected;
-	          // this.trigger('taxon:selected', species, false);
-
-	          break;
-
-	        case 'ArrowUp':
-	          event.preventDefault(); // if (this.selectedIndex > 0) {
-	          //     this.suggestionsCol.at(this.selectedIndex).set('selected', false);
-	          //     this.selectedIndex--;
-	          //     this.suggestionsCol.at(this.selectedIndex).set('selected', true);
-	          // }
-
-	          break;
-
-	        case 'ArrowDown':
-	          // Down
-	          event.preventDefault(); // if ((this.suggestionsCol && this.suggestionsCol.length) && // initialized
-	          //     this.selectedIndex < this.suggestionsCol.length - 1) { // not out of boundaries
-	          //     this.suggestionsCol.at(this.selectedIndex).set('selected', false);
-	          //     this.selectedIndex++;
-	          //     this.suggestionsCol.at(this.selectedIndex).set('selected', true);
-	          // }
-
-	          break;
-	        // default:
-	        //     // Other
-	        //     let text = input;
-	        //
-	        //     // on keyDOWN need to add the pressed char
-	        //     let pressedChar = String.fromCharCode(event.key);
-	        //     if (event.keyCode != 8) {
-	        //         // http://stackoverflow.com/questions/19278037/javascript-non-unicode-char-code-to-unicode-character
-	        //         if (e.keyCode === 189 || e.keyCode === 109) {
-	        //             pressedChar = '-';
-	        //         }
-	        //         if (e.keyCode === 190) {
-	        //             pressedChar = '.';
-	        //         }
-	        //
-	        //         text += pressedChar;
-	        //     } else {
-	        //         // Backspace - remove a char
-	        //         text = text.slice(0, text.length - 1);
-	        //     }
-	        //
-	        //     // proceed if minimum length phrase was provided
-	        //     if ((text.replace(/\.|\s/g, '').length) >= TaxonSearch.MIN_SEARCH_LENGTH) {
-	        //         text = text.trim();
-	        //
-	        //         // Clear previous timeout
-	        //         if (this.#taxonLookupTimeoutHandle !== -1) {
-	        //             clearTimeout(this.#taxonLookupTimeoutHandle);
-	        //         }
-	        //
-	        //         // Set new timeout - don't run if user is typing
-	        //         this.#taxonLookupTimeoutHandle = setTimeout(function () {
-	        //             // let controller know
-	        //             that.trigger('taxon:searched', text.toLowerCase());
-	        //         }, 100);
-	        //     } else if (text.replace(/\.|\s/g, '').length === 0) {
-	        //         // no search text, but pass through search, so that 'Unknown sp' can be shown
-	        //
-	        //         // Clear previous timeout
-	        //         if (this.#taxonLookupTimeoutHandle !== -1) {
-	        //             clearTimeout(this.#taxonLookupTimeoutHandle);
-	        //         }
-	        //
-	        //         // Set new timeout - don't run if user is typing
-	        //         this.#taxonLookupTimeoutHandle = setTimeout(function () {
-	        //             // let controller know
-	        //             that.trigger('taxon:searched', '');
-	        //         }, 100);
-	        //     }
-	      }
-	    }
-	    /**
-	     *
-	     * @param {InputEvent} event
-	     */
-
-	  }, {
-	    key: "inputHandler",
-	    value: function inputHandler(event) {
-	      var currentValue = event.target.value.trimLeft(); // save value for testing in InputEvent handler
-
-	      if (currentValue !== this._lastInputValue) {
-	        _classPrivateMethodGet(this, _triggerQuery, _triggerQuery2).call(this, event.target);
-	      }
-	    }
-	    /**
-	     *
-	     * @param {KeyboardEvent} event
-	     * @return {boolean}
-	     */
-
-	  }, {
-	    key: "keyupHandler",
-	    value: function keyupHandler(event) {
-	      //console.log({'key' : event.key});
-	      if (event.key && (event.key.length === 1 || event.key === 'Backspace' || event.key === 'Delete')) {
-	        //keypress was a printable character
-	        _classPrivateMethodGet(this, _triggerQuery, _triggerQuery2).call(this, event.target); // let text = TaxonPickerField.cleanRawInput(event.target);
-	        //
-	        // // proceed if minimum length phrase was provided
-	        // if ((text.length) >= TaxonSearch.MIN_SEARCH_LENGTH) {
-	        //
-	        //     // Clear previous timeout
-	        //     if (this.#taxonLookupTimeoutHandle) {
-	        //         clearTimeout(this.#taxonLookupTimeoutHandle);
-	        //     }
-	        //
-	        //     // Set new timeout - don't run if user is typing
-	        //     this.#taxonLookupTimeoutHandle = setTimeout(() => {
-	        //         this.#searchResults = this.taxonSearch.lookup(
-	        //             TaxonPickerField.cleanRawInput(document.getElementById(this.#inputFieldId))
-	        //         );
-	        //
-	        //         console.log(this.#searchResults);
-	        //
-	        //         this.refreshSearchResultsList();
-	        //
-	        //         this.#taxonLookupTimeoutHandle = null;
-	        //     }, TaxonPickerField.timeoutDelay);
-	        // }
-
-	      }
-	    }
-	    /**
-	     *
-	     * @param {HTMLInputElement} inputEl
-	     */
-
-	  }, {
-	    key: "focusHandler",
-	    value:
-	    /**
-	     *
-	     * @param {Event} event
-	     */
-	    function focusHandler(event) {
-	      console.log('focused');
-	      var dropDownEl = document.getElementById(_classPrivateFieldGet(this, _dropDownListDivId)); //const container = document.getElementById(this.#containerId);
-
-	      if (!dropDownEl.classList.contains('dropdown-focused')) {
-	        // refresh dropdown list when first focused
-	        // focus event will re-fire after click on link in dropdown potentially disrupting subsequent click
-	        // it is important that the query is not re-run if already focused.
-	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputFieldId));
-
-	        _classPrivateMethodGet(this, _triggerQuery, _triggerQuery2).call(this, inputEl);
-
-	        dropDownEl.classList.add('dropdown-focused');
-	      }
-	    }
-	    /**
-	     *
-	     * @param {Event} event
-	     */
-
-	  }, {
-	    key: "blurHandler",
-	    value: function blurHandler(event) {
-	      var _this2 = this;
-
-	      // clear taxon result lookup timeout
-	      if (_classPrivateFieldGet(this, _taxonLookupTimeoutHandle)) {
-	        clearTimeout(_classPrivateFieldGet(this, _taxonLookupTimeoutHandle));
-
-	        _classPrivateFieldSet(this, _taxonLookupTimeoutHandle, null);
-	      } // to avoid blurring before a link click has been processed, introduce a delay
-
-
-	      setTimeout(function () {
-	        var dropDownEl = document.getElementById(_classPrivateFieldGet(_this2, _dropDownListDivId));
-	        dropDownEl.classList.remove('dropdown-focused'); // console.log('applied blur');
-	      }, 500);
-	    }
-	  }, {
-	    key: "refreshSearchResultsList",
-	    value: function refreshSearchResultsList() {
-	      var dropdownListEl = document.getElementById(_classPrivateFieldGet(this, _dropDownListDivId));
-
-	      if (_classPrivateFieldGet(this, _searchResults).length) {
-	        var htmlResults = [];
-	        var n = 0;
-
-	        var _iterator = _createForOfIteratorHelper(_classPrivateFieldGet(this, _searchResults)),
-	            _step;
-
-	        try {
-	          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-	            var result = _step.value;
-	            htmlResults[htmlResults.length] = "<a class=\"list-group-item list-group-item-action\" href=\"#\" data-occurrenceId=\"".concat(result.entityId, "\" data-resultnumber=\"").concat(n, "\">").concat(TaxonSearch.formatter(result), "</a>");
-	            ++n;
-	          }
-	        } catch (err) {
-	          _iterator.e(err);
-	        } finally {
-	          _iterator.f();
-	        }
-
-	        dropdownListEl.innerHTML = "<div class=\"list-group\" id=\"".concat(_classPrivateFieldGet(this, _dropDownListUlId), "\">").concat(htmlResults.join(''), "</div>"); // const htmlResults = [];
-	        //
-	        // let n = 0;
-	        // for (let result of this.#searchResults) {
-	        //     htmlResults[htmlResults.length] = `<li><a href="#" data-occurrenceId="${result.entityId}" data-resultnumber="${n}">${TaxonSearch.formatter(result)}</a></li>`;
-	        //     ++n;
-	        // }
-	        //
-	        // dropdownListEl.innerHTML = `<ul id="${this.#dropDownListUlId}">${htmlResults.join('')}</ul>`;
-	      } else {
-	        dropdownListEl.innerHTML = '';
-	      }
-
-	      _classPrivateFieldSet(this, _selectedIndex, null);
-	    }
-	  }, {
-	    key: "dropboxClickHandler",
-	    value:
-	    /**
-	     *
-	     * @param {MouseEvent} event
-	     */
-	    function dropboxClickHandler(event) {
-	      if (doubleClickIntercepted(event)) {
-	        return;
-	      } //console.log('click handler');
-	      //console.log(event);
-
-
-	      var targetEl = event.target.closest('a'); //console.log(targetEl);
-
-	      if (_classPrivateFieldGet(this, _changeEventTimeout)) {
-	        clearTimeout(_classPrivateFieldGet(this, _changeEventTimeout));
-
-	        _classPrivateFieldSet(this, _changeEventTimeout, null);
-
-	        console.log('cleared a pending change event');
-	      }
-
-	      if (targetEl && targetEl.dataset.occurrenceid) {
-	        event.preventDefault(); //console.log(`got target ${targetEl.dataset.occurrenceid}`);
-
-	        var result = _classPrivateFieldGet(this, _searchResults)[targetEl.dataset.resultnumber]; //document.getElementById(this.#inputFieldId).blur();
-
-
-	        this.value = {
-	          taxonId: result.entityId,
-	          taxonName: result.vernacularMatched ? result.vernacular : result.qname,
-	          vernacularMatch: result.vernacularMatched
-	        }; // setter will refresh the field but not fire a change event
-
-	        this.fireEvent(FormField.EVENT_CHANGE);
-	      }
-	    }
-	  }, {
-	    key: "inputChangeHandler",
-	    value: function inputChangeHandler(event) {
-	      var _this3 = this;
-
-	      // need to prevent race-conditions between clicks and change events
-	      // i.e. a click event on the dropdown list might come after a change event on the input field
-	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
-
-	      console.log('got taxon field input change event');
-
-	      if (_classPrivateFieldGet(this, _changeEventTimeout)) {
-	        clearTimeout(_classPrivateFieldGet(this, _changeEventTimeout));
-	      } // avoid acting on a change immediately, in case there is a click event following
-
-
-	      _classPrivateFieldSet(this, _changeEventTimeout, setTimeout(function () {
-	        console.log('processing taxon field input change event'); // check if the dropdown list has an exact match, if so then use it
-
-	        var exactMatch = _classPrivateFieldGet(_this3, _searchResults).find(function (result) {
-	          return result.exact;
-	        });
-
-	        if (exactMatch) {
-	          console.log('exact match');
-	          _this3.value = {
-	            taxonId: exactMatch.entityId,
-	            taxonName: exactMatch.vernacularMatched ? exactMatch.vernacular : exactMatch.qname,
-	            vernacularMatch: exactMatch.vernacularMatched
-	          }; // setter will refresh the field but not fire a change event
-	        } else {
-	          console.log('no match');
-	          _this3.value = {
-	            taxonId: '',
-	            taxonName: document.getElementById(_classPrivateFieldGet(_this3, _inputFieldId)).value.trim(),
-	            vernacularMatch: null
-	          };
-	        }
-
-	        console.log(_this3._value);
-
-	        _this3.fireEvent(FormField.EVENT_CHANGE);
-	      }, 500));
-	    }
-	  }], [{
-	    key: "isEmpty",
-	    value: function isEmpty(value) {
-	      return !value || value && !value.taxonName;
-	    }
-	  }, {
-	    key: "cleanRawInput",
-	    value: function cleanRawInput(inputElement) {
-	      return inputElement.value.trim().replace(/\s\s+/g, ' ');
-	    }
-	  }]);
-
-	  return TaxonPickerField;
-	}(FormField);
-
-	function _triggerQuery2(inputEl) {
-	  var _this4 = this;
-
-	  var text = FormField.cleanRawInput(inputEl); // Clear previous timeout
-
-	  if (_classPrivateFieldGet(this, _taxonLookupTimeoutHandle)) {
-	    clearTimeout(_classPrivateFieldGet(this, _taxonLookupTimeoutHandle));
-	  } // proceed if minimum length phrase was provided
-
-
-	  if (text.length >= TaxonSearch.MIN_SEARCH_LENGTH) {
-	    // Set new timeout - don't run if user is typing
-	    _classPrivateFieldSet(this, _taxonLookupTimeoutHandle, setTimeout(function () {
-	      _classPrivateFieldSet(_this4, _searchResults, _this4.taxonSearch.lookup(FormField.cleanRawInput(document.getElementById(_classPrivateFieldGet(_this4, _inputFieldId))))); //console.log(this.#searchResults);
-
-
-	      _this4.refreshSearchResultsList();
-
-	      _classPrivateFieldSet(_this4, _taxonLookupTimeoutHandle, null);
-	    }, TaxonPickerField.timeoutDelay));
-	  } else {
-	    // clear the results list
-	    _classPrivateFieldSet(this, _searchResults, []);
-
-	    this.refreshSearchResultsList();
-	  }
-	}
-
-	_defineProperty(TaxonPickerField, "timeoutDelay", 50);
-
-	function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-	function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-	function _classPrivateFieldInitSpec$1(obj, privateMap, value) { _checkPrivateRedeclaration$1(obj, privateMap); privateMap.set(obj, value); }
-
-	function _checkPrivateRedeclaration$1(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-	var _textAreaId = /*#__PURE__*/new WeakMap();
-
-	var _containerId$1 = /*#__PURE__*/new WeakMap();
-
-	var TextAreaField = /*#__PURE__*/function (_FormField) {
-	  _inherits(TextAreaField, _FormField);
-
-	  var _super = _createSuper$4(TextAreaField);
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   * @type {string}
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
-	   */
-	  function TextAreaField(params) {
-	    var _this;
-
-	    _classCallCheck(this, TextAreaField);
-
-	    _this = _super.call(this, params);
-
-	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _textAreaId, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _containerId$1, {
-	      writable: true,
-	      value: void 0
-	    });
-
-	    _defineProperty(_assertThisInitialized(_this), "_value", '');
-
-	    _defineProperty(_assertThisInitialized(_this), "_autocomplete", '');
-
-	    if (params) {
-	      if (params.options) {
-	        _this.options = params.options;
-	      }
-
-	      if (params.placeholder) {
-	        _this.placeholder = params.placeholder;
-	      }
-
-	      if (params.autocomplete) {
-	        _this._autocomplete = params.autocomplete;
-	      }
-	    }
-
-	    return _this;
-	  }
-	  /**
-	   *
-	   * @param {(string|null|undefined)} textContent
-	   */
-
-
-	  _createClass(TextAreaField, [{
-	    key: "value",
-	    get: function get() {
-	      return this._value;
-	    },
-	    set: function set(textContent) {
-	      this._value = undefined === textContent || null == textContent ? '' : textContent.trim();
-	      this.updateView();
-	    }
-	  }, {
-	    key: "updateView",
-	    value: function updateView() {
-	      if (this._fieldEl) {
-	        // do nothing until the view has been constructed
-	        var textAreaEl = document.getElementById(_classPrivateFieldGet(this, _textAreaId));
-	        textAreaEl.value = FormField.cleanRawString(this._value);
-	      }
-	    }
-	    /**
-	     * initialises this._fieldEl
-	     *
-	     * @returns {void}
-	     */
-
-	  }, {
-	    key: "buildField",
-	    value: function buildField() {
-	      // <div class="form-group">
-	      //     <label for="exampleFormControlTextarea1">Example textarea</label>
-	      //     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-	      // </div>
-	      var container = document.createElement('div');
-	      container.className = 'form-group';
-
-	      _classPrivateFieldSet(this, _containerId$1, container.id = FormField.nextId);
-
-	      _classPrivateFieldSet(this, _textAreaId, FormField.nextId);
-
-	      var labelEl = container.appendChild(document.createElement('label'));
-	      labelEl.htmlFor = _classPrivateFieldGet(this, _textAreaId);
-	      labelEl.textContent = this.label;
-	      var textareaField = container.appendChild(document.createElement('textarea'));
-	      textareaField.className = "form-control";
-	      textareaField.id = _classPrivateFieldGet(this, _textAreaId);
-
-	      if (this.helpText) {
-	        var helpTextField = container.appendChild(document.createElement('small'));
-	        helpTextField.innerHTML = this.helpText;
-	      }
-
-	      if (this._autocomplete) {
-	        textareaField.autocomplete = this._autocomplete;
-
-	        if ('off' === this._autocomplete) {
-	          textareaField.name = uuid$1();
-	        }
-	      }
-
-	      if (this.validationMessage) {
-	        var validationMessageElement = container.appendChild(document.createElement('div'));
-	        validationMessageElement.className = 'invalid-feedback';
-	        validationMessageElement.innerHTML = this.validationMessage;
-	      }
-
-	      textareaField.addEventListener('change', this.inputChangeHandler.bind(this));
-	      this._fieldEl = container;
-	    }
-	  }, {
-	    key: "inputChangeHandler",
-	    value: function inputChangeHandler(event) {
-	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
-
-	      console.log('got text area field input change event');
-	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _textAreaId)).value);
-	      this.fireEvent(FormField.EVENT_CHANGE);
-	    }
-	    /**
-	     * by the time summariseImpl has been called have already checked that summary is wanted
-	     *
-	     * @param {string} key
-	     * @param {{field : typeof OptionsField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
-	     * @param {Object.<string, {}>} attributes attributes of the model object
-	     * @return {string}
-	     */
-
-	  }], [{
-	    key: "summariseImpl",
-	    value: function summariseImpl(key, property, attributes) {
-	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined ? escapeHTML(attributes[key].trim()) : '';
-	    }
-	  }]);
-
-	  return TextAreaField;
-	}(FormField);
-
-	var t="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},e=function(t){return t&&t.Math==Math&&t},S=e("object"==typeof globalThis&&globalThis)||e("object"==typeof window&&window)||e("object"==typeof self&&self)||e("object"==typeof t&&t)||function(){return this}()||Function("return this")(),r={},N=function(t){try{return !!t()}catch(t){return !0}},n=!N((function(){return 7!=Object.defineProperty({},1,{get:function(){return 7}})[1]})),o=Function.prototype.call,a=o.bind?o.bind(o):function(){return o.apply(o,arguments)},i={},s={}.propertyIsEnumerable,u=Object.getOwnPropertyDescriptor,T=u&&!s.call({1:2},1);i.f=T?function(t){var e=u(this,t);return !!e&&e.enumerable}:s;var c,h,f=function(t,e){return {enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:e}},l=Function.prototype,d=l.bind,M=l.call,g=d&&d.bind(M),O=d?function(t){return t&&g(M,t)}:function(t){return t&&function(){return M.apply(t,arguments)}},p=O,H=p({}.toString),v=p("".slice),y=function(t){return v(H(t),8,-1)},J=O,U=N,P=y,C=S.Object,L=J("".split),R=U((function(){return !C("z").propertyIsEnumerable(0)}))?function(t){return "String"==P(t)?L(t,""):C(t)}:C,E$2=S.TypeError,Y=function(t){if(null==t)throw E$2("Can't call method on "+t);return t},b=R,w=Y,D=function(t){return b(w(t))},K=function(t){return "function"==typeof t},X=K,G=function(t){return "object"==typeof t?null!==t:X(t)},Q=S,F=K,_=function(t){return F(t)?t:void 0},m=function(t,e){return arguments.length<2?_(Q[t]):Q[t]&&Q[t][e]},A=O({}.isPrototypeOf),x=S,Z=m("navigator","userAgent")||"",B=x.process,W=x.Deno,k=B&&B.versions||W&&W.version,I=k&&k.v8;I&&(h=(c=I.split("."))[0]>0&&c[0]<4?1:+(c[0]+c[1])),!h&&Z&&(!(c=Z.match(/Edge\/(\d+)/))||c[1]>=74)&&(c=Z.match(/Chrome\/(\d+)/))&&(h=+c[1]);var q=h,j$2=q,V=N,$$1$1=!!Object.getOwnPropertySymbols&&!V((function(){var t=Symbol();return !String(t)||!(Object(t)instanceof Symbol)||!Symbol.sham&&j$2&&j$2<41})),z=$$1$1&&!Symbol.sham&&"symbol"==typeof Symbol.iterator,tt=m,et=K,St=A,rt=z,Nt=S.Object,nt=rt?function(t){return "symbol"==typeof t}:function(t){var e=tt("Symbol");return et(e)&&St(e.prototype,Nt(t))},ot=S.String,at=function(t){try{return ot(t)}catch(t){return "Object"}},it=K,st=at,ut=S.TypeError,Tt=function(t){if(it(t))return t;throw ut(st(t)+" is not a function")},ct=Tt,ht=function(t,e){var S=t[e];return null==S?void 0:ct(S)},ft=a,lt=K,dt=G,Mt=S.TypeError,gt={exports:{}},Ot=S,pt=Object.defineProperty,Ht=function(t,e){try{pt(Ot,t,{value:e,configurable:!0,writable:!0});}catch(S){Ot[t]=e;}return e},vt=Ht,yt=S["__core-js_shared__"]||vt("__core-js_shared__",{}),Jt=yt;(gt.exports=function(t,e){return Jt[t]||(Jt[t]=void 0!==e?e:{})})("versions",[]).push({version:"3.19.1",mode:"global",copyright:"© 2021 Denis Pushkarev (zloirock.ru)"});var Ut=Y,Pt=S.Object,Ct=function(t){return Pt(Ut(t))},Lt=Ct,Rt=O({}.hasOwnProperty),Et=Object.hasOwn||function(t,e){return Rt(Lt(t),e)},Yt=O,bt=0,wt=Math.random(),Dt=Yt(1..toString),Kt=function(t){return "Symbol("+(void 0===t?"":t)+")_"+Dt(++bt+wt,36)},Xt=S,Gt=gt.exports,Qt=Et,Ft=Kt,_t=$$1$1,mt=z,At=Gt("wks"),xt=Xt.Symbol,Zt=xt&&xt.for,Bt=mt?xt:xt&&xt.withoutSetter||Ft,Wt=function(t){if(!Qt(At,t)||!_t&&"string"!=typeof At[t]){var e="Symbol."+t;_t&&Qt(xt,t)?At[t]=xt[t]:At[t]=mt&&Zt?Zt(e):Bt(e);}return At[t]},kt=a,It=G,qt=nt,jt=ht,Vt=function(t,e){var S,r;if("string"===e&&lt(S=t.toString)&&!dt(r=ft(S,t)))return r;if(lt(S=t.valueOf)&&!dt(r=ft(S,t)))return r;if("string"!==e&&lt(S=t.toString)&&!dt(r=ft(S,t)))return r;throw Mt("Can't convert object to primitive value")},$t=Wt,zt=S.TypeError,te=$t("toPrimitive"),ee=function(t,e){if(!It(t)||qt(t))return t;var S,r=jt(t,te);if(r){if(void 0===e&&(e="default"),S=kt(r,t,e),!It(S)||qt(S))return S;throw zt("Can't convert object to primitive value")}return void 0===e&&(e="number"),Vt(t,e)},Se=nt,re=function(t){var e=ee(t,"string");return Se(e)?e:e+""},Ne=G,ne=S.document,oe=Ne(ne)&&Ne(ne.createElement),ae=function(t){return oe?ne.createElement(t):{}},ie=ae,se=!n&&!N((function(){return 7!=Object.defineProperty(ie("div"),"a",{get:function(){return 7}}).a})),ue=n,Te=a,ce=i,he=f,fe=D,le=re,de=Et,Me=se,ge=Object.getOwnPropertyDescriptor;r.f=ue?ge:function(t,e){if(t=fe(t),e=le(e),Me)try{return ge(t,e)}catch(t){}if(de(t,e))return he(!Te(ce.f,t,e),t[e])};var Oe={},pe=S,He=G,ve=pe.String,ye=pe.TypeError,Je=function(t){if(He(t))return t;throw ye(ve(t)+" is not an object")},Ue=n,Pe=se,Ce=Je,Le=re,Re=S.TypeError,Ee=Object.defineProperty;Oe.f=Ue?Ee:function(t,e,S){if(Ce(t),e=Le(e),Ce(S),Pe)try{return Ee(t,e,S)}catch(t){}if("get"in S||"set"in S)throw Re("Accessors not supported");return "value"in S&&(t[e]=S.value),t};var Ye=Oe,be=f,we=n?function(t,e,S){return Ye.f(t,e,be(1,S))}:function(t,e,S){return t[e]=S,t},De={exports:{}},Ke=K,Xe=yt,Ge=O(Function.toString);Ke(Xe.inspectSource)||(Xe.inspectSource=function(t){return Ge(t)});var Qe,Fe,_e,me=Xe.inspectSource,Ae=K,xe=me,Ze=S.WeakMap,Be=Ae(Ze)&&/native code/.test(xe(Ze)),We=gt.exports,ke=Kt,Ie=We("keys"),qe=function(t){return Ie[t]||(Ie[t]=ke(t))},je={},Ve=Be,$e=S,ze=O,tS=G,eS=we,SS=Et,rS=yt,NS=qe,nS=je,oS=$e.TypeError,aS=$e.WeakMap;if(Ve||rS.state){var iS=rS.state||(rS.state=new aS),sS=ze(iS.get),uS=ze(iS.has),TS=ze(iS.set);Qe=function(t,e){if(uS(iS,t))throw new oS("Object already initialized");return e.facade=t,TS(iS,t,e),e},Fe=function(t){return sS(iS,t)||{}},_e=function(t){return uS(iS,t)};}else {var cS=NS("state");nS[cS]=!0,Qe=function(t,e){if(SS(t,cS))throw new oS("Object already initialized");return e.facade=t,eS(t,cS,e),e},Fe=function(t){return SS(t,cS)?t[cS]:{}},_e=function(t){return SS(t,cS)};}var hS={set:Qe,get:Fe,has:_e,enforce:function(t){return _e(t)?Fe(t):Qe(t,{})},getterFor:function(t){return function(e){var S;if(!tS(e)||(S=Fe(e)).type!==t)throw oS("Incompatible receiver, "+t+" required");return S}}},fS=n,lS=Et,dS=Function.prototype,MS=fS&&Object.getOwnPropertyDescriptor,gS=lS(dS,"name"),OS={EXISTS:gS,PROPER:gS&&"something"===function(){}.name,CONFIGURABLE:gS&&(!fS||fS&&MS(dS,"name").configurable)},pS=S,HS=K,vS=Et,yS=we,JS=Ht,US=me,PS=OS.CONFIGURABLE,CS=hS.get,LS=hS.enforce,RS=String(String).split("String");(De.exports=function(t,e,S,r){var N,n=!!r&&!!r.unsafe,o=!!r&&!!r.enumerable,a=!!r&&!!r.noTargetGet,i=r&&void 0!==r.name?r.name:e;HS(S)&&("Symbol("===String(i).slice(0,7)&&(i="["+String(i).replace(/^Symbol\(([^)]*)\)/,"$1")+"]"),(!vS(S,"name")||PS&&S.name!==i)&&yS(S,"name",i),(N=LS(S)).source||(N.source=RS.join("string"==typeof i?i:""))),t!==pS?(n?!a&&t[e]&&(o=!0):delete t[e],o?t[e]=S:yS(t,e,S)):o?t[e]=S:JS(e,S);})(Function.prototype,"toString",(function(){return HS(this)&&CS(this).source||US(this)}));var ES={},YS=Math.ceil,bS=Math.floor,wS=function(t){var e=+t;return e!=e||0===e?0:(e>0?bS:YS)(e)},DS=wS,KS=Math.max,XS=Math.min,GS=function(t,e){var S=DS(t);return S<0?KS(S+e,0):XS(S,e)},QS=wS,FS=Math.min,_S=function(t){return t>0?FS(QS(t),9007199254740991):0},mS=_S,AS=function(t){return mS(t.length)},xS=D,ZS=GS,BS=AS,WS=function(t){return function(e,S,r){var N,n=xS(e),o=BS(n),a=ZS(r,o);if(t&&S!=S){for(;o>a;)if((N=n[a++])!=N)return !0}else for(;o>a;a++)if((t||a in n)&&n[a]===S)return t||a||0;return !t&&-1}},kS={includes:WS(!0),indexOf:WS(!1)},IS=Et,qS=D,jS=kS.indexOf,VS=je,$S=O([].push),zS=function(t,e){var S,r=qS(t),N=0,n=[];for(S in r)!IS(VS,S)&&IS(r,S)&&$S(n,S);for(;e.length>N;)IS(r,S=e[N++])&&(~jS(n,S)||$S(n,S));return n},tr=["constructor","hasOwnProperty","isPrototypeOf","propertyIsEnumerable","toLocaleString","toString","valueOf"],er=zS,Sr=tr.concat("length","prototype");ES.f=Object.getOwnPropertyNames||function(t){return er(t,Sr)};var rr={};rr.f=Object.getOwnPropertySymbols;var Nr=m,nr=ES,or=rr,ar=Je,ir=O([].concat),sr=Nr("Reflect","ownKeys")||function(t){var e=nr.f(ar(t)),S=or.f;return S?ir(e,S(t)):e},ur=Et,Tr=sr,cr=r,hr=Oe,fr=N,lr=K,dr=/#|\.prototype\./,Mr=function(t,e){var S=Or[gr(t)];return S==Hr||S!=pr&&(lr(e)?fr(e):!!e)},gr=Mr.normalize=function(t){return String(t).replace(dr,".").toLowerCase()},Or=Mr.data={},pr=Mr.NATIVE="N",Hr=Mr.POLYFILL="P",vr=Mr,yr=S,Jr=r.f,Ur=we,Pr=De.exports,Cr=Ht,Lr=function(t,e){for(var S=Tr(e),r=hr.f,N=cr.f,n=0;n<S.length;n++){var o=S[n];ur(t,o)||r(t,o,N(e,o));}},Rr=vr,Er=function(t,e){var S,r,N,n,o,a=t.target,i=t.global,s=t.stat;if(S=i?yr:s?yr[a]||Cr(a,{}):(yr[a]||{}).prototype)for(r in e){if(n=e[r],N=t.noTargetGet?(o=Jr(S,r))&&o.value:S[r],!Rr(i?r:a+(s?".":"#")+r,t.forced)&&void 0!==N){if(typeof n==typeof N)continue;Lr(n,N);}(t.sham||N&&N.sham)&&Ur(n,"sham",!0),Pr(S,r,n,t);}},Yr={};Yr[Wt("toStringTag")]="z";var br="[object z]"===String(Yr),wr=S,Dr=br,Kr=K,Xr=y,Gr=Wt("toStringTag"),Qr=wr.Object,Fr="Arguments"==Xr(function(){return arguments}()),_r=Dr?Xr:function(t){var e,S,r;return void 0===t?"Undefined":null===t?"Null":"string"==typeof(S=function(t,e){try{return t[e]}catch(t){}}(e=Qr(t),Gr))?S:Fr?Xr(e):"Object"==(r=Xr(e))&&Kr(e.callee)?"Arguments":r},mr=_r,Ar=S.String,xr=function(t){if("Symbol"===mr(t))throw TypeError("Cannot convert a Symbol value to a string");return Ar(t)},Zr=Je,Br=function(){var t=Zr(this),e="";return t.global&&(e+="g"),t.ignoreCase&&(e+="i"),t.multiline&&(e+="m"),t.dotAll&&(e+="s"),t.unicode&&(e+="u"),t.sticky&&(e+="y"),e},Wr={},kr=N,Ir=S.RegExp;Wr.UNSUPPORTED_Y=kr((function(){var t=Ir("a","y");return t.lastIndex=2,null!=t.exec("abcd")})),Wr.BROKEN_CARET=kr((function(){var t=Ir("^r","gy");return t.lastIndex=2,null!=t.exec("str")}));var qr,jr=zS,Vr=tr,$r=Object.keys||function(t){return jr(t,Vr)},zr=Oe,tN=Je,eN=D,SN=$r,rN=n?Object.defineProperties:function(t,e){tN(t);for(var S,r=eN(e),N=SN(e),n=N.length,o=0;n>o;)zr.f(t,S=N[o++],r[S]);return t},NN=m("document","documentElement"),nN=Je,oN=rN,aN=tr,iN=je,sN=NN,uN=ae,TN=qe("IE_PROTO"),cN=function(){},hN=function(t){return "<script>"+t+"<\/script>"},fN=function(t){t.write(hN("")),t.close();var e=t.parentWindow.Object;return t=null,e},lN=function(){try{qr=new ActiveXObject("htmlfile");}catch(t){}var t,e;lN="undefined"!=typeof document?document.domain&&qr?fN(qr):((e=uN("iframe")).style.display="none",sN.appendChild(e),e.src=String("javascript:"),(t=e.contentWindow.document).open(),t.write(hN("document.F=Object")),t.close(),t.F):fN(qr);for(var S=aN.length;S--;)delete lN.prototype[aN[S]];return lN()};iN[TN]=!0;var dN,MN,gN=Object.create||function(t,e){var S;return null!==t?(cN.prototype=nN(t),S=new cN,cN.prototype=null,S[TN]=t):S=lN(),void 0===e?S:oN(S,e)},ON=N,pN=S.RegExp,HN=ON((function(){var t=pN(".","s");return !(t.dotAll&&t.exec("\n")&&"s"===t.flags)})),vN=N,yN=S.RegExp,JN=vN((function(){var t=yN("(?<a>b)","g");return "b"!==t.exec("b").groups.a||"bc"!=="b".replace(t,"$<a>c")})),UN=a,PN=O,CN=xr,LN=Br,RN=Wr,EN=gt.exports,YN=gN,bN=hS.get,wN=HN,DN=JN,KN=EN("native-string-replace",String.prototype.replace),XN=RegExp.prototype.exec,GN=XN,QN=PN("".charAt),FN=PN("".indexOf),_N=PN("".replace),mN=PN("".slice),AN=(MN=/b*/g,UN(XN,dN=/a/,"a"),UN(XN,MN,"a"),0!==dN.lastIndex||0!==MN.lastIndex),xN=RN.UNSUPPORTED_Y||RN.BROKEN_CARET,ZN=void 0!==/()??/.exec("")[1];(AN||ZN||xN||wN||DN)&&(GN=function(t){var e,S,r,N,n,o,a,i=this,s=bN(i),u=CN(t),T=s.raw;if(T)return T.lastIndex=i.lastIndex,e=UN(GN,T,u),i.lastIndex=T.lastIndex,e;var c=s.groups,h=xN&&i.sticky,f=UN(LN,i),l=i.source,d=0,M=u;if(h&&(f=_N(f,"y",""),-1===FN(f,"g")&&(f+="g"),M=mN(u,i.lastIndex),i.lastIndex>0&&(!i.multiline||i.multiline&&"\n"!==QN(u,i.lastIndex-1))&&(l="(?: "+l+")",M=" "+M,d++),S=new RegExp("^(?:"+l+")",f)),ZN&&(S=new RegExp("^"+l+"$(?!\\s)",f)),AN&&(r=i.lastIndex),N=UN(XN,h?S:i,M),h?N?(N.input=mN(N.input,d),N[0]=mN(N[0],d),N.index=i.lastIndex,i.lastIndex+=N[0].length):i.lastIndex=0:AN&&N&&(i.lastIndex=i.global?N.index+N[0].length:r),ZN&&N&&N.length>1&&UN(KN,N[0],S,(function(){for(n=1;n<arguments.length-2;n++)void 0===arguments[n]&&(N[n]=void 0);})),N&&c)for(N.groups=o=YN(null),n=0;n<c.length;n++)o[(a=c[n])[0]]=N[a[1]];return N});var BN=GN;Er({target:"RegExp",proto:!0,forced:/./.exec!==BN},{exec:BN});var WN=Function.prototype,kN=WN.apply,IN=WN.bind,qN=WN.call,jN="object"==typeof Reflect&&Reflect.apply||(IN?qN.bind(kN):function(){return qN.apply(kN,arguments)}),VN=O,$N=De.exports,zN=BN,tn=N,en=Wt,Sn=we,rn=en("species"),Nn=RegExp.prototype,nn=function(t,e,S,r){var N=en(t),n=!tn((function(){var e={};return e[N]=function(){return 7},7!=""[t](e)})),o=n&&!tn((function(){var e=!1,S=/a/;return "split"===t&&((S={}).constructor={},S.constructor[rn]=function(){return S},S.flags="",S[N]=/./[N]),S.exec=function(){return e=!0,null},S[N](""),!e}));if(!n||!o||S){var a=VN(/./[N]),i=e(N,""[t],(function(t,e,S,r,N){var o=VN(t),i=e.exec;return i===zN||i===Nn.exec?n&&!N?{done:!0,value:a(e,S,r)}:{done:!0,value:o(S,e,r)}:{done:!1}}));$N(String.prototype,t,i[0]),$N(Nn,N,i[1]);}r&&Sn(Nn[N],"sham",!0);},on=O,an=wS,sn=xr,un=Y,Tn=on("".charAt),cn=on("".charCodeAt),hn=on("".slice),fn=function(t){return function(e,S){var r,N,n=sn(un(e)),o=an(S),a=n.length;return o<0||o>=a?t?"":void 0:(r=cn(n,o))<55296||r>56319||o+1===a||(N=cn(n,o+1))<56320||N>57343?t?Tn(n,o):r:t?hn(n,o,o+2):N-56320+(r-55296<<10)+65536}},ln={codeAt:fn(!1),charAt:fn(!0)}.charAt,dn=function(t,e,S){return e+(S?ln(t,e).length:1)},Mn=O,gn=Ct,On=Math.floor,pn=Mn("".charAt),Hn=Mn("".replace),vn=Mn("".slice),yn=/\$([$&'`]|\d{1,2}|<[^>]*>)/g,Jn=/\$([$&'`]|\d{1,2})/g,Un=a,Pn=Je,Cn=K,Ln=y,Rn=BN,En=S.TypeError,Yn=function(t,e){var S=t.exec;if(Cn(S)){var r=Un(S,t,e);return null!==r&&Pn(r),r}if("RegExp"===Ln(t))return Un(Rn,t,e);throw En("RegExp#exec called on incompatible receiver")},bn=jN,wn=a,Dn=O,Kn=nn,Xn=N,Gn=Je,Qn=K,Fn=wS,_n=_S,mn=xr,An=Y,xn=dn,Zn=ht,Bn=function(t,e,S,r,N,n){var o=S+t.length,a=r.length,i=Jn;return void 0!==N&&(N=gn(N),i=yn),Hn(n,i,(function(n,i){var s;switch(pn(i,0)){case"$":return "$";case"&":return t;case"`":return vn(e,0,S);case"'":return vn(e,o);case"<":s=N[vn(i,1,-1)];break;default:var u=+i;if(0===u)return n;if(u>a){var T=On(u/10);return 0===T?n:T<=a?void 0===r[T-1]?pn(i,1):r[T-1]+pn(i,1):n}s=r[u-1];}return void 0===s?"":s}))},Wn=Yn,kn=Wt("replace"),In=Math.max,qn=Math.min,jn=Dn([].concat),Vn=Dn([].push),$n=Dn("".indexOf),zn=Dn("".slice),to="$0"==="a".replace(/./,"$0"),eo=!!/./[kn]&&""===/./[kn]("a","$0"),So=!Xn((function(){var t=/./;return t.exec=function(){var t=[];return t.groups={a:"7"},t},"7"!=="".replace(t,"$<a>")}));Kn("replace",(function(t,e,S){var r=eo?"$":"$0";return [function(t,S){var r=An(this),N=null==t?void 0:Zn(t,kn);return N?wn(N,t,r,S):wn(e,mn(r),t,S)},function(t,N){var n=Gn(this),o=mn(t);if("string"==typeof N&&-1===$n(N,r)&&-1===$n(N,"$<")){var a=S(e,n,o,N);if(a.done)return a.value}var i=Qn(N);i||(N=mn(N));var s=n.global;if(s){var u=n.unicode;n.lastIndex=0;}for(var T=[];;){var c=Wn(n,o);if(null===c)break;if(Vn(T,c),!s)break;""===mn(c[0])&&(n.lastIndex=xn(o,_n(n.lastIndex),u));}for(var h,f="",l=0,d=0;d<T.length;d++){for(var M=mn((c=T[d])[0]),g=In(qn(Fn(c.index),o.length),0),O=[],p=1;p<c.length;p++)Vn(O,void 0===(h=c[p])?h:String(h));var H=c.groups;if(i){var v=jn([M],O,g,o);void 0!==H&&Vn(v,H);var y=mn(bn(N,void 0,v));}else y=Bn(M,o,g,O,H,N);g>=l&&(f+=zn(o,l,g)+y,l=g+M.length);}return f+zn(o,l)}]}),!So||!to||eo);var ro,No,no=Er,oo=S,ao=a,io=O,so=K,uo=G,To=(ro=!1,(No=/[ac]/).exec=function(){return ro=!0,/./.exec.apply(this,arguments)},!0===No.test("abc")&&ro),co=oo.Error,ho=io(/./.test);function fo(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function lo(t,e){for(var S=0;S<e.length;S++){var r=e[S];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r);}}function Mo(t,e,S){return e&&lo(t.prototype,e),S&&lo(t,S),t}function go(t,e,S){return e in t?Object.defineProperty(t,e,{value:S,enumerable:!0,configurable:!0,writable:!0}):t[e]=S,t}no({target:"RegExp",proto:!0,forced:!To},{test:function(t){var e=this.exec;if(!so(e))return ho(this,t);var S=ao(e,this,t);if(null!==S&&!uo(S))throw new co("RegExp exec method returned something other than an Object or null");return !!S}});var Oo=function(){function t(){fo(this,t),go(this,"preciseGridRef",""),go(this,"length",0),go(this,"hectad",""),go(this,"tetrad",""),go(this,"tetradLetter",""),go(this,"quadrant",""),go(this,"quadrantCode",""),go(this,"gridCoords",null),go(this,"error",!1),go(this,"errorMessage","");}return Mo(t,[{key:"set_tetrad",value:function(){if(this.tetradLetter=t.tetradLetters.substr(5*(Math.floor(this.gridCoords.x%1e4/1e3)>>1)+(Math.floor(this.gridCoords.y%1e4/1e3)>>1),1),!this.tetradLetter)throw new Error("Failed to get tetrad letter when processing '"+this.preciseGridRef+"', easting="+this.gridCoords.x+" northing="+this.gridCoords.y);this.tetrad=this.hectad+this.tetradLetter;}}],[{key:"get_normalized_precision",value:function(t,e){return t>2e3?1e4:t>1e3?2e3:t>100?1e3:t>10?100:t>1?10:e||1}}]),t}();go(Oo,"tetradOffsets",{E:[0,8e3],J:[2e3,8e3],P:[4e3,8e3],U:[6e3,8e3],Z:[8e3,8e3],D:[0,6e3],I:[2e3,6e3],N:[4e3,6e3],T:[6e3,6e3],Y:[8e3,6e3],C:[0,4e3],H:[2e3,4e3],M:[4e3,4e3],S:[6e3,4e3],X:[8e3,4e3],B:[0,2e3],G:[2e3,2e3],L:[4e3,2e3],R:[6e3,2e3],W:[8e3,2e3],A:[0,0],F:[2e3,0],K:[4e3,0],Q:[6e3,0],V:[8e3,0]}),go(Oo,"quadrantOffsets",{NW:[0,5e3],NE:[5e3,5e3],SW:[0,0],SE:[5e3,0]}),go(Oo,"letterMapping",{A:0,B:1,C:2,D:3,E:4,F:5,G:6,H:7,J:8,K:9,L:10,M:11,N:12,O:13,P:14,Q:15,R:16,S:17,T:18,U:19,V:20,W:21,X:22,Y:23,Z:24}),go(Oo,"tetradLetters","ABCDEFGHIJKLMNPQRSTUVWXYZ");var po=_r,Ho=br?{}.toString:function(){return "[object "+po(this)+"]"},vo=br,yo=De.exports,Jo=Ho;vo||yo(Object.prototype,"toString",Jo,{unsafe:!0});var Uo=Oe.f,Po=Et,Co=Wt("toStringTag"),Lo=S,Ro=function(t,e,S){t&&!Po(t=S?t:t.prototype,Co)&&Uo(t,Co,{configurable:!0,value:e});};Er({global:!0},{Reflect:{}}),Ro(Lo.Reflect,"Reflect",!0);var Eo=O([].slice),Yo=O,bo=Tt,wo=G,Do=Et,Ko=Eo,Xo=S.Function,Go=Yo([].concat),Qo=Yo([].join),Fo={},_o=function(t,e,S){if(!Do(Fo,e)){for(var r=[],N=0;N<e;N++)r[N]="a["+N+"]";Fo[e]=Xo("C,a","return new C("+Qo(r,",")+")");}return Fo[e](t,S)},mo=Xo.bind||function(t){var e=bo(this),S=e.prototype,r=Ko(arguments,1),N=function(){var S=Go(r,Ko(arguments));return this instanceof N?_o(e,S.length,S):e.apply(t,S)};return wo(S)&&(N.prototype=S),N},Ao=O,xo=N,Zo=K,Bo=_r,Wo=me,ko=function(){},Io=[],qo=m("Reflect","construct"),jo=/^\s*(?:class|function)\b/,Vo=Ao(jo.exec),$o=!jo.exec(ko),zo=function(t){if(!Zo(t))return !1;try{return qo(ko,Io,t),!0}catch(t){return !1}},ta=!qo||xo((function(){var t;return zo(zo.call)||!zo(Object)||!zo((function(){t=!0;}))||t}))?function(t){if(!Zo(t))return !1;switch(Bo(t)){case"AsyncFunction":case"GeneratorFunction":case"AsyncGeneratorFunction":return !1}return $o||!!Vo(jo,Wo(t))}:zo,ea=ta,Sa=at,ra=S.TypeError,Na=Er,na=jN,oa=mo,aa=function(t){if(ea(t))return t;throw ra(Sa(t)+" is not a constructor")},ia=Je,sa=G,ua=gN,Ta=N,ca=m("Reflect","construct"),ha=Object.prototype,fa=[].push,la=Ta((function(){function t(){}return !(ca((function(){}),[],t)instanceof t)})),da=!Ta((function(){ca((function(){}));})),Ma=la||da;function ga(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function Oa(t,e){return Oa=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t},Oa(t,e)}function pa(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&Oa(t,e);}function Ha(t){return Ha="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},Ha(t)}function va(t,e){if(e&&("object"===Ha(e)||"function"==typeof e))return e;if(void 0!==e)throw new TypeError("Derived constructors may only return object or undefined");return ga(t)}function ya(t){return ya=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)},ya(t)}Na({target:"Reflect",stat:!0,forced:Ma,sham:Ma},{construct:function(t,e){aa(t),ia(e);var S=arguments.length<3?t:aa(arguments[2]);if(da&&!la)return ca(t,e,S);if(t==S){switch(e.length){case 0:return new t;case 1:return new t(e[0]);case 2:return new t(e[0],e[1]);case 3:return new t(e[0],e[1],e[2]);case 4:return new t(e[0],e[1],e[2],e[3])}var r=[null];return na(fa,r,e),new(na(oa,t,r))}var N=S.prototype,n=ua(sa(N)?N:ha),o=na(t,n,e);return sa(o)?o:n}});var Ja=O,Ua=OS.PROPER,Pa=De.exports,Ca=Je,La=A,Ra=xr,Ea=N,Ya=Br,ba=RegExp.prototype,wa=ba.toString,Da=Ja(Ya),Ka=Ea((function(){return "/a/b"!=wa.call({source:"a",flags:"b"})})),Xa=Ua&&"toString"!=wa.name;(Ka||Xa)&&Pa(RegExp.prototype,"toString",(function(){var t=Ca(this),e=Ra(t.source),S=t.flags;return "/"+e+"/"+Ra(void 0===S&&La(ba,t)&&!("flags"in ba)?Da(t):S)}),{unsafe:!0});var Ga=Er,Qa=Math.log,Fa=Math.LOG10E;Ga({target:"Math",stat:!0},{log10:function(t){return Qa(t)*Fa}});var _a=y,ma=Array.isArray||function(t){return "Array"==_a(t)},Aa=re,xa=Oe,Za=f,Ba=N,Wa=q,ka=Wt("species"),Ia=Er,qa=S,ja=ma,Va=ta,$a=G,za=GS,ti=AS,ei=D,Si=function(t,e,S){var r=Aa(e);r in t?xa.f(t,r,Za(0,S)):t[r]=S;},ri=Wt,Ni=Eo,ni=function(t){return Wa>=51||!Ba((function(){var e=[];return (e.constructor={})[ka]=function(){return {foo:1}},1!==e[t](Boolean).foo}))}("slice"),oi=ri("species"),ai=qa.Array,ii=Math.max;Ia({target:"Array",proto:!0,forced:!ni},{slice:function(t,e){var S,r,N,n=ei(this),o=ti(n),a=za(t,o),i=za(void 0===e?o:e,o);if(ja(n)&&(S=n.constructor,(Va(S)&&(S===ai||ja(S.prototype))||$a(S)&&null===(S=S[oi]))&&(S=void 0),S===ai||void 0===S))return Ni(n,a,i);for(r=new(void 0===S?ai:S)(ii(i-a,0)),N=0;a<i;a++,N++)a in n&&Si(r,N,n[a]);return r.length=N,r}});var si=Math.PI/180,ui=180/Math.PI,Ti=function(){function t(e,S){fo(this,t),go(this,"lat",void 0),go(this,"lng",void 0),this.lat=e,this.lng=S;}return Mo(t,null,[{key:"_transform",value:function(e,S,r,N,n,o,a,i,s,u,T,c,h,f){var l=1e-6*f,d=r/Math.sqrt(1-N*(Math.sin(e)*Math.sin(e))),M=(d+n)*Math.cos(e)*Math.cos(S),g=(d+n)*Math.cos(e)*Math.sin(S),O=((1-N)*d+n)*Math.sin(e),p=T/3600*si,H=c/3600*si,v=h/3600*si,y=M+M*l-g*v+O*H+i,J=M*v+g+g*l-O*p+s,U=-1*M*H+g*p+O+O*l+u;S=Math.atan(J/y);var P=Math.sqrt(y*y+J*J);e=Math.atan(U/(P*(1-a))),d=o/Math.sqrt(1-a*(Math.sin(e)*Math.sin(e)));for(var C=1,L=0;C>.001;)L=Math.atan((U+a*d*Math.sin(e))/P),C=Math.abs(L-e),e=L;return new t(e,S)}},{key:"_Marc",value:function(t,e,S,r){return t*((1+e+5/4*(e*e)+5/4*(e*e*e))*(r-S)-(3*e+e*e*3+21/8*(e*e*e))*Math.sin(r-S)*Math.cos(r+S)+(15/8*(e*e)+15/8*(e*e*e))*Math.sin(2*(r-S))*Math.cos(2*(r+S))-35/24*(e*e*e)*Math.sin(3*(r-S))*Math.cos(3*(r+S)))}}]),t}();function ci(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var hi$2=function(t){pa(S,Ti);var e=ci(S);function S(t,r){return fo(this,S),e.call(this,t,r)}return S}();function fi(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var li=function(t){pa(S,Ti);var e=fi(S);function S(t,r){return fo(this,S),e.call(this,t,r)}return Mo(S,[{key:"to_WGS84",value:function(){var t=6377563.396,e=.00667054007,S=this.lat*si,r=Math.sin(S),N=this.lng*si,n=t/Math.sqrt(1-e*(r*r)),o=n*Math.cos(S)*Math.cos(N),a=n*Math.cos(S)*Math.sin(N),i=(1-e)*n*r,s=-204894e-10,u=7.28190110241429e-7,T=119748977294801e-20,c=446.448+o*(1+s)+-u*a+T*i,h=408261589226812e-20*o-124.157+a*(1+s)+-u*i,f=542.06+-T*o+u*a+i*(1+s);t=6378137,e=.00669438003;for(var l=Math.sqrt(c*c+h*h),d=Math.atan(f/(l*(1-e))),M=1;M<10;++M){var g=Math.sin(d);d=Math.atan((f+e*(t/Math.sqrt(1-e*(g*g)))*g)/l);}return new hi$2(ui*d,ui*Math.atan(h/c))}}],[{key:"from_wgs84",value:function(t){var e=t.lat*si,r=t.lng*si,N=.00669438037928458,n=.0066705397616,o=20.4894*1e-6,a=6378137/Math.sqrt(1-N*Math.sin(e)*Math.sin(e)),i=(a+0)*Math.cos(e)*Math.cos(r),s=(a+0)*Math.cos(e)*Math.sin(r),u=((1-N)*a+0)*Math.sin(e),T=-.1502/3600*si,c=-.247/3600*si,h=-.8421/3600*si,f=i+i*o-s*h+u*c-446.448,l=i*h+s+s*o-u*T+125.157,d=-1*i*c+s*T+u+u*o+-542.06,M=Math.atan(l/f),g=Math.sqrt(f*f+l*l),O=Math.atan(d/(g*(1-n)));a=6377563.396/Math.sqrt(1-n*(Math.sin(O)*Math.sin(O)));for(var p=1,H=0;p>.001;)H=Math.atan((d+n*a*Math.sin(O))/g),p=Math.abs(H-O),O=H;return new S(O*ui,M*ui)}}]),S}();function di(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var Mi=function(t){pa(S,Ti);var e=di(S);function S(t,r){return fo(this,S),e.call(this,t,r)}return Mo(S,null,[{key:"from_wgs84",value:function(t){var e=t.lat*si,r=t.lng*si,N=Ti._transform(e,r,6378137,.00669438037928458,0,6378388,.0067226700223333,83.901,98.127,118.635,0,0,0,0);return new S(N.lat*ui,N.lng*ui)}}]),S}();function gi(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var Oi=function(t){pa(S,Ti);var e=gi(S);function S(t,r){return fo(this,S),e.call(this,t,r)}return Mo(S,[{key:"to_WGS84",value:function(){var t=Ti._transform(this.lat*si,this.lng*si,6377340.189,.00667054015,0,6378137,.00669438037928458,482.53,-130.596,564.557,-1.042,-.214,-.631,-8.15);return new hi$2(t.lat*ui,t.lng*ui)}}],[{key:"from_wgs84",value:function(t){var e=t.lat*si,r=t.lng*si,N=Ti._transform(e,r,6378137,.00669438037928458,0,6377340.189,.00667054015,-482.53,130.596,-564.557,1.042,.214,.631,8.15);return new S(N.lat*ui,N.lng*ui)}}]),S}(),pi=function(){function t(){fo(this,t),go(this,"x",void 0),go(this,"y",void 0);}return Mo(t,[{key:"to_latLng",value:function(){}},{key:"to_gridref",value:function(t){}},{key:"toString",value:function(){return this.x+","+this.y}}],[{key:"from_latlng",value:function(t,e){if(e>=-8.74&&t>49.88){var S=new li.from_wgs84(new hi$2(t,e)).to_os_coords();if(S.x>=0&&S.is_gb_hectad())return S}if(e<-5.3&&t>51.34&&e>-11&&t<55.73){var r=new Oi.from_wgs84(new hi$2(t,e)).to_os_coords();return r.x<0||r.y<0?null:r}var N=new Mi.from_wgs84(new hi$2(t,e)).to_os_coords();return N.x>=5e5&&N.x<6e5&&N.y>=54e5&&N.y<56e5?N:null}},{key:"calculate_tetrad",value:function(e,S){return e>=0&&S>=0?t.tetradLetters.charAt(5*Math.floor(e%1e4/2e3)+Math.floor(S%1e4/2e3)):""}}]),t}();go(pi,"tetradLetters","ABCDEFGHIJKLMNPQRSTUVWXYZ"),go(pi,"tetradLettersRowFirst","AFKQVBGLRWCHMSXDINTYEJPUZ");var Hi=function(t,e,S,r){var N="00000"+Math.floor(e),n="00000"+Math.floor(S);if(2e3===r)return t+N.charAt(N.length-5)+n.charAt(n.length-5)+pi.calculate_tetrad(e,S);if(1e5===r)return t;5e3===r&&(r=1e4);var o=Math.round(Math.log10(r));return t+(o?N.slice(-5,-o)+n.slice(-5,-o):N.slice(-5)+n.slice(-5))};function vi(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var yi=function(t){pa(S,pi);var e=vi(S);function S(t,r){var N;return fo(this,S),go(ga(N=e.call(this)),"country","CI"),N.x=t,N.y=r,N}return Mo(S,[{key:"to_latLng",value:function(){var t=.9996,e=.0067226700223333,S=6378388*t,r=6356911.946*t,N=this.x-5e5,n=Ui(this.y,0,S,0,.0016863406508729017,r),o=S/Math.sqrt(1-e*(Math.sin(n)*Math.sin(n))),a=o*(1-e)/(1-e*Math.sin(n)*Math.sin(n)),i=o/a-1,s=Math.tan(n)*Math.tan(n),u=Math.pow(Math.tan(n),4),T=Math.pow(Math.tan(n),6),c=Math.pow(Math.cos(n),-1),h=Math.tan(n)/(2*a*o),f=Math.tan(n)/(24*a*(o*o*o))*(5+3*s+i-9*i*s),l=Math.tan(n)/(720*a*Math.pow(o,5))*(61+90*s+45*u),d=n-N*N*h+Math.pow(N,4)*f-Math.pow(N,6)*l,M=Math.pow(Math.cos(n),-1)/o,g=c/(o*o*o*6)*(o/a+2*s),O=c/(120*Math.pow(o,5))*(5+28*s+24*u),p=c/(5040*Math.pow(o,7))*(61+662*s+1320*u+720*T),H=N*M-.0523598775598-N*N*N*g+Math.pow(N,5)*O-Math.pow(N,7)*p,v=Ji(d,H);return new hi$2(v.lat*ui,v.lng*ui)}},{key:"to_gridref",value:function(t){return this.y>=55e5?Hi("WA",this.x-5e5,this.y-55e5,t||1):this.y<55e5?Hi("WV",this.x-5e5,this.y-54e5,t||1):null}},{key:"to_hectad",value:function(){return this.y>55e5?"WA"+this.x.toString().substring(1,2)+this.y.toString().substring(2,3):this.y<55e5?"WV"+this.x.toString().substring(1,2)+this.y.toString().substring(2,3):null}}]),S}(),Ji=function(t,e){return Ti._transform(t,e,6378388,.0067226700223333,10,6378137,.00669438037928458,-83.901,-98.127,-118.635,0,0,0,0)},Ui=function(t,e,S,r,N,n){for(var o=(t-e)/S+r,a=Ti._Marc(n,N,r,o),i=(t-e-a)/S+o,s=0;Math.abs(t-e-a)>1e-5&&s<20;)s+=1,i=(t-e-a)/S+o,a=Ti._Marc(n,N,r,i),o=i;return i};function Pi(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var Ci=function(t){pa(S,pi);var e=Pi(S);function S(t,r){var N;return fo(this,S),go(ga(N=e.call(this)),"gridCoords",null),go(ga(N),"country","GB"),N.x=t,N.y=r,N}return Mo(S,[{key:"to_gridref",value:function(t){var e,S=this.x/1e5|0,r=this.y/1e5|0;e=r<5?S<5?"S":"T":r<10?S<5?"N":"O":S<5?"H":"J";var N=65+5*(4-r%5)+S%5;N>=73&&N++;var n=String.fromCharCode(N);return Hi(e+n,this.x-1e5*S,this.y-1e5*r,t||1)}},{key:"to_hectad",value:function(){var t=this.x/1e5|0,e=this.y/1e5|0,S=65+5*(4-e%5)+t%5;return S>=73&&S++,(e<5?t<5?"S":"T":e<10?t<5?"N":"O":t<5?"H":"J")+String.fromCharCode(S)+((this.x-1e5*t)/1e4|0)+((this.y-1e5*e)/1e4|0)}},{key:"is_gb_hectad",value:function(){return -1!==S.gbHectads.indexOf(this.to_hectad())}},{key:"to_latLng",value:function(){var t,e=4e5,S=.85521133347722,r=6377563.396,N=.00667054007,n=this.x,o=this.y,a=.0016732203289875,i=(o+1e5)/(.9996012717*r)+S;do{i+=(t=o+1e5-6353722.489*(1.0016767257674*(i-S)-.00502807228247412*Math.sin(i-S)*Math.cos(i+S)+(1.875*a*a+1.875*a*a*a)*Math.sin(2*(i-S))*Math.cos(2*(i+S))-35/24*a*a*a*Math.sin(3*(i-S))*Math.cos(3*(i+S))))/6375020.48098897;}while(t>=.001);var s=Math.sin(i)*Math.sin(i),u=Math.tan(i)*Math.tan(i),T=1/Math.cos(i),c=.9996012717*r*Math.pow(1-N*s,-.5),h=6332495.651423464*Math.pow(1-N*s,-1.5),f=c/h-1,l=Math.tan(i)/(2*h*c),d=Math.tan(i)/(24*h*Math.pow(c,3))*(5+3*u+f-9*u*f),M=Math.tan(i)/(720*h*Math.pow(c,5))*(61+90*u+45*u*u),g=T/c,O=T/(6*c*c*c)*(c/h+2*u),p=T/(120*Math.pow(c,5))*(5+28*u+24*u*u),H=T/(5040*Math.pow(c,7))*(61+662*u+1320*u*u+720*u*u*u),v=i-l*Math.pow(n-e,2)+d*Math.pow(n-e,4)-M*Math.pow(n-e,6),y=g*(n-e)-.034906585039887-O*Math.pow(n-e,3)+p*Math.pow(n-e,5)-H*Math.pow(n-e,7);return new li(ui*v,ui*y).to_WGS84()}}]),S}();function Li(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}go(Ci,"gbHectads","SV80SV81SV90SV91SW32SW33SW42SW43SW44SW52SW53SW54SW61SW62SW63SW64SW65SW71SW72SW73SW74SW75SW76SW81SW82SW83SW84SW85SW86SW87SW95SW96SW97SS10SS11SS20SS21SS30SW83SW84SW85SW93SW94SW95SW96SW97SW98SX03SX04SX05SX06SX07SX08SX09SX14SX15SX16SX17SX18SX19SX25SX26SX27SX28SX29SX35SX36SX37SX38SX39SX44SX45SX46SX47SS70SS80SS81SS90SS91ST00ST01ST10ST11ST20ST21ST30SX37SX44SX45SX46SX47SX48SX54SX55SX56SX57SX58SX63SX64SX65SX66SX67SX68SX69SX73SX74SX75SX76SX77SX78SX79SX83SX84SX85SX86SX87SX88SX89SX94SX95SX96SX97SX98SX99SY07SY08SY09SY18SY19SY28SY29SY38SY39SS14SS20SS21SS22SS30SS31SS32SS40SS41SS42SS43SS44SS50SS51SS52SS53SS54SS60SS61SS62SS63SS64SS70SS71SS72SS73SS74SS75SS80SS81SS82SS83SS91SS92ST01ST02SX28SX29SX37SX38SX39SX48SX49SX58SX59SX68SX69SX79SS73SS74SS82SS83SS84SS92SS93SS94ST01ST02ST03ST04ST11ST12ST13ST14ST20ST21ST22ST23ST24ST25ST30ST31ST32ST33ST34ST40ST41ST42ST50ST51ST52ST61ST62ST71ST72ST24ST25ST26ST32ST33ST34ST35ST36ST37ST42ST43ST44ST45ST46ST47ST52ST53ST54ST55ST56ST57ST62ST63ST64ST65ST66ST67ST72ST73ST74ST75ST76ST77ST83ST84ST85ST86SP00SP10ST76ST77ST85ST86ST87ST88ST89ST96ST97ST98ST99SU06SU07SU08SU09SU16SU17SU18SU19SU26SU27SU28SU29SU36SU37ST73ST74ST75ST76ST82ST83ST84ST85ST86ST91ST92ST93ST94ST95ST96SU01SU02SU03SU04SU05SU06SU11SU12SU13SU14SU15SU16SU21SU22SU23SU24SU25SU26SU31SU32SU34SU35SU36ST20ST30ST40ST50ST51ST60ST61ST70ST71ST72ST73ST80ST81ST82ST83ST90ST91ST92SU00SU01SU02SU10SU11SY39SY48SY49SY58SY59SY66SY67SY68SY69SY77SY78SY79SY87SY88SY89SY97SY98SY99SZ07SZ08SZ09SZ28SZ38SZ39SZ47SZ48SZ49SZ57SZ58SZ59SZ68SZ69SU00SU01SU02SU10SU11SU12SU20SU21SU22SU23SU30SU31SU32SU33SU40SU41SU42SU43SU50SU51SU52SU60SU61SU62SU70SU71SU72SZ08SZ09SZ19SZ29SZ38SZ39SZ49SZ59SZ69SZ79SU23SU24SU25SU33SU34SU35SU36SU42SU43SU44SU45SU46SU52SU53SU54SU55SU56SU62SU63SU64SU65SU66SU72SU73SU74SU75SU76SU82SU83SU84SU85SU86SU70SU71SU72SU80SU81SU82SU83SU90SU91SU92SU93SZ79SZ89SZ99TQ00TQ01TQ02TQ03TQ10TQ11TQ12TQ13TQ20TQ21TQ22TQ23TQ30TQ31TQ32TQ20TQ21TQ22TQ23TQ30TQ31TQ32TQ33TQ40TQ41TQ42TQ43TQ44TQ50TQ51TQ52TQ53TQ54TQ60TQ61TQ62TQ63TQ70TQ71TQ72TQ80TQ81TQ82TQ91TQ92TV49TV59TV69TQ65TQ72TQ73TQ74TQ75TQ76TQ77TQ82TQ83TQ84TQ85TQ86TQ87TQ91TQ92TQ93TQ94TQ95TQ96TQ97TR01TR02TR03TR04TR05TR06TR07TR12TR13TR14TR15TR16TR23TR24TR25TR26TR27TR33TR34TR35TR36TR37TR46TR47TQ35TQ36TQ37TQ38TQ43TQ44TQ45TQ46TQ47TQ48TQ53TQ54TQ55TQ56TQ57TQ58TQ63TQ64TQ65TQ66TQ67TQ72TQ73TQ74TQ75TQ76TQ77TQ78TQ87TQ88TQ97SU83SU84SU85SU86SU93SU94SU95SU96SU97TQ03TQ04TQ05TQ06TQ07TQ13TQ14TQ15TQ16TQ17TQ23TQ24TQ25TQ26TQ27TQ33TQ34TQ35TQ36TQ37TQ38TQ43TQ44TQ45TL30TL40TL50TL60TL70TL80TL90TM00TQ38TQ39TQ47TQ48TQ49TQ57TQ58TQ59TQ67TQ68TQ69TQ77TQ78TQ79TQ88TQ89TQ98TQ99TR08TR09TR19TL30TL31TL34TL40TL41TL42TL43TL44TL50TL51TL52TL53TL54TL60TL61TL62TL63TL64TL70TL71TL72TL73TL74TL80TL81TL82TL83TL84TL90TL91TL92TL93TM01TM02TM03TM11TM12TM13TM21TM22TM23TQ49SP81SP90SP91TL00TL01TL02TL10TL11TL12TL13TL20TL21TL22TL23TL24TL30TL31TL32TL33TL34TL41TL42TL43TL44TL51TL52TQ09TQ19TQ29TQ39TL20TL30TQ06TQ07TQ08TQ09TQ16TQ17TQ18TQ19TQ27TQ28TQ29TQ37TQ38TQ39SP20SP30SP40SP41SP50SU19SU26SU27SU28SU29SU36SU37SU38SU39SU46SU47SU48SU49SU56SU57SU58SU59SU66SU67SU68SU69SU76SU77SU78SU86SU87SU88SU96SU97SU98SP10SP20SP21SP22SP23SP30SP31SP32SP33SP34SP40SP41SP42SP43SP44SP45SP50SP51SP52SP53SP54SP60SP61SP62SP63SP70SU29SU39SU49SU57SU58SU59SU67SU68SU69SU77SU78SU79SP51SP53SP60SP61SP62SP63SP64SP70SP71SP72SP73SP74SP80SP81SP82SP83SP84SP85SP90SP91SP92SP93SP94SP95SU78SU79SU88SU89SU97SU98SU99TL00TL01TQ07TQ08TQ09TG40TG50TM03TM04TM05TM06TM07TM13TM14TM15TM16TM17TM23TM24TM25TM26TM27TM28TM33TM34TM35TM36TM37TM38TM39TM44TM45TM46TM47TM48TM49TM57TM58TM59TL64TL65TL66TL67TL68TL74TL75TL76TL77TL78TL83TL84TL85TL86TL87TL88TL93TL94TL95TL96TL97TL98TM03TM04TM05TM06TM07TM08TG00TG01TG02TG03TG04TG10TG11TG12TG13TG14TG20TG21TG22TG23TG24TG30TG31TG32TG33TG40TG41TG42TG50TG51TM07TM08TM09TM17TM18TM19TM27TM28TM29TM38TM39TM49TM59TF40TF41TF42TF50TF51TF52TF53TF60TF61TF62TF63TF64TF70TF71TF72TF73TF74TF80TF81TF82TF83TF84TF90TF91TF92TF93TF94TG00TG01TG02TG03TG04TL49TL59TL68TL69TL78TL79TL87TL88TL89TL98TL99TM07TM08TM09TF20TF30TF31TF40TF41TF50TL15TL19TL23TL24TL25TL26TL28TL29TL33TL34TL35TL36TL37TL38TL39TL44TL45TL46TL47TL48TL49TL54TL55TL56TL57TL58TL59TL63TL64TL65TL66TL67TL68TL69TL75TL76SP91SP92SP93SP94SP95SP96TL01TL02TL03TL04TL05TL06TL07TL11TL12TL13TL14TL15TL16TL23TL24TL25TL06TL07TL08TL09TL15TL16TL17TL18TL19TL25TL26TL27TL28TL29TL36TL37TL38TL39SK90SP43SP44SP45SP46SP53SP54SP55SP56SP57SP58SP63SP64SP65SP66SP67SP68SP73SP74SP75SP76SP77SP78SP79SP84SP85SP86SP87SP88SP89SP95SP96SP97SP98SP99TF00TF10TF20TL06TL07TL08TL09TL18TL19TL29SO70SO71SO80SO81SO82SO83SO90SO91SO92SO93SO94SP00SP01SP02SP03SP04SP10SP11SP12SP13SP14SP15SP20SP21SP22SP23SP24SP25ST99SU09SU19SU29SO50SO51SO60SO61SO62SO63SO70SO71SO72SO73SO80SO81SO82SO83SO90ST57ST58ST59ST66ST67ST68ST69ST76ST77ST78ST79ST87ST88ST89ST98ST99SO10SO11SO20SO21SO22SO23SO30SO31SO32SO40SO41SO42SO50SO51ST18ST19ST27ST28ST29ST37ST38ST39ST47ST48ST49ST58ST59SO22SO23SO24SO25SO26SO32SO33SO34SO35SO36SO37SO41SO42SO43SO44SO45SO46SO47SO51SO52SO53SO54SO55SO56SO57SO61SO62SO63SO64SO65SO66SO73SO74SO75SO76SO56SO64SO65SO66SO67SO72SO73SO74SO75SO76SO77SO78SO82SO83SO84SO85SO86SO87SO88SO93SO94SO95SO96SO97SO98SO99SP03SP04SP05SP06SP07SP08SP13SP14SP16SP17SP18SK10SK20SK30SP04SP05SP06SP07SP08SP09SP14SP15SP16SP17SP18SP19SP22SP23SP24SP25SP26SP27SP28SP29SP33SP34SP35SP36SP37SP38SP39SP44SP45SP46SP47SP48SP49SP55SP56SP57SP58SJ63SJ70SJ71SJ72SJ73SJ74SJ75SJ80SJ81SJ82SJ83SJ84SJ85SJ86SJ90SJ91SJ92SJ93SJ94SJ95SJ96SK00SK01SK02SK03SK04SK05SK06SK10SK11SK12SK13SK14SK15SK16SK20SK21SK22SO77SO78SO79SO88SO89SO98SO99SP08SP09SP19SP29SJ20SJ21SJ22SJ23SJ30SJ31SJ32SJ33SJ34SJ40SJ41SJ42SJ43SJ50SJ51SJ52SJ53SJ54SJ60SJ61SJ62SJ63SJ64SJ70SJ71SJ72SJ73SJ74SJ80SO17SO18SO27SO28SO29SO37SO38SO39SO46SO47SO48SO49SO56SO57SO58SO59SO66SO67SO68SO69SO77SO78SO79SO88SO89SN50SN60SN61SN70SN71SN80SN81SN90SO00SO01SO10SO11SS38SS39SS48SS49SS58SS59SS68SS69SS77SS78SS79SS87SS88SS89SS96SS97SS98SS99ST06ST07ST08ST09ST16ST17ST18ST19ST26ST27ST28SN70SN71SN74SN80SN81SN82SN83SN84SN85SN86SN90SN91SN92SN93SN94SN95SN96SO00SO01SO02SO03SO04SO05SO06SO10SO11SO12SO13SO14SO21SO22SO23SO24SN86SN87SN96SN97SO04SO05SO06SO07SO08SO13SO14SO15SO16SO17SO18SO24SO25SO26SO27SO36SO37SN01SN02SN10SN11SN12SN20SN21SN22SN23SN24SN30SN31SN32SN33SN34SN40SN41SN42SN43SN44SN50SN51SN52SN53SN54SN60SN61SN62SN63SN64SN65SN71SN72SN73SN74SN75SN81SN82SN83SN84SS39SS49SS59SM50SM62SM70SM71SM72SM73SM80SM81SM82SM83SM84SM90SM91SM92SM93SM94SN00SN01SN02SN03SN04SN10SN11SN12SN13SN14SN22SN23SN24SR89SR99SS09SS19SN14SN15SN24SN25SN33SN34SN35SN36SN44SN45SN46SN54SN55SN56SN57SN58SN64SN65SN66SN67SN68SN69SN74SN75SN76SN77SN78SN79SN84SN85SN86SN87SN88SN89SH70SH71SH80SH81SH90SH91SH92SJ00SJ01SJ02SJ03SJ10SJ11SJ12SJ20SJ21SJ22SJ31SN69SN78SN79SN87SN88SN89SN97SN98SN99SO07SO08SO09SO18SO19SO28SO29SO39SH50SH51SH52SH53SH54SH60SH61SH62SH63SH64SH70SH71SH72SH73SH74SH80SH81SH82SH83SH84SH91SH92SH93SH94SH95SJ03SJ04SJ05SJ13SJ14SN59SN69SN79SH12SH13SH22SH23SH24SH32SH33SH34SH43SH44SH45SH46SH53SH54SH55SH56SH57SH64SH65SH66SH67SH74SH75SH76SH77SH78SH84SH85SH86SH87SH88SH74SH75SH76SH77SH84SH85SH86SH87SH88SH94SH95SH96SH97SH98SJ02SJ03SJ04SJ05SJ06SJ07SJ08SJ12SJ13SJ14SJ15SJ16SJ17SJ22SJ23SJ24SJ25SJ26SJ33SJ34SJ35SJ43SJ44SJ45SJ53SJ54SH97SH98SJ06SJ07SJ08SJ15SJ16SJ17SJ18SJ25SJ26SJ27SJ35SJ36SJ37SH27SH28SH29SH36SH37SH38SH39SH46SH47SH48SH49SH56SH57SH58SH59SH67SH68SK81SK82SK83SK84SK85SK86SK87SK90SK91SK92SK93SK94SK95SK96SK97TF00TF01TF02TF03TF04TF05TF06TF07TF10TF11TF12TF13TF14TF15TF16TF17TF20TF21TF22TF23TF24TF25TF30TF31TF32TF33TF34TF41TF42TF43TF44TF52SE60SE70SE71SE80SE81SE82SE90SE91SE92SK78SK79SK87SK88SK89SK97SK98SK99TA00TA01TA02TA10TA11TA12TA20TA21TA30TA31TA40TF07TF08TF09TF15TF16TF17TF18TF19TF24TF25TF26TF27TF28TF29TF33TF34TF35TF36TF37TF38TF39TF43TF44TF45TF46TF47TF48TF49TF54TF55TF56TF57TF58SK20SK21SK30SK31SK32SK40SK41SK42SK43SK50SK51SK52SK60SK61SK62SK70SK71SK72SK73SK74SK80SK81SK82SK83SK84SK90SK91SP39SP48SP49SP57SP58SP59SP68SP69SP78SP79SP89SP99TF00TF01SE60SE70SK42SK43SK44SK45SK46SK52SK53SK54SK55SK56SK57SK58SK59SK62SK63SK64SK65SK66SK67SK68SK69SK72SK73SK74SK75SK76SK77SK78SK79SK84SK85SK86SK87SK88SK89SK97SJ98SJ99SK03SK06SK07SK08SK09SK11SK12SK13SK14SK15SK16SK17SK18SK19SK21SK22SK23SK24SK25SK26SK27SK28SK31SK32SK33SK34SK35SK36SK37SK38SK42SK43SK44SK45SK46SK47SK48SK53SK56SK57SD90SE00SE10SJ18SJ19SJ27SJ28SJ29SJ35SJ36SJ37SJ38SJ39SJ44SJ45SJ46SJ47SJ48SJ54SJ55SJ56SJ57SJ58SJ63SJ64SJ65SJ66SJ67SJ68SJ69SJ74SJ75SJ76SJ77SJ78SJ79SJ85SJ86SJ87SJ88SJ89SJ96SJ97SJ98SJ99SK06SK07SK08SK09SK19SD20SD21SD22SD30SD31SD32SD40SD41SD42SD50SD51SD52SD53SD60SD61SD62SD63SD70SD71SD72SD73SD74SD80SD81SD82SD83SD84SD90SD91SD92SD93SD94SJ29SJ38SJ39SJ48SJ49SJ58SJ59SJ68SJ69SJ79SJ88SJ89SJ99SD22SD23SD32SD33SD34SD35SD36SD42SD43SD44SD45SD46SD47SD52SD53SD54SD55SD56SD57SD63SD64SD65SD66SD67SD68SD73SD78SE53SE54SE62SE63SE64SE65SE72SE73SE74SE75SE76SE82SE83SE84SE85SE86SE87SE92SE93SE94SE95SE96SE97SE98TA02TA03TA04TA05TA06TA07TA08TA12TA13TA14TA15TA16TA17TA18TA21TA22TA23TA24TA26TA27TA31TA32TA33TA41TA42NZ30NZ31NZ40NZ41NZ42NZ50NZ51NZ52NZ60NZ61NZ62NZ70NZ71NZ72NZ80NZ81NZ90NZ91SE37SE38SE39SE46SE47SE48SE49SE55SE56SE57SE58SE59SE64SE65SE66SE67SE68SE69SE75SE76SE77SE78SE79SE86SE87SE88SE89SE97SE98SE99TA08TA09TA18SD84SD90SD91SD92SD93SD94SD95SE00SE01SE02SE03SE04SE10SE11SE12SE13SE14SE20SE21SE22SE23SE30SE31SE32SE33SE40SE41SE42SE50SE51SE52SE60SE61SE62SE70SE71SE72SE81SE82SK18SK19SK28SK29SK38SK39SK47SK48SK49SK57SK58SK59SK69SD54SD55SD64SD65SD66SD67SD68SD73SD74SD75SD76SD77SD78SD84SD85SD86SD87SD88SD94SD95SD96SD97SD98SE04SE05SE06SE07SE13SE14SE15SE16SE17SE23SE24SE25SE26SE27SE32SE33SE34SE35SE36SE37SE42SE43SE44SE45SE46SE52SE53SE54SE55SE56SE62SE63SE64SE65SE72NY72NY80NY81NY82NY90NY91NY92NZ00NZ01NZ02NZ10NZ11NZ20NZ21NZ30NZ31SD68SD69SD78SD79SD88SD89SD97SD98SD99SE07SE08SE09SE17SE18SE19SE27SE28SE29SE36SE37SE38SE39SE46SE47NY73NY74NY82NY83NY84NY92NY93NY94NY95NZ01NZ02NZ03NZ04NZ05NZ11NZ12NZ13NZ14NZ15NZ16NZ20NZ21NZ22NZ23NZ24NZ25NZ26NZ30NZ31NZ32NZ33NZ34NZ35NZ36NZ41NZ42NZ43NZ44NZ45NZ46NZ52NZ53NT60NT70NT80NT90NU00NU10NU20NY58NY59NY64NY65NY66NY67NY68NY69NY74NY75NY76NY77NY78NY79NY84NY85NY86NY87NY88NY89NY94NY95NY96NY97NY98NY99NZ04NZ05NZ06NZ07NZ08NZ09NZ15NZ16NZ17NZ18NZ19NZ26NZ27NZ28NZ29NZ36NZ37NZ38NZ39NT70NT71NT73NT80NT81NT82NT83NT84NT90NT91NT92NT93NT94NT95NU00NU01NU02NU03NU04NU05NU10NU11NU12NU13NU14NU20NU21NU22NU23NZ09NZ19NY20NY21NY30NY31NY40NY41NY42NY50NY51NY52NY53NY60NY61NY62NY63NY70NY71NY72NY73NY80NY81NY82NY83SD16SD17SD18SD19SD26SD27SD28SD29SD36SD37SD38SD39SD46SD47SD48SD49SD57SD58SD59SD67SD68SD69SD78SD79SD89NX90NX91NX92NX93NY00NY01NY02NY03NY04NY05NY10NY11NY12NY13NY14NY15NY16NY20NY21NY22NY23NY24NY25NY26NY31NY32NY33NY34NY35NY36NY37NY41NY42NY43NY44NY45NY46NY47NY48NY52NY53NY54NY55NY56NY57NY58NY62NY63NY64NY65NY66NY67NY68NY73NY74NY75NY84SD08SD09SD17SD18SD19SD28SD29NX30NX40SC16SC17SC26SC27SC28SC36SC37SC38SC39SC47SC48SC49NS60NS61NS70NS71NS72NS80NS81NS90NT00NT01NT10NT11NT20NT21NT30NX69NX78NX79NX88NX89NX96NX97NX98NX99NY05NY06NY07NY08NY09NY16NY17NY18NY19NY26NY27NY28NY29NY36NY37NY38NY39NY47NY48NY49NS50NS60NX36NX37NX38NX45NX46NX47NX48NX49NX54NX55NX56NX57NX58NX59NX64NX65NX66NX67NX68NX69NX74NX75NX76NX77NX78NX79NX84NX85NX86NX87NX88NX95NX96NX97NX98NY05NY06NW95NW96NW97NX03NX04NX05NX06NX07NX13NX14NX15NX16NX17NX24NX25NX26NX27NX33NX34NX35NX36NX37NX43NX44NX45NX46NS00NS10NS14NS15NS16NS20NS21NS23NS24NS25NS26NS30NS31NS32NS33NS34NS35NS36NS40NS41NS42NS43NS44NS45NS50NS51NS52NS53NS54NS55NS60NS61NS62NS63NS64NS71NS72NS73NX07NX08NX09NX17NX18NX19NX27NX28NX29NX37NX38NX39NX48NX49NX59NS16NS17NS26NS27NS35NS36NS37NS44NS45NS46NS47NS54NS55NS56NS64NS65NS66NS53NS54NS55NS56NS57NS63NS64NS65NS66NS67NS71NS72NS73NS74NS75NS76NS77NS80NS81NS82NS83NS84NS85NS86NS87NS90NS91NS92NS93NS94NS95NS96NT00NT01NT02NT03NT04NT05NT14NT01NT02NT03NT04NT05NT11NT12NT13NT14NT15NT21NT22NT23NT24NT25NT32NT33NT34NT10NT11NT20NT21NT22NT23NT30NT31NT32NT33NT34NT41NT42NT43NT44NT53NT20NT30NT31NT40NT41NT42NT43NT44NT50NT51NT52NT53NT54NT60NT61NT62NT63NT64NT70NT71NT72NT73NT74NT81NT82NT83NY39NY47NY48NY49NY58NY59NY69NT44NT45NT46NT53NT54NT55NT56NT63NT64NT65NT66NT73NT74NT75NT76NT77NT83NT84NT85NT86NT87NT94NT95NT96NT36NT37NT45NT46NT47NT48NT55NT56NT57NT58NT65NT66NT67NT68NT76NT77NS95NS96NT05NT06NT15NT16NT17NT24NT25NT26NT27NT34NT35NT36NT37NT43NT44NT45NT46NS86NS87NS95NS96NS97NS98NT06NT07NT08NT16NT17NO00NO01NO10NO11NO20NO21NO22NO30NO31NO32NO40NO41NO42NO50NO51NO52NO60NO61NS99NT08NT09NT18NT19NT28NT29NT39NT49NT59NT69NN30NN31NN40NN41NS38NS39NS47NS48NS49NS57NS58NS59NS67NS68NS69NS77NS78NS79NS86NS87NS88NS89NS97NS98NN21NN22NN30NN31NN32NN40NN41NN42NN50NN51NN52NN60NN61NN70NN71NN80NN81NN90NN91NO00NS49NS59NS69NS79NS88NS89NS98NS99NT08NT09NN22NN23NN32NN33NN34NN35NN42NN43NN44NN45NN46NN47NN51NN52NN53NN54NN55NN56NN57NN61NN62NN63NN64NN65NN66NN67NN71NN72NN73NN74NN75NN76NN77NN81NN82NN83NN84NN85NN86NN90NN91NN92NN93NN94NN95NN96NO00NO01NO02NO03NO04NO11NO12NO13NO21NN56NN57NN66NN67NN68NN76NN77NN78NN86NN87NN88NN94NN95NN96NN97NN98NO02NO03NO04NO05NO06NO07NO08NO11NO12NO13NO14NO15NO16NO17NO21NO22NO23NO24NO25NO32NO33NO34NO15NO16NO17NO23NO24NO25NO26NO27NO28NO32NO33NO34NO35NO36NO37NO38NO42NO43NO44NO45NO46NO47NO48NO53NO54NO55NO56NO57NO58NO63NO64NO65NO66NO67NO74NO75NO76NJ60NJ70NJ80NJ90NO57NO58NO66NO67NO68NO69NO76NO77NO78NO79NO86NO87NO88NO89NO99NH90NJ00NJ10NJ11NJ20NJ21NJ30NJ31NJ32NJ40NJ41NJ42NJ50NJ51NJ52NJ60NJ61NJ62NJ70NJ71NJ72NJ80NJ81NJ82NJ90NJ91NJ92NK02NN98NN99NO07NO08NO09NO17NO18NO19NO27NO28NO29NO37NO38NO39NO48NO49NO58NO59NO68NO69NO79NO89NJ31NJ32NJ33NJ34NJ42NJ43NJ44NJ52NJ53NJ54NJ55NJ62NJ63NJ64NJ65NJ72NJ73NJ74NJ75NJ76NJ82NJ83NJ84NJ85NJ86NJ92NJ93NJ94NJ95NJ96NK02NK03NK04NK05NK06NK13NK14NK15NH90NJ00NJ01NJ10NJ11NJ12NJ13NJ14NJ21NJ22NJ23NJ24NJ25NJ32NJ33NJ34NJ35NJ36NJ42NJ43NJ44NJ45NJ46NJ54NJ55NJ56NJ64NJ65NJ66NJ74NJ75NJ76NJ86NN99NH72NH81NH82NH91NH92NH93NH94NH95NH96NJ00NJ01NJ02NJ03NJ04NJ05NJ06NJ11NJ12NJ13NJ14NJ15NJ16NJ17NJ23NJ24NJ25NJ26NJ27NJ34NJ35NJ36NJ45NH01NH02NH10NH11NH12NH13NH14NH20NH21NH22NH23NH24NH30NH31NH32NH33NH34NH40NH41NH42NH43NH44NH50NH51NH52NH53NH54NH60NH61NH62NH63NH64NH70NH71NH72NH73NH74NH75NH80NH81NH82NH83NH84NH85NH90NH91NH92NH93NH94NH95NH96NJ00NJ01NN39NN46NN47NN48NN49NN56NN57NN58NN59NN67NN68NN69NN77NN78NN79NN88NN89NN98NN99NG60NG70NG71NG72NG80NG81NG82NG90NG91NH00NH01NH10NH20NH30NM46NM47NM54NM55NM56NM57NM64NM65NM66NM67NM68NM69NM74NM75NM76NM77NM78NM79NM84NM85NM86NM87NM88NM89NM95NM96NM97NM98NM99NN05NN06NN07NN08NN09NN16NN17NN18NN19NN26NN27NN28NN29NN35NN36NN37NN38NN39NN46NN47NN48NN49NN57NN58NN59NM70NM71NM72NM73NM80NM81NM82NM83NM84NM90NM91NM92NM93NM94NM95NN00NN01NN02NN03NN04NN05NN10NN11NN12NN13NN14NN15NN16NN20NN21NN22NN23NN24NN25NN26NN30NN33NN34NN35NN36NN44NN45NN46NR79NR88NR89NR96NR97NR98NR99NS06NS07NS08NS09NS16NS17NS18NS19NS28NS29NN20NN21NN30NN31NS28NS29NS37NS38NS39NS46NS47NS48NS56NS57NR82NR83NR84NR92NR93NR94NR95NR96NR97NS01NS02NS03NS04NS05NS06NS07NS15NS16NR50NR51NR60NR61NR62NR63NR64NR65NR67NR68NR70NR71NR72NR73NR74NR75NR76NR77NR78NR79NR83NR84NR85NR86NR87NR88NR89NR95NR96NM40NM60NM61NM70NM71NR15NR16NR24NR25NR26NR27NR34NR35NR36NR37NR38NR39NR44NR45NR46NR47NR48NR49NR56NR57NR58NR59NR67NR68NR69NR79NL93NL94NM04NM05NM15NM16NM21NM22NM23NM24NM25NM26NM31NM32NM33NM34NM35NM41NM42NM43NM44NM45NM51NM52NM53NM54NM55NM61NM62NM63NM64NM72NM73NG13NG14NG15NG20NG23NG24NG25NG26NG30NG31NG32NG33NG34NG35NG36NG37NG38NG40NG41NG42NG43NG44NG45NG46NG47NG50NG51NG52NG53NG54NG55NG56NG60NG61NG62NG63NG64NG65NG66NG71NG72NG82NM19NM29NM37NM38NM39NM47NM48NM49NM59NB90NB91NC00NC01NC10NC11NC20NC21NG63NG64NG65NG72NG73NG74NG75NG76NG77NG78NG79NG82NG83NG84NG85NG86NG87NG88NG89NG91NG92NG93NG94NG95NG96NG97NG98NG99NH00NH01NH02NH03NH04NH05NH06NH07NH08NH09NH10NH11NH15NH16NH17NH18NH19NH27NH28NH29NC10NC20NC21NC30NC31NC40NH02NH03NH04NH05NH06NH07NH12NH13NH14NH15NH16NH17NH19NH23NH24NH25NH26NH27NH28NH29NH34NH35NH36NH37NH38NH39NH44NH45NH46NH47NH48NH49NH54NH55NH56NH57NH58NH59NH64NH65NH66NH67NH68NH69NH75NH76NH77NH78NH86NH87NH88NH97NH98NC22NC30NC31NC32NC33NC40NC41NC42NC43NC50NC51NC52NC60NC61NC62NC63NC70NC71NC72NC73NC74NC80NC81NC82NC83NC84NC90NC91NC92NC93ND01ND02NH49NH59NH68NH69NH78NH79NH88NH89NC01NC02NC03NC10NC11NC12NC13NC14NC15NC16NC20NC21NC22NC23NC24NC25NC26NC27NC31NC32NC33NC34NC35NC36NC37NC42NC43NC44NC45NC46NC52NC53NC54NC55NC56NC62NC63NC64NC65NC66NC73NC74NC75NC76NC83NC84NC85NC86NC93NC94NC95NC96NC92NC93NC94NC95NC96ND01ND02ND03ND04ND05ND06ND07ND12ND13ND14ND15ND16ND17ND23ND24ND25ND26ND27ND33ND34ND35ND36ND37ND47HW63HW83HX62NA00NA10NA64NA74NA81NA90NA91NA92NA93NB00NB01NB02NB03NB10NB11NB12NB13NB14NB20NB21NB22NB23NB24NB30NB31NB32NB33NB34NB35NB40NB41NB42NB43NB44NB45NB46NB52NB53NB54NB55NB56NF09NF19NF56NF58NF60NF61NF66NF67NF68NF70NF71NF72NF73NF74NF75NF76NF77NF80NF81NF82NF83NF84NF85NF86NF87NF88NF89NF95NF96NF97NF98NF99NG07NG08NG09NG18NG19NG29NG49NL57NL58NL68NL69NL79HY10HY20HY21HY22HY23HY30HY31HY32HY33HY34HY35HY40HY41HY42HY43HY44HY45HY50HY51HY52HY53HY54HY55HY60HY61HY62HY63HY64HY73HY74HY75ND19ND28ND29ND38ND39ND47ND48ND49ND59HP40HP50HP51HP60HP61HT93HT94HU14HU15HU16HU24HU25HU26HU27HU28HU30HU31HU32HU33HU34HU35HU36HU37HU38HU39HU40HU41HU42HU43HU44HU45HU46HU47HU48HU49HU53HU54HU55HU56HU57HU58HU59HU66HU67HU68HU69HZ16HZ17HZ26HZ27");var Ri=function(t){pa(S,Oo);var e=Li(S);function S(){var t;return fo(this,S),go(ga(t=e.call(this)),"country","CI"),go(ga(t),"GridCoords",yi),go(ga(t),"gridCoords",null),t.parse_well_formed=t.from_string,t}return Mo(S,[{key:"from_string",value:function(t){var e,r=t.replace(/[\[\]\s\t.\/-]+/g,"").toUpperCase(),N="";/[ABCDEFGHIJKLMNPQRSTUVWXYZ]$/.test(r)&&(Oo.quadrantOffsets.hasOwnProperty(r.substr(r.length-2))?(this.quadrantCode=r.substr(r.length-2),r=r.substr(0,r.length-2)):(N=r.substr(r.length-1),r=r.substr(0,r.length-1))),/^(W[AV](?:\d\d){1,5})$/.test(r)?(e=S.gridref_string_to_e_n_l(r))?(this.length=e.length,this.gridCoords=new yi(e.e,e.n),this.hectad=this.gridCoords.to_gridref(1e4),1e4===this.length&&(N||this.quadrantCode)?N?(this.preciseGridRef=r+N,this.tetrad=this.hectad+N,this.tetradLetter=N,this.length=2e3,this.gridCoords.x+=Oo.tetradOffsets[N][0],this.gridCoords.y+=Oo.tetradOffsets[N][1]):(this.preciseGridRef=r+this.quadrantCode,this.tetradLetter="",this.tetrad="",this.quadrant=this.preciseGridRef,this.length=5e3,this.gridCoords.x+=Oo.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=r,this.length<=1e3&&this.set_tetrad())):(this.error=!0,this.errorMessage="Grid reference format not understood (odd length)."):(this.error=!0,this.errorMessage="Channel Island grid reference format not understood. ('"+t+"')");}}],[{key:"gridref_string_to_e_n_l",value:function(t){var e,S,r,N,n=t.substr(0,2);if("WA"===n)e=55e5;else {if("WV"!==n)return console.log("Bad Channel Island grid letters: '"+n+"'"),!1;e=54e5;}var o=t.substr(2);switch(o.length){case 2:S=1e4*o.charAt(0),r=1e4*o.charAt(1),N=1e4;break;case 4:S=1e3*o.substr(0,2),r=1e3*o.substr(2),N=1e3;break;case 6:S=100*o.substr(0,3),r=100*o.substr(3),N=100;break;case 8:S=10*o.substr(0,4),r=10*o.substr(4),N=10;break;case 10:S=parseInt(o.substr(0,5),10),r=parseInt(o.substr(5),10),N=1;break;default:return console.log("Bad length for Channel Island grid ref '"+t+"'"),!1}return {e:S+5e5,n:r+e,length:N}}}]),S}(),Ei=a,Yi=Je,bi=_S,wi=xr,Di=Y,Ki=ht,Xi=dn,Gi=Yn;function Qi(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}nn("match",(function(t,e,S){return [function(e){var S=Di(this),r=null==e?void 0:Ki(e,t);return r?Ei(r,e,S):new RegExp(e)[t](wi(S))},function(t){var r=Yi(this),N=wi(t),n=S(e,r,N);if(n.done)return n.value;if(!r.global)return Gi(r,N);var o=r.unicode;r.lastIndex=0;for(var a,i=[],s=0;null!==(a=Gi(r,N));){var u=wi(a[0]);i[s]=u,""===u&&(r.lastIndex=Xi(N,bi(r.lastIndex),o)),s++;}return 0===s?null:i}]}));var Fi=function(t){pa(S,Oo);var e=Qi(S);function S(){var t;return fo(this,S),go(ga(t=e.call(this)),"country","GB"),go(ga(t),"GridCoords",Ci),go(ga(t),"gridCoords",null),t}return Mo(S,[{key:"parse_well_formed",value:function(t){t.length>=5&&/^[A-Z]/.test(t.charAt(4))&&(Oo.quadrantOffsets.hasOwnProperty(t.substr(t.length-2))?this.quadrantCode=t.substr(t.length-2):this.tetradLetter=t.charAt(4),t=t.substr(0,4)),this.parse_wellformed_gb_gr_string_no_tetrads(t),this.tetradLetter||this.quadrantCode?this.tetradLetter?(this.preciseGridRef=this.tetrad=this.hectad+this.tetradLetter,this.length=2e3,this.gridCoords.x+=Oo.tetradOffsets[this.tetradLetter][0],this.gridCoords.y+=Oo.tetradOffsets[this.tetradLetter][1]):(this.preciseGridRef=this.quadrant=t+this.quadrantCode,this.length=5e3,this.gridCoords.x+=Oo.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=t,this.length<=1e3&&this.set_tetrad());}},{key:"from_string",value:function(t){var e,S=t.replace(/[\[\]\s\t.-]+/g,"").toUpperCase(),r="";if(/[ABCDEFGHIJKLMNPQRSTUVWXYZ]$/.test(S)&&(Oo.quadrantOffsets.hasOwnProperty(S.substr(S.length-2))?(this.quadrantCode=S.substr(S.length-2),S=S.substr(0,S.length-2)):(r=S.substr(S.length-1),S=S.substr(0,S.length-1))),S===parseInt(S,10).toString()?S=S.substr(0,2)+"/"+S.substr(2):S.length>3&&"/"===S.charAt(2)&&/^[A-Z]{2}$/.test(S.substr(0,2))&&(S=S.replace("/","")),"VC"===S.substr(0,2))this.error=!0,this.errorMessage="Misplaced vice-county code in grid-reference field. ('"+S+"')",this.gridCoords=null,this.length=0;else if(null!==(e=S.match(/^([HJNOST][ABCDEFGHJKLMNOPQRSTUVWXYZ](?:\d\d){1,5})$/)))S=e[0],this.parse_wellformed_gb_gr_string_no_tetrads(S),this.length>0?1e4===this.length&&(r||this.quadrantCode)?r?(this.preciseGridRef=S+r,this.tetradLetter=r,this.tetrad=this.hectad+r,this.length=2e3,this.gridCoords.x+=Oo.tetradOffsets[r][0],this.gridCoords.y+=Oo.tetradOffsets[r][1]):(this.preciseGridRef=S+this.quadrantCode,this.tetradLetter="",this.tetrad="",this.quadrant=this.preciseGridRef,this.length=5e3,this.gridCoords.x+=Oo.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=S,this.length<=1e3&&this.set_tetrad()):(this.error=!0,this.errorMessage="GB grid reference format not understood (strange length).");else if(/^([\d]{2})\/((?:\d\d){1,5})$/.test(S)){switch(this.parse_gr_string_without_tetrads(S),this.length){case 1e4:S=this.gridCoords.to_gridref(1e4),this.hectad=S,r?(S+=r,this.tetradLetter=r,this.tetrad=this.hectad+r,this.length=2e3,this.gridCoords.x+=Oo.tetradOffsets[r][0],this.gridCoords.y+=Oo.tetradOffsets[r][1]):this.quadrantCode&&(S+=this.quadrantCode,this.quadrant=S,this.length=5e3,this.gridCoords.x+=Oo.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo.quadrantOffsets[this.quadrantCode][1]);break;case 1e3:case 100:case 10:case 1:S=this.gridCoords.to_gridref(this.length),this.hectad=this.gridCoords.to_gridref(1e4),this.set_tetrad();break;default:this.error=!0,this.errorMessage="Bad grid square dimension ("+this.length+" m).",this.gridCoords=null,this.length=0;}this.preciseGridRef=S;}else this.gridCoords=null,this.length=0,this.error=!0,this.errorMessage="Grid reference format not understood. ('"+t+"')";}},{key:"parse_gr_string_without_tetrads",value:function(t){var e,S,r,N;if(null!==(e=t.match(/^(\d{2})\/((?:\d\d){1,5})$/))){switch(e[1]){case"57":S=3e5,r=1e6;break;case"67":S=4e5,r=1e6;break;case"58":S=3e5,r=11e5;break;case"68":S=4e5,r=11e5;break;case"69":S=4e5,r=12e5;break;default:S=1e5*t.charAt(0),r=1e5*t.charAt(1);}N=e[2];}else {if(!Oo.letterMapping.hasOwnProperty(t.charAt(0))||!Oo.letterMapping.hasOwnProperty(t.charAt(1)))return this.length=0,void(this.gridCoords=null);var n=Oo.letterMapping[t.charAt(0)],o=Oo.letterMapping[t.charAt(1)];N=t.substr(2),S=n%5*5e5+o%5*1e5-1e6,r=5e5*-Math.floor(n/5)-1e5*Math.floor(o/5)+19e5;}switch(N.length){case 2:this.gridCoords=new Ci(S+1e4*N.charAt(0),r+1e4*N.charAt(1)),this.length=1e4;break;case 4:this.gridCoords=new Ci(S+1e3*Math.floor(N/100),r+N%100*1e3),this.length=1e3;break;case 6:this.gridCoords=new Ci(S+100*Math.floor(N/1e3),r+N%1e3*100),this.length=100;break;case 8:this.gridCoords=new Ci(S+10*Math.floor(N/1e4),r+N%1e4*10),this.length=10;break;case 10:this.gridCoords=new Ci(S+Math.floor(N/1e5),r+N%1e5),this.length=1;break;default:console.log("Bad grid ref length, ref="+t),this.gridCoords=null,this.length=0;}}},{key:"parse_wellformed_gb_gr_string_no_tetrads",value:function(t){var e,S,r,N,n;switch(e=Oo.letterMapping[t.charAt(0)],S=Oo.letterMapping[t.charAt(1)],r=t.substr(2),N=e%5*5e5+S%5*1e5-1e6,n=5e5*-Math.floor(e/5)-1e5*Math.floor(S/5)+19e5,r.length){case 2:this.gridCoords=new Ci(N+1e4*r.charAt(0),n+1e4*r.charAt(1)),this.length=1e4,this.hectad=t;break;case 4:this.gridCoords=new Ci(N+1e3*Math.floor(r/100),n+r%100*1e3),this.length=1e3,this.hectad=t.substr(0,3)+t.substr(4,1);break;case 6:this.gridCoords=new Ci(N+100*Math.floor(r/1e3),n+r%1e3*100),this.length=100,this.hectad=t.substr(0,3)+t.substr(5,1);break;case 8:this.gridCoords=new Ci(N+10*Math.floor(r/1e4),n+r%1e4*10),this.length=10,this.hectad=t.substr(0,3)+t.substr(6,1);break;case 10:this.gridCoords=new Ci(N+Math.floor(r/1e5),n+r%1e5),this.length=1,this.hectad=t.substr(0,3)+t.substr(7,1);break;default:throw this.gridCoords=null,new Error("Bad grid ref length when parsing supposedly well-formed ref, ref='"+t+"'")}}}]),S}();function _i(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var mi=function(t){pa(S,pi);var e=_i(S);function S(t,r){var N;return fo(this,S),go(ga(N=e.call(this)),"country","IE"),go(ga(N),"gridCoords",null),N.x=t,N.y=r,N}return Mo(S,[{key:"to_latLng",value:function(){var t=1.000035,e=6377340.189,S=.0066705402933363,r=.0016732203841521,N=this.x-2e5,n=.0067153352074207,o=(5929615.3530033+(this.y-25e4)/t)/6366691.7742864415,a=o+.002509826623715886*Math.sin(2*o)+36745487490091978e-22*Math.sin(4*o)+151*r*r*r/96*Math.sin(6*o),i=e/Math.sqrt(1-S*Math.sin(a)*Math.sin(a)),s=Math.tan(a)*Math.tan(a),u=n*Math.cos(a)*Math.cos(a),T=e*(1-S)/Math.pow(1-S*Math.sin(a)*Math.sin(a),1.5),c=N/(i*t),h=a-i*Math.tan(a)/T*(c*c/2-(5+3*s+10*u-4*u*u-9*n)*c*c*c*c/24+(61+90*s+298*u+45*s*s-1.6922644722700164-3*u*u)*c*c*c*c*c*c/720);h*=ui;var f=(c-(1+2*s+u)*c*c*c/6+(5-2*u+28*s-3*u*u+8*n+24*s*s)*c*c*c*c*c/120)/Math.cos(a);return new Oi(h,f=f*ui-8).to_WGS84()}},{key:"to_gridref",value:function(t){var e=Math.floor(this.x/1e5),r=Math.floor(this.y/1e5);return S.irishGrid[e]&&S.irishGrid[e][r]?Hi(S.irishGrid[e][r],this.x-1e5*e,this.y-1e5*r,t||1):null}},{key:"to_hectad",value:function(){var t=Math.floor(this.x/1e5),e=Math.floor(this.y/1e5);return S.irishGrid[t]&&S.irishGrid[t][e]?S.irishGrid[t][e]+Math.floor(this.x%1e5/1e4)+Math.floor(this.y%1e5/1e4):""}}]),S}();function Ai(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}go(mi,"irishGrid",{0:["V","Q","L","F","A"],1:["W","R","M","G","B"],2:["X","S","N","H","C"],3:["Y","T","O","J","D"]});var xi=function(t){pa(S,Oo);var e=Ai(S);function S(){var t;return fo(this,S),go(ga(t=e.call(this)),"country","IE"),go(ga(t),"GridCoords",mi),go(ga(t),"gridCoords",null),t.parse_well_formed=t.from_string,t}return Mo(S,[{key:"from_string",value:function(t){var e=t.replace(/[\[\]\s\t.-]+/g,"").toUpperCase();/[ABCDEFGHIJKLMNPQRSTUVWXYZ]$/.test(e)&&(S.quadrantOffsets.hasOwnProperty(e.substr(e.length-2))?(this.quadrantCode=e.substr(e.length-2),e=e.substr(0,e.length-2)):(this.tetradLetter=e.substr(e.length-1),e=e.substr(0,e.length-1))),this.parse_gr_string_without_tetrads(e),this.length>0?this.tetradLetter||this.quadrantCode?this.tetradLetter?(this.preciseGridRef=this.hectad+this.tetradLetter,this.tetrad=this.preciseGridRef,this.length=2e3,this.gridCoords.x+=S.tetradOffsets[this.tetradLetter][0],this.gridCoords.y+=S.tetradOffsets[this.tetradLetter][1]):(this.preciseGridRef=this.hectad+this.quadrantCode,this.quadrant=this.preciseGridRef,this.length=5e3,this.gridCoords.x+=S.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=S.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=e,this.length<=1e3&&this.set_tetrad()):(this.error=!0,this.errorMessage="Irish grid reference format not understood. ('"+t+"')");}},{key:"parse_gr_string_without_tetrads",value:function(t){var e,r,N,n;if(/^\d{2}\/(?:\d\d){1,5}$/.test(t)){if(e=parseInt(t.charAt(0),10),r=parseInt(t.charAt(1),10),e>3||r>4)return console.log("bad grid square, ref='"+t+"' (Ireland)"),this.length=0,!1;N=t.substr(3),n=S._IE_GRID_LETTERS.charAt(5*e+r),e*=1e5,r*=1e5;}else {if(t=t.replace("/",""),!/^[ABCDFGHJLMNOQRSTVWXY](?:\d\d){1,5}$/.test(t))return this.length=0,this.gridCoords=null,!1;if(!t)return console.log("Bad (empty) Irish grid ref"),this.length=0,this.gridCoords=null,!1;n=t.charAt(0);var o=S._IE_GRID_LETTERS.indexOf(n);if(-1===o)return console.log("Bad grid ref grid-letter, ref='"+t+"' (Ireland)"),this.length=0,this.gridCoords=null,!1;e=1e5*Math.floor(o/5),r=o%5*1e5,N=t.substr(1);}switch(N.length){case 2:this.gridCoords=new mi(e+1e4*N.charAt(0),r+1e4*N.charAt(1)),this.length=1e4,this.hectad=n+N;break;case 4:this.gridCoords=new mi(e+1e3*Math.floor(N/100),r+N%100*1e3),this.length=1e3,this.hectad=n+N.charAt(0)+N.charAt(2);break;case 6:this.gridCoords=new mi(e+100*Math.floor(N/1e3),r+N%1e3*100),this.length=100,this.hectad=n+N.charAt(0)+N.charAt(3);break;case 8:this.gridCoords=new mi(e+10*Math.floor(N/1e4),r+N%1e4*10),this.length=10,this.hectad=n+N.charAt(0)+N.charAt(4);break;case 10:this.gridCoords=new mi(e+Math.floor(N/1e5),r+N%1e5),this.length=1,this.hectad=n+N.charAt(0)+N.charAt(5);break;default:return console.log("Bad grid ref length, ref='"+t+"' (Ireland)"),this.length=0,this.gridCoords=null,!1}return !0}}]),S}();go(xi,"gridLetter",{A:[0,4],B:[1,4],C:[2,4],D:[3,4],F:[0,3],G:[1,3],H:[2,3],J:[3,3],L:[0,2],M:[1,2],N:[2,2],O:[3,2],Q:[0,1],R:[1,1],S:[2,1],T:[3,1],V:[0,0],W:[1,0],X:[2,0],Y:[3,0]}),go(xi,"_IE_GRID_LETTERS","VQLFAWRMGBXSNHCYTOJD"),Oo.from_string=function(t){var e,S=t.replace(/\s+/g,"").toUpperCase();if(!S)return !1;if(/^(?:[BCDFGHJLMNOQRSTVWXY]|[HJNOST][ABCDEFGHJKLMNOPQRSTUVWXYZ]|W[VA])\d{2}(?:[A-Z]|[NS][EW]|(?:\d{2}){0,4})?$/.test(S))return (e=/^.\d/.test(S)?new xi:"W"===S.charAt(0)?new Ri:new Fi).parse_well_formed(S),!(!e.length||e.error)&&e;if((e=new Fi).from_string(S),e.length&&!e.error)return e;if("W"===S.charAt(0)){if((e=new Ri).from_string(S),e.length&&!e.error)return e}else if((e=new xi).from_string(S),e.length&&!e.error)return e;return !1};var Zi=Ci;(li.prototype.to_os_coords=function(){var t=this.lat*si,e=this.lng*si,S=.9996012717,r=.0066705397616,N=6377563.396*S,n=6356256.91*S,o=Math.sin(t)*Math.sin(t),a=N/Math.sqrt(1-r*o),i=a*(1-r)/(1-r*o),s=a/i-1,u=e- -.03490658503988659,T=a*Math.cos(t),c=Math.pow(Math.cos(t),3),h=Math.tan(t)*Math.tan(t),f=a/6*c*(a/i-h),l=Math.pow(Math.cos(t),5),d=Math.pow(Math.tan(t),4),M=a/120*l*(5-18*h+d+14*s-58*h*s),g=4e5+u*T+Math.pow(u,3)*f+Math.pow(u,5)*M,O=Ti._Marc(n,.0016732202503250907,.8552113334772214,t)+-1e5,p=a/2*Math.sin(t)*Math.cos(t),H=a/24*Math.sin(t)*Math.pow(Math.cos(t),3)*(5-Math.pow(Math.tan(t),2)+9*s),v=a/720*Math.sin(t)*l*(61-58*h+d),y=O+u*u*p+Math.pow(u,4)*H+Math.pow(u,6)*v;return new Zi(Math.round(g),Math.round(y))},li);var Wi=mi;(Oi.prototype.to_os_coords=function(){var t=this.lat*si,e=this.lng*si,S=1.000035,r=.00667054015,N=6377340.189*S,n=6356034.447*S,o=Math.sin(t)*Math.sin(t),a=N/Math.sqrt(1-r*o),i=a*(1-r)/(1-r*o),s=a/i-1,u=e- -.13962634015954636,T=a*Math.cos(t),c=Math.pow(Math.cos(t),3),h=Math.tan(t)*Math.tan(t),f=a/6*c*(a/i-h),l=Math.pow(Math.cos(t),5),d=Math.pow(Math.tan(t),4),M=a/120*l*(5-18*h+d+14*s-58*h*s),g=2e5+u*T+Math.pow(u,3)*f+Math.pow(u,5)*M,O=Ti._Marc(n,.0016732203841520518,.9337511498169663,t)+25e4,p=a/2*Math.sin(t)*Math.cos(t),H=a/24*Math.sin(t)*Math.pow(Math.cos(t),3)*(5-Math.pow(Math.tan(t),2)+9*s),v=a/720*Math.sin(t)*l*(61-58*h+d),y=O+u*u*p+Math.pow(u,4)*H+Math.pow(u,6)*v;return new Wi(Math.round(g),Math.round(y))},Oi);var Ii=yi;(Mi.prototype.to_os_coords=function(){var t=this.lat*si,e=this.lng*si,S=.9996,r=.0067226700223333,N=6378388*S,n=6356911.946*S,o=Math.sin(t)*Math.sin(t),a=N/Math.sqrt(1-r*o),i=a*(1-r)/(1-r*o),s=a/i-1,u=e- -.0523598775598,T=a*Math.cos(t),c=Math.pow(Math.cos(t),3),h=Math.tan(t)*Math.tan(t),f=a/6*c*(a/i-h),l=Math.pow(Math.cos(t),5),d=Math.pow(Math.tan(t),4),M=a/120*l*(5-18*h+d+14*s-58*h*s),g=5e5+u*T+Math.pow(u,3)*f+Math.pow(u,5)*M,O=Ti._Marc(n,.0016863406508729017,0,t)+0,p=a/2*Math.sin(t)*Math.cos(t),H=a/24*Math.sin(t)*Math.pow(Math.cos(t),3)*(5-Math.pow(Math.tan(t),2)+9*s),v=a/720*Math.sin(t)*l*(61-58*h+d),y=O+u*u*p+Math.pow(u,4)*H+Math.pow(u,6)*v;return new Ii(Math.round(g),Math.round(y))},Mi);
+	var t="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},e=function(t){return t&&t.Math==Math&&t},S=e("object"==typeof globalThis&&globalThis)||e("object"==typeof window&&window)||e("object"==typeof self&&self)||e("object"==typeof t&&t)||function(){return this}()||Function("return this")(),r={},N=function(t){try{return !!t()}catch(t){return !0}},n=!N((function(){return 7!=Object.defineProperty({},1,{get:function(){return 7}})[1]})),o=Function.prototype.call,a=o.bind?o.bind(o):function(){return o.apply(o,arguments)},i={},s={}.propertyIsEnumerable,u=Object.getOwnPropertyDescriptor,T=u&&!s.call({1:2},1);i.f=T?function(t){var e=u(this,t);return !!e&&e.enumerable}:s;var c,h,f=function(t,e){return {enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:e}},l=Function.prototype,d=l.bind,M=l.call,g=d&&d.bind(M),O=d?function(t){return t&&g(M,t)}:function(t){return t&&function(){return M.apply(t,arguments)}},p=O,H=p({}.toString),v=p("".slice),y=function(t){return v(H(t),8,-1)},J=O,U=N,P=y,C=S.Object,L=J("".split),R=U((function(){return !C("z").propertyIsEnumerable(0)}))?function(t){return "String"==P(t)?L(t,""):C(t)}:C,E$2=S.TypeError,Y=function(t){if(null==t)throw E$2("Can't call method on "+t);return t},b=R,w=Y,D=function(t){return b(w(t))},K=function(t){return "function"==typeof t},X=K,G=function(t){return "object"==typeof t?null!==t:X(t)},Q=S,F=K,_=function(t){return F(t)?t:void 0},m=function(t,e){return arguments.length<2?_(Q[t]):Q[t]&&Q[t][e]},A=O({}.isPrototypeOf),x=S,Z=m("navigator","userAgent")||"",B=x.process,W=x.Deno,k=B&&B.versions||W&&W.version,I=k&&k.v8;I&&(h=(c=I.split("."))[0]>0&&c[0]<4?1:+(c[0]+c[1])),!h&&Z&&(!(c=Z.match(/Edge\/(\d+)/))||c[1]>=74)&&(c=Z.match(/Chrome\/(\d+)/))&&(h=+c[1]);var q=h,j$2=q,V=N,$$8$1=!!Object.getOwnPropertySymbols&&!V((function(){var t=Symbol();return !String(t)||!(Object(t)instanceof Symbol)||!Symbol.sham&&j$2&&j$2<41})),z=$$8$1&&!Symbol.sham&&"symbol"==typeof Symbol.iterator,tt=m,et=K,St=A,rt=z,Nt=S.Object,nt=rt?function(t){return "symbol"==typeof t}:function(t){var e=tt("Symbol");return et(e)&&St(e.prototype,Nt(t))},ot=S.String,at=function(t){try{return ot(t)}catch(t){return "Object"}},it=K,st=at,ut=S.TypeError,Tt=function(t){if(it(t))return t;throw ut(st(t)+" is not a function")},ct=Tt,ht=function(t,e){var S=t[e];return null==S?void 0:ct(S)},ft=a,lt=K,dt=G,Mt=S.TypeError,gt={exports:{}},Ot=S,pt=Object.defineProperty,Ht=function(t,e){try{pt(Ot,t,{value:e,configurable:!0,writable:!0});}catch(S){Ot[t]=e;}return e},vt=Ht,yt=S["__core-js_shared__"]||vt("__core-js_shared__",{}),Jt=yt;(gt.exports=function(t,e){return Jt[t]||(Jt[t]=void 0!==e?e:{})})("versions",[]).push({version:"3.19.1",mode:"global",copyright:"© 2021 Denis Pushkarev (zloirock.ru)"});var Ut=Y,Pt=S.Object,Ct=function(t){return Pt(Ut(t))},Lt=Ct,Rt=O({}.hasOwnProperty),Et=Object.hasOwn||function(t,e){return Rt(Lt(t),e)},Yt=O,bt=0,wt=Math.random(),Dt=Yt(1..toString),Kt=function(t){return "Symbol("+(void 0===t?"":t)+")_"+Dt(++bt+wt,36)},Xt=S,Gt=gt.exports,Qt=Et,Ft=Kt,_t=$$8$1,mt=z,At=Gt("wks"),xt=Xt.Symbol,Zt=xt&&xt.for,Bt=mt?xt:xt&&xt.withoutSetter||Ft,Wt=function(t){if(!Qt(At,t)||!_t&&"string"!=typeof At[t]){var e="Symbol."+t;_t&&Qt(xt,t)?At[t]=xt[t]:At[t]=mt&&Zt?Zt(e):Bt(e);}return At[t]},kt=a,It=G,qt=nt,jt=ht,Vt=function(t,e){var S,r;if("string"===e&&lt(S=t.toString)&&!dt(r=ft(S,t)))return r;if(lt(S=t.valueOf)&&!dt(r=ft(S,t)))return r;if("string"!==e&&lt(S=t.toString)&&!dt(r=ft(S,t)))return r;throw Mt("Can't convert object to primitive value")},$t=Wt,zt=S.TypeError,te=$t("toPrimitive"),ee=function(t,e){if(!It(t)||qt(t))return t;var S,r=jt(t,te);if(r){if(void 0===e&&(e="default"),S=kt(r,t,e),!It(S)||qt(S))return S;throw zt("Can't convert object to primitive value")}return void 0===e&&(e="number"),Vt(t,e)},Se=nt,re=function(t){var e=ee(t,"string");return Se(e)?e:e+""},Ne=G,ne=S.document,oe=Ne(ne)&&Ne(ne.createElement),ae=function(t){return oe?ne.createElement(t):{}},ie=ae,se=!n&&!N((function(){return 7!=Object.defineProperty(ie("div"),"a",{get:function(){return 7}}).a})),ue=n,Te=a,ce=i,he=f,fe=D,le=re,de=Et,Me=se,ge=Object.getOwnPropertyDescriptor;r.f=ue?ge:function(t,e){if(t=fe(t),e=le(e),Me)try{return ge(t,e)}catch(t){}if(de(t,e))return he(!Te(ce.f,t,e),t[e])};var Oe={},pe=S,He=G,ve=pe.String,ye=pe.TypeError,Je=function(t){if(He(t))return t;throw ye(ve(t)+" is not an object")},Ue=n,Pe=se,Ce=Je,Le=re,Re=S.TypeError,Ee=Object.defineProperty;Oe.f=Ue?Ee:function(t,e,S){if(Ce(t),e=Le(e),Ce(S),Pe)try{return Ee(t,e,S)}catch(t){}if("get"in S||"set"in S)throw Re("Accessors not supported");return "value"in S&&(t[e]=S.value),t};var Ye=Oe,be=f,we=n?function(t,e,S){return Ye.f(t,e,be(1,S))}:function(t,e,S){return t[e]=S,t},De={exports:{}},Ke=K,Xe=yt,Ge=O(Function.toString);Ke(Xe.inspectSource)||(Xe.inspectSource=function(t){return Ge(t)});var Qe,Fe,_e,me=Xe.inspectSource,Ae=K,xe=me,Ze=S.WeakMap,Be=Ae(Ze)&&/native code/.test(xe(Ze)),We=gt.exports,ke=Kt,Ie=We("keys"),qe=function(t){return Ie[t]||(Ie[t]=ke(t))},je={},Ve=Be,$e=S,ze=O,tS=G,eS=we,SS=Et,rS=yt,NS=qe,nS=je,oS=$e.TypeError,aS=$e.WeakMap;if(Ve||rS.state){var iS=rS.state||(rS.state=new aS),sS=ze(iS.get),uS=ze(iS.has),TS=ze(iS.set);Qe=function(t,e){if(uS(iS,t))throw new oS("Object already initialized");return e.facade=t,TS(iS,t,e),e},Fe=function(t){return sS(iS,t)||{}},_e=function(t){return uS(iS,t)};}else {var cS=NS("state");nS[cS]=!0,Qe=function(t,e){if(SS(t,cS))throw new oS("Object already initialized");return e.facade=t,eS(t,cS,e),e},Fe=function(t){return SS(t,cS)?t[cS]:{}},_e=function(t){return SS(t,cS)};}var hS={set:Qe,get:Fe,has:_e,enforce:function(t){return _e(t)?Fe(t):Qe(t,{})},getterFor:function(t){return function(e){var S;if(!tS(e)||(S=Fe(e)).type!==t)throw oS("Incompatible receiver, "+t+" required");return S}}},fS=n,lS=Et,dS=Function.prototype,MS=fS&&Object.getOwnPropertyDescriptor,gS=lS(dS,"name"),OS={EXISTS:gS,PROPER:gS&&"something"===function(){}.name,CONFIGURABLE:gS&&(!fS||fS&&MS(dS,"name").configurable)},pS=S,HS=K,vS=Et,yS=we,JS=Ht,US=me,PS=OS.CONFIGURABLE,CS=hS.get,LS=hS.enforce,RS=String(String).split("String");(De.exports=function(t,e,S,r){var N,n=!!r&&!!r.unsafe,o=!!r&&!!r.enumerable,a=!!r&&!!r.noTargetGet,i=r&&void 0!==r.name?r.name:e;HS(S)&&("Symbol("===String(i).slice(0,7)&&(i="["+String(i).replace(/^Symbol\(([^)]*)\)/,"$1")+"]"),(!vS(S,"name")||PS&&S.name!==i)&&yS(S,"name",i),(N=LS(S)).source||(N.source=RS.join("string"==typeof i?i:""))),t!==pS?(n?!a&&t[e]&&(o=!0):delete t[e],o?t[e]=S:yS(t,e,S)):o?t[e]=S:JS(e,S);})(Function.prototype,"toString",(function(){return HS(this)&&CS(this).source||US(this)}));var ES={},YS=Math.ceil,bS=Math.floor,wS=function(t){var e=+t;return e!=e||0===e?0:(e>0?bS:YS)(e)},DS=wS,KS=Math.max,XS=Math.min,GS=function(t,e){var S=DS(t);return S<0?KS(S+e,0):XS(S,e)},QS=wS,FS=Math.min,_S=function(t){return t>0?FS(QS(t),9007199254740991):0},mS=_S,AS=function(t){return mS(t.length)},xS=D,ZS=GS,BS=AS,WS=function(t){return function(e,S,r){var N,n=xS(e),o=BS(n),a=ZS(r,o);if(t&&S!=S){for(;o>a;)if((N=n[a++])!=N)return !0}else for(;o>a;a++)if((t||a in n)&&n[a]===S)return t||a||0;return !t&&-1}},kS={includes:WS(!0),indexOf:WS(!1)},IS=Et,qS=D,jS=kS.indexOf,VS=je,$S=O([].push),zS=function(t,e){var S,r=qS(t),N=0,n=[];for(S in r)!IS(VS,S)&&IS(r,S)&&$S(n,S);for(;e.length>N;)IS(r,S=e[N++])&&(~jS(n,S)||$S(n,S));return n},tr=["constructor","hasOwnProperty","isPrototypeOf","propertyIsEnumerable","toLocaleString","toString","valueOf"],er=zS,Sr=tr.concat("length","prototype");ES.f=Object.getOwnPropertyNames||function(t){return er(t,Sr)};var rr={};rr.f=Object.getOwnPropertySymbols;var Nr=m,nr=ES,or=rr,ar=Je,ir=O([].concat),sr=Nr("Reflect","ownKeys")||function(t){var e=nr.f(ar(t)),S=or.f;return S?ir(e,S(t)):e},ur=Et,Tr=sr,cr=r,hr=Oe,fr=N,lr=K,dr=/#|\.prototype\./,Mr=function(t,e){var S=Or[gr(t)];return S==Hr||S!=pr&&(lr(e)?fr(e):!!e)},gr=Mr.normalize=function(t){return String(t).replace(dr,".").toLowerCase()},Or=Mr.data={},pr=Mr.NATIVE="N",Hr=Mr.POLYFILL="P",vr=Mr,yr=S,Jr=r.f,Ur=we,Pr=De.exports,Cr=Ht,Lr=function(t,e){for(var S=Tr(e),r=hr.f,N=cr.f,n=0;n<S.length;n++){var o=S[n];ur(t,o)||r(t,o,N(e,o));}},Rr=vr,Er=function(t,e){var S,r,N,n,o,a=t.target,i=t.global,s=t.stat;if(S=i?yr:s?yr[a]||Cr(a,{}):(yr[a]||{}).prototype)for(r in e){if(n=e[r],N=t.noTargetGet?(o=Jr(S,r))&&o.value:S[r],!Rr(i?r:a+(s?".":"#")+r,t.forced)&&void 0!==N){if(typeof n==typeof N)continue;Lr(n,N);}(t.sham||N&&N.sham)&&Ur(n,"sham",!0),Pr(S,r,n,t);}},Yr={};Yr[Wt("toStringTag")]="z";var br="[object z]"===String(Yr),wr=S,Dr=br,Kr=K,Xr=y,Gr=Wt("toStringTag"),Qr=wr.Object,Fr="Arguments"==Xr(function(){return arguments}()),_r=Dr?Xr:function(t){var e,S,r;return void 0===t?"Undefined":null===t?"Null":"string"==typeof(S=function(t,e){try{return t[e]}catch(t){}}(e=Qr(t),Gr))?S:Fr?Xr(e):"Object"==(r=Xr(e))&&Kr(e.callee)?"Arguments":r},mr=_r,Ar=S.String,xr=function(t){if("Symbol"===mr(t))throw TypeError("Cannot convert a Symbol value to a string");return Ar(t)},Zr=Je,Br=function(){var t=Zr(this),e="";return t.global&&(e+="g"),t.ignoreCase&&(e+="i"),t.multiline&&(e+="m"),t.dotAll&&(e+="s"),t.unicode&&(e+="u"),t.sticky&&(e+="y"),e},Wr={},kr=N,Ir=S.RegExp;Wr.UNSUPPORTED_Y=kr((function(){var t=Ir("a","y");return t.lastIndex=2,null!=t.exec("abcd")})),Wr.BROKEN_CARET=kr((function(){var t=Ir("^r","gy");return t.lastIndex=2,null!=t.exec("str")}));var qr,jr=zS,Vr=tr,$r=Object.keys||function(t){return jr(t,Vr)},zr=Oe,tN=Je,eN=D,SN=$r,rN=n?Object.defineProperties:function(t,e){tN(t);for(var S,r=eN(e),N=SN(e),n=N.length,o=0;n>o;)zr.f(t,S=N[o++],r[S]);return t},NN=m("document","documentElement"),nN=Je,oN=rN,aN=tr,iN=je,sN=NN,uN=ae,TN=qe("IE_PROTO"),cN=function(){},hN=function(t){return "<script>"+t+"<\/script>"},fN=function(t){t.write(hN("")),t.close();var e=t.parentWindow.Object;return t=null,e},lN=function(){try{qr=new ActiveXObject("htmlfile");}catch(t){}var t,e;lN="undefined"!=typeof document?document.domain&&qr?fN(qr):((e=uN("iframe")).style.display="none",sN.appendChild(e),e.src=String("javascript:"),(t=e.contentWindow.document).open(),t.write(hN("document.F=Object")),t.close(),t.F):fN(qr);for(var S=aN.length;S--;)delete lN.prototype[aN[S]];return lN()};iN[TN]=!0;var dN,MN,gN=Object.create||function(t,e){var S;return null!==t?(cN.prototype=nN(t),S=new cN,cN.prototype=null,S[TN]=t):S=lN(),void 0===e?S:oN(S,e)},ON=N,pN=S.RegExp,HN=ON((function(){var t=pN(".","s");return !(t.dotAll&&t.exec("\n")&&"s"===t.flags)})),vN=N,yN=S.RegExp,JN=vN((function(){var t=yN("(?<a>b)","g");return "b"!==t.exec("b").groups.a||"bc"!=="b".replace(t,"$<a>c")})),UN=a,PN=O,CN=xr,LN=Br,RN=Wr,EN=gt.exports,YN=gN,bN=hS.get,wN=HN,DN=JN,KN=EN("native-string-replace",String.prototype.replace),XN=RegExp.prototype.exec,GN=XN,QN=PN("".charAt),FN=PN("".indexOf),_N=PN("".replace),mN=PN("".slice),AN=(MN=/b*/g,UN(XN,dN=/a/,"a"),UN(XN,MN,"a"),0!==dN.lastIndex||0!==MN.lastIndex),xN=RN.UNSUPPORTED_Y||RN.BROKEN_CARET,ZN=void 0!==/()??/.exec("")[1];(AN||ZN||xN||wN||DN)&&(GN=function(t){var e,S,r,N,n,o,a,i=this,s=bN(i),u=CN(t),T=s.raw;if(T)return T.lastIndex=i.lastIndex,e=UN(GN,T,u),i.lastIndex=T.lastIndex,e;var c=s.groups,h=xN&&i.sticky,f=UN(LN,i),l=i.source,d=0,M=u;if(h&&(f=_N(f,"y",""),-1===FN(f,"g")&&(f+="g"),M=mN(u,i.lastIndex),i.lastIndex>0&&(!i.multiline||i.multiline&&"\n"!==QN(u,i.lastIndex-1))&&(l="(?: "+l+")",M=" "+M,d++),S=new RegExp("^(?:"+l+")",f)),ZN&&(S=new RegExp("^"+l+"$(?!\\s)",f)),AN&&(r=i.lastIndex),N=UN(XN,h?S:i,M),h?N?(N.input=mN(N.input,d),N[0]=mN(N[0],d),N.index=i.lastIndex,i.lastIndex+=N[0].length):i.lastIndex=0:AN&&N&&(i.lastIndex=i.global?N.index+N[0].length:r),ZN&&N&&N.length>1&&UN(KN,N[0],S,(function(){for(n=1;n<arguments.length-2;n++)void 0===arguments[n]&&(N[n]=void 0);})),N&&c)for(N.groups=o=YN(null),n=0;n<c.length;n++)o[(a=c[n])[0]]=N[a[1]];return N});var BN=GN;Er({target:"RegExp",proto:!0,forced:/./.exec!==BN},{exec:BN});var WN=Function.prototype,kN=WN.apply,IN=WN.bind,qN=WN.call,jN="object"==typeof Reflect&&Reflect.apply||(IN?qN.bind(kN):function(){return qN.apply(kN,arguments)}),VN=O,$N=De.exports,zN=BN,tn=N,en=Wt,Sn=we,rn=en("species"),Nn=RegExp.prototype,nn=function(t,e,S,r){var N=en(t),n=!tn((function(){var e={};return e[N]=function(){return 7},7!=""[t](e)})),o=n&&!tn((function(){var e=!1,S=/a/;return "split"===t&&((S={}).constructor={},S.constructor[rn]=function(){return S},S.flags="",S[N]=/./[N]),S.exec=function(){return e=!0,null},S[N](""),!e}));if(!n||!o||S){var a=VN(/./[N]),i=e(N,""[t],(function(t,e,S,r,N){var o=VN(t),i=e.exec;return i===zN||i===Nn.exec?n&&!N?{done:!0,value:a(e,S,r)}:{done:!0,value:o(S,e,r)}:{done:!1}}));$N(String.prototype,t,i[0]),$N(Nn,N,i[1]);}r&&Sn(Nn[N],"sham",!0);},on=O,an=wS,sn=xr,un=Y,Tn=on("".charAt),cn=on("".charCodeAt),hn=on("".slice),fn=function(t){return function(e,S){var r,N,n=sn(un(e)),o=an(S),a=n.length;return o<0||o>=a?t?"":void 0:(r=cn(n,o))<55296||r>56319||o+1===a||(N=cn(n,o+1))<56320||N>57343?t?Tn(n,o):r:t?hn(n,o,o+2):N-56320+(r-55296<<10)+65536}},ln={codeAt:fn(!1),charAt:fn(!0)}.charAt,dn=function(t,e,S){return e+(S?ln(t,e).length:1)},Mn=O,gn=Ct,On=Math.floor,pn=Mn("".charAt),Hn=Mn("".replace),vn=Mn("".slice),yn=/\$([$&'`]|\d{1,2}|<[^>]*>)/g,Jn=/\$([$&'`]|\d{1,2})/g,Un=a,Pn=Je,Cn=K,Ln=y,Rn=BN,En=S.TypeError,Yn=function(t,e){var S=t.exec;if(Cn(S)){var r=Un(S,t,e);return null!==r&&Pn(r),r}if("RegExp"===Ln(t))return Un(Rn,t,e);throw En("RegExp#exec called on incompatible receiver")},bn=jN,wn=a,Dn=O,Kn=nn,Xn=N,Gn=Je,Qn=K,Fn=wS,_n=_S,mn=xr,An=Y,xn=dn,Zn=ht,Bn=function(t,e,S,r,N,n){var o=S+t.length,a=r.length,i=Jn;return void 0!==N&&(N=gn(N),i=yn),Hn(n,i,(function(n,i){var s;switch(pn(i,0)){case"$":return "$";case"&":return t;case"`":return vn(e,0,S);case"'":return vn(e,o);case"<":s=N[vn(i,1,-1)];break;default:var u=+i;if(0===u)return n;if(u>a){var T=On(u/10);return 0===T?n:T<=a?void 0===r[T-1]?pn(i,1):r[T-1]+pn(i,1):n}s=r[u-1];}return void 0===s?"":s}))},Wn=Yn,kn=Wt("replace"),In=Math.max,qn=Math.min,jn=Dn([].concat),Vn=Dn([].push),$n=Dn("".indexOf),zn=Dn("".slice),to="$0"==="a".replace(/./,"$0"),eo=!!/./[kn]&&""===/./[kn]("a","$0"),So=!Xn((function(){var t=/./;return t.exec=function(){var t=[];return t.groups={a:"7"},t},"7"!=="".replace(t,"$<a>")}));Kn("replace",(function(t,e,S){var r=eo?"$":"$0";return [function(t,S){var r=An(this),N=null==t?void 0:Zn(t,kn);return N?wn(N,t,r,S):wn(e,mn(r),t,S)},function(t,N){var n=Gn(this),o=mn(t);if("string"==typeof N&&-1===$n(N,r)&&-1===$n(N,"$<")){var a=S(e,n,o,N);if(a.done)return a.value}var i=Qn(N);i||(N=mn(N));var s=n.global;if(s){var u=n.unicode;n.lastIndex=0;}for(var T=[];;){var c=Wn(n,o);if(null===c)break;if(Vn(T,c),!s)break;""===mn(c[0])&&(n.lastIndex=xn(o,_n(n.lastIndex),u));}for(var h,f="",l=0,d=0;d<T.length;d++){for(var M=mn((c=T[d])[0]),g=In(qn(Fn(c.index),o.length),0),O=[],p=1;p<c.length;p++)Vn(O,void 0===(h=c[p])?h:String(h));var H=c.groups;if(i){var v=jn([M],O,g,o);void 0!==H&&Vn(v,H);var y=mn(bn(N,void 0,v));}else y=Bn(M,o,g,O,H,N);g>=l&&(f+=zn(o,l,g)+y,l=g+M.length);}return f+zn(o,l)}]}),!So||!to||eo);var ro,No,no=Er,oo=S,ao=a,io=O,so=K,uo=G,To=(ro=!1,(No=/[ac]/).exec=function(){return ro=!0,/./.exec.apply(this,arguments)},!0===No.test("abc")&&ro),co=oo.Error,ho=io(/./.test);function fo(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function lo(t,e){for(var S=0;S<e.length;S++){var r=e[S];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r);}}function Mo(t,e,S){return e&&lo(t.prototype,e),S&&lo(t,S),t}function go(t,e,S){return e in t?Object.defineProperty(t,e,{value:S,enumerable:!0,configurable:!0,writable:!0}):t[e]=S,t}no({target:"RegExp",proto:!0,forced:!To},{test:function(t){var e=this.exec;if(!so(e))return ho(this,t);var S=ao(e,this,t);if(null!==S&&!uo(S))throw new co("RegExp exec method returned something other than an Object or null");return !!S}});var Oo=function(){function t(){fo(this,t),go(this,"preciseGridRef",""),go(this,"length",0),go(this,"hectad",""),go(this,"tetrad",""),go(this,"tetradLetter",""),go(this,"quadrant",""),go(this,"quadrantCode",""),go(this,"gridCoords",null),go(this,"error",!1),go(this,"errorMessage","");}return Mo(t,[{key:"set_tetrad",value:function(){if(this.tetradLetter=t.tetradLetters.substr(5*(Math.floor(this.gridCoords.x%1e4/1e3)>>1)+(Math.floor(this.gridCoords.y%1e4/1e3)>>1),1),!this.tetradLetter)throw new Error("Failed to get tetrad letter when processing '"+this.preciseGridRef+"', easting="+this.gridCoords.x+" northing="+this.gridCoords.y);this.tetrad=this.hectad+this.tetradLetter;}}],[{key:"get_normalized_precision",value:function(t,e){return t>2e3?1e4:t>1e3?2e3:t>100?1e3:t>10?100:t>1?10:e||1}}]),t}();go(Oo,"tetradOffsets",{E:[0,8e3],J:[2e3,8e3],P:[4e3,8e3],U:[6e3,8e3],Z:[8e3,8e3],D:[0,6e3],I:[2e3,6e3],N:[4e3,6e3],T:[6e3,6e3],Y:[8e3,6e3],C:[0,4e3],H:[2e3,4e3],M:[4e3,4e3],S:[6e3,4e3],X:[8e3,4e3],B:[0,2e3],G:[2e3,2e3],L:[4e3,2e3],R:[6e3,2e3],W:[8e3,2e3],A:[0,0],F:[2e3,0],K:[4e3,0],Q:[6e3,0],V:[8e3,0]}),go(Oo,"quadrantOffsets",{NW:[0,5e3],NE:[5e3,5e3],SW:[0,0],SE:[5e3,0]}),go(Oo,"letterMapping",{A:0,B:1,C:2,D:3,E:4,F:5,G:6,H:7,J:8,K:9,L:10,M:11,N:12,O:13,P:14,Q:15,R:16,S:17,T:18,U:19,V:20,W:21,X:22,Y:23,Z:24}),go(Oo,"tetradLetters","ABCDEFGHIJKLMNPQRSTUVWXYZ");var po=_r,Ho=br?{}.toString:function(){return "[object "+po(this)+"]"},vo=br,yo=De.exports,Jo=Ho;vo||yo(Object.prototype,"toString",Jo,{unsafe:!0});var Uo=Oe.f,Po=Et,Co=Wt("toStringTag"),Lo=S,Ro=function(t,e,S){t&&!Po(t=S?t:t.prototype,Co)&&Uo(t,Co,{configurable:!0,value:e});};Er({global:!0},{Reflect:{}}),Ro(Lo.Reflect,"Reflect",!0);var Eo=O([].slice),Yo=O,bo=Tt,wo=G,Do=Et,Ko=Eo,Xo=S.Function,Go=Yo([].concat),Qo=Yo([].join),Fo={},_o=function(t,e,S){if(!Do(Fo,e)){for(var r=[],N=0;N<e;N++)r[N]="a["+N+"]";Fo[e]=Xo("C,a","return new C("+Qo(r,",")+")");}return Fo[e](t,S)},mo=Xo.bind||function(t){var e=bo(this),S=e.prototype,r=Ko(arguments,1),N=function(){var S=Go(r,Ko(arguments));return this instanceof N?_o(e,S.length,S):e.apply(t,S)};return wo(S)&&(N.prototype=S),N},Ao=O,xo=N,Zo=K,Bo=_r,Wo=me,ko=function(){},Io=[],qo=m("Reflect","construct"),jo=/^\s*(?:class|function)\b/,Vo=Ao(jo.exec),$o=!jo.exec(ko),zo=function(t){if(!Zo(t))return !1;try{return qo(ko,Io,t),!0}catch(t){return !1}},ta=!qo||xo((function(){var t;return zo(zo.call)||!zo(Object)||!zo((function(){t=!0;}))||t}))?function(t){if(!Zo(t))return !1;switch(Bo(t)){case"AsyncFunction":case"GeneratorFunction":case"AsyncGeneratorFunction":return !1}return $o||!!Vo(jo,Wo(t))}:zo,ea=ta,Sa=at,ra=S.TypeError,Na=Er,na=jN,oa=mo,aa=function(t){if(ea(t))return t;throw ra(Sa(t)+" is not a constructor")},ia=Je,sa=G,ua=gN,Ta=N,ca=m("Reflect","construct"),ha=Object.prototype,fa=[].push,la=Ta((function(){function t(){}return !(ca((function(){}),[],t)instanceof t)})),da=!Ta((function(){ca((function(){}));})),Ma=la||da;function ga(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function Oa(t,e){return Oa=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t},Oa(t,e)}function pa(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&Oa(t,e);}function Ha(t){return Ha="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},Ha(t)}function va(t,e){if(e&&("object"===Ha(e)||"function"==typeof e))return e;if(void 0!==e)throw new TypeError("Derived constructors may only return object or undefined");return ga(t)}function ya(t){return ya=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)},ya(t)}Na({target:"Reflect",stat:!0,forced:Ma,sham:Ma},{construct:function(t,e){aa(t),ia(e);var S=arguments.length<3?t:aa(arguments[2]);if(da&&!la)return ca(t,e,S);if(t==S){switch(e.length){case 0:return new t;case 1:return new t(e[0]);case 2:return new t(e[0],e[1]);case 3:return new t(e[0],e[1],e[2]);case 4:return new t(e[0],e[1],e[2],e[3])}var r=[null];return na(fa,r,e),new(na(oa,t,r))}var N=S.prototype,n=ua(sa(N)?N:ha),o=na(t,n,e);return sa(o)?o:n}});var Ja=O,Ua=OS.PROPER,Pa=De.exports,Ca=Je,La=A,Ra=xr,Ea=N,Ya=Br,ba=RegExp.prototype,wa=ba.toString,Da=Ja(Ya),Ka=Ea((function(){return "/a/b"!=wa.call({source:"a",flags:"b"})})),Xa=Ua&&"toString"!=wa.name;(Ka||Xa)&&Pa(RegExp.prototype,"toString",(function(){var t=Ca(this),e=Ra(t.source),S=t.flags;return "/"+e+"/"+Ra(void 0===S&&La(ba,t)&&!("flags"in ba)?Da(t):S)}),{unsafe:!0});var Ga=Er,Qa=Math.log,Fa=Math.LOG10E;Ga({target:"Math",stat:!0},{log10:function(t){return Qa(t)*Fa}});var _a=y,ma=Array.isArray||function(t){return "Array"==_a(t)},Aa=re,xa=Oe,Za=f,Ba=N,Wa=q,ka=Wt("species"),Ia=Er,qa=S,ja=ma,Va=ta,$a=G,za=GS,ti=AS,ei=D,Si=function(t,e,S){var r=Aa(e);r in t?xa.f(t,r,Za(0,S)):t[r]=S;},ri=Wt,Ni=Eo,ni=function(t){return Wa>=51||!Ba((function(){var e=[];return (e.constructor={})[ka]=function(){return {foo:1}},1!==e[t](Boolean).foo}))}("slice"),oi=ri("species"),ai=qa.Array,ii=Math.max;Ia({target:"Array",proto:!0,forced:!ni},{slice:function(t,e){var S,r,N,n=ei(this),o=ti(n),a=za(t,o),i=za(void 0===e?o:e,o);if(ja(n)&&(S=n.constructor,(Va(S)&&(S===ai||ja(S.prototype))||$a(S)&&null===(S=S[oi]))&&(S=void 0),S===ai||void 0===S))return Ni(n,a,i);for(r=new(void 0===S?ai:S)(ii(i-a,0)),N=0;a<i;a++,N++)a in n&&Si(r,N,n[a]);return r.length=N,r}});var si=Math.PI/180,ui=180/Math.PI,Ti=function(){function t(e,S){fo(this,t),go(this,"lat",void 0),go(this,"lng",void 0),this.lat=e,this.lng=S;}return Mo(t,null,[{key:"_transform",value:function(e,S,r,N,n,o,a,i,s,u,T,c,h,f){var l=1e-6*f,d=r/Math.sqrt(1-N*(Math.sin(e)*Math.sin(e))),M=(d+n)*Math.cos(e)*Math.cos(S),g=(d+n)*Math.cos(e)*Math.sin(S),O=((1-N)*d+n)*Math.sin(e),p=T/3600*si,H=c/3600*si,v=h/3600*si,y=M+M*l-g*v+O*H+i,J=M*v+g+g*l-O*p+s,U=-1*M*H+g*p+O+O*l+u;S=Math.atan(J/y);var P=Math.sqrt(y*y+J*J);e=Math.atan(U/(P*(1-a))),d=o/Math.sqrt(1-a*(Math.sin(e)*Math.sin(e)));for(var C=1,L=0;C>.001;)L=Math.atan((U+a*d*Math.sin(e))/P),C=Math.abs(L-e),e=L;return new t(e,S)}},{key:"_Marc",value:function(t,e,S,r){return t*((1+e+5/4*(e*e)+5/4*(e*e*e))*(r-S)-(3*e+e*e*3+21/8*(e*e*e))*Math.sin(r-S)*Math.cos(r+S)+(15/8*(e*e)+15/8*(e*e*e))*Math.sin(2*(r-S))*Math.cos(2*(r+S))-35/24*(e*e*e)*Math.sin(3*(r-S))*Math.cos(3*(r+S)))}}]),t}();function ci(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var hi$2=function(t){pa(S,Ti);var e=ci(S);function S(t,r){return fo(this,S),e.call(this,t,r)}return S}();function fi(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var li=function(t){pa(S,Ti);var e=fi(S);function S(t,r){return fo(this,S),e.call(this,t,r)}return Mo(S,[{key:"to_WGS84",value:function(){var t=6377563.396,e=.00667054007,S=this.lat*si,r=Math.sin(S),N=this.lng*si,n=t/Math.sqrt(1-e*(r*r)),o=n*Math.cos(S)*Math.cos(N),a=n*Math.cos(S)*Math.sin(N),i=(1-e)*n*r,s=-204894e-10,u=7.28190110241429e-7,T=119748977294801e-20,c=446.448+o*(1+s)+-u*a+T*i,h=408261589226812e-20*o-124.157+a*(1+s)+-u*i,f=542.06+-T*o+u*a+i*(1+s);t=6378137,e=.00669438003;for(var l=Math.sqrt(c*c+h*h),d=Math.atan(f/(l*(1-e))),M=1;M<10;++M){var g=Math.sin(d);d=Math.atan((f+e*(t/Math.sqrt(1-e*(g*g)))*g)/l);}return new hi$2(ui*d,ui*Math.atan(h/c))}}],[{key:"from_wgs84",value:function(t){var e=t.lat*si,r=t.lng*si,N=.00669438037928458,n=.0066705397616,o=20.4894*1e-6,a=6378137/Math.sqrt(1-N*Math.sin(e)*Math.sin(e)),i=(a+0)*Math.cos(e)*Math.cos(r),s=(a+0)*Math.cos(e)*Math.sin(r),u=((1-N)*a+0)*Math.sin(e),T=-.1502/3600*si,c=-.247/3600*si,h=-.8421/3600*si,f=i+i*o-s*h+u*c-446.448,l=i*h+s+s*o-u*T+125.157,d=-1*i*c+s*T+u+u*o+-542.06,M=Math.atan(l/f),g=Math.sqrt(f*f+l*l),O=Math.atan(d/(g*(1-n)));a=6377563.396/Math.sqrt(1-n*(Math.sin(O)*Math.sin(O)));for(var p=1,H=0;p>.001;)H=Math.atan((d+n*a*Math.sin(O))/g),p=Math.abs(H-O),O=H;return new S(O*ui,M*ui)}}]),S}();function di(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var Mi=function(t){pa(S,Ti);var e=di(S);function S(t,r){return fo(this,S),e.call(this,t,r)}return Mo(S,null,[{key:"from_wgs84",value:function(t){var e=t.lat*si,r=t.lng*si,N=Ti._transform(e,r,6378137,.00669438037928458,0,6378388,.0067226700223333,83.901,98.127,118.635,0,0,0,0);return new S(N.lat*ui,N.lng*ui)}}]),S}();function gi(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var Oi=function(t){pa(S,Ti);var e=gi(S);function S(t,r){return fo(this,S),e.call(this,t,r)}return Mo(S,[{key:"to_WGS84",value:function(){var t=Ti._transform(this.lat*si,this.lng*si,6377340.189,.00667054015,0,6378137,.00669438037928458,482.53,-130.596,564.557,-1.042,-.214,-.631,-8.15);return new hi$2(t.lat*ui,t.lng*ui)}}],[{key:"from_wgs84",value:function(t){var e=t.lat*si,r=t.lng*si,N=Ti._transform(e,r,6378137,.00669438037928458,0,6377340.189,.00667054015,-482.53,130.596,-564.557,1.042,.214,.631,8.15);return new S(N.lat*ui,N.lng*ui)}}]),S}(),pi=function(){function t(){fo(this,t),go(this,"x",void 0),go(this,"y",void 0);}return Mo(t,[{key:"to_latLng",value:function(){}},{key:"to_gridref",value:function(t){}},{key:"toString",value:function(){return this.x+","+this.y}}],[{key:"from_latlng",value:function(t,e){if(e>=-8.74&&t>49.88){var S=new li.from_wgs84(new hi$2(t,e)).to_os_coords();if(S.x>=0&&S.is_gb_hectad())return S}if(e<-5.3&&t>51.34&&e>-11&&t<55.73){var r=new Oi.from_wgs84(new hi$2(t,e)).to_os_coords();return r.x<0||r.y<0?null:r}var N=new Mi.from_wgs84(new hi$2(t,e)).to_os_coords();return N.x>=5e5&&N.x<6e5&&N.y>=54e5&&N.y<56e5?N:null}},{key:"calculate_tetrad",value:function(e,S){return e>=0&&S>=0?t.tetradLetters.charAt(5*Math.floor(e%1e4/2e3)+Math.floor(S%1e4/2e3)):""}}]),t}();go(pi,"tetradLetters","ABCDEFGHIJKLMNPQRSTUVWXYZ"),go(pi,"tetradLettersRowFirst","AFKQVBGLRWCHMSXDINTYEJPUZ");var Hi=function(t,e,S,r){var N="00000"+Math.floor(e),n="00000"+Math.floor(S);if(2e3===r)return t+N.charAt(N.length-5)+n.charAt(n.length-5)+pi.calculate_tetrad(e,S);if(1e5===r)return t;5e3===r&&(r=1e4);var o=Math.round(Math.log10(r));return t+(o?N.slice(-5,-o)+n.slice(-5,-o):N.slice(-5)+n.slice(-5))};function vi(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var yi=function(t){pa(S,pi);var e=vi(S);function S(t,r){var N;return fo(this,S),go(ga(N=e.call(this)),"country","CI"),N.x=t,N.y=r,N}return Mo(S,[{key:"to_latLng",value:function(){var t=.9996,e=.0067226700223333,S=6378388*t,r=6356911.946*t,N=this.x-5e5,n=Ui(this.y,0,S,0,.0016863406508729017,r),o=S/Math.sqrt(1-e*(Math.sin(n)*Math.sin(n))),a=o*(1-e)/(1-e*Math.sin(n)*Math.sin(n)),i=o/a-1,s=Math.tan(n)*Math.tan(n),u=Math.pow(Math.tan(n),4),T=Math.pow(Math.tan(n),6),c=Math.pow(Math.cos(n),-1),h=Math.tan(n)/(2*a*o),f=Math.tan(n)/(24*a*(o*o*o))*(5+3*s+i-9*i*s),l=Math.tan(n)/(720*a*Math.pow(o,5))*(61+90*s+45*u),d=n-N*N*h+Math.pow(N,4)*f-Math.pow(N,6)*l,M=Math.pow(Math.cos(n),-1)/o,g=c/(o*o*o*6)*(o/a+2*s),O=c/(120*Math.pow(o,5))*(5+28*s+24*u),p=c/(5040*Math.pow(o,7))*(61+662*s+1320*u+720*T),H=N*M-.0523598775598-N*N*N*g+Math.pow(N,5)*O-Math.pow(N,7)*p,v=Ji(d,H);return new hi$2(v.lat*ui,v.lng*ui)}},{key:"to_gridref",value:function(t){return this.y>=55e5?Hi("WA",this.x-5e5,this.y-55e5,t||1):this.y<55e5?Hi("WV",this.x-5e5,this.y-54e5,t||1):null}},{key:"to_hectad",value:function(){return this.y>55e5?"WA"+this.x.toString().substring(1,2)+this.y.toString().substring(2,3):this.y<55e5?"WV"+this.x.toString().substring(1,2)+this.y.toString().substring(2,3):null}}]),S}(),Ji=function(t,e){return Ti._transform(t,e,6378388,.0067226700223333,10,6378137,.00669438037928458,-83.901,-98.127,-118.635,0,0,0,0)},Ui=function(t,e,S,r,N,n){for(var o=(t-e)/S+r,a=Ti._Marc(n,N,r,o),i=(t-e-a)/S+o,s=0;Math.abs(t-e-a)>1e-5&&s<20;)s+=1,i=(t-e-a)/S+o,a=Ti._Marc(n,N,r,i),o=i;return i};function Pi(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var Ci=function(t){pa(S,pi);var e=Pi(S);function S(t,r){var N;return fo(this,S),go(ga(N=e.call(this)),"gridCoords",null),go(ga(N),"country","GB"),N.x=t,N.y=r,N}return Mo(S,[{key:"to_gridref",value:function(t){var e,S=this.x/1e5|0,r=this.y/1e5|0;e=r<5?S<5?"S":"T":r<10?S<5?"N":"O":S<5?"H":"J";var N=65+5*(4-r%5)+S%5;N>=73&&N++;var n=String.fromCharCode(N);return Hi(e+n,this.x-1e5*S,this.y-1e5*r,t||1)}},{key:"to_hectad",value:function(){var t=this.x/1e5|0,e=this.y/1e5|0,S=65+5*(4-e%5)+t%5;return S>=73&&S++,(e<5?t<5?"S":"T":e<10?t<5?"N":"O":t<5?"H":"J")+String.fromCharCode(S)+((this.x-1e5*t)/1e4|0)+((this.y-1e5*e)/1e4|0)}},{key:"is_gb_hectad",value:function(){return -1!==S.gbHectads.indexOf(this.to_hectad())}},{key:"to_latLng",value:function(){var t,e=4e5,S=.85521133347722,r=6377563.396,N=.00667054007,n=this.x,o=this.y,a=.0016732203289875,i=(o+1e5)/(.9996012717*r)+S;do{i+=(t=o+1e5-6353722.489*(1.0016767257674*(i-S)-.00502807228247412*Math.sin(i-S)*Math.cos(i+S)+(1.875*a*a+1.875*a*a*a)*Math.sin(2*(i-S))*Math.cos(2*(i+S))-35/24*a*a*a*Math.sin(3*(i-S))*Math.cos(3*(i+S))))/6375020.48098897;}while(t>=.001);var s=Math.sin(i)*Math.sin(i),u=Math.tan(i)*Math.tan(i),T=1/Math.cos(i),c=.9996012717*r*Math.pow(1-N*s,-.5),h=6332495.651423464*Math.pow(1-N*s,-1.5),f=c/h-1,l=Math.tan(i)/(2*h*c),d=Math.tan(i)/(24*h*Math.pow(c,3))*(5+3*u+f-9*u*f),M=Math.tan(i)/(720*h*Math.pow(c,5))*(61+90*u+45*u*u),g=T/c,O=T/(6*c*c*c)*(c/h+2*u),p=T/(120*Math.pow(c,5))*(5+28*u+24*u*u),H=T/(5040*Math.pow(c,7))*(61+662*u+1320*u*u+720*u*u*u),v=i-l*Math.pow(n-e,2)+d*Math.pow(n-e,4)-M*Math.pow(n-e,6),y=g*(n-e)-.034906585039887-O*Math.pow(n-e,3)+p*Math.pow(n-e,5)-H*Math.pow(n-e,7);return new li(ui*v,ui*y).to_WGS84()}}]),S}();function Li(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}go(Ci,"gbHectads","SV80SV81SV90SV91SW32SW33SW42SW43SW44SW52SW53SW54SW61SW62SW63SW64SW65SW71SW72SW73SW74SW75SW76SW81SW82SW83SW84SW85SW86SW87SW95SW96SW97SS10SS11SS20SS21SS30SW83SW84SW85SW93SW94SW95SW96SW97SW98SX03SX04SX05SX06SX07SX08SX09SX14SX15SX16SX17SX18SX19SX25SX26SX27SX28SX29SX35SX36SX37SX38SX39SX44SX45SX46SX47SS70SS80SS81SS90SS91ST00ST01ST10ST11ST20ST21ST30SX37SX44SX45SX46SX47SX48SX54SX55SX56SX57SX58SX63SX64SX65SX66SX67SX68SX69SX73SX74SX75SX76SX77SX78SX79SX83SX84SX85SX86SX87SX88SX89SX94SX95SX96SX97SX98SX99SY07SY08SY09SY18SY19SY28SY29SY38SY39SS14SS20SS21SS22SS30SS31SS32SS40SS41SS42SS43SS44SS50SS51SS52SS53SS54SS60SS61SS62SS63SS64SS70SS71SS72SS73SS74SS75SS80SS81SS82SS83SS91SS92ST01ST02SX28SX29SX37SX38SX39SX48SX49SX58SX59SX68SX69SX79SS73SS74SS82SS83SS84SS92SS93SS94ST01ST02ST03ST04ST11ST12ST13ST14ST20ST21ST22ST23ST24ST25ST30ST31ST32ST33ST34ST40ST41ST42ST50ST51ST52ST61ST62ST71ST72ST24ST25ST26ST32ST33ST34ST35ST36ST37ST42ST43ST44ST45ST46ST47ST52ST53ST54ST55ST56ST57ST62ST63ST64ST65ST66ST67ST72ST73ST74ST75ST76ST77ST83ST84ST85ST86SP00SP10ST76ST77ST85ST86ST87ST88ST89ST96ST97ST98ST99SU06SU07SU08SU09SU16SU17SU18SU19SU26SU27SU28SU29SU36SU37ST73ST74ST75ST76ST82ST83ST84ST85ST86ST91ST92ST93ST94ST95ST96SU01SU02SU03SU04SU05SU06SU11SU12SU13SU14SU15SU16SU21SU22SU23SU24SU25SU26SU31SU32SU34SU35SU36ST20ST30ST40ST50ST51ST60ST61ST70ST71ST72ST73ST80ST81ST82ST83ST90ST91ST92SU00SU01SU02SU10SU11SY39SY48SY49SY58SY59SY66SY67SY68SY69SY77SY78SY79SY87SY88SY89SY97SY98SY99SZ07SZ08SZ09SZ28SZ38SZ39SZ47SZ48SZ49SZ57SZ58SZ59SZ68SZ69SU00SU01SU02SU10SU11SU12SU20SU21SU22SU23SU30SU31SU32SU33SU40SU41SU42SU43SU50SU51SU52SU60SU61SU62SU70SU71SU72SZ08SZ09SZ19SZ29SZ38SZ39SZ49SZ59SZ69SZ79SU23SU24SU25SU33SU34SU35SU36SU42SU43SU44SU45SU46SU52SU53SU54SU55SU56SU62SU63SU64SU65SU66SU72SU73SU74SU75SU76SU82SU83SU84SU85SU86SU70SU71SU72SU80SU81SU82SU83SU90SU91SU92SU93SZ79SZ89SZ99TQ00TQ01TQ02TQ03TQ10TQ11TQ12TQ13TQ20TQ21TQ22TQ23TQ30TQ31TQ32TQ20TQ21TQ22TQ23TQ30TQ31TQ32TQ33TQ40TQ41TQ42TQ43TQ44TQ50TQ51TQ52TQ53TQ54TQ60TQ61TQ62TQ63TQ70TQ71TQ72TQ80TQ81TQ82TQ91TQ92TV49TV59TV69TQ65TQ72TQ73TQ74TQ75TQ76TQ77TQ82TQ83TQ84TQ85TQ86TQ87TQ91TQ92TQ93TQ94TQ95TQ96TQ97TR01TR02TR03TR04TR05TR06TR07TR12TR13TR14TR15TR16TR23TR24TR25TR26TR27TR33TR34TR35TR36TR37TR46TR47TQ35TQ36TQ37TQ38TQ43TQ44TQ45TQ46TQ47TQ48TQ53TQ54TQ55TQ56TQ57TQ58TQ63TQ64TQ65TQ66TQ67TQ72TQ73TQ74TQ75TQ76TQ77TQ78TQ87TQ88TQ97SU83SU84SU85SU86SU93SU94SU95SU96SU97TQ03TQ04TQ05TQ06TQ07TQ13TQ14TQ15TQ16TQ17TQ23TQ24TQ25TQ26TQ27TQ33TQ34TQ35TQ36TQ37TQ38TQ43TQ44TQ45TL30TL40TL50TL60TL70TL80TL90TM00TQ38TQ39TQ47TQ48TQ49TQ57TQ58TQ59TQ67TQ68TQ69TQ77TQ78TQ79TQ88TQ89TQ98TQ99TR08TR09TR19TL30TL31TL34TL40TL41TL42TL43TL44TL50TL51TL52TL53TL54TL60TL61TL62TL63TL64TL70TL71TL72TL73TL74TL80TL81TL82TL83TL84TL90TL91TL92TL93TM01TM02TM03TM11TM12TM13TM21TM22TM23TQ49SP81SP90SP91TL00TL01TL02TL10TL11TL12TL13TL20TL21TL22TL23TL24TL30TL31TL32TL33TL34TL41TL42TL43TL44TL51TL52TQ09TQ19TQ29TQ39TL20TL30TQ06TQ07TQ08TQ09TQ16TQ17TQ18TQ19TQ27TQ28TQ29TQ37TQ38TQ39SP20SP30SP40SP41SP50SU19SU26SU27SU28SU29SU36SU37SU38SU39SU46SU47SU48SU49SU56SU57SU58SU59SU66SU67SU68SU69SU76SU77SU78SU86SU87SU88SU96SU97SU98SP10SP20SP21SP22SP23SP30SP31SP32SP33SP34SP40SP41SP42SP43SP44SP45SP50SP51SP52SP53SP54SP60SP61SP62SP63SP70SU29SU39SU49SU57SU58SU59SU67SU68SU69SU77SU78SU79SP51SP53SP60SP61SP62SP63SP64SP70SP71SP72SP73SP74SP80SP81SP82SP83SP84SP85SP90SP91SP92SP93SP94SP95SU78SU79SU88SU89SU97SU98SU99TL00TL01TQ07TQ08TQ09TG40TG50TM03TM04TM05TM06TM07TM13TM14TM15TM16TM17TM23TM24TM25TM26TM27TM28TM33TM34TM35TM36TM37TM38TM39TM44TM45TM46TM47TM48TM49TM57TM58TM59TL64TL65TL66TL67TL68TL74TL75TL76TL77TL78TL83TL84TL85TL86TL87TL88TL93TL94TL95TL96TL97TL98TM03TM04TM05TM06TM07TM08TG00TG01TG02TG03TG04TG10TG11TG12TG13TG14TG20TG21TG22TG23TG24TG30TG31TG32TG33TG40TG41TG42TG50TG51TM07TM08TM09TM17TM18TM19TM27TM28TM29TM38TM39TM49TM59TF40TF41TF42TF50TF51TF52TF53TF60TF61TF62TF63TF64TF70TF71TF72TF73TF74TF80TF81TF82TF83TF84TF90TF91TF92TF93TF94TG00TG01TG02TG03TG04TL49TL59TL68TL69TL78TL79TL87TL88TL89TL98TL99TM07TM08TM09TF20TF30TF31TF40TF41TF50TL15TL19TL23TL24TL25TL26TL28TL29TL33TL34TL35TL36TL37TL38TL39TL44TL45TL46TL47TL48TL49TL54TL55TL56TL57TL58TL59TL63TL64TL65TL66TL67TL68TL69TL75TL76SP91SP92SP93SP94SP95SP96TL01TL02TL03TL04TL05TL06TL07TL11TL12TL13TL14TL15TL16TL23TL24TL25TL06TL07TL08TL09TL15TL16TL17TL18TL19TL25TL26TL27TL28TL29TL36TL37TL38TL39SK90SP43SP44SP45SP46SP53SP54SP55SP56SP57SP58SP63SP64SP65SP66SP67SP68SP73SP74SP75SP76SP77SP78SP79SP84SP85SP86SP87SP88SP89SP95SP96SP97SP98SP99TF00TF10TF20TL06TL07TL08TL09TL18TL19TL29SO70SO71SO80SO81SO82SO83SO90SO91SO92SO93SO94SP00SP01SP02SP03SP04SP10SP11SP12SP13SP14SP15SP20SP21SP22SP23SP24SP25ST99SU09SU19SU29SO50SO51SO60SO61SO62SO63SO70SO71SO72SO73SO80SO81SO82SO83SO90ST57ST58ST59ST66ST67ST68ST69ST76ST77ST78ST79ST87ST88ST89ST98ST99SO10SO11SO20SO21SO22SO23SO30SO31SO32SO40SO41SO42SO50SO51ST18ST19ST27ST28ST29ST37ST38ST39ST47ST48ST49ST58ST59SO22SO23SO24SO25SO26SO32SO33SO34SO35SO36SO37SO41SO42SO43SO44SO45SO46SO47SO51SO52SO53SO54SO55SO56SO57SO61SO62SO63SO64SO65SO66SO73SO74SO75SO76SO56SO64SO65SO66SO67SO72SO73SO74SO75SO76SO77SO78SO82SO83SO84SO85SO86SO87SO88SO93SO94SO95SO96SO97SO98SO99SP03SP04SP05SP06SP07SP08SP13SP14SP16SP17SP18SK10SK20SK30SP04SP05SP06SP07SP08SP09SP14SP15SP16SP17SP18SP19SP22SP23SP24SP25SP26SP27SP28SP29SP33SP34SP35SP36SP37SP38SP39SP44SP45SP46SP47SP48SP49SP55SP56SP57SP58SJ63SJ70SJ71SJ72SJ73SJ74SJ75SJ80SJ81SJ82SJ83SJ84SJ85SJ86SJ90SJ91SJ92SJ93SJ94SJ95SJ96SK00SK01SK02SK03SK04SK05SK06SK10SK11SK12SK13SK14SK15SK16SK20SK21SK22SO77SO78SO79SO88SO89SO98SO99SP08SP09SP19SP29SJ20SJ21SJ22SJ23SJ30SJ31SJ32SJ33SJ34SJ40SJ41SJ42SJ43SJ50SJ51SJ52SJ53SJ54SJ60SJ61SJ62SJ63SJ64SJ70SJ71SJ72SJ73SJ74SJ80SO17SO18SO27SO28SO29SO37SO38SO39SO46SO47SO48SO49SO56SO57SO58SO59SO66SO67SO68SO69SO77SO78SO79SO88SO89SN50SN60SN61SN70SN71SN80SN81SN90SO00SO01SO10SO11SS38SS39SS48SS49SS58SS59SS68SS69SS77SS78SS79SS87SS88SS89SS96SS97SS98SS99ST06ST07ST08ST09ST16ST17ST18ST19ST26ST27ST28SN70SN71SN74SN80SN81SN82SN83SN84SN85SN86SN90SN91SN92SN93SN94SN95SN96SO00SO01SO02SO03SO04SO05SO06SO10SO11SO12SO13SO14SO21SO22SO23SO24SN86SN87SN96SN97SO04SO05SO06SO07SO08SO13SO14SO15SO16SO17SO18SO24SO25SO26SO27SO36SO37SN01SN02SN10SN11SN12SN20SN21SN22SN23SN24SN30SN31SN32SN33SN34SN40SN41SN42SN43SN44SN50SN51SN52SN53SN54SN60SN61SN62SN63SN64SN65SN71SN72SN73SN74SN75SN81SN82SN83SN84SS39SS49SS59SM50SM62SM70SM71SM72SM73SM80SM81SM82SM83SM84SM90SM91SM92SM93SM94SN00SN01SN02SN03SN04SN10SN11SN12SN13SN14SN22SN23SN24SR89SR99SS09SS19SN14SN15SN24SN25SN33SN34SN35SN36SN44SN45SN46SN54SN55SN56SN57SN58SN64SN65SN66SN67SN68SN69SN74SN75SN76SN77SN78SN79SN84SN85SN86SN87SN88SN89SH70SH71SH80SH81SH90SH91SH92SJ00SJ01SJ02SJ03SJ10SJ11SJ12SJ20SJ21SJ22SJ31SN69SN78SN79SN87SN88SN89SN97SN98SN99SO07SO08SO09SO18SO19SO28SO29SO39SH50SH51SH52SH53SH54SH60SH61SH62SH63SH64SH70SH71SH72SH73SH74SH80SH81SH82SH83SH84SH91SH92SH93SH94SH95SJ03SJ04SJ05SJ13SJ14SN59SN69SN79SH12SH13SH22SH23SH24SH32SH33SH34SH43SH44SH45SH46SH53SH54SH55SH56SH57SH64SH65SH66SH67SH74SH75SH76SH77SH78SH84SH85SH86SH87SH88SH74SH75SH76SH77SH84SH85SH86SH87SH88SH94SH95SH96SH97SH98SJ02SJ03SJ04SJ05SJ06SJ07SJ08SJ12SJ13SJ14SJ15SJ16SJ17SJ22SJ23SJ24SJ25SJ26SJ33SJ34SJ35SJ43SJ44SJ45SJ53SJ54SH97SH98SJ06SJ07SJ08SJ15SJ16SJ17SJ18SJ25SJ26SJ27SJ35SJ36SJ37SH27SH28SH29SH36SH37SH38SH39SH46SH47SH48SH49SH56SH57SH58SH59SH67SH68SK81SK82SK83SK84SK85SK86SK87SK90SK91SK92SK93SK94SK95SK96SK97TF00TF01TF02TF03TF04TF05TF06TF07TF10TF11TF12TF13TF14TF15TF16TF17TF20TF21TF22TF23TF24TF25TF30TF31TF32TF33TF34TF41TF42TF43TF44TF52SE60SE70SE71SE80SE81SE82SE90SE91SE92SK78SK79SK87SK88SK89SK97SK98SK99TA00TA01TA02TA10TA11TA12TA20TA21TA30TA31TA40TF07TF08TF09TF15TF16TF17TF18TF19TF24TF25TF26TF27TF28TF29TF33TF34TF35TF36TF37TF38TF39TF43TF44TF45TF46TF47TF48TF49TF54TF55TF56TF57TF58SK20SK21SK30SK31SK32SK40SK41SK42SK43SK50SK51SK52SK60SK61SK62SK70SK71SK72SK73SK74SK80SK81SK82SK83SK84SK90SK91SP39SP48SP49SP57SP58SP59SP68SP69SP78SP79SP89SP99TF00TF01SE60SE70SK42SK43SK44SK45SK46SK52SK53SK54SK55SK56SK57SK58SK59SK62SK63SK64SK65SK66SK67SK68SK69SK72SK73SK74SK75SK76SK77SK78SK79SK84SK85SK86SK87SK88SK89SK97SJ98SJ99SK03SK06SK07SK08SK09SK11SK12SK13SK14SK15SK16SK17SK18SK19SK21SK22SK23SK24SK25SK26SK27SK28SK31SK32SK33SK34SK35SK36SK37SK38SK42SK43SK44SK45SK46SK47SK48SK53SK56SK57SD90SE00SE10SJ18SJ19SJ27SJ28SJ29SJ35SJ36SJ37SJ38SJ39SJ44SJ45SJ46SJ47SJ48SJ54SJ55SJ56SJ57SJ58SJ63SJ64SJ65SJ66SJ67SJ68SJ69SJ74SJ75SJ76SJ77SJ78SJ79SJ85SJ86SJ87SJ88SJ89SJ96SJ97SJ98SJ99SK06SK07SK08SK09SK19SD20SD21SD22SD30SD31SD32SD40SD41SD42SD50SD51SD52SD53SD60SD61SD62SD63SD70SD71SD72SD73SD74SD80SD81SD82SD83SD84SD90SD91SD92SD93SD94SJ29SJ38SJ39SJ48SJ49SJ58SJ59SJ68SJ69SJ79SJ88SJ89SJ99SD22SD23SD32SD33SD34SD35SD36SD42SD43SD44SD45SD46SD47SD52SD53SD54SD55SD56SD57SD63SD64SD65SD66SD67SD68SD73SD78SE53SE54SE62SE63SE64SE65SE72SE73SE74SE75SE76SE82SE83SE84SE85SE86SE87SE92SE93SE94SE95SE96SE97SE98TA02TA03TA04TA05TA06TA07TA08TA12TA13TA14TA15TA16TA17TA18TA21TA22TA23TA24TA26TA27TA31TA32TA33TA41TA42NZ30NZ31NZ40NZ41NZ42NZ50NZ51NZ52NZ60NZ61NZ62NZ70NZ71NZ72NZ80NZ81NZ90NZ91SE37SE38SE39SE46SE47SE48SE49SE55SE56SE57SE58SE59SE64SE65SE66SE67SE68SE69SE75SE76SE77SE78SE79SE86SE87SE88SE89SE97SE98SE99TA08TA09TA18SD84SD90SD91SD92SD93SD94SD95SE00SE01SE02SE03SE04SE10SE11SE12SE13SE14SE20SE21SE22SE23SE30SE31SE32SE33SE40SE41SE42SE50SE51SE52SE60SE61SE62SE70SE71SE72SE81SE82SK18SK19SK28SK29SK38SK39SK47SK48SK49SK57SK58SK59SK69SD54SD55SD64SD65SD66SD67SD68SD73SD74SD75SD76SD77SD78SD84SD85SD86SD87SD88SD94SD95SD96SD97SD98SE04SE05SE06SE07SE13SE14SE15SE16SE17SE23SE24SE25SE26SE27SE32SE33SE34SE35SE36SE37SE42SE43SE44SE45SE46SE52SE53SE54SE55SE56SE62SE63SE64SE65SE72NY72NY80NY81NY82NY90NY91NY92NZ00NZ01NZ02NZ10NZ11NZ20NZ21NZ30NZ31SD68SD69SD78SD79SD88SD89SD97SD98SD99SE07SE08SE09SE17SE18SE19SE27SE28SE29SE36SE37SE38SE39SE46SE47NY73NY74NY82NY83NY84NY92NY93NY94NY95NZ01NZ02NZ03NZ04NZ05NZ11NZ12NZ13NZ14NZ15NZ16NZ20NZ21NZ22NZ23NZ24NZ25NZ26NZ30NZ31NZ32NZ33NZ34NZ35NZ36NZ41NZ42NZ43NZ44NZ45NZ46NZ52NZ53NT60NT70NT80NT90NU00NU10NU20NY58NY59NY64NY65NY66NY67NY68NY69NY74NY75NY76NY77NY78NY79NY84NY85NY86NY87NY88NY89NY94NY95NY96NY97NY98NY99NZ04NZ05NZ06NZ07NZ08NZ09NZ15NZ16NZ17NZ18NZ19NZ26NZ27NZ28NZ29NZ36NZ37NZ38NZ39NT70NT71NT73NT80NT81NT82NT83NT84NT90NT91NT92NT93NT94NT95NU00NU01NU02NU03NU04NU05NU10NU11NU12NU13NU14NU20NU21NU22NU23NZ09NZ19NY20NY21NY30NY31NY40NY41NY42NY50NY51NY52NY53NY60NY61NY62NY63NY70NY71NY72NY73NY80NY81NY82NY83SD16SD17SD18SD19SD26SD27SD28SD29SD36SD37SD38SD39SD46SD47SD48SD49SD57SD58SD59SD67SD68SD69SD78SD79SD89NX90NX91NX92NX93NY00NY01NY02NY03NY04NY05NY10NY11NY12NY13NY14NY15NY16NY20NY21NY22NY23NY24NY25NY26NY31NY32NY33NY34NY35NY36NY37NY41NY42NY43NY44NY45NY46NY47NY48NY52NY53NY54NY55NY56NY57NY58NY62NY63NY64NY65NY66NY67NY68NY73NY74NY75NY84SD08SD09SD17SD18SD19SD28SD29NX30NX40SC16SC17SC26SC27SC28SC36SC37SC38SC39SC47SC48SC49NS60NS61NS70NS71NS72NS80NS81NS90NT00NT01NT10NT11NT20NT21NT30NX69NX78NX79NX88NX89NX96NX97NX98NX99NY05NY06NY07NY08NY09NY16NY17NY18NY19NY26NY27NY28NY29NY36NY37NY38NY39NY47NY48NY49NS50NS60NX36NX37NX38NX45NX46NX47NX48NX49NX54NX55NX56NX57NX58NX59NX64NX65NX66NX67NX68NX69NX74NX75NX76NX77NX78NX79NX84NX85NX86NX87NX88NX95NX96NX97NX98NY05NY06NW95NW96NW97NX03NX04NX05NX06NX07NX13NX14NX15NX16NX17NX24NX25NX26NX27NX33NX34NX35NX36NX37NX43NX44NX45NX46NS00NS10NS14NS15NS16NS20NS21NS23NS24NS25NS26NS30NS31NS32NS33NS34NS35NS36NS40NS41NS42NS43NS44NS45NS50NS51NS52NS53NS54NS55NS60NS61NS62NS63NS64NS71NS72NS73NX07NX08NX09NX17NX18NX19NX27NX28NX29NX37NX38NX39NX48NX49NX59NS16NS17NS26NS27NS35NS36NS37NS44NS45NS46NS47NS54NS55NS56NS64NS65NS66NS53NS54NS55NS56NS57NS63NS64NS65NS66NS67NS71NS72NS73NS74NS75NS76NS77NS80NS81NS82NS83NS84NS85NS86NS87NS90NS91NS92NS93NS94NS95NS96NT00NT01NT02NT03NT04NT05NT14NT01NT02NT03NT04NT05NT11NT12NT13NT14NT15NT21NT22NT23NT24NT25NT32NT33NT34NT10NT11NT20NT21NT22NT23NT30NT31NT32NT33NT34NT41NT42NT43NT44NT53NT20NT30NT31NT40NT41NT42NT43NT44NT50NT51NT52NT53NT54NT60NT61NT62NT63NT64NT70NT71NT72NT73NT74NT81NT82NT83NY39NY47NY48NY49NY58NY59NY69NT44NT45NT46NT53NT54NT55NT56NT63NT64NT65NT66NT73NT74NT75NT76NT77NT83NT84NT85NT86NT87NT94NT95NT96NT36NT37NT45NT46NT47NT48NT55NT56NT57NT58NT65NT66NT67NT68NT76NT77NS95NS96NT05NT06NT15NT16NT17NT24NT25NT26NT27NT34NT35NT36NT37NT43NT44NT45NT46NS86NS87NS95NS96NS97NS98NT06NT07NT08NT16NT17NO00NO01NO10NO11NO20NO21NO22NO30NO31NO32NO40NO41NO42NO50NO51NO52NO60NO61NS99NT08NT09NT18NT19NT28NT29NT39NT49NT59NT69NN30NN31NN40NN41NS38NS39NS47NS48NS49NS57NS58NS59NS67NS68NS69NS77NS78NS79NS86NS87NS88NS89NS97NS98NN21NN22NN30NN31NN32NN40NN41NN42NN50NN51NN52NN60NN61NN70NN71NN80NN81NN90NN91NO00NS49NS59NS69NS79NS88NS89NS98NS99NT08NT09NN22NN23NN32NN33NN34NN35NN42NN43NN44NN45NN46NN47NN51NN52NN53NN54NN55NN56NN57NN61NN62NN63NN64NN65NN66NN67NN71NN72NN73NN74NN75NN76NN77NN81NN82NN83NN84NN85NN86NN90NN91NN92NN93NN94NN95NN96NO00NO01NO02NO03NO04NO11NO12NO13NO21NN56NN57NN66NN67NN68NN76NN77NN78NN86NN87NN88NN94NN95NN96NN97NN98NO02NO03NO04NO05NO06NO07NO08NO11NO12NO13NO14NO15NO16NO17NO21NO22NO23NO24NO25NO32NO33NO34NO15NO16NO17NO23NO24NO25NO26NO27NO28NO32NO33NO34NO35NO36NO37NO38NO42NO43NO44NO45NO46NO47NO48NO53NO54NO55NO56NO57NO58NO63NO64NO65NO66NO67NO74NO75NO76NJ60NJ70NJ80NJ90NO57NO58NO66NO67NO68NO69NO76NO77NO78NO79NO86NO87NO88NO89NO99NH90NJ00NJ10NJ11NJ20NJ21NJ30NJ31NJ32NJ40NJ41NJ42NJ50NJ51NJ52NJ60NJ61NJ62NJ70NJ71NJ72NJ80NJ81NJ82NJ90NJ91NJ92NK02NN98NN99NO07NO08NO09NO17NO18NO19NO27NO28NO29NO37NO38NO39NO48NO49NO58NO59NO68NO69NO79NO89NJ31NJ32NJ33NJ34NJ42NJ43NJ44NJ52NJ53NJ54NJ55NJ62NJ63NJ64NJ65NJ72NJ73NJ74NJ75NJ76NJ82NJ83NJ84NJ85NJ86NJ92NJ93NJ94NJ95NJ96NK02NK03NK04NK05NK06NK13NK14NK15NH90NJ00NJ01NJ10NJ11NJ12NJ13NJ14NJ21NJ22NJ23NJ24NJ25NJ32NJ33NJ34NJ35NJ36NJ42NJ43NJ44NJ45NJ46NJ54NJ55NJ56NJ64NJ65NJ66NJ74NJ75NJ76NJ86NN99NH72NH81NH82NH91NH92NH93NH94NH95NH96NJ00NJ01NJ02NJ03NJ04NJ05NJ06NJ11NJ12NJ13NJ14NJ15NJ16NJ17NJ23NJ24NJ25NJ26NJ27NJ34NJ35NJ36NJ45NH01NH02NH10NH11NH12NH13NH14NH20NH21NH22NH23NH24NH30NH31NH32NH33NH34NH40NH41NH42NH43NH44NH50NH51NH52NH53NH54NH60NH61NH62NH63NH64NH70NH71NH72NH73NH74NH75NH80NH81NH82NH83NH84NH85NH90NH91NH92NH93NH94NH95NH96NJ00NJ01NN39NN46NN47NN48NN49NN56NN57NN58NN59NN67NN68NN69NN77NN78NN79NN88NN89NN98NN99NG60NG70NG71NG72NG80NG81NG82NG90NG91NH00NH01NH10NH20NH30NM46NM47NM54NM55NM56NM57NM64NM65NM66NM67NM68NM69NM74NM75NM76NM77NM78NM79NM84NM85NM86NM87NM88NM89NM95NM96NM97NM98NM99NN05NN06NN07NN08NN09NN16NN17NN18NN19NN26NN27NN28NN29NN35NN36NN37NN38NN39NN46NN47NN48NN49NN57NN58NN59NM70NM71NM72NM73NM80NM81NM82NM83NM84NM90NM91NM92NM93NM94NM95NN00NN01NN02NN03NN04NN05NN10NN11NN12NN13NN14NN15NN16NN20NN21NN22NN23NN24NN25NN26NN30NN33NN34NN35NN36NN44NN45NN46NR79NR88NR89NR96NR97NR98NR99NS06NS07NS08NS09NS16NS17NS18NS19NS28NS29NN20NN21NN30NN31NS28NS29NS37NS38NS39NS46NS47NS48NS56NS57NR82NR83NR84NR92NR93NR94NR95NR96NR97NS01NS02NS03NS04NS05NS06NS07NS15NS16NR50NR51NR60NR61NR62NR63NR64NR65NR67NR68NR70NR71NR72NR73NR74NR75NR76NR77NR78NR79NR83NR84NR85NR86NR87NR88NR89NR95NR96NM40NM60NM61NM70NM71NR15NR16NR24NR25NR26NR27NR34NR35NR36NR37NR38NR39NR44NR45NR46NR47NR48NR49NR56NR57NR58NR59NR67NR68NR69NR79NL93NL94NM04NM05NM15NM16NM21NM22NM23NM24NM25NM26NM31NM32NM33NM34NM35NM41NM42NM43NM44NM45NM51NM52NM53NM54NM55NM61NM62NM63NM64NM72NM73NG13NG14NG15NG20NG23NG24NG25NG26NG30NG31NG32NG33NG34NG35NG36NG37NG38NG40NG41NG42NG43NG44NG45NG46NG47NG50NG51NG52NG53NG54NG55NG56NG60NG61NG62NG63NG64NG65NG66NG71NG72NG82NM19NM29NM37NM38NM39NM47NM48NM49NM59NB90NB91NC00NC01NC10NC11NC20NC21NG63NG64NG65NG72NG73NG74NG75NG76NG77NG78NG79NG82NG83NG84NG85NG86NG87NG88NG89NG91NG92NG93NG94NG95NG96NG97NG98NG99NH00NH01NH02NH03NH04NH05NH06NH07NH08NH09NH10NH11NH15NH16NH17NH18NH19NH27NH28NH29NC10NC20NC21NC30NC31NC40NH02NH03NH04NH05NH06NH07NH12NH13NH14NH15NH16NH17NH19NH23NH24NH25NH26NH27NH28NH29NH34NH35NH36NH37NH38NH39NH44NH45NH46NH47NH48NH49NH54NH55NH56NH57NH58NH59NH64NH65NH66NH67NH68NH69NH75NH76NH77NH78NH86NH87NH88NH97NH98NC22NC30NC31NC32NC33NC40NC41NC42NC43NC50NC51NC52NC60NC61NC62NC63NC70NC71NC72NC73NC74NC80NC81NC82NC83NC84NC90NC91NC92NC93ND01ND02NH49NH59NH68NH69NH78NH79NH88NH89NC01NC02NC03NC10NC11NC12NC13NC14NC15NC16NC20NC21NC22NC23NC24NC25NC26NC27NC31NC32NC33NC34NC35NC36NC37NC42NC43NC44NC45NC46NC52NC53NC54NC55NC56NC62NC63NC64NC65NC66NC73NC74NC75NC76NC83NC84NC85NC86NC93NC94NC95NC96NC92NC93NC94NC95NC96ND01ND02ND03ND04ND05ND06ND07ND12ND13ND14ND15ND16ND17ND23ND24ND25ND26ND27ND33ND34ND35ND36ND37ND47HW63HW83HX62NA00NA10NA64NA74NA81NA90NA91NA92NA93NB00NB01NB02NB03NB10NB11NB12NB13NB14NB20NB21NB22NB23NB24NB30NB31NB32NB33NB34NB35NB40NB41NB42NB43NB44NB45NB46NB52NB53NB54NB55NB56NF09NF19NF56NF58NF60NF61NF66NF67NF68NF70NF71NF72NF73NF74NF75NF76NF77NF80NF81NF82NF83NF84NF85NF86NF87NF88NF89NF95NF96NF97NF98NF99NG07NG08NG09NG18NG19NG29NG49NL57NL58NL68NL69NL79HY10HY20HY21HY22HY23HY30HY31HY32HY33HY34HY35HY40HY41HY42HY43HY44HY45HY50HY51HY52HY53HY54HY55HY60HY61HY62HY63HY64HY73HY74HY75ND19ND28ND29ND38ND39ND47ND48ND49ND59HP40HP50HP51HP60HP61HT93HT94HU14HU15HU16HU24HU25HU26HU27HU28HU30HU31HU32HU33HU34HU35HU36HU37HU38HU39HU40HU41HU42HU43HU44HU45HU46HU47HU48HU49HU53HU54HU55HU56HU57HU58HU59HU66HU67HU68HU69HZ16HZ17HZ26HZ27");var Ri=function(t){pa(S,Oo);var e=Li(S);function S(){var t;return fo(this,S),go(ga(t=e.call(this)),"country","CI"),go(ga(t),"GridCoords",yi),go(ga(t),"gridCoords",null),t.parse_well_formed=t.from_string,t}return Mo(S,[{key:"from_string",value:function(t){var e,r=t.replace(/[\[\]\s\t.\/-]+/g,"").toUpperCase(),N="";/[ABCDEFGHIJKLMNPQRSTUVWXYZ]$/.test(r)&&(Oo.quadrantOffsets.hasOwnProperty(r.substr(r.length-2))?(this.quadrantCode=r.substr(r.length-2),r=r.substr(0,r.length-2)):(N=r.substr(r.length-1),r=r.substr(0,r.length-1))),/^(W[AV](?:\d\d){1,5})$/.test(r)?(e=S.gridref_string_to_e_n_l(r))?(this.length=e.length,this.gridCoords=new yi(e.e,e.n),this.hectad=this.gridCoords.to_gridref(1e4),1e4===this.length&&(N||this.quadrantCode)?N?(this.preciseGridRef=r+N,this.tetrad=this.hectad+N,this.tetradLetter=N,this.length=2e3,this.gridCoords.x+=Oo.tetradOffsets[N][0],this.gridCoords.y+=Oo.tetradOffsets[N][1]):(this.preciseGridRef=r+this.quadrantCode,this.tetradLetter="",this.tetrad="",this.quadrant=this.preciseGridRef,this.length=5e3,this.gridCoords.x+=Oo.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=r,this.length<=1e3&&this.set_tetrad())):(this.error=!0,this.errorMessage="Grid reference format not understood (odd length)."):(this.error=!0,this.errorMessage="Channel Island grid reference format not understood. ('"+t+"')");}}],[{key:"gridref_string_to_e_n_l",value:function(t){var e,S,r,N,n=t.substr(0,2);if("WA"===n)e=55e5;else {if("WV"!==n)return console.log("Bad Channel Island grid letters: '"+n+"'"),!1;e=54e5;}var o=t.substr(2);switch(o.length){case 2:S=1e4*o.charAt(0),r=1e4*o.charAt(1),N=1e4;break;case 4:S=1e3*o.substr(0,2),r=1e3*o.substr(2),N=1e3;break;case 6:S=100*o.substr(0,3),r=100*o.substr(3),N=100;break;case 8:S=10*o.substr(0,4),r=10*o.substr(4),N=10;break;case 10:S=parseInt(o.substr(0,5),10),r=parseInt(o.substr(5),10),N=1;break;default:return console.log("Bad length for Channel Island grid ref '"+t+"'"),!1}return {e:S+5e5,n:r+e,length:N}}}]),S}(),Ei=a,Yi=Je,bi=_S,wi=xr,Di=Y,Ki=ht,Xi=dn,Gi=Yn;function Qi(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}nn("match",(function(t,e,S){return [function(e){var S=Di(this),r=null==e?void 0:Ki(e,t);return r?Ei(r,e,S):new RegExp(e)[t](wi(S))},function(t){var r=Yi(this),N=wi(t),n=S(e,r,N);if(n.done)return n.value;if(!r.global)return Gi(r,N);var o=r.unicode;r.lastIndex=0;for(var a,i=[],s=0;null!==(a=Gi(r,N));){var u=wi(a[0]);i[s]=u,""===u&&(r.lastIndex=Xi(N,bi(r.lastIndex),o)),s++;}return 0===s?null:i}]}));var Fi=function(t){pa(S,Oo);var e=Qi(S);function S(){var t;return fo(this,S),go(ga(t=e.call(this)),"country","GB"),go(ga(t),"GridCoords",Ci),go(ga(t),"gridCoords",null),t}return Mo(S,[{key:"parse_well_formed",value:function(t){t.length>=5&&/^[A-Z]/.test(t.charAt(4))&&(Oo.quadrantOffsets.hasOwnProperty(t.substr(t.length-2))?this.quadrantCode=t.substr(t.length-2):this.tetradLetter=t.charAt(4),t=t.substr(0,4)),this.parse_wellformed_gb_gr_string_no_tetrads(t),this.tetradLetter||this.quadrantCode?this.tetradLetter?(this.preciseGridRef=this.tetrad=this.hectad+this.tetradLetter,this.length=2e3,this.gridCoords.x+=Oo.tetradOffsets[this.tetradLetter][0],this.gridCoords.y+=Oo.tetradOffsets[this.tetradLetter][1]):(this.preciseGridRef=this.quadrant=t+this.quadrantCode,this.length=5e3,this.gridCoords.x+=Oo.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=t,this.length<=1e3&&this.set_tetrad());}},{key:"from_string",value:function(t){var e,S=t.replace(/[\[\]\s\t.-]+/g,"").toUpperCase(),r="";if(/[ABCDEFGHIJKLMNPQRSTUVWXYZ]$/.test(S)&&(Oo.quadrantOffsets.hasOwnProperty(S.substr(S.length-2))?(this.quadrantCode=S.substr(S.length-2),S=S.substr(0,S.length-2)):(r=S.substr(S.length-1),S=S.substr(0,S.length-1))),S===parseInt(S,10).toString()?S=S.substr(0,2)+"/"+S.substr(2):S.length>3&&"/"===S.charAt(2)&&/^[A-Z]{2}$/.test(S.substr(0,2))&&(S=S.replace("/","")),"VC"===S.substr(0,2))this.error=!0,this.errorMessage="Misplaced vice-county code in grid-reference field. ('"+S+"')",this.gridCoords=null,this.length=0;else if(null!==(e=S.match(/^([HJNOST][ABCDEFGHJKLMNOPQRSTUVWXYZ](?:\d\d){1,5})$/)))S=e[0],this.parse_wellformed_gb_gr_string_no_tetrads(S),this.length>0?1e4===this.length&&(r||this.quadrantCode)?r?(this.preciseGridRef=S+r,this.tetradLetter=r,this.tetrad=this.hectad+r,this.length=2e3,this.gridCoords.x+=Oo.tetradOffsets[r][0],this.gridCoords.y+=Oo.tetradOffsets[r][1]):(this.preciseGridRef=S+this.quadrantCode,this.tetradLetter="",this.tetrad="",this.quadrant=this.preciseGridRef,this.length=5e3,this.gridCoords.x+=Oo.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=S,this.length<=1e3&&this.set_tetrad()):(this.error=!0,this.errorMessage="GB grid reference format not understood (strange length).");else if(/^([\d]{2})\/((?:\d\d){1,5})$/.test(S)){switch(this.parse_gr_string_without_tetrads(S),this.length){case 1e4:S=this.gridCoords.to_gridref(1e4),this.hectad=S,r?(S+=r,this.tetradLetter=r,this.tetrad=this.hectad+r,this.length=2e3,this.gridCoords.x+=Oo.tetradOffsets[r][0],this.gridCoords.y+=Oo.tetradOffsets[r][1]):this.quadrantCode&&(S+=this.quadrantCode,this.quadrant=S,this.length=5e3,this.gridCoords.x+=Oo.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=Oo.quadrantOffsets[this.quadrantCode][1]);break;case 1e3:case 100:case 10:case 1:S=this.gridCoords.to_gridref(this.length),this.hectad=this.gridCoords.to_gridref(1e4),this.set_tetrad();break;default:this.error=!0,this.errorMessage="Bad grid square dimension ("+this.length+" m).",this.gridCoords=null,this.length=0;}this.preciseGridRef=S;}else this.gridCoords=null,this.length=0,this.error=!0,this.errorMessage="Grid reference format not understood. ('"+t+"')";}},{key:"parse_gr_string_without_tetrads",value:function(t){var e,S,r,N;if(null!==(e=t.match(/^(\d{2})\/((?:\d\d){1,5})$/))){switch(e[1]){case"57":S=3e5,r=1e6;break;case"67":S=4e5,r=1e6;break;case"58":S=3e5,r=11e5;break;case"68":S=4e5,r=11e5;break;case"69":S=4e5,r=12e5;break;default:S=1e5*t.charAt(0),r=1e5*t.charAt(1);}N=e[2];}else {if(!Oo.letterMapping.hasOwnProperty(t.charAt(0))||!Oo.letterMapping.hasOwnProperty(t.charAt(1)))return this.length=0,void(this.gridCoords=null);var n=Oo.letterMapping[t.charAt(0)],o=Oo.letterMapping[t.charAt(1)];N=t.substr(2),S=n%5*5e5+o%5*1e5-1e6,r=5e5*-Math.floor(n/5)-1e5*Math.floor(o/5)+19e5;}switch(N.length){case 2:this.gridCoords=new Ci(S+1e4*N.charAt(0),r+1e4*N.charAt(1)),this.length=1e4;break;case 4:this.gridCoords=new Ci(S+1e3*Math.floor(N/100),r+N%100*1e3),this.length=1e3;break;case 6:this.gridCoords=new Ci(S+100*Math.floor(N/1e3),r+N%1e3*100),this.length=100;break;case 8:this.gridCoords=new Ci(S+10*Math.floor(N/1e4),r+N%1e4*10),this.length=10;break;case 10:this.gridCoords=new Ci(S+Math.floor(N/1e5),r+N%1e5),this.length=1;break;default:console.log("Bad grid ref length, ref="+t),this.gridCoords=null,this.length=0;}}},{key:"parse_wellformed_gb_gr_string_no_tetrads",value:function(t){var e,S,r,N,n;switch(e=Oo.letterMapping[t.charAt(0)],S=Oo.letterMapping[t.charAt(1)],r=t.substr(2),N=e%5*5e5+S%5*1e5-1e6,n=5e5*-Math.floor(e/5)-1e5*Math.floor(S/5)+19e5,r.length){case 2:this.gridCoords=new Ci(N+1e4*r.charAt(0),n+1e4*r.charAt(1)),this.length=1e4,this.hectad=t;break;case 4:this.gridCoords=new Ci(N+1e3*Math.floor(r/100),n+r%100*1e3),this.length=1e3,this.hectad=t.substr(0,3)+t.substr(4,1);break;case 6:this.gridCoords=new Ci(N+100*Math.floor(r/1e3),n+r%1e3*100),this.length=100,this.hectad=t.substr(0,3)+t.substr(5,1);break;case 8:this.gridCoords=new Ci(N+10*Math.floor(r/1e4),n+r%1e4*10),this.length=10,this.hectad=t.substr(0,3)+t.substr(6,1);break;case 10:this.gridCoords=new Ci(N+Math.floor(r/1e5),n+r%1e5),this.length=1,this.hectad=t.substr(0,3)+t.substr(7,1);break;default:throw this.gridCoords=null,new Error("Bad grid ref length when parsing supposedly well-formed ref, ref='"+t+"'")}}}]),S}();function _i(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}var mi=function(t){pa(S,pi);var e=_i(S);function S(t,r){var N;return fo(this,S),go(ga(N=e.call(this)),"country","IE"),go(ga(N),"gridCoords",null),N.x=t,N.y=r,N}return Mo(S,[{key:"to_latLng",value:function(){var t=1.000035,e=6377340.189,S=.0066705402933363,r=.0016732203841521,N=this.x-2e5,n=.0067153352074207,o=(5929615.3530033+(this.y-25e4)/t)/6366691.7742864415,a=o+.002509826623715886*Math.sin(2*o)+36745487490091978e-22*Math.sin(4*o)+151*r*r*r/96*Math.sin(6*o),i=e/Math.sqrt(1-S*Math.sin(a)*Math.sin(a)),s=Math.tan(a)*Math.tan(a),u=n*Math.cos(a)*Math.cos(a),T=e*(1-S)/Math.pow(1-S*Math.sin(a)*Math.sin(a),1.5),c=N/(i*t),h=a-i*Math.tan(a)/T*(c*c/2-(5+3*s+10*u-4*u*u-9*n)*c*c*c*c/24+(61+90*s+298*u+45*s*s-1.6922644722700164-3*u*u)*c*c*c*c*c*c/720);h*=ui;var f=(c-(1+2*s+u)*c*c*c/6+(5-2*u+28*s-3*u*u+8*n+24*s*s)*c*c*c*c*c/120)/Math.cos(a);return new Oi(h,f=f*ui-8).to_WGS84()}},{key:"to_gridref",value:function(t){var e=Math.floor(this.x/1e5),r=Math.floor(this.y/1e5);return S.irishGrid[e]&&S.irishGrid[e][r]?Hi(S.irishGrid[e][r],this.x-1e5*e,this.y-1e5*r,t||1):null}},{key:"to_hectad",value:function(){var t=Math.floor(this.x/1e5),e=Math.floor(this.y/1e5);return S.irishGrid[t]&&S.irishGrid[t][e]?S.irishGrid[t][e]+Math.floor(this.x%1e5/1e4)+Math.floor(this.y%1e5/1e4):""}}]),S}();function Ai(t){var e=function(){if("undefined"==typeof Reflect||!Reflect.construct)return !1;if(Reflect.construct.sham)return !1;if("function"==typeof Proxy)return !0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(t){return !1}}();return function(){var S,r=ya(t);if(e){var N=ya(this).constructor;S=Reflect.construct(r,arguments,N);}else S=r.apply(this,arguments);return va(this,S)}}go(mi,"irishGrid",{0:["V","Q","L","F","A"],1:["W","R","M","G","B"],2:["X","S","N","H","C"],3:["Y","T","O","J","D"]});var xi=function(t){pa(S,Oo);var e=Ai(S);function S(){var t;return fo(this,S),go(ga(t=e.call(this)),"country","IE"),go(ga(t),"GridCoords",mi),go(ga(t),"gridCoords",null),t.parse_well_formed=t.from_string,t}return Mo(S,[{key:"from_string",value:function(t){var e=t.replace(/[\[\]\s\t.-]+/g,"").toUpperCase();/[ABCDEFGHIJKLMNPQRSTUVWXYZ]$/.test(e)&&(S.quadrantOffsets.hasOwnProperty(e.substr(e.length-2))?(this.quadrantCode=e.substr(e.length-2),e=e.substr(0,e.length-2)):(this.tetradLetter=e.substr(e.length-1),e=e.substr(0,e.length-1))),this.parse_gr_string_without_tetrads(e),this.length>0?this.tetradLetter||this.quadrantCode?this.tetradLetter?(this.preciseGridRef=this.hectad+this.tetradLetter,this.tetrad=this.preciseGridRef,this.length=2e3,this.gridCoords.x+=S.tetradOffsets[this.tetradLetter][0],this.gridCoords.y+=S.tetradOffsets[this.tetradLetter][1]):(this.preciseGridRef=this.hectad+this.quadrantCode,this.quadrant=this.preciseGridRef,this.length=5e3,this.gridCoords.x+=S.quadrantOffsets[this.quadrantCode][0],this.gridCoords.y+=S.quadrantOffsets[this.quadrantCode][1]):(this.preciseGridRef=e,this.length<=1e3&&this.set_tetrad()):(this.error=!0,this.errorMessage="Irish grid reference format not understood. ('"+t+"')");}},{key:"parse_gr_string_without_tetrads",value:function(t){var e,r,N,n;if(/^\d{2}\/(?:\d\d){1,5}$/.test(t)){if(e=parseInt(t.charAt(0),10),r=parseInt(t.charAt(1),10),e>3||r>4)return console.log("bad grid square, ref='"+t+"' (Ireland)"),this.length=0,!1;N=t.substr(3),n=S._IE_GRID_LETTERS.charAt(5*e+r),e*=1e5,r*=1e5;}else {if(t=t.replace("/",""),!/^[ABCDFGHJLMNOQRSTVWXY](?:\d\d){1,5}$/.test(t))return this.length=0,this.gridCoords=null,!1;if(!t)return console.log("Bad (empty) Irish grid ref"),this.length=0,this.gridCoords=null,!1;n=t.charAt(0);var o=S._IE_GRID_LETTERS.indexOf(n);if(-1===o)return console.log("Bad grid ref grid-letter, ref='"+t+"' (Ireland)"),this.length=0,this.gridCoords=null,!1;e=1e5*Math.floor(o/5),r=o%5*1e5,N=t.substr(1);}switch(N.length){case 2:this.gridCoords=new mi(e+1e4*N.charAt(0),r+1e4*N.charAt(1)),this.length=1e4,this.hectad=n+N;break;case 4:this.gridCoords=new mi(e+1e3*Math.floor(N/100),r+N%100*1e3),this.length=1e3,this.hectad=n+N.charAt(0)+N.charAt(2);break;case 6:this.gridCoords=new mi(e+100*Math.floor(N/1e3),r+N%1e3*100),this.length=100,this.hectad=n+N.charAt(0)+N.charAt(3);break;case 8:this.gridCoords=new mi(e+10*Math.floor(N/1e4),r+N%1e4*10),this.length=10,this.hectad=n+N.charAt(0)+N.charAt(4);break;case 10:this.gridCoords=new mi(e+Math.floor(N/1e5),r+N%1e5),this.length=1,this.hectad=n+N.charAt(0)+N.charAt(5);break;default:return console.log("Bad grid ref length, ref='"+t+"' (Ireland)"),this.length=0,this.gridCoords=null,!1}return !0}}]),S}();go(xi,"gridLetter",{A:[0,4],B:[1,4],C:[2,4],D:[3,4],F:[0,3],G:[1,3],H:[2,3],J:[3,3],L:[0,2],M:[1,2],N:[2,2],O:[3,2],Q:[0,1],R:[1,1],S:[2,1],T:[3,1],V:[0,0],W:[1,0],X:[2,0],Y:[3,0]}),go(xi,"_IE_GRID_LETTERS","VQLFAWRMGBXSNHCYTOJD"),Oo.from_string=function(t){var e,S=t.replace(/\s+/g,"").toUpperCase();if(!S)return !1;if(/^(?:[BCDFGHJLMNOQRSTVWXY]|[HJNOST][ABCDEFGHJKLMNOPQRSTUVWXYZ]|W[VA])\d{2}(?:[A-Z]|[NS][EW]|(?:\d{2}){0,4})?$/.test(S))return (e=/^.\d/.test(S)?new xi:"W"===S.charAt(0)?new Ri:new Fi).parse_well_formed(S),!(!e.length||e.error)&&e;if((e=new Fi).from_string(S),e.length&&!e.error)return e;if("W"===S.charAt(0)){if((e=new Ri).from_string(S),e.length&&!e.error)return e}else if((e=new xi).from_string(S),e.length&&!e.error)return e;return !1};var Zi=Ci;(li.prototype.to_os_coords=function(){var t=this.lat*si,e=this.lng*si,S=.9996012717,r=.0066705397616,N=6377563.396*S,n=6356256.91*S,o=Math.sin(t)*Math.sin(t),a=N/Math.sqrt(1-r*o),i=a*(1-r)/(1-r*o),s=a/i-1,u=e- -.03490658503988659,T=a*Math.cos(t),c=Math.pow(Math.cos(t),3),h=Math.tan(t)*Math.tan(t),f=a/6*c*(a/i-h),l=Math.pow(Math.cos(t),5),d=Math.pow(Math.tan(t),4),M=a/120*l*(5-18*h+d+14*s-58*h*s),g=4e5+u*T+Math.pow(u,3)*f+Math.pow(u,5)*M,O=Ti._Marc(n,.0016732202503250907,.8552113334772214,t)+-1e5,p=a/2*Math.sin(t)*Math.cos(t),H=a/24*Math.sin(t)*Math.pow(Math.cos(t),3)*(5-Math.pow(Math.tan(t),2)+9*s),v=a/720*Math.sin(t)*l*(61-58*h+d),y=O+u*u*p+Math.pow(u,4)*H+Math.pow(u,6)*v;return new Zi(Math.round(g),Math.round(y))},li);var Wi=mi;(Oi.prototype.to_os_coords=function(){var t=this.lat*si,e=this.lng*si,S=1.000035,r=.00667054015,N=6377340.189*S,n=6356034.447*S,o=Math.sin(t)*Math.sin(t),a=N/Math.sqrt(1-r*o),i=a*(1-r)/(1-r*o),s=a/i-1,u=e- -.13962634015954636,T=a*Math.cos(t),c=Math.pow(Math.cos(t),3),h=Math.tan(t)*Math.tan(t),f=a/6*c*(a/i-h),l=Math.pow(Math.cos(t),5),d=Math.pow(Math.tan(t),4),M=a/120*l*(5-18*h+d+14*s-58*h*s),g=2e5+u*T+Math.pow(u,3)*f+Math.pow(u,5)*M,O=Ti._Marc(n,.0016732203841520518,.9337511498169663,t)+25e4,p=a/2*Math.sin(t)*Math.cos(t),H=a/24*Math.sin(t)*Math.pow(Math.cos(t),3)*(5-Math.pow(Math.tan(t),2)+9*s),v=a/720*Math.sin(t)*l*(61-58*h+d),y=O+u*u*p+Math.pow(u,4)*H+Math.pow(u,6)*v;return new Wi(Math.round(g),Math.round(y))},Oi);var Ii=yi;(Mi.prototype.to_os_coords=function(){var t=this.lat*si,e=this.lng*si,S=.9996,r=.0067226700223333,N=6378388*S,n=6356911.946*S,o=Math.sin(t)*Math.sin(t),a=N/Math.sqrt(1-r*o),i=a*(1-r)/(1-r*o),s=a/i-1,u=e- -.0523598775598,T=a*Math.cos(t),c=Math.pow(Math.cos(t),3),h=Math.tan(t)*Math.tan(t),f=a/6*c*(a/i-h),l=Math.pow(Math.cos(t),5),d=Math.pow(Math.tan(t),4),M=a/120*l*(5-18*h+d+14*s-58*h*s),g=5e5+u*T+Math.pow(u,3)*f+Math.pow(u,5)*M,O=Ti._Marc(n,.0016863406508729017,0,t)+0,p=a/2*Math.sin(t)*Math.cos(t),H=a/24*Math.sin(t)*Math.pow(Math.cos(t),3)*(5-Math.pow(Math.tan(t),2)+9*s),v=a/720*Math.sin(t)*l*(61-58*h+d),y=O+u*u*p+Math.pow(u,4)*H+Math.pow(u,6)*v;return new Ii(Math.round(g),Math.round(y))},Mi);
 
 	function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
 	  try {
@@ -19953,9 +13918,9 @@
 
 	var regenerator = runtime.exports;
 
-	function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$j() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	/**
 	 * Wrapper for GPS access, including support for user-interface nudges
 	 */
@@ -19963,7 +13928,7 @@
 	var GPSRequest = /*#__PURE__*/function (_EventHarness) {
 	  _inherits(GPSRequest, _EventHarness);
 
-	  var _super = _createSuper$3(GPSRequest);
+	  var _super = _createSuper$j(GPSRequest);
 
 	  function GPSRequest() {
 	    _classCallCheck(this, GPSRequest);
@@ -20169,20 +14134,35 @@
 
 	_defineProperty(GPSRequest, "gpsEventObject", void 0);
 
-	function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	/**
+	 *
+	 * @param {MouseEvent} event
+	 * @returns {boolean}
+	 */
+	function doubleClickIntercepted(event) {
+	  if (event.detail && event.detail > 1) {
+	    event.preventDefault();
+	    event.stopPropagation();
+	    return true;
+	  }
 
-	function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	  return false;
+	}
 
-	function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+	function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+	function _isNativeReflectConstruct$i() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-	var _containerId$8 = /*#__PURE__*/new WeakMap();
+	function _classPrivateFieldInitSpec$8(obj, privateMap, value) { _checkPrivateRedeclaration$8(obj, privateMap); privateMap.set(obj, value); }
 
-	var TextGeorefField$1 = /*#__PURE__*/function (_FormField) {
+	function _checkPrivateRedeclaration$8(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+	var _containerId$7 = /*#__PURE__*/new WeakMap();
+
+	var TextGeorefField = /*#__PURE__*/function (_FormField) {
 	  _inherits(TextGeorefField, _FormField);
 
-	  var _super = _createSuper$2(TextGeorefField);
+	  var _super = _createSuper$i(TextGeorefField);
 
 	  /**
 	   * @type {string}
@@ -20217,8 +14197,15 @@
 	   */
 
 	  /**
+	   * the maximum precision to use for geocoded results
 	   *
 	   * @type {?int}
+	   */
+
+	  /**
+	   * minimum resolution (m) to allow
+	   *
+	   * @type {number}
 	   */
 
 	  /**
@@ -20261,7 +14248,7 @@
 
 	    _defineProperty(_assertThisInitialized(_this), "_inputId", void 0);
 
-	    _classPrivateFieldInitSpec(_assertThisInitialized(_this), _containerId$8, {
+	    _classPrivateFieldInitSpec$8(_assertThisInitialized(_this), _containerId$7, {
 	      writable: true,
 	      value: void 0
 	    });
@@ -20280,6 +14267,8 @@
 	    _defineProperty(_assertThisInitialized(_this), "_autocomplete", '');
 
 	    _defineProperty(_assertThisInitialized(_this), "baseSquareResolution", null);
+
+	    _defineProperty(_assertThisInitialized(_this), "minResolution", 2000);
 
 	    _defineProperty(_assertThisInitialized(_this), "gpsPermissionsPromptText", '<p class="gps-nudge">Allowing access to GPS will save you time by allowing the app to locate your records automatically.</p>');
 
@@ -20401,7 +14390,7 @@
 	      var container = document.createElement('div');
 	      container.className = 'form-group';
 
-	      _classPrivateFieldSet(this, _containerId$8, container.id = FormField.nextId);
+	      _classPrivateFieldSet(this, _containerId$7, container.id = FormField.nextId);
 
 	      this._inputId = FormField.nextId;
 	      var labelEl = container.appendChild(document.createElement('label'));
@@ -20664,17 +14653,6056 @@
 	  return TextGeorefField;
 	}(FormField);
 
-	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_UNKNOWN", null);
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_UNKNOWN", null);
 
-	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_GRIDREF", 'gridref');
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_GRIDREF", 'gridref');
 
-	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_MAP", 'map');
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_MAP", 'map');
 
-	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_GPS", 'gps');
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_GPS", 'gps');
 
-	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_POSTCODE", 'postcode');
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_POSTCODE", 'postcode');
 
-	_defineProperty(TextGeorefField$1, "GEOREF_SOURCE_PLACE", 'place');
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_PLACE", 'place');
+
+	function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$h() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	var Survey = /*#__PURE__*/function (_Model) {
+	  _inherits(Survey, _Model);
+
+	  var _super = _createSuper$h(Survey);
+
+	  function Survey() {
+	    var _this;
+
+	    _classCallCheck(this, Survey);
+
+	    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    _this = _super.call.apply(_super, [this].concat(args));
+
+	    _defineProperty(_assertThisInitialized(_this), "SAVE_ENDPOINT", '/savesurvey.php');
+
+	    _defineProperty(_assertThisInitialized(_this), "TYPE", 'survey');
+
+	    _defineProperty(_assertThisInitialized(_this), "attributes", {});
+
+	    _defineProperty(_assertThisInitialized(_this), "isNew", false);
+
+	    return _this;
+	  }
+
+	  _createClass(Survey, [{
+	    key: "geoReference",
+	    get:
+	    /**
+	     *
+	     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
+	     */
+	    function get() {
+	      return this.attributes.georef || {
+	        gridRef: '',
+	        rawString: '',
+	        // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+	        source: TextGeorefField.GEOREF_SOURCE_UNKNOWN,
+	        latLng: null,
+	        precision: null
+	      };
+	    }
+	  }, {
+	    key: "formChangedHandler",
+	    value:
+	    /**
+	     * called after the form has changed, before the values have been read back in to the occurrence
+	     *
+	     * @param {{form: SurveyForm}} params
+	     */
+	    function formChangedHandler(params) {
+	      console.log('Survey change handler invoked.'); // read new values
+	      // then fire its own change event (Occurrence.EVENT_MODIFIED)
+
+	      params.form.updateModelFromContent(); // refresh the form's validation state
+
+	      params.form.conditionallyValidateForm();
+	      this.touch();
+	      this.fireEvent(Survey.EVENT_MODIFIED, {
+	        surveyId: this.id
+	      });
+	    }
+	    /**
+	     *
+	     * @param {SurveyForm} form
+	     */
+
+	  }, {
+	    key: "registerForm",
+	    value: function registerForm(form) {
+	      form.model = this;
+	      form.addListener(Form.CHANGE_EVENT, this.formChangedHandler.bind(this));
+
+	      if (this.isNew) {
+	        form.fireEvent(Form.EVENT_INITIALISE_NEW, {}); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
+	      }
+	    }
+	    /**
+	     * if not securely saved then makes a post to /savesurvey.php
+	     *
+	     * this may be intercepted by a service worker, which could write the image to indexdb
+	     * a successful save will result in a json response containing the uri from which the image may be retrieved
+	     * and also the state of persistence (whether or not the image was intercepted by a service worker while offline)
+	     *
+	     * if saving fails then the expectation is that there is no service worker, in which case should attempt to write
+	     * the image directly to indexdb
+	     *
+	     * must test indexdb for this eventuality after the save has returned
+	     *
+	     * @returns {Promise}
+	     */
+
+	  }, {
+	    key: "save",
+	    value: function save() {
+	      if (!this._savedRemotely) {
+	        var formData = new FormData();
+	        formData.append('type', this.TYPE);
+	        formData.append('surveyId', this.id);
+	        formData.append('id', this.id);
+	        formData.append('projectId', this.projectId.toString());
+	        formData.append('attributes', JSON.stringify(this.attributes));
+	        formData.append('deleted', this.deleted.toString());
+	        formData.append('created', this.createdStamp.toString());
+	        console.log('queueing survey post');
+	        return this.queuePost(formData);
+	      } else {
+	        return Promise.reject("".concat(this.id, " has already been saved."));
+	      }
+	    }
+	    /**
+	     *
+	     * @returns {string} an html-safe string based on the locality and creation date
+	     */
+
+	  }, {
+	    key: "generateSurveyName",
+	    value: function generateSurveyName() {
+	      var place = (this.attributes.place || this.attributes.georef.gridRef || '(unlocalised)').trim();
+	      var createdDate = new Date(this.createdStamp * 1000);
+	      var dateString;
+
+	      try {
+	        // 'default' locale fails on Edge
+	        dateString = createdDate.toLocaleString('default', {
+	          year: 'numeric',
+	          month: 'long',
+	          day: 'numeric'
+	        });
+	      } catch (e) {
+	        dateString = createdDate.toLocaleString('en-GB', {
+	          year: 'numeric',
+	          month: 'long',
+	          day: 'numeric'
+	        });
+	      }
+
+	      return "".concat(escapeHTML(place), " ").concat(dateString);
+	    }
+	  }]);
+
+	  return Survey;
+	}(Model);
+
+	_defineProperty(Survey, "EVENT_MODIFIED", 'modified');
+
+	function _createSuper$g(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$g(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$g() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	var OccurrenceImage = /*#__PURE__*/function (_Model) {
+	  _inherits(OccurrenceImage, _Model);
+
+	  var _super = _createSuper$g(OccurrenceImage);
+
+	  function OccurrenceImage() {
+	    var _this;
+
+	    _classCallCheck(this, OccurrenceImage);
+
+	    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    _this = _super.call.apply(_super, [this].concat(args));
+
+	    _defineProperty(_assertThisInitialized(_this), "file", void 0);
+
+	    _defineProperty(_assertThisInitialized(_this), "TYPE", 'image');
+
+	    _defineProperty(_assertThisInitialized(_this), "SAVE_ENDPOINT", '/saveimage.php');
+
+	    return _this;
+	  }
+
+	  _createClass(OccurrenceImage, [{
+	    key: "getUrl",
+	    value:
+	    /**
+	     * fetches a url of the image
+	     * this might be a remote url (or one intercepted by a service worker)
+	     * or a data url of the raw image, (not yet uploaded)
+	     *
+	     * @returns {string}
+	     */
+	    function getUrl() {}
+	  }, {
+	    key: "save",
+	    value:
+	    /**
+	     * if not securely saved then makes a post to /saveimage.php
+	     *
+	     * this may be intercepted by a service worker, which could write the image to indexdb
+	     * a successful save will result in a json response containing the uri from which the image may be retrieved
+	     * and also the state of persistence (whether or not the image was intercepted by a service worker while offline)
+	     *
+	     * if saving fails then the expectation is that there is no service worker, in which case should attempt to write
+	     * the image directly to indexdb
+	     *
+	     * must test indexdb for this eventuality after the save has returned
+	     *
+	     * @param {string} surveyId
+	     * @param {string} occurrenceId
+	     * @param {number} projectId
+	     * @returns {Promise}
+	     */
+	    function save(surveyId, occurrenceId, projectId) {
+	      if (!this._savedRemotely) {
+	        var formData = new FormData();
+	        formData.append('type', this.TYPE);
+	        formData.append('surveyId', surveyId ? surveyId : ''); // avoid 'undefined'
+
+	        formData.append('occurrenceId', occurrenceId ? occurrenceId : this.occurrenceId); // avoid 'undefined'
+
+	        formData.append('projectId', projectId ? projectId.toString() : '');
+	        formData.append('imageId', this.id);
+	        formData.append('id', this.id);
+	        formData.append('image', this.file);
+	        formData.append('deleted', this.deleted.toString());
+	        console.log("queueing image post, image id ".concat(this.id));
+	        return this.queuePost(formData);
+	      } else {
+	        return Promise.reject("".concat(this.id, " has already been saved."));
+	      }
+	    }
+	    /**
+	     * fired from Occurrence when the object's contents have been modified
+	     *
+	     * @type {string}
+	     */
+
+	  }, {
+	    key: "_parseDescriptor",
+	    value:
+	    /**
+	     *
+	     * @param {{surveyId: string, occurrenceId: string, [image]: File}} descriptor
+	     * @private
+	     */
+	    function _parseDescriptor(descriptor) {
+	      _get(_getPrototypeOf(OccurrenceImage.prototype), "_parseDescriptor", this).call(this, descriptor);
+
+	      this.surveyId = descriptor.surveyId; // note lower case
+
+	      this.occurrenceId = descriptor.occurrenceId; // note lower case
+
+	      this.file = descriptor.image;
+	    }
+	    /**
+	     *
+	     * @param {string} id
+	     * @param {(number|null)} width
+	     * @param {(number|null)} height
+	     * @param {{[className] : string}} [attributes]
+	     * @return {string}
+	     */
+
+	  }], [{
+	    key: "fromFile",
+	    value:
+	    /**
+	     *
+	     * @param {File} file
+	     */
+	    function fromFile(file) {
+	      var image = new OccurrenceImage();
+	      image.file = file;
+	      return image;
+	    }
+	  }, {
+	    key: "placeholder",
+	    value:
+	    /**
+	     *
+	     * @param id
+	     * @returns {OccurrenceImage}
+	     */
+	    function placeholder(id) {
+	      var placeholderObject = new OccurrenceImage();
+	      placeholderObject._id = id;
+	      OccurrenceImage.imageCache.set(id, placeholderObject);
+	      return placeholderObject;
+	    }
+	  }, {
+	    key: "imageLink",
+	    value: function imageLink(id, width, height, attributes) {
+	      width = width || 0;
+	      height = height || 0;
+	      var attributesString = '';
+
+	      if (attributes.className) {
+	        attributesString += " class=\"".concat(attributes.className, "\"");
+	      }
+
+	      var renderingConstraint = width > height ? "width=\"".concat(width, "\"") : "height=\"".concat(height, "\"");
+	      return "<picture><source srcset=\"/image.php?imageid=".concat(id, "&amp;height=128&amp;format=webp\" type=\"image/webp\"><img").concat(attributesString, " src=\"/image.php?imageid=").concat(id, "&amp;width=").concat(width, "&amp;height=").concat(height, "&amp;format=jpeg\" ").concat(renderingConstraint, " alt=\"photo\"></picture>");
+	    }
+	  }]);
+
+	  return OccurrenceImage;
+	}(Model);
+
+	_defineProperty(OccurrenceImage, "imageCache", new Map());
+
+	_defineProperty(OccurrenceImage, "EVENT_MODIFIED", 'modified');
+
+	function _createForOfIteratorHelper$6(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$6(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+	function _unsupportedIterableToArray$6(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$6(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$6(o, minLen); }
+
+	function _arrayLikeToArray$6(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+	function _createSuper$f(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$f(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$f() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+	function _classPrivateFieldInitSpec$7(obj, privateMap, value) { _checkPrivateRedeclaration$7(obj, privateMap); privateMap.set(obj, value); }
+
+	function _checkPrivateRedeclaration$7(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+	var _router = /*#__PURE__*/new WeakMap();
+
+	var _containerEl = /*#__PURE__*/new WeakMap();
+
+	var App = /*#__PURE__*/function (_EventHarness) {
+	  _inherits(App, _EventHarness);
+
+	  var _super = _createSuper$f(App);
+
+	  /**
+	   * @type {PatchedNavigo}
+	   */
+
+	  /**
+	   * @type {HTMLElement}
+	   */
+
+	  /**
+	   *
+	   * @type {Array.<AppController>}
+	   */
+
+	  /**
+	   * tracks the handle of the current page controller
+	   * updating this is the responsibility of the controller
+	   *
+	   * @type {number|boolean}
+	   */
+
+	  /**
+	   *
+	   * @type {Array.<{url : string}>}
+	   */
+
+	  /**
+	   * keyed by occurrence id (a UUID string)
+	   *
+	   * @type {Map.<string,Occurrence>}
+	   */
+
+	  /**
+	   * keyed by survey id (a UUID string)
+	   *
+	   * @type {Map.<string,Survey>}
+	   */
+
+	  /**
+	   * @type {Survey}
+	   */
+
+	  /**
+	   * @type {Layout}
+	   */
+
+	  /**
+	   * Event fired when user requests a new blank survey
+	   * @type {string}
+	   */
+
+	  /**
+	   * Event fired when user requests a reset (local clearance) of all surveys
+	   * @type {string}
+	   */
+
+	  /**
+	   * Fired after App.currentSurvey has been set to a new blank survey
+	   * the survey will be accessible in App.currentSurvey
+	   *
+	   * @type {string}
+	   */
+
+	  /**
+	   * Fired if the surveys list might need updating (as a survey has been added, removed or changed)
+	   *
+	   * @type {string}
+	   */
+
+	  /**
+	   *
+	   * @type {boolean}
+	   */
+	  function App() {
+	    var _this;
+
+	    _classCallCheck(this, App);
+
+	    _this = _super.call(this);
+
+	    _classPrivateFieldInitSpec$7(_assertThisInitialized(_this), _router, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$7(_assertThisInitialized(_this), _containerEl, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "controllers", []);
+
+	    _defineProperty(_assertThisInitialized(_this), "currentControllerHandle", false);
+
+	    _defineProperty(_assertThisInitialized(_this), "routeHistory", []);
+
+	    _defineProperty(_assertThisInitialized(_this), "occurrences", void 0);
+
+	    _defineProperty(_assertThisInitialized(_this), "surveys", void 0);
+
+	    _defineProperty(_assertThisInitialized(_this), "currentSurvey", void 0);
+
+	    _defineProperty(_assertThisInitialized(_this), "layout", void 0);
+
+	    _this.reset();
+
+	    return _this;
+	  }
+	  /**
+	   *
+	   * @param {string} name
+	   */
+
+
+	  _createClass(App, [{
+	    key: "setLocalForageName",
+	    value: function setLocalForageName(name) {
+	      localforage$2.config({
+	        name: name
+	      });
+	    }
+	  }, {
+	    key: "reset",
+	    value: function reset() {
+	      this.surveys = new Map();
+	      this.clearCurrentSurvey();
+	    }
+	    /**
+	     * unset the current survey and its associated list of occurrences
+	     * called when switching surveys and during startup
+	     */
+
+	  }, {
+	    key: "clearCurrentSurvey",
+	    value: function clearCurrentSurvey() {
+	      this.occurrences = new Map();
+	      this.currentSurvey = null;
+	    }
+	    /**
+	     * see https://github.com/krasimir/navigo
+	     * @param {PatchedNavigo} router
+	     */
+
+	  }, {
+	    key: "router",
+	    get: function get() {
+	      return _classPrivateFieldGet(this, _router);
+	    },
+	    set: function set(router) {
+	      _classPrivateFieldSet(this, _router, router);
+	    }
+	  }, {
+	    key: "containerId",
+	    set: function set(containerId) {
+	      var el = document.getElementById(containerId);
+
+	      if (!el) {
+	        throw new Error("App container '".concat(containerId, "' not found."));
+	      } else {
+	        _classPrivateFieldSet(this, _containerEl, el);
+	      }
+	    }
+	  }, {
+	    key: "container",
+	    get: function get() {
+	      return _classPrivateFieldGet(this, _containerEl);
+	    }
+	    /**
+	     *
+	     * @param {AppController} controller
+	     */
+
+	  }, {
+	    key: "registerController",
+	    value: function registerController(controller) {
+	      controller.handle = this.controllers.length;
+	      this.controllers[this.controllers.length] = controller;
+	      controller.app = this;
+	      controller.registerRoute(_classPrivateFieldGet(this, _router));
+	    }
+	  }, {
+	    key: "initialise",
+	    value: function initialise() {
+	      var _this2 = this;
+
+	      //Page.initialise_layout(this.#containerEl);
+	      this.layout.initialise();
+
+	      _classPrivateFieldGet(this, _router).notFound(function (query) {
+	        // called when there is path specified but
+	        // there is no route matching
+	        console.log("no route found for '".concat(query, "'")); //this.#router.navigate('/list');
+
+	        var view = new NotFoundView();
+	        view.display();
+	      }); //default homepage
+
+
+	      _classPrivateFieldGet(this, _router).on(function () {
+	        // special-case redirect (replacing in history) from '/' to '/list' without updating browser history
+	        console.log("redirecting from '/' to '/list'");
+
+	        _classPrivateFieldGet(_this2, _router).pause(); //if (this.clearCurrentSurvey && this.currentSurvey.isPristine) { // this appears to be a bug 'this.clearCurrentSurvey'
+	        // rather than 'this.clearCurrentSurvey()' is nonsensical
+	        // and if clearCurrentSurvey() was actually called then the isPristine test would fail (called on null)
+
+
+	        if (_this2.currentSurvey && _this2.currentSurvey.isPristine) {
+	          _classPrivateFieldGet(_this2, _router).navigate('/list/survey/welcome').resume();
+	        } else {
+	          _classPrivateFieldGet(_this2, _router).navigate('/list').resume();
+	        }
+
+	        _classPrivateFieldGet(_this2, _router).resolve();
+	      });
+
+	      var _iterator = _createForOfIteratorHelper$6(this.controllers),
+	          _step;
+
+	      try {
+	        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	          var controller = _step.value;
+	          controller.initialise();
+	        }
+	      } catch (err) {
+	        _iterator.e(err);
+	      } finally {
+	        _iterator.f();
+	      }
+	    }
+	  }, {
+	    key: "display",
+	    value: function display() {
+	      console.log('App display');
+
+	      _classPrivateFieldGet(this, _router).resolve();
+	    }
+	  }, {
+	    key: "saveRoute",
+	    value: function saveRoute() {
+	      var lastRoute = _classPrivateFieldGet(this, _router).lastRouteResolved();
+
+	      if (this.routeHistory.length) {
+	        if (this.routeHistory[this.routeHistory.length - 1] !== lastRoute) {
+	          this.routeHistory[this.routeHistory.length] = lastRoute;
+	        }
+	      } else {
+	        this.routeHistory[0] = lastRoute;
+	      }
+	    }
+	    /**
+	     * mark the current survey and its constituent records as subject to validation checks (not pristine)
+	     */
+
+	  }, {
+	    key: "markAllNotPristine",
+	    value: function markAllNotPristine() {
+	      var _iterator2 = _createForOfIteratorHelper$6(this.occurrences),
+	          _step2;
+
+	      try {
+	        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+	          var occurrenceTuple = _step2.value;
+	          occurrenceTuple[1].isPristine = false;
+	        }
+	      } catch (err) {
+	        _iterator2.e(err);
+	      } finally {
+	        _iterator2.f();
+	      }
+	    }
+	    /**
+	     *
+	     * @param {Layout} layout
+	     */
+
+	  }, {
+	    key: "setLayout",
+	    value: function setLayout(layout) {
+	      this.layout = layout;
+	      layout.setApp(this);
+	    }
+	    /**
+	     *
+	     * @param {Survey} survey
+	     */
+
+	  }, {
+	    key: "addSurvey",
+	    value: function addSurvey(survey) {
+	      var _this3 = this;
+
+	      if (survey.projectId !== this.projectId) {
+	        throw new Error("Survey project id '".concat(survey.projectId, " does not match with current project ('").concat(this.projectId, "')"));
+	      }
+
+	      if (!this.surveys.has(survey.id)) {
+	        console.log("setting survey's modified/save handler");
+	        survey.addListener(Survey.EVENT_MODIFIED, function () {
+	          _this3.fireEvent(App.EVENT_SURVEYS_CHANGED);
+
+	          return survey.save();
+	        });
+	      }
+
+	      this.surveys.set(survey.id, survey);
+	      this.fireEvent(App.EVENT_SURVEYS_CHANGED);
+	    }
+	    /**
+	     * tests whether occurrences have been defined, excluding any that have been deleted
+	     *
+	     * @returns {boolean}
+	     */
+
+	  }, {
+	    key: "haveExtantOccurrences",
+	    value: function haveExtantOccurrences() {
+	      var _iterator3 = _createForOfIteratorHelper$6(this.occurrences),
+	          _step3;
+
+	      try {
+	        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+	          var occurrence = _step3.value;
+
+	          if (!occurrence.deleted) {
+	            return true;
+	          }
+	        }
+	      } catch (err) {
+	        _iterator3.e(err);
+	      } finally {
+	        _iterator3.f();
+	      }
+
+	      return false;
+	    }
+	    /**
+	     *
+	     * @param {Occurrence} occurrence
+	     */
+
+	  }, {
+	    key: "addOccurrence",
+	    value: function addOccurrence(occurrence) {
+	      var _this4 = this;
+
+	      if (!occurrence.surveyId) {
+	        throw new InternalAppError('Survey id must set prior to registering occurrence.');
+	      }
+
+	      if (this.occurrences.size === 0) {
+	        // this is the first occurrence added, set the survey creation stamp to match
+	        // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
+	        // for a protracted period
+	        var survey = this.surveys.get(occurrence.surveyId);
+	        survey.createdStamp = occurrence.createdStamp;
+	      }
+
+	      console.log("in addOccurrence setting id '".concat(occurrence.id, "'"));
+	      this.occurrences.set(occurrence.id, occurrence);
+	      occurrence.addListener(Occurrence.EVENT_MODIFIED, // possibly this should be async, with await on the survey and occurrence save
+	      function () {
+	        var survey = _this4.surveys.get(occurrence.surveyId);
+
+	        if (!survey) {
+	          throw new Error("Failed to look up survey id ".concat(occurrence.surveyId));
+	        } else {
+	          survey.isPristine = false; // need to ensure that currentSurvey is saved before occurrence
+	          // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
+	          // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
+
+	          if (survey.unsaved()) {
+	            // noinspection JSIgnoredPromiseFromCall
+	            survey.save();
+	          }
+
+	          occurrence.save(survey.id);
+	        }
+	      });
+	    }
+	    /**
+	     * attempts to refresh the state of local storage for the specified survey ids
+	     * if fetch fails then return a failed promise
+	     *
+	     * updates local copy of surveys and occurrences
+	     *
+	     * no service worker interception of this call - passed through and not cached
+	     *
+	     * @param {Array.<string>} surveyIds
+	     * @return {Promise}
+	     */
+
+	  }, {
+	    key: "refreshFromServer",
+	    value: function refreshFromServer(surveyIds) {
+	      var _this5 = this;
+
+	      console.log({
+	        'Refresh from server, ids': surveyIds
+	      });
+	      var formData = new FormData();
+	      var n = 0;
+
+	      var _iterator4 = _createForOfIteratorHelper$6(surveyIds),
+	          _step4;
+
+	      try {
+	        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+	          var key = _step4.value;
+	          formData.append("surveyId[".concat(n++, "]"), key);
+	        }
+	      } catch (err) {
+	        _iterator4.e(err);
+	      } finally {
+	        _iterator4.f();
+	      }
+
+	      return fetch(App.LOAD_SURVEYS_ENDPOINT, {
+	        method: 'POST',
+	        body: formData
+	      }).then(function (response) {
+	        if (response.ok) {
+	          return response.json();
+	        } else {
+	          return Promise.reject("Invalid response from server when refreshing survey ids");
+	        }
+	      }).then(function (jsonResponse) {
+	        /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
+	        console.log({
+	          'refresh from server json response': jsonResponse
+	        }); // if external objects newer than local version then place in local storage
+
+	        var promises = [];
+
+	        for (var type in jsonResponse) {
+	          if (jsonResponse.hasOwnProperty(type)) {
+	            var _iterator5 = _createForOfIteratorHelper$6(jsonResponse[type]),
+	                _step5;
+
+	            try {
+	              for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+	                var object = _step5.value;
+	                promises.push(_this5._conditionallyReplaceObject(object));
+	              }
+	            } catch (err) {
+	              _iterator5.e(err);
+	            } finally {
+	              _iterator5.f();
+	            }
+	          }
+	        }
+
+	        return Promise.all(promises);
+	      });
+	    }
+	    /**
+	     * compare modified stamp of indexeddb and external objects and write external version locally if more recent
+	     *
+	     * @param {{id : string, type : string, modified : number, created : number, saveState : string, deleted : boolean}} externalVersion
+	     * @returns {Promise}
+	     * @private
+	     */
+
+	  }, {
+	    key: "_conditionallyReplaceObject",
+	    value: function _conditionallyReplaceObject(externalVersion) {
+	      var objectType = externalVersion.type;
+	      var id = externalVersion.id;
+	      var key = "".concat(objectType, ".").concat(id);
+	      return localforage$2.getItem(key).then(function (localVersion) {
+	        if (localVersion) {
+	          // compare stamps
+	          // if (externalVersion.deleted) {
+	          //     // if the external copy is deleted then remove the local copy
+	          //     return localforage.removeItem(key);
+	          // }
+	          if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
+	            console.log("Local copy of ".concat(key, " is the same or newer than the server copy. (").concat(localVersion.modified, " >= ").concat(externalVersion.modified, ") "));
+	            return Promise.resolve();
+	          }
+	        } // no local copy or stale copy
+	        // so store response locally
+
+
+	        console.log("Adding or replacing local copy of ".concat(key));
+	        return localforage$2.setItem(key, externalVersion);
+	      });
+	    }
+	    /**
+	     * retrieve the full set of keys from local storage (IndexedDb)
+	     *
+	     * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
+	     * @returns {Promise}
+	     */
+
+	  }, {
+	    key: "seekKeys",
+	    value: function seekKeys(storedObjectKeys) {
+	      console.log('starting seekKeys');
+	      return localforage$2.keys().then(function (keys) {
+	        console.log({
+	          "in seekKeys: local forage keys": keys
+	        });
+
+	        var _iterator6 = _createForOfIteratorHelper$6(keys),
+	            _step6;
+
+	        try {
+	          for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+	            var key = _step6.value;
+	            var type = void 0,
+	                id = void 0;
+
+	            var _key$split = key.split('.', 2);
+
+	            var _key$split2 = _slicedToArray(_key$split, 2);
+
+	            type = _key$split2[0];
+	            id = _key$split2[1];
+
+	            if (storedObjectKeys.hasOwnProperty(type)) {
+	              if (!storedObjectKeys[type].includes(id)) {
+	                storedObjectKeys[type].push(id);
+	              }
+	            } else {
+	              console.log("Unrecognised stored key type '".concat(type, "."));
+	            }
+	          }
+	        } catch (err) {
+	          _iterator6.e(err);
+	        } finally {
+	          _iterator6.f();
+	        }
+
+	        return storedObjectKeys;
+	      });
+	    }
+	    /**
+	     * @returns {Promise}
+	     */
+
+	  }, {
+	    key: "syncAll",
+	    value: function syncAll() {
+	      var _this6 = this;
+
+	      var storedObjectKeys = {
+	        survey: [],
+	        occurrence: [],
+	        image: []
+	      };
+	      return this.seekKeys(storedObjectKeys).then(function (storedObjectKeys) {
+	        return _this6._syncLocalUnsaved(storedObjectKeys);
+	      }, function (failedResult) {
+	        console.log("Failed to sync all: ".concat(failedResult));
+	        return false;
+	      });
+	    }
+	    /**
+	     *
+	     * @param storedObjectKeys
+	     * @returns {Promise}
+	     * @private
+	     */
+
+	  }, {
+	    key: "_syncLocalUnsaved",
+	    value: function _syncLocalUnsaved(storedObjectKeys) {
+	      // syncs surveys first, then occurrences, then images from indexedDb
+	      var promises = [];
+
+	      var _iterator7 = _createForOfIteratorHelper$6(storedObjectKeys.survey),
+	          _step7;
+
+	      try {
+	        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+	          var surveyKey = _step7.value;
+	          promises.push(Survey.retrieveFromLocal(surveyKey, new Survey()).then(function (survey) {
+	            if (survey.unsaved()) {
+	              return survey.save();
+	            }
+	          }));
+	        }
+	      } catch (err) {
+	        _iterator7.e(err);
+	      } finally {
+	        _iterator7.f();
+	      }
+
+	      var _iterator8 = _createForOfIteratorHelper$6(storedObjectKeys.occurrence),
+	          _step8;
+
+	      try {
+	        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+	          var occurrenceKey = _step8.value;
+	          promises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence()).then(function (occurrence) {
+	            if (occurrence.unsaved()) {
+	              return occurrence.save();
+	            }
+	          }));
+	        }
+	      } catch (err) {
+	        _iterator8.e(err);
+	      } finally {
+	        _iterator8.f();
+	      }
+
+	      var _iterator9 = _createForOfIteratorHelper$6(storedObjectKeys.image),
+	          _step9;
+
+	      try {
+	        for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+	          var imageKey = _step9.value;
+	          promises.push(OccurrenceImage.retrieveFromLocal(imageKey, new OccurrenceImage()).then(function (image) {
+	            if (image.unsaved()) {
+	              return image.save();
+	            }
+	          }));
+	        }
+	      } catch (err) {
+	        _iterator9.e(err);
+	      } finally {
+	        _iterator9.f();
+	      }
+
+	      return Promise.all(promises).catch(function (result) {
+	        console.log("Save failure: ".concat(result));
+	      });
+	    }
+	    /**
+	     * restore previous state, pulling back from local and external store
+	     * @todo this needs a save phase, so that local changes are saved back to the server
+	     *
+	     * @param {string} [targetSurveyId] if specified then select this id as the current survey
+	     * @return {Promise}
+	     */
+
+	  }, {
+	    key: "restoreOccurrences",
+	    value: function restoreOccurrences(targetSurveyId) {
+	      var _this7 = this;
+
+	      console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId)); // need to check for a special case where restoring a survey that has never been saved even locally
+	      // i.e. new and unmodified
+	      // only present in current App.surveys
+	      // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
+
+	      if (targetSurveyId && this.surveys.has(targetSurveyId)) {
+	        var localSurvey = this.surveys.get(targetSurveyId);
+
+	        if (localSurvey.isPristine) {
+	          this.clearCurrentSurvey(); // clear occurrences from the previous survey
+
+	          this.currentSurvey = localSurvey;
+	          this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
+
+	          return Promise.resolve();
+	        }
+	      }
+
+	      var storedObjectKeys = {
+	        survey: [],
+	        occurrence: [],
+	        image: []
+	      };
+
+	      if (targetSurveyId) {
+	        storedObjectKeys.survey[0] = targetSurveyId;
+	      }
+
+	      return this.seekKeys(storedObjectKeys).then(function (storedObjectKeys) {
+	        if (storedObjectKeys.survey.length) {
+	          return _this7.refreshFromServer(storedObjectKeys.survey).finally(function () {
+	            // re-seek keys from indexed db, to take account of any new occurrences received from the server
+	            return _this7.seekKeys(storedObjectKeys);
+	          });
+	        } else {
+	          return null;
+	        }
+	      }).finally(function () {
+	        // called regardless of whether a server refresh was successful
+	        // storedObjectKeys and indexed db should be as up-to-date as possible
+	        console.log({
+	          storedObjectKeys: storedObjectKeys
+	        });
+
+	        if (storedObjectKeys.survey.length) {
+	          var surveyFetchingPromises = [];
+	          var n = 0;
+
+	          var _iterator10 = _createForOfIteratorHelper$6(storedObjectKeys.survey),
+	              _step10;
+
+	          try {
+	            for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+	              var surveyKey = _step10.value;
+	              // arbitrarily set first survey key as current if a target id hasn't been specified
+	              surveyFetchingPromises.push(_this7._restoreSurveyFromLocal(surveyKey, storedObjectKeys, targetSurveyId === surveyKey || !targetSurveyId && n++ === 0));
+	            }
+	          } catch (err) {
+	            _iterator10.e(err);
+	          } finally {
+	            _iterator10.f();
+	          }
+
+	          return Promise.all(surveyFetchingPromises).finally(function () {
+	            //this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
+	            if (!_this7.currentSurvey) {
+	              // survey doesn't actually exist
+	              // this could have happened in an invalid survey id was provided as a targetSurveyId
+	              console.log("Failed to retrieve survey id '".concat(targetSurveyId, "'"));
+	              return Promise.reject(new Error("Failed to retrieve survey id '".concat(targetSurveyId, "'")));
+	            }
+
+	            if (_this7.currentSurvey.deleted) {
+	              // unusual case where survey is deleted
+	              // substitute a new one
+	              // this should probably never happen, as items deleted on the server ought to have been
+	              // removed locally
+	              _this7.setNewSurvey();
+	            } else {
+	              _this7.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
+
+	            }
+
+	            return Promise.resolve();
+	          });
+	        } else {
+	          console.log('no pre-existing surveys, so creating a new one'); // no pre-existing surveys, so create a new one
+
+	          _this7.setNewSurvey();
+
+	          return Promise.resolve();
+	        }
+	      });
+	    }
+	  }, {
+	    key: "setNewSurvey",
+	    value: function setNewSurvey() {
+	      this.currentSurvey = new Survey();
+	      this.currentSurvey.projectId = this.projectId;
+	      this.currentSurvey.isPristine = true;
+	      this.currentSurvey.isNew = true;
+	      this.fireEvent(App.EVENT_NEW_SURVEY);
+	      this.addSurvey(this.currentSurvey);
+	    }
+	    /**
+	     * @return {Occurrence}
+	     */
+
+	  }, {
+	    key: "addNewOccurrence",
+	    value: function addNewOccurrence() {
+	      var occurrence = new Occurrence();
+	      occurrence.surveyId = this.currentSurvey.id;
+	      occurrence.projectId = this.projectId;
+	      occurrence.isNew = true;
+	      occurrence.isPristine = true;
+	      this.addOccurrence(occurrence);
+	      this.fireEvent(App.EVENT_OCCURRENCE_ADDED, {
+	        occurrenceId: occurrence.id,
+	        surveyId: occurrence.surveyId
+	      });
+	      return occurrence;
+	    }
+	    /**
+	     *
+	     * @param {string} surveyId
+	     * @param {{survey: Array, occurrence: Array, image: Array}} storedObjectKeys
+	     * @param {boolean} setAsCurrent
+	     * @returns {Promise}
+	     * @private
+	     */
+
+	  }, {
+	    key: "_restoreSurveyFromLocal",
+	    value: function _restoreSurveyFromLocal(surveyId, storedObjectKeys, setAsCurrent) {
+	      var _this8 = this;
+
+	      // retrieve surveys first, then occurrences, then images from indexedDb
+	      var promise = Survey.retrieveFromLocal(surveyId, new Survey()).then(function (survey) {
+	        console.log("retrieving local survey ".concat(surveyId));
+
+	        if (setAsCurrent) {
+	          // the apps occurrences should only relate to the current survey
+	          // (the reset are remote or in IndexedDb)
+	          _this8.clearCurrentSurvey();
+
+	          _this8.addSurvey(survey);
+
+	          var occurrenceFetchingPromises = [];
+
+	          var _iterator11 = _createForOfIteratorHelper$6(storedObjectKeys.occurrence),
+	              _step11;
+
+	          try {
+	            var _loop = function _loop() {
+	              var occurrenceKey = _step11.value;
+	              occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence()).then(function (occurrence) {
+	                if (occurrence.surveyId === surveyId) {
+	                  console.log("adding occurrence ".concat(occurrenceKey));
+
+	                  _this8.addOccurrence(occurrence);
+	                }
+	              }));
+	            };
+
+	            for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+	              _loop();
+	            }
+	          } catch (err) {
+	            _iterator11.e(err);
+	          } finally {
+	            _iterator11.f();
+	          }
+
+	          return Promise.all(occurrenceFetchingPromises);
+	        } else {
+	          // not the current survey, so just add it but don't load occurrences
+	          _this8.addSurvey(survey);
+	        }
+	      });
+
+	      if (setAsCurrent) {
+	        promise.finally(function () {
+	          //console.log('Reached image fetching part');
+	          var imageFetchingPromises = [];
+
+	          var _iterator12 = _createForOfIteratorHelper$6(storedObjectKeys.image),
+	              _step12;
+
+	          try {
+	            var _loop2 = function _loop2() {
+	              var occurrenceImageKey = _step12.value;
+	              imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage()).then(function (occurrenceImage) {
+	                console.log("restoring image id '".concat(occurrenceImageKey, "'"));
+
+	                if (occurrenceImage.surveyId === surveyId) {
+	                  OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
+	                }
+	              }, function (reason) {
+	                console.log("Failed to retrieve an image: ".concat(reason));
+	              }));
+	            };
+
+	            for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+	              _loop2();
+	            }
+	          } catch (err) {
+	            _iterator12.e(err);
+	          } finally {
+	            _iterator12.f();
+	          }
+
+	          _this8.currentSurvey = _this8.surveys.get(storedObjectKeys.survey[0]);
+	          return Promise.all(imageFetchingPromises);
+	        });
+	      }
+
+	      return promise;
+	    }
+	    /**
+	     *
+	     * @returns {Promise<void>}
+	     */
+
+	  }, {
+	    key: "clearLocalForage",
+	    value: function clearLocalForage() {
+	      return localforage$2.clear();
+	    }
+	  }]);
+
+	  return App;
+	}(EventHarness);
+
+	_defineProperty(App, "EVENT_ADD_SURVEY_USER_REQUEST", 'useraddsurveyrequest');
+
+	_defineProperty(App, "EVENT_RESET_SURVEYS", 'userresetsurveys');
+
+	_defineProperty(App, "EVENT_NEW_SURVEY", 'newsurvey');
+
+	_defineProperty(App, "LOAD_SURVEYS_ENDPOINT", '/loadsurveys.php');
+
+	_defineProperty(App, "EVENT_OCCURRENCE_ADDED", 'occurrenceadded');
+
+	_defineProperty(App, "EVENT_SURVEYS_CHANGED", 'surveyschanged');
+
+	_defineProperty(App, "devMode", false);
+
+	function _createForOfIteratorHelper$5(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$5(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+	function _unsupportedIterableToArray$5(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$5(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$5(o, minLen); }
+
+	function _arrayLikeToArray$5(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+	function _createSuper$e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$e(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$e() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	var Layout = /*#__PURE__*/function (_EventHarness) {
+	  _inherits(Layout, _EventHarness);
+
+	  var _super = _createSuper$e(Layout);
+
+	  function Layout() {
+	    var _this;
+
+	    _classCallCheck(this, Layout);
+
+	    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    _this = _super.call.apply(_super, [this].concat(args));
+
+	    _defineProperty(_assertThisInitialized(_this), "app", void 0);
+
+	    _defineProperty(_assertThisInitialized(_this), "surveysMenuId", void 0);
+
+	    _defineProperty(_assertThisInitialized(_this), "newSurveyLabel", 'new survey');
+
+	    return _this;
+	  }
+
+	  _createClass(Layout, [{
+	    key: "setApp",
+	    value:
+	    /**
+	     *
+	     * @param {App} app
+	     */
+	    function setApp(app) {
+	      var _this2 = this;
+
+	      this.app = app;
+	      app.addListener(App.EVENT_SURVEYS_CHANGED, function () {
+	        _this2.refreshSurveysMenu();
+	      });
+
+	      if (navigator.hasOwnProperty('onLine') && navigator.onLine === false) {
+	        this.addOfflineFlag();
+	      }
+
+	      window.addEventListener('online', function () {
+	        document.body.classList.remove('offline');
+	      });
+	      window.addEventListener('offline', this.addOfflineFlag);
+	    }
+	  }, {
+	    key: "addOfflineFlag",
+	    value: function addOfflineFlag() {
+	      document.body.classList.add('offline');
+	    }
+	  }, {
+	    key: "initialise",
+	    value: function initialise() {
+	      var _this3 = this;
+
+	      this.refreshSurveysMenu();
+	      var modalContent = document.createElement('div');
+	      modalContent.innerHTML = newSurveyModal;
+	      document.body.appendChild(modalContent.getElementsByTagName('div')[0]);
+	      modalContent = document.createElement('div');
+	      modalContent.innerHTML = resetModal;
+	      document.body.appendChild(modalContent.getElementsByTagName('div')[0]);
+	      modalContent = document.createElement('div');
+	      modalContent.innerHTML = saveAllSuccessModal;
+	      document.body.appendChild(modalContent.getElementsByTagName('div')[0]);
+	      modalContent = document.createElement('div');
+	      modalContent.innerHTML = saveAllFailureModal;
+	      document.body.appendChild(modalContent.getElementsByTagName('div')[0]); // register event handlers once the content is likely to be in the DOM
+
+	      setTimeout(function () {
+	        document.getElementById("".concat(Layout.NEW_SURVEY_MODAL_ID, "confirmed")).addEventListener('click', function (event) {
+	          event.stopPropagation();
+	          event.preventDefault();
+
+	          if (event.detail < 2) {
+	            // only if not a double click
+	            _this3.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);
+	          }
+	        });
+	        document.getElementById("".concat(Layout.RESET_MODAL_ID, "confirmed")).addEventListener('click', function (event) {
+	          event.stopPropagation();
+	          event.preventDefault();
+
+	          if (event.detail < 2) {
+	            // only if not a double click
+	            _this3.app.fireEvent(App.EVENT_RESET_SURVEYS);
+	          }
+	        });
+	      }, 100);
+	    }
+	  }, {
+	    key: "refreshSurveysMenu",
+	    value: function refreshSurveysMenu() {
+	      var surveyMenuContainer = document.getElementById(this.surveysMenuId);
+	      var items = this.getSurveyItems();
+	      surveyMenuContainer.innerHTML = "<a class=\"dropdown-item\" href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>\n    <div class=\"dropdown-divider\"></div>\n    ".concat(items.join(''), "\n    <div class=\"dropdown-divider\"></div>\n    <a class=\"dropdown-item\" href=\"/app/survey/new\" data-navigo=\"survey/new\">").concat(this.newSurveyLabel, "</a>\n    <a class=\"dropdown-item\" href=\"/app/survey/reset\" data-navigo=\"survey/reset\">reset</a>");
+	      this.app.router.updatePageLinks();
+	    }
+	  }, {
+	    key: "getSurveyItems",
+	    value: function getSurveyItems() {
+	      /**
+	       *
+	       * @type {Array.<string>}
+	       */
+	      var items = [];
+	      var currentSurveyId = this.app.currentSurvey ? this.app.currentSurvey.id : null;
+
+	      var _iterator = _createForOfIteratorHelper$5(this.app.surveys),
+	          _step;
+
+	      try {
+	        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	          var surveyTuple = _step.value;
+	          var survey = surveyTuple[1];
+	          var label = survey.generateSurveyName() + (surveyTuple[0] === currentSurveyId ? ' <span style="color: green">●</span>' : '');
+	          items[items.length] = "<a class=\"dropdown-item\" href=\"/app/survey/add/".concat(surveyTuple[0], "\" data-navigo=\"survey/add/").concat(surveyTuple[0], "\">").concat(label, "</a>");
+	        }
+	      } catch (err) {
+	        _iterator.e(err);
+	      } finally {
+	        _iterator.f();
+	      }
+
+	      return items;
+	    }
+	  }]);
+
+	  return Layout;
+	}(EventHarness);
+
+	_defineProperty(Layout, "NEW_SURVEY_MODAL_ID", 'newsurveymodal');
+
+	_defineProperty(Layout, "RESET_MODAL_ID", 'resetmodal');
+
+	_defineProperty(Layout, "SAVE_ALL_SUCCESS_MODAL_ID", 'saveallsuccess');
+
+	_defineProperty(Layout, "SAVE_ALL_FAILURE_MODAL_ID", 'saveallfailure');
+
+	function _createSuper$d(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$d(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$d() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * @external $
+	 */
+
+	var SurveyPickerController = /*#__PURE__*/function (_AppController) {
+	  _inherits(SurveyPickerController, _AppController);
+
+	  var _super = _createSuper$d(SurveyPickerController);
+
+	  /**
+	   *
+	   * @param {SurveyPickerView} view
+	   */
+	  function SurveyPickerController(view) {
+	    var _this;
+
+	    _classCallCheck(this, SurveyPickerController);
+
+	    _this = _super.call(this);
+
+	    _defineProperty(_assertThisInitialized(_this), "route", '/survey/:action/:id');
+
+	    _defineProperty(_assertThisInitialized(_this), "title", 'Survey picker');
+
+	    _defineProperty(_assertThisInitialized(_this), "app", void 0);
+
+	    _defineProperty(_assertThisInitialized(_this), "view", void 0);
+
+	    _this.view = view;
+	    view.controller = _assertThisInitialized(_this);
+	    _this.handle = AppController.nextHandle;
+	    return _this;
+	  }
+	  /**
+	   * registers the default route from this.route
+	   * or alternatively is overridden in a child class
+	   *
+	   * @param {PatchedNavigo} router
+	   */
+
+
+	  _createClass(SurveyPickerController, [{
+	    key: "survey",
+	    get:
+	    /**
+	     * @type {App}
+	     */
+
+	    /**
+	     *
+	     * @type {SurveyPickerView}
+	     */
+
+	    /**
+	     *
+	     * @returns {Survey}
+	     */
+	    function get() {
+	      return this.app.currentSurvey;
+	    }
+	  }, {
+	    key: "registerRoute",
+	    value: function registerRoute(router) {
+	      router.on('/survey', this.mainRouteHandler.bind(this, 'survey', '', ''), {// before : this.beforeRouteHandler ? this.beforeRouteHandler.bind(this) : null,
+	        // after : this.afterRouteHandler ? this.afterRouteHandler.bind(this) : null,
+	        // leave : this.leaveRouteHandler ? this.leaveRouteHandler.bind(this) : null,
+	        // already : this.alreadyRouteHandler ? this.alreadyRouteHandler.bind(this) : null
+	      });
+	      router.on('/survey/new', this.newSurveyHandler.bind(this, 'survey', 'new', ''), {
+	        before: this.beforeNewHandler.bind(this)
+	      });
+	      router.on('/survey/reset', this.mainRouteHandler.bind(this, 'survey', 'reset', ''), {
+	        before: this.beforeResetHandler.bind(this)
+	      });
+	      router.on('/survey/save', this.mainRouteHandler.bind(this, 'survey', 'save', ''), {
+	        before: this.beforeSaveAllHandler.bind(this)
+	      });
+	      router.on('/survey/add/:surveyId', this.addSurveyHandler.bind(this, 'survey', 'add', ''));
+	      this.app.addListener(App.EVENT_ADD_SURVEY_USER_REQUEST, this.addNewSurveyHandler.bind(this));
+	      this.app.addListener(App.EVENT_RESET_SURVEYS, this.resetSurveysHandler.bind(this));
+	    }
+	  }, {
+	    key: "beforeNewHandler",
+	    value: function beforeNewHandler(done) {
+	      $("#".concat(Layout.NEW_SURVEY_MODAL_ID)).modal();
+	      this.app.router.pause();
+	      window.history.back(); // this could fail if previous url was not under the single-page-app umbrella (should test)
+
+	      this.app.router.resume();
+	      done(false); // block navigation
+	    }
+	  }, {
+	    key: "beforeResetHandler",
+	    value: function beforeResetHandler(done) {
+	      $("#".concat(Layout.RESET_MODAL_ID)).modal();
+	      this.app.router.pause();
+	      window.history.back(); // this could fail if previous url was not under the single-page-app umbrella (should test)
+
+	      this.app.router.resume();
+	      done(false); // block navigation
+	    }
+	  }, {
+	    key: "beforeSaveAllHandler",
+	    value: function beforeSaveAllHandler(done) {
+	      // invoke sync of any/all unsaved data
+	      // show pop-ups on success and failure
+	      this.app.syncAll().then(function (result) {
+	        console.log("In save all handler, success result: ".concat(result));
+
+	        if (Array.isArray(result)) {
+	          $("#".concat(Layout.SAVE_ALL_SUCCESS_MODAL_ID)).modal();
+	        } else {
+	          $("#".concat(Layout.SAVE_ALL_FAILURE_MODAL_ID)).modal();
+	        }
+	      }, function (result) {
+	        console.log("In save all handler, failure result: ".concat(result));
+	        $("#".concat(Layout.SAVE_ALL_FAILURE_MODAL_ID)).modal();
+	      }).finally(function () {// stop the spinner
+	      });
+	      this.app.router.pause();
+	      window.history.back(); // this could fail if previous url was not under the single-page-app umbrella (should test)
+
+	      this.app.router.resume();
+	      done(false); // block navigation
+	    }
+	    /**
+	     *
+	     * @param {string} context typically 'survey'
+	     * @param {('new'|'')} subcontext
+	     * @param {(''|'help')} rhs currently not used
+	     * @param {Object.<string, string>} queryParameters surveyId
+	     */
+
+	  }, {
+	    key: "newSurveyHandler",
+	    value: function newSurveyHandler(context, subcontext, rhs, queryParameters) {// should not get here, as beforeNewHandler ought to have been invoked first
+	    }
+	    /**
+	     * called after user has confirmed add new survey dialog box
+	     */
+
+	  }, {
+	    key: "addNewSurveyHandler",
+	    value: function addNewSurveyHandler() {
+	      console.log("reached addNewSurveyHandler");
+	      this.app.currentControllerHandle = this.handle; // when navigate back need to list need to ensure full view refresh
+	      // the apps occurrences should only relate to the current survey
+	      // (the reset are remote or in IndexedDb)
+
+	      this.app.clearCurrentSurvey();
+	      this.app.setNewSurvey();
+	      this.app.router.pause();
+	      this.app.router.navigate('/list/survey/welcome').resume();
+	      this.app.router.resolve();
+	    }
+	    /**
+	     * called after user has confirmed reset surveys dialog box
+	     */
+
+	  }, {
+	    key: "resetSurveysHandler",
+	    value: function resetSurveysHandler() {
+	      var _this2 = this;
+
+	      this.app.clearLocalForage().then(function () {
+	        _this2.app.reset();
+
+	        _this2.addNewSurveyHandler();
+	      });
+	    }
+	    /**
+	     *
+	     * @param {string} context typically 'survey'
+	     * @param {('add'|'')} subcontext
+	     * @param {(''|'help')} rhs currently not used
+	     * @param {Object.<string, string>} queryParameters surveyId
+	     */
+
+	  }, {
+	    key: "addSurveyHandler",
+	    value: function addSurveyHandler(context, subcontext, rhs, queryParameters) {
+	      var _this3 = this;
+
+	      console.log("reached addSurveyHandler");
+	      console.log({
+	        context: context,
+	        params: subcontext,
+	        query: queryParameters
+	      });
+	      this.app.currentControllerHandle = this.handle; // when navigate back need to list need to ensure full view refresh
+
+	      var surveyId = queryParameters.surveyId;
+
+	      if (!surveyId || !surveyId.match(UUID_REGEX)) {
+	        throw new NotFoundError("Failed to match survey id '".concat(surveyId, "', the id format appears to be incorrect"));
+	      }
+
+	      surveyId = surveyId.toLowerCase();
+	      this.app.restoreOccurrences(surveyId).then(function () {
+	        _this3.app.markAllNotPristine();
+
+	        _this3.app.router.pause();
+
+	        _this3.app.router.navigate('/list').resume();
+
+	        _this3.app.router.resolve();
+	      }, function (error) {
+	        console.log({
+	          'failed survey restoration': error
+	        }); // should display a modal error message
+	        // either the survey was not found or there was no network connection
+	        // should switch to displaying a list of available surveys and an option to start a new survey
+	      });
+	    }
+	    /**
+	     *
+	     * @param {string} context typically 'survey'
+	     * @param {('add'|'')} subcontext
+	     * @param {(''|'help')} rhs currently not used
+	     * @param {Object.<string, string>} queryParameters surveyId
+	     */
+
+	  }, {
+	    key: "mainRouteHandler",
+	    value: function mainRouteHandler(context, subcontext, rhs, queryParameters) {
+	      console.log("reached special route handler for SurveyPickerController.js");
+	      console.log({
+	        context: context,
+	        params: subcontext,
+	        query: queryParameters
+	      });
+	    }
+	  }]);
+
+	  return SurveyPickerController;
+	}(AppController);
+
+	_defineProperty(SurveyPickerController, "EVENT_BACK", 'back');
+
+	/* eslint-disable es/no-string-prototype-matchall -- safe */
+	var $$7$1 = _export;
+	var global$5$1 = global$Z$1;
+	var call$1$1 = functionCall;
+	var uncurryThis$2$1 = functionUncurryThis;
+	var createIteratorConstructor$4 = createIteratorConstructor$2$1;
+	var requireObjectCoercible$g = requireObjectCoercible$9$1;
+	var toLength$c = toLength$5$1;
+	var toString$2$1 = toString$c$1;
+	var anObject$r = anObject$l$1;
+	var classof$2$1 = classofRaw$1;
+	var isPrototypeOf$1$1 = objectIsPrototypeOf;
+	var isRegExp$1$1 = isRegexp$1;
+	var regExpFlags$1$1 = regexpFlags$1$1;
+	var getMethod$8 = getMethod$7;
+	var redefine$1$1 = redefine$d$1.exports;
+	var fails$2$1 = fails$x$1;
+	var wellKnownSymbol$1$1 = wellKnownSymbol$q;
+	var speciesConstructor$5 = speciesConstructor$4;
+	var advanceStringIndex$5 = advanceStringIndex$4$1;
+	var regExpExec$5 = regexpExecAbstract$1;
+	var InternalStateModule$a = internalState;
+	var IS_PURE$2 = isPure;
+
+	var MATCH_ALL$1 = wellKnownSymbol$1$1('matchAll');
+	var REGEXP_STRING$1 = 'RegExp String';
+	var REGEXP_STRING_ITERATOR$1 = REGEXP_STRING$1 + ' Iterator';
+	var setInternalState$a = InternalStateModule$a.set;
+	var getInternalState$2$1 = InternalStateModule$a.getterFor(REGEXP_STRING_ITERATOR$1);
+	var RegExpPrototype$3$1 = RegExp.prototype;
+	var TypeError$4$1 = global$5$1.TypeError;
+	var getFlags$1$1 = uncurryThis$2$1(regExpFlags$1$1);
+	var stringIndexOf$1$1 = uncurryThis$2$1(''.indexOf);
+	var un$MatchAll$1 = uncurryThis$2$1(''.matchAll);
+
+	var WORKS_WITH_NON_GLOBAL_REGEX$1 = !!un$MatchAll$1 && !fails$2$1(function () {
+	  un$MatchAll$1('a', /./);
+	});
+
+	var $RegExpStringIterator$1 = createIteratorConstructor$4(function RegExpStringIterator(regexp, string, $global, fullUnicode) {
+	  setInternalState$a(this, {
+	    type: REGEXP_STRING_ITERATOR$1,
+	    regexp: regexp,
+	    string: string,
+	    global: $global,
+	    unicode: fullUnicode,
+	    done: false
+	  });
+	}, REGEXP_STRING$1, function next() {
+	  var state = getInternalState$2$1(this);
+	  if (state.done) return { value: undefined, done: true };
+	  var R = state.regexp;
+	  var S = state.string;
+	  var match = regExpExec$5(R, S);
+	  if (match === null) return { value: undefined, done: state.done = true };
+	  if (state.global) {
+	    if (toString$2$1(match[0]) === '') R.lastIndex = advanceStringIndex$5(S, toLength$c(R.lastIndex), state.unicode);
+	    return { value: match, done: false };
+	  }
+	  state.done = true;
+	  return { value: match, done: false };
+	});
+
+	var $matchAll$1 = function (string) {
+	  var R = anObject$r(this);
+	  var S = toString$2$1(string);
+	  var C, flagsValue, flags, matcher, $global, fullUnicode;
+	  C = speciesConstructor$5(R, RegExp);
+	  flagsValue = R.flags;
+	  if (flagsValue === undefined && isPrototypeOf$1$1(RegExpPrototype$3$1, R) && !('flags' in RegExpPrototype$3$1)) {
+	    flagsValue = getFlags$1$1(R);
+	  }
+	  flags = flagsValue === undefined ? '' : toString$2$1(flagsValue);
+	  matcher = new C(C === RegExp ? R.source : R, flags);
+	  $global = !!~stringIndexOf$1$1(flags, 'g');
+	  fullUnicode = !!~stringIndexOf$1$1(flags, 'u');
+	  matcher.lastIndex = toLength$c(R.lastIndex);
+	  return new $RegExpStringIterator$1(matcher, S, $global, fullUnicode);
+	};
+
+	// `String.prototype.matchAll` method
+	// https://tc39.es/ecma262/#sec-string.prototype.matchall
+	$$7$1({ target: 'String', proto: true, forced: WORKS_WITH_NON_GLOBAL_REGEX$1 }, {
+	  matchAll: function matchAll(regexp) {
+	    var O = requireObjectCoercible$g(this);
+	    var flags, S, matcher, rx;
+	    if (regexp != null) {
+	      if (isRegExp$1$1(regexp)) {
+	        flags = toString$2$1(requireObjectCoercible$g('flags' in RegExpPrototype$3$1
+	          ? regexp.flags
+	          : getFlags$1$1(regexp)
+	        ));
+	        if (!~stringIndexOf$1$1(flags, 'g')) throw TypeError$4$1('`.matchAll` does not allow non-global regexes');
+	      }
+	      if (WORKS_WITH_NON_GLOBAL_REGEX$1) return un$MatchAll$1(O, regexp);
+	      matcher = getMethod$8(regexp, MATCH_ALL$1);
+	      if (matcher === undefined && IS_PURE$2 && classof$2$1(regexp) == 'RegExp') matcher = $matchAll$1;
+	      if (matcher) return call$1$1(matcher, regexp, O);
+	    } else if (WORKS_WITH_NON_GLOBAL_REGEX$1) return un$MatchAll$1(O, regexp);
+	    S = toString$2$1(O);
+	    rx = new RegExp(regexp, 'g');
+	    return rx[MATCH_ALL$1](S);
+	  }
+	});
+
+	MATCH_ALL$1 in RegExpPrototype$3$1 || redefine$1$1(RegExpPrototype$3$1, MATCH_ALL$1, $matchAll$1);
+
+	var $$6$1 = _export;
+	var $map$2 = arrayIteration$1.map;
+	var arrayMethodHasSpeciesSupport$1$1 = arrayMethodHasSpeciesSupport$5;
+
+	var HAS_SPECIES_SUPPORT$1$1 = arrayMethodHasSpeciesSupport$1$1('map');
+
+	// `Array.prototype.map` method
+	// https://tc39.es/ecma262/#sec-array.prototype.map
+	// with adding support of @@species
+	$$6$1({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$1$1 }, {
+	  map: function map(callbackfn /* , thisArg */) {
+	    return $map$2(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+	  }
+	});
+
+	function _createForOfIteratorHelper$4(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$4(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+	function _unsupportedIterableToArray$4(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$4(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$4(o, minLen); }
+
+	function _arrayLikeToArray$4(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+	var ResponseFactory = /*#__PURE__*/function () {
+	  function ResponseFactory() {
+	    _classCallCheck(this, ResponseFactory);
+	  }
+
+	  _createClass(ResponseFactory, null, [{
+	    key: "fromPostedData",
+	    value:
+	    /**
+	     *
+	     * @param {FormData} formData
+	     * @returns {LocalResponse}
+	     */
+	    function fromPostedData(formData) {
+	      /**
+	       * the object that will be saved to IndexedDb
+	       *
+	       * this needs to be in scope for several stages of the promise chain
+	       * @type {{[saved]: string, [type]: string, [imageId]: string, [surveyId]: string, [occurrenceId]: string, [image]: file, [projectId]: number, saveState: string }}
+	       */
+	      var toSaveLocally = {
+	        saveState: SAVE_STATE_LOCAL // mark as not saved externally
+
+	      };
+
+	      var _iterator = _createForOfIteratorHelper$4(formData.entries()),
+	          _step;
+
+	      try {
+	        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	          var pair = _step.value;
+	          toSaveLocally[pair[0]] = pair[1];
+	        }
+	      } catch (err) {
+	        _iterator.e(err);
+	      } finally {
+	        _iterator.f();
+	      }
+
+	      if (!toSaveLocally.type) {
+	        throw new Error('Missing type in form data.');
+	      }
+
+	      if (ResponseFactory.responses.hasOwnProperty(toSaveLocally.type)) {
+	        return new ResponseFactory.responses[toSaveLocally.type](toSaveLocally, {});
+	      } else {
+	        throw new Error("Unrecognised post type '".concat(toSaveLocally.type, "'"));
+	      }
+	    }
+	    /**
+	     *
+	     * @param {{}} returnedToClient
+	     */
+
+	  }, {
+	    key: "fromPostResponse",
+	    value: function fromPostResponse(returnedToClient) {
+	      if (!returnedToClient) {
+	        throw new Error('Invalid empty post response.');
+	      }
+
+	      if (!returnedToClient.type) {
+	        throw new Error('Missing type in returned response.');
+	      }
+
+	      if (ResponseFactory.responses.hasOwnProperty(returnedToClient.type)) {
+	        console.log("in fromPostResponse returning a ".concat(returnedToClient.type));
+	        return new ResponseFactory.responses[returnedToClient.type]({}, returnedToClient);
+	      } else {
+	        throw new Error("Unrecognised post type '".concat(returnedToClient.type, "'"));
+	      }
+	    }
+	  }]);
+
+	  return ResponseFactory;
+	}();
+
+	_defineProperty(ResponseFactory, "responses", {});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	function isPushStateAvailable() {
+	  return !!(typeof window !== 'undefined' && window.history && window.history.pushState);
+	}
+
+	function Navigo(r, useHash, hash) {
+	  this.root = null;
+	  this._routes = [];
+	  this._useHash = useHash;
+	  this._hash = typeof hash === 'undefined' ? '#' : hash;
+	  this._paused = false;
+	  this._destroyed = false;
+	  this._lastRouteResolved = null;
+	  this._notFoundHandler = null;
+	  this._defaultHandler = null;
+	  this._usePushState = !useHash && isPushStateAvailable();
+	  this._onLocationChange = this._onLocationChange.bind(this);
+	  this._genericHooks = null;
+	  this._historyAPIUpdateMethod = 'pushState';
+
+	  if (r) {
+	    this.root = useHash ? r.replace(/\/$/, '/' + this._hash) : r.replace(/\/$/, '');
+	  } else if (useHash) {
+	    this.root = this._cLoc().split(this._hash)[0].replace(/\/$/, '/' + this._hash);
+	  }
+
+	  this._listen();
+	  this.updatePageLinks();
+	}
+
+	function clean(s) {
+	  if (s instanceof RegExp) return s;
+	  return s.replace(/\/+$/, '').replace(/^\/+/, '^/');
+	}
+
+	function regExpResultToParams(match, names) {
+	  if (names.length === 0) return null;
+	  if (!match) return null;
+	  return match.slice(1, match.length).reduce(function (params, value, index) {
+	    if (params === null) params = {};
+	    params[names[index]] = decodeURIComponent(value);
+	    return params;
+	  }, null);
+	}
+
+	function replaceDynamicURLParts(route) {
+	  var paramNames = [],
+	      regexp;
+
+	  if (route instanceof RegExp) {
+	    regexp = route;
+	  } else {
+	    regexp = new RegExp(route.replace(Navigo.PARAMETER_REGEXP, function (full, dots, name) {
+	      paramNames.push(name);
+	      return Navigo.REPLACE_VARIABLE_REGEXP;
+	    }).replace(Navigo.WILDCARD_REGEXP, Navigo.REPLACE_WILDCARD) + Navigo.FOLLOWED_BY_SLASH_REGEXP, Navigo.MATCH_REGEXP_FLAGS);
+	  }
+	  return { regexp: regexp, paramNames: paramNames };
+	}
+
+	function getUrlDepth(url) {
+	  return url.replace(/\/$/, '').split('/').length;
+	}
+
+	function compareUrlDepth(urlA, urlB) {
+	  return getUrlDepth(urlB) - getUrlDepth(urlA);
+	}
+
+	function findMatchedRoutes(url) {
+	  var routes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	  return routes.map(function (route) {
+	    var _replaceDynamicURLPar = replaceDynamicURLParts(clean(route.route)),
+	        regexp = _replaceDynamicURLPar.regexp,
+	        paramNames = _replaceDynamicURLPar.paramNames;
+
+	    var match = url.replace(/^\/+/, '/').match(regexp);
+	    var params = regExpResultToParams(match, paramNames);
+
+	    return match ? { match: match, route: route, params: params } : false;
+	  }).filter(function (m) {
+	    return m;
+	  });
+	}
+
+	function match(url, routes) {
+	  return findMatchedRoutes(url, routes)[0] || false;
+	}
+
+	function root(url, routes) {
+	  var matched = routes.map(function (route) {
+	    return route.route === '' || route.route === '*' ? url : url.split(new RegExp(route.route + '($|\/)'))[0];
+	  });
+	  var fallbackURL = clean(url);
+
+	  if (matched.length > 1) {
+	    return matched.reduce(function (result, url) {
+	      if (result.length > url.length) result = url;
+	      return result;
+	    }, matched[0]);
+	  } else if (matched.length === 1) {
+	    return matched[0];
+	  }
+	  return fallbackURL;
+	}
+
+	function isHashChangeAPIAvailable() {
+	  return typeof window !== 'undefined' && 'onhashchange' in window;
+	}
+
+	function extractGETParameters(url) {
+	  return url.split(/\?(.*)?$/).slice(1).join('');
+	}
+
+	function getOnlyURL(url, useHash, hash) {
+	  var onlyURL = url,
+	      split;
+	  var cleanGETParam = function cleanGETParam(str) {
+	    return str.split(/\?(.*)?$/)[0];
+	  };
+
+	  if (typeof hash === 'undefined') {
+	    // To preserve BC
+	    hash = '#';
+	  }
+
+	  if (isPushStateAvailable() && !useHash) {
+	    onlyURL = cleanGETParam(url).split(hash)[0];
+	  } else {
+	    split = url.split(hash);
+	    onlyURL = split.length > 1 ? cleanGETParam(split[1]) : cleanGETParam(split[0]);
+	  }
+
+	  return onlyURL;
+	}
+
+	function manageHooks(handler, hooks, params) {
+	  if (hooks && (typeof hooks === 'undefined' ? 'undefined' : _typeof(hooks)) === 'object') {
+	    if (hooks.before) {
+	      hooks.before(function () {
+	        var shouldRoute = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+	        if (!shouldRoute) return;
+	        handler();
+	        hooks.after && hooks.after(params);
+	      }, params);
+	      return;
+	    } else if (hooks.after) {
+	      handler();
+	      hooks.after && hooks.after(params);
+	      return;
+	    }
+	  }
+	  handler();
+	}
+
+	function isHashedRoot(url, useHash, hash) {
+	  if (isPushStateAvailable() && !useHash) {
+	    return false;
+	  }
+
+	  if (!url.match(hash)) {
+	    return false;
+	  }
+
+	  var split = url.split(hash);
+
+	  return split.length < 2 || split[1] === '';
+	}
+
+	Navigo.prototype = {
+	  helpers: {
+	    match: match,
+	    root: root,
+	    clean: clean,
+	    getOnlyURL: getOnlyURL
+	  },
+	  navigate: function navigate(path, absolute) {
+	    var to;
+
+	    path = path || '';
+	    if (this._usePushState) {
+	      to = (!absolute ? this._getRoot() + '/' : '') + path.replace(/^\/+/, '/');
+	      to = to.replace(/([^:])(\/{2,})/g, '$1/');
+	      history[this._historyAPIUpdateMethod]({}, '', to);
+	      this.resolve();
+	    } else if (typeof window !== 'undefined') {
+	      path = path.replace(new RegExp('^' + this._hash), '');
+	      window.location.href = window.location.href.replace(/#$/, '').replace(new RegExp(this._hash + '.*$'), '') + this._hash + path;
+	    }
+	    return this;
+	  },
+	  on: function on() {
+	    var _this = this;
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    if (typeof args[0] === 'function') {
+	      this._defaultHandler = { handler: args[0], hooks: args[1] };
+	    } else if (args.length >= 2) {
+	      if (args[0] === '/') {
+	        var func = args[1];
+
+	        if (_typeof(args[1]) === 'object') {
+	          func = args[1].uses;
+	        }
+
+	        this._defaultHandler = { handler: func, hooks: args[2] };
+	      } else {
+	        this._add(args[0], args[1], args[2]);
+	      }
+	    } else if (_typeof(args[0]) === 'object') {
+	      var orderedRoutes = Object.keys(args[0]).sort(compareUrlDepth);
+
+	      orderedRoutes.forEach(function (route) {
+	        _this.on(route, args[0][route]);
+	      });
+	    }
+	    return this;
+	  },
+	  off: function off(handler) {
+	    if (this._defaultHandler !== null && handler === this._defaultHandler.handler) {
+	      this._defaultHandler = null;
+	    } else if (this._notFoundHandler !== null && handler === this._notFoundHandler.handler) {
+	      this._notFoundHandler = null;
+	    }
+	    this._routes = this._routes.reduce(function (result, r) {
+	      if (r.handler !== handler) result.push(r);
+	      return result;
+	    }, []);
+	    return this;
+	  },
+	  notFound: function notFound(handler, hooks) {
+	    this._notFoundHandler = { handler: handler, hooks: hooks };
+	    return this;
+	  },
+	  resolve: function resolve(current) {
+	    var _this2 = this;
+
+	    var handler, m;
+	    var url = (current || this._cLoc()).replace(this._getRoot(), '');
+
+	    if (this._useHash) {
+	      url = url.replace(new RegExp('^\/' + this._hash), '/');
+	    }
+
+	    var GETParameters = extractGETParameters(current || this._cLoc());
+	    var onlyURL = getOnlyURL(url, this._useHash, this._hash);
+
+	    if (this._paused) return false;
+
+	    if (this._lastRouteResolved && onlyURL === this._lastRouteResolved.url && GETParameters === this._lastRouteResolved.query) {
+	      if (this._lastRouteResolved.hooks && this._lastRouteResolved.hooks.already) {
+	        this._lastRouteResolved.hooks.already(this._lastRouteResolved.params);
+	      }
+	      return false;
+	    }
+
+	    m = match(onlyURL, this._routes);
+
+	    if (m) {
+	      this._callLeave();
+	      this._lastRouteResolved = {
+	        url: onlyURL,
+	        query: GETParameters,
+	        hooks: m.route.hooks,
+	        params: m.params,
+	        name: m.route.name
+	      };
+	      handler = m.route.handler;
+	      manageHooks(function () {
+	        manageHooks(function () {
+	          m.route.route instanceof RegExp ? handler.apply(undefined, m.match.slice(1, m.match.length)) : handler(m.params, GETParameters);
+	        }, m.route.hooks, m.params, _this2._genericHooks);
+	      }, this._genericHooks, m.params);
+	      return m;
+	    } else if (this._defaultHandler && (onlyURL === '' || onlyURL === '/' || onlyURL === this._hash || isHashedRoot(onlyURL, this._useHash, this._hash))) {
+	      manageHooks(function () {
+	        manageHooks(function () {
+	          _this2._callLeave();
+	          _this2._lastRouteResolved = { url: onlyURL, query: GETParameters, hooks: _this2._defaultHandler.hooks };
+	          _this2._defaultHandler.handler(GETParameters);
+	        }, _this2._defaultHandler.hooks);
+	      }, this._genericHooks);
+	      return true;
+	    } else if (this._notFoundHandler) {
+	      manageHooks(function () {
+	        manageHooks(function () {
+	          _this2._callLeave();
+	          _this2._lastRouteResolved = { url: onlyURL, query: GETParameters, hooks: _this2._notFoundHandler.hooks };
+	          _this2._notFoundHandler.handler(GETParameters);
+	        }, _this2._notFoundHandler.hooks);
+	      }, this._genericHooks);
+	    }
+	    return false;
+	  },
+	  destroy: function destroy() {
+	    this._routes = [];
+	    this._destroyed = true;
+	    this._lastRouteResolved = null;
+	    this._genericHooks = null;
+	    clearTimeout(this._listeningInterval);
+	    if (typeof window !== 'undefined') {
+	      window.removeEventListener('popstate', this._onLocationChange);
+	      window.removeEventListener('hashchange', this._onLocationChange);
+	    }
+	  },
+	  updatePageLinks: function updatePageLinks() {
+	    var self = this;
+
+	    if (typeof document === 'undefined') return;
+
+	    this._findLinks().forEach(function (link) {
+	      if (!link.hasListenerAttached) {
+	        link.addEventListener('click', function (e) {
+	          if ((e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() == 'a') {
+	            return false;
+	          }
+	          var location = self.getLinkPath(link);
+
+	          if (!self._destroyed) {
+	            e.preventDefault();
+	            self.navigate(location.replace(/\/+$/, '').replace(/^\/+/, '/'));
+	          }
+	        });
+	        link.hasListenerAttached = true;
+	      }
+	    });
+	  },
+	  generate: function generate(name) {
+	    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+	    var result = this._routes.reduce(function (result, route) {
+	      var key;
+
+	      if (route.name === name) {
+	        result = route.route;
+	        for (key in data) {
+	          result = result.toString().replace(':' + key, data[key]);
+	        }
+	      }
+	      return result;
+	    }, '');
+
+	    return this._useHash ? this._hash + result : result;
+	  },
+	  link: function link(path) {
+	    return this._getRoot() + path;
+	  },
+	  pause: function pause() {
+	    var status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+	    this._paused = status;
+	    if (status) {
+	      this._historyAPIUpdateMethod = 'replaceState';
+	    } else {
+	      this._historyAPIUpdateMethod = 'pushState';
+	    }
+	  },
+	  resume: function resume() {
+	    this.pause(false);
+	  },
+	  historyAPIUpdateMethod: function historyAPIUpdateMethod(value) {
+	    if (typeof value === 'undefined') return this._historyAPIUpdateMethod;
+	    this._historyAPIUpdateMethod = value;
+	    return value;
+	  },
+	  disableIfAPINotAvailable: function disableIfAPINotAvailable() {
+	    if (!isPushStateAvailable()) {
+	      this.destroy();
+	    }
+	  },
+	  lastRouteResolved: function lastRouteResolved() {
+	    return this._lastRouteResolved;
+	  },
+	  getLinkPath: function getLinkPath(link) {
+	    return link.getAttribute('href');
+	  },
+	  hooks: function hooks(_hooks) {
+	    this._genericHooks = _hooks;
+	  },
+
+	  _add: function _add(route) {
+	    var handler = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	    var hooks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+	    if (typeof route === 'string') {
+	      route = encodeURI(route);
+	    }
+	    this._routes.push((typeof handler === 'undefined' ? 'undefined' : _typeof(handler)) === 'object' ? {
+	      route: route,
+	      handler: handler.uses,
+	      name: handler.as,
+	      hooks: hooks || handler.hooks
+	    } : { route: route, handler: handler, hooks: hooks });
+
+	    return this._add;
+	  },
+	  _getRoot: function _getRoot() {
+	    if (this.root !== null) return this.root;
+	    this.root = root(this._cLoc().split('?')[0], this._routes);
+	    return this.root;
+	  },
+	  _listen: function _listen() {
+	    var _this3 = this;
+
+	    if (this._usePushState) {
+	      window.addEventListener('popstate', this._onLocationChange);
+	    } else if (isHashChangeAPIAvailable()) {
+	      window.addEventListener('hashchange', this._onLocationChange);
+	    } else {
+	      var cached = this._cLoc(),
+	          current = void 0,
+	          _check = void 0;
+
+	      _check = function check() {
+	        current = _this3._cLoc();
+	        if (cached !== current) {
+	          cached = current;
+	          _this3.resolve();
+	        }
+	        _this3._listeningInterval = setTimeout(_check, 200);
+	      };
+	      _check();
+	    }
+	  },
+	  _cLoc: function _cLoc() {
+	    if (typeof window !== 'undefined') {
+	      if (typeof window.__NAVIGO_WINDOW_LOCATION_MOCK__ !== 'undefined') {
+	        return window.__NAVIGO_WINDOW_LOCATION_MOCK__;
+	      }
+	      return clean(window.location.href);
+	    }
+	    return '';
+	  },
+	  _findLinks: function _findLinks() {
+	    return [].slice.call(document.querySelectorAll('[data-navigo]'));
+	  },
+	  _onLocationChange: function _onLocationChange() {
+	    this.resolve();
+	  },
+	  _callLeave: function _callLeave() {
+	    var lastRouteResolved = this._lastRouteResolved;
+
+	    if (lastRouteResolved && lastRouteResolved.hooks && lastRouteResolved.hooks.leave) {
+	      lastRouteResolved.hooks.leave(lastRouteResolved.params);
+	    }
+	  }
+	};
+
+	Navigo.PARAMETER_REGEXP = /([:*])(\w+)/g;
+	Navigo.WILDCARD_REGEXP = /\*/g;
+	Navigo.REPLACE_VARIABLE_REGEXP = '([^\/]+)';
+	Navigo.REPLACE_WILDCARD = '(?:.*)';
+	Navigo.FOLLOWED_BY_SLASH_REGEXP = '(?:\/$|$)';
+	Navigo.MATCH_REGEXP_FLAGS = '';
+
+	function _createSuper$9(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$9(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$9() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	var PatchedNavigo = /*#__PURE__*/function (_Navigo) {
+	  _inherits(PatchedNavigo, _Navigo);
+
+	  var _super = _createSuper$9(PatchedNavigo);
+
+	  function PatchedNavigo() {
+	    _classCallCheck(this, PatchedNavigo);
+
+	    return _super.apply(this, arguments);
+	  }
+
+	  _createClass(PatchedNavigo, [{
+	    key: "updatePageLinks",
+	    value: function updatePageLinks() {
+	      var _this = this;
+
+	      if (typeof document === 'undefined') {
+	        return;
+	      }
+
+	      var l = document.createElement("a");
+	      l.href = this.root;
+	      var rootPath = l.pathname;
+
+	      this._findLinks().forEach(function (link) {
+	        if (!link.hasListenerAttached) {
+	          link.addEventListener('click',
+	          /** @param {MouseEvent} e */
+	          function (e) {
+	            if (doubleClickIntercepted(e)) {
+	              return;
+	            }
+
+	            if ((e.ctrlKey || e.metaKey) && e.target.tagName.toLowerCase() === 'a') {
+	              return false;
+	            }
+
+	            if (!_this._destroyed) {
+	              var path = link.pathname; // console.log({path});
+
+	              var leaf = path.replace(rootPath, ''); // console.log({leaf});
+	              //var location = self.getLinkPath(link);
+
+	              e.preventDefault(); //self.navigate(location.replace(/\/+$/, '').replace(/^\/+/, '/'));
+
+	              _this.navigate(leaf);
+	            }
+	          });
+	          link.hasListenerAttached = true;
+	        }
+	      });
+	    }
+	  }]);
+
+	  return PatchedNavigo;
+	}(Navigo);
+
+	var DESCRIPTORS$2$1 = descriptors;
+	var global$4$1 = global$Z$1;
+	var uncurryThis$1$1 = functionUncurryThis;
+	var isForced$5 = isForced_1;
+	var inheritIfRequired$5 = inheritIfRequired$2$1;
+	var createNonEnumerableProperty$a = createNonEnumerableProperty$8$1;
+	var defineProperty$2$1 = objectDefineProperty.f;
+	var getOwnPropertyNames$5 = objectGetOwnPropertyNames.f;
+	var isPrototypeOf$9 = objectIsPrototypeOf;
+	var isRegExp$5 = isRegexp$1;
+	var toString$1$1 = toString$c$1;
+	var regExpFlags$5 = regexpFlags$1$1;
+	var stickyHelpers$3 = regexpStickyHelpers$1;
+	var redefine$e = redefine$d$1.exports;
+	var fails$1$1 = fails$x$1;
+	var hasOwn$h = hasOwnProperty_1;
+	var enforceInternalState$2 = internalState.enforce;
+	var setSpecies$5 = setSpecies$3$1;
+	var wellKnownSymbol$r = wellKnownSymbol$q;
+	var UNSUPPORTED_DOT_ALL$1$1 = regexpUnsupportedDotAll$1;
+	var UNSUPPORTED_NCG$2 = regexpUnsupportedNcg$1;
+
+	var MATCH$3 = wellKnownSymbol$r('match');
+	var NativeRegExp$1 = global$4$1.RegExp;
+	var RegExpPrototype$2$1 = NativeRegExp$1.prototype;
+	var SyntaxError$1 = global$4$1.SyntaxError;
+	var getFlags$4 = uncurryThis$1$1(regExpFlags$5);
+	var exec$9 = uncurryThis$1$1(RegExpPrototype$2$1.exec);
+	var charAt$d = uncurryThis$1$1(''.charAt);
+	var replace$b = uncurryThis$1$1(''.replace);
+	var stringIndexOf$5 = uncurryThis$1$1(''.indexOf);
+	var stringSlice$f = uncurryThis$1$1(''.slice);
+	// TODO: Use only propper RegExpIdentifierName
+	var IS_NCG$1 = /^\?<[^\s\d!#%&*+<=>@^][^\s!#%&*+<=>@^]*>/;
+	var re1$1 = /a/g;
+	var re2$1 = /a/g;
+
+	// "new" should create a new object, old webkit bug
+	var CORRECT_NEW$1 = new NativeRegExp$1(re1$1) !== re1$1;
+
+	var UNSUPPORTED_Y$1$1 = stickyHelpers$3.UNSUPPORTED_Y;
+
+	var BASE_FORCED$1 = DESCRIPTORS$2$1 &&
+	  (!CORRECT_NEW$1 || UNSUPPORTED_Y$1$1 || UNSUPPORTED_DOT_ALL$1$1 || UNSUPPORTED_NCG$2 || fails$1$1(function () {
+	    re2$1[MATCH$3] = false;
+	    // RegExp constructor can alter flags and IsRegExp works correct with @@match
+	    return NativeRegExp$1(re1$1) != re1$1 || NativeRegExp$1(re2$1) == re2$1 || NativeRegExp$1(re1$1, 'i') != '/a/i';
+	  }));
+
+	var handleDotAll$1 = function (string) {
+	  var length = string.length;
+	  var index = 0;
+	  var result = '';
+	  var brackets = false;
+	  var chr;
+	  for (; index <= length; index++) {
+	    chr = charAt$d(string, index);
+	    if (chr === '\\') {
+	      result += chr + charAt$d(string, ++index);
+	      continue;
+	    }
+	    if (!brackets && chr === '.') {
+	      result += '[\\s\\S]';
+	    } else {
+	      if (chr === '[') {
+	        brackets = true;
+	      } else if (chr === ']') {
+	        brackets = false;
+	      } result += chr;
+	    }
+	  } return result;
+	};
+
+	var handleNCG$1 = function (string) {
+	  var length = string.length;
+	  var index = 0;
+	  var result = '';
+	  var named = [];
+	  var names = {};
+	  var brackets = false;
+	  var ncg = false;
+	  var groupid = 0;
+	  var groupname = '';
+	  var chr;
+	  for (; index <= length; index++) {
+	    chr = charAt$d(string, index);
+	    if (chr === '\\') {
+	      chr = chr + charAt$d(string, ++index);
+	    } else if (chr === ']') {
+	      brackets = false;
+	    } else if (!brackets) switch (true) {
+	      case chr === '[':
+	        brackets = true;
+	        break;
+	      case chr === '(':
+	        if (exec$9(IS_NCG$1, stringSlice$f(string, index + 1))) {
+	          index += 2;
+	          ncg = true;
+	        }
+	        result += chr;
+	        groupid++;
+	        continue;
+	      case chr === '>' && ncg:
+	        if (groupname === '' || hasOwn$h(names, groupname)) {
+	          throw new SyntaxError$1('Invalid capture group name');
+	        }
+	        names[groupname] = true;
+	        named[named.length] = [groupname, groupid];
+	        ncg = false;
+	        groupname = '';
+	        continue;
+	    }
+	    if (ncg) groupname += chr;
+	    else result += chr;
+	  } return [result, named];
+	};
+
+	// `RegExp` constructor
+	// https://tc39.es/ecma262/#sec-regexp-constructor
+	if (isForced$5('RegExp', BASE_FORCED$1)) {
+	  var RegExpWrapper$1 = function RegExp(pattern, flags) {
+	    var thisIsRegExp = isPrototypeOf$9(RegExpPrototype$2$1, this);
+	    var patternIsRegExp = isRegExp$5(pattern);
+	    var flagsAreUndefined = flags === undefined;
+	    var groups = [];
+	    var rawPattern = pattern;
+	    var rawFlags, dotAll, sticky, handled, result, state;
+
+	    if (!thisIsRegExp && patternIsRegExp && flagsAreUndefined && pattern.constructor === RegExpWrapper$1) {
+	      return pattern;
+	    }
+
+	    if (patternIsRegExp || isPrototypeOf$9(RegExpPrototype$2$1, pattern)) {
+	      pattern = pattern.source;
+	      if (flagsAreUndefined) flags = 'flags' in rawPattern ? rawPattern.flags : getFlags$4(rawPattern);
+	    }
+
+	    pattern = pattern === undefined ? '' : toString$1$1(pattern);
+	    flags = flags === undefined ? '' : toString$1$1(flags);
+	    rawPattern = pattern;
+
+	    if (UNSUPPORTED_DOT_ALL$1$1 && 'dotAll' in re1$1) {
+	      dotAll = !!flags && stringIndexOf$5(flags, 's') > -1;
+	      if (dotAll) flags = replace$b(flags, /s/g, '');
+	    }
+
+	    rawFlags = flags;
+
+	    if (UNSUPPORTED_Y$1$1 && 'sticky' in re1$1) {
+	      sticky = !!flags && stringIndexOf$5(flags, 'y') > -1;
+	      if (sticky) flags = replace$b(flags, /y/g, '');
+	    }
+
+	    if (UNSUPPORTED_NCG$2) {
+	      handled = handleNCG$1(pattern);
+	      pattern = handled[0];
+	      groups = handled[1];
+	    }
+
+	    result = inheritIfRequired$5(NativeRegExp$1(pattern, flags), thisIsRegExp ? this : RegExpPrototype$2$1, RegExpWrapper$1);
+
+	    if (dotAll || sticky || groups.length) {
+	      state = enforceInternalState$2(result);
+	      if (dotAll) {
+	        state.dotAll = true;
+	        state.raw = RegExpWrapper$1(handleDotAll$1(pattern), rawFlags);
+	      }
+	      if (sticky) state.sticky = true;
+	      if (groups.length) state.groups = groups;
+	    }
+
+	    if (pattern !== rawPattern) try {
+	      // fails in old engines, but we have no alternatives for unsupported regex syntax
+	      createNonEnumerableProperty$a(result, 'source', rawPattern === '' ? '(?:)' : rawPattern);
+	    } catch (error) { /* empty */ }
+
+	    return result;
+	  };
+
+	  var proxy$1 = function (key) {
+	    key in RegExpWrapper$1 || defineProperty$2$1(RegExpWrapper$1, key, {
+	      configurable: true,
+	      get: function () { return NativeRegExp$1[key]; },
+	      set: function (it) { NativeRegExp$1[key] = it; }
+	    });
+	  };
+
+	  for (var keys$3 = getOwnPropertyNames$5(NativeRegExp$1), index$1 = 0; keys$3.length > index$1;) {
+	    proxy$1(keys$3[index$1++]);
+	  }
+
+	  RegExpPrototype$2$1.constructor = RegExpWrapper$1;
+	  RegExpWrapper$1.prototype = RegExpPrototype$2$1;
+	  redefine$e(global$4$1, 'RegExp', RegExpWrapper$1);
+	}
+
+	// https://tc39.es/ecma262/#sec-get-regexp-@@species
+	setSpecies$5('RegExp');
+
+	var global$3$1 = global$Z$1;
+	var DESCRIPTORS$1$1 = descriptors;
+	var UNSUPPORTED_DOT_ALL$3 = regexpUnsupportedDotAll$1;
+	var classof$1$1 = classofRaw$1;
+	var defineProperty$1$1 = objectDefineProperty.f;
+	var getInternalState$1$1 = internalState.get;
+
+	var RegExpPrototype$1$1 = RegExp.prototype;
+	var TypeError$3$1 = global$3$1.TypeError;
+
+	// `RegExp.prototype.dotAll` getter
+	// https://tc39.es/ecma262/#sec-get-regexp.prototype.dotall
+	if (DESCRIPTORS$1$1 && UNSUPPORTED_DOT_ALL$3) {
+	  defineProperty$1$1(RegExpPrototype$1$1, 'dotAll', {
+	    configurable: true,
+	    get: function () {
+	      if (this === RegExpPrototype$1$1) return undefined;
+	      // We can't use InternalStateModule.getterFor because
+	      // we don't add metadata for regexps created by a literal.
+	      if (classof$1$1(this) === 'RegExp') {
+	        return !!getInternalState$1$1(this).dotAll;
+	      }
+	      throw TypeError$3$1('Incompatible receiver, RegExp required');
+	    }
+	  });
+	}
+
+	var global$2$1 = global$Z$1;
+	var DESCRIPTORS$r = descriptors;
+	var UNSUPPORTED_Y$4 = regexpStickyHelpers$1.UNSUPPORTED_Y;
+	var classof$f = classofRaw$1;
+	var defineProperty$c = objectDefineProperty.f;
+	var getInternalState$9 = internalState.get;
+
+	var RegExpPrototype$8 = RegExp.prototype;
+	var TypeError$2$1 = global$2$1.TypeError;
+
+	// `RegExp.prototype.sticky` getter
+	// https://tc39.es/ecma262/#sec-get-regexp.prototype.sticky
+	if (DESCRIPTORS$r && UNSUPPORTED_Y$4) {
+	  defineProperty$c(RegExpPrototype$8, 'sticky', {
+	    configurable: true,
+	    get: function () {
+	      if (this === RegExpPrototype$8) return undefined;
+	      // We can't use InternalStateModule.getterFor because
+	      // we don't add metadata for regexps created by a literal.
+	      if (classof$f(this) === 'RegExp') {
+	        return !!getInternalState$9(this).sticky;
+	      }
+	      throw TypeError$2$1('Incompatible receiver, RegExp required');
+	    }
+	  });
+	}
+
+	var arraySlice$c = arraySlice$6$1;
+
+	var floor$a = Math.floor;
+
+	var mergeSort$1 = function (array, comparefn) {
+	  var length = array.length;
+	  var middle = floor$a(length / 2);
+	  return length < 8 ? insertionSort$1(array, comparefn) : merge$1(
+	    array,
+	    mergeSort$1(arraySlice$c(array, 0, middle), comparefn),
+	    mergeSort$1(arraySlice$c(array, middle), comparefn),
+	    comparefn
+	  );
+	};
+
+	var insertionSort$1 = function (array, comparefn) {
+	  var length = array.length;
+	  var i = 1;
+	  var element, j;
+
+	  while (i < length) {
+	    j = i;
+	    element = array[i];
+	    while (j && comparefn(array[j - 1], element) > 0) {
+	      array[j] = array[--j];
+	    }
+	    if (j !== i++) array[j] = element;
+	  } return array;
+	};
+
+	var merge$1 = function (array, left, right, comparefn) {
+	  var llength = left.length;
+	  var rlength = right.length;
+	  var lindex = 0;
+	  var rindex = 0;
+
+	  while (lindex < llength || rindex < rlength) {
+	    array[lindex + rindex] = (lindex < llength && rindex < rlength)
+	      ? comparefn(left[lindex], right[rindex]) <= 0 ? left[lindex++] : right[rindex++]
+	      : lindex < llength ? left[lindex++] : right[rindex++];
+	  } return array;
+	};
+
+	var arraySort$2 = mergeSort$1;
+
+	var userAgent$1$1 = engineUserAgent;
+
+	var firefox$1 = userAgent$1$1.match(/firefox\/(\d+)/i);
+
+	var engineFfVersion$1 = !!firefox$1 && +firefox$1[1];
+
+	var UA$1 = engineUserAgent;
+
+	var engineIsIeOrEdge$1 = /MSIE|Trident/.test(UA$1);
+
+	var userAgent$6 = engineUserAgent;
+
+	var webkit$1 = userAgent$6.match(/AppleWebKit\/(\d+)\./);
+
+	var engineWebkitVersion$1 = !!webkit$1 && +webkit$1[1];
+
+	var $$5$1 = _export;
+	var uncurryThis$Z = functionUncurryThis;
+	var aCallable$a = aCallable$7$1;
+	var toObject$1$1 = toObject$a$1;
+	var lengthOfArrayLike$1$1 = lengthOfArrayLike$8$1;
+	var toString$s = toString$c$1;
+	var fails$X = fails$x$1;
+	var internalSort$2 = arraySort$2;
+	var arrayMethodIsStrict$a = arrayMethodIsStrict$3$1;
+	var FF$2 = engineFfVersion$1;
+	var IE_OR_EDGE$2 = engineIsIeOrEdge$1;
+	var V8$2 = engineV8Version;
+	var WEBKIT$3 = engineWebkitVersion$1;
+
+	var test$2 = [];
+	var un$Sort$2 = uncurryThis$Z(test$2.sort);
+	var push$c = uncurryThis$Z(test$2.push);
+
+	// IE8-
+	var FAILS_ON_UNDEFINED$1 = fails$X(function () {
+	  test$2.sort(undefined);
+	});
+	// V8 bug
+	var FAILS_ON_NULL$1 = fails$X(function () {
+	  test$2.sort(null);
+	});
+	// Old WebKit
+	var STRICT_METHOD$9 = arrayMethodIsStrict$a('sort');
+
+	var STABLE_SORT$2 = !fails$X(function () {
+	  // feature detection can be too slow, so check engines versions
+	  if (V8$2) return V8$2 < 70;
+	  if (FF$2 && FF$2 > 3) return;
+	  if (IE_OR_EDGE$2) return true;
+	  if (WEBKIT$3) return WEBKIT$3 < 603;
+
+	  var result = '';
+	  var code, chr, value, index;
+
+	  // generate an array with more 512 elements (Chakra and old V8 fails only in this case)
+	  for (code = 65; code < 76; code++) {
+	    chr = String.fromCharCode(code);
+
+	    switch (code) {
+	      case 66: case 69: case 70: case 72: value = 3; break;
+	      case 68: case 71: value = 4; break;
+	      default: value = 2;
+	    }
+
+	    for (index = 0; index < 47; index++) {
+	      test$2.push({ k: chr + index, v: value });
+	    }
+	  }
+
+	  test$2.sort(function (a, b) { return b.v - a.v; });
+
+	  for (index = 0; index < test$2.length; index++) {
+	    chr = test$2[index].k.charAt(0);
+	    if (result.charAt(result.length - 1) !== chr) result += chr;
+	  }
+
+	  return result !== 'DGBEFHACIJK';
+	});
+
+	var FORCED$1$1 = FAILS_ON_UNDEFINED$1 || !FAILS_ON_NULL$1 || !STRICT_METHOD$9 || !STABLE_SORT$2;
+
+	var getSortCompare$2 = function (comparefn) {
+	  return function (x, y) {
+	    if (y === undefined) return -1;
+	    if (x === undefined) return 1;
+	    if (comparefn !== undefined) return +comparefn(x, y) || 0;
+	    return toString$s(x) > toString$s(y) ? 1 : -1;
+	  };
+	};
+
+	// `Array.prototype.sort` method
+	// https://tc39.es/ecma262/#sec-array.prototype.sort
+	$$5$1({ target: 'Array', proto: true, forced: FORCED$1$1 }, {
+	  sort: function sort(comparefn) {
+	    if (comparefn !== undefined) aCallable$a(comparefn);
+
+	    var array = toObject$1$1(this);
+
+	    if (STABLE_SORT$2) return comparefn === undefined ? un$Sort$2(array) : un$Sort$2(array, comparefn);
+
+	    var items = [];
+	    var arrayLength = lengthOfArrayLike$1$1(array);
+	    var itemsLength, index;
+
+	    for (index = 0; index < arrayLength; index++) {
+	      if (index in array) push$c(items, array[index]);
+	    }
+
+	    internalSort$2(items, getSortCompare$2(comparefn));
+
+	    itemsLength = items.length;
+	    index = 0;
+
+	    while (index < itemsLength) array[index] = items[index++];
+	    while (index < arrayLength) delete array[index++];
+
+	    return array;
+	  }
+	});
+
+	var $$4$1 = _export;
+	var global$1$1 = global$Z$1;
+	var toAbsoluteIndex$7 = toAbsoluteIndex$3$1;
+	var toIntegerOrInfinity$f = toIntegerOrInfinity$5$1;
+	var lengthOfArrayLike$h = lengthOfArrayLike$8$1;
+	var toObject$o = toObject$a$1;
+	var arraySpeciesCreate$4 = arraySpeciesCreate$3$1;
+	var createProperty$6 = createProperty$5$1;
+	var arrayMethodHasSpeciesSupport$6 = arrayMethodHasSpeciesSupport$5;
+
+	var HAS_SPECIES_SUPPORT$4 = arrayMethodHasSpeciesSupport$6('splice');
+
+	var TypeError$1$1 = global$1$1.TypeError;
+	var max$5 = Math.max;
+	var min$8 = Math.min;
+	var MAX_SAFE_INTEGER$2 = 0x1FFFFFFFFFFFFF;
+	var MAXIMUM_ALLOWED_LENGTH_EXCEEDED$1 = 'Maximum allowed length exceeded';
+
+	// `Array.prototype.splice` method
+	// https://tc39.es/ecma262/#sec-array.prototype.splice
+	// with adding support of @@species
+	$$4$1({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$4 }, {
+	  splice: function splice(start, deleteCount /* , ...items */) {
+	    var O = toObject$o(this);
+	    var len = lengthOfArrayLike$h(O);
+	    var actualStart = toAbsoluteIndex$7(start, len);
+	    var argumentsLength = arguments.length;
+	    var insertCount, actualDeleteCount, A, k, from, to;
+	    if (argumentsLength === 0) {
+	      insertCount = actualDeleteCount = 0;
+	    } else if (argumentsLength === 1) {
+	      insertCount = 0;
+	      actualDeleteCount = len - actualStart;
+	    } else {
+	      insertCount = argumentsLength - 2;
+	      actualDeleteCount = min$8(max$5(toIntegerOrInfinity$f(deleteCount), 0), len - actualStart);
+	    }
+	    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER$2) {
+	      throw TypeError$1$1(MAXIMUM_ALLOWED_LENGTH_EXCEEDED$1);
+	    }
+	    A = arraySpeciesCreate$4(O, actualDeleteCount);
+	    for (k = 0; k < actualDeleteCount; k++) {
+	      from = actualStart + k;
+	      if (from in O) createProperty$6(A, k, O[from]);
+	    }
+	    A.length = actualDeleteCount;
+	    if (insertCount < actualDeleteCount) {
+	      for (k = actualStart; k < len - actualDeleteCount; k++) {
+	        from = k + actualDeleteCount;
+	        to = k + insertCount;
+	        if (from in O) O[to] = O[from];
+	        else delete O[to];
+	      }
+	      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
+	    } else if (insertCount > actualDeleteCount) {
+	      for (k = len - actualDeleteCount; k > actualStart; k--) {
+	        from = k + actualDeleteCount - 1;
+	        to = k + insertCount - 1;
+	        if (from in O) O[to] = O[from];
+	        else delete O[to];
+	      }
+	    }
+	    for (k = 0; k < insertCount; k++) {
+	      O[k + actualStart] = arguments[k + 2];
+	    }
+	    O.length = len - actualDeleteCount + insertCount;
+	    return A;
+	  }
+	});
+
+	/**
+	 * @external BsbiDb
+	 */
+
+	var TaxonSearch = /*#__PURE__*/function () {
+	  /**
+	   * see TaxonRank::sort
+	   *
+	   * @type int|null
+	   */
+
+	  /**
+	   * if set then only taxa with records are returned
+	   *
+	   * @type boolean
+	   */
+	  // /**
+	  //  * if set then only taxa with records present in the specified status scheme (scheme id code)
+	  //  * (default null)
+	  //  *
+	  //  * @type string|null
+	  //  */
+	  // requiredStatusSchemeId = null;
+
+	  /**
+	   * if set then require that returned taxon names are >= 3 letters
+	   * and don't contain numerals
+	   *
+	   * @type boolean
+	   */
+
+	  /**
+	   * (static config setting)
+	   *
+	   * @type {boolean}
+	   */
+	  function TaxonSearch() {
+	    _classCallCheck(this, TaxonSearch);
+
+	    _defineProperty(this, "minimumRankSort", null);
+
+	    _defineProperty(this, "requireExtantDDbRecords", false);
+
+	    _defineProperty(this, "skipJunk", true);
+
+	    if (!Taxon.rawTaxa) {
+	      Taxon.rawTaxa = BsbiDb.TaxonNames;
+
+	      if (!Taxon.rawTaxa) {
+	        throw new Error('Taxon list has failed to load in TaxonSearch');
+	      }
+	    }
+	  }
+	  /**
+	   *
+	   * @param {object} taxonResult
+	   * @param {string} queryString
+	   * @returns {string}
+	   */
+
+
+	  _createClass(TaxonSearch, [{
+	    key: "lookup",
+	    value:
+	    /**
+	     *
+	     * @param {string} query
+	     * @returns {Array.<{entityId: string,
+	                        vernacular: string,
+	                        qname: string,
+	                        name: string,
+	                        qualifier: string,
+	                        authority: string,
+	                        uname: string,
+	                        vernacularMatched: boolean,
+	                        exact: boolean,
+	                        near: boolean,
+	                        formatted: string,
+	                        acceptedEntityId: string,
+	                        acceptedNameString: string,
+	                        acceptedQualifier: string,
+	                        acceptedAuthority: string
+	                        }>}
+	     */
+	    function lookup(query) {
+	      var results,
+	          taxonString,
+	          canonical,
+	          matchedIds = {},
+	          preferHybrids; // ignore trailing ' x' from string which would just muck up result matching
+
+	      taxonString = TaxonSearch.normaliseTaxonName(decodeURIComponent(query).trim()).replace(/\s+x$/i, '');
+	      preferHybrids = / x\b/.test(taxonString);
+
+	      if (taxonString !== '') {
+	        var abbreviatedMatches = taxonString.match(TaxonSearch.abbreviatedGenusRegex);
+
+	        if (abbreviatedMatches) {
+	          // matched an abbreviated genus name (or an abbreviated hybrid genus)
+	          var exp, nearMatchExp;
+
+	          if (abbreviatedMatches[2] === 'X' || abbreviatedMatches[2] === 'x') {
+	            // either have a genus name beginning 'X' or a hybrid genus
+	            exp = new RegExp("^(X\\s|X[a-z]+\\s+)(x )?\\b".concat(TaxonSearch.generate_hybrid_combinations_regex(abbreviatedMatches[3]), ".*"), 'i');
+	            nearMatchExp = exp;
+	          } else {
+	            exp = new RegExp("^(X )?".concat(TaxonSearch.escapeRegExp(abbreviatedMatches[2]), "[a-z]+ (x )?.*\\b").concat(TaxonSearch.generate_hybrid_combinations_regex(abbreviatedMatches[3]), ".*"), 'i');
+	            /**
+	             * Similar to exp but without flexibility (.*) after genus part
+	             * used only for result ranking (exact>near>vague)
+	             */
+
+	            nearMatchExp = new RegExp("^(X )?".concat(TaxonSearch.escapeRegExp(abbreviatedMatches[2]), "[a-z]+ (x )?\\b").concat(TaxonSearch.generate_hybrid_combinations_regex(abbreviatedMatches[3]), ".*"), 'i');
+	          }
+
+	          for (var id in Taxon.rawTaxa) {
+	            // noinspection JSUnfilteredForInLoop (assume is safe for rawTaxa object)
+	            var testTaxon = Taxon.rawTaxa[id];
+	            /**
+	             * The canonical name may be identical to the nameString in which case JSON taxon list stores
+	             * zero instead to save file space (and to mark that canonical name should be ignored)
+	             */
+
+	            canonical = testTaxon[TaxonSearch.canonicalColumn] === 0 ? testTaxon[TaxonSearch.nameStringColumn] : testTaxon[TaxonSearch.canonicalColumn];
+
+	            if (exp.test(canonical) || testTaxon[TaxonSearch.hybridCanonicalColumn] !== '' && exp.test(testTaxon[TaxonSearch.hybridCanonicalColumn])) {
+	              matchedIds[id] = {
+	                exact: testTaxon[TaxonSearch.nameStringColumn] === taxonString,
+	                near: nearMatchExp.test(testTaxon[TaxonSearch.nameStringColumn])
+	              };
+	            }
+	          }
+
+	          results = this.compile_results(matchedIds, preferHybrids);
+	        } else {
+	          // genus is not abbreviated
+	          var canonicalQuery, nearMatchRegex;
+	          var escapedTaxonString = TaxonSearch.escapeRegExp(taxonString);
+
+	          if (taxonString.indexOf(' ') !== -1) {
+	            // hybrids of the form Species x nothoname or Species nothoname should be seen as equivalent
+	            canonicalQuery = "".concat(TaxonSearch.escapeRegExp(taxonString.substr(0, taxonString.indexOf(' '))), " (x )?.*\\b").concat(TaxonSearch.generate_hybrid_combinations_regex(taxonString.substr(taxonString.indexOf(' ') + 1)), ".*");
+	            /**
+	             * Similar to canonicalQuery/hybridCanonicalQuery but without flexibility (.*) after genus part
+	             * used only for result ranking (exact>near>vague)
+	             */
+
+	            nearMatchRegex = new RegExp("^(?:Xs+)?".concat(TaxonSearch.escapeRegExp(taxonString.substr(0, taxonString.indexOf(' '))), " (x )?\\b").concat(TaxonSearch.generate_hybrid_combinations_regex(taxonString.substr(taxonString.indexOf(' ') + 1)), ".*"), 'i');
+	          } else {
+	            canonicalQuery = "".concat(escapedTaxonString, ".*");
+	            nearMatchRegex = new RegExp("^".concat(escapedTaxonString, ".*"));
+	          }
+
+	          var strictEscapedTaxonString = "^".concat(escapedTaxonString, ".*"); // var escapedTaxonStringRegExp = new RegExp(strictEscapedTaxonString, 'i');
+	          // var canonicalQueryRegExp = new RegExp('^' + canonicalQuery, 'i');
+	          // var hybridCanonicalQueryregExp = new RegExp('^X ' + canonicalQuery, 'i');
+
+	          var canonicalQueryRegExp = new RegExp("^(?:Xs+)?".concat(canonicalQuery), 'i');
+
+	          if (!TaxonSearch.showVernacular) {
+	            // no vernacular
+	            for (var _id in Taxon.rawTaxa) {
+	              // noinspection JSUnfilteredForInLoop (assume is safe for rawTaxa object)
+	              var _testTaxon = Taxon.rawTaxa[_id];
+	              canonical = _testTaxon[TaxonSearch.canonicalColumn] === 0 ? _testTaxon[TaxonSearch.nameStringColumn] : _testTaxon[TaxonSearch.canonicalColumn];
+
+	              if ( // testTaxon[TaxonSearch.nameStringColumn].search(escapedTaxonStringRegExp) !== -1 ||
+	              canonicalQueryRegExp.test(_testTaxon[TaxonSearch.nameStringColumn]) || canonical !== _testTaxon[TaxonSearch.nameStringColumn] && canonicalQueryRegExp.test(canonical) // testTaxon[TaxonSearch.nameStringColumn].search(hybridCanonicalQueryregExp) !== -1
+	              ) {
+	                matchedIds[_id] = {
+	                  exact: _testTaxon[TaxonSearch.nameStringColumn] === taxonString
+	                };
+	              }
+	            }
+
+	            results = this.compile_results(matchedIds, preferHybrids);
+	          } else {
+	            var caseInsensitiveEscapedTaxonRegex = new RegExp(strictEscapedTaxonString, 'i');
+
+	            for (var _id2 in Taxon.rawTaxa) {
+	              // noinspection JSUnfilteredForInLoop (assume is safe for rawTaxa object)
+	              var _testTaxon2 = Taxon.rawTaxa[_id2];
+	              canonical = _testTaxon2[TaxonSearch.canonicalColumn] === 0 ? _testTaxon2[TaxonSearch.nameStringColumn] : _testTaxon2[TaxonSearch.canonicalColumn];
+
+	              if ( // testTaxon[TaxonSearch.nameStringColumn].search(escapedTaxonStringRegExp) !== -1 ||
+	              canonicalQueryRegExp.test(_testTaxon2[TaxonSearch.nameStringColumn]) || canonical !== _testTaxon2[TaxonSearch.nameStringColumn] && canonicalQueryRegExp.test(canonical) // testTaxon[TaxonSearch.nameStringColumn].search(hybridCanonicalQueryregExp) !== -1
+	              ) {
+	                matchedIds[_id2] = {
+	                  exact: _testTaxon2[TaxonSearch.nameStringColumn] === taxonString,
+	                  near: nearMatchRegex.test(_testTaxon2[TaxonSearch.nameStringColumn]) || nearMatchRegex.test(canonical)
+	                };
+	              } else if (caseInsensitiveEscapedTaxonRegex.test(_testTaxon2[TaxonSearch.vernacularColumn]) || caseInsensitiveEscapedTaxonRegex.test(_testTaxon2[TaxonSearch.vernacularRootColumn])) {
+	                matchedIds[_id2] = {
+	                  exact: _testTaxon2[TaxonSearch.vernacularColumn] === taxonString,
+	                  vernacular: true
+	                };
+	              }
+	            }
+
+	            results = this.compile_results(matchedIds, preferHybrids);
+	            /**
+	             * if very few matches then retry searching using much fuzzier matching
+	             */
+
+	            if (results.length < 5) {
+	              var broadRegExp = new RegExp("\\b".concat(escapedTaxonString, ".*"), 'i'); // match anywhere in string
+
+	              for (var _id3 in Taxon.rawTaxa) {
+	                // noinspection JSUnfilteredForInLoop (assume is safe for rawTaxa object)
+	                if (!matchedIds.hasOwnProperty(_id3)) {
+	                  var _testTaxon3 = Taxon.rawTaxa[_id3];
+
+	                  if (broadRegExp.test(_testTaxon3[TaxonSearch.nameStringColumn])) {
+	                    matchedIds[_id3] = {
+	                      exact: _testTaxon3[TaxonSearch.nameStringColumn] === taxonString
+	                    };
+	                  } else if (_testTaxon3[TaxonSearch.canonicalColumn] !== 0 && broadRegExp.test(_testTaxon3[TaxonSearch.canonicalColumn]) || broadRegExp.test(_testTaxon3[TaxonSearch.vernacularColumn])) {
+	                    matchedIds[_id3] = {
+	                      exact: _testTaxon3[TaxonSearch.nameStringColumn] === taxonString,
+	                      vernacular: true
+	                    };
+	                  }
+	                }
+	              }
+
+	              results = this.compile_results(matchedIds, preferHybrids);
+	            }
+	          }
+	        }
+	      } else {
+	        results = [];
+	      }
+
+	      return results;
+	    }
+	  }, {
+	    key: "compile_results",
+	    value: function compile_results(matchedIds, preferHybrids) {
+	      var results = [];
+
+	      for (var id in matchedIds) {
+	        if (matchedIds.hasOwnProperty(id)) {
+	          var taxon = Taxon.rawTaxa[id];
+
+	          if ((!this.requireExtantDDbRecords || this.requireExtantDDbRecords && taxon[TaxonSearch.usedColumn] === 1) && (!this.minimumRankSort || this.minimumRankSort > 0 && taxon[TaxonSearch.minRankColumn] >= this.minimumRankSort)) {
+	            var qname = taxon[TaxonSearch.nameStringColumn] + (taxon[TaxonSearch.qualifierColumn] ? " ".concat(taxon[TaxonSearch.qualifierColumn]) : '');
+	            var row = {
+	              entityId: id,
+	              vernacular: taxon[TaxonSearch.vernacularColumn],
+	              qname: qname,
+	              name: qname,
+	              // use qualified name for the generic name field
+	              qualifier: taxon[TaxonSearch.qualifierColumn],
+	              authority: taxon[TaxonSearch.authorityColumn],
+	              uname: taxon[TaxonSearch.nameStringColumn],
+	              vernacularMatched: matchedIds[id].hasOwnProperty('vernacular'),
+	              exact: matchedIds[id].hasOwnProperty('exact') && matchedIds[id].exact,
+	              near: matchedIds[id].hasOwnProperty('near') && matchedIds[id].near
+	            };
+	            row.formatted = TaxonSearch.formatter(row);
+
+	            if (taxon[TaxonSearch.acceptedEntityIdColumn]) {
+	              var acceptedTaxon = Taxon.rawTaxa[taxon[TaxonSearch.acceptedEntityIdColumn]];
+
+	              if (!acceptedTaxon) {
+	                if (!Taxon.rawTaxa) {
+	                  throw new Error("Taxon.rawTaxa set is undefined, when trying to find taxon for accepted entity id ".concat(taxon[TaxonSearch.acceptedEntityIdColumn]));
+	                } else {
+	                  throw new Error("Failed to find taxon for accepted entity id ".concat(taxon[TaxonSearch.acceptedEntityIdColumn]));
+	                }
+	              }
+
+	              row.acceptedEntityId = taxon[TaxonSearch.acceptedEntityIdColumn];
+	              row.acceptedNameString = acceptedTaxon[TaxonSearch.nameStringColumn];
+	              row.acceptedQualifier = acceptedTaxon[TaxonSearch.qualifierColumn];
+	              row.acceptedAuthority = acceptedTaxon[TaxonSearch.authorityColumn];
+	            }
+
+	            results.push(row);
+	          }
+	        }
+	      }
+
+	      if (results.length) {
+	        results.sort(function (a, b) {
+	          // if (a.uname == 'Taraxacum \'Irish cambricum\'' || b.uname == 'Taraxacum \'Irish cambricum\'') {
+	          //   console.log(a.uname + " with " + b.uname);
+	          // }
+	          if (a.exact) {
+	            // logger('exact test a: ' + a.uname + ' vs ' + b.uname);
+	            // logger(b);
+	            if (b.exact) {
+	              return a.acceptedEntityId ? 1 : 0; // prefer accepted name
+	            }
+
+	            return -1; // return b.exact ? 0 : -1;
+	          } else if (b.exact) {
+	            // logger('exact test b: ' + b.uname);
+	            return 1;
+	          }
+
+	          if (a.near) {
+	            if (!b.near) {
+	              return -1;
+	            }
+	          } else if (b.near) {
+	            // logger('exact test b: ' + b.uname);
+	            return 1;
+	          }
+
+	          var aIsHybrid = a.uname.match(/\bx\b/i) !== null;
+	          var bIsHybrid = b.uname.match(/\bx\b/i) !== null;
+
+	          if (aIsHybrid) {
+	            // logger('hybrid test: ' + a.qname + ' vs ' + b.qname);
+	            // logger('hybrid test: ' + a.uname + ' vs ' + b.uname);
+	            if (bIsHybrid) {
+	              if (a.uname === b.uname) {
+	                return a.acceptedEntityId ? 1 : 0; // prefer accepted name
+	              }
+
+	              return a.qname < b.qname ? -1 : 1;
+	            }
+
+	            return preferHybrids ? -1 : 1;
+	          } else if (bIsHybrid) {
+	            return preferHybrids ? 1 : -1;
+	          } else if (a.uname === b.uname) {
+	            if ((a.acceptedEntityId || b.acceptedEntityId) && !(a.acceptedEntityId && b.acceptedEntityId)) {
+	              // one of the pair is not an accepted name
+	              return a.acceptedEntityId ? 1 : -1; // prefer accepted name
+	            } else {
+	              // for NYPH purposes agg. and s.l. should be prioritised over
+	              // agg., s.l., empty, s.s.
+	              var aQIndex = ['s.s.', '', null, 's.l.', 'agg.'].indexOf(a.qualifier);
+	              var bQIndex = ['s.s.', '', null, 's.l.', 'agg.'].indexOf(b.qualifier);
+	              return aQIndex === bQIndex ? 0 : aQIndex < bQIndex ? 1 : -1;
+	            }
+	          }
+
+	          return a.uname < b.uname ? -1 : 1;
+	        }); // truncate results
+
+	        if (results.length > TaxonSearch.MAXIMUM_RESULTS) {
+	          results.length = TaxonSearch.MAXIMUM_RESULTS;
+	        }
+	      }
+
+	      return results;
+	    }
+	  }], [{
+	    key: "formatter",
+	    value: function formatter(taxonResult) {
+
+	      if (TaxonSearch.showVernacular) {
+	        if (taxonResult.vernacularMatched) {
+	          if (taxonResult.acceptedEntityId) {
+	            return "<q><b>".concat(taxonResult.vernacular, "</b></q> <span class=\"italictaxon\">").concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>") + " = <span class=\"italictaxon\">".concat(taxonResult.acceptedNameString).concat(taxonResult.acceptedQualifier ? " <b>".concat(taxonResult.acceptedQualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.acceptedAuthority, "</span>");
+	          }
+
+	          return "<q><b>".concat(taxonResult.vernacular, "</b></q> <span class=\"italictaxon\">").concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>");
+	        }
+
+	        if (taxonResult.acceptedEntityId) {
+	          return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>").concat(taxonResult.vernacular ? " <q><b>".concat(taxonResult.vernacular, "</b></q>") : '', " = <span class=\"italictaxon\">").concat(taxonResult.acceptedNameString).concat(taxonResult.acceptedQualifier ? " <b>".concat(taxonResult.acceptedQualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.acceptedAuthority, "</span>");
+	        }
+
+	        return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>").concat(taxonResult.vernacular ? " <q><b>".concat(taxonResult.vernacular, "</b></q>") : '');
+	      }
+
+	      if (taxonResult.acceptedEntityId) {
+	        return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>") + " = <span class=\"italictaxon\">".concat(taxonResult.acceptedNameString).concat(taxonResult.acceptedQualifier ? " <b>".concat(taxonResult.acceptedQualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.acceptedAuthority, "</span>");
+	      }
+
+	      return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier ? " <b>".concat(taxonResult.qualifier, "</b>") : '', "</span> <span class=\"taxauthority\">").concat(taxonResult.authority, "</span>");
+	    }
+	  }, {
+	    key: "normaliseTaxonName",
+	    value:
+	    /**
+	     *
+	     * @param {string} taxonString
+	     * @returns {string}
+	     */
+	    function normaliseTaxonName(taxonString) {
+	      for (var i = 0, l = TaxonSearch.taxonRankNameSearchRegex.length; i < l; i++) {
+	        taxonString = taxonString.replace(TaxonSearch.taxonRankNameSearchRegex[i], TaxonSearch.taxonRankNameReplacement[i]);
+	      }
+
+	      for (var _i = 0, _l = TaxonSearch.taxonQualifierSearchRegex.length; _i < _l; _i++) {
+	        taxonString = taxonString.replace(TaxonSearch.taxonQualifierSearchRegex[_i], TaxonSearch.taxonQualifierReplacement[_i]);
+	      }
+
+	      return taxonString;
+	    }
+	    /**
+	     * from https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+	     *
+	     * @param {string} literal
+	     * @return string
+	     */
+
+	  }, {
+	    key: "escapeRegExp",
+	    value: function escapeRegExp(literal) {
+	      return literal.replace(TaxonSearch.cleanRegex, '\\$&');
+	    }
+	  }, {
+	    key: "generate_hybrid_combinations_regex",
+	    value:
+	    /**
+	     * generate hybrid name permutations
+	     *
+	     * @param {string} names unescaped series of species e.g. "glandulifera" or "carex x nigra"
+	     * @returns {string} name permutations formatted as a regular expression
+	     */
+	    function generate_hybrid_combinations_regex(names) {
+	      var splitParts = TaxonSearch.escapeRegExp(names).split(/\s+x\s+/i);
+
+	      if (splitParts.length < 2) {
+	        return splitParts[0];
+	      }
+
+	      var hybridPermutations = [];
+	      /**
+	       * generate hybrid name permutations
+	       *
+	       * modified from O'Reilly PHP Cookbook
+	       * http://docstore.mik.ua/orelly/webprog/pcook/ch04_26.htm
+	       *
+	       * @param {Array.<string>} items
+	       * @param {Array.<string>} perms
+	       */
+
+	      var permutate = function permutate(items, perms) {
+	        if (items.length === 0) {
+	          hybridPermutations[hybridPermutations.length] = perms.join('[a-zA-Z]* x ');
+	        } else {
+	          for (var i = items.length - 1; i >= 0; --i) {
+	            var newItems = items.slice(0);
+	            var newPerms = perms.slice(0); // take copies of the array
+
+	            newPerms.unshift(newItems.splice(i, 1)[0]);
+	            permutate(newItems, newPerms);
+	          }
+	        }
+	      };
+
+	      permutate(splitParts, []);
+	      return "(?:".concat(hybridPermutations.join('|'), ")");
+	    }
+	  }]);
+
+	  return TaxonSearch;
+	}();
+
+	_defineProperty(TaxonSearch, "showVernacular", true);
+
+	_defineProperty(TaxonSearch, "MIN_SEARCH_LENGTH", 2);
+
+	_defineProperty(TaxonSearch, "MAXIMUM_RESULTS", 25);
+
+	_defineProperty(TaxonSearch, "abbreviatedGenusRegex", /^(X\s+)?([a-z])[.\s]+(.*?)$/i);
+
+	_defineProperty(TaxonSearch, "nameStringColumn", 0);
+
+	_defineProperty(TaxonSearch, "canonicalColumn", 1);
+
+	_defineProperty(TaxonSearch, "hybridCanonicalColumn", 2);
+
+	_defineProperty(TaxonSearch, "acceptedEntityIdColumn", 3);
+
+	_defineProperty(TaxonSearch, "qualifierColumn", 4);
+
+	_defineProperty(TaxonSearch, "authorityColumn", 5);
+
+	_defineProperty(TaxonSearch, "vernacularColumn", 6);
+
+	_defineProperty(TaxonSearch, "vernacularRootColumn", 7);
+
+	_defineProperty(TaxonSearch, "usedColumn", 8);
+
+	_defineProperty(TaxonSearch, "minRankColumn", 9);
+
+	_defineProperty(TaxonSearch, "taxonRankNameSearchRegex", [/\s+sub-?g(?:en(?:us)?)?[.\s]+/i, /\s+sect(?:ion)?[.\s]+/i, /\s+subsect(?:ion)?[.\s]+/i, /\s+ser(?:ies)?[.\s]+/i, /\s+gp[.\s]+/i, /\s+s(?:ub)?-?sp(?:ecies)?[.\s]+/i, /\s+morphotype\s+/i, /\s+var[.\s]+/i, /\s+cv[.\s]+/i, /\s+n(?:otho)?v(?:ar)?[.\s]+/i, /\s+f[.\s]+|\s+forma?\s+/i, /\s+n(?:otho)?ssp[.\s]+/i]);
+
+	_defineProperty(TaxonSearch, "taxonRankNameReplacement", [' subg. ', ' sect. ', ' subsect. ', ' ser. ', ' group ', ' subsp. ', ' morph. ', ' var. ', ' cv. ', // ddb preference is for single quotes for cultivars
+	' nothovar. ', ' f. ', ' nothosubsp. ']);
+
+	_defineProperty(TaxonSearch, "cleanRankNamesRegex", /\s(subfam\.|subg\.|sect\.|subsect\.|ser\.|subser\.|subsp\.|nothosubsp\.|microsp\.|praesp\.|agsp\.|race|convar\.|nm\.|microgene|f\.|subvar\.|var\.|nothovar\.|cv\.|sublusus|taxon|morph\.|group|sp\.)\s/);
+
+	_defineProperty(TaxonSearch, "taxonQualifierSearchRegex", [/\s*\(?\bf\s*x\s*m or m\s*x\s*f\)?\s*$/i, /\s*\(?\bm\s*x\s*f or f\s*x\s*m\)?\s*$/i, /\s*\(?\bf\s*x\s*m\)?\s*$/i, /\s*\(?\bm\s*x\s*f\)?\s*$/i, /\s*\(?\bfemale\s*x\s*male\)?\s*$/i, /\s*\(?\bmale\s*x\s*female\)?\s*$/i, // stand-alone male/female qualifier (e.g. applied to Petasites hybridus)
+	// removes single quotes
+	/\s*'male'\s*$/i, /\s*'female'\s*$/i, // mid-string ss/sl qualifiers
+	/\b\s*sens\.?\s*lat[.\s]+/i, /\b\s*s\.\s*lat\.?\s*\b/i, /\b\s*s\.?\s*l\.?\s+\b/i, /\b\s*sensu\s*lato\s+\b|\(\s*sensu\s*lato\s*\)/i, /\b\s*sensu\s*stricto\s+\b|\(\s*sensu\s*stricto\s*\)/i, /\b\s*sens\.?\s*strict[.\s]+/i, // '/\b\s*sens\.?\s*str\.?\s*(?=\))|\b\s*sens\.?\s*str\.?\s*\b/i', // the first look-ahead option matches before a closing-paren (\b fails between '.)' )
+	/\b\s*sens\.?\s*str\.?\s*(?=\))|\b\s*sens\.?\s*str[.\s]+/i, // '/\b\s*s\.\s*str\.?\s*\b/i',
+	/\b\s*s\.\s*str[.\s]+/i, /\b\s*s\.?\s*s\.?\s+\b/i, // end-of-string ss/sl qualifiers
+	/\b\s*sens\.?\s*lat\.?\s*$/i, /\b\s*s\.\s*lat\.?\s*$/i, /\b\s*s\.?\s*l\.?\s*$/i, /\b\s*sensu\s*lato\s*$/i, /\b\s*sensu\s*stricto\s*$/i, /\b\s*sens\.?\s*strict\.?\s*$/i, /\b\s*sens\.?\s*str\.?\s*$/i, /\b\s*s\.\s*str\.?\s*$/i, /\b\s*s\.?\s*s\.?\s*$/i, /\b\s*agg\.?\s*$/i, /\b\s*aggregate\s*$/i, /\b\s*sp\.?\s*cultivar\s*$/i, /\b\s*sp\.?\s*cv\.?\s*$/i, /\b\s*cultivars?\s*$/i, /\b\s*cv\s+$/i, /\b\s*cv$/i, /\b\s*cf\s*$/i, /\b\s*aff\s*$/i, /\b\s*s\.?n\.?\s*$/i, /\b\s*sp\.?\s*nov\.?\s*$/i, /\b\s*auct[.\s]*$/i, /\b\s*ined[.\s]*$/i, /\b\s*nom\.?\snud[.\s]*$/i, /\b\s*p\.p[.\s?]*$/i, /\b\s*spp?\.?[\s?]*$/i, /\b\s*species\s*$/i, /\b\s*spp?\.?\s*\(/i, // catch e.g. Ulmus sp. (excluding Ulmus glabra)
+	/\b\s*species\s*\(/i]);
+
+	_defineProperty(TaxonSearch, "taxonQualifierReplacement", [' ', // (f x m or m x f) is the default so an explicit qualifier isn't used
+	' ', // (m x f or f x m) is the default so an explicit qualifier isn't used
+	' (f x m)', ' (m x f)', ' (f x m)', ' (m x f)', // stand-alone male/female qualifier (e.g. applied to Petasites hybridus)
+	// removed single quotes
+	' male', ' female', // mid-string ss/sl qualifiers
+	' s.l. ', ' s.l. ', ' s.l. ', ' s.l. ', ' s.s. ', ' s.s. ', ' s.s. ', ' s.s. ', ' s.s. ', // end-of-string ss/sl qualifiers
+	' s.l.', ' s.l.', ' s.l.', ' s.l.', ' s.s.', ' s.s.', ' s.s.', ' s.s.', ' s.s.', ' agg.', ' agg.', ' cv. ', ' cv. ', ' cv. ', ' cv. ', ' cv. ', ' cf.', ' aff.', ' sp.nov.', ' sp.nov.', ' auct.', ' ined.', ' nom. nud.', ' pro parte', '', '', ' (', ' (']);
+
+	_defineProperty(TaxonSearch, "cleanRegex", /[.*+?^${}()|[\]\\]/g);
+
+	/**
+	 * @external BsbiDb
+	 */
+
+	/**
+	 *
+	 */
+
+	var TaxaLoadedHook = /*#__PURE__*/function () {
+	  function TaxaLoadedHook() {
+	    _classCallCheck(this, TaxaLoadedHook);
+	  }
+
+	  _createClass(TaxaLoadedHook, null, [{
+	    key: "taxaLoadedEntryPoint",
+	    value: function taxaLoadedEntryPoint() {
+	      Taxon.rawTaxa = BsbiDb.TaxonNames;
+
+	      while (TaxaLoadedHook.callbackStack.length) {
+	        var callback = TaxaLoadedHook.callbackStack.shift();
+
+	        try {
+	          callback();
+	        } catch (e) {
+	          console.log({
+	            'Exception after taxon load': e
+	          });
+	        }
+	      }
+	    }
+	    /**
+	     *
+	     * @returns {Promise<any>|Promise<void>}
+	     */
+
+	  }, {
+	    key: "onceTaxaLoaded",
+	    value: function onceTaxaLoaded() {
+	      if (BsbiDb.hasOwnProperty('TaxonNames')) {
+	        return Promise.resolve();
+	      } else {
+	        if (!BsbiDb.taxonNamesLoadedEntryPoint) {
+	          BsbiDb.taxonNamesLoadedEntryPoint = TaxaLoadedHook.taxaLoadedEntryPoint;
+	        }
+
+	        return new Promise(function (resolve) {
+	          TaxaLoadedHook.callbackStack.push(resolve);
+	        });
+	      }
+	    }
+	  }]);
+
+	  return TaxaLoadedHook;
+	}();
+
+	_defineProperty(TaxaLoadedHook, "callbackStack", []);
+
+	var $$3$1 = _export;
+	var call$n = functionCall;
+
+	// `URL.prototype.toJSON` method
+	// https://url.spec.whatwg.org/#dom-url-tojson
+	$$3$1({ target: 'URL', proto: true, enumerable: true }, {
+	  toJSON: function toJSON() {
+	    return call$n(URL.prototype.toString, this);
+	  }
+	});
+
+	function _createSuper$8(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$8(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$8() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+	function _classPrivateFieldInitSpec$6(obj, privateMap, value) { _checkPrivateRedeclaration$6(obj, privateMap); privateMap.set(obj, value); }
+
+	function _checkPrivateRedeclaration$6(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+	var _inputId$2 = /*#__PURE__*/new WeakMap();
+
+	var _containerId$6 = /*#__PURE__*/new WeakMap();
+
+	var DateField = /*#__PURE__*/function (_FormField) {
+	  _inherits(DateField, _FormField);
+
+	  var _super = _createSuper$8(DateField);
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   * minimum date (inclusive) or null if no constraint
+	   */
+
+	  /**
+	   * minimum date (inclusive) or null if no constraint
+	   */
+
+	  /**
+	   *
+	   * @param {{
+	   * [label] : string,
+	   * [helpText]: string,
+	   * [options]: {},
+	   * [placeholder]: string,
+	   * [type]: string,
+	   * [autocomplete]: string,
+	   * [minDate] : string,
+	   * [maxDate] : string,
+	   * }} [params]
+	   */
+	  function DateField(params) {
+	    var _this;
+
+	    _classCallCheck(this, DateField);
+
+	    _this = _super.call(this, params);
+
+	    _classPrivateFieldInitSpec$6(_assertThisInitialized(_this), _inputId$2, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$6(_assertThisInitialized(_this), _containerId$6, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "_value", '');
+
+	    _defineProperty(_assertThisInitialized(_this), "_inputType", 'date');
+
+	    _defineProperty(_assertThisInitialized(_this), "_autocomplete", '');
+
+	    _defineProperty(_assertThisInitialized(_this), "_minDate", null);
+
+	    _defineProperty(_assertThisInitialized(_this), "_maxDate", null);
+
+	    _this._value = new Date().toJSON().slice(0, 10); // default to current date
+
+	    if (params) {
+	      if (params.placeholder) {
+	        _this.placeholder = params.placeholder;
+	      }
+
+	      if (params.autocomplete) {
+	        _this._autocomplete = params.autocomplete;
+	      }
+
+	      if (params.minDate) {
+	        _this._minDate = params.minDate;
+	      }
+
+	      if (params.maxDate) {
+	        _this._maxDate = params.maxDate;
+	      }
+	    }
+
+	    return _this;
+	  }
+	  /**
+	   *
+	   * @param {(string|null|undefined)} textContent
+	   */
+
+
+	  _createClass(DateField, [{
+	    key: "value",
+	    get:
+	    /**
+	     *
+	     * @returns {string}
+	     */
+	    function get() {
+	      return this._value ? this._value.slice(0, 10) : '';
+	    },
+	    set: function set(textContent) {
+	      this._value = undefined === textContent || null == textContent ? new Date().toJSON().slice(0, 10) // current date in ISO format
+	      : textContent.trim();
+	      this.updateView();
+	    }
+	  }, {
+	    key: "updateView",
+	    value: function updateView() {
+	      if (this._fieldEl) {
+	        // do nothing until the view has been constructed
+	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputId$2));
+	        inputEl.value = FormField.cleanRawString(this._value);
+	      }
+	    }
+	    /**
+	     * initialises this._fieldEl
+	     *
+	     * @returns {void}
+	     */
+
+	  }, {
+	    key: "buildField",
+	    value: function buildField() {
+	      var container = document.createElement('div');
+	      container.className = 'form-group';
+
+	      _classPrivateFieldSet(this, _containerId$6, container.id = FormField.nextId);
+
+	      _classPrivateFieldSet(this, _inputId$2, FormField.nextId);
+
+	      var labelEl = container.appendChild(document.createElement('label'));
+	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$2);
+	      labelEl.textContent = this.label;
+	      var inputField = container.appendChild(document.createElement('input'));
+	      inputField.className = "form-control";
+	      inputField.id = _classPrivateFieldGet(this, _inputId$2);
+
+	      try {
+	        // this is needed for compatibility with IE11
+	        inputField.type = this._inputType;
+	      } catch (e) {
+	        console.log("Failed to set type '".concat(this._inputType, "'"));
+	      }
+
+	      if (this.placeholder) {
+	        inputField.placeholder = this.placeholder;
+	      }
+
+	      if (this._autocomplete) {
+	        inputField.autocomplete = this._autocomplete;
+
+	        if ('off' === this._autocomplete) {
+	          // browsers tend to ignore autocomplete off, so also assign a random 'name' value
+	          inputField.name = uuid$1();
+	        }
+	      }
+
+	      if (this.completion === FormField.COMPLETION_COMPULSORY) {
+	        inputField.required = true;
+	      }
+
+	      if (this.validationMessage) {
+	        var validationMessageElement = container.appendChild(document.createElement('div'));
+	        validationMessageElement.className = 'invalid-feedback';
+	        validationMessageElement.innerHTML = this.validationMessage;
+	      }
+
+	      if (this.helpText) {
+	        var helpTextField = container.appendChild(document.createElement('small'));
+	        helpTextField.innerHTML = this.helpText;
+	      }
+
+	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
+	      this._fieldEl = container;
+	    }
+	    /**
+	     *
+	     * @param {string} key
+	     * @param {{
+	     * field : typeof DateField,
+	     * attributes : {
+	         * [label] : string,
+	         * [helpText]: string,
+	         * [options]: {},
+	         * [placeholder]: string,
+	         * [type]: string,
+	         * [autocomplete]: string,
+	         * [minDate] : string,
+	         * [maxDate] : string
+	         * }
+	     * }} property properties of the form descriptor
+	     * @param attributes attributes of the model object
+	     * @return {(boolean|null)} returns null if validity was not assessed
+	     */
+
+	  }, {
+	    key: "markValidity",
+	    value:
+	    /**
+	     *
+	     * @param {(boolean|null)} isValid
+	     */
+	    function markValidity(isValid) {
+	      var el = document.getElementById(_classPrivateFieldGet(this, _inputId$2));
+
+	      if (null === isValid) {
+	        el.classList.remove('is-invalid', 'is-valid');
+	      } else {
+	        el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
+	        el.classList.add(isValid ? 'is-valid' : 'is-invalid');
+	      }
+	    }
+	  }, {
+	    key: "inputChangeHandler",
+	    value: function inputChangeHandler(event) {
+	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+
+	      console.log('got date field change event');
+	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _inputId$2)).value);
+	      this.fireEvent(FormField.EVENT_CHANGE);
+	    }
+	    /**
+	     * by the time summariseImpl has been called have already checked that summary is wanted
+	     *
+	     * @param {string} key
+	     * @param {{field : DateField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {Object.<string, {}>} attributes attributes of the model object
+	     * @return {string}
+	     */
+
+	  }], [{
+	    key: "isValid",
+	    value: function isValid(key, property, attributes) {
+	      if (property.attributes.completion && (property.attributes.completion === FormField.COMPLETION_COMPULSORY || property.attributes.completion === FormField.COMPLETION_DESIRED)) {
+	        // test whether required field is missing
+	        if (!attributes.hasOwnProperty(key) || property.field.isEmpty(attributes[key])) {
+	          return false;
+	        } else {
+	          // check if range constraints are met
+	          var dateValue = attributes[key];
+
+	          if (property.attributes.minDate && dateValue < property.attributes.minDate) {
+	            return false;
+	          }
+
+	          if (property.attributes.maxDate && dateValue > property.attributes.maxDate) {
+	            return false;
+	          }
+
+	          var today = new Date().toJSON().slice(0, 10);
+
+	          if (dateValue > today) {
+	            return false;
+	          }
+	        }
+	      } // field is present or optional
+	      // report as valid unless content is corrupt
+
+
+	      return null; // field not assessed
+	    }
+	  }, {
+	    key: "summariseImpl",
+	    value: function summariseImpl(key, property, attributes) {
+	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined ? escapeHTML(attributes[key].trim()) : '';
+	    }
+	  }]);
+
+	  return DateField;
+	}(FormField);
+
+	var collection$5 = collection$3$1;
+	var collectionWeak$3 = collectionWeak$2$1;
+
+	// `WeakSet` constructor
+	// https://tc39.es/ecma262/#sec-weakset-constructor
+	collection$5('WeakSet', function (init) {
+	  return function WeakSet() { return init(this, arguments.length ? arguments[0] : undefined); };
+	}, collectionWeak$3);
+
+	function _createForOfIteratorHelper$3(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$3(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+	function _unsupportedIterableToArray$3(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$3(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$3(o, minLen); }
+
+	function _arrayLikeToArray$3(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+	function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+	function _classPrivateMethodInitSpec$3(obj, privateSet) { _checkPrivateRedeclaration$5(obj, privateSet); privateSet.add(obj); }
+
+	function _classPrivateFieldInitSpec$5(obj, privateMap, value) { _checkPrivateRedeclaration$5(obj, privateMap); privateMap.set(obj, value); }
+
+	function _checkPrivateRedeclaration$5(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+	function _classPrivateMethodGet$3(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+	var IMAGE_MODAL_ID = 'imagemodal';
+	var IMAGE_MODAL_DELETE_BUTTON_ID = 'imagemodaldelete';
+	var DELETE_IMAGE_MODAL_ID = 'deleteimagemodal';
+	var EVENT_DELETE_IMAGE = 'deleteimage';
+	/**
+	 * @external $
+	 */
+
+	var _inputId$1 = /*#__PURE__*/new WeakMap();
+
+	var _containerId$5 = /*#__PURE__*/new WeakMap();
+
+	var _statusBlockId = /*#__PURE__*/new WeakMap();
+
+	var _addFiles = /*#__PURE__*/new WeakSet();
+
+	var _save = /*#__PURE__*/new WeakSet();
+
+	var ImageField = /*#__PURE__*/function (_FormField) {
+	  _inherits(ImageField, _FormField);
+
+	  var _super = _createSuper$7(ImageField);
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {OccurrenceForm}
+	   */
+
+	  /**
+	   *
+	   * @type {{images: Array.<OccurrenceImage>}}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @type {boolean}
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   */
+
+	  /**
+	   *
+	   * @param {{[label] : string, [helpText]: string, [placeholder]: string, [includeCamera]: boolean}} [params]
+	   */
+	  function ImageField(params) {
+	    var _this;
+
+	    _classCallCheck(this, ImageField);
+
+	    _this = _super.call(this, params);
+
+	    _classPrivateMethodInitSpec$3(_assertThisInitialized(_this), _save);
+
+	    _classPrivateMethodInitSpec$3(_assertThisInitialized(_this), _addFiles);
+
+	    _classPrivateFieldInitSpec$5(_assertThisInitialized(_this), _inputId$1, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$5(_assertThisInitialized(_this), _containerId$5, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$5(_assertThisInitialized(_this), _statusBlockId, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "parentForm", void 0);
+
+	    _defineProperty(_assertThisInitialized(_this), "_value", {
+	      images: []
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "includeCamera", true);
+
+	    _defineProperty(_assertThisInitialized(_this), "placeholder", '');
+
+	    if (params) {
+	      if (params.hasOwnProperty('includeCamera')) {
+	        _this.includeCamera = params.includeCamera;
+	      }
+
+	      if (params.placeholder) {
+	        _this.placeholder = params.placeholder;
+	      }
+	    }
+
+	    return _this;
+	  }
+	  /**
+	   * sets content as Images, not as raw files
+	   *
+	   * @param {(Array.<string>|null)} imageIds
+	   */
+
+
+	  _createClass(ImageField, [{
+	    key: "value",
+	    get:
+	    /**
+	     *
+	     * @returns {Array.<string>}
+	     */
+	    function get() {
+	      var ids = [];
+
+	      if (this._value && this._value.images) {
+	        var _iterator = _createForOfIteratorHelper$3(this._value.images),
+	            _step;
+
+	        try {
+	          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	            var image = _step.value;
+	            ids[ids.length] = image.id;
+	          }
+	        } catch (err) {
+	          _iterator.e(err);
+	        } finally {
+	          _iterator.f();
+	        }
+	      }
+
+	      return ids;
+	    },
+	    set: function set(imageIds) {
+	      this._value = {
+	        images: []
+	      };
+
+	      if (imageIds) {
+	        var _iterator2 = _createForOfIteratorHelper$3(imageIds),
+	            _step2;
+
+	        try {
+	          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+	            var id = _step2.value;
+
+	            if (OccurrenceImage.imageCache.has(id)) {
+	              this._value.images.push(OccurrenceImage.imageCache.get(id));
+	            } else {
+	              console.log("Creating placeholder image object '".concat(id, "'"));
+
+	              this._value.images.push(OccurrenceImage.placeholder(id));
+	            }
+	          }
+	        } catch (err) {
+	          _iterator2.e(err);
+	        } finally {
+	          _iterator2.f();
+	        }
+	      }
+
+	      this.updateView();
+	    }
+	    /**
+	     *
+	     * @param {Array.<string>} value (list of image ids or null)
+	     * @returns {boolean}
+	     */
+
+	  }, {
+	    key: "updateView",
+	    value: function updateView() {
+	      if (this._fieldEl) {
+	        // do nothing until the view has been constructed
+	        var idList = [];
+
+	        var _iterator3 = _createForOfIteratorHelper$3(this._value.images),
+	            _step3;
+
+	        try {
+	          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+	            var image = _step3.value;
+	            idList.push("<picture style=\"cursor: pointer;\" data-imageid=\"".concat(image.id, "\"><source srcset=\"/image.php?imageid=").concat(image.id, "&amp;height=128&amp;format=webp\" type=\"image/webp\"><img data-imageid=\"").concat(image.id, "\" src=\"/image.php?imageid=").concat(image.id, "&amp;height=128&amp;format=jpeg\" height=\"128\" alt=\"photo\"></picture>"));
+	          }
+	        } catch (err) {
+	          _iterator3.e(err);
+	        } finally {
+	          _iterator3.f();
+	        }
+
+	        var statusEl = document.getElementById(_classPrivateFieldGet(this, _statusBlockId));
+	        statusEl.innerHTML = idList.join("\n");
+	      }
+	    }
+	    /**
+	     * initialises this._fieldEl
+	     *
+	     * @returns {void}
+	     */
+
+	  }, {
+	    key: "buildField",
+	    value: function buildField() {
+	      // <div class="custom-file">
+	      //     <input type="file" class="custom-file-input" id="customFile">
+	      //     <label class="custom-file-label" for="customFile">Choose file</label>
+	      // </div>
+	      var container = document.createElement('div');
+	      container.className = 'form-group';
+
+	      _classPrivateFieldSet(this, _containerId$5, container.id = FormField.nextId);
+
+	      _classPrivateFieldSet(this, _inputId$1, FormField.nextId);
+
+	      var labelEl = container.appendChild(document.createElement('label'));
+	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$1);
+	      labelEl.textContent = this.label;
+	      var inputGroupEl = container.appendChild(document.createElement('div'));
+	      inputGroupEl.className = 'input-group';
+	      var filePickerWrapper = document.createElement('div');
+	      filePickerWrapper.className = 'custom-file';
+	      inputGroupEl.appendChild(filePickerWrapper);
+	      var filePickerField = filePickerWrapper.appendChild(document.createElement('input'));
+	      filePickerField.type = 'file';
+	      filePickerField.className = "custom-file-input";
+	      filePickerField.id = _classPrivateFieldGet(this, _inputId$1);
+	      filePickerField.accept = ".jpeg, .jpg, image/png, image/jpeg";
+	      filePickerField.multiple = true;
+
+	      if (this.placeholder) {
+	        var pickerLabelEl = filePickerWrapper.appendChild(document.createElement('label'));
+	        pickerLabelEl.className = 'custom-file-label';
+	        pickerLabelEl.htmlFor = _classPrivateFieldGet(this, _inputId$1);
+	        pickerLabelEl.textContent = this.placeholder;
+	      }
+
+	      if (this.includeCamera) {
+	        var cameraButtonContainer = document.createElement('div');
+	        cameraButtonContainer.className = 'input-group-append';
+	        var cameraSpan = cameraButtonContainer.appendChild(document.createElement('span'));
+	        cameraSpan.className = 'input-group-text';
+	        var cameraLabel = cameraSpan.appendChild(document.createElement('label'));
+	        cameraLabel.className = 'pl-0 pr-0 ml-0 mr-0 mt-0 mb-0 pt-0 pb-0 material-icons';
+	        var cameraIcon = cameraLabel.appendChild(document.createElement('i'));
+	        cameraIcon.className = 'material-icons pl-0 pr-0 ml-0 mr-0 mt-0 mb-0 pt-0 pb-0';
+	        cameraIcon.textContent = 'add_a_photo';
+	        var cameraInput = cameraLabel.appendChild(document.createElement('input'));
+	        cameraInput.type = 'file';
+	        cameraInput.capture = 'environment';
+	        cameraInput.accept = 'image/*';
+	        cameraInput.style.display = 'none';
+	        cameraInput.id = FormField.nextId;
+	        inputGroupEl.appendChild(cameraButtonContainer);
+	        cameraInput.addEventListener('change', this.inputChangeHandler.bind(this, cameraInput.id));
+	      } // styling save buttons: https://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3
+	      // (partially relevant)
+	      // <label class="img-picker icon icon-camera">
+	      // <input type="file" accept="image/*" capture="environment"/>
+	      // </label>
+
+
+	      if (this.helpText) {
+	        var helpTextField = container.appendChild(document.createElement('small'));
+	        helpTextField.innerHTML = this.helpText;
+	      }
+
+	      var statusBlockEl = container.appendChild(document.createElement('p'));
+
+	      _classPrivateFieldSet(this, _statusBlockId, statusBlockEl.id = FormField.nextId); // register a click handler for images (to open a modal)
+
+
+	      statusBlockEl.addEventListener('click', this.imageClickHandler.bind(this));
+
+	      if (this.validationMessage) {
+	        var validationMessageElement = container.appendChild(document.createElement('div'));
+	        validationMessageElement.className = 'invalid-feedback';
+	        validationMessageElement.innerHTML = this.validationMessage;
+	      }
+
+	      filePickerField.addEventListener('change', this.inputChangeHandler.bind(this, filePickerField.id));
+	      this._fieldEl = container;
+	      this.parentForm.addListener(EVENT_DELETE_IMAGE, this.deleteImageHandler.bind(this));
+	    }
+	    /**
+	     * called after user has clicked delete button on an image
+	     *
+	     * @param {{imageId : string}} params
+	     */
+
+	  }, {
+	    key: "deleteImageHandler",
+	    value: function deleteImageHandler(params) {
+	      console.log("delete image ".concat(params.imageId));
+	      var image;
+
+	      for (var key in this._value.images) {
+	        if (this._value.images.hasOwnProperty(key)) {
+	          if (this._value.images[key].id === params.imageId) {
+	            image = this._value.images.splice(key, 1)[0];
+	            break;
+	          }
+	        }
+	      }
+
+	      if (!image) {
+	        console.log("Failed to find image id ".concat(params.imageId));
+	      } else {
+	        // @todo need to resave image to flag as deleted
+	        this.updateView();
+	        this.fireEvent(FormField.EVENT_CHANGE);
+	      }
+	    }
+	    /**
+	     *
+	     * @param {MouseEvent} event
+	     */
+
+	  }, {
+	    key: "imageClickHandler",
+	    value: function imageClickHandler(event) {
+	      if (doubleClickIntercepted(event)) {
+	        return;
+	      }
+
+	      var targetEl = event.target.closest('picture');
+
+	      if (!targetEl) {
+	        targetEl = event.target.closest('img');
+	      } // console.log({'clicked image' : targetEl});
+
+
+	      var imageId = targetEl.getAttribute('data-imageid');
+
+	      if (imageId) {
+	        var imageModal = document.getElementById(IMAGE_MODAL_ID);
+	        var pictureEl = imageModal.getElementsByTagName('picture')[0];
+	        pictureEl.innerHTML = "<source srcset=\"/image.php?imageid=".concat(imageId, "&amp;width=").concat(window.innerWidth, "&amp;format=webp\" type=\"image/webp\">\n                <img src=\"/image.php?imageid=").concat(imageId, "&amp;width=").concat(window.innerWidth, "&amp;format=jpeg\" width=\"auto\" style=\"max-height: 48vh; max-width: 100%;\" alt=\"photo\">");
+	        var deleteButton = document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID);
+	        deleteButton.setAttribute('data-imageid', imageId);
+	        $("#".concat(IMAGE_MODAL_ID)).modal({});
+	      }
+	    }
+	    /**
+	     * called with an additional bound element id parameter
+	     * (this allows the handler to easily distinguish between the two file pickers)
+	     *
+	     * @param {string} inputId
+	     * @param {Event} event
+	     */
+
+	  }, {
+	    key: "inputChangeHandler",
+	    value: function inputChangeHandler(inputId, event) {
+	      var _this2 = this;
+
+	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+
+	      console.log('got image field input change event');
+	      var imageEl = document.getElementById(inputId);
+
+	      if (imageEl.files.length) {
+	        _classPrivateMethodGet$3(this, _addFiles, _addFiles2).call(this, imageEl.files).then(function () {
+	          _this2.fireEvent(FormField.EVENT_CHANGE);
+	        });
+	      } else {
+	        this.fireEvent(FormField.EVENT_CHANGE);
+	      }
+	    }
+	    /**
+	     *
+	     * @param {FileList} fileList
+	     * @return {Promise<void>}
+	     */
+
+	  }], [{
+	    key: "isEmpty",
+	    value: function isEmpty(value) {
+	      return !value || value.length === 0;
+	    }
+	  }, {
+	    key: "licenseModal",
+	    value:
+	    /**
+	     *
+	     * @returns {HTMLDivElement}
+	     */
+	    function licenseModal() {
+	      // 'image license' modal
+	      // this pop-up is informational only
+	      var modalEl = document.createElement('div');
+	      modalEl.innerHTML = "<div class=\"modal fade\" id=\"".concat(ImageField.LICENSE_MODAL, "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(ImageField.LICENSE_MODAL, "Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(ImageField.LICENSE_MODAL, "Title\">Image licensing</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <p>By choosing to submit images with your Garden Wildflower Hunt records you agree to license the image under the terms of the Creative Common Attribution 4.0 International license (CC BY 4.0).</p>\n        <p>The following is a summary of (and not a substitute for) the <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">license</a>.</p>\n        <p>Licensees are free to:</p>\n        <ul class=\"license-properties\">\n<li>\n<strong>Share</strong> \u2014 copy and redistribute the material in any medium or format\n</li>\n<li>\n<strong>Adapt</strong> \u2014 remix, transform, and build upon the material for any purpose, even commercially.\n</li>\n</ul>\n<p>Licensees are most follow these term:</p>\n<ul>\n<li>\n<p>\n<strong>Attribution</strong> \u2014 licensees must give appropriate credit, provide a link to the license, and indicate if changes were made.\n</p>\n</li>\n</ul>\n<p>Full details of the license are here: <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">CC BY 4.0 license</a></p>\n\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");
+	      return modalEl.firstChild;
+	    }
+	  }]);
+
+	  return ImageField;
+	}(FormField);
+
+	function _addFiles2(fileList) {
+	  // cannot save until parent occurrence has been saved
+	  // so pre-trigger a save event
+	  this.parentForm.pingOccurrence();
+	  var images = [];
+
+	  var _iterator4 = _createForOfIteratorHelper$3(fileList),
+	      _step4;
+
+	  try {
+	    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+	      var file = _step4.value;
+	      images.push(OccurrenceImage.fromFile(file));
+	    }
+	  } catch (err) {
+	    _iterator4.e(err);
+	  } finally {
+	    _iterator4.f();
+	  }
+
+	  return _classPrivateMethodGet$3(this, _save, _save2).call(this, images);
+	}
+
+	function _save2(images) {
+	  var _this3 = this;
+
+	  if (images.length) {
+	    var image = images.shift();
+	    return image.save(this.parentForm.surveyId, this.parentForm.occurrenceId, this.parentForm.projectId).then(function (jsonImageDescriptor) {
+	      console.log("Added image '".concat(image.id, "'"));
+	      console.log({
+	        jsonDescription: jsonImageDescriptor
+	      });
+
+	      _this3._value.images.push(image);
+
+	      _this3.updateView(); // excessive view updates, should do once when all promises have succeeded
+	      // this may break with multiple images if fileList is live and is cleared when input is cleared
+	      // during view update, need to test
+
+	    }, function (reason) {
+	      console.log("Failed to add image ".concat(image.id));
+	      console.log({
+	        "Failure reason": reason
+	      });
+	    }).finally(function () {
+	      return _classPrivateMethodGet$3(_this3, _save, _save2).call(_this3, images);
+	    });
+	  } else {
+	    return Promise.resolve();
+	  }
+	}
+
+	_defineProperty(ImageField, "LICENSE_MODAL", 'imagelicensemodal');
+
+	function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+	function _classPrivateFieldInitSpec$4(obj, privateMap, value) { _checkPrivateRedeclaration$4(obj, privateMap); privateMap.set(obj, value); }
+
+	function _checkPrivateRedeclaration$4(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+	var _inputId = /*#__PURE__*/new WeakMap();
+
+	var _containerId$4 = /*#__PURE__*/new WeakMap();
+
+	var InputField = /*#__PURE__*/function (_FormField) {
+	  _inherits(InputField, _FormField);
+
+	  var _super = _createSuper$6(InputField);
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
+	   */
+	  function InputField(params) {
+	    var _this;
+
+	    _classCallCheck(this, InputField);
+
+	    _this = _super.call(this, params);
+
+	    _classPrivateFieldInitSpec$4(_assertThisInitialized(_this), _inputId, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$4(_assertThisInitialized(_this), _containerId$4, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "_value", '');
+
+	    _defineProperty(_assertThisInitialized(_this), "_inputType", 'text');
+
+	    _defineProperty(_assertThisInitialized(_this), "_autocomplete", '');
+
+	    if (params) {
+	      if (params.type) {
+	        _this._inputType = params.type;
+	      }
+
+	      if (params.placeholder) {
+	        _this.placeholder = params.placeholder;
+	      }
+
+	      if (params.autocomplete) {
+	        _this._autocomplete = params.autocomplete;
+	      }
+	    }
+
+	    return _this;
+	  }
+	  /**
+	   *
+	   * @param {(string|null|undefined)} textContent
+	   */
+
+
+	  _createClass(InputField, [{
+	    key: "value",
+	    get:
+	    /**
+	     *
+	     * @returns {string}
+	     */
+	    function get() {
+	      return this._value;
+	    },
+	    set: function set(textContent) {
+	      this._value = undefined === textContent || null == textContent ? '' : textContent.trim();
+	      this.updateView();
+	    }
+	  }, {
+	    key: "updateView",
+	    value: function updateView() {
+	      if (this._fieldEl) {
+	        // do nothing until the view has been constructed
+	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputId));
+	        inputEl.value = FormField.cleanRawString(this._value);
+	      }
+	    }
+	    /**
+	     * initialises this._fieldEl
+	     *
+	     * @returns {void}
+	     */
+
+	  }, {
+	    key: "buildField",
+	    value: function buildField() {
+	      // <div class="form-group">
+	      //     <label for="{baseId}gridref">Postcode or grid-reference</label>
+	      //     <input type="text" class="form-control" id="{baseId}gridref" aria-describedby="grHelp" placeholder="Grid-reference or postcode">
+	      //     <small id="grHelp" class="form-text text-muted">We need to be able to put your survey on our map. Detailed locations won't be made public.</small>
+	      // </div>
+	      var container = document.createElement('div');
+	      container.className = 'form-group';
+
+	      _classPrivateFieldSet(this, _containerId$4, container.id = FormField.nextId);
+
+	      _classPrivateFieldSet(this, _inputId, FormField.nextId);
+
+	      var labelEl = container.appendChild(document.createElement('label'));
+	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId);
+	      labelEl.textContent = this.label;
+	      var inputField = container.appendChild(document.createElement('input'));
+	      inputField.className = "form-control";
+	      inputField.id = _classPrivateFieldGet(this, _inputId);
+
+	      try {
+	        // this is needed for compatibility with IE11
+	        inputField.type = this._inputType;
+	      } catch (e) {
+	        console.log("Failed to set type '".concat(this._inputType, "'"));
+	      }
+
+	      if (this.placeholder) {
+	        inputField.placeholder = this.placeholder;
+	      }
+
+	      if (this._autocomplete) {
+	        inputField.autocomplete = this._autocomplete;
+
+	        if ('off' === this._autocomplete) {
+	          // browsers tend to ignore autocomplete off, so also assign a random 'name' value
+	          inputField.name = uuid$1();
+	        }
+	      }
+
+	      if (this.completion === FormField.COMPLETION_COMPULSORY) {
+	        inputField.required = true;
+	      }
+
+	      if (this.validationMessage) {
+	        var validationMessageElement = container.appendChild(document.createElement('div'));
+	        validationMessageElement.className = 'invalid-feedback';
+	        validationMessageElement.innerHTML = this.validationMessage;
+	      }
+
+	      if (this.helpText) {
+	        var helpTextField = container.appendChild(document.createElement('small'));
+	        helpTextField.innerHTML = this.helpText;
+	      }
+
+	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
+	      this._fieldEl = container;
+	    }
+	    /**
+	     *
+	     * @param {(boolean|null)} isValid
+	     */
+
+	  }, {
+	    key: "markValidity",
+	    value: function markValidity(isValid) {
+	      var el = document.getElementById(_classPrivateFieldGet(this, _inputId));
+
+	      if (null === isValid) {
+	        el.classList.remove('is-invalid', 'is-valid');
+	      } else {
+	        el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
+	        el.classList.add(isValid ? 'is-valid' : 'is-invalid');
+	      }
+	    }
+	  }, {
+	    key: "inputChangeHandler",
+	    value: function inputChangeHandler(event) {
+	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+
+	      console.log('got input field change event');
+	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _inputId)).value);
+	      this.fireEvent(FormField.EVENT_CHANGE);
+	    }
+	    /**
+	     * by the time summariseImpl has been called have already checked that summary is wanted
+	     *
+	     * @param {string} key
+	     * @param {{field : typeof InputField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {Object.<string, {}>} attributes attributes of the model object
+	     * @return {string}
+	     */
+
+	  }], [{
+	    key: "summariseImpl",
+	    value: function summariseImpl(key, property, attributes) {
+	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined ? escapeHTML(attributes[key].trim()) : '';
+	    }
+	  }]);
+
+	  return InputField;
+	}(FormField);
+
+	/**
+	 *
+	 * @param {string} separator
+	 * @param {string} finalSeparator
+	 * @param {Array.<string>} list
+	 * @return string
+	 */
+	function formattedImplode(separator, finalSeparator, list) {
+	  if (list.length > 2) {
+	    var last = list.pop();
+	    return "".concat(list.join(separator + ' '), " ").concat(finalSeparator, " ").concat(last);
+	  } else {
+	    return list.join(" ".concat(finalSeparator, " "));
+	  }
+	}
+
+	function _createForOfIteratorHelper$2(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$2(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+	function _unsupportedIterableToArray$2(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$2(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen); }
+
+	function _arrayLikeToArray$2(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+	function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+	function _classPrivateMethodInitSpec$2(obj, privateSet) { _checkPrivateRedeclaration$3(obj, privateSet); privateSet.add(obj); }
+
+	function _classPrivateFieldInitSpec$3(obj, privateMap, value) { _checkPrivateRedeclaration$3(obj, privateMap); privateMap.set(obj, value); }
+
+	function _checkPrivateRedeclaration$3(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+	function _classPrivateMethodGet$2(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+
+	function _classStaticPrivateFieldSpecGet$1(receiver, classConstructor, descriptor) { _classCheckPrivateStaticAccess$1(receiver, classConstructor); _classCheckPrivateStaticFieldDescriptor$1(descriptor, "get"); return _classApplyDescriptorGet$1(receiver, descriptor); }
+
+	function _classCheckPrivateStaticFieldDescriptor$1(descriptor, action) { if (descriptor === undefined) { throw new TypeError("attempted to " + action + " private static field before its declaration"); } }
+
+	function _classCheckPrivateStaticAccess$1(receiver, classConstructor) { if (receiver !== classConstructor) { throw new TypeError("Private static access of wrong provenance"); } }
+
+	function _classApplyDescriptorGet$1(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+	/**
+	 * used for option-based selections, allowing multiple choices, with optional 'other' field that exposes a text field
+	 */
+
+	var _containerId$3 = /*#__PURE__*/new WeakMap();
+
+	var _otherTextId$1 = /*#__PURE__*/new WeakMap();
+
+	var _buildOption$1 = /*#__PURE__*/new WeakSet();
+
+	var OptionsField = /*#__PURE__*/function (_FormField) {
+	  _inherits(OptionsField, _FormField);
+
+	  var _super = _createSuper$5(OptionsField);
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   *
+	   * @type {Object.<string, {label: string}>}
+	   */
+
+	  /**
+	   * if set then include a free-text input field alongside the 'other' option
+	   *
+	   * @type {boolean}
+	   */
+
+	  /**
+	   *
+	   * @type {({selection : Array.<string>, other : (string|null)}|null)}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @param {{[label] : string, [helpText]: string, [options]: {}, [includeOtherFreeText]: boolean}} [params]
+	   */
+	  function OptionsField(params) {
+	    var _this;
+
+	    _classCallCheck(this, OptionsField);
+
+	    _this = _super.call(this, params);
+
+	    _classPrivateMethodInitSpec$2(_assertThisInitialized(_this), _buildOption$1);
+
+	    _classPrivateFieldInitSpec$3(_assertThisInitialized(_this), _containerId$3, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$3(_assertThisInitialized(_this), _otherTextId$1, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "options", {});
+
+	    _defineProperty(_assertThisInitialized(_this), "includeOtherFreeText", true);
+
+	    _defineProperty(_assertThisInitialized(_this), "_value", {
+	      selection: [],
+	      other: null
+	    });
+
+	    if (params) {
+	      if (params.options) {
+	        _this.options = params.options;
+	      }
+
+	      if (params.hasOwnProperty('includeOtherFreeText')) {
+	        _this.includeOtherFreeText = params.includeOtherFreeText;
+	      }
+	    }
+
+	    return _this;
+	  }
+	  /**
+	   *
+	   * @param {{selection : Array.<string>, other : (string|null)}} selection
+	   */
+
+
+	  _createClass(OptionsField, [{
+	    key: "value",
+	    get:
+	    /**
+	     *
+	     * @returns {{selection: Array.<string>, other: (string|null)}}
+	     */
+	    function get() {
+	      return this._value;
+	    },
+	    set: function set(selection) {
+	      this._value = selection || {
+	        selection: [],
+	        other: null
+	      };
+	      this.updateView();
+	    }
+	  }, {
+	    key: "updateView",
+	    value: function updateView() {
+	      if (this._fieldEl) {
+	        // do nothing until the view has been constructed
+	        var _iterator = _createForOfIteratorHelper$2(document.querySelectorAll("".concat(_classStaticPrivateFieldSpecGet$1(OptionsField, OptionsField, _TOP_LEVEL_ELEMENT$1), "#").concat(_classPrivateFieldGet(this, _containerId$3), " input[type=\"checkbox\"]"))),
+	            _step;
+
+	        try {
+	          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	            var optionEl = _step.value;
+
+	            var selected = optionEl.checked = this._value.selection.includes(optionEl.name);
+
+	            if (optionEl.name === OptionsField.KEY_OTHER && _classPrivateFieldGet(this, _otherTextId$1)) {
+	              var otherEl = document.getElementById(_classPrivateFieldGet(this, _otherTextId$1));
+	              otherEl.style.display = selected ? 'block' : 'none';
+	              otherEl.value = this._value.other === null ? '' : this._value.other.trim();
+	            }
+	          }
+	        } catch (err) {
+	          _iterator.e(err);
+	        } finally {
+	          _iterator.f();
+	        }
+	      }
+	    }
+	    /**
+	     * initialises this._fieldEl
+	     *
+	     * @returns {void}
+	     */
+
+	  }, {
+	    key: "buildField",
+	    value: function buildField() {
+	      if (!this.options) {
+	        throw new Error('Options have not been set before call to buildField()');
+	      }
+
+	      var container = document.createElement(_classStaticPrivateFieldSpecGet$1(OptionsField, OptionsField, _TOP_LEVEL_ELEMENT$1));
+	      container.className = 'form-group';
+
+	      _classPrivateFieldSet(this, _containerId$3, container.id = FormField.nextId);
+
+	      var labelEl = container.appendChild(document.createElement('label'));
+	      labelEl.style.display = 'block';
+	      labelEl.textContent = this.label;
+
+	      if (this.helpText) {
+	        var helpTextField = container.appendChild(document.createElement('small'));
+	        helpTextField.innerHTML = this.helpText;
+	      }
+
+	      for (var key in this.options) {
+	        if (this.options.hasOwnProperty(key)) {
+	          _classPrivateMethodGet$2(this, _buildOption$1, _buildOption2$1).call(this, container, key, this.options[key]);
+	        }
+	      }
+
+	      if (this.validationMessage) {
+	        var validationMessageElement = container.appendChild(document.createElement('div'));
+	        validationMessageElement.className = 'invalid-feedback';
+	        validationMessageElement.innerHTML = this.validationMessage;
+	      }
+
+	      container.addEventListener('change', this.inputChangeHandler.bind(this));
+	      this._fieldEl = container;
+	    }
+	    /**
+	     *
+	     * @param {HTMLElement} fieldSet
+	     * @param {string} key
+	     * @param {{label : string}} option
+	     */
+
+	  }, {
+	    key: "inputChangeHandler",
+	    value:
+	    /**
+	     *
+	     * @param {Event} event
+	     */
+	    function inputChangeHandler(event) {
+	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+
+	      var value = {
+	        selection: [],
+	        other: null
+	      };
+	      var otherSelected = false;
+	      var otherEl;
+
+	      if (_classPrivateFieldGet(this, _otherTextId$1)) {
+	        otherEl = document.getElementById(_classPrivateFieldGet(this, _otherTextId$1));
+	      }
+
+	      var options = document.querySelectorAll("".concat(_classStaticPrivateFieldSpecGet$1(OptionsField, OptionsField, _TOP_LEVEL_ELEMENT$1), "#").concat(_classPrivateFieldGet(this, _containerId$3), " input[type=\"checkbox\"]:checked"));
+
+	      var _iterator2 = _createForOfIteratorHelper$2(options),
+	          _step2;
+
+	      try {
+	        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+	          var option = _step2.value;
+	          value.selection[value.selection.length] = option.name;
+
+	          if (option.name === OptionsField.KEY_OTHER && _classPrivateFieldGet(this, _otherTextId$1)) {
+	            value.other = FormField.cleanRawInput(otherEl);
+	            otherSelected = true;
+	          }
+	        }
+	      } catch (err) {
+	        _iterator2.e(err);
+	      } finally {
+	        _iterator2.f();
+	      }
+
+	      this.value = value; // the setter will trigger a refresh of the view
+
+	      this.fireEvent(FormField.EVENT_CHANGE);
+	    }
+	    /**
+	     * by the time summariseImpl has been called have already checked that summary is wanted
+	     *
+	     * @param {string} key
+	     * @param {{field : typeof OptionsField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {Object.<string, {}>} attributes attributes of the model object
+	     * @return {string}
+	     */
+
+	  }], [{
+	    key: "summariseImpl",
+	    value: function summariseImpl(key, property, attributes) {
+	      var summaryDescriptor = property.summary;
+	      var methods = [];
+
+	      if (attributes[key].selection.length) {
+	        var _iterator3 = _createForOfIteratorHelper$2(attributes[key].selection),
+	            _step3;
+
+	        try {
+	          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+	            var attributeValue = _step3.value;
+
+	            if ('other' === attributeValue && attributes[key].other) {
+	              methods[methods.length] = "".concat(property.attributes.options[attributeValue].summary || property.attributes.options[attributeValue].label, " (").concat(attributes[key].other, ")");
+	            } else {
+	              methods[methods.length] = property.attributes.options[attributeValue].summary || property.attributes.options[attributeValue].label;
+	            }
+	          }
+	        } catch (err) {
+	          _iterator3.e(err);
+	        } finally {
+	          _iterator3.f();
+	        }
+
+	        return escapeHTML("".concat(summaryDescriptor.summaryPrefix, " ").concat(formattedImplode(',', 'or', methods)));
+	      } else {
+	        return '';
+	      }
+	    }
+	  }]);
+
+	  return OptionsField;
+	}(FormField);
+
+	function _buildOption2$1(fieldSet, key, option) {
+	  // <div class="form-check">
+	  //     <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+	  //     <label class="form-check-label" for="defaultCheck1">
+	  //         Default checkbox
+	  //     </label>
+	  // </div><
+	  var container = fieldSet.appendChild(document.createElement('div'));
+	  container.className = 'form-check';
+	  var optionField = container.appendChild(document.createElement('input'));
+	  optionField.type = 'checkbox';
+	  optionField.className = "form-check-input";
+	  optionField.id = FormField.nextId;
+	  optionField.name = key;
+	  var labelEl = container.appendChild(document.createElement('label'));
+	  labelEl.htmlFor = optionField.id;
+	  labelEl.className = 'form-check-label';
+	  labelEl.textContent = option.label;
+
+	  if (OptionsField.KEY_OTHER === key && this.includeOtherFreeText) {
+	    var otherTextEl = container.appendChild(document.createElement('input'));
+	    otherTextEl.id = _classPrivateFieldSet(this, _otherTextId$1, FormField.nextId);
+	    otherTextEl.className = 'form-control';
+	    otherTextEl.style.display = 'none';
+	  }
+	}
+
+	_defineProperty(OptionsField, "KEY_OTHER", 'other');
+
+	var _TOP_LEVEL_ELEMENT$1 = {
+	  writable: true,
+	  value: 'fieldset'
+	};
+
+	function _createForOfIteratorHelper$1(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$1(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+	function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
+
+	function _arrayLikeToArray$1(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+	function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+	function _classPrivateMethodInitSpec$1(obj, privateSet) { _checkPrivateRedeclaration$2(obj, privateSet); privateSet.add(obj); }
+
+	function _classPrivateFieldInitSpec$2(obj, privateMap, value) { _checkPrivateRedeclaration$2(obj, privateMap); privateMap.set(obj, value); }
+
+	function _checkPrivateRedeclaration$2(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+	function _classPrivateMethodGet$1(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+
+	function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) { _classCheckPrivateStaticAccess(receiver, classConstructor); _classCheckPrivateStaticFieldDescriptor(descriptor, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+
+	function _classCheckPrivateStaticFieldDescriptor(descriptor, action) { if (descriptor === undefined) { throw new TypeError("attempted to " + action + " private static field before its declaration"); } }
+
+	function _classCheckPrivateStaticAccess(receiver, classConstructor) { if (receiver !== classConstructor) { throw new TypeError("Private static access of wrong provenance"); } }
+
+	function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+	/**
+	 * used for select based menus, allowing multiple choices, with optional 'other' field that exposes a text field
+	 */
+
+	var _containerId$2 = /*#__PURE__*/new WeakMap();
+
+	var _menuId = /*#__PURE__*/new WeakMap();
+
+	var _otherTextId = /*#__PURE__*/new WeakMap();
+
+	var _buildOption = /*#__PURE__*/new WeakSet();
+
+	var SelectField = /*#__PURE__*/function (_FormField) {
+	  _inherits(SelectField, _FormField);
+
+	  var _super = _createSuper$4(SelectField);
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   *
+	   * @type {Object.<string, {label: string}>}
+	   */
+
+	  /**
+	   * if set then include a free-text input field alongside the 'other' option
+	   *
+	   * @type {boolean}
+	   */
+
+	  /**
+	   *
+	   * @type {{selection : Array.<string>, other : (string|null)}}
+	   * @private
+	   */
+	  // static timeoutDelay = 50;
+	  //static KEY_OTHER = 'other';
+
+	  /**
+	   *
+	   * @param {{[label] : string, [helpText]: string, [options]: {}, [includeOtherFreeText]: boolean}} [params]
+	   */
+	  function SelectField(params) {
+	    var _this;
+
+	    _classCallCheck(this, SelectField);
+
+	    _this = _super.call(this, params);
+
+	    _classPrivateMethodInitSpec$1(_assertThisInitialized(_this), _buildOption);
+
+	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _containerId$2, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _menuId, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$2(_assertThisInitialized(_this), _otherTextId, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "options", {});
+
+	    _defineProperty(_assertThisInitialized(_this), "placeholder", '');
+
+	    _defineProperty(_assertThisInitialized(_this), "includeOtherFreeText", true);
+
+	    _defineProperty(_assertThisInitialized(_this), "_value", {
+	      selection: [],
+	      other: null
+	    });
+
+	    if (params) {
+	      if (params.options) {
+	        _this.options = params.options;
+	      }
+
+	      if (params.hasOwnProperty('includeOtherFreeText')) {
+	        _this.includeOtherFreeText = params.includeOtherFreeText;
+	      }
+
+	      if (params.placeholder) {
+	        _this.placeholder = params.placeholder;
+	      }
+	    }
+
+	    return _this;
+	  }
+	  /**
+	   *
+	   * @param {({selection : Array.<string>, other : (string|null)}|null)} selection
+	   */
+
+
+	  _createClass(SelectField, [{
+	    key: "value",
+	    get:
+	    /**
+	     *
+	     * @returns {{selection: Array.<string>, other: (string|null)}}
+	     */
+	    function get() {
+	      return this._value;
+	    }
+	    /**
+	     *
+	     * @param value
+	     * @returns {boolean}
+	     */
+	    ,
+	    set: function set(selection) {
+	      this._value = selection || {
+	        selection: [],
+	        other: null
+	      };
+	      this.updateView();
+	    }
+	  }, {
+	    key: "markValidity",
+	    value:
+	    /**
+	     *
+	     * @param {(boolean|null)} isValid
+	     */
+	    function markValidity(isValid) {
+	      var el = document.getElementById(_classPrivateFieldGet(this, _menuId));
+
+	      if (null === isValid) {
+	        el.classList.remove('is-invalid', 'is-valid');
+	      } else {
+	        el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
+	        el.classList.add(isValid ? 'is-valid' : 'is-invalid');
+	      }
+	    }
+	  }, {
+	    key: "updateView",
+	    value: function updateView() {
+	      if (this._fieldEl) {
+	        // do nothing until the view has been constructed
+	        var _iterator = _createForOfIteratorHelper$1(document.querySelectorAll("select#".concat(_classPrivateFieldGet(this, _menuId), " option"))),
+	            _step;
+
+	        try {
+	          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	            var optionEl = _step.value;
+
+	            if (optionEl.value !== '') {
+	              var selected = optionEl.selected = this._value.selection.includes(optionEl.value);
+
+	              if (optionEl.value === OptionsField.KEY_OTHER && _classPrivateFieldGet(this, _otherTextId)) {
+	                var otherEl = document.getElementById(_classPrivateFieldGet(this, _otherTextId));
+	                otherEl.style.display = selected ? 'block' : 'none';
+	                otherEl.value = this._value.other === null ? '' : this._value.other.trim();
+	              }
+	            } else {
+	              // default placeholder choice
+	              optionEl.selected = this._value.selection.length === 0;
+	            }
+	          }
+	        } catch (err) {
+	          _iterator.e(err);
+	        } finally {
+	          _iterator.f();
+	        }
+	      }
+	    }
+	    /**
+	     * initialises this._fieldEl
+	     *
+	     * @returns {void}
+	     */
+
+	  }, {
+	    key: "buildField",
+	    value: function buildField() {
+	      if (!this.options) {
+	        throw new Error('Options have not been set before call to buildField()');
+	      }
+
+	      var container = document.createElement(_classStaticPrivateFieldSpecGet(SelectField, SelectField, _TOP_LEVEL_ELEMENT));
+	      container.className = 'form-group';
+
+	      _classPrivateFieldSet(this, _containerId$2, container.id = FormField.nextId);
+
+	      _classPrivateFieldSet(this, _menuId, FormField.nextId);
+
+	      var labelEl = container.appendChild(document.createElement('label'));
+	      labelEl.htmlFor = _classPrivateFieldGet(this, _menuId); //labelEl.className = 'form-check-label';
+
+	      labelEl.style.display = 'block';
+	      labelEl.innerHTML = this.label;
+	      var selectEl = document.createElement('select');
+	      selectEl.id = _classPrivateFieldGet(this, _menuId);
+	      selectEl.className = 'custom-select';
+
+	      if (this.helpText) {
+	        var helpTextField = container.appendChild(document.createElement('small'));
+	        helpTextField.innerHTML = this.helpText;
+	      }
+
+	      if (this.placeholder) {
+	        _classPrivateMethodGet$1(this, _buildOption, _buildOption2).call(this, container, selectEl, '', {
+	          label: this.placeholder
+	        });
+	      }
+
+	      for (var key in this.options) {
+	        if (this.options.hasOwnProperty(key)) {
+	          _classPrivateMethodGet$1(this, _buildOption, _buildOption2).call(this, container, selectEl, key, this.options[key]);
+	        }
+	      }
+
+	      container.appendChild(selectEl);
+
+	      if (this.validationMessage) {
+	        var validationMessageElement = container.appendChild(document.createElement('div'));
+	        validationMessageElement.className = 'invalid-feedback';
+	        validationMessageElement.innerHTML = this.validationMessage;
+	      }
+
+	      container.addEventListener('change', this.inputChangeHandler.bind(this));
+	      this._fieldEl = container;
+	    }
+	    /**
+	     *
+	     * @param {HTMLElement} containerEl
+	     * @param {HTMLSelectElement} selectEl
+	     * @param {string} key
+	     * @param {{label : string}} option
+	     */
+
+	  }, {
+	    key: "inputChangeHandler",
+	    value:
+	    /**
+	     *
+	     * @param {Event} event
+	     */
+	    function inputChangeHandler(event) {
+	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+	      // console.log('got options change event');
+	      // console.log(event);
+
+	      var value = {
+	        selection: [],
+	        other: null
+	      };
+	      var otherSelected = false;
+	      var otherEl;
+
+	      if (_classPrivateFieldGet(this, _otherTextId)) {
+	        otherEl = document.getElementById(_classPrivateFieldGet(this, _otherTextId));
+	      }
+
+	      var options = document.querySelectorAll("select#".concat(_classPrivateFieldGet(this, _menuId), " option:checked"));
+
+	      var _iterator2 = _createForOfIteratorHelper$1(options),
+	          _step2;
+
+	      try {
+	        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+	          var option = _step2.value;
+
+	          if (option.value !== '') {
+	            value.selection[value.selection.length] = option.value;
+
+	            if (option.name === OptionsField.KEY_OTHER && _classPrivateFieldGet(this, _otherTextId)) {
+	              value.other = FormField.cleanRawInput(otherEl);
+	              otherSelected = true;
+	            }
+	          }
+	        }
+	      } catch (err) {
+	        _iterator2.e(err);
+	      } finally {
+	        _iterator2.f();
+	      }
+
+	      this.value = value; // the setter will trigger a refresh of the view
+
+	      this.fireEvent(FormField.EVENT_CHANGE);
+	    }
+	    /**
+	     * by the time summariseImpl has been called have already checked that summary is wanted
+	     *
+	     * @param {string} key
+	     * @param {{field : typeof SelectField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {Object.<string, {}>} attributes attributes of the model object
+	     * @return {string}
+	     */
+
+	  }], [{
+	    key: "isEmpty",
+	    value: function isEmpty(value) {
+	      return value.selection.length === 0 || value.selection[0] === '';
+	    }
+	  }, {
+	    key: "summariseImpl",
+	    value: function summariseImpl(key, property, attributes) {
+	      var summaryDescriptor = property.summary;
+	      var methods = [];
+
+	      if (attributes[key].selection.length) {
+	        var _iterator3 = _createForOfIteratorHelper$1(attributes[key].selection),
+	            _step3;
+
+	        try {
+	          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+	            var attributeValue = _step3.value;
+
+	            if ('other' === attributeValue && attributes[key].other) {
+	              methods[methods.length] = "".concat(property.attributes.options[attributeValue].summary || property.attributes.options[attributeValue].label, " (").concat(attributes[key].other, ")");
+	            } else {
+	              methods[methods.length] = property.attributes.options[attributeValue].summary || property.attributes.options[attributeValue].label;
+	            }
+	          }
+	        } catch (err) {
+	          _iterator3.e(err);
+	        } finally {
+	          _iterator3.f();
+	        }
+
+	        return escapeHTML("".concat(summaryDescriptor.summaryPrefix, " ").concat(formattedImplode(',', 'or', methods)));
+	      } else {
+	        return '';
+	      }
+	    }
+	  }]);
+
+	  return SelectField;
+	}(FormField);
+
+	function _buildOption2(containerEl, selectEl, key, option) {
+	  var optionEl = selectEl.appendChild(document.createElement('option')); //optionEl.className = ;
+
+	  optionEl.value = key;
+	  optionEl.innerText = option.label;
+
+	  if (OptionsField.KEY_OTHER === key && this.includeOtherFreeText) {
+	    var otherTextEl = containerEl.appendChild(document.createElement('input'));
+	    otherTextEl.id = _classPrivateFieldSet(this, _otherTextId, FormField.nextId);
+	    otherTextEl.className = 'form-control';
+	  }
+	}
+
+	var _TOP_LEVEL_ELEMENT = {
+	  writable: true,
+	  value: 'fieldset'
+	};
+
+	var $$2$1 = _export;
+	var $trimStart$1 = stringTrim$1.start;
+	var forcedStringTrimMethod$3 = stringTrimForced$1;
+
+	var FORCED$r = forcedStringTrimMethod$3('trimStart');
+
+	var trimStart$1 = FORCED$r ? function trimStart() {
+	  return $trimStart$1(this);
+	// eslint-disable-next-line es/no-string-prototype-trimstart-trimend -- safe
+	} : ''.trimStart;
+
+	// `String.prototype.{ trimStart, trimLeft }` methods
+	// https://tc39.es/ecma262/#sec-string.prototype.trimstart
+	// https://tc39.es/ecma262/#String.prototype.trimleft
+	$$2$1({ target: 'String', proto: true, name: 'trimStart', forced: FORCED$r }, {
+	  trimStart: trimStart$1,
+	  trimLeft: trimStart$1
+	});
+
+	var $$1$1 = _export;
+	var $find$2 = arrayIteration$1.find;
+	var addToUnscopables$a = addToUnscopables$3$1;
+
+	var FIND$1 = 'find';
+	var SKIPS_HOLES$2 = true;
+
+	// Shouldn't skip holes
+	if (FIND$1 in []) Array(1)[FIND$1](function () { SKIPS_HOLES$2 = false; });
+
+	// `Array.prototype.find` method
+	// https://tc39.es/ecma262/#sec-array.prototype.find
+	$$1$1({ target: 'Array', proto: true, forced: SKIPS_HOLES$2 }, {
+	  find: function find(callbackfn /* , that = undefined */) {
+	    return $find$2(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+	  }
+	});
+
+	// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+	addToUnscopables$a(FIND$1);
+
+	function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+	function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+	function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+	function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+	function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration$1(obj, privateSet); privateSet.add(obj); }
+
+	function _classPrivateFieldInitSpec$1(obj, privateMap, value) { _checkPrivateRedeclaration$1(obj, privateMap); privateMap.set(obj, value); }
+
+	function _checkPrivateRedeclaration$1(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+	function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+
+	var _inputFieldId = /*#__PURE__*/new WeakMap();
+
+	var _dropDownListDivId = /*#__PURE__*/new WeakMap();
+
+	var _dropDownListUlId = /*#__PURE__*/new WeakMap();
+
+	var _containerId$1 = /*#__PURE__*/new WeakMap();
+
+	var _taxonLookupTimeoutHandle = /*#__PURE__*/new WeakMap();
+
+	var _changeEventTimeout = /*#__PURE__*/new WeakMap();
+
+	var _selectedIndex = /*#__PURE__*/new WeakMap();
+
+	var _searchResults = /*#__PURE__*/new WeakMap();
+
+	var _triggerQuery = /*#__PURE__*/new WeakSet();
+
+	var TaxonPickerField = /*#__PURE__*/function (_FormField) {
+	  _inherits(TaxonPickerField, _FormField);
+
+	  var _super = _createSuper$3(TaxonPickerField);
+
+	  /**
+	   * @type {TaxonSearch}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   *
+	   * @type {null|number}
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   * @type {Array.<{entityId: string,
+	                      vernacular: string,
+	                      qname: string,
+	                      name: string,
+	                      qualifier: string,
+	                      authority: string,
+	                      uname: string,
+	                      vernacularMatched: boolean,
+	                      exact: boolean,
+	                      near: boolean,
+	                      formatted: string,
+	                      acceptedEntityId: string,
+	                      acceptedNameString: string,
+	                      acceptedQualifier: string,
+	                      acceptedAuthority: string
+	                      }>}
+	   */
+
+	  /**
+	   *
+	   * @type {{taxonName: string, taxonId: string, vernacularMatch: boolean}}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @param {{label : string, [helpText]: string}} [params]
+	   */
+	  function TaxonPickerField(params) {
+	    var _this;
+
+	    _classCallCheck(this, TaxonPickerField);
+
+	    _this = _super.call(this, params);
+
+	    _classPrivateMethodInitSpec(_assertThisInitialized(_this), _triggerQuery);
+
+	    _defineProperty(_assertThisInitialized(_this), "taxonSearch", void 0);
+
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _inputFieldId, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _dropDownListDivId, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _dropDownListUlId, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _containerId$1, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _taxonLookupTimeoutHandle, {
+	      writable: true,
+	      value: null
+	    });
+
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _changeEventTimeout, {
+	      writable: true,
+	      value: null
+	    });
+
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _selectedIndex, {
+	      writable: true,
+	      value: null
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "_lastInputValue", '');
+
+	    _classPrivateFieldInitSpec$1(_assertThisInitialized(_this), _searchResults, {
+	      writable: true,
+	      value: []
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "_value", {
+	      taxonId: '',
+	      taxonName: '',
+	      vernacularMatch: false
+	    });
+
+	    _this.taxonSearch = new TaxonSearch();
+	    return _this;
+	  }
+	  /**
+	   *
+	   * @param {({taxonName: string, taxonId: string, vernacularMatch: boolean}|null)} taxonSpec
+	   */
+
+
+	  _createClass(TaxonPickerField, [{
+	    key: "value",
+	    get:
+	    /**
+	     *
+	     * @returns {{taxonName: string, taxonId: string, vernacularMatch: boolean}}
+	     */
+	    function get() {
+	      return this._value;
+	    }
+	    /**
+	     *
+	     * @param {({taxonName: string, taxonId: string, vernacularMatch: boolean}|null)} value
+	     * @returns {boolean}
+	     */
+	    ,
+	    set: function set(taxonSpec) {
+	      var taxon;
+
+	      if (taxonSpec && taxonSpec.taxonId) {
+	        // this will trigger an error if somehow an invalid id was supplied
+	        taxon = Taxon.fromId(taxonSpec.taxonId); // build the saved values from the dictionary rather than from the literal user entry (which may use different formatting)
+
+	        this._value = {
+	          taxonId: taxon.id,
+	          taxonName: taxonSpec.vernacularMatch ? taxon.vernacular : taxon.nameString,
+	          vernacularMatch: taxonSpec.vernacularMatch
+	        };
+	      } else {
+	        this._value = {
+	          taxonId: '',
+	          taxonName: taxonSpec && taxonSpec.taxonName ? taxonSpec.taxonName : '',
+	          vernacularMatch: null
+	        };
+	      }
+
+	      this.updateView();
+	    }
+	  }, {
+	    key: "updateView",
+	    value: function updateView() {
+	      if (this._fieldEl) {
+	        // do nothing until the view has been constructed
+	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputFieldId));
+	        inputEl.value = this._value.taxonName;
+	        this._lastInputValue = this._value.taxonName; // probably not necessary
+	      }
+	    }
+	    /**
+	     *
+	     * @param {(boolean|null)} isValid
+	     */
+
+	  }, {
+	    key: "markValidity",
+	    value: function markValidity(isValid) {
+	      var el = document.getElementById(_classPrivateFieldGet(this, _inputFieldId));
+
+	      if (null === isValid) {
+	        el.classList.remove('is-invalid', 'is-valid');
+	      } else {
+	        el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
+	        el.classList.add(isValid ? 'is-valid' : 'is-invalid');
+	      }
+	    }
+	    /**
+	     * initialises this._fieldEl
+	     *
+	     * @returns {void}
+	     */
+
+	  }, {
+	    key: "buildField",
+	    value: function buildField() {
+	      //    <div class="form-group">
+	      //     <label for="exampleFormControlInput1">Email address</label>
+	      //     <div class="dropbox-wrapper">
+	      //     <input type="text" class="form-control dropbox-input" id="exampleFormControlInput1" placeholder="name@example.com">
+	      //     <div class="dropdown-list">
+	      //     </div>
+	      //   </div>
+	      var container = document.createElement('div');
+	      container.className = 'form-group';
+
+	      _classPrivateFieldSet(this, _containerId$1, container.id = FormField.nextId);
+
+	      _classPrivateFieldSet(this, _inputFieldId, FormField.nextId);
+
+	      var labelEl = container.appendChild(document.createElement('label'));
+	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputFieldId);
+	      labelEl.textContent = this.label;
+	      var wrapperEl = container.appendChild(document.createElement('div'));
+	      wrapperEl.className = 'dropdown-wrapper';
+	      var inputField = wrapperEl.appendChild(document.createElement('input'));
+	      inputField.className = "form-control dropdown-input";
+	      inputField.id = _classPrivateFieldGet(this, _inputFieldId);
+	      inputField.autocomplete = 'off';
+	      inputField.spellcheck = false;
+
+	      if (this.validationMessage) {
+	        // unfortunately the validation message has to be placed immediately after the input field
+	        var validationMessageElement = wrapperEl.appendChild(document.createElement('div'));
+	        validationMessageElement.className = 'invalid-feedback';
+	        validationMessageElement.innerHTML = this.validationMessage;
+	      }
+
+	      var dropDownList = wrapperEl.appendChild(document.createElement('div'));
+	      dropDownList.className = 'dropdown-list';
+
+	      _classPrivateFieldSet(this, _dropDownListDivId, dropDownList.id = FormField.nextId);
+
+	      _classPrivateFieldSet(this, _dropDownListUlId, FormField.nextId);
+
+	      if (this.helpText) {
+	        var helpTextField = container.appendChild(document.createElement('small'));
+	        helpTextField.innerHTML = this.helpText;
+	      }
+
+	      inputField.addEventListener('keydown', this.keydownHandler.bind(this)); //inputField.addEventListener('keyup', this.keyupHandler.bind(this)); // unfortunately keyup doesn't fire for touch keyboards
+
+	      inputField.addEventListener('input', this.inputHandler.bind(this));
+	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
+	      container.addEventListener('focusin', this.focusHandler.bind(this));
+	      container.addEventListener('focusout', this.blurHandler.bind(this));
+	      dropDownList.addEventListener('click', this.dropboxClickHandler.bind(this));
+	      this._fieldEl = container;
+	    }
+	    /**
+	     *
+	     * @param {KeyboardEvent} event
+	     * @param {HTMLInputElement} event.target
+	     * @return {boolean}
+	     */
+
+	  }, {
+	    key: "keydownHandler",
+	    value: function keydownHandler(event) {
+	      this._lastInputValue = event.target.value.trimLeft(); // save value for testing in InputEvent handler
+
+	      switch (event.key) {
+	        case 'Enter':
+	          event.preventDefault(); // exit if no suggestions
+	          // if (this.selectedIndex < 0 || !this.suggestionsCol) {
+	          //     return;
+	          // }
+	          // // find which one is currently selected
+	          // const selectedModel = this.suggestionsCol.at(this.selectedIndex);
+	          //
+	          // const species = selectedModel.toJSON();
+	          // delete species.selected;
+	          // this.trigger('taxon:selected', species, false);
+
+	          break;
+
+	        case 'ArrowUp':
+	          event.preventDefault(); // if (this.selectedIndex > 0) {
+	          //     this.suggestionsCol.at(this.selectedIndex).set('selected', false);
+	          //     this.selectedIndex--;
+	          //     this.suggestionsCol.at(this.selectedIndex).set('selected', true);
+	          // }
+
+	          break;
+
+	        case 'ArrowDown':
+	          // Down
+	          event.preventDefault(); // if ((this.suggestionsCol && this.suggestionsCol.length) && // initialized
+	          //     this.selectedIndex < this.suggestionsCol.length - 1) { // not out of boundaries
+	          //     this.suggestionsCol.at(this.selectedIndex).set('selected', false);
+	          //     this.selectedIndex++;
+	          //     this.suggestionsCol.at(this.selectedIndex).set('selected', true);
+	          // }
+
+	          break;
+	        // default:
+	        //     // Other
+	        //     let text = input;
+	        //
+	        //     // on keyDOWN need to add the pressed char
+	        //     let pressedChar = String.fromCharCode(event.key);
+	        //     if (event.keyCode != 8) {
+	        //         // http://stackoverflow.com/questions/19278037/javascript-non-unicode-char-code-to-unicode-character
+	        //         if (e.keyCode === 189 || e.keyCode === 109) {
+	        //             pressedChar = '-';
+	        //         }
+	        //         if (e.keyCode === 190) {
+	        //             pressedChar = '.';
+	        //         }
+	        //
+	        //         text += pressedChar;
+	        //     } else {
+	        //         // Backspace - remove a char
+	        //         text = text.slice(0, text.length - 1);
+	        //     }
+	        //
+	        //     // proceed if minimum length phrase was provided
+	        //     if ((text.replace(/\.|\s/g, '').length) >= TaxonSearch.MIN_SEARCH_LENGTH) {
+	        //         text = text.trim();
+	        //
+	        //         // Clear previous timeout
+	        //         if (this.#taxonLookupTimeoutHandle !== -1) {
+	        //             clearTimeout(this.#taxonLookupTimeoutHandle);
+	        //         }
+	        //
+	        //         // Set new timeout - don't run if user is typing
+	        //         this.#taxonLookupTimeoutHandle = setTimeout(function () {
+	        //             // let controller know
+	        //             that.trigger('taxon:searched', text.toLowerCase());
+	        //         }, 100);
+	        //     } else if (text.replace(/\.|\s/g, '').length === 0) {
+	        //         // no search text, but pass through search, so that 'Unknown sp' can be shown
+	        //
+	        //         // Clear previous timeout
+	        //         if (this.#taxonLookupTimeoutHandle !== -1) {
+	        //             clearTimeout(this.#taxonLookupTimeoutHandle);
+	        //         }
+	        //
+	        //         // Set new timeout - don't run if user is typing
+	        //         this.#taxonLookupTimeoutHandle = setTimeout(function () {
+	        //             // let controller know
+	        //             that.trigger('taxon:searched', '');
+	        //         }, 100);
+	        //     }
+	      }
+	    }
+	    /**
+	     *
+	     * @param {InputEvent} event
+	     */
+
+	  }, {
+	    key: "inputHandler",
+	    value: function inputHandler(event) {
+	      var currentValue = event.target.value.trimLeft(); // save value for testing in InputEvent handler
+
+	      if (currentValue !== this._lastInputValue) {
+	        _classPrivateMethodGet(this, _triggerQuery, _triggerQuery2).call(this, event.target);
+	      }
+	    }
+	    /**
+	     *
+	     * @param {KeyboardEvent} event
+	     * @return {boolean}
+	     */
+
+	  }, {
+	    key: "keyupHandler",
+	    value: function keyupHandler(event) {
+	      //console.log({'key' : event.key});
+	      if (event.key && (event.key.length === 1 || event.key === 'Backspace' || event.key === 'Delete')) {
+	        //keypress was a printable character
+	        _classPrivateMethodGet(this, _triggerQuery, _triggerQuery2).call(this, event.target); // let text = TaxonPickerField.cleanRawInput(event.target);
+	        //
+	        // // proceed if minimum length phrase was provided
+	        // if ((text.length) >= TaxonSearch.MIN_SEARCH_LENGTH) {
+	        //
+	        //     // Clear previous timeout
+	        //     if (this.#taxonLookupTimeoutHandle) {
+	        //         clearTimeout(this.#taxonLookupTimeoutHandle);
+	        //     }
+	        //
+	        //     // Set new timeout - don't run if user is typing
+	        //     this.#taxonLookupTimeoutHandle = setTimeout(() => {
+	        //         this.#searchResults = this.taxonSearch.lookup(
+	        //             TaxonPickerField.cleanRawInput(document.getElementById(this.#inputFieldId))
+	        //         );
+	        //
+	        //         console.log(this.#searchResults);
+	        //
+	        //         this.refreshSearchResultsList();
+	        //
+	        //         this.#taxonLookupTimeoutHandle = null;
+	        //     }, TaxonPickerField.timeoutDelay);
+	        // }
+
+	      }
+	    }
+	    /**
+	     *
+	     * @param {HTMLInputElement} inputEl
+	     */
+
+	  }, {
+	    key: "focusHandler",
+	    value:
+	    /**
+	     *
+	     * @param {Event} event
+	     */
+	    function focusHandler(event) {
+	      console.log('focused');
+	      var dropDownEl = document.getElementById(_classPrivateFieldGet(this, _dropDownListDivId)); //const container = document.getElementById(this.#containerId);
+
+	      if (!dropDownEl.classList.contains('dropdown-focused')) {
+	        // refresh dropdown list when first focused
+	        // focus event will re-fire after click on link in dropdown potentially disrupting subsequent click
+	        // it is important that the query is not re-run if already focused.
+	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputFieldId));
+
+	        _classPrivateMethodGet(this, _triggerQuery, _triggerQuery2).call(this, inputEl);
+
+	        dropDownEl.classList.add('dropdown-focused');
+	      }
+	    }
+	    /**
+	     *
+	     * @param {Event} event
+	     */
+
+	  }, {
+	    key: "blurHandler",
+	    value: function blurHandler(event) {
+	      var _this2 = this;
+
+	      // clear taxon result lookup timeout
+	      if (_classPrivateFieldGet(this, _taxonLookupTimeoutHandle)) {
+	        clearTimeout(_classPrivateFieldGet(this, _taxonLookupTimeoutHandle));
+
+	        _classPrivateFieldSet(this, _taxonLookupTimeoutHandle, null);
+	      } // to avoid blurring before a link click has been processed, introduce a delay
+
+
+	      setTimeout(function () {
+	        var dropDownEl = document.getElementById(_classPrivateFieldGet(_this2, _dropDownListDivId));
+	        dropDownEl.classList.remove('dropdown-focused'); // console.log('applied blur');
+	      }, 500);
+	    }
+	  }, {
+	    key: "refreshSearchResultsList",
+	    value: function refreshSearchResultsList() {
+	      var dropdownListEl = document.getElementById(_classPrivateFieldGet(this, _dropDownListDivId));
+
+	      if (_classPrivateFieldGet(this, _searchResults).length) {
+	        var htmlResults = [];
+	        var n = 0;
+
+	        var _iterator = _createForOfIteratorHelper(_classPrivateFieldGet(this, _searchResults)),
+	            _step;
+
+	        try {
+	          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	            var result = _step.value;
+	            htmlResults[htmlResults.length] = "<a class=\"list-group-item list-group-item-action\" href=\"#\" data-occurrenceId=\"".concat(result.entityId, "\" data-resultnumber=\"").concat(n, "\">").concat(TaxonSearch.formatter(result), "</a>");
+	            ++n;
+	          }
+	        } catch (err) {
+	          _iterator.e(err);
+	        } finally {
+	          _iterator.f();
+	        }
+
+	        dropdownListEl.innerHTML = "<div class=\"list-group\" id=\"".concat(_classPrivateFieldGet(this, _dropDownListUlId), "\">").concat(htmlResults.join(''), "</div>"); // const htmlResults = [];
+	        //
+	        // let n = 0;
+	        // for (let result of this.#searchResults) {
+	        //     htmlResults[htmlResults.length] = `<li><a href="#" data-occurrenceId="${result.entityId}" data-resultnumber="${n}">${TaxonSearch.formatter(result)}</a></li>`;
+	        //     ++n;
+	        // }
+	        //
+	        // dropdownListEl.innerHTML = `<ul id="${this.#dropDownListUlId}">${htmlResults.join('')}</ul>`;
+	      } else {
+	        dropdownListEl.innerHTML = '';
+	      }
+
+	      _classPrivateFieldSet(this, _selectedIndex, null);
+	    }
+	  }, {
+	    key: "dropboxClickHandler",
+	    value:
+	    /**
+	     *
+	     * @param {MouseEvent} event
+	     */
+	    function dropboxClickHandler(event) {
+	      if (doubleClickIntercepted(event)) {
+	        return;
+	      } //console.log('click handler');
+	      //console.log(event);
+
+
+	      var targetEl = event.target.closest('a'); //console.log(targetEl);
+
+	      if (_classPrivateFieldGet(this, _changeEventTimeout)) {
+	        clearTimeout(_classPrivateFieldGet(this, _changeEventTimeout));
+
+	        _classPrivateFieldSet(this, _changeEventTimeout, null);
+
+	        console.log('cleared a pending change event');
+	      }
+
+	      if (targetEl && targetEl.dataset.occurrenceid) {
+	        event.preventDefault(); //console.log(`got target ${targetEl.dataset.occurrenceid}`);
+
+	        var result = _classPrivateFieldGet(this, _searchResults)[targetEl.dataset.resultnumber]; //document.getElementById(this.#inputFieldId).blur();
+
+
+	        this.value = {
+	          taxonId: result.entityId,
+	          taxonName: result.vernacularMatched ? result.vernacular : result.qname,
+	          vernacularMatch: result.vernacularMatched
+	        }; // setter will refresh the field but not fire a change event
+
+	        this.fireEvent(FormField.EVENT_CHANGE);
+	      }
+	    }
+	  }, {
+	    key: "inputChangeHandler",
+	    value: function inputChangeHandler(event) {
+	      var _this3 = this;
+
+	      // need to prevent race-conditions between clicks and change events
+	      // i.e. a click event on the dropdown list might come after a change event on the input field
+	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+
+	      console.log('got taxon field input change event');
+
+	      if (_classPrivateFieldGet(this, _changeEventTimeout)) {
+	        clearTimeout(_classPrivateFieldGet(this, _changeEventTimeout));
+	      } // avoid acting on a change immediately, in case there is a click event following
+
+
+	      _classPrivateFieldSet(this, _changeEventTimeout, setTimeout(function () {
+	        console.log('processing taxon field input change event'); // check if the dropdown list has an exact match, if so then use it
+
+	        var exactMatch = _classPrivateFieldGet(_this3, _searchResults).find(function (result) {
+	          return result.exact;
+	        });
+
+	        if (exactMatch) {
+	          console.log('exact match');
+	          _this3.value = {
+	            taxonId: exactMatch.entityId,
+	            taxonName: exactMatch.vernacularMatched ? exactMatch.vernacular : exactMatch.qname,
+	            vernacularMatch: exactMatch.vernacularMatched
+	          }; // setter will refresh the field but not fire a change event
+	        } else {
+	          console.log('no match');
+	          _this3.value = {
+	            taxonId: '',
+	            taxonName: document.getElementById(_classPrivateFieldGet(_this3, _inputFieldId)).value.trim(),
+	            vernacularMatch: null
+	          };
+	        }
+
+	        console.log(_this3._value);
+
+	        _this3.fireEvent(FormField.EVENT_CHANGE);
+	      }, 500));
+	    }
+	  }], [{
+	    key: "isEmpty",
+	    value: function isEmpty(value) {
+	      return !value || value && !value.taxonName;
+	    }
+	  }, {
+	    key: "cleanRawInput",
+	    value: function cleanRawInput(inputElement) {
+	      return inputElement.value.trim().replace(/\s\s+/g, ' ');
+	    }
+	  }]);
+
+	  return TaxonPickerField;
+	}(FormField);
+
+	function _triggerQuery2(inputEl) {
+	  var _this4 = this;
+
+	  var text = FormField.cleanRawInput(inputEl); // Clear previous timeout
+
+	  if (_classPrivateFieldGet(this, _taxonLookupTimeoutHandle)) {
+	    clearTimeout(_classPrivateFieldGet(this, _taxonLookupTimeoutHandle));
+	  } // proceed if minimum length phrase was provided
+
+
+	  if (text.length >= TaxonSearch.MIN_SEARCH_LENGTH) {
+	    // Set new timeout - don't run if user is typing
+	    _classPrivateFieldSet(this, _taxonLookupTimeoutHandle, setTimeout(function () {
+	      _classPrivateFieldSet(_this4, _searchResults, _this4.taxonSearch.lookup(FormField.cleanRawInput(document.getElementById(_classPrivateFieldGet(_this4, _inputFieldId))))); //console.log(this.#searchResults);
+
+
+	      _this4.refreshSearchResultsList();
+
+	      _classPrivateFieldSet(_this4, _taxonLookupTimeoutHandle, null);
+	    }, TaxonPickerField.timeoutDelay));
+	  } else {
+	    // clear the results list
+	    _classPrivateFieldSet(this, _searchResults, []);
+
+	    this.refreshSearchResultsList();
+	  }
+	}
+
+	_defineProperty(TaxonPickerField, "timeoutDelay", 50);
+
+	function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+	function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+
+	function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+	var _textAreaId = /*#__PURE__*/new WeakMap();
+
+	var _containerId$8 = /*#__PURE__*/new WeakMap();
+
+	var TextAreaField = /*#__PURE__*/function (_FormField) {
+	  _inherits(TextAreaField, _FormField);
+
+	  var _super = _createSuper$2(TextAreaField);
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
+	   */
+	  function TextAreaField(params) {
+	    var _this;
+
+	    _classCallCheck(this, TextAreaField);
+
+	    _this = _super.call(this, params);
+
+	    _classPrivateFieldInitSpec(_assertThisInitialized(_this), _textAreaId, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec(_assertThisInitialized(_this), _containerId$8, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "_value", '');
+
+	    _defineProperty(_assertThisInitialized(_this), "_autocomplete", '');
+
+	    if (params) {
+	      if (params.options) {
+	        _this.options = params.options;
+	      }
+
+	      if (params.placeholder) {
+	        _this.placeholder = params.placeholder;
+	      }
+
+	      if (params.autocomplete) {
+	        _this._autocomplete = params.autocomplete;
+	      }
+	    }
+
+	    return _this;
+	  }
+	  /**
+	   *
+	   * @param {(string|null|undefined)} textContent
+	   */
+
+
+	  _createClass(TextAreaField, [{
+	    key: "value",
+	    get: function get() {
+	      return this._value;
+	    },
+	    set: function set(textContent) {
+	      this._value = undefined === textContent || null == textContent ? '' : textContent.trim();
+	      this.updateView();
+	    }
+	  }, {
+	    key: "updateView",
+	    value: function updateView() {
+	      if (this._fieldEl) {
+	        // do nothing until the view has been constructed
+	        var textAreaEl = document.getElementById(_classPrivateFieldGet(this, _textAreaId));
+	        textAreaEl.value = FormField.cleanRawString(this._value);
+	      }
+	    }
+	    /**
+	     * initialises this._fieldEl
+	     *
+	     * @returns {void}
+	     */
+
+	  }, {
+	    key: "buildField",
+	    value: function buildField() {
+	      // <div class="form-group">
+	      //     <label for="exampleFormControlTextarea1">Example textarea</label>
+	      //     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+	      // </div>
+	      var container = document.createElement('div');
+	      container.className = 'form-group';
+
+	      _classPrivateFieldSet(this, _containerId$8, container.id = FormField.nextId);
+
+	      _classPrivateFieldSet(this, _textAreaId, FormField.nextId);
+
+	      var labelEl = container.appendChild(document.createElement('label'));
+	      labelEl.htmlFor = _classPrivateFieldGet(this, _textAreaId);
+	      labelEl.textContent = this.label;
+	      var textareaField = container.appendChild(document.createElement('textarea'));
+	      textareaField.className = "form-control";
+	      textareaField.id = _classPrivateFieldGet(this, _textAreaId);
+
+	      if (this.helpText) {
+	        var helpTextField = container.appendChild(document.createElement('small'));
+	        helpTextField.innerHTML = this.helpText;
+	      }
+
+	      if (this._autocomplete) {
+	        textareaField.autocomplete = this._autocomplete;
+
+	        if ('off' === this._autocomplete) {
+	          textareaField.name = uuid$1();
+	        }
+	      }
+
+	      if (this.validationMessage) {
+	        var validationMessageElement = container.appendChild(document.createElement('div'));
+	        validationMessageElement.className = 'invalid-feedback';
+	        validationMessageElement.innerHTML = this.validationMessage;
+	      }
+
+	      textareaField.addEventListener('change', this.inputChangeHandler.bind(this));
+	      this._fieldEl = container;
+	    }
+	  }, {
+	    key: "inputChangeHandler",
+	    value: function inputChangeHandler(event) {
+	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+
+	      console.log('got text area field input change event');
+	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _textAreaId)).value);
+	      this.fireEvent(FormField.EVENT_CHANGE);
+	    }
+	    /**
+	     * by the time summariseImpl has been called have already checked that summary is wanted
+	     *
+	     * @param {string} key
+	     * @param {{field : typeof OptionsField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {Object.<string, {}>} attributes attributes of the model object
+	     * @return {string}
+	     */
+
+	  }], [{
+	    key: "summariseImpl",
+	    value: function summariseImpl(key, property, attributes) {
+	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined ? escapeHTML(attributes[key].trim()) : '';
+	    }
+	  }]);
+
+	  return TextAreaField;
+	}(FormField);
 
 	function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
@@ -20942,7 +20970,7 @@
 	var NyphApp = /*#__PURE__*/function (_App) {
 	  _inherits$1(NyphApp, _App);
 
-	  var _super = _createSuper$c(NyphApp);
+	  var _super = _createSuper$a(NyphApp);
 
 	  function NyphApp() {
 	    var _this;
@@ -22459,7 +22487,7 @@
 	var MainController = /*#__PURE__*/function (_AppController) {
 	  _inherits$1(MainController, _AppController);
 
-	  var _super = _createSuper$c(MainController);
+	  var _super = _createSuper$a(MainController);
 
 	  /**
 	   *
@@ -22494,6 +22522,10 @@
 	    _defineProperty$1(_assertThisInitialized$1(_this), "surveySection", void 0);
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "leftPanelBaseRoute", '');
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "coreSurveyFields", ['primaryname', 'email']);
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "coreSurveyFieldCache", []);
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "viewContexts", {
 	      /**
@@ -22546,13 +22578,11 @@
 	    view.addListener(MainController.EVENT_DELETE_OCCURRENCE, _this.deleteOccurrenceHandler.bind(_assertThisInitialized$1(_this)));
 	    view.addListener(MainController.EVENT_BACK, _this.backHandler.bind(_assertThisInitialized$1(_this)));
 	    view.addListener(MainController.EVENT_NEXT_TO_RECORDS, _this.nextTransitionToRecordsHandler.bind(_assertThisInitialized$1(_this)));
+
+	    _this.initialiseSurveyFieldsMirror();
+
 	    return _this;
 	  }
-	  /**
-	   * handler for event fired on and by view when 'next section' button has been click, leading to the records section
-	   * this will expand the list of records, or if none exist, add a first one and open it
-	   */
-
 
 	  _createClass$1(MainController, [{
 	    key: "occurrences",
@@ -22667,6 +22697,70 @@
 	    get: function get() {
 	      return this.app.currentSurvey;
 	    }
+	  }, {
+	    key: "initialiseSurveyFieldsMirror",
+	    value:
+	    /**
+	     * Sets handlers to allow certain survey fields to be duplicated from last current survey to new survey
+	     * used for email address and primary recorder name
+	     */
+	    function initialiseSurveyFieldsMirror() {
+	      var _this2 = this;
+
+	      this.app.addListener(App.EVENT_NEW_SURVEY, function () {
+	        console.log('Try to initialise core fields of new survey.');
+
+	        if (_this2.coreSurveyFieldCache) {
+	          console.log({
+	            'Using cached survey values': _this2.coreSurveyFieldCache
+	          });
+
+	          var _iterator = _createForOfIteratorHelper$7(_this2.coreSurveyFields),
+	              _step;
+
+	          try {
+	            for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	              var key = _step.value;
+	              _this2.app.currentSurvey.attributes[key] = _this2.coreSurveyFieldCache[key];
+	            }
+	          } catch (err) {
+	            _iterator.e(err);
+	          } finally {
+	            _iterator.f();
+	          }
+	        }
+	      });
+	      this.app.addListener(App.EVENT_SURVEYS_CHANGED, function () {
+	        if (_this2.app.currentSurvey && !_this2.app.currentSurvey.isNew) {
+	          var _iterator2 = _createForOfIteratorHelper$7(_this2.coreSurveyFields),
+	              _step2;
+
+	          try {
+	            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+	              var key = _step2.value;
+	              _this2.coreSurveyFieldCache[key] = _this2.app.currentSurvey.attributes[key];
+	            }
+	          } catch (err) {
+	            _iterator2.e(err);
+	          } finally {
+	            _iterator2.f();
+	          }
+
+	          console.log({
+	            'Saved core survey fields': _this2.coreSurveyFieldCache
+	          });
+	        }
+	      });
+	      this.app.addListener(App.EVENT_RESET_SURVEYS, function () {
+	        _this2.coreSurveyFieldCache = [];
+	        console.log('Have reset core survey field cache.');
+	      });
+	    }
+	    /**
+	     * handler for event fired on and by view when 'next section' button has been click, leading to the records section
+	     * this will expand the list of records, or if none exist, add a first one and open it
+	     */
+
 	  }, {
 	    key: "nextTransitionToRecordsHandler",
 	    value: function nextTransitionToRecordsHandler() {
@@ -23102,7 +23196,7 @@
 	var NyphSurveyForm = /*#__PURE__*/function (_SurveyForm) {
 	  _inherits$1(NyphSurveyForm, _SurveyForm);
 
-	  var _super = _createSuper$c(NyphSurveyForm);
+	  var _super = _createSuper$a(NyphSurveyForm);
 
 	  function NyphSurveyForm() {
 	    _classCallCheck$1(this, NyphSurveyForm);
@@ -23232,7 +23326,7 @@
 	var NyphSurveyFormAboutSection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
 	  _inherits$1(NyphSurveyFormAboutSection, _NyphSurveyFormSectio);
 
-	  var _super = _createSuper$c(NyphSurveyFormAboutSection);
+	  var _super = _createSuper$a(NyphSurveyFormAboutSection);
 
 	  function NyphSurveyFormAboutSection() {
 	    _classCallCheck$1(this, NyphSurveyFormAboutSection);
@@ -23254,7 +23348,7 @@
 	_defineProperty$1(NyphSurveyFormAboutSection, "completionRequired", true);
 
 	_defineProperty$1(NyphSurveyFormAboutSection, "properties", {
-	  recorder: {
+	  primaryname: {
 	    field: InputField,
 	    attributes: {
 	      label: 'Your name',
@@ -26535,7 +26629,7 @@
 	var MapGeorefField = /*#__PURE__*/function (_TextGeorefField) {
 	  _inherits$1(MapGeorefField, _TextGeorefField);
 
-	  var _super = _createSuper$c(MapGeorefField);
+	  var _super = _createSuper$a(MapGeorefField);
 
 	  // /**
 	  //  * @type {string}
@@ -26832,6 +26926,13 @@
 	          _this2._tryDefaultGeoreferenceFromSurvey(params.survey, true);
 	        }
 	      });
+	      this.parentForm.addListener(Form.EVENT_INITIALISE_NEW, function (
+	      /** @type {{[survey] : Survey}} */
+	      params) {
+	        console.log('Handling re-initialisation of new MapGeoRefField.'); // set the geo-ref field placeholder to match the survey grid-ref and center the map there if no grid-ref has been specified
+
+	        _this2._tryDefaultGeoreferenceFromSurvey(params.survey, !!_this2._value.gridRef);
+	      });
 	    }
 	    /**
 	     *
@@ -26922,6 +27023,27 @@
 	        this.map.addControl(geocoder, 'top-right');
 	      }
 
+	      this.map.on('click',
+	      /** @param {mapboxgl.MapMouseEvent} mapMouseEvent */
+	      function (mapMouseEvent) {
+	        console.log("A click event has occurred at ".concat(mapMouseEvent.lngLat));
+	        console.log({
+	          mapMouseEvent: mapMouseEvent
+	        });
+
+	        var zoom = _this4.map.getZoom();
+
+	        var squareDimension = _this4.reverseZoomMapping(zoom);
+
+	        if (squareDimension <= _this4.minResolution) {
+	          _this4.map.jumpTo({
+	            center: [mapMouseEvent.lng, mapMouseEvent.lat]
+	          }, null); // only allow selection if zoomed-in sufficiently
+
+
+	          _this4.processLatLngPosition(mapMouseEvent.lat, mapMouseEvent.lng, squareDimension, TextGeorefField.GEOREF_SOURCE_MAP);
+	        }
+	      });
 	      this.respondToVisibility(divEl, function (visible) {
 	        if (visible) {
 	          console.log('Map is visible');
@@ -26929,6 +27051,52 @@
 	          _this4.map.resize(null);
 	        }
 	      });
+	    }
+	    /**
+	     *
+	     * @param {number} length (should already have been normalised)
+	     * @returns {number} zoom level
+	     */
+
+	  }, {
+	    key: "zoomMapping",
+	    value: function zoomMapping(length) {
+	      return {
+	        1: 12,
+	        10: 12,
+	        100: 11,
+	        1000: 10,
+	        2000: 8,
+	        10000: 7
+	      }[length];
+	    }
+	    /**
+	     *
+	     * @param {number} zoom
+	     * @returns {number} grid square dimension (m)
+	     */
+
+	  }, {
+	    key: "reverseZoomMapping",
+	    value: function reverseZoomMapping(zoom) {
+	      return {
+	        0: 100000,
+	        1: 100000,
+	        2: 100000,
+	        3: 100000,
+	        4: 100000,
+	        5: 100000,
+	        6: 100000,
+	        7: 10000,
+	        8: 10000,
+	        9: 2000,
+	        10: 2000,
+	        11: 1000,
+	        12: 1000,
+	        13: 100,
+	        14: 100,
+	        15: 10
+	      }[zoom];
 	    }
 	    /**
 	     * Start observing visibility of element. On change, the
@@ -26958,7 +27126,7 @@
 	     */
 
 	  }, {
-	    key: "zoomMapping",
+	    key: "tryValue",
 	    value: // /**
 	    //  *
 	    //  * @param {(boolean|null)} isValid
@@ -26988,29 +27156,11 @@
 	    // }
 
 	    /**
-	     *
-	     * @param {number} length (should already have been normalised)
-	     * @returns {number} zoom level
-	     */
-	    function zoomMapping(length) {
-	      return {
-	        1: 12,
-	        10: 12,
-	        100: 11,
-	        1000: 10,
-	        2000: 8,
-	        10000: 7
-	      }[length];
-	    }
-	    /**
 	     * this pans and zooms the map, but does not update the field value or displayed grid-reference
 	     *
 	     * @param {string} query may be a grid-reference or postcode
 	     */
-
-	  }, {
-	    key: "tryValue",
-	    value: function tryValue(query) {
+	    function tryValue(query) {
 	      var gridRefParser = Oo.from_string(query);
 
 	      if (query && gridRefParser) {
@@ -27107,14 +27257,14 @@
 	  }]);
 
 	  return MapGeorefField;
-	}(TextGeorefField$1);
+	}(TextGeorefField);
 
 	function _setGridrefFromGeocodedResult2(result) {
 	  console.log({
 	    'geocoded result': result
-	  }); // currently just use the centre-point
+	  }); // currently, just uses the centre-point
 
-	  this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1, TextGeorefField$1.GEOREF_SOURCE_PLACE); // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
+	  this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1, TextGeorefField.GEOREF_SOURCE_PLACE); // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
 	}
 
 	_defineProperty$1(MapGeorefField, "GPS_INITIALISATION_MODE_ALWAYS", 'always');
@@ -27130,7 +27280,7 @@
 	var NyphOccurrenceForm = /*#__PURE__*/function (_OccurrenceForm) {
 	  _inherits$1(NyphOccurrenceForm, _OccurrenceForm);
 
-	  var _super = _createSuper$c(NyphOccurrenceForm);
+	  var _super = _createSuper$a(NyphOccurrenceForm);
 
 	  function NyphOccurrenceForm() {
 	    _classCallCheck$1(this, NyphOccurrenceForm);
@@ -27444,7 +27594,7 @@
 	var NyphSurveyFormSurveySection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
 	  _inherits$1(NyphSurveyFormSurveySection, _NyphSurveyFormSectio);
 
-	  var _super = _createSuper$c(NyphSurveyFormSurveySection);
+	  var _super = _createSuper$a(NyphSurveyFormSurveySection);
 
 	  function NyphSurveyFormSurveySection() {
 	    _classCallCheck$1(this, NyphSurveyFormSurveySection);
@@ -27586,7 +27736,7 @@
 	var MainView = /*#__PURE__*/function (_Page) {
 	  _inherits$1(MainView, _Page);
 
-	  var _super = _createSuper$c(MainView);
+	  var _super = _createSuper$a(MainView);
 
 	  function MainView() {
 	    var _this;
@@ -28181,6 +28331,13 @@
 	          survey: this.controller.app.currentSurvey
 	        }); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
 
+	      } else {
+	        console.log('Firing event for initialisation of new occurrence.');
+
+	        _classPrivateFieldGet$1(this, _occurrenceForm).fireEvent(Form.EVENT_INITIALISED, {
+	          survey: this.controller.app.currentSurvey
+	        }); // allows re-initialisation of dynamic default data, e.g. setting a default geo-ref based on the survey
+
 	      }
 
 	      this.refreshOccurrenceFooterControls(editorContainer); // ensures that the accordion matches the navigation state
@@ -28693,7 +28850,7 @@
 	var HelpView = /*#__PURE__*/function (_Page) {
 	  _inherits$1(HelpView, _Page);
 
-	  var _super = _createSuper$c(HelpView);
+	  var _super = _createSuper$a(HelpView);
 
 	  function HelpView() {
 	    _classCallCheck$1(this, HelpView);
@@ -28706,7 +28863,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638377833</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638394032</p>";
 	    }
 	  }]);
 
@@ -28716,7 +28873,7 @@
 	var NyphLayout = /*#__PURE__*/function (_Layout) {
 	  _inherits$1(NyphLayout, _Layout);
 
-	  var _super = _createSuper$c(NyphLayout);
+	  var _super = _createSuper$a(NyphLayout);
 
 	  function NyphLayout() {
 	    var _this;

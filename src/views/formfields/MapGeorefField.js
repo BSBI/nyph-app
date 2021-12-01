@@ -290,6 +290,14 @@ export class MapGeorefField extends TextGeorefField {
                 this._tryDefaultGeoreferenceFromSurvey(params.survey, true);
             }
         });
+
+        this.parentForm.addListener(Form.EVENT_INITIALISE_NEW, (/** @type {{[survey] : Survey}} */ params) => {
+            console.log('Handling re-initialisation of new MapGeoRefField.');
+
+            // set the geo-ref field placeholder to match the survey grid-ref and center the map there if no grid-ref has been specified
+
+            this._tryDefaultGeoreferenceFromSurvey(params.survey, !!this._value.gridRef);
+        });
     }
 
     /**
@@ -365,12 +373,76 @@ export class MapGeorefField extends TextGeorefField {
             this.map.addControl(geocoder, 'top-right');
         }
 
+        this.map.on('click', /** @param {mapboxgl.MapMouseEvent} mapMouseEvent */ (mapMouseEvent) => {
+            console.log(`A click event has occurred at ${mapMouseEvent.lngLat}`);
+            console.log({mapMouseEvent});
+
+            let zoom = this.map.getZoom();
+            const squareDimension = this.reverseZoomMapping(zoom);
+
+            if (squareDimension <= this.minResolution) {
+                this.map.jumpTo({
+                    center: [mapMouseEvent.lng, mapMouseEvent.lat],
+                }, null);
+
+                // only allow selection if zoomed-in sufficiently
+                this.processLatLngPosition(
+                    mapMouseEvent.lat,
+                    mapMouseEvent.lng,
+                    squareDimension,
+                    TextGeorefField.GEOREF_SOURCE_MAP
+                );
+            }
+        });
+
         this.respondToVisibility(divEl, (visible) => {
             if (visible) {
                 console.log('Map is visible');
                 this.map.resize(null);
             }
         });
+    }
+
+    /**
+     *
+     * @param {number} length (should already have been normalised)
+     * @returns {number} zoom level
+     */
+    zoomMapping(length) {
+        return {
+            1: 12,
+            10: 12,
+            100: 11,
+            1000: 10,
+            2000: 8,
+            10000: 7,
+        }[length];
+    }
+
+    /**
+     *
+     * @param {number} zoom
+     * @returns {number} grid square dimension (m)
+     */
+    reverseZoomMapping(zoom) {
+        return {
+            0: 100000,
+            1: 100000,
+            2: 100000,
+            3: 100000,
+            4: 100000,
+            5: 100000,
+            6: 100000,
+            7: 10000,
+            8: 10000,
+            9: 2000,
+            10: 2000,
+            11: 1000,
+            12: 1000,
+            13: 100,
+            14: 100,
+            15: 10,
+        }[zoom];
     }
 
     /**
@@ -400,9 +472,9 @@ export class MapGeorefField extends TextGeorefField {
      * @param {{bbox : Array<number>, center : Array<number>, geometry : {coordinates:Array<number>, type:string}, type:string, place_type:Array<string>}} result
      */
     #setGridrefFromGeocodedResult(result) {
-        console.log({'geocoded result' : result})
+        console.log({'geocoded result' : result});
 
-        // currently just use the centre-point
+        // currently, just uses the centre-point
         this.processLatLngPosition(
             result.center[1],
             result.center[0],
@@ -441,22 +513,6 @@ export class MapGeorefField extends TextGeorefField {
     //
     //     this.fireEvent(FormField.EVENT_CHANGE);
     // }
-
-    /**
-     *
-     * @param {number} length (should already have been normalised)
-     * @returns {number} zoom level
-     */
-    zoomMapping(length) {
-        return {
-            1: 12,
-            10: 12,
-            100: 11,
-            1000: 10,
-            2000: 8,
-            10000: 7,
-        }[length];
-    }
 
     /**
      * this pans and zooms the map, but does not update the field value or displayed grid-reference

@@ -3,7 +3,15 @@
 // probably as an accordion (collapsible list, e.g. https://getbootstrap.com/docs/4.3/components/collapse/#accordion-example)
 // that should target the detailed view of the occurrence into either a full screen (on mobile) or a right-hand panel.
 
-import {AppController, InternalAppError, NotFoundError, Occurrence, Survey, PatchedNavigo} from "bsbi-app-framework";
+import {
+    AppController,
+    InternalAppError,
+    NotFoundError,
+    Occurrence,
+    Survey,
+    PatchedNavigo,
+    App
+} from "bsbi-app-framework";
 
 export class MainController extends AppController {
     route = '/list/:action/:id';
@@ -150,6 +158,48 @@ export class MainController extends AppController {
 
         view.addListener(MainController.EVENT_BACK, this.backHandler.bind(this));
         view.addListener(MainController.EVENT_NEXT_TO_RECORDS, this.nextTransitionToRecordsHandler.bind(this));
+
+        this.initialiseSurveyFieldsMirror();
+    }
+
+    coreSurveyFields = [
+        'primaryname',
+        'email'
+    ];
+
+    coreSurveyFieldCache = [
+
+    ];
+
+    /**
+     * Sets handlers to allow certain survey fields to be duplicated from last current survey to new survey
+     * used for email address and primary recorder name
+     */
+    initialiseSurveyFieldsMirror() {
+        this.app.addListener(App.EVENT_NEW_SURVEY, () => {
+            console.log('Try to initialise core fields of new survey.');
+            if (this.coreSurveyFieldCache) {
+                console.log({'Using cached survey values' : this.coreSurveyFieldCache});
+                for (let key of this.coreSurveyFields) {
+                    this.app.currentSurvey.attributes[key] = this.coreSurveyFieldCache[key];
+                }
+            }
+        });
+
+        this.app.addListener(App.EVENT_SURVEYS_CHANGED, () => {
+            if (this.app.currentSurvey && !this.app.currentSurvey.isNew) {
+                for (let key of this.coreSurveyFields) {
+                    this.coreSurveyFieldCache[key] = this.app.currentSurvey.attributes[key];
+                }
+
+                console.log({'Saved core survey fields' : this.coreSurveyFieldCache});
+            }
+        });
+
+        this.app.addListener(App.EVENT_RESET_SURVEYS, () => {
+            this.coreSurveyFieldCache = [];
+            console.log('Have reset core survey field cache.');
+        });
     }
 
     /**
