@@ -14,7 +14,7 @@ import {
     MainController,
     Occurrence,
     OccurrenceImage,
-    Page, escapeHTML, App
+    Page, escapeHTML, doubleClickIntercepted, App, Survey
 } from "bsbi-app-framework";
 import {NyphSurveyFormSurveySection} from "./forms/NyphSurveyFormSurveySection";
 
@@ -71,6 +71,11 @@ export class MainView extends Page {
      * @type {boolean}
      */
     OCCURRENCES_ARE_LAST_SECTION = true;
+
+    /**
+     * @type {string}
+     */
+    recordsHeaderListDescriptorId;
 
     /**
      * called once during late-stage app initialisation
@@ -465,8 +470,9 @@ export class MainView extends Page {
         </button>
       </div>
       <div class="modal-body">
-        <p>Thank you! Your form responses have been sent. If you wish, you can continue to make changes and edit or add further records.</p>
-        <p>If you provided an email address, then we will send you a message with a link to this form, so that you can return to it later if needed.</p>
+        <p>Thank you! Your records have been sent. If you wish, you can continue to make changes and edit or add further records.</p>
+        <p>We will email you a link to this form, so that you can return to it later if needed.</p>
+        <p>If you are planning another Plant Hunt expedition then please start a new survey, using the 'Survey' menu<.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -645,16 +651,35 @@ export class MainView extends Page {
                 // the complexity of this dual action requires a click handler
 
                 nextButton.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
+                    if (!doubleClickIntercepted(event)) {
+                        event.preventDefault();
+                        event.stopPropagation();
 
-                    this.fireEvent(MainController.EVENT_NEXT_TO_RECORDS);
+                        surveyFormSection.liveValidation = true;
+
+                        if (surveyFormSection.validateForm()) {
+                            this.fireEvent(MainController.EVENT_NEXT_TO_RECORDS);
+                        }
+                    }
                 });
                 break;
 
             case MainView.NEXT_SURVEY_SECTION:
                 // there's another survey section
                 const nextSection = NyphSurveyForm.sections[formIndex + 1];
+
+                nextButton.addEventListener('click', (event) => {
+                    if (!doubleClickIntercepted(event)) {
+                        surveyFormSection.liveValidation = true;
+
+                        if (!surveyFormSection.validateForm()) {
+                            // if not valid then prevent the event
+
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                    }
+                });
 
                 nextButton.setAttribute('data-toggle', 'collapse');
                 nextButton.setAttribute('data-target', `#survey-${formIndex + 1}-${nextSection.sectionNavigationKey}`);
@@ -666,10 +691,12 @@ export class MainView extends Page {
                 nextButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3';
                 nextButton.type = 'button';
 
-                nextButton.addEventListener('click', (/* event */) => {
-                    this.controller.app.router.navigate('/list/');
-                    // display the finish dialogue box
-                    $(`#${FINISH_MODAL_ID}`).modal();
+                nextButton.addEventListener('click', (event) => {
+                    if (!doubleClickIntercepted(event)) {
+                        this.controller.app.router.navigate('/list/');
+                        // display the finish dialogue box
+                        $(`#${FINISH_MODAL_ID}`).modal();
+                    }
                 });
                 break;
 
@@ -712,8 +739,8 @@ export class MainView extends Page {
                 /**
                  * @type {HTMLButtonElement}
                  */
-                let nextButton = document.getElementById(surveyFormSection.nextButtonId);
-                nextButton.disabled = !params.isValid;
+                //let nextButton = document.getElementById(surveyFormSection.nextButtonId);
+                //nextButton.disabled = !params.isValid;
             //}
 
             this._refreshVisibilityOfAccordionSections();
@@ -741,13 +768,18 @@ export class MainView extends Page {
         }
     }
 
+    separateListsHTMLMessage = '<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href="/app/survey/new" data-navigo="survey/new">start another separate list</a>.';
+
     #appendOccurrenceListContainer() {
         const accordionEl = document.getElementById(this.leftPanelAccordionId);
 
         const content = document.createDocumentFragment();
         const summaryEl = content.appendChild(document.createElement('p'));
+
+        this.recordsHeaderListDescriptorId = Form.nextId;
+
         // noinspection HtmlUnknownTarget
-        summaryEl.innerHTML = 'Records of plants in bloom.<small class="d-block d-md-none"><a href="/app/list/record/help">(help)</a></small>';
+        summaryEl.innerHTML = `<span id="${this.recordsHeaderListDescriptorId}">Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.</span><small class="d-block d-md-none"><a href="/app/list/record/help">(help)</a></small>${this.separateListsHTMLMessage}`;
 
         const newButtonEl = content.appendChild(document.createElement('button'));
         newButtonEl.type = 'button';
@@ -758,6 +790,14 @@ export class MainView extends Page {
 
         const recordListContainer = content.appendChild(document.createElement('div'));
         recordListContainer.id = OCCURRENCE_LIST_CONTAINER_ID;
+
+        this.controller.survey.addListener(Survey.EVENT_MODIFIED, () => {
+            const occurrenceHeadingEl = document.getElementById(this.recordsHeaderListDescriptorId);
+
+            if (occurrenceHeadingEl) {
+                occurrenceHeadingEl.innerHTML = `Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.`;
+            }
+        });
 
         let cardId = Form.nextId;
 

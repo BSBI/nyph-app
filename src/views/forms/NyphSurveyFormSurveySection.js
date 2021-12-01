@@ -1,6 +1,6 @@
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 import helpPanelText from "../../templates/formHelp/surveyAboutHelp.html";
-import {FormField, InputField, SelectField} from "bsbi-app-framework";
+import {DateField, FormField, InputField, SelectField} from "bsbi-app-framework";
 import {MapGeorefField} from "../formfields/MapGeorefField";
 
 export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
@@ -53,6 +53,18 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 baseSquareResolution: 1000,
                 gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED,
             }},
+        date: {
+            field: DateField,
+            attributes: {
+                label: 'Date',
+                helpText: 'When did you survey?',
+                placeholder: 'date',
+                type: 'date',
+                completion: FormField.COMPLETION_COMPULSORY,
+                minDate: '2021-12-01',
+                maxDate: '2022-01-04',
+            }
+        },
         recorder: {
             field: InputField,
             attributes: {
@@ -74,6 +86,15 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 },
                 includeOtherFreeText : false,
                 completion: FormField.COMPLETION_COMPULSORY,
+            }},
+        listname: {
+            field: InputField,
+            attributes: {
+                label: 'Expedition title?',
+                helpText: '(optional) how we should label your list on the results page',
+                placeholder: '',
+                autocomplete: '',
+                completion: FormField.COMPLETION_OPTIONAL,
             }},
     };
 }

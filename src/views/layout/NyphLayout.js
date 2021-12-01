@@ -8,4 +8,10 @@ export class NyphLayout extends Layout {
      */
     surveysMenuId = 'surveysmenu';
 
+    /**
+     * this also needs to be edited in index.html
+     *
+     * @type {string}
+     */
+    newSurveyLabel = 'start new list';
 }

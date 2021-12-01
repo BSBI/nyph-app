@@ -58,3 +58,12 @@ div.map-container {
 div.hidden-card {
     display: none !important;
 }
+
+.offline-warning {
+    display: none;
+}
+
+body.offline .offline-warning {
+    display: block;
+    font-weight: bold;
+}

@@ -2102,7 +2102,7 @@
 	  return _setPrototypeOf$1(o, p);
 	}
 
-	function _isNativeReflectConstruct$a() {
+	function _isNativeReflectConstruct$c() {
 	  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
 	  if (Reflect.construct.sham) return false;
 	  if (typeof Proxy === "function") return true;
@@ -2133,8 +2133,8 @@
 	  return _assertThisInitialized$1(self);
 	}
 
-	function _createSuper$a(Derived) {
-	  var hasNativeReflectConstruct = _isNativeReflectConstruct$a();
+	function _createSuper$c(Derived) {
+	  var hasNativeReflectConstruct = _isNativeReflectConstruct$c();
 
 	  return function _createSuperInternal() {
 	    var Super = _getPrototypeOf$1(Derived),
@@ -2322,20 +2322,20 @@
 	  return fn;
 	}
 
-	function _checkPrivateRedeclaration$7(obj, privateCollection) {
+	function _checkPrivateRedeclaration$c(obj, privateCollection) {
 	  if (privateCollection.has(obj)) {
 	    throw new TypeError("Cannot initialize the same private elements twice on an object");
 	  }
 	}
 
-	function _classPrivateFieldInitSpec$7(obj, privateMap, value) {
-	  _checkPrivateRedeclaration$7(obj, privateMap);
+	function _classPrivateFieldInitSpec$c(obj, privateMap, value) {
+	  _checkPrivateRedeclaration$c(obj, privateMap);
 
 	  privateMap.set(obj, value);
 	}
 
 	function _classPrivateMethodInitSpec$4(obj, privateSet) {
-	  _checkPrivateRedeclaration$7(obj, privateSet);
+	  _checkPrivateRedeclaration$c(obj, privateSet);
 
 	  privateSet.add(obj);
 	}
@@ -16482,6 +16482,226 @@
 	  }
 	});
 
+	function _createSuper$a(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$a(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$a() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+	function _classPrivateFieldInitSpec$7(obj, privateMap, value) { _checkPrivateRedeclaration$7(obj, privateMap); privateMap.set(obj, value); }
+
+	function _checkPrivateRedeclaration$7(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+	var _inputId$2 = /*#__PURE__*/new WeakMap();
+
+	var _containerId$7 = /*#__PURE__*/new WeakMap();
+
+	var DateField = /*#__PURE__*/function (_FormField) {
+	  _inherits(DateField, _FormField);
+
+	  var _super = _createSuper$a(DateField);
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @type {string}
+	   * @private
+	   */
+
+	  /**
+	   *
+	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
+	   */
+	  function DateField(params) {
+	    var _this;
+
+	    _classCallCheck(this, DateField);
+
+	    _this = _super.call(this, params);
+
+	    _classPrivateFieldInitSpec$7(_assertThisInitialized(_this), _inputId$2, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _classPrivateFieldInitSpec$7(_assertThisInitialized(_this), _containerId$7, {
+	      writable: true,
+	      value: void 0
+	    });
+
+	    _defineProperty(_assertThisInitialized(_this), "_value", '');
+
+	    _defineProperty(_assertThisInitialized(_this), "_inputType", 'date');
+
+	    _defineProperty(_assertThisInitialized(_this), "_autocomplete", '');
+
+	    _this._value = new Date().toJSON().slice(0, 10); // default to current date
+
+	    if (params) {
+	      if (params.placeholder) {
+	        _this.placeholder = params.placeholder;
+	      }
+
+	      if (params.autocomplete) {
+	        _this._autocomplete = params.autocomplete;
+	      }
+	    }
+
+	    return _this;
+	  }
+	  /**
+	   *
+	   * @param {(string|null|undefined)} textContent
+	   */
+
+
+	  _createClass(DateField, [{
+	    key: "value",
+	    get:
+	    /**
+	     *
+	     * @returns {string}
+	     */
+	    function get() {
+	      return this._value;
+	    },
+	    set: function set(textContent) {
+	      this._value = undefined === textContent || null == textContent ? new Date().toJSON().slice(0, 10) // current date in ISO format
+	      : textContent.trim();
+	      this.updateView();
+	    }
+	  }, {
+	    key: "updateView",
+	    value: function updateView() {
+	      if (this._fieldEl) {
+	        // do nothing until the view has been constructed
+	        var inputEl = document.getElementById(_classPrivateFieldGet(this, _inputId$2));
+	        inputEl.value = FormField.cleanRawString(this._value);
+	      }
+	    }
+	    /**
+	     * initialises this._fieldEl
+	     *
+	     * @returns {void}
+	     */
+
+	  }, {
+	    key: "buildField",
+	    value: function buildField() {
+	      var container = document.createElement('div');
+	      container.className = 'form-group';
+
+	      _classPrivateFieldSet(this, _containerId$7, container.id = FormField.nextId);
+
+	      _classPrivateFieldSet(this, _inputId$2, FormField.nextId);
+
+	      var labelEl = container.appendChild(document.createElement('label'));
+	      labelEl.htmlFor = _classPrivateFieldGet(this, _inputId$2);
+	      labelEl.textContent = this.label;
+	      var inputField = container.appendChild(document.createElement('input'));
+	      inputField.className = "form-control";
+	      inputField.id = _classPrivateFieldGet(this, _inputId$2);
+
+	      try {
+	        // this is needed for compatibility with IE11
+	        inputField.type = this._inputType;
+	      } catch (e) {
+	        console.log("Failed to set type '".concat(this._inputType, "'"));
+	      }
+
+	      if (this.placeholder) {
+	        inputField.placeholder = this.placeholder;
+	      }
+
+	      if (this._autocomplete) {
+	        inputField.autocomplete = this._autocomplete;
+
+	        if ('off' === this._autocomplete) {
+	          // browsers tend to ignore autocomplete off, so also assign a random 'name' value
+	          inputField.name = uuid$1();
+	        }
+	      }
+
+	      if (this.completion === FormField.COMPLETION_COMPULSORY) {
+	        inputField.required = true;
+	      }
+
+	      if (this.validationMessage) {
+	        var validationMessageElement = container.appendChild(document.createElement('div'));
+	        validationMessageElement.className = 'invalid-feedback';
+	        validationMessageElement.innerHTML = this.validationMessage;
+	      }
+
+	      if (this.helpText) {
+	        var helpTextField = container.appendChild(document.createElement('small'));
+	        helpTextField.innerHTML = this.helpText;
+	      }
+
+	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
+	      this._fieldEl = container;
+	    }
+	    /**
+	     *
+	     * @param {(boolean|null)} isValid
+	     */
+
+	  }, {
+	    key: "markValidity",
+	    value: function markValidity(isValid) {
+	      var el = document.getElementById(_classPrivateFieldGet(this, _inputId$2));
+
+	      if (null === isValid) {
+	        el.classList.remove('is-invalid', 'is-valid');
+	      } else {
+	        el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
+	        el.classList.add(isValid ? 'is-valid' : 'is-invalid');
+	      }
+	    }
+	  }, {
+	    key: "inputChangeHandler",
+	    value: function inputChangeHandler(event) {
+	      event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+
+	      console.log('got date field change event');
+	      this.value = FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this, _inputId$2)).value);
+	      this.fireEvent(FormField.EVENT_CHANGE);
+	    }
+	    /**
+	     * by the time summariseImpl has been called have already checked that summary is wanted
+	     *
+	     * @param {string} key
+	     * @param {{field : typeof DateField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {Object.<string, {}>} attributes attributes of the model object
+	     * @return {string}
+	     */
+
+	  }], [{
+	    key: "summariseImpl",
+	    value: function summariseImpl(key, property, attributes) {
+	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined ? escapeHTML(attributes[key].trim()) : '';
+	    }
+	  }]);
+
+	  return DateField;
+	}(FormField);
+
 	var collection$5 = collection$3$1;
 	var collectionWeak$3 = collectionWeak$2$1;
 
@@ -19831,7 +20051,7 @@
 
 	function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
 
-	var _containerId$7 = /*#__PURE__*/new WeakMap();
+	var _containerId$8 = /*#__PURE__*/new WeakMap();
 
 	var TextGeorefField$1 = /*#__PURE__*/function (_FormField) {
 	  _inherits(TextGeorefField, _FormField);
@@ -19909,7 +20129,7 @@
 
 	    _defineProperty(_assertThisInitialized(_this), "_inputId", void 0);
 
-	    _classPrivateFieldInitSpec(_assertThisInitialized(_this), _containerId$7, {
+	    _classPrivateFieldInitSpec(_assertThisInitialized(_this), _containerId$8, {
 	      writable: true,
 	      value: void 0
 	    });
@@ -20046,7 +20266,7 @@
 	      var container = document.createElement('div');
 	      container.className = 'form-group';
 
-	      _classPrivateFieldSet(this, _containerId$7, container.id = FormField.nextId);
+	      _classPrivateFieldSet(this, _containerId$8, container.id = FormField.nextId);
 
 	      this._inputId = FormField.nextId;
 	      var labelEl = container.appendChild(document.createElement('label'));
@@ -20583,7 +20803,7 @@
 	var NyphApp = /*#__PURE__*/function (_App) {
 	  _inherits$1(NyphApp, _App);
 
-	  var _super = _createSuper$a(NyphApp);
+	  var _super = _createSuper$c(NyphApp);
 
 	  function NyphApp() {
 	    var _this;
@@ -22100,7 +22320,7 @@
 	var MainController = /*#__PURE__*/function (_AppController) {
 	  _inherits$1(MainController, _AppController);
 
-	  var _super = _createSuper$a(MainController);
+	  var _super = _createSuper$c(MainController);
 
 	  /**
 	   *
@@ -22121,7 +22341,7 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "view", void 0);
 
-	    _classPrivateFieldInitSpec$7(_assertThisInitialized$1(_this), _currentOccurrenceId, {
+	    _classPrivateFieldInitSpec$c(_assertThisInitialized$1(_this), _currentOccurrenceId, {
 	      writable: true,
 	      value: ''
 	    });
@@ -22743,7 +22963,7 @@
 	var NyphSurveyForm = /*#__PURE__*/function (_SurveyForm) {
 	  _inherits$1(NyphSurveyForm, _SurveyForm);
 
-	  var _super = _createSuper$a(NyphSurveyForm);
+	  var _super = _createSuper$c(NyphSurveyForm);
 
 	  function NyphSurveyForm() {
 	    _classCallCheck$1(this, NyphSurveyForm);
@@ -26129,7 +26349,7 @@
 	var MapGeorefField = /*#__PURE__*/function (_TextGeorefField) {
 	  _inherits$1(MapGeorefField, _TextGeorefField);
 
-	  var _super = _createSuper$a(MapGeorefField);
+	  var _super = _createSuper$c(MapGeorefField);
 
 	  // /**
 	  //  * @type {string}
@@ -26215,7 +26435,7 @@
 
 	    _classPrivateMethodInitSpec$4(_assertThisInitialized$1(_this), _setGridrefFromGeocodedResult);
 
-	    _classPrivateFieldInitSpec$7(_assertThisInitialized$1(_this), _containerId, {
+	    _classPrivateFieldInitSpec$c(_assertThisInitialized$1(_this), _containerId, {
 	      writable: true,
 	      value: void 0
 	    });
@@ -26686,7 +26906,7 @@
 	var NyphSurveyFormAboutSection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
 	  _inherits$1(NyphSurveyFormAboutSection, _NyphSurveyFormSectio);
 
-	  var _super = _createSuper$a(NyphSurveyFormAboutSection);
+	  var _super = _createSuper$c(NyphSurveyFormAboutSection);
 
 	  function NyphSurveyFormAboutSection() {
 	    _classCallCheck$1(this, NyphSurveyFormAboutSection);
@@ -26735,7 +26955,7 @@
 	var NyphOccurrenceForm = /*#__PURE__*/function (_OccurrenceForm) {
 	  _inherits$1(NyphOccurrenceForm, _OccurrenceForm);
 
-	  var _super = _createSuper$a(NyphOccurrenceForm);
+	  var _super = _createSuper$c(NyphOccurrenceForm);
 
 	  function NyphOccurrenceForm() {
 	    _classCallCheck$1(this, NyphOccurrenceForm);
@@ -27049,7 +27269,7 @@
 	var NyphSurveyFormSurveySection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
 	  _inherits$1(NyphSurveyFormSurveySection, _NyphSurveyFormSectio);
 
-	  var _super = _createSuper$a(NyphSurveyFormSurveySection);
+	  var _super = _createSuper$c(NyphSurveyFormSurveySection);
 
 	  function NyphSurveyFormSurveySection() {
 	    _classCallCheck$1(this, NyphSurveyFormSurveySection);
@@ -27091,6 +27311,16 @@
 	      completion: FormField.COMPLETION_COMPULSORY,
 	      baseSquareResolution: 1000,
 	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED
+	    }
+	  },
+	  date: {
+	    field: DateField,
+	    attributes: {
+	      label: 'Date',
+	      helpText: 'When did you survey?',
+	      placeholder: 'date',
+	      type: 'date',
+	      completion: FormField.COMPLETION_COMPULSORY
 	    }
 	  },
 	  recorder: {
@@ -27168,7 +27398,7 @@
 	var MainView = /*#__PURE__*/function (_Page) {
 	  _inherits$1(MainView, _Page);
 
-	  var _super = _createSuper$a(MainView);
+	  var _super = _createSuper$c(MainView);
 
 	  function MainView() {
 	    var _this;
@@ -27207,17 +27437,17 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "controller", void 0);
 
-	    _classPrivateFieldInitSpec$7(_assertThisInitialized$1(_this), _surveyFormSections, {
+	    _classPrivateFieldInitSpec$c(_assertThisInitialized$1(_this), _surveyFormSections, {
 	      writable: true,
 	      value: {}
 	    });
 
-	    _classPrivateFieldInitSpec$7(_assertThisInitialized$1(_this), _occurrenceForm, {
+	    _classPrivateFieldInitSpec$c(_assertThisInitialized$1(_this), _occurrenceForm, {
 	      writable: true,
 	      value: void 0
 	    });
 
-	    _classPrivateFieldInitSpec$7(_assertThisInitialized$1(_this), _occurrenceChangeHandles, {
+	    _classPrivateFieldInitSpec$c(_assertThisInitialized$1(_this), _occurrenceChangeHandles, {
 	      writable: true,
 	      value: {}
 	    });
@@ -27865,7 +28095,7 @@
 	  // this pop-up is informational only
 
 	  var finishModalEl = document.createElement('div');
-	  finishModalEl.innerHTML = "<div class=\"modal fade\" id=\"".concat(FINISH_MODAL_ID, "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(FINISH_MODAL_ID, "Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(FINISH_MODAL_ID, "Title\">Thank you</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <p>Thank you! Your form responses have been sent. If you wish, you can continue to make changes and edit or add further records.</p>\n        <p>If you provided an email address, then we will send you a message with a link to this form, so that you can return to it later if needed.</p>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");
+	  finishModalEl.innerHTML = "<div class=\"modal fade\" id=\"".concat(FINISH_MODAL_ID, "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(FINISH_MODAL_ID, "Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(FINISH_MODAL_ID, "Title\">Thank you</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <p>Thank you! Your records have been sent. If you wish, you can continue to make changes and edit or add further records.</p>\n        <p>We will email you a link to this form, so that you can return to it later if needed.</p>\n        <p>If you are planning another Plant Hunt expedition then please start a new survey, using the 'Survey' menu<.</p>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");
 	  container.appendChild(finishModalEl.firstChild);
 	  container.appendChild(ImageField.licenseModal()); // image modal
 	  // includes a button to delete the image
@@ -28026,14 +28256,26 @@
 	      nextButton.addEventListener('click', function (event) {
 	        event.preventDefault();
 	        event.stopPropagation();
+	        surveyFormSection.liveValidation = true;
 
-	        _this7.fireEvent(MainController$1.EVENT_NEXT_TO_RECORDS);
+	        if (surveyFormSection.validateForm()) {
+	          _this7.fireEvent(MainController$1.EVENT_NEXT_TO_RECORDS);
+	        }
 	      });
 	      break;
 
 	    case MainView.NEXT_SURVEY_SECTION:
 	      // there's another survey section
 	      var nextSection = NyphSurveyForm.sections[formIndex + 1];
+	      nextButton.addEventListener('click', function (event) {
+	        surveyFormSection.liveValidation = true;
+
+	        if (!surveyFormSection.validateForm()) {
+	          // if not valid then prevent the event
+	          event.preventDefault();
+	          event.stopPropagation();
+	        }
+	      });
 	      nextButton.setAttribute('data-toggle', 'collapse');
 	      nextButton.setAttribute('data-target', "#survey-".concat(formIndex + 1, "-").concat(nextSection.sectionNavigationKey));
 	      nextButton.title = nextSection.sectionTitle;
@@ -28205,7 +28447,7 @@
 	var HelpView = /*#__PURE__*/function (_Page) {
 	  _inherits$1(HelpView, _Page);
 
-	  var _super = _createSuper$a(HelpView);
+	  var _super = _createSuper$c(HelpView);
 
 	  function HelpView() {
 	    _classCallCheck$1(this, HelpView);
@@ -28228,7 +28470,7 @@
 	var NyphLayout = /*#__PURE__*/function (_Layout) {
 	  _inherits$1(NyphLayout, _Layout);
 
-	  var _super = _createSuper$a(NyphLayout);
+	  var _super = _createSuper$c(NyphLayout);
 
 	  function NyphLayout() {
 	    var _this;

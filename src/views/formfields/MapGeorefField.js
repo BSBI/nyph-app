@@ -223,6 +223,10 @@ export class MapGeorefField extends TextGeorefField {
 
         this.addMapBox(container);
 
+        const offlineWarning = container.appendChild(document.createElement('small'));
+        offlineWarning.classList.add('offline-warning');
+        offlineWarning.innerHTML = 'The map box might not display properly because you may not have a network connection currently. You can still use GPS or type in a grid-reference to locate records.';
+
         if (this.helpText) {
             const helpTextField = container.appendChild(document.createElement('small'));
             helpTextField.innerHTML = this.helpText;
