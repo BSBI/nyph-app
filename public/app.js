@@ -11178,8 +11178,10 @@
 	  }, {
 	    key: "validateForm",
 	    value: function validateForm() {
-	      this.liveValidation = true;
-	      this.formElement.classList.add('needs-validation'); // add a bootstrap class marking that the form should be subject to validation
+	      //this.liveValidation = true;
+	      if (this.liveValidation) {
+	        this.formElement.classList.add('needs-validation'); // add a bootstrap class marking that the form should be subject to validation
+	      }
 
 	      var validationResult = this.model.evaluateCompletionStatus(this.getFormSectionProperties());
 
@@ -13046,8 +13048,7 @@
 	    value: function changeHandler(event) {
 	      console.log({
 	        'survey form change event': event
-	      });
-	      this.liveValidation = true; // after the first change start reflecting state
+	      }); //this.liveValidation = true; // after the first change start reflecting state
 
 	      this.fireEvent(Form.CHANGE_EVENT, {
 	        form: this
@@ -13174,7 +13175,7 @@
 	     */
 	    function formChangedHandler(params) {
 	      console.log('Survey change handler invoked.'); // read new values
-	      // then fire it's own change event (Occurrence.EVENT_MODIFIED)
+	      // then fire its own change event (Occurrence.EVENT_MODIFIED)
 
 	      params.form.updateModelFromContent(); // refresh the form's validation state
 
@@ -14351,6 +14352,8 @@
 
 	    _defineProperty(_assertThisInitialized(_this), "surveysMenuId", void 0);
 
+	    _defineProperty(_assertThisInitialized(_this), "newSurveyLabel", 'new survey');
+
 	    return _this;
 	  }
 
@@ -14368,6 +14371,20 @@
 	      app.addListener(App.EVENT_SURVEYS_CHANGED, function () {
 	        _this2.refreshSurveysMenu();
 	      });
+
+	      if (navigator.hasOwnProperty('onLine') && navigator.onLine === false) {
+	        this.addOfflineFlag();
+	      }
+
+	      window.addEventListener('online', function () {
+	        document.body.classList.remove('offline');
+	      });
+	      window.addEventListener('offline', this.addOfflineFlag);
+	    }
+	  }, {
+	    key: "addOfflineFlag",
+	    value: function addOfflineFlag() {
+	      document.body.classList.add('offline');
 	    }
 	  }, {
 	    key: "initialise",
@@ -14413,11 +14430,17 @@
 	    key: "refreshSurveysMenu",
 	    value: function refreshSurveysMenu() {
 	      var surveyMenuContainer = document.getElementById(this.surveysMenuId);
+	      var items = this.getSurveyItems();
+	      surveyMenuContainer.innerHTML = "<a class=\"dropdown-item\" href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>\n    <div class=\"dropdown-divider\"></div>\n    ".concat(items.join(''), "\n    <div class=\"dropdown-divider\"></div>\n    <a class=\"dropdown-item\" href=\"/app/survey/new\" data-navigo=\"survey/new\">").concat(this.newSurveyLabel, "</a>\n    <a class=\"dropdown-item\" href=\"/app/survey/reset\" data-navigo=\"survey/reset\">reset</a>");
+	      this.app.router.updatePageLinks();
+	    }
+	  }, {
+	    key: "getSurveyItems",
+	    value: function getSurveyItems() {
 	      /**
 	       *
 	       * @type {Array.<string>}
 	       */
-
 	      var items = [];
 	      var currentSurveyId = this.app.currentSurvey ? this.app.currentSurvey.id : null;
 
@@ -14437,8 +14460,7 @@
 	        _iterator.f();
 	      }
 
-	      surveyMenuContainer.innerHTML = "<a class=\"dropdown-item\" href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>\n    <div class=\"dropdown-divider\"></div>\n    ".concat(items.join(''), "\n    <div class=\"dropdown-divider\"></div>\n    <a class=\"dropdown-item\" href=\"/app/survey/new\" data-navigo=\"survey/new\">new survey</a>\n    <a class=\"dropdown-item\" href=\"/app/survey/reset\" data-navigo=\"survey/reset\">reset</a>");
-	      this.app.router.updatePageLinks();
+	      return items;
 	    }
 	  }]);
 
@@ -16526,8 +16548,25 @@
 	   */
 
 	  /**
+	   * minimum date (inclusive) or null if no constraint
+	   */
+
+	  /**
+	   * minimum date (inclusive) or null if no constraint
+	   */
+
+	  /**
 	   *
-	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
+	   * @param {{
+	   * [label] : string,
+	   * [helpText]: string,
+	   * [options]: {},
+	   * [placeholder]: string,
+	   * [type]: string,
+	   * [autocomplete]: string,
+	   * [minDate] : string,
+	   * [maxDate] : string,
+	   * }} [params]
 	   */
 	  function DateField(params) {
 	    var _this;
@@ -16552,6 +16591,10 @@
 
 	    _defineProperty(_assertThisInitialized(_this), "_autocomplete", '');
 
+	    _defineProperty(_assertThisInitialized(_this), "_minDate", null);
+
+	    _defineProperty(_assertThisInitialized(_this), "_maxDate", null);
+
 	    _this._value = new Date().toJSON().slice(0, 10); // default to current date
 
 	    if (params) {
@@ -16561,6 +16604,14 @@
 
 	      if (params.autocomplete) {
 	        _this._autocomplete = params.autocomplete;
+	      }
+
+	      if (params.minDate) {
+	        _this._minDate = params.minDate;
+	      }
+
+	      if (params.maxDate) {
+	        _this._maxDate = params.maxDate;
 	      }
 	    }
 
@@ -16659,12 +16710,32 @@
 	    }
 	    /**
 	     *
-	     * @param {(boolean|null)} isValid
+	     * @param {string} key
+	     * @param {{
+	     * field : typeof DateField,
+	     * attributes : {
+	         * [label] : string,
+	         * [helpText]: string,
+	         * [options]: {},
+	         * [placeholder]: string,
+	         * [type]: string,
+	         * [autocomplete]: string,
+	         * [minDate] : string,
+	         * [maxDate] : string
+	         * }
+	     * }} property properties of the form descriptor
+	     * @param attributes attributes of the model object
+	     * @return {(boolean|null)} returns null if validity was not assessed
 	     */
 
 	  }, {
 	    key: "markValidity",
-	    value: function markValidity(isValid) {
+	    value:
+	    /**
+	     *
+	     * @param {(boolean|null)} isValid
+	     */
+	    function markValidity(isValid) {
 	      var el = document.getElementById(_classPrivateFieldGet(this, _inputId$2));
 
 	      if (null === isValid) {
@@ -16687,12 +16758,43 @@
 	     * by the time summariseImpl has been called have already checked that summary is wanted
 	     *
 	     * @param {string} key
-	     * @param {{field : typeof DateField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	     * @param {{field : DateField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
 	     */
 
 	  }], [{
+	    key: "isValid",
+	    value: function isValid(key, property, attributes) {
+	      if (property.attributes.completion && (property.attributes.completion === FormField.COMPLETION_COMPULSORY || property.attributes.completion === FormField.COMPLETION_DESIRED)) {
+	        // test whether required field is missing
+	        if (!attributes.hasOwnProperty(key) || property.field.isEmpty(attributes[key])) {
+	          return false;
+	        } else {
+	          // check if range constraints are met
+	          var dateValue = attributes[key];
+
+	          if (property.attributes.minDate && dateValue < property.attributes.minDate) {
+	            return false;
+	          }
+
+	          if (property.attributes.maxDate && dateValue > property.attributes.maxDate) {
+	            return false;
+	          }
+
+	          var today = new Date().toJSON().slice(0, 10);
+
+	          if (dateValue > today) {
+	            return false;
+	          }
+	        }
+	      } // field is present or optional
+	      // report as valid unless content is corrupt
+
+
+	      return null; // field not assessed
+	    }
+	  }, {
 	    key: "summariseImpl",
 	    value: function summariseImpl(key, property, attributes) {
 	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined ? escapeHTML(attributes[key].trim()) : '';
@@ -20798,6 +20900,21 @@
 
 	  return SurveyPickerView;
 	}(Page);
+
+	/**
+	 *
+	 * @param {MouseEvent} event
+	 * @returns {boolean}
+	 */
+	function doubleClickIntercepted(event) {
+	  if (event.detail && event.detail > 1) {
+	    event.preventDefault();
+	    event.stopPropagation();
+	    return true;
+	  }
+
+	  return false;
+	}
 
 	var PROJECT_ID_NYPH = 2;
 	var NyphApp = /*#__PURE__*/function (_App) {
@@ -26577,6 +26694,9 @@
 	      }
 
 	      this.addMapBox(container);
+	      var offlineWarning = container.appendChild(document.createElement('small'));
+	      offlineWarning.classList.add('offline-warning');
+	      offlineWarning.innerHTML = 'The map box might not display properly because you may not have a network connection currently. You can still use GPS or type in a grid-reference to locate records.';
 
 	      if (this.helpText) {
 	        var helpTextField = container.appendChild(document.createElement('small'));
@@ -27320,7 +27440,9 @@
 	      helpText: 'When did you survey?',
 	      placeholder: 'date',
 	      type: 'date',
-	      completion: FormField.COMPLETION_COMPULSORY
+	      completion: FormField.COMPLETION_COMPULSORY,
+	      minDate: '2021-12-01',
+	      maxDate: '2022-01-04'
 	    }
 	  },
 	  recorder: {
@@ -27349,6 +27471,16 @@
 	      },
 	      includeOtherFreeText: false,
 	      completion: FormField.COMPLETION_COMPULSORY
+	    }
+	  },
+	  listname: {
+	    field: InputField,
+	    attributes: {
+	      label: 'Expedition title?',
+	      helpText: '(optional) how we should label your list on the results page',
+	      placeholder: '',
+	      autocomplete: '',
+	      completion: FormField.COMPLETION_OPTIONAL
 	    }
 	  }
 	});
@@ -27455,6 +27587,10 @@
 	    _defineProperty$1(_assertThisInitialized$1(_this), "panelKey", '');
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "OCCURRENCES_ARE_LAST_SECTION", true);
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "recordsHeaderListDescriptorId", void 0);
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "separateListsHTMLMessage", '<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href="/app/survey/new" data-navigo="survey/new">start another separate list</a>.');
 
 	    return _this;
 	  }
@@ -28254,12 +28390,14 @@
 	      // if there are no records then clicking the button should add a new one automatically
 	      // the complexity of this dual action requires a click handler
 	      nextButton.addEventListener('click', function (event) {
-	        event.preventDefault();
-	        event.stopPropagation();
-	        surveyFormSection.liveValidation = true;
+	        if (!doubleClickIntercepted(event)) {
+	          event.preventDefault();
+	          event.stopPropagation();
+	          surveyFormSection.liveValidation = true;
 
-	        if (surveyFormSection.validateForm()) {
-	          _this7.fireEvent(MainController$1.EVENT_NEXT_TO_RECORDS);
+	          if (surveyFormSection.validateForm()) {
+	            _this7.fireEvent(MainController$1.EVENT_NEXT_TO_RECORDS);
+	          }
 	        }
 	      });
 	      break;
@@ -28268,12 +28406,14 @@
 	      // there's another survey section
 	      var nextSection = NyphSurveyForm.sections[formIndex + 1];
 	      nextButton.addEventListener('click', function (event) {
-	        surveyFormSection.liveValidation = true;
+	        if (!doubleClickIntercepted(event)) {
+	          surveyFormSection.liveValidation = true;
 
-	        if (!surveyFormSection.validateForm()) {
-	          // if not valid then prevent the event
-	          event.preventDefault();
-	          event.stopPropagation();
+	          if (!surveyFormSection.validateForm()) {
+	            // if not valid then prevent the event
+	            event.preventDefault();
+	            event.stopPropagation();
+	          }
 	        }
 	      });
 	      nextButton.setAttribute('data-toggle', 'collapse');
@@ -28285,13 +28425,13 @@
 	      nextButton.textContent = 'finish';
 	      nextButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3';
 	      nextButton.type = 'button';
-	      nextButton.addEventListener('click', function
-	        /* event */
-	      () {
-	        _this7.controller.app.router.navigate('/list/'); // display the finish dialogue box
+	      nextButton.addEventListener('click', function (event) {
+	        if (!doubleClickIntercepted(event)) {
+	          _this7.controller.app.router.navigate('/list/'); // display the finish dialogue box
 
 
-	        $("#".concat(FINISH_MODAL_ID)).modal();
+	          $("#".concat(FINISH_MODAL_ID)).modal();
+	        }
 	      });
 	      break;
 
@@ -28332,10 +28472,10 @@
 	    /**
 	     * @type {HTMLButtonElement}
 	     */
+	    //let nextButton = document.getElementById(surveyFormSection.nextButtonId);
+	    //nextButton.disabled = !params.isValid;
+	    //}
 
-
-	    var nextButton = document.getElementById(surveyFormSection.nextButtonId);
-	    nextButton.disabled = !params.isValid; //}
 
 	    _this7._refreshVisibilityOfAccordionSections();
 	  });
@@ -28343,11 +28483,14 @@
 	}
 
 	function _appendOccurrenceListContainer2() {
+	  var _this8 = this;
+
 	  var accordionEl = document.getElementById(this.leftPanelAccordionId);
 	  var content = document.createDocumentFragment();
-	  var summaryEl = content.appendChild(document.createElement('p')); // noinspection HtmlUnknownTarget
+	  var summaryEl = content.appendChild(document.createElement('p'));
+	  this.recordsHeaderListDescriptorId = Form.nextId; // noinspection HtmlUnknownTarget
 
-	  summaryEl.innerHTML = 'Records of plants in bloom.<small class="d-block d-md-none"><a href="/app/list/record/help">(help)</a></small>';
+	  summaryEl.innerHTML = "<span id=\"".concat(this.recordsHeaderListDescriptorId, "\">Records of plants in bloom from ").concat(this.controller.survey.generateSurveyName(), ".</span><small class=\"d-block d-md-none\"><a href=\"/app/list/record/help\">(help)</a></small>").concat(this.separateListsHTMLMessage);
 	  var newButtonEl = content.appendChild(document.createElement('button'));
 	  newButtonEl.type = 'button';
 	  newButtonEl.className = 'btn btn-primary btn-lg mb-2';
@@ -28355,6 +28498,13 @@
 	  newButtonEl.addEventListener('click', this.newButtonClickHandler.bind(this));
 	  var recordListContainer = content.appendChild(document.createElement('div'));
 	  recordListContainer.id = OCCURRENCE_LIST_CONTAINER_ID;
+	  this.controller.survey.addListener(Survey.EVENT_MODIFIED, function () {
+	    var occurrenceHeadingEl = document.getElementById(_this8.recordsHeaderListDescriptorId);
+
+	    if (occurrenceHeadingEl) {
+	      occurrenceHeadingEl.innerHTML = "Records of plants in bloom from ".concat(_this8.controller.survey.generateSurveyName(), ".");
+	    }
+	  });
 	  var cardId = Form.nextId;
 	  accordionEl.appendChild(this.card({
 	    cardId: cardId,
@@ -28460,7 +28610,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638319692</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638362486</p>";
 	    }
 	  }]);
 
@@ -28484,6 +28634,8 @@
 	    _this = _super.call.apply(_super, [this].concat(args));
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "surveysMenuId", 'surveysmenu');
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "newSurveyLabel", 'start new list');
 
 	    return _this;
 	  }

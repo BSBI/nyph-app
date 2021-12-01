@@ -8705,8 +8705,10 @@
     }, {
       key: "validateForm",
       value: function validateForm() {
-        this.liveValidation = true;
-        this.formElement.classList.add('needs-validation'); // add a bootstrap class marking that the form should be subject to validation
+        //this.liveValidation = true;
+        if (this.liveValidation) {
+          this.formElement.classList.add('needs-validation'); // add a bootstrap class marking that the form should be subject to validation
+        }
 
         var validationResult = this.model.evaluateCompletionStatus(this.getFormSectionProperties());
 
@@ -10523,8 +10525,7 @@
       value: function changeHandler(event) {
         console.log({
           'survey form change event': event
-        });
-        this.liveValidation = true; // after the first change start reflecting state
+        }); //this.liveValidation = true; // after the first change start reflecting state
 
         this.fireEvent(Form.CHANGE_EVENT, {
           form: this
@@ -10651,7 +10652,7 @@
        */
       function formChangedHandler(params) {
         console.log('Survey change handler invoked.'); // read new values
-        // then fire it's own change event (Occurrence.EVENT_MODIFIED)
+        // then fire its own change event (Occurrence.EVENT_MODIFIED)
 
         params.form.updateModelFromContent(); // refresh the form's validation state
 
@@ -11828,6 +11829,8 @@
 
       _defineProperty$1(_assertThisInitialized$1(_this), "surveysMenuId", void 0);
 
+      _defineProperty$1(_assertThisInitialized$1(_this), "newSurveyLabel", 'new survey');
+
       return _this;
     }
 
@@ -11845,6 +11848,20 @@
         app.addListener(App.EVENT_SURVEYS_CHANGED, function () {
           _this2.refreshSurveysMenu();
         });
+
+        if (navigator.hasOwnProperty('onLine') && navigator.onLine === false) {
+          this.addOfflineFlag();
+        }
+
+        window.addEventListener('online', function () {
+          document.body.classList.remove('offline');
+        });
+        window.addEventListener('offline', this.addOfflineFlag);
+      }
+    }, {
+      key: "addOfflineFlag",
+      value: function addOfflineFlag() {
+        document.body.classList.add('offline');
       }
     }, {
       key: "initialise",
@@ -11890,11 +11907,17 @@
       key: "refreshSurveysMenu",
       value: function refreshSurveysMenu() {
         var surveyMenuContainer = document.getElementById(this.surveysMenuId);
+        var items = this.getSurveyItems();
+        surveyMenuContainer.innerHTML = "<a class=\"dropdown-item\" href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>\n    <div class=\"dropdown-divider\"></div>\n    ".concat(items.join(''), "\n    <div class=\"dropdown-divider\"></div>\n    <a class=\"dropdown-item\" href=\"/app/survey/new\" data-navigo=\"survey/new\">").concat(this.newSurveyLabel, "</a>\n    <a class=\"dropdown-item\" href=\"/app/survey/reset\" data-navigo=\"survey/reset\">reset</a>");
+        this.app.router.updatePageLinks();
+      }
+    }, {
+      key: "getSurveyItems",
+      value: function getSurveyItems() {
         /**
          *
          * @type {Array.<string>}
          */
-
         var items = [];
         var currentSurveyId = this.app.currentSurvey ? this.app.currentSurvey.id : null;
 
@@ -11914,8 +11937,7 @@
           _iterator.f();
         }
 
-        surveyMenuContainer.innerHTML = "<a class=\"dropdown-item\" href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>\n    <div class=\"dropdown-divider\"></div>\n    ".concat(items.join(''), "\n    <div class=\"dropdown-divider\"></div>\n    <a class=\"dropdown-item\" href=\"/app/survey/new\" data-navigo=\"survey/new\">new survey</a>\n    <a class=\"dropdown-item\" href=\"/app/survey/reset\" data-navigo=\"survey/reset\">reset</a>");
-        this.app.router.updatePageLinks();
+        return items;
       }
     }]);
 
@@ -12783,7 +12805,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1638316591-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1638318958-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -19199,7 +19221,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1638319692'
+    version: '1.0.1.1638362486'
   });
 
 })();
