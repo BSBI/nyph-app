@@ -235,7 +235,7 @@ export class MapGeorefField extends TextGeorefField {
         // formEl.appendChild(this.fieldElement);
 
         super.addField(contentContainer);
-        this.parentForm.addListener(Form.EVENT_INITIALISE_NEW, (/** @type {{[survey] : Survey}} */ params) => {
+        this.parentForm.addListener(Form.EVENT_INITIALISE_NEW, async (/** @type {{[survey] : Survey}} */ params) => {
             console.log('Handling initialisation of new MapGeoRefField.');
 
             if (this._value.gridRef) {
@@ -251,22 +251,22 @@ export class MapGeorefField extends TextGeorefField {
 
                     doGPSInitialisation = ((GPSRequest.getDeviceType() === GPSRequest.DEVICE_TYPE_MOBILE) &&
                         (this.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_ALWAYS ||
-                            GPSRequest.haveGPSPermission() === GPSRequest.GPS_PERMISSION_GRANTED));
+                            await GPSRequest.haveGPSPermission() === GPSRequest.GPS_PERMISSION_GRANTED));
 
                 } else {
                     // either 'always' or 'always-if-permitted'
 
                     doGPSInitialisation = (this.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_ALWAYS ||
-                        GPSRequest.haveGPSPermission() === GPSRequest.GPS_PERMISSION_GRANTED);
+                        await GPSRequest.haveGPSPermission() === GPSRequest.GPS_PERMISSION_GRANTED);
                 }
 
             } else {
                 doGPSInitialisation = false;
             }
 
-            let grantState = GPSRequest.haveGPSPermission();
-
-            console.log({'grant state':grantState});
+            // let grantState = GPSRequest.haveGPSPermission();
+            //
+            // console.log({'grant state':grantState});
 
             if (doGPSInitialisation) {
                 this.seekGPS().then(() => {
