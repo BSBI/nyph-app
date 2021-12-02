@@ -13830,7 +13830,7 @@
 	        }
 	      }
 
-	      return GPSRequest._deviceType;
+	      return GPSRequest.DEVICE_TYPE_MOBILE; // GPSRequest._deviceType;
 	    }
 	  }, {
 	    key: "haveGPSPermission",
@@ -28930,7 +28930,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638448679</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638450458</p>";
 	    }
 	  }]);
 
