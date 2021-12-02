@@ -371,6 +371,7 @@ export class MapGeorefField extends TextGeorefField {
             if (squareDimension <= this.minResolution) {
                 this.map.jumpTo({
                     center: [mapMouseEvent.lngLat.lng, mapMouseEvent.lngLat.lat],
+                    zoom: zoom
                 }, null);
 
                 // only allow selection if zoomed-in sufficiently
@@ -402,8 +403,8 @@ export class MapGeorefField extends TextGeorefField {
             10: 12,
             100: 11,
             1000: 10,
-            2000: 8,
-            10000: 7,
+            2000: 10,
+            10000: 8,
         }[length];
     }
 

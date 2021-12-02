@@ -27097,7 +27097,8 @@
 
 	        if (squareDimension <= _this4.minResolution) {
 	          _this4.map.jumpTo({
-	            center: [mapMouseEvent.lngLat.lng, mapMouseEvent.lngLat.lat]
+	            center: [mapMouseEvent.lngLat.lng, mapMouseEvent.lngLat.lat],
+	            zoom: zoom
 	          }, null); // only allow selection if zoomed-in sufficiently
 
 
@@ -27126,8 +27127,8 @@
 	        10: 12,
 	        100: 11,
 	        1000: 10,
-	        2000: 8,
-	        10000: 7
+	        2000: 10,
+	        10000: 8
 	      }[length];
 	    }
 	    /**
@@ -28926,7 +28927,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638447956</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638448326</p>";
 	    }
 	  }]);
 
