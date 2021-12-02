@@ -26970,6 +26970,10 @@
 	          doGPSInitialisation = false;
 	        }
 
+	        console.log({
+	          'grant state': GPSRequest.haveGPSPermission()
+	        });
+
 	        if (doGPSInitialisation) {
 	          _this2.seekGPS().then(function () {
 	            console.log('GPS initialisation succeeded.');
@@ -28931,7 +28935,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638451601</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638452498</p>";
 	    }
 	  }]);
 

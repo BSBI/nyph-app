@@ -264,6 +264,8 @@ export class MapGeorefField extends TextGeorefField {
                 doGPSInitialisation = false;
             }
 
+            console.log({'grant state':GPSRequest.haveGPSPermission()});
+
             if (doGPSInitialisation) {
                 this.seekGPS().then(() => {
                     console.log('GPS initialisation succeeded.');
