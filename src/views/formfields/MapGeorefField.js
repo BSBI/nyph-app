@@ -370,13 +370,13 @@ export class MapGeorefField extends TextGeorefField {
 
             if (squareDimension <= this.minResolution) {
                 this.map.jumpTo({
-                    center: [mapMouseEvent.lng, mapMouseEvent.lat],
+                    center: [mapMouseEvent.lngLat.lng, mapMouseEvent.lngLat.lat],
                 }, null);
 
                 // only allow selection if zoomed-in sufficiently
                 this.processLatLngPosition(
-                    mapMouseEvent.lat,
-                    mapMouseEvent.lng,
+                    mapMouseEvent.lngLat.lat,
+                    mapMouseEvent.lngLat.lng,
                     squareDimension,
                     TextGeorefField.GEOREF_SOURCE_MAP
                 );

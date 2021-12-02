@@ -27097,11 +27097,11 @@
 
 	        if (squareDimension <= _this4.minResolution) {
 	          _this4.map.jumpTo({
-	            center: [mapMouseEvent.lng, mapMouseEvent.lat]
+	            center: [mapMouseEvent.lngLat.lng, mapMouseEvent.lngLat.lat]
 	          }, null); // only allow selection if zoomed-in sufficiently
 
 
-	          _this4.processLatLngPosition(mapMouseEvent.lat, mapMouseEvent.lng, squareDimension, TextGeorefField.GEOREF_SOURCE_MAP);
+	          _this4.processLatLngPosition(mapMouseEvent.lngLat.lat, mapMouseEvent.lngLat.lng, squareDimension, TextGeorefField.GEOREF_SOURCE_MAP);
 	        }
 	      });
 	      this.respondToVisibility(divEl, function (visible) {
@@ -28926,7 +28926,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638447555</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638447956</p>";
 	    }
 	  }]);
 
