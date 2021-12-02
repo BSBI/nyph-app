@@ -13866,7 +13866,7 @@
 	        }
 	      }
 
-	      return GPSRequest.DEVICE_TYPE_MOBILE; // GPSRequest._deviceType;
+	      return GPSRequest._deviceType;
 	    }
 	  }, {
 	    key: "haveGPSPermission",
@@ -13900,11 +13900,10 @@
 	                    console.log('geolocation permission status has changed to ', this.state);
 	                    GPSRequest._gpsPermission = this.state;
 	                    GPSRequest.gpsEventObject.fireEvent(GPSRequest.EVENT_GPS_PERMISSION_CHANGE, GPSRequest._gpsPermission);
-	                  };
+	                  }; //console.log({'GPS permission state': permissionStatus.state});
 
-	                  console.log({
-	                    'GPS permission state': permissionStatus.state
-	                  });
+
+	                  //console.log({'GPS permission state': permissionStatus.state});
 	                  GPSRequest._gpsPermission = permissionStatus.state;
 	                });
 
@@ -29804,7 +29803,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638456928</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638460628</p>";
 	    }
 	  }]);
 
