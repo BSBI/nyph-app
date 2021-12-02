@@ -14046,7 +14046,13 @@
 
 	  /**
 	   *
-	   * @type {{rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: Array|null}}
+	   * @type {{
+	   * rawString: string,
+	   * precision: number|null,
+	   * source: string|null,
+	   * gridRef: string,
+	   * latLng: ({lat:number,lng:number}|null)
+	   * }}
 	   * @private
 	   */
 
@@ -23206,9 +23212,9 @@
 
 	var htmlLayout = "\r\n<div class=\"container-fluid\">\r\n    <div class=\"row\" style=\"height: 90vh;\">\r\n        <div class=\"col d-md-block pr-md-0 pt-3\" id=\"col1panel\" style=\"overflow-y: auto; max-height: calc(100vh - 5rem);\">\r\n        </div>\r\n        <div class=\"col d-md-none pl-0 pr-0\" id=\"ctrlpanel\" style=\"background-color: aliceblue; width: 28px; max-width: 28px; overflow-y: hidden; \">\r\n            <button class=\"navbar-light navbar-toggler pl-0 pr-0\" type=\"button\" aria-label=\"Back\" id=\"right-panel-back\">\r\n                <i class=\"material-icons-round\" style=\"color: gray;\">view_list</i>\r\n            </button>\r\n        </div>\r\n        <div class=\"col d-md-block pr-md-0\" id=\"col2panel\" style=\"overflow-y: auto; height: 100%;\">\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
-	var welcomeContent = "<!-- begin: templates/welcome.html -->\r\n<p>templates/welcome.html</p>\r\n<p>The information that you provide will be used by\r\n    <a href=\"https://bsbi.org/\" target=\"_blank\" title=\"Botanical Society of Britain and Ireland\">BSBI</a> as part of a long-term study looking at changes in plant phenology and distribution. We'll include your plant records in a permanent archive held by BSBI.</p>\r\n<p>To follow up any queries about the survey we request that you please provide your name and email address. You can choose whether or not\r\n    to include your name in our archive of plant records. Your email address will be\r\nconfidential and won't be archived.</p>\r\n<p>A summary of the New Year Plant Hunt surveys will appear on the project website.</p>\r\n<!-- end: templates/welcome.html -->\r\n";
+	var welcomeContent = "<!-- begin: templates/welcome.html -->\r\n<p>Help us record the plants that are in bloom over the New Year (from the 1<sup>st</sup> to 4<sup>th</sup> January).</p>\r\n<p>Data collected by New Year Plant Hunters help us build up a clearer picture of how our wildflowers are responding to changes in autumn and winter weather patterns.</p>\r\n<p>Each Plant Hunt survey should last no more than three hours, on a single day. If you visit different places or take-part on multiple days then you can send as many separate surveys as you like.</p>\r\n<p>Have fun and stay safe.</p>\r\n<!-- end: templates/welcome.html -->\r\n";
 
-	var defaultRightHandSideHelp = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<h3>Background to the project</h3>\r\n<p></p>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
+	var defaultRightHandSideHelp = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<h3>Background to the project</h3>\r\n<p></p>\r\n<p>The information that you provide will be used by\r\n    <a href=\"https://bsbi.org/\" target=\"_blank\" title=\"Botanical Society of Britain and Ireland\">BSBI</a> as part of a long-term study looking at changes in plant phenology and distribution. We'll include your plant records in a permanent archive held by BSBI.</p>\r\n<p>To follow up any queries about the survey we request that you please provide your name and email address. You can choose whether or not\r\n    to include your name in our archive of plant records. Your email address will be\r\n    confidential and won't be archived.</p>\r\n<p>A summary of the New Year Plant Hunt surveys will appear on the project website.</p>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
 
 	var NyphSurveyFormSection = function NyphSurveyFormSection() {
 	  _classCallCheck$1(this, NyphSurveyFormSection);
@@ -23352,7 +23358,7 @@
 
 	_defineProperty$1(NyphSurveyForm, "sectionsByKey", {});
 
-	var helpPanelText$1 = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Localising your records</h5>\r\n        <p class=\"card-text\">To make sense of the national coverage of the records we receive, we need to know the approximate location\r\n        of your garden. Usually a postcode works well for this, but you can provide a grid-reference if you prefer (in Ireland please use a grid-reference as we don't yet have a way to convert postcodes).\r\n            We also need a place name, as a way to double-check that the postcode or grid-reference makes sense.\r\n        </p>\r\n        <p><strong>Please don't provide your full address, as we would need to remove that from our data.</strong></p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Your name and email</h5>\r\n        <p class=\"card-text\">Both of these are optional, but providing an email address is important if you want to return\r\n            to your survey later or to revise your records. It is also really useful for our experts to be able to contact you\r\n            if we have questions about the records that you've sent.\r\n        </p>\r\n        <p>We'd like to be able to include your name with the records in our archive, but your email address won't be stored long-term\r\n            after your plant records have been checked.</p>\r\n    </div>\r\n</div>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
+	var helpPanelText$1 = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Localising your records</h5>\r\n        <p class=\"card-text\">To make sense of the national coverage of the records we receive, we need to know the starting point for your survey and, ideally the location for each individual record.\r\n            We also need a place name, as a way to double-check that the postcode or grid-reference makes sense.\r\n        </p>\r\n        <p><strong>Please don't provide your full address, as we would need to remove that from our data.</strong></p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Your name and email</h5>\r\n        <p class=\"card-text\">We need your contact details so that we can email you a link\r\n            to your survey. It is also really useful for our experts to be able to contact you\r\n            if we have questions about the records that you've sent.\r\n        </p>\r\n        <p>You can choose whether to include your name with the records in our archive - we'd like your efforts to be acknowledged properly. Your email address will be treated as confidential and won't be stored long-term,\r\n            after your plant records have been checked.</p>\r\n    </div>\r\n</div>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
 
 	var NyphSurveyFormAboutSection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
 	  _inherits$1(NyphSurveyFormAboutSection, _NyphSurveyFormSectio);
@@ -23379,7 +23385,7 @@
 	_defineProperty$1(NyphSurveyFormAboutSection, "completionRequired", true);
 
 	_defineProperty$1(NyphSurveyFormAboutSection, "properties", {
-	  primaryname: {
+	  recorder: {
 	    field: InputField,
 	    attributes: {
 	      label: 'Your name',
@@ -23401,7 +23407,7 @@
 	  }
 	});
 
-	var helpPanelText = "<!-- begin: templates/formHelp/recordsHelp.html -->\r\n<p>recordsHelp.html</p>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Using the forms</h5>\r\n        <p class=\"card-text\">You can enter as many plant records as you need. To add another record click the 'Add a plant' button.</p>\r\n        <p class=\"card-text\">If you are currently online then the entries will be saved as you go, automatically. Otherwise the records\r\n            will be remembered on your device, but you will need to click '<a href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>' (on the Surveys menu) when you have a network connection again.\r\n        </p>\r\n        <p class=\"card-text\">To delete a plant record, find it in the list and click the red 'bin' icon.\r\n        </p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Identifying your plants</h5>\r\n        </p>\r\n        <h6 class=\"card-subtitle mb-2 text-muted\">Plant names</h6>\r\n        <p class=\"card-text\">If possible, please enter the scientific or common name of the plant, but don't worry if you dont know the full details.\r\n            The list of suggested names includes a very wide range of both native and horticultural plants, but if the name you need\r\n            isn't on the list then you can still type it in.\r\n        </p>\r\n        <h6 class=\"card-subtitle mb-2 text-muted\">Photos</h6>\r\n        <p class=\"card-text\">Photos of the plant will help us confirm your record. Please provide a picture showing the whole plant, but it will\r\n            also help us if you can provide close-up views of the flowers and leaves.\r\n        </p>\r\n    </div>\r\n</div>\r\n<!-- begin: templates/formHelp/recordsHelp.html -->\r\n";
+	var helpPanelText = "<!-- begin: templates/formHelp/recordsHelp.html -->\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Using the form</h5>\r\n        <p class=\"card-text\">You can enter as many plant records as you need. To add another record click the 'Add a plant' button.</p>\r\n        <p class=\"card-text\">If you are currently online then the entries will be saved as you go, automatically. Otherwise the records\r\n            will be remembered on your device, but you will need to click '<a href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>' (on the <i>Your lists</i> menu) when you have a network connection again.\r\n        </p>\r\n        <p class=\"card-text\">To delete a plant record, find it in the list and click the red 'bin' icon.\r\n        </p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Identifying your plants</h5>\r\n        <h6 class=\"card-subtitle mb-2 text-muted\">Plant names</h6>\r\n        <p class=\"card-text\">If possible, please enter the scientific or common name of the plant, but don't worry if you don't know the full details.\r\n            The list of suggested names includes a very wide range of both native and horticultural plants, but if the name you need\r\n            isn't on the list then you can still type it in.\r\n        </p>\r\n        <p>Remember to record only plants that are in flower. Plants with only buds or seed heads don't count and nor do ferns!</p>\r\n        <p>Please record only flowers growing in wild places. You can include weeds in gardens, lawns or verges, but cultivated plants in or near gardens behave very differently so we'd like to keep them out of our results.</p>\r\n        <h6 class=\"card-subtitle mb-2 text-muted\">Photos</h6>\r\n        <p class=\"card-text\">Photos of the plant will help us confirm your record. Please provide a picture showing the whole plant, but it will\r\n            also help us if you can provide close-up views of the flowers and leaves.\r\n        </p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Locating your finds</h5>\r\n        <p>If you are using a mobile device in the field then each record should be assigned a GPS-based geo-reference automatically.</p>\r\n        <p>Alternatively you can type a grid-reference (Ordnance Survey or OSI grid-reference) in the grid-reference field or click on the map.</p>\r\n        <p>By default, records will be automatically assigned the location you gave for the survey, so it's not required to enter individual grid-references.</p>\r\n    </div>\r\n</div>\r\n<!-- begin: templates/formHelp/recordsHelp.html -->\r\n";
 
 	var DESCRIPTORS$p = descriptors$1;
 	var FUNCTION_NAME_EXISTS = functionName$1.EXISTS;
@@ -26700,11 +26706,6 @@
 
 	  var _super = _createSuper$a(MapGeorefField);
 
-	  // /**
-	  //  * @type {string}
-	  //  */
-	  // _inputId;
-
 	  /**
 	   * @type {string}
 	   */
@@ -26713,19 +26714,13 @@
 	  //  * @type {string}
 	  //  * @private
 	  //  */
-	  // _value = '';
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
-
-	  /**
-	   *
-	   * @type {string}
-	   * @private
-	   */
+	  // _inputType = 'text';
+	  // /**
+	  //  *
+	  //  * @type {string}
+	  //  * @private
+	  //  */
+	  // _autocomplete = '';
 
 	  /**
 	   *
@@ -26788,10 +26783,6 @@
 	      writable: true,
 	      value: void 0
 	    });
-
-	    _defineProperty$1(_assertThisInitialized$1(_this), "_inputType", 'text');
-
-	    _defineProperty$1(_assertThisInitialized$1(_this), "_autocomplete", '');
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "includeSearchBox", false);
 
@@ -27457,7 +27448,7 @@
 	      }
 	    }
 	  },
-	  geoRef: {
+	  georef: {
 	    field: MapGeorefField,
 	    attributes: {
 	      label: 'Grid-reference',
@@ -27722,7 +27713,7 @@
 	      maxDate: '2022-01-04'
 	    }
 	  },
-	  recorder: {
+	  people: {
 	    field: InputField,
 	    attributes: {
 	      label: 'Who is taking part',
@@ -28822,7 +28813,7 @@
 	    var occurrenceHeadingEl = document.getElementById(_this8.recordsHeaderListDescriptorId);
 
 	    if (occurrenceHeadingEl) {
-	      occurrenceHeadingEl.innerHTML = "Records of plants in bloom from ".concat(_this8.controller.survey.generateSurveyName(), ".");
+	      occurrenceHeadingEl.innerHTML = "<strong>Records of plants in bloom from ".concat(_this8.controller.survey.generateSurveyName(), ".</strong>");
 	    }
 	  });
 	  var cardId = Form.nextId;
@@ -28935,7 +28926,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638402542</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638447555</p>";
 	    }
 	  }]);
 

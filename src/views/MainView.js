@@ -818,7 +818,7 @@ export class MainView extends Page {
             const occurrenceHeadingEl = document.getElementById(this.recordsHeaderListDescriptorId);
 
             if (occurrenceHeadingEl) {
-                occurrenceHeadingEl.innerHTML = `Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.`;
+                occurrenceHeadingEl.innerHTML = `<strong>Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.</strong>`;
             }
         });
 

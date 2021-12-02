@@ -75,7 +75,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 }
             }
         },
-        geoRef : {
+        georef : {
             field: MapGeorefField,
             attributes: {
                 label: 'Grid-reference',

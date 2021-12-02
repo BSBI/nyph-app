@@ -66,7 +66,7 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 maxDate: '2022-01-04',
             }
         },
-        recorder: {
+        people: {
             field: InputField,
             attributes: {
                 label: 'Who is taking part',

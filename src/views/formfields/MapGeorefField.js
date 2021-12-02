@@ -8,11 +8,6 @@ import {MapMarker} from "../MapMarker";
 
 export class MapGeorefField extends TextGeorefField {
 
-    // /**
-    //  * @type {string}
-    //  */
-    // _inputId;
-
     /**
      * @type {string}
      */
@@ -23,21 +18,14 @@ export class MapGeorefField extends TextGeorefField {
     //  * @type {string}
     //  * @private
     //  */
-    // _value = '';
+    // _inputType = 'text';
 
-    /**
-     *
-     * @type {string}
-     * @private
-     */
-    _inputType = 'text';
-
-    /**
-     *
-     * @type {string}
-     * @private
-     */
-    _autocomplete = '';
+    // /**
+    //  *
+    //  * @type {string}
+    //  * @private
+    //  */
+    // _autocomplete = '';
 
     /**
      *
