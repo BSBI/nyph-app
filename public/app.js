@@ -28358,6 +28358,8 @@
 	    // shouldn't get here
 	    rightPanelContainer.innerHTML = "<p>placeholder survey help content for '".concat(sectionKey, "'</p>");
 	  }
+
+	  this.controller.app.router.updatePageLinks(); // required in case help text contains any Navigo links
 	}
 
 	function _refreshOccurrenceEditor2() {
@@ -28427,6 +28429,7 @@
 	function _displayDefaultRightPanel2(htmlText) {
 	  var editorContainer = document.getElementById(RIGHT_PANEL_ID);
 	  editorContainer.innerHTML = htmlText || defaultRightHandSideHelp;
+	  this.controller.app.router.updatePageLinks(); // required in case help text contains any Navigo links
 	}
 
 	function _clearOccurrenceListeners2() {
@@ -28802,7 +28805,7 @@
 	  var summaryEl = content.appendChild(document.createElement('p'));
 	  this.recordsHeaderListDescriptorId = Form.nextId; // noinspection HtmlUnknownTarget
 
-	  summaryEl.innerHTML = "<span id=\"".concat(this.recordsHeaderListDescriptorId, "\">Records of plants in bloom from ").concat(this.controller.survey.generateSurveyName(), ".</span><small class=\"d-block d-md-none\"><a href=\"/app/list/record/help\">(help)</a></small>").concat(this.separateListsHTMLMessage);
+	  summaryEl.innerHTML = "<span id=\"".concat(this.recordsHeaderListDescriptorId, "\"><strong>Records of plants in bloom from ").concat(this.controller.survey.generateSurveyName(), ".</strong></span><small class=\"d-block d-md-none\"><a href=\"/app/list/record/help\">(help)</a></small>").concat(this.separateListsHTMLMessage);
 	  var newButtonEl = content.appendChild(document.createElement('button'));
 	  newButtonEl.type = 'button';
 	  newButtonEl.className = 'btn btn-primary btn-lg mb-2';
@@ -28927,7 +28930,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638448326</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638448679</p>";
 	    }
 	  }]);
 

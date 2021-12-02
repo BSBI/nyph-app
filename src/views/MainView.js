@@ -209,6 +209,8 @@ export class MainView extends Page {
             // shouldn't get here
             rightPanelContainer.innerHTML = `<p>placeholder survey help content for '${sectionKey}'</p>`;
         }
+
+        this.controller.app.router.updatePageLinks(); // required in case help text contains any Navigo links
     }
 
     #refreshOccurrenceEditor() {
@@ -360,6 +362,8 @@ export class MainView extends Page {
     #displayDefaultRightPanel(htmlText) {
         let editorContainer = document.getElementById(RIGHT_PANEL_ID);
         editorContainer.innerHTML = htmlText || defaultRightHandSideHelp;
+
+        this.controller.app.router.updatePageLinks(); // required in case help text contains any Navigo links
     }
 
     #clearOccurrenceListeners() {
@@ -802,7 +806,7 @@ export class MainView extends Page {
         this.recordsHeaderListDescriptorId = Form.nextId;
 
         // noinspection HtmlUnknownTarget
-        summaryEl.innerHTML = `<span id="${this.recordsHeaderListDescriptorId}">Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.</span><small class="d-block d-md-none"><a href="/app/list/record/help">(help)</a></small>${this.separateListsHTMLMessage}`;
+        summaryEl.innerHTML = `<span id="${this.recordsHeaderListDescriptorId}"><strong>Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.</strong></span><small class="d-block d-md-none"><a href="/app/list/record/help">(help)</a></small>${this.separateListsHTMLMessage}`;
 
         const newButtonEl = content.appendChild(document.createElement('button'));
         newButtonEl.type = 'button';
