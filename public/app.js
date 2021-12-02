@@ -13869,6 +13869,7 @@
 	                  console.log({
 	                    'GPS permission state': permissionStatus.state
 	                  });
+	                  GPSRequest._gpsPermission = permissionStatus.state;
 	                });
 
 	              case 5:
@@ -28930,7 +28931,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638450458</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638451601</p>";
 	    }
 	  }]);
 
