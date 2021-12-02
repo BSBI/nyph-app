@@ -26970,8 +26970,9 @@
 	          doGPSInitialisation = false;
 	        }
 
+	        var grantState = GPSRequest.haveGPSPermission();
 	        console.log({
-	          'grant state': GPSRequest.haveGPSPermission()
+	          'grant state': grantState
 	        });
 
 	        if (doGPSInitialisation) {
@@ -28935,7 +28936,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638452498</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638452842</p>";
 	    }
 	  }]);
 
