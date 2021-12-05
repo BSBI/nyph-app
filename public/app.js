@@ -29823,7 +29823,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638710580</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638716135</p>";
 	    }
 	  }]);
 
@@ -39093,7 +39093,7 @@
 	}
 
 	var app = new NyphApp();
-	app.router = new PatchedNavigo('https://nyphtest.bsbi.org/app/');
+	app.router = new PatchedNavigo('https://nyph.bsbi.app/app/');
 	app.containerId = 'appcontainer';
 	app.setLayout(new NyphLayout());
 	app.registerController(new StaticContentController(new HelpView(), '/help'));
