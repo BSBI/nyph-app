@@ -4,7 +4,6 @@ import {NyphApp} from './framework/NyphApp';
 import {MainController} from "./controllers/MainController";
 import {MainView} from "./views/MainView";
 import {HelpView} from "./views/HelpView";
-//import localforage from 'localforage';
 import {NyphLayout} from "./views/layout/NyphLayout";
 import './theme.scss';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -49,7 +48,7 @@ if (navigator.serviceWorker) {
 
 const app = new NyphApp;
 
-app.router = new PatchedNavigo('https://nyphtest.bsbi.org/app/');
+app.router = new PatchedNavigo('https://__DOMAIN__/app/');
 
 app.containerId = 'appcontainer';
 app.setLayout(new NyphLayout());

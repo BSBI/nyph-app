@@ -14085,7 +14085,7 @@
 	   * @type {{
 	   * rawString: string,
 	   * precision: number|null,
-	   * source: string|null,
+	   * source: string,
 	   * gridRef: string,
 	   * latLng: ({lat:number,lng:number}|null)
 	   * }}
@@ -14570,7 +14570,7 @@
 	  return TextGeorefField;
 	}(FormField);
 
-	_defineProperty(TextGeorefField, "GEOREF_SOURCE_UNKNOWN", null);
+	_defineProperty(TextGeorefField, "GEOREF_SOURCE_UNKNOWN", 'unknown');
 
 	_defineProperty(TextGeorefField, "GEOREF_SOURCE_GRIDREF", 'gridref');
 
@@ -28597,6 +28597,15 @@
 	      autocomplete: 'name'
 	    }
 	  },
+	  numberofrecorders: {
+	    field: InputField,
+	    attributes: {
+	      label: 'How many people in your party?',
+	      helpText: "(optional) It helps us with funding and publicity to know participation across the whole country.",
+	      placeholder: '',
+	      type: 'number'
+	    }
+	  },
 	  namearchive: {
 	    field: SelectField,
 	    attributes: {
@@ -28623,6 +28632,17 @@
 	      placeholder: '',
 	      autocomplete: '',
 	      completion: FormField.COMPLETION_OPTIONAL
+	    }
+	  },
+	  comments: {
+	    field: TextAreaField,
+	    attributes: {
+	      label: 'Any other notes about your plant hunt',
+	      helpText: "(optional) You could describe the route or mention exceptional finds. Comments here will appear on the public website. We'll email you a separate feedback form at the end.",
+	      autocomplete: 'off'
+	    },
+	    summary: {
+	      summarise: true
 	    }
 	  }
 	});
@@ -29803,7 +29823,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638460628</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638710580</p>";
 	    }
 	  }]);
 

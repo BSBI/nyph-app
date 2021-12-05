@@ -1,6 +1,6 @@
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 import helpPanelText from "../../templates/formHelp/surveyAboutHelp.html";
-import {DateField, FormField, InputField, SelectField} from "bsbi-app-framework";
+import {DateField, FormField, InputField, SelectField, TextAreaField} from "bsbi-app-framework";
 import {MapGeorefField} from "../formfields/MapGeorefField";
 
 export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
@@ -75,6 +75,14 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 completion: FormField.COMPLETION_DESIRED,
                 autocomplete: 'name'
             }},
+        numberofrecorders: {
+            field: InputField,
+            attributes: {
+                label: 'How many people in your party?',
+                helpText: "(optional) It helps us with funding and publicity to know participation across the whole country.",
+                placeholder: '',
+                type: 'number'
+            }},
         namearchive: {
             field: SelectField,
             attributes: {
@@ -97,5 +105,15 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 autocomplete: '',
                 completion: FormField.COMPLETION_OPTIONAL,
             }},
+        comments: {
+            field: TextAreaField,
+            attributes: {
+                label: 'Any other notes about your plant hunt',
+                helpText: "(optional) You could describe the route or mention exceptional finds. Comments here will appear on the public website. We'll email you a separate feedback form at the end.",
+                autocomplete: 'off'
+            },
+            summary: {
+                summarise: true,
+            }}
     };
 }

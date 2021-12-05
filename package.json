@@ -31,8 +31,6 @@
     "element-closest-polyfill": "1.0.4",
     "mapbox-gl": "^2.6.1",
     "@mapbox/mapbox-gl-geocoder": "^4.7.4",
-    "navigo": "^7.1.2",
-    "uuid": "^3.3.3",
     "whatwg-fetch": "^3.6.2"
   },
   "scripts": {

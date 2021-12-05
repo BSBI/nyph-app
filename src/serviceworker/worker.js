@@ -15,12 +15,12 @@ let BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
 const serviceWorker = new BSBIServiceWorker();
 serviceWorker.initialise({
     forageName : NyphApp.forageName,
-    postPassThroughWhitelist : /^https:\/\/nyphtest\.bsbi\.org\/loadsurveys.php/,
-    postImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.org\/saveimage.php/,
-    getImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.org\/image\.php/,
-    interceptUrlMatches : /^https:\/\/nyphtest\.bsbi\.org\/app\/|^https:\/\/nyphtest\.bsbi\.org\/app$/,
-    ignoreUrlMatches : /^https:\/\/nyphtest\.bsbi\.org\/app\/app\.js|^https:\/\/nyphtest\.bsbi\.org\/app\/serviceworker\.js|^https:\/\/nyphtest\.bsbi\.org\/app\/manifest\.webmanifest|^https:\/\/nyphtest\.bsbi\.org\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
-    indexUrl : 'https://nyphtest.bsbi.org/app/index.html',
+    postPassThroughWhitelist : /^https:\/\/__DOMAIN_REGEX__\/loadsurveys.php/,
+    postImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/saveimage.php/,
+    getImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/image\.php/,
+    interceptUrlMatches : /^https:\/\/__DOMAIN_REGEX__\/app\/|^https:\/\/__DOMAIN_REGEX__\/app$/,
+    ignoreUrlMatches : /^https:\/\/__DOMAIN_REGEX__\/app\/app\.js|^https:\/\/__DOMAIN_REGEX__\/app\/serviceworker\.js|^https:\/\/__DOMAIN_REGEX__\/app\/manifest\.webmanifest|^https:\/\/__DOMAIN_REGEX__\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
+    indexUrl : 'https://__DOMAIN__/app/index.html',
     urlCacheSet : [
         './index.html',
         './manifest.webmanifest',
