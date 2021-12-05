@@ -102,8 +102,8 @@ export default [
 				preventAssignment: true,
 				values: {
 					VERSION: version,
-					__DOMAIN__: 'nyphtest.bsbi.org', // 'nyph.bsbi.app',
-					__DOMAIN_REGEX__: 'nyphtest\\.bsbi\\.org', // 'nyph\.bsbi\.app',
+					__DOMAIN__: 'nyph.bsbi.app', // 'nyphtest.bsbi.org',
+					__DOMAIN_REGEX__: 'nyph\.bsbi\.app', // 'nyphtest\\.bsbi\\.org',
 					// ENVIRONMENT: JSON.stringify('development')
 				},
 			}),
