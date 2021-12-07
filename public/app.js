@@ -28325,7 +28325,7 @@
 	  images: {
 	    field: ImageField,
 	    attributes: {
-	      label: "(optional) Please provide a photo",
+	      label: "(optional) please provide a photo",
 	      placeholder: 'photos',
 	      helpText: "If you've not named your find then we'll need a photo. Otherwise, if the plant is unusual or if you are unsure of its identity then photos will help us check your record.<br><strong>Submitted images remain your property, but you agree to allow us to use the photos under the terms of a <a href=\"#\" title=\"Creative Commons Attribution\" data-toggle=\"modal\" data-target=\"#".concat(ImageField.LICENSE_MODAL, "\">CC BY</a> license.</strong>")
 	    }
@@ -28334,7 +28334,7 @@
 	    field: MapGeorefField,
 	    attributes: {
 	      label: 'Grid-reference',
-	      helpText: '',
+	      helpText: '(optional) leave blank to use the overall survey grid-square, use gps or enter a grid-reference',
 	      completion: FormField.COMPLETION_DESIRED,
 	      includeSearchBox: false,
 	      baseSquareResolution: 1000,
@@ -29823,7 +29823,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638919997</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638921447</p>";
 	    }
 	  }]);
 
