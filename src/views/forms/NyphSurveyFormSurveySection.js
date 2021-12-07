@@ -46,8 +46,8 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
             field: MapGeorefField,
             attributes: {
                 label: 'Starting point of your walk.',
-                helpText: 'We need to be able to put your survey on our map.',
-                placeholder: 'OS grid-reference or full postcode',
+                helpText: 'Enter a grid-reference, or use the map search box or GPS button',
+                placeholder: 'OS grid-reference ',
                 //autocomplete: 'postal-code',
                 completion: FormField.COMPLETION_COMPULSORY,
                 includeSearchBox: true,
@@ -72,7 +72,7 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 label: 'Who is taking part',
                 helpText: "(optional) Please list everyone who is taking part - we'd like to be able to acknowledge your efforts.",
                 placeholder: 'Name(s)',
-                completion: FormField.COMPLETION_DESIRED,
+                completion: FormField.COMPLETION_OPTIONAL,
                 autocomplete: 'name'
             }},
         numberofrecorders: {

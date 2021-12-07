@@ -11,4 +11,8 @@ $theme-colors: (
   min-height: 100vh;
 }
 
+.is-invalid {
+  border-width: 3px;
+}
+
 @import "../node_modules/bootstrap/scss/bootstrap";

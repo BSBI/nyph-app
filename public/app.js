@@ -28322,6 +28322,14 @@
 	      }
 	    }
 	  },
+	  images: {
+	    field: ImageField,
+	    attributes: {
+	      label: "(optional) Please provide a photo",
+	      placeholder: 'photos',
+	      helpText: "If you've not named your find then we'll need a photo. Otherwise, if the plant is unusual or if you are unsure of its identity then photos will help us check your record.<br><strong>Submitted images remain your property, but you agree to allow us to use the photos under the terms of a <a href=\"#\" title=\"Creative Commons Attribution\" data-toggle=\"modal\" data-target=\"#".concat(ImageField.LICENSE_MODAL, "\">CC BY</a> license.</strong>")
+	    }
+	  },
 	  georef: {
 	    field: MapGeorefField,
 	    attributes: {
@@ -28348,14 +28356,6 @@
 	  //         includeOtherFreeText : false,
 	  //         completion: FormField.COMPLETION_DESIRED,
 	  //     }},
-	  images: {
-	    field: ImageField,
-	    attributes: {
-	      label: 'Please provide some photos of the plant',
-	      placeholder: 'photos',
-	      helpText: "If the plant is unusual or if you are unsure of its identity then photos will help us check your record.<br><strong>Submitted images remain your property, but you agree to allow us to use the photos under the terms of a <a href=\"#\" title=\"Creative Commons Attribution\" data-toggle=\"modal\" data-target=\"#".concat(ImageField.LICENSE_MODAL, "\">CC BY</a> license.</strong>")
-	    }
-	  },
 	  // spread : {
 	  //     field: OptionsField,
 	  //     attributes: {
@@ -28566,8 +28566,8 @@
 	    field: MapGeorefField,
 	    attributes: {
 	      label: 'Starting point of your walk.',
-	      helpText: 'We need to be able to put your survey on our map.',
-	      placeholder: 'OS grid-reference or full postcode',
+	      helpText: 'Enter a grid-reference, or use the map search box or GPS button',
+	      placeholder: 'OS grid-reference ',
 	      //autocomplete: 'postal-code',
 	      completion: FormField.COMPLETION_COMPULSORY,
 	      includeSearchBox: true,
@@ -28593,7 +28593,7 @@
 	      label: 'Who is taking part',
 	      helpText: "(optional) Please list everyone who is taking part - we'd like to be able to acknowledge your efforts.",
 	      placeholder: 'Name(s)',
-	      completion: FormField.COMPLETION_DESIRED,
+	      completion: FormField.COMPLETION_OPTIONAL,
 	      autocomplete: 'name'
 	    }
 	  },
@@ -29823,7 +29823,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638720247</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638919261</p>";
 	    }
 	  }]);
 

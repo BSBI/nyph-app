@@ -75,6 +75,14 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 }
             }
         },
+        images : {
+            field: ImageField,
+            attributes: {
+                label: "(optional) Please provide a photo",
+                placeholder: 'photos',
+                helpText: `If you've not named your find then we'll need a photo. Otherwise, if the plant is unusual or if you are unsure of its identity then photos will help us check your record.<br><strong>Submitted images remain your property, but you agree to allow us to use the photos under the terms of a <a href="#" title="Creative Commons Attribution" data-toggle="modal" data-target="#${ImageField.LICENSE_MODAL}">CC BY</a> license.</strong>`
+            }
+        },
         georef : {
             field: MapGeorefField,
             attributes: {
@@ -101,14 +109,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
         //         includeOtherFreeText : false,
         //         completion: FormField.COMPLETION_DESIRED,
         //     }},
-        images : {
-            field: ImageField,
-            attributes: {
-                label: 'Please provide some photos of the plant',
-                placeholder: 'photos',
-                helpText: `If the plant is unusual or if you are unsure of its identity then photos will help us check your record.<br><strong>Submitted images remain your property, but you agree to allow us to use the photos under the terms of a <a href="#" title="Creative Commons Attribution" data-toggle="modal" data-target="#${ImageField.LICENSE_MODAL}">CC BY</a> license.</strong>`
-            }
-        },
+
         // spread : {
         //     field: OptionsField,
         //     attributes: {
