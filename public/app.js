@@ -29516,6 +29516,18 @@
 	    console.log({
 	      'left panel hide.bs.collapse': event
 	    });
+
+	    if (event.target.dataset.sectionkey && _classPrivateFieldGet$1(_this6, _surveyFormSections)[event.target.dataset.sectionkey]) {
+	      var isValid = _classPrivateFieldGet$1(_this6, _surveyFormSections)[event.target.dataset.sectionkey].validateForm();
+
+	      console.log({
+	        'survey section validity': isValid
+	      });
+
+	      if (!isValid) {
+	        event.preventDefault();
+	      }
+	    }
 	  }).on('hidden.bs.collapse', function (event) {
 	    // this will fire for both selection events within the records list and for changes to the top-level accordion
 	    console.log({
@@ -29856,7 +29868,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638955535</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638956430</p>";
 	    }
 	  }]);
 

@@ -569,6 +569,15 @@ export class MainView extends Page {
             }
         }).on('hide.bs.collapse', (event) => {
             console.log({'left panel hide.bs.collapse' : event});
+
+            if (event.target.dataset.sectionkey && this.#surveyFormSections[event.target.dataset.sectionkey]) {
+                const isValid = this.#surveyFormSections[event.target.dataset.sectionkey].validateForm();
+                console.log({'survey section validity': isValid});
+
+                if (!isValid) {
+                    event.preventDefault();
+                }
+            }
         }).on('hidden.bs.collapse', (event) => {
             // this will fire for both selection events within the records list and for changes to the top-level accordion
 
