@@ -27730,9 +27730,21 @@
 	        gpsButton.type = 'button';
 	        gpsButton.className = 'btn btn-outline-secondary btn-sm';
 	        gpsButton.title = 'use GPS';
+
+	        if (this.gpsTextLabel) {
+	          var gpsTextLabel = gpsButton.appendChild(document.createElement('span'));
+	          gpsTextLabel.style.verticalAlign = 'middle';
+	          gpsTextLabel.innerText = 'GPS ';
+	        }
+
 	        var buttonIconEl = gpsButton.appendChild(document.createElement('span'));
 	        buttonIconEl.className = 'material-icons';
 	        buttonIconEl.innerText = 'gps_not_fixed';
+
+	        if (this.gpsTextLabel) {
+	          buttonIconEl.style.verticalAlign = 'middle';
+	        }
+
 	        gpsButton.addEventListener('click', this.gpsButtonClickHandler.bind(this));
 	      }
 
@@ -29880,7 +29892,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638958307</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638958846</p>";
 	    }
 	  }]);
 

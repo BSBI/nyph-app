@@ -192,9 +192,19 @@ export class MapGeorefField extends TextGeorefField {
             gpsButton.className = 'btn btn-outline-secondary btn-sm';
             gpsButton.title = 'use GPS';
 
+            if (this.gpsTextLabel) {
+                const gpsTextLabel = gpsButton.appendChild(document.createElement('span'));
+                gpsTextLabel.style.verticalAlign = 'middle';
+                gpsTextLabel.innerText = 'GPS ';
+            }
+
             const buttonIconEl = gpsButton.appendChild(document.createElement('span'));
             buttonIconEl.className = 'material-icons';
             buttonIconEl.innerText = 'gps_not_fixed';
+
+            if (this.gpsTextLabel) {
+                buttonIconEl.style.verticalAlign = 'middle';
+            }
 
             gpsButton.addEventListener('click', this.gpsButtonClickHandler.bind(this));
         }
