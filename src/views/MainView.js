@@ -556,6 +556,8 @@ export class MainView extends Page {
         $(`#${LEFT_PANEL_ID}`).on('show.bs.collapse', (event) => {
             // this will fire for both selection events within the records list and for changes to the top-level accordion
 
+            console.log({'left panel show.bs.collapse' : event});
+
             if (event.target.dataset.occurrenceid) {
                 console.log({'left panel accordion show event (with occ id)' : event});
                 this.fireEvent(MainController.EVENT_SELECT_OCCURRENCE, {occurrenceId: event.target.dataset.occurrenceid});
@@ -565,10 +567,12 @@ export class MainView extends Page {
             } else {
                 console.log({'left panel accordion show event (other)' : event});
             }
+        }).on('hide.bs.collapse', (event) => {
+            console.log({'left panel hide.bs.collapse' : event});
         }).on('hidden.bs.collapse', (event) => {
             // this will fire for both selection events within the records list and for changes to the top-level accordion
 
-            console.log({'left panel accordion hide event' : event});
+            console.log({'left panel accordion hidden event' : event});
 
             if (event.target.dataset.occurrenceid) {
                 // should evaluate the validity of the individual occurrence

@@ -52,6 +52,7 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 completion: FormField.COMPLETION_COMPULSORY,
                 includeSearchBox: true,
                 baseSquareResolution: 2000,
+                gpsTextLabel: true,
                 gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED,
             }},
         date: {

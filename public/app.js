@@ -14117,6 +14117,11 @@
 	   */
 
 	  /**
+	   * if set then as well as labelling the GPS button with a symbol, also include text 'GPS'
+	   * @type {boolean}
+	   */
+
+	  /**
 	   *
 	   * @type {string}
 	   */
@@ -14144,7 +14149,8 @@
 	   * [autocomplete]: string,
 	   * [baseSquareResolution]: ?number,
 	   * [gpsPermissionPromptText]: string,
-	   * [initialiseFromDefaultSurveyGeoref] : boolean
+	   * [initialiseFromDefaultSurveyGeoref] : boolean,
+	   * [gpsTextLabel] : boolean,
 	   * }} [params]
 	   */
 	  function TextGeorefField(params) {
@@ -14178,6 +14184,8 @@
 
 	    _defineProperty(_assertThisInitialized(_this), "minResolution", 2000);
 
+	    _defineProperty(_assertThisInitialized(_this), "gpsTextLabel", false);
+
 	    _defineProperty(_assertThisInitialized(_this), "gpsPermissionsPromptText", '<p class="gps-nudge">Allowing access to GPS will save you time by allowing the app to locate your records automatically.</p>');
 
 	    _defineProperty(_assertThisInitialized(_this), "initialiseFromDefaultSurveyGeoref", false);
@@ -14206,6 +14214,10 @@
 
 	      if (params.gpsPermissionPromptText) {
 	        _this.gpsPermissionsPromptText = params.gpsPermissionPromptText;
+	      }
+
+	      if (params.gpsTextLabel) {
+	        _this.gpsTextLabel = params.gpsTextLabel;
 	      }
 
 	      if (params.hasOwnProperty('initialiseFromDefaultSurveyGeoref')) {
@@ -14333,9 +14345,21 @@
 	        gpsButton.type = 'button';
 	        gpsButton.className = 'btn btn-outline-secondary btn-sm';
 	        gpsButton.title = 'use GPS';
+
+	        if (this.gpsTextLabel) {
+	          var gpsTextLabel = gpsButton.appendChild(document.createElement('span'));
+	          gpsTextLabel.style.verticalAlign = 'middle';
+	          gpsTextLabel.innerText = 'GPS ';
+	        }
+
 	        var buttonIconEl = gpsButton.appendChild(document.createElement('span'));
 	        buttonIconEl.className = 'material-icons';
 	        buttonIconEl.innerText = 'gps_not_fixed';
+
+	        if (this.gpsTextLabel) {
+	          buttonIconEl.style.verticalAlign = 'middle';
+	        }
+
 	        gpsButton.addEventListener('click', this.gpsButtonClickHandler.bind(this));
 	      }
 
@@ -28572,6 +28596,7 @@
 	      completion: FormField.COMPLETION_COMPULSORY,
 	      includeSearchBox: true,
 	      baseSquareResolution: 2000,
+	      gpsTextLabel: true,
 	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED
 	    }
 	  },
@@ -29462,6 +29487,10 @@
 	  // console.log('Registering left panel accordion event handler.');
 	  $("#".concat(LEFT_PANEL_ID)).on('show.bs.collapse', function (event) {
 	    // this will fire for both selection events within the records list and for changes to the top-level accordion
+	    console.log({
+	      'left panel show.bs.collapse': event
+	    });
+
 	    if (event.target.dataset.occurrenceid) {
 	      console.log({
 	        'left panel accordion show event (with occ id)': event
@@ -29483,10 +29512,14 @@
 	        'left panel accordion show event (other)': event
 	      });
 	    }
+	  }).on('hide.bs.collapse', function (event) {
+	    console.log({
+	      'left panel hide.bs.collapse': event
+	    });
 	  }).on('hidden.bs.collapse', function (event) {
 	    // this will fire for both selection events within the records list and for changes to the top-level accordion
 	    console.log({
-	      'left panel accordion hide event': event
+	      'left panel accordion hidden event': event
 	    });
 
 	    if (event.target.dataset.occurrenceid) {
@@ -29823,7 +29856,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638921447</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638955535</p>";
 	    }
 	  }]);
 
