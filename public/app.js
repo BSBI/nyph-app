@@ -10154,6 +10154,9 @@
 	    get: function get() {
 	      if (!this._id) {
 	        this._id = uuid$1();
+	      } else if (this._id === 'undefined') {
+	        console.error("id is literal 'undefined', am forcing new id");
+	        this._id = uuid$1();
 	      }
 
 	      return this._id;
@@ -15352,7 +15355,10 @@
 	      try {
 	        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
 	          var key = _step4.value;
-	          formData.append("surveyId[".concat(n++, "]"), key);
+
+	          if (key && key !== 'undefined') {
+	            formData.append("surveyId[".concat(n++, "]"), key);
+	          }
 	        }
 	      } catch (err) {
 	        _iterator4.e(err);
@@ -15585,10 +15591,16 @@
 	    value: function restoreOccurrences(targetSurveyId) {
 	      var _this7 = this;
 
-	      console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId)); // need to check for a special case where restoring a survey that has never been saved even locally
+	      console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId));
+
+	      if (targetSurveyId === 'undefined') {
+	        console.error("Attempt to restore occurrences for literal 'undefined' survey id.");
+	        targetSurveyId = '';
+	      } // need to check for a special case where restoring a survey that has never been saved even locally
 	      // i.e. new and unmodified
 	      // only present in current App.surveys
 	      // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
+
 
 	      if (targetSurveyId && this.surveys.has(targetSurveyId)) {
 	        var localSurvey = this.surveys.get(targetSurveyId);
@@ -29868,7 +29880,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638956430</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.1.1638958307</p>";
 	    }
 	  }]);
 

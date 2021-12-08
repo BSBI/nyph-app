@@ -7779,6 +7779,9 @@
       get: function get() {
         if (!this._id) {
           this._id = uuid();
+        } else if (this._id === 'undefined') {
+          console.error("id is literal 'undefined', am forcing new id");
+          this._id = uuid();
         }
 
         return this._id;
@@ -12927,7 +12930,10 @@
         try {
           for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
             var key = _step4.value;
-            formData.append("surveyId[".concat(n++, "]"), key);
+
+            if (key && key !== 'undefined') {
+              formData.append("surveyId[".concat(n++, "]"), key);
+            }
           }
         } catch (err) {
           _iterator4.e(err);
@@ -13160,10 +13166,16 @@
       value: function restoreOccurrences(targetSurveyId) {
         var _this7 = this;
 
-        console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId)); // need to check for a special case where restoring a survey that has never been saved even locally
+        console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId));
+
+        if (targetSurveyId === 'undefined') {
+          console.error("Attempt to restore occurrences for literal 'undefined' survey id.");
+          targetSurveyId = '';
+        } // need to check for a special case where restoring a survey that has never been saved even locally
         // i.e. new and unmodified
         // only present in current App.surveys
         // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
+
 
         if (targetSurveyId && this.surveys.has(targetSurveyId)) {
           var localSurvey = this.surveys.get(targetSurveyId);
@@ -14422,7 +14434,7 @@
         ImageResponse.register();
         SurveyResponse.register();
         OccurrenceResponse.register();
-        this.CACHE_VERSION = "version-1.0.2.1638953978-".concat(configuration.version);
+        this.CACHE_VERSION = "version-1.0.2.1638958051-".concat(configuration.version);
         var POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         var POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
         var GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -18380,7 +18392,7 @@
     '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
     '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
     passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-    version: '1.0.1.1638956430'
+    version: '1.0.1.1638958307'
   });
 
 })();
