@@ -12,15 +12,27 @@ import {NyphApp} from "../framework/NyphApp";
 // noinspection JSUnusedLocalSymbols
 let BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
 
+// mainly aiming to determine whether '/app/' or '/testapp/'
+let pathPrefix = window.location.pathname.split('/')[1];
+
 const serviceWorker = new BSBIServiceWorker();
 serviceWorker.initialise({
     forageName : NyphApp.forageName,
+
     postPassThroughWhitelist : /^https:\/\/__DOMAIN_REGEX__\/loadsurveys.php/,
     postImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/saveimage.php/,
     getImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/image\.php/,
-    interceptUrlMatches : /^https:\/\/__DOMAIN_REGEX__\/app\/|^https:\/\/__DOMAIN_REGEX__\/app$/,
-    ignoreUrlMatches : /^https:\/\/__DOMAIN_REGEX__\/app\/app\.js|^https:\/\/__DOMAIN_REGEX__\/app\/serviceworker\.js|^https:\/\/__DOMAIN_REGEX__\/app\/manifest\.webmanifest|^https:\/\/__DOMAIN_REGEX__\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
-    indexUrl : 'https://__DOMAIN__/app/index.html',
+    interceptUrlMatches : new RegExp(`^https://__DOMAIN_REGEX__/${pathPrefix}/|^https://__DOMAIN_REGEX__/${pathPrefix}$`),
+    ignoreUrlMatches : new RegExp(`^https://__DOMAIN_REGEX__/${pathPrefix}/app\.js|^https://__DOMAIN_REGEX__/${pathPrefix}/serviceworker\.js|^https://__DOMAIN_REGEX__/${pathPrefix}/manifest\.webmanifest|^https://__DOMAIN_REGEX__/${pathPrefix}/index\.html|^https://api\.mapbox\.com`),
+    indexUrl : `https://__DOMAIN__/${pathPrefix}/index.html`,
+
+    // postPassThroughWhitelist : /^https:\/\/__DOMAIN_REGEX__\/loadsurveys.php/,
+    // postImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/saveimage.php/,
+    // getImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/image\.php/,
+    // interceptUrlMatches : /^https:\/\/__DOMAIN_REGEX__\/app\/|^https:\/\/__DOMAIN_REGEX__\/app$/,
+    // ignoreUrlMatches : /^https:\/\/__DOMAIN_REGEX__\/app\/app\.js|^https:\/\/__DOMAIN_REGEX__\/app\/serviceworker\.js|^https:\/\/__DOMAIN_REGEX__\/app\/manifest\.webmanifest|^https:\/\/__DOMAIN_REGEX__\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
+    // indexUrl : 'https://__DOMAIN__/app/index.html',
+
     urlCacheSet : [
         './index.html',
         './manifest.webmanifest',

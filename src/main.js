@@ -11,33 +11,32 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 // polyfill stuff
 import "core-js/stable";
-import 'element-closest-polyfill'; // still needed for IE11
-import 'whatwg-fetch';
+//import 'element-closest-polyfill'; // still needed for IE11
+//import 'whatwg-fetch';
 import {PatchedNavigo, StaticContentController, TaxaLoadedHook, SurveyPickerController, SurveyPickerView} from "bsbi-app-framework";
 
-// localforage.config({
-//     name: NyphApp.forageName
-// });
-
 // work around Edge bug
-if (!Promise.prototype.finally) {
-    Promise.prototype.finally = function(callback) {
-        return this.then(callback)
-            .catch(callback);
-    };
-}
+// if (!Promise.prototype.finally) {
+//     Promise.prototype.finally = function(callback) {
+//         return this.then(callback)
+//             .catch(callback);
+//     };
+// }
 
 // even though Rollup is bundling all your files together, errors and
 // logs will still point to your original source modules
 console.log('if you have sourcemaps enabled in your devtools, click on main.js:5 -->');
 // console.log(GridRef.from_string('SD59'));
 
+// mainly aiming to determine whether '/app/' or '/testapp/'
+let pathPrefix = window.location.pathname.split('/')[1];
+
 if (navigator.serviceWorker) {
     // Register the ServiceWorker limiting its action to those URL starting
-    // by `controlled`. The scope is not a path but a prefix. First, it is
+    // by 'controlled'. The scope is not a path but a prefix. First, it is
     // converted into an absolute URL, then used to determine if a page is
     // controlled by testing it is a prefix of the request URL.
-    navigator.serviceWorker.register('/app/serviceworker.js', {
+    navigator.serviceWorker.register(`/${pathPrefix}/serviceworker.js`, {
         // scope: './controlled'
     });
 
@@ -48,7 +47,7 @@ if (navigator.serviceWorker) {
 
 const app = new NyphApp;
 
-app.router = new PatchedNavigo('https://__DOMAIN__/app/');
+app.router = new PatchedNavigo(`https://__DOMAIN__/${pathPrefix}/`);
 
 app.containerId = 'appcontainer';
 app.setLayout(new NyphLayout());
@@ -82,6 +81,3 @@ app.restoreOccurrences().then((result) => {
             app.display();
         });
 });
-
-
-

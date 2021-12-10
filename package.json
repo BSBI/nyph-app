@@ -28,10 +28,8 @@
     "bootstrap": "^4.5.0",
     "bsbi-app-framework": "git+https://github.com/BSBI/bsbi-app-framework.git",
     "core-js": "^3.19.1",
-    "element-closest-polyfill": "1.0.4",
     "mapbox-gl": "^2.6.1",
-    "@mapbox/mapbox-gl-geocoder": "^4.7.4",
-    "whatwg-fetch": "^3.6.2"
+    "@mapbox/mapbox-gl-geocoder": "^4.7.4"
   },
   "scripts": {
     "build": "rollup -c",

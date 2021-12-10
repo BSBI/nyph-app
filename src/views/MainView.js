@@ -78,6 +78,18 @@ export class MainView extends Page {
     recordsHeaderListDescriptorId;
 
     /**
+     * @type {string}
+     */
+    pathPrefix;
+
+    constructor() {
+        super();
+
+        // mainly aiming to determine whether '/app/' or '/testapp/'
+        this.pathPrefix = window.location.pathname.split('/')[1];
+    }
+
+    /**
      * called once during late-stage app initialisation
      * (NB this may not be the current view when called)
      *
@@ -643,7 +655,7 @@ export class MainView extends Page {
         const helpLink = document.createElement('span');
         helpLink.className = 'd-md-none pl-2';
         // noinspection HtmlUnknownTarget
-        helpLink.innerHTML = `(<a href="/app/list/survey/welcome/help" data-navigo="list/survey/welcome/help">more info</a>)`;
+        helpLink.innerHTML = `(<a href="/${this.pathPrefix}/list/survey/welcome/help" data-navigo="list/survey/welcome/help">more info</a>)`;
         sectionElement.appendChild(helpLink);
 
         accordionEl.appendChild(this.card({
@@ -756,7 +768,7 @@ export class MainView extends Page {
             collapsed: this.controller.surveySection !== sectionClass.sectionNavigationKey,
             headingButtonId: Form.nextId,
             headingHTML: sectionClass.sectionTitle,
-            headingNonbuttonHTML: `<small class="btn d-md-none" style="margin: 0; padding: 0;">(<a href="/app/list/survey/${sectionClass.sectionNavigationKey}/help" data-help-link="/list/survey/${sectionClass.sectionNavigationKey}/help">help</a>)</small>`,
+            headingNonbuttonHTML: `<small class="btn d-md-none" style="margin: 0; padding: 0;">(<a href="/${this.pathPrefix}/list/survey/${sectionClass.sectionNavigationKey}/help" data-help-link="/list/survey/${sectionClass.sectionNavigationKey}/help">help</a>)</small>`,
             headingValidationWarningHTML: 'Please check the form for some missing responses.',
             cardDescriptionId: `survey-${formIndex}-${sectionClass.sectionNavigationKey}`,// Form.nextId,
             parentContainerId: accordionEl.id,
@@ -808,7 +820,7 @@ export class MainView extends Page {
         }
     }
 
-    separateListsHTMLMessage = '<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href="/app/survey/new" data-navigo="survey/new">start another separate list</a>.';
+    separateListsHTMLMessage = `<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start another separate list</a>.`;
 
     #appendOccurrenceListContainer() {
         const accordionEl = document.getElementById(this.leftPanelAccordionId);
@@ -819,7 +831,7 @@ export class MainView extends Page {
         this.recordsHeaderListDescriptorId = Form.nextId;
 
         // noinspection HtmlUnknownTarget
-        summaryEl.innerHTML = `<span id="${this.recordsHeaderListDescriptorId}"><strong>Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.</strong></span><small class="d-block d-md-none"><a href="/app/list/record/help">(help)</a></small>${this.separateListsHTMLMessage}`;
+        summaryEl.innerHTML = `<span id="${this.recordsHeaderListDescriptorId}"><strong>Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.</strong></span><small class="d-block d-md-none"><a href="/${this.pathPrefix}/list/record/help">(help)</a></small>${this.separateListsHTMLMessage}`;
 
         const newButtonEl = content.appendChild(document.createElement('button'));
         newButtonEl.type = 'button';

@@ -28,7 +28,7 @@ export class NyphApp extends App {
     }
 
     _coreSurveyFields = [
-        'primaryname',
+        'recorder',
         'email'
     ];
 
