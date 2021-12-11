@@ -17,7 +17,7 @@ const production = !process.env.ROLLUP_WATCH;
 
 // for multiple targets see https://github.com/rollup/rollup/issues/703#issuecomment-306246339
 
-const version = `1.0.1.${Math.floor((Date.now() / 1000))}`;
+const version = `1.0.3.${Math.floor((Date.now() / 1000))}`;
 
 export default [
 	{
