@@ -31,6 +31,8 @@ console.log('if you have sourcemaps enabled in your devtools, click on main.js:5
 // mainly aiming to determine whether '/app/' or '/testapp/'
 let pathPrefix = window.location.pathname.split('/')[1];
 
+console.log({pathPrefix});
+
 if (navigator.serviceWorker) {
     // Register the ServiceWorker limiting its action to those URL starting
     // by 'controlled'. The scope is not a path but a prefix. First, it is

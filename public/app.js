@@ -30388,7 +30388,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639262401</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639262755</p>";
 	    }
 	  }]);
 
@@ -38559,6 +38559,9 @@
 	// mainly aiming to determine whether '/app/' or '/testapp/'
 
 	var pathPrefix = window.location.pathname.split('/')[1];
+	console.log({
+	  pathPrefix: pathPrefix
+	});
 
 	if (navigator.serviceWorker) {
 	  // Register the ServiceWorker limiting its action to those URL starting
