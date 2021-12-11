@@ -1,6 +1,6 @@
 # nyph-app
 
-This repo implements the recording form used for the BSBI's Nyph recording form. See https://nyph.bsbi.org/app
+This repo implements the recording form used for the BSBI's Nyph recording form. See https://nyph.bsbi.org/
 
 ## Getting started
 
