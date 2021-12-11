@@ -13,7 +13,7 @@ import {NyphApp} from "../framework/NyphApp";
 let BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
 
 // mainly aiming to determine whether '/app/' or '/testapp/'
-let pathPrefix = window.location.pathname.split('/')[1];
+let pathPrefix = location.pathname.split('/')[1];
 
 const serviceWorker = new BSBIServiceWorker();
 serviceWorker.initialise({

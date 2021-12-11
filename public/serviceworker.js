@@ -5267,11 +5267,11 @@
 	var counter = 0;
 	var queue = {};
 	var ONREADYSTATECHANGE = 'onreadystatechange';
-	var location, defer, channel, port;
+	var location$1, defer, channel, port;
 
 	try {
 	  // Deno throws a ReferenceError on `location` access without `--location` flag
-	  location = global$m.location;
+	  location$1 = global$m.location;
 	} catch (error) { /* empty */ }
 
 	var run = function (id) {
@@ -5294,7 +5294,7 @@
 
 	var post = function (id) {
 	  // old engines have not location.origin
-	  global$m.postMessage(String$1(id), location.protocol + '//' + location.host);
+	  global$m.postMessage(String$1(id), location$1.protocol + '//' + location$1.host);
 	};
 
 	// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
@@ -5333,7 +5333,7 @@
 	    global$m.addEventListener &&
 	    isCallable$7(global$m.postMessage) &&
 	    !global$m.importScripts &&
-	    location && location.protocol !== 'file:' &&
+	    location$1 && location$1.protocol !== 'file:' &&
 	    !fails$f(post)
 	  ) {
 	    defer = post;
@@ -20520,7 +20520,7 @@
 
 	_defineProperty(NyphApp, "devMode", false);
 
-	var pathPrefix = window.location.pathname.split('/')[1];
+	var pathPrefix = location.pathname.split('/')[1];
 	var serviceWorker = new BSBIServiceWorker();
 	serviceWorker.initialise({
 	  forageName: NyphApp.forageName,
@@ -20541,7 +20541,7 @@
 	  '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1639262755'
+	  version: '1.0.3.1639264461'
 	});
 
 })();
