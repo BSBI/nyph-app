@@ -62,6 +62,14 @@ export class MapGeorefField extends TextGeorefField {
      */
     _squareMarker;
 
+    /**
+     * set if map has a well-defined zoom and centre
+     * (i.e. has been initialised from a typed grid-ref, a manual re-centre or user-click)
+     *
+     * @type {boolean}
+     */
+    mapPositionIsCurrent = false;
+
     static GPS_INITIALISATION_MODE_ALWAYS = 'always'; // for fresh form always start GPS lookup on ay type of device
     static GPS_INITIALISATION_MODE_PERMITTED = 'permitted'; // for fresh form start GPS lookup automatically if already permitted
     static GPS_INITIALISATION_MODE_MOBILE_ALWAYS = 'mobilealways'; // for fresh form start GPS lookup if on mobile device
@@ -122,7 +130,17 @@ export class MapGeorefField extends TextGeorefField {
             const inputEl = document.getElementById(this._inputId);
             inputEl.value = FormField.cleanRawString(this._value.gridRef);
 
-            this.tryValue(inputEl.value);
+            // always need to call tryValue as this sets or clears the map marker
+            this.tryValue(this._value.gridRef);
+
+            // if (this._value.gridRef && this._value.source === TextGeorefField.GEOREF_SOURCE_GRIDREF) {
+            //     // only recenter the map if the source was a typed grid-reference
+            //     // (refs from other sources should already have moved the map)
+            //
+            //     this.tryValue(inputEl.value);
+            // } else {
+            //     console.log({'not re-centering map for new value' : this._value});
+            // }
         }
     }
 
@@ -316,6 +334,7 @@ export class MapGeorefField extends TextGeorefField {
 
             if (geoRef && geoRef.gridRef) {
                 if (setMap) {
+                    this.mapPositionIsCurrent = false; // force re-centre & zoom
                     this.tryValue(geoRef.gridRef);
                 }
 
@@ -383,12 +402,15 @@ export class MapGeorefField extends TextGeorefField {
             const squareDimension = this.reverseZoomMapping(zoom);
 
             if (squareDimension <= this.minResolution) {
+                // only allow selection if zoomed-in sufficiently
+
                 this.map.jumpTo({
                     center: [mapMouseEvent.lngLat.lng, mapMouseEvent.lngLat.lat],
                     zoom: zoom
                 }, null);
 
-                // only allow selection if zoomed-in sufficiently
+                this.mapPositionIsCurrent = true;
+
                 this.processLatLngPosition(
                     mapMouseEvent.lngLat.lat,
                     mapMouseEvent.lngLat.lng,
@@ -477,6 +499,8 @@ export class MapGeorefField extends TextGeorefField {
     #setGridrefFromGeocodedResult(result) {
         console.log({'geocoded result' : result});
 
+        this.mapPositionIsCurrent = false;
+
         // currently, just uses the centre-point
         this.processLatLngPosition(
             result.center[1],
@@ -523,51 +547,60 @@ export class MapGeorefField extends TextGeorefField {
      * @param {string} query may be a grid-reference or postcode
      */
     tryValue(query) {
-        let gridRefParser = GridRef.from_string(query);
 
-        if (query && gridRefParser) {
-            const latLngSW = gridRefParser.gridCoords.to_latLng();
-            const latLngNW = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x, gridRefParser.gridCoords.y + gridRefParser.length)).to_latLng();
-            const latLngNE = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y + gridRefParser.length)).to_latLng();
-            const latLngSE = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y)).to_latLng();
+        if (query) {
+            let gridRefParser = GridRef.from_string(query);
 
-            const latCentre = (latLngSW.lat + latLngNW.lat + latLngSE.lat + latLngNE.lat) / 4;
-            const lngCentre = (latLngSW.lng + latLngNW.lng + latLngSE.lng + latLngNE.lng) / 4;
+            if (gridRefParser) {
+                const latLngSW = gridRefParser.gridCoords.to_latLng();
+                const latLngNW = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x, gridRefParser.gridCoords.y + gridRefParser.length)).to_latLng();
+                const latLngNE = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y + gridRefParser.length)).to_latLng();
+                const latLngSE = (new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y)).to_latLng();
 
-            // this.processLatLngPosition(
-            //     latCentre,
-            //     lngCentre,
-            //     gridRefParser.length
-            // );
+                const latCentre = (latLngSW.lat + latLngNW.lat + latLngSE.lat + latLngNE.lat) / 4;
+                const lngCentre = (latLngSW.lng + latLngNW.lng + latLngSE.lng + latLngNE.lng) / 4;
 
-            this.map.jumpTo({
-                center: [lngCentre, latCentre],
-                zoom: this.zoomMapping(gridRefParser.length),
-            }, null);
+                // this.processLatLngPosition(
+                //     latCentre,
+                //     lngCentre,
+                //     gridRefParser.length
+                // );
 
-            // const marker = new MapMarker({
-            //     name : gridRefParser.preciseGridRef,
-            //     type : MapMarker.TYPE_POLYGON,
-            //     coordinates : [[
-            //         [latLngSW.lng, latLngSW.lat],
-            //         [latLngNW.lng, latLngNW.lat],
-            //         [latLngNE.lng, latLngNE.lat],
-            //         [latLngSE.lng, latLngSE.lat]
-            //     ]],
-            //     fillColour: '#008800',
-            //     fillOpacity: 0.5,
-            //     lineColour: '#00aa00',
-            // });
-            //
-            // marker.addToMap(this.map);
+                if (!this.mapPositionIsCurrent) {
+                    this.map.jumpTo({
+                        center: [lngCentre, latCentre],
+                        zoom: this.zoomMapping(gridRefParser.length),
+                    }, null);
 
-            this.setSquareMarker(latLngSW, latLngNW, latLngNE, latLngSE, gridRefParser.preciseGridRef);
+                    this.mapPositionIsCurrent = true;
+                }
 
+                // const marker = new MapMarker({
+                //     name : gridRefParser.preciseGridRef,
+                //     type : MapMarker.TYPE_POLYGON,
+                //     coordinates : [[
+                //         [latLngSW.lng, latLngSW.lat],
+                //         [latLngNW.lng, latLngNW.lat],
+                //         [latLngNE.lng, latLngNE.lat],
+                //         [latLngSE.lng, latLngSE.lat]
+                //     ]],
+                //     fillColour: '#008800',
+                //     fillOpacity: 0.5,
+                //     lineColour: '#00aa00',
+                // });
+                //
+                // marker.addToMap(this.map);
+
+                this.setSquareMarker(latLngSW, latLngNW, latLngNE, latLngSE, gridRefParser.preciseGridRef);
+
+            } else {
+                this.hideSquareMarker();
+
+                // try to decipher postcode or place-name using remote geo-coder
+
+            }
         } else {
             this.hideSquareMarker();
-
-            // try to decipher postcode or place-name using remote geo-coder
-
         }
     }
 

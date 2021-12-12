@@ -12738,13 +12738,182 @@
 	// https://tc39.es/ecma262/#sec-symbol.iterator
 	defineWellKnownSymbol$f('iterator');
 
-	var $$b$1 = _export;
+	var isObject$q = isObject$l$1;
+	var classof$3$1 = classofRaw$1;
+	var wellKnownSymbol$3$1 = wellKnownSymbol$q;
+
+	var MATCH$2 = wellKnownSymbol$3$1('match');
+
+	// `IsRegExp` abstract operation
+	// https://tc39.es/ecma262/#sec-isregexp
+	var isRegexp = function (it) {
+	  var isRegExp;
+	  return isObject$q(it) && ((isRegExp = it[MATCH$2]) !== undefined ? !!isRegExp : classof$3$1(it) == 'RegExp');
+	};
+
+	var apply$8 = functionApply$1;
+	var call$2$1 = functionCall;
 	var uncurryThis$5$1 = functionUncurryThis;
+	var fixRegExpWellKnownSymbolLogic$3 = fixRegexpWellKnownSymbolLogic;
+	var isRegExp$3$1 = isRegexp;
+	var anObject$1$1 = anObject$l$1;
+	var requireObjectCoercible$2$1 = requireObjectCoercible$9$1;
+	var speciesConstructor$1$1 = speciesConstructor$4;
+	var advanceStringIndex$1$1 = advanceStringIndex$4;
+	var toLength$1$1 = toLength$5$1;
+	var toString$4$1 = toString$c$1;
+	var getMethod$1$1 = getMethod$7;
+	var arraySlice$1$1 = arraySlice$6$1;
+	var callRegExpExec = regexpExecAbstract;
+	var regexpExec = regexpExec$3;
+	var stickyHelpers$1 = regexpStickyHelpers;
+	var fails$3$1 = fails$x$1;
+
+	var UNSUPPORTED_Y$2 = stickyHelpers$1.UNSUPPORTED_Y;
+	var MAX_UINT32 = 0xFFFFFFFF;
+	var min$1$1 = Math.min;
+	var $push = [].push;
+	var exec$1$1 = uncurryThis$5$1(/./.exec);
+	var push$1$1 = uncurryThis$5$1($push);
+	var stringSlice$1$1 = uncurryThis$5$1(''.slice);
+
+	// Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
+	// Weex JS has frozen built-in prototypes, so use try / catch wrapper
+	var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails$3$1(function () {
+	  // eslint-disable-next-line regexp/no-empty-group -- required for testing
+	  var re = /(?:)/;
+	  var originalExec = re.exec;
+	  re.exec = function () { return originalExec.apply(this, arguments); };
+	  var result = 'ab'.split(re);
+	  return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
+	});
+
+	// @@split logic
+	fixRegExpWellKnownSymbolLogic$3('split', function (SPLIT, nativeSplit, maybeCallNative) {
+	  var internalSplit;
+	  if (
+	    'abbc'.split(/(b)*/)[1] == 'c' ||
+	    // eslint-disable-next-line regexp/no-empty-group -- required for testing
+	    'test'.split(/(?:)/, -1).length != 4 ||
+	    'ab'.split(/(?:ab)*/).length != 2 ||
+	    '.'.split(/(.?)(.?)/).length != 4 ||
+	    // eslint-disable-next-line regexp/no-empty-capturing-group, regexp/no-empty-group -- required for testing
+	    '.'.split(/()()/).length > 1 ||
+	    ''.split(/.?/).length
+	  ) {
+	    // based on es5-shim implementation, need to rework it
+	    internalSplit = function (separator, limit) {
+	      var string = toString$4$1(requireObjectCoercible$2$1(this));
+	      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+	      if (lim === 0) return [];
+	      if (separator === undefined) return [string];
+	      // If `separator` is not a regex, use native split
+	      if (!isRegExp$3$1(separator)) {
+	        return call$2$1(nativeSplit, string, separator, lim);
+	      }
+	      var output = [];
+	      var flags = (separator.ignoreCase ? 'i' : '') +
+	                  (separator.multiline ? 'm' : '') +
+	                  (separator.unicode ? 'u' : '') +
+	                  (separator.sticky ? 'y' : '');
+	      var lastLastIndex = 0;
+	      // Make `global` and avoid `lastIndex` issues by working with a copy
+	      var separatorCopy = new RegExp(separator.source, flags + 'g');
+	      var match, lastIndex, lastLength;
+	      while (match = call$2$1(regexpExec, separatorCopy, string)) {
+	        lastIndex = separatorCopy.lastIndex;
+	        if (lastIndex > lastLastIndex) {
+	          push$1$1(output, stringSlice$1$1(string, lastLastIndex, match.index));
+	          if (match.length > 1 && match.index < string.length) apply$8($push, output, arraySlice$1$1(match, 1));
+	          lastLength = match[0].length;
+	          lastLastIndex = lastIndex;
+	          if (output.length >= lim) break;
+	        }
+	        if (separatorCopy.lastIndex === match.index) separatorCopy.lastIndex++; // Avoid an infinite loop
+	      }
+	      if (lastLastIndex === string.length) {
+	        if (lastLength || !exec$1$1(separatorCopy, '')) push$1$1(output, '');
+	      } else push$1$1(output, stringSlice$1$1(string, lastLastIndex));
+	      return output.length > lim ? arraySlice$1$1(output, 0, lim) : output;
+	    };
+	  // Chakra, V8
+	  } else if ('0'.split(undefined, 0).length) {
+	    internalSplit = function (separator, limit) {
+	      return separator === undefined && limit === 0 ? [] : call$2$1(nativeSplit, this, separator, limit);
+	    };
+	  } else internalSplit = nativeSplit;
+
+	  return [
+	    // `String.prototype.split` method
+	    // https://tc39.es/ecma262/#sec-string.prototype.split
+	    function split(separator, limit) {
+	      var O = requireObjectCoercible$2$1(this);
+	      var splitter = separator == undefined ? undefined : getMethod$1$1(separator, SPLIT);
+	      return splitter
+	        ? call$2$1(splitter, separator, O, limit)
+	        : call$2$1(internalSplit, toString$4$1(O), separator, limit);
+	    },
+	    // `RegExp.prototype[@@split]` method
+	    // https://tc39.es/ecma262/#sec-regexp.prototype-@@split
+	    //
+	    // NOTE: This cannot be properly polyfilled in engines that don't support
+	    // the 'y' flag.
+	    function (string, limit) {
+	      var rx = anObject$1$1(this);
+	      var S = toString$4$1(string);
+	      var res = maybeCallNative(internalSplit, rx, S, limit, internalSplit !== nativeSplit);
+
+	      if (res.done) return res.value;
+
+	      var C = speciesConstructor$1$1(rx, RegExp);
+
+	      var unicodeMatching = rx.unicode;
+	      var flags = (rx.ignoreCase ? 'i' : '') +
+	                  (rx.multiline ? 'm' : '') +
+	                  (rx.unicode ? 'u' : '') +
+	                  (UNSUPPORTED_Y$2 ? 'g' : 'y');
+
+	      // ^(? + rx + ) is needed, in combination with some S slicing, to
+	      // simulate the 'y' flag.
+	      var splitter = new C(UNSUPPORTED_Y$2 ? '^(?:' + rx.source + ')' : rx, flags);
+	      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
+	      if (lim === 0) return [];
+	      if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
+	      var p = 0;
+	      var q = 0;
+	      var A = [];
+	      while (q < S.length) {
+	        splitter.lastIndex = UNSUPPORTED_Y$2 ? 0 : q;
+	        var z = callRegExpExec(splitter, UNSUPPORTED_Y$2 ? stringSlice$1$1(S, q) : S);
+	        var e;
+	        if (
+	          z === null ||
+	          (e = min$1$1(toLength$1$1(splitter.lastIndex + (UNSUPPORTED_Y$2 ? q : 0)), S.length)) === p
+	        ) {
+	          q = advanceStringIndex$1$1(S, q, unicodeMatching);
+	        } else {
+	          push$1$1(A, stringSlice$1$1(S, p, q));
+	          if (A.length === lim) return A;
+	          for (var i = 1; i <= z.length - 1; i++) {
+	            push$1$1(A, z[i]);
+	            if (A.length === lim) return A;
+	          }
+	          q = p = e;
+	        }
+	      }
+	      push$1$1(A, stringSlice$1$1(S, p));
+	      return A;
+	    }
+	  ];
+	}, !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC, UNSUPPORTED_Y$2);
+
+	var $$b$1 = _export;
+	var uncurryThis$4$1 = functionUncurryThis;
 	var IndexedObject$4 = indexedObject;
 	var toIndexedObject$c = toIndexedObject$b;
 	var arrayMethodIsStrict$1$1 = arrayMethodIsStrict$3$1;
 
-	var un$Join$1 = uncurryThis$5$1([].join);
+	var un$Join$1 = uncurryThis$4$1([].join);
 
 	var ES3_STRINGS$1 = IndexedObject$4 != Object;
 	var STRICT_METHOD$1$1 = arrayMethodIsStrict$1$1('join', ',');
@@ -13054,26 +13223,13 @@
 	// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
 	addToUnscopables$1$1('includes');
 
-	var isObject$q = isObject$l$1;
-	var classof$3$1 = classofRaw$1;
-	var wellKnownSymbol$3$1 = wellKnownSymbol$q;
-
-	var MATCH$2 = wellKnownSymbol$3$1('match');
-
-	// `IsRegExp` abstract operation
-	// https://tc39.es/ecma262/#sec-isregexp
-	var isRegexp = function (it) {
-	  var isRegExp;
-	  return isObject$q(it) && ((isRegExp = it[MATCH$2]) !== undefined ? !!isRegExp : classof$3$1(it) == 'RegExp');
-	};
-
 	var global$6$1 = global$Z;
-	var isRegExp$3$1 = isRegexp;
+	var isRegExp$2$1 = isRegexp;
 
 	var TypeError$5$1 = global$6$1.TypeError;
 
 	var notARegexp$1 = function (it) {
-	  if (isRegExp$3$1(it)) {
+	  if (isRegExp$2$1(it)) {
 	    throw TypeError$5$1("The method doesn't accept regular expressions");
 	  } return it;
 	};
@@ -13095,181 +13251,25 @@
 	};
 
 	var $$9$1 = _export;
-	var uncurryThis$4$1 = functionUncurryThis;
+	var uncurryThis$3$1 = functionUncurryThis;
 	var notARegExp$3 = notARegexp$1;
-	var requireObjectCoercible$2$1 = requireObjectCoercible$9$1;
-	var toString$4$1 = toString$c$1;
+	var requireObjectCoercible$1$1 = requireObjectCoercible$9$1;
+	var toString$3$1 = toString$c$1;
 	var correctIsRegExpLogic$3 = correctIsRegexpLogic$1;
 
-	var stringIndexOf$2$1 = uncurryThis$4$1(''.indexOf);
+	var stringIndexOf$2$1 = uncurryThis$3$1(''.indexOf);
 
 	// `String.prototype.includes` method
 	// https://tc39.es/ecma262/#sec-string.prototype.includes
 	$$9$1({ target: 'String', proto: true, forced: !correctIsRegExpLogic$3('includes') }, {
 	  includes: function includes(searchString /* , position = 0 */) {
 	    return !!~stringIndexOf$2$1(
-	      toString$4$1(requireObjectCoercible$2$1(this)),
-	      toString$4$1(notARegExp$3(searchString)),
+	      toString$3$1(requireObjectCoercible$1$1(this)),
+	      toString$3$1(notARegExp$3(searchString)),
 	      arguments.length > 1 ? arguments[1] : undefined
 	    );
 	  }
 	});
-
-	var apply$8 = functionApply$1;
-	var call$2$1 = functionCall;
-	var uncurryThis$3$1 = functionUncurryThis;
-	var fixRegExpWellKnownSymbolLogic$3 = fixRegexpWellKnownSymbolLogic;
-	var isRegExp$2$1 = isRegexp;
-	var anObject$1$1 = anObject$l$1;
-	var requireObjectCoercible$1$1 = requireObjectCoercible$9$1;
-	var speciesConstructor$1$1 = speciesConstructor$4;
-	var advanceStringIndex$1$1 = advanceStringIndex$4;
-	var toLength$1$1 = toLength$5$1;
-	var toString$3$1 = toString$c$1;
-	var getMethod$1$1 = getMethod$7;
-	var arraySlice$1$1 = arraySlice$6$1;
-	var callRegExpExec = regexpExecAbstract;
-	var regexpExec = regexpExec$3;
-	var stickyHelpers$1 = regexpStickyHelpers;
-	var fails$3$1 = fails$x$1;
-
-	var UNSUPPORTED_Y$2 = stickyHelpers$1.UNSUPPORTED_Y;
-	var MAX_UINT32 = 0xFFFFFFFF;
-	var min$1$1 = Math.min;
-	var $push = [].push;
-	var exec$1$1 = uncurryThis$3$1(/./.exec);
-	var push$1$1 = uncurryThis$3$1($push);
-	var stringSlice$1$1 = uncurryThis$3$1(''.slice);
-
-	// Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
-	// Weex JS has frozen built-in prototypes, so use try / catch wrapper
-	var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails$3$1(function () {
-	  // eslint-disable-next-line regexp/no-empty-group -- required for testing
-	  var re = /(?:)/;
-	  var originalExec = re.exec;
-	  re.exec = function () { return originalExec.apply(this, arguments); };
-	  var result = 'ab'.split(re);
-	  return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
-	});
-
-	// @@split logic
-	fixRegExpWellKnownSymbolLogic$3('split', function (SPLIT, nativeSplit, maybeCallNative) {
-	  var internalSplit;
-	  if (
-	    'abbc'.split(/(b)*/)[1] == 'c' ||
-	    // eslint-disable-next-line regexp/no-empty-group -- required for testing
-	    'test'.split(/(?:)/, -1).length != 4 ||
-	    'ab'.split(/(?:ab)*/).length != 2 ||
-	    '.'.split(/(.?)(.?)/).length != 4 ||
-	    // eslint-disable-next-line regexp/no-empty-capturing-group, regexp/no-empty-group -- required for testing
-	    '.'.split(/()()/).length > 1 ||
-	    ''.split(/.?/).length
-	  ) {
-	    // based on es5-shim implementation, need to rework it
-	    internalSplit = function (separator, limit) {
-	      var string = toString$3$1(requireObjectCoercible$1$1(this));
-	      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
-	      if (lim === 0) return [];
-	      if (separator === undefined) return [string];
-	      // If `separator` is not a regex, use native split
-	      if (!isRegExp$2$1(separator)) {
-	        return call$2$1(nativeSplit, string, separator, lim);
-	      }
-	      var output = [];
-	      var flags = (separator.ignoreCase ? 'i' : '') +
-	                  (separator.multiline ? 'm' : '') +
-	                  (separator.unicode ? 'u' : '') +
-	                  (separator.sticky ? 'y' : '');
-	      var lastLastIndex = 0;
-	      // Make `global` and avoid `lastIndex` issues by working with a copy
-	      var separatorCopy = new RegExp(separator.source, flags + 'g');
-	      var match, lastIndex, lastLength;
-	      while (match = call$2$1(regexpExec, separatorCopy, string)) {
-	        lastIndex = separatorCopy.lastIndex;
-	        if (lastIndex > lastLastIndex) {
-	          push$1$1(output, stringSlice$1$1(string, lastLastIndex, match.index));
-	          if (match.length > 1 && match.index < string.length) apply$8($push, output, arraySlice$1$1(match, 1));
-	          lastLength = match[0].length;
-	          lastLastIndex = lastIndex;
-	          if (output.length >= lim) break;
-	        }
-	        if (separatorCopy.lastIndex === match.index) separatorCopy.lastIndex++; // Avoid an infinite loop
-	      }
-	      if (lastLastIndex === string.length) {
-	        if (lastLength || !exec$1$1(separatorCopy, '')) push$1$1(output, '');
-	      } else push$1$1(output, stringSlice$1$1(string, lastLastIndex));
-	      return output.length > lim ? arraySlice$1$1(output, 0, lim) : output;
-	    };
-	  // Chakra, V8
-	  } else if ('0'.split(undefined, 0).length) {
-	    internalSplit = function (separator, limit) {
-	      return separator === undefined && limit === 0 ? [] : call$2$1(nativeSplit, this, separator, limit);
-	    };
-	  } else internalSplit = nativeSplit;
-
-	  return [
-	    // `String.prototype.split` method
-	    // https://tc39.es/ecma262/#sec-string.prototype.split
-	    function split(separator, limit) {
-	      var O = requireObjectCoercible$1$1(this);
-	      var splitter = separator == undefined ? undefined : getMethod$1$1(separator, SPLIT);
-	      return splitter
-	        ? call$2$1(splitter, separator, O, limit)
-	        : call$2$1(internalSplit, toString$3$1(O), separator, limit);
-	    },
-	    // `RegExp.prototype[@@split]` method
-	    // https://tc39.es/ecma262/#sec-regexp.prototype-@@split
-	    //
-	    // NOTE: This cannot be properly polyfilled in engines that don't support
-	    // the 'y' flag.
-	    function (string, limit) {
-	      var rx = anObject$1$1(this);
-	      var S = toString$3$1(string);
-	      var res = maybeCallNative(internalSplit, rx, S, limit, internalSplit !== nativeSplit);
-
-	      if (res.done) return res.value;
-
-	      var C = speciesConstructor$1$1(rx, RegExp);
-
-	      var unicodeMatching = rx.unicode;
-	      var flags = (rx.ignoreCase ? 'i' : '') +
-	                  (rx.multiline ? 'm' : '') +
-	                  (rx.unicode ? 'u' : '') +
-	                  (UNSUPPORTED_Y$2 ? 'g' : 'y');
-
-	      // ^(? + rx + ) is needed, in combination with some S slicing, to
-	      // simulate the 'y' flag.
-	      var splitter = new C(UNSUPPORTED_Y$2 ? '^(?:' + rx.source + ')' : rx, flags);
-	      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
-	      if (lim === 0) return [];
-	      if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
-	      var p = 0;
-	      var q = 0;
-	      var A = [];
-	      while (q < S.length) {
-	        splitter.lastIndex = UNSUPPORTED_Y$2 ? 0 : q;
-	        var z = callRegExpExec(splitter, UNSUPPORTED_Y$2 ? stringSlice$1$1(S, q) : S);
-	        var e;
-	        if (
-	          z === null ||
-	          (e = min$1$1(toLength$1$1(splitter.lastIndex + (UNSUPPORTED_Y$2 ? q : 0)), S.length)) === p
-	        ) {
-	          q = advanceStringIndex$1$1(S, q, unicodeMatching);
-	        } else {
-	          push$1$1(A, stringSlice$1$1(S, p, q));
-	          if (A.length === lim) return A;
-	          for (var i = 1; i <= z.length - 1; i++) {
-	            push$1$1(A, z[i]);
-	            if (A.length === lim) return A;
-	          }
-	          q = p = e;
-	        }
-	      }
-	      push$1$1(A, stringSlice$1$1(S, p));
-	      return A;
-	    }
-	  ];
-	}, !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC, UNSUPPORTED_Y$2);
 
 	function _createSuper$m(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$m(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
@@ -13458,8 +13458,9 @@
 	    key: "body",
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
+	      var pathPrefix = window.location.pathname.split('/')[1];
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = "<h2>Page not found</h2><p><a href=\"/app/list\">Return to the homepage.</a>";
+	      bodyEl.innerHTML = "<h2>Page not found</h2><p><a href=\"/".concat(pathPrefix, "/list\">Return to the homepage.</a>");
 	    }
 	  }]);
 
@@ -14699,9 +14700,10 @@
 	   */
 
 	  /**
+	   * set if map has a well-defined zoom and centre
+	   * (i.e. has been initialised from a typed grid-ref, a manual re-centre or user-click)
 	   *
-	   * @type {{}}
-	   * @private
+	   * @type {boolean}
 	   */
 
 	  /**
@@ -14791,6 +14793,8 @@
 	      value: void 0
 	    });
 
+	    _defineProperty(_assertThisInitialized(_this), "mapPositionIsCurrent", false);
+
 	    _defineProperty(_assertThisInitialized(_this), "_value", {
 	      gridRef: '',
 	      rawString: '',
@@ -14876,7 +14880,7 @@
 	            gridRef: georefSpec,
 	            rawString: georefSpec,
 	            // what was provided by the user to generate this grid-ref (might be a postcode or placename)
-	            source: null,
+	            source: TextGeorefField.GEOREF_SOURCE_UNKNOWN,
 	            latLng: null,
 	            precision: null
 	          };
@@ -15038,6 +15042,7 @@
 
 	      var rawValue = FormField.cleanRawString(document.getElementById(this._inputId).value);
 	      var gridRefParser = Oo.from_string(rawValue);
+	      this.mapPositionIsCurrent = false; // any linked map ought to be re-centred & zoomed
 
 	      if (gridRefParser) {
 	        this.value = {
@@ -15154,6 +15159,7 @@
 	          'gps position': position
 	        });
 	        var accuracy = position.coords.accuracy * 2;
+	        _this2.mapPositionIsCurrent = false; // force zoom and re-centre
 
 	        _this2.processLatLngPosition(position.coords.latitude, position.coords.longitude, accuracy, TextGeorefField.GEOREF_SOURCE_GPS);
 	      });
@@ -16484,16 +16490,29 @@
 
 	  var _super = _createSuper$e(Layout);
 
+	  /**
+	   * @type {App}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
+
+	  /**
+	   * this also needs to be edited in index.html
+	   *
+	   * @type {string}
+	   */
+
+	  /**
+	   * @type {string}
+	   */
 	  function Layout() {
 	    var _this;
 
 	    _classCallCheck(this, Layout);
 
-	    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    _this = _super.call.apply(_super, [this].concat(args));
+	    _this = _super.call(this);
 
 	    _defineProperty(_assertThisInitialized(_this), "app", void 0);
 
@@ -16503,17 +16522,20 @@
 
 	    _defineProperty(_assertThisInitialized(_this), "newSurveyContent", newSurveyModal);
 
+	    _defineProperty(_assertThisInitialized(_this), "pathPrefix", void 0);
+
+	    _this.pathPrefix = window.location.pathname.split('/')[1];
 	    return _this;
 	  }
+	  /**
+	   *
+	   * @param {App} app
+	   */
+
 
 	  _createClass(Layout, [{
 	    key: "setApp",
-	    value:
-	    /**
-	     *
-	     * @param {App} app
-	     */
-	    function setApp(app) {
+	    value: function setApp(app) {
 	      var _this2 = this;
 
 	      this.app = app;
@@ -16583,7 +16605,7 @@
 	    value: function refreshSurveysMenu() {
 	      var surveyMenuContainer = document.getElementById(this.surveysMenuId);
 	      var items = this.getSurveyItems();
-	      surveyMenuContainer.innerHTML = "<a class=\"dropdown-item\" href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>\n    <div class=\"dropdown-divider\"></div>\n    ".concat(items.join(''), "\n    <div class=\"dropdown-divider\"></div>\n    <a class=\"dropdown-item\" href=\"/app/survey/new\" data-navigo=\"survey/new\">").concat(this.newSurveyLabel, "</a>\n    <a class=\"dropdown-item\" href=\"/app/survey/reset\" data-navigo=\"survey/reset\">reset</a>");
+	      surveyMenuContainer.innerHTML = "<a class=\"dropdown-item\" href=\"/".concat(this.pathPrefix, "/survey/save\" data-navigo=\"survey/save\">save all</a>\n    <div class=\"dropdown-divider\"></div>\n    ").concat(items.join(''), "\n    <div class=\"dropdown-divider\"></div>\n    <a class=\"dropdown-item\" href=\"/").concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">").concat(this.newSurveyLabel, "</a>\n    <a class=\"dropdown-item\" href=\"/").concat(this.pathPrefix, "/survey/reset\" data-navigo=\"survey/reset\">reset</a>");
 	      this.app.router.updatePageLinks();
 	    }
 	  }, {
@@ -16604,7 +16626,7 @@
 	          var surveyTuple = _step.value;
 	          var survey = surveyTuple[1];
 	          var label = survey.generateSurveyName() + (surveyTuple[0] === currentSurveyId ? ' <span style="color: green">●</span>' : '');
-	          items[items.length] = "<a class=\"dropdown-item\" href=\"/app/survey/add/".concat(surveyTuple[0], "\" data-navigo=\"survey/add/").concat(surveyTuple[0], "\">").concat(label, "</a>");
+	          items[items.length] = "<a class=\"dropdown-item\" href=\"/".concat(this.pathPrefix, "/survey/add/").concat(surveyTuple[0], "\" data-navigo=\"survey/add/").concat(surveyTuple[0], "\">").concat(label, "</a>");
 	        }
 	      } catch (err) {
 	        _iterator.e(err);
@@ -28040,6 +28062,13 @@
 	   * @type {MapMarker}
 	   * @private
 	   */
+
+	  /**
+	   * set if map has a well-defined zoom and centre
+	   * (i.e. has been initialised from a typed grid-ref, a manual re-centre or user-click)
+	   *
+	   * @type {boolean}
+	   */
 	  // for fresh form always start GPS lookup on ay type of device
 	  // for fresh form start GPS lookup automatically if already permitted
 	  // for fresh form start GPS lookup if on mobile device
@@ -28086,6 +28115,8 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "_squareMarker", void 0);
 
+	    _defineProperty$1(_assertThisInitialized$1(_this), "mapPositionIsCurrent", false);
+
 	    _defineProperty$1(_assertThisInitialized$1(_this), "gpsInitialisationMode", MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED);
 
 	    if (params) {
@@ -28122,8 +28153,16 @@
 	      if (this._fieldEl) {
 	        // do nothing until the view has been constructed
 	        var inputEl = document.getElementById(this._inputId);
-	        inputEl.value = FormField.cleanRawString(this._value.gridRef);
-	        this.tryValue(inputEl.value);
+	        inputEl.value = FormField.cleanRawString(this._value.gridRef); // always need to call tryValue as this sets or clears the map marker
+
+	        this.tryValue(this._value.gridRef); // if (this._value.gridRef && this._value.source === TextGeorefField.GEOREF_SOURCE_GRIDREF) {
+	        //     // only recenter the map if the source was a typed grid-reference
+	        //     // (refs from other sources should already have moved the map)
+	        //
+	        //     this.tryValue(inputEl.value);
+	        // } else {
+	        //     console.log({'not re-centering map for new value' : this._value});
+	        // }
 	      }
 	    }
 	    /**
@@ -28395,6 +28434,8 @@
 
 	        if (geoRef && geoRef.gridRef) {
 	          if (setMap) {
+	            this.mapPositionIsCurrent = false; // force re-centre & zoom
+
 	            this.tryValue(geoRef.gridRef);
 	          }
 
@@ -28477,11 +28518,13 @@
 	        var squareDimension = _this4.reverseZoomMapping(zoom);
 
 	        if (squareDimension <= _this4.minResolution) {
+	          // only allow selection if zoomed-in sufficiently
 	          _this4.map.jumpTo({
 	            center: [mapMouseEvent.lngLat.lng, mapMouseEvent.lngLat.lat],
 	            zoom: zoom
-	          }, null); // only allow selection if zoomed-in sufficiently
+	          }, null);
 
+	          _this4.mapPositionIsCurrent = true;
 
 	          _this4.processLatLngPosition(mapMouseEvent.lngLat.lat, mapMouseEvent.lngLat.lng, squareDimension, TextGeorefField.GEOREF_SOURCE_MAP);
 	        }
@@ -28603,42 +28646,50 @@
 	     * @param {string} query may be a grid-reference or postcode
 	     */
 	    function tryValue(query) {
-	      var gridRefParser = Oo.from_string(query);
+	      if (query) {
+	        var gridRefParser = Oo.from_string(query);
 
-	      if (query && gridRefParser) {
-	        var latLngSW = gridRefParser.gridCoords.to_latLng();
-	        var latLngNW = new gridRefParser.GridCoords(gridRefParser.gridCoords.x, gridRefParser.gridCoords.y + gridRefParser.length).to_latLng();
-	        var latLngNE = new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y + gridRefParser.length).to_latLng();
-	        var latLngSE = new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y).to_latLng();
-	        var latCentre = (latLngSW.lat + latLngNW.lat + latLngSE.lat + latLngNE.lat) / 4;
-	        var lngCentre = (latLngSW.lng + latLngNW.lng + latLngSE.lng + latLngNE.lng) / 4; // this.processLatLngPosition(
-	        //     latCentre,
-	        //     lngCentre,
-	        //     gridRefParser.length
-	        // );
+	        if (gridRefParser) {
+	          var latLngSW = gridRefParser.gridCoords.to_latLng();
+	          var latLngNW = new gridRefParser.GridCoords(gridRefParser.gridCoords.x, gridRefParser.gridCoords.y + gridRefParser.length).to_latLng();
+	          var latLngNE = new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y + gridRefParser.length).to_latLng();
+	          var latLngSE = new gridRefParser.GridCoords(gridRefParser.gridCoords.x + gridRefParser.length, gridRefParser.gridCoords.y).to_latLng();
+	          var latCentre = (latLngSW.lat + latLngNW.lat + latLngSE.lat + latLngNE.lat) / 4;
+	          var lngCentre = (latLngSW.lng + latLngNW.lng + latLngSE.lng + latLngNE.lng) / 4; // this.processLatLngPosition(
+	          //     latCentre,
+	          //     lngCentre,
+	          //     gridRefParser.length
+	          // );
 
-	        this.map.jumpTo({
-	          center: [lngCentre, latCentre],
-	          zoom: this.zoomMapping(gridRefParser.length)
-	        }, null); // const marker = new MapMarker({
-	        //     name : gridRefParser.preciseGridRef,
-	        //     type : MapMarker.TYPE_POLYGON,
-	        //     coordinates : [[
-	        //         [latLngSW.lng, latLngSW.lat],
-	        //         [latLngNW.lng, latLngNW.lat],
-	        //         [latLngNE.lng, latLngNE.lat],
-	        //         [latLngSE.lng, latLngSE.lat]
-	        //     ]],
-	        //     fillColour: '#008800',
-	        //     fillOpacity: 0.5,
-	        //     lineColour: '#00aa00',
-	        // });
-	        //
-	        // marker.addToMap(this.map);
+	          if (!this.mapPositionIsCurrent) {
+	            this.map.jumpTo({
+	              center: [lngCentre, latCentre],
+	              zoom: this.zoomMapping(gridRefParser.length)
+	            }, null);
+	            this.mapPositionIsCurrent = true;
+	          } // const marker = new MapMarker({
+	          //     name : gridRefParser.preciseGridRef,
+	          //     type : MapMarker.TYPE_POLYGON,
+	          //     coordinates : [[
+	          //         [latLngSW.lng, latLngSW.lat],
+	          //         [latLngNW.lng, latLngNW.lat],
+	          //         [latLngNE.lng, latLngNE.lat],
+	          //         [latLngSE.lng, latLngSE.lat]
+	          //     ]],
+	          //     fillColour: '#008800',
+	          //     fillOpacity: 0.5,
+	          //     lineColour: '#00aa00',
+	          // });
+	          //
+	          // marker.addToMap(this.map);
 
-	        this.setSquareMarker(latLngSW, latLngNW, latLngNE, latLngSE, gridRefParser.preciseGridRef);
+
+	          this.setSquareMarker(latLngSW, latLngNW, latLngNE, latLngSE, gridRefParser.preciseGridRef);
+	        } else {
+	          this.hideSquareMarker(); // try to decipher postcode or place-name using remote geo-coder
+	        }
 	      } else {
-	        this.hideSquareMarker(); // try to decipher postcode or place-name using remote geo-coder
+	        this.hideSquareMarker();
 	      }
 	    }
 	    /**
@@ -28706,7 +28757,8 @@
 	function _setGridrefFromGeocodedResult2(result) {
 	  console.log({
 	    'geocoded result': result
-	  }); // currently, just uses the centre-point
+	  });
+	  this.mapPositionIsCurrent = false; // currently, just uses the centre-point
 
 	  this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1, TextGeorefField.GEOREF_SOURCE_PLACE); // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
 	}
@@ -30388,7 +30440,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639264461</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639305091</p>";
 	    }
 	  }]);
 
