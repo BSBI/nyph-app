@@ -20546,24 +20546,24 @@
 	var serviceWorker = new BSBIServiceWorker();
 	serviceWorker.initialise({
 	  forageName: NyphApp.forageName,
-	  postPassThroughWhitelist: /^https:\/\/nyphtest\.bsbi\.org\/loadsurveys.php/,
-	  postImageUrlMatch: /^https:\/\/nyphtest\.bsbi\.org\/saveimage.php/,
-	  getImageUrlMatch: /^https:\/\/nyphtest\.bsbi\.org\/image\.php/,
-	  interceptUrlMatches: new RegExp("^https://nyphtest.bsbi.org/".concat(pathPrefix, "/|^https://nyphtest.bsbi.org/").concat(pathPrefix, "$")),
-	  ignoreUrlMatches: new RegExp("^https://nyphtest.bsbi.org/".concat(pathPrefix, "/app.js|^https://nyphtest.bsbi.org/").concat(pathPrefix, "/serviceworker.js|^https://nyphtest.bsbi.org/").concat(pathPrefix, "/manifest.webmanifest|^https://nyphtest.bsbi.org/").concat(pathPrefix, "/index.html|^https://api.mapbox.com")),
-	  indexUrl: "https://nyphtest.bsbi.org/".concat(pathPrefix, "/index.html"),
-	  // postPassThroughWhitelist : /^https:\/\/nyphtest\.bsbi\.org\/loadsurveys.php/,
-	  // postImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.org\/saveimage.php/,
-	  // getImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.org\/image\.php/,
-	  // interceptUrlMatches : /^https:\/\/nyphtest\.bsbi\.org\/app\/|^https:\/\/nyphtest\.bsbi\.org\/app$/,
-	  // ignoreUrlMatches : /^https:\/\/nyphtest\.bsbi\.org\/app\/app\.js|^https:\/\/nyphtest\.bsbi\.org\/app\/serviceworker\.js|^https:\/\/nyphtest\.bsbi\.org\/app\/manifest\.webmanifest|^https:\/\/nyphtest\.bsbi\.org\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
-	  // indexUrl : 'https://nyphtest.bsbi.org/app/index.html',
+	  postPassThroughWhitelist: /^https:\/\/nyphtest\.bsbi\.app\/loadsurveys.php/,
+	  postImageUrlMatch: /^https:\/\/nyphtest\.bsbi\.app\/saveimage.php/,
+	  getImageUrlMatch: /^https:\/\/nyphtest\.bsbi\.app\/image\.php/,
+	  interceptUrlMatches: new RegExp("^https://nyphtest.bsbi.app/".concat(pathPrefix, "/|^https://nyphtest.bsbi.app/").concat(pathPrefix, "$")),
+	  ignoreUrlMatches: new RegExp("^https://nyphtest.bsbi.app/".concat(pathPrefix, "/app.js|^https://nyphtest.bsbi.app/").concat(pathPrefix, "/serviceworker.js|^https://nyphtest.bsbi.app/").concat(pathPrefix, "/manifest.webmanifest|^https://nyphtest.bsbi.app/").concat(pathPrefix, "/index.html|^https://api.mapbox.com")),
+	  indexUrl: "https://nyphtest.bsbi.app/".concat(pathPrefix, "/index.html"),
+	  // postPassThroughWhitelist : /^https:\/\/nyphtest\.bsbi\.app\/loadsurveys.php/,
+	  // postImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.app\/saveimage.php/,
+	  // getImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.app\/image\.php/,
+	  // interceptUrlMatches : /^https:\/\/nyphtest\.bsbi\.app\/app\/|^https:\/\/nyphtest\.bsbi\.app\/app$/,
+	  // ignoreUrlMatches : /^https:\/\/nyphtest\.bsbi\.app\/app\/app\.js|^https:\/\/nyphtest\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyphtest\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyphtest\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
+	  // indexUrl : 'https://nyphtest.bsbi.app/app/index.html',
 	  urlCacheSet: ['./index.html', './manifest.webmanifest', '/appcss/app.2021-12-01.css', // note no leading '.' - this is an absolute path
 	  '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
 	  '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', 'https://database.bsbi.org/js/taxonnames.js.php', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1639308664'
+	  version: '1.0.3.1639309337'
 	});
 
 })();
