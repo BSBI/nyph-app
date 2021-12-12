@@ -35,7 +35,7 @@
     "build": "rollup -c",
     "watch": "rollup -c -w",
     "dev": "npm-run-all --parallel start watch",
-    "start": "spserver -f public/index.html -s ./public -p 3000",
+    "start": "spserver -f src/index.html -s ./public -p 3000",
     "start_old": "serve --single public"
   },
   "repository": {

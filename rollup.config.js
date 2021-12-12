@@ -1,11 +1,12 @@
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
-
 import { string } from "rollup-plugin-string";
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import scss from 'rollup-plugin-scss';
+import copy from 'rollup-plugin-copy'
+
 // import json from '@rollup/plugin-json';
 // import nodePolyfills from 'rollup-plugin-polyfill-node';
 
@@ -21,6 +22,7 @@ const version = `1.0.3.${Math.floor((Date.now() / 1000))}`;
 
 const domain = 'nyphtest.bsbi.app'; // 'nyphtest.bsbi.app' 'nyph.bsbi.app'
 const domainRegex = 'nyphtest\\.bsbi\\.app'; // 'nyphtest\\.bsbi\\.app' nyph\\.bsbi\\.app
+const path = 'test'; // 'app'
 
 export default [
 	{
@@ -45,13 +47,16 @@ export default [
 					// ENVIRONMENT: JSON.stringify('development')
 				},
 			}),
-			// copy({
-			// 	targets: [
-			// 		'src/index.html'
-			// 	],
-			// 	outputFolder: 'public',
-			// 	hook: 'buildStart'
-			// }),
+			copy({
+				targets: [
+					{
+						src: 'src/index.html',
+						dest: 'public',
+						transform: (contents) =>
+							contents.toString().replaceAll('VERSION', version).replaceAll('__PATH__', path)
+					}
+				],
+			}),
 			// replaceHtmlVars({
 			// 	files: 'public/index.html',
 			// 	from: /VERSION/g,
