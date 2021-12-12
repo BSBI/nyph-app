@@ -19,6 +19,9 @@ const production = !process.env.ROLLUP_WATCH;
 
 const version = `1.0.3.${Math.floor((Date.now() / 1000))}`;
 
+const domain = 'nyphtest.bsbi.org'; // 'nyphtest.bsbi.org' 'nyph.bsbi.app'
+const domainRegex = 'nyphtest\\.bsbi\\.org'; // 'nyphtest\\.bsbi\\.org' nyph\\.bsbi\\.app
+
 export default [
 	{
 		input: 'src/main.js',
@@ -37,8 +40,8 @@ export default [
 				preventAssignment: true,
 				values: {
 					VERSION: version,
-					__DOMAIN__: 'nyph.bsbi.app', // 'nyphtest.bsbi.org',
-					__DOMAIN_REGEX__: 'nyph\.bsbi\.app', // 'nyphtest\\.bsbi\\.org',
+					__DOMAIN__: domain, // 'nyphtest.bsbi.org',
+					__DOMAIN_REGEX__: domainRegex, // 'nyphtest\\.bsbi\\.org',
 					// ENVIRONMENT: JSON.stringify('development')
 				},
 			}),
@@ -102,8 +105,8 @@ export default [
 				preventAssignment: true,
 				values: {
 					VERSION: version,
-					__DOMAIN__: 'nyph.bsbi.app', // 'nyphtest.bsbi.org',
-					__DOMAIN_REGEX__: 'nyph\.bsbi\.app', // 'nyphtest\\.bsbi\\.org',
+					__DOMAIN__: domain, // 'nyphtest.bsbi.org',
+					__DOMAIN_REGEX__: domainRegex, // 'nyphtest\\.bsbi\\.org',
 					// ENVIRONMENT: JSON.stringify('development')
 				},
 			}),
