@@ -28899,7 +28899,8 @@
 	      includeSearchBox: false,
 	      baseSquareResolution: 1000,
 	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED,
-	      initialiseFromDefaultSurveyGeoref: true
+	      initialiseFromDefaultSurveyGeoref: true,
+	      gpsTextLabel: true
 	    }
 	  },
 	  // idConfidence : {
@@ -30440,7 +30441,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639305091</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639305488</p>";
 	    }
 	  }]);
 
