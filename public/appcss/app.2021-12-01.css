@@ -67,3 +67,12 @@ body.offline .offline-warning {
     display: block;
     font-weight: bold;
 }
+
+.no-gps-link-prompt {
+    display: block;
+    text-align: center;
+}
+
+body.gps-enabled .no-gps-link-prompt {
+    display: none;
+}

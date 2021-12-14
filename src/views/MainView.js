@@ -122,6 +122,8 @@ export class MainView extends Page {
     /**
      * need to ensure that the open accordion sections match the url
      * do this by class tweaking, so that handlers do not fire
+     *
+     * @todo for survey sections should enforce that the first invalid or empty section is always opened
      */
     refreshLeftPanelAccordionState() {
         const cards = document.querySelectorAll(`div#${this.leftPanelAccordionId} div[data-parent="#${this.leftPanelAccordionId}"].collapse`);
@@ -722,6 +724,9 @@ export class MainView extends Page {
 
                 nextButton.addEventListener('click', /** @param {MouseEvent} event */ (event) => {
                     if (!doubleClickIntercepted(event)) {
+                        console.log({'in MainView.NEXT_SURVEY_SECTION liveValidation' : surveyFormSection.liveValidation});
+                        console.log({surveyFormSection});
+
                         surveyFormSection.liveValidation = true;
 
                         if (!surveyFormSection.validateForm()) {
