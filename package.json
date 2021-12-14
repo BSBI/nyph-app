@@ -26,7 +26,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "bootstrap": "^4.5.0",
-    "bsbi-app-framework": "git+https://github.com/BSBI/bsbi-app-framework.git",
+    "bsbi-app-framework": "file:D:\\appframework\\bsbi-app-framework",
     "core-js": "^3.19.3",
     "mapbox-gl": "^2.6.1",
     "@mapbox/mapbox-gl-geocoder": "^4.7.4"
