@@ -48,7 +48,7 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
                 helpText: 'We need to be able to send you an acknowledgement email with a link to view and edit your list.',
                 autocomplete: 'email',
                 type: 'email',
-                completion: FormField.COMPLETION_DESIRED,
+                completion: FormField.COMPLETION_COMPULSORY,
             }},
     };
 }

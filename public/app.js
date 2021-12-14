@@ -23989,7 +23989,7 @@
 	      helpText: 'We need to be able to send you an acknowledgement email with a link to view and edit your list.',
 	      autocomplete: 'email',
 	      type: 'email',
-	      completion: FormField.COMPLETION_DESIRED
+	      completion: FormField.COMPLETION_COMPULSORY
 	    }
 	  }
 	});
@@ -30482,7 +30482,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639487479</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639489511</p>";
 	    }
 	  }]);
 
