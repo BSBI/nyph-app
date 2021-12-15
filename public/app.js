@@ -12752,6 +12752,11 @@
 	          }
 
 	          geoCoderInputEl.id = this._inputId;
+	          geoCoderInputEl.addEventListener('change', this.inputChangeHandler.bind(this));
+
+	          if (this.placeholder) {
+	            geoCoderInputEl.placeholder = this.placeholder;
+	          }
 	        }
 	      }
 
@@ -14951,7 +14956,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639580277</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639580629</p>";
 	    }
 	  }]);
 

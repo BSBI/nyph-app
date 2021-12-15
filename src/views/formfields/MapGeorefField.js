@@ -251,6 +251,12 @@ export class MapGeorefField extends TextGeorefField {
                     console.error("Failed to look-up geocoder's input element by class name");
                 }
                 geoCoderInputEl.id = this._inputId;
+
+                geoCoderInputEl.addEventListener('change', this.inputChangeHandler.bind(this));
+
+                if (this.placeholder) {
+                    geoCoderInputEl.placeholder = this.placeholder;
+                }
             }
         }
 
