@@ -3927,8 +3927,9 @@
 	     * @param {number} longitude
 	     * @param {number} precision diameter in metres
 	     * @param {string} source
-	     */},{key:"processLatLngPosition",value:function processLatLngPosition(latitude,longitude,precision,source){var gridCoords=pi.from_latlng(latitude,longitude);var scaledPrecision=Oo.get_normalized_precision(precision);if(this.baseSquareResolution&&scaledPrecision<this.baseSquareResolution){scaledPrecision=this.baseSquareResolution;}if(this.minResolution&&scaledPrecision>this.minResolution){scaledPrecision=this.minResolution;}var gridRef=gridCoords.to_gridref(scaledPrecision);console.log("Got grid-ref: ".concat(gridRef));//this.value = gridRef;
-	this.value={gridRef:gridRef,rawString:'',source:source,latLng:{lat:latitude,lng:longitude},precision:precision};this.fireEvent(FormField.EVENT_CHANGE);}/**
+	     * @param {string} rawString
+	     */},{key:"processLatLngPosition",value:function processLatLngPosition(latitude,longitude,precision,source){var rawString=arguments.length>4&&arguments[4]!==undefined?arguments[4]:'';var gridCoords=pi.from_latlng(latitude,longitude);var scaledPrecision=Oo.get_normalized_precision(precision);if(this.baseSquareResolution&&scaledPrecision<this.baseSquareResolution){scaledPrecision=this.baseSquareResolution;}if(this.minResolution&&scaledPrecision>this.minResolution){scaledPrecision=this.minResolution;}var gridRef=gridCoords.to_gridref(scaledPrecision);console.log("Got grid-ref: ".concat(gridRef));//this.value = gridRef;
+	this.value={gridRef:gridRef,rawString:rawString,source:source,latLng:{lat:latitude,lng:longitude},precision:precision};this.fireEvent(FormField.EVENT_CHANGE);}/**
 	     * by the time summariseImpl has been called have already checked that summary is wanted
 	     *
 	     * @param {string} key
@@ -5775,7 +5776,7 @@
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1639580629'
+	  version: '1.0.3.1639588708'
 	});
 
 })();

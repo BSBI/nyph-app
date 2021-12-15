@@ -46,8 +46,8 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
             field: MapGeorefField,
             attributes: {
                 label: 'Starting point of your walk.',
-                helpText: 'Enter a grid-reference, or use the map search box or GPS button',
-                placeholder: 'OS grid-reference ',
+                helpText: 'Enter a grid-reference, search by place name or postcode or use the GPS button',
+                placeholder: 'Grid-reference or search',
                 //autocomplete: 'postal-code',
                 completion: FormField.COMPLETION_COMPULSORY,
                 includeSearchBox: true,

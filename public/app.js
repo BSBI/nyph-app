@@ -4810,8 +4810,9 @@
 	     * @param {number} longitude
 	     * @param {number} precision diameter in metres
 	     * @param {string} source
-	     */},{key:"processLatLngPosition",value:function processLatLngPosition(latitude,longitude,precision,source){var gridCoords=pi.from_latlng(latitude,longitude);var scaledPrecision=Oo.get_normalized_precision(precision);if(this.baseSquareResolution&&scaledPrecision<this.baseSquareResolution){scaledPrecision=this.baseSquareResolution;}if(this.minResolution&&scaledPrecision>this.minResolution){scaledPrecision=this.minResolution;}var gridRef=gridCoords.to_gridref(scaledPrecision);console.log("Got grid-ref: ".concat(gridRef));//this.value = gridRef;
-	this.value={gridRef:gridRef,rawString:'',source:source,latLng:{lat:latitude,lng:longitude},precision:precision};this.fireEvent(FormField.EVENT_CHANGE);}/**
+	     * @param {string} rawString
+	     */},{key:"processLatLngPosition",value:function processLatLngPosition(latitude,longitude,precision,source){var rawString=arguments.length>4&&arguments[4]!==undefined?arguments[4]:'';var gridCoords=pi.from_latlng(latitude,longitude);var scaledPrecision=Oo.get_normalized_precision(precision);if(this.baseSquareResolution&&scaledPrecision<this.baseSquareResolution){scaledPrecision=this.baseSquareResolution;}if(this.minResolution&&scaledPrecision>this.minResolution){scaledPrecision=this.minResolution;}var gridRef=gridCoords.to_gridref(scaledPrecision);console.log("Got grid-ref: ".concat(gridRef));//this.value = gridRef;
+	this.value={gridRef:gridRef,rawString:rawString,source:source,latLng:{lat:latitude,lng:longitude},precision:precision};this.fireEvent(FormField.EVENT_CHANGE);}/**
 	     * by the time summariseImpl has been called have already checked that summary is wanted
 	     *
 	     * @param {string} key
@@ -9164,41 +9165,6 @@
 	  }
 	});
 
-	var $forEach$2 = arrayIteration.forEach;
-	var arrayMethodIsStrict$6 = arrayMethodIsStrict$9;
-
-	var STRICT_METHOD$6 = arrayMethodIsStrict$6('forEach');
-
-	// `Array.prototype.forEach` method implementation
-	// https://tc39.es/ecma262/#sec-array.prototype.foreach
-	var arrayForEach = !STRICT_METHOD$6 ? function forEach(callbackfn /* , thisArg */) {
-	  return $forEach$2(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-	// eslint-disable-next-line es/no-array-prototype-foreach -- safe
-	} : [].forEach;
-
-	var global$S = global$1B;
-	var DOMIterables = domIterables;
-	var DOMTokenListPrototype = domTokenListPrototype;
-	var forEach$2 = arrayForEach;
-	var createNonEnumerableProperty$6 = createNonEnumerableProperty$e;
-
-	var handlePrototype = function (CollectionPrototype) {
-	  // some Chrome versions have non-configurable methods on DOMTokenList
-	  if (CollectionPrototype && CollectionPrototype.forEach !== forEach$2) try {
-	    createNonEnumerableProperty$6(CollectionPrototype, 'forEach', forEach$2);
-	  } catch (error) {
-	    CollectionPrototype.forEach = forEach$2;
-	  }
-	};
-
-	for (var COLLECTION_NAME in DOMIterables) {
-	  if (DOMIterables[COLLECTION_NAME]) {
-	    handlePrototype(global$S[COLLECTION_NAME] && global$S[COLLECTION_NAME].prototype);
-	  }
-	}
-
-	handlePrototype(DOMTokenListPrototype);
-
 	// a string of all valid unicode whitespaces
 	var whitespaces$4 = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
 	  '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
@@ -9262,6 +9228,41 @@
 	    return $trim(this);
 	  }
 	});
+
+	var $forEach$2 = arrayIteration.forEach;
+	var arrayMethodIsStrict$6 = arrayMethodIsStrict$9;
+
+	var STRICT_METHOD$6 = arrayMethodIsStrict$6('forEach');
+
+	// `Array.prototype.forEach` method implementation
+	// https://tc39.es/ecma262/#sec-array.prototype.foreach
+	var arrayForEach = !STRICT_METHOD$6 ? function forEach(callbackfn /* , thisArg */) {
+	  return $forEach$2(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+	// eslint-disable-next-line es/no-array-prototype-foreach -- safe
+	} : [].forEach;
+
+	var global$S = global$1B;
+	var DOMIterables = domIterables;
+	var DOMTokenListPrototype = domTokenListPrototype;
+	var forEach$2 = arrayForEach;
+	var createNonEnumerableProperty$6 = createNonEnumerableProperty$e;
+
+	var handlePrototype = function (CollectionPrototype) {
+	  // some Chrome versions have non-configurable methods on DOMTokenList
+	  if (CollectionPrototype && CollectionPrototype.forEach !== forEach$2) try {
+	    createNonEnumerableProperty$6(CollectionPrototype, 'forEach', forEach$2);
+	  } catch (error) {
+	    CollectionPrototype.forEach = forEach$2;
+	  }
+	};
+
+	for (var COLLECTION_NAME in DOMIterables) {
+	  if (DOMIterables[COLLECTION_NAME]) {
+	    handlePrototype(global$S[COLLECTION_NAME] && global$S[COLLECTION_NAME].prototype);
+	  }
+	}
+
+	handlePrototype(DOMTokenListPrototype);
 
 	var localforage = {exports: {}};
 
@@ -12726,8 +12727,11 @@
 	          accessToken: mapboxgl.accessToken,
 	          mapboxgl: mapboxgl,
 	          marker: false,
-	          bbox: [-11, 49.1, 2, 61] // [minX, minY, maxX, maxY] {lat: 49.1, lng: -11}, {lat: 61, lng: 2}
-
+	          bbox: [-11, 49.1, 2, 61],
+	          // [minX, minY, maxX, maxY]
+	          localGeocoder: function localGeocoder(queryString) {
+	            return _this2.localGridRefGeocoder(queryString);
+	          }
 	        });
 	        geocoder.on('result', function (result) {
 	          console.log({
@@ -12756,7 +12760,8 @@
 
 	          if (this.placeholder) {
 	            geoCoderInputEl.placeholder = this.placeholder;
-	          }
+	          } //mapbox-gl-geocoder--error mapbox-gl-geocoder--no-results
+
 	        }
 	      }
 
@@ -12796,6 +12801,47 @@
 	      }
 
 	      this._fieldEl = container;
+	    }
+	    /**
+	     *
+	     * @param {string} queryString
+	     * @returns {[]} array of Carmen GeoJason features (see https://github.com/mapbox/carmen/blob/master/carmen-geojson.md )
+	     */
+
+	  }, {
+	    key: "localGridRefGeocoder",
+	    value: function localGridRefGeocoder(queryString) {
+	      var matches = [];
+	      queryString = queryString.trim();
+
+	      if (queryString) {
+	        var parsedGridRef = Oo.from_string(queryString);
+
+	        if (parsedGridRef) {
+	          var latLngSW = parsedGridRef.gridCoords.to_latLng();
+	          var latLngNW = new parsedGridRef.GridCoords(parsedGridRef.gridCoords.x, parsedGridRef.gridCoords.y + parsedGridRef.length).to_latLng();
+	          var latLngNE = new parsedGridRef.GridCoords(parsedGridRef.gridCoords.x + parsedGridRef.length, parsedGridRef.gridCoords.y + parsedGridRef.length).to_latLng();
+	          var latLngSE = new parsedGridRef.GridCoords(parsedGridRef.gridCoords.x + parsedGridRef.length, parsedGridRef.gridCoords.y).to_latLng();
+	          var latCentre = (latLngSW.lat + latLngNW.lat + latLngSE.lat + latLngNE.lat) / 4;
+	          var lngCentre = (latLngSW.lng + latLngNW.lng + latLngSE.lng + latLngNE.lng) / 4;
+	          matches[0] = {
+	            "type": "Feature",
+	            "text": parsedGridRef.preciseGridRef,
+	            "place_name": parsedGridRef.preciseGridRef,
+	            "place_type": 'gridreference',
+	            // non-standard
+	            "grid_square_precision": parsedGridRef.length,
+	            // non-standard
+	            "geometry": {
+	              "type": "Point",
+	              "coordinates": [lngCentre, latCentre]
+	            },
+	            "bbox": [latLngNW.lng, latLngNW.lat, latLngSE.lng, latLngSE.lat]
+	          };
+	        }
+	      }
+
+	      return matches;
 	    }
 	    /**
 	     *
@@ -13265,9 +13311,25 @@
 	  console.log({
 	    'geocoded result': result
 	  });
-	  this.mapPositionIsCurrent = false; // currently, just uses the centre-point
+	  this.mapPositionIsCurrent = false;
 
-	  this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1, TextGeorefField.GEOREF_SOURCE_PLACE); // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
+	  if (result.place_type === 'gridreference') {
+	    // special case
+	    this.value = {
+	      gridRef: result.place_name,
+	      rawString: result.rawString,
+	      source: TextGeorefField.GEOREF_SOURCE_GRIDREF,
+	      latLng: {
+	        lat: result.center[1],
+	        lng: result.center[0]
+	      },
+	      precision: result.grid_square_precision
+	    };
+	    this.fireEvent(FormField.EVENT_CHANGE);
+	  } else {
+	    // currently, just uses the centre-point
+	    this.processLatLngPosition(result.center[1], result.center[0], this.baseSquareResolution || 1, TextGeorefField.GEOREF_SOURCE_PLACE, result.place_name || ''); // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
+	  }
 	}
 
 	_defineProperty$1(MapGeorefField, "GPS_INITIALISATION_MODE_ALWAYS", 'always');
@@ -13634,8 +13696,8 @@
 	    field: MapGeorefField,
 	    attributes: {
 	      label: 'Starting point of your walk.',
-	      helpText: 'Enter a grid-reference, or use the map search box or GPS button',
-	      placeholder: 'OS grid-reference ',
+	      helpText: 'Enter a grid-reference, search by place name or postcode or use the GPS button',
+	      placeholder: 'Grid-reference or search',
 	      //autocomplete: 'postal-code',
 	      completion: FormField.COMPLETION_COMPULSORY,
 	      includeSearchBox: true,
@@ -14956,7 +15018,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639580629</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639588708</p>";
 	    }
 	  }]);
 

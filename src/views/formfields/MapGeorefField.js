@@ -226,7 +226,10 @@ export class MapGeorefField extends TextGeorefField {
                 accessToken: mapboxgl.accessToken,
                 mapboxgl: mapboxgl,
                 marker: false,
-                bbox: [-11, 49.1, 2, 61] // [minX, minY, maxX, maxY] {lat: 49.1, lng: -11}, {lat: 61, lng: 2}
+                bbox: [-11, 49.1, 2, 61], // [minX, minY, maxX, maxY]
+                localGeocoder: (queryString) => {
+                    return this.localGridRefGeocoder(queryString);
+                },
             });
 
             geocoder.on('result', (result) => {
@@ -257,6 +260,8 @@ export class MapGeorefField extends TextGeorefField {
                 if (this.placeholder) {
                     geoCoderInputEl.placeholder = this.placeholder;
                 }
+
+                //mapbox-gl-geocoder--error mapbox-gl-geocoder--no-results
             }
         }
 
@@ -297,6 +302,45 @@ export class MapGeorefField extends TextGeorefField {
         }
 
         this._fieldEl = container;
+    }
+
+    /**
+     *
+     * @param {string} queryString
+     * @returns {[]} array of Carmen GeoJason features (see https://github.com/mapbox/carmen/blob/master/carmen-geojson.md )
+     */
+    localGridRefGeocoder(queryString) {
+        let matches = [];
+        queryString = queryString.trim();
+
+        if (queryString) {
+            const parsedGridRef = GridRef.from_string(queryString);
+
+            if (parsedGridRef) {
+                const latLngSW = parsedGridRef.gridCoords.to_latLng();
+                const latLngNW = (new parsedGridRef.GridCoords(parsedGridRef.gridCoords.x, parsedGridRef.gridCoords.y + parsedGridRef.length)).to_latLng();
+                const latLngNE = (new parsedGridRef.GridCoords(parsedGridRef.gridCoords.x + parsedGridRef.length, parsedGridRef.gridCoords.y + parsedGridRef.length)).to_latLng();
+                const latLngSE = (new parsedGridRef.GridCoords(parsedGridRef.gridCoords.x + parsedGridRef.length, parsedGridRef.gridCoords.y)).to_latLng();
+
+                const latCentre = (latLngSW.lat + latLngNW.lat + latLngSE.lat + latLngNE.lat) / 4;
+                const lngCentre = (latLngSW.lng + latLngNW.lng + latLngSE.lng + latLngNE.lng) / 4;
+
+                matches[0] = {
+                    "type" : "Feature",
+                    "text" : parsedGridRef.preciseGridRef,
+                    "place_name" : parsedGridRef.preciseGridRef,
+                    "place_type" : 'gridreference', // non-standard
+                    "grid_square_precision" : parsedGridRef.length, // non-standard
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [lngCentre, latCentre]
+                    },
+                    "bbox": [latLngNW.lng, latLngNW.lat, latLngSE.lng, latLngSE.lat],
+                };
+            }
+        }
+
+        return matches;
     }
 
     /**
@@ -530,15 +574,30 @@ export class MapGeorefField extends TextGeorefField {
 
         this.mapPositionIsCurrent = false;
 
-        // currently, just uses the centre-point
-        this.processLatLngPosition(
-            result.center[1],
-            result.center[0],
-            this.baseSquareResolution || 1,
-            TextGeorefField.GEOREF_SOURCE_PLACE
-        );
+        if (result.place_type === 'gridreference') {
+            // special case
 
-        // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
+            this.value = {
+                gridRef: result.place_name,
+                rawString: result.rawString,
+                source: TextGeorefField.GEOREF_SOURCE_GRIDREF,
+                latLng: {lat:result.center[1],lng:result.center[0]},
+                precision: result.grid_square_precision
+            };
+
+            this.fireEvent(FormField.EVENT_CHANGE);
+        } else {
+            // currently, just uses the centre-point
+            this.processLatLngPosition(
+                result.center[1],
+                result.center[0],
+                this.baseSquareResolution || 1,
+                TextGeorefField.GEOREF_SOURCE_PLACE,
+                result.place_name || ''
+            );
+
+            // place_type is one or more of country, region, postcode, district, place, locality, neighborhood, address, and poi
+        }
     }
 
     // /**
