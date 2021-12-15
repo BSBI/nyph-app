@@ -12687,30 +12687,29 @@
 	      inputGroupEl.className = 'input-group';
 
 	      if (this.useSeparateInputField) {
-	        var _inputField = inputGroupEl.appendChild(document.createElement('input'));
-
-	        _inputField.className = "form-control";
-	        _inputField.id = this._inputId;
-	        _inputField.type = 'text';
+	        var inputField = inputGroupEl.appendChild(document.createElement('input'));
+	        inputField.className = "form-control";
+	        inputField.id = this._inputId;
+	        inputField.type = 'text';
 
 	        if (this.placeholder) {
-	          _inputField.placeholder = this.placeholder;
+	          inputField.placeholder = this.placeholder;
 	        }
 
 	        if (this._autocomplete) {
-	          _inputField.autocomplete = this._autocomplete;
+	          inputField.autocomplete = this._autocomplete;
 
 	          if ('off' === this._autocomplete || '' === this._autocomplete) {
 	            // browsers tend to ignore autocomplete off, so also assign a random 'name' value
-	            _inputField.name = uuid();
+	            inputField.name = uuid();
 	          }
 	        }
 
-	        _inputField.addEventListener('change', this.inputChangeHandler.bind(this));
-	      }
+	        inputField.addEventListener('change', this.inputChangeHandler.bind(this));
 
-	      if (this.completion === FormField.COMPLETION_COMPULSORY) {
-	        inputField.required = true;
+	        if (this.completion === FormField.COMPLETION_COMPULSORY) {
+	          inputField.required = true;
+	        }
 	      }
 
 	      if (this.validationMessage) {
@@ -14942,7 +14941,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639579452</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639579740</p>";
 	    }
 	  }]);
 

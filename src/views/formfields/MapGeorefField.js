@@ -206,12 +206,10 @@ export class MapGeorefField extends TextGeorefField {
             }
 
             inputField.addEventListener('change', this.inputChangeHandler.bind(this));
-        }
 
-
-
-        if (this.completion === FormField.COMPLETION_COMPULSORY) {
-            inputField.required = true;
+            if (this.completion === FormField.COMPLETION_COMPULSORY) {
+                inputField.required = true;
+            }
         }
 
         if (this.validationMessage) {
