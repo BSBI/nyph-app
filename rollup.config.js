@@ -20,9 +20,9 @@ const production = !process.env.ROLLUP_WATCH;
 
 const version = `1.0.3.${Math.floor((Date.now() / 1000))}`;
 
-const domain = 'nyphtest.bsbi.app'; // 'nyphtest.bsbi.app' 'nyph.bsbi.app'
-const domainRegex = 'nyphtest\\.bsbi\\.app'; // 'nyphtest\\.bsbi\\.app' nyph\\.bsbi\\.app
-const path = 'test'; // 'app'
+const domain = 'nyph.bsbi.app'; // 'nyphtest.bsbi.app' 'nyph.bsbi.app'
+const domainRegex = 'nyph\\.bsbi\\.app'; // 'nyphtest\\.bsbi\\.app' nyph\\.bsbi\\.app
+const path = 'app'; // 'app' or 'test'
 
 export default [
 	{
