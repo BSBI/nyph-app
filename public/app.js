@@ -12611,6 +12611,10 @@
 	      }
 	    }
 
+	    if (!_this.includeSearchBox && !_this.useSeparateInputField) {
+	      throw new Error("Incompatible false combination of geo-ref field options: includeSearchBox and useSeparateInputField");
+	    }
+
 	    return _this;
 	  } // /**
 	  //  *
@@ -13465,7 +13469,7 @@
 	      label: 'Grid-reference',
 	      helpText: '(optional) leave blank to use the overall survey grid-square, use gps or enter a grid-reference',
 	      completion: FormField.COMPLETION_DESIRED,
-	      includeSearchBox: false,
+	      includeSearchBox: true,
 	      baseSquareResolution: 1000,
 	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED,
 	      initialiseFromDefaultSurveyGeoref: true,
@@ -15018,7 +15022,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639591940</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639592809</p>";
 	    }
 	  }]);
 

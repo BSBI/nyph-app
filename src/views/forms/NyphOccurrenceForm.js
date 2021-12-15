@@ -89,7 +89,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 label: 'Grid-reference',
                 helpText: '(optional) leave blank to use the overall survey grid-square, use gps or enter a grid-reference',
                 completion: FormField.COMPLETION_DESIRED,
-                includeSearchBox: false,
+                includeSearchBox: true,
                 baseSquareResolution: 1000,
                 gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED,
                 initialiseFromDefaultSurveyGeoref: true,

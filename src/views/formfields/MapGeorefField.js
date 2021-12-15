@@ -108,6 +108,10 @@ export class MapGeorefField extends TextGeorefField {
                 this.gpsInitialisationMode = params.gpsInitialisationMode;
             }
         }
+
+        if (!this.includeSearchBox && !this.useSeparateInputField) {
+            throw new Error("Incompatible false combination of geo-ref field options: includeSearchBox and useSeparateInputField");
+        }
     }
 
     // /**
