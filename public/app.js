@@ -12826,7 +12826,7 @@
 	          var lngCentre = (latLngSW.lng + latLngNW.lng + latLngSE.lng + latLngNE.lng) / 4;
 	          matches[0] = {
 	            "type": "Feature",
-	            "text": parsedGridRef.preciseGridRef,
+	            "text": "".concat(parsedGridRef.preciseGridRef, " (grid-reference)"),
 	            "place_name": parsedGridRef.preciseGridRef,
 	            "place_type": 'gridreference',
 	            // non-standard
@@ -13320,8 +13320,8 @@
 	      rawString: result.rawString,
 	      source: TextGeorefField.GEOREF_SOURCE_GRIDREF,
 	      latLng: {
-	        lat: result.center[1],
-	        lng: result.center[0]
+	        lat: result.geometry.coordinates[1],
+	        lng: result.geometry.coordinates[0]
 	      },
 	      precision: result.grid_square_precision
 	    };
@@ -15018,7 +15018,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639588708</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639591940</p>";
 	    }
 	  }]);
 

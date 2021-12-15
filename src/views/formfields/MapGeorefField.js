@@ -327,7 +327,7 @@ export class MapGeorefField extends TextGeorefField {
 
                 matches[0] = {
                     "type" : "Feature",
-                    "text" : parsedGridRef.preciseGridRef,
+                    "text" : `${parsedGridRef.preciseGridRef} (grid-reference)`,
                     "place_name" : parsedGridRef.preciseGridRef,
                     "place_type" : 'gridreference', // non-standard
                     "grid_square_precision" : parsedGridRef.length, // non-standard
@@ -581,7 +581,7 @@ export class MapGeorefField extends TextGeorefField {
                 gridRef: result.place_name,
                 rawString: result.rawString,
                 source: TextGeorefField.GEOREF_SOURCE_GRIDREF,
-                latLng: {lat:result.center[1],lng:result.center[0]},
+                latLng: {lat : result.geometry.coordinates[1], lng:result.geometry.coordinates[0]},
                 precision: result.grid_square_precision
             };
 
