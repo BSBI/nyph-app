@@ -80,4 +80,5 @@ body.gps-enabled .no-gps-link-prompt {
 div.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
     flex: 1 1 auto;
     width: 1%;
+    max-width: none;
 }
