@@ -4823,9 +4823,9 @@
 	     *          }} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
-	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}},{key:"isValid",value:function isValid(key,property,attributes){if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is missing
+	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}},{key:"isValid",value:function isValid(key,property,attributes){console.log("in TextGeorefField isValid");if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is missing
 	if(!attributes.hasOwnProperty(key)||property.field.isEmpty(attributes[key])){return false;}else {// check if grid-ref is set
-	var gridRef=attributes[key];return !!gridRef;}}// field is present or optional
+	var gridRef=attributes[key];console.log({"testing gr validity":gridRef});return !!gridRef;}}// field is present or optional
 	// report as valid unless content is corrupt
 	return null;// field not assessed
 	}}]);return TextGeorefField;}(FormField);_defineProperty(TextGeorefField,"GEOREF_SOURCE_UNKNOWN",'unknown');_defineProperty(TextGeorefField,"GEOREF_SOURCE_GRIDREF",'gridref');_defineProperty(TextGeorefField,"GEOREF_SOURCE_MAP",'map');_defineProperty(TextGeorefField,"GEOREF_SOURCE_GPS",'gps');_defineProperty(TextGeorefField,"GEOREF_SOURCE_POSTCODE",'postcode');_defineProperty(TextGeorefField,"GEOREF_SOURCE_PLACE",'place');function _createSuper$h(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$h();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$h(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var Survey=/*#__PURE__*/function(_Model){_inherits(Survey,_Model);var _super=_createSuper$h(Survey);function Survey(){var _this;_classCallCheck(this,Survey);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_defineProperty(_assertThisInitialized(_this),"SAVE_ENDPOINT",'/savesurvey.php');_defineProperty(_assertThisInitialized(_this),"TYPE",'survey');_defineProperty(_assertThisInitialized(_this),"attributes",{});_defineProperty(_assertThisInitialized(_this),"isNew",false);return _this;}_createClass(Survey,[{key:"geoReference",get:/**
@@ -12161,7 +12161,6 @@
 	});
 	}(localforage));
 
-	//import uuidv3 from "uuid/v3";
 	function uuid(a) {
 	  return a ? (a ^ Math.random() * 16 >> a / 4).toString(16) : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, uuid);
 	}
@@ -15027,7 +15026,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639607535</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639609050</p>";
 	    }
 	  }]);
 
@@ -23264,7 +23263,7 @@
 	}
 
 	var app = new NyphApp();
-	app.router = new PatchedNavigo("https://nyph.bsbi.app/".concat(pathPrefix, "/"));
+	app.router = new PatchedNavigo("https://nyphtest.bsbi.app/".concat(pathPrefix, "/"));
 	app.containerId = 'appcontainer';
 	app.setLayout(new NyphLayout());
 	app.registerController(new StaticContentController(new HelpView(), '/help'));

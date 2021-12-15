@@ -3940,9 +3940,9 @@
 	     *          }} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
-	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}},{key:"isValid",value:function isValid(key,property,attributes){if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is missing
+	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}},{key:"isValid",value:function isValid(key,property,attributes){console.log("in TextGeorefField isValid");if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is missing
 	if(!attributes.hasOwnProperty(key)||property.field.isEmpty(attributes[key])){return false;}else {// check if grid-ref is set
-	var gridRef=attributes[key];return !!gridRef;}}// field is present or optional
+	var gridRef=attributes[key];console.log({"testing gr validity":gridRef});return !!gridRef;}}// field is present or optional
 	// report as valid unless content is corrupt
 	return null;// field not assessed
 	}}]);return TextGeorefField;}(FormField);_defineProperty$1(TextGeorefField,"GEOREF_SOURCE_UNKNOWN",'unknown');_defineProperty$1(TextGeorefField,"GEOREF_SOURCE_GRIDREF",'gridref');_defineProperty$1(TextGeorefField,"GEOREF_SOURCE_MAP",'map');_defineProperty$1(TextGeorefField,"GEOREF_SOURCE_GPS",'gps');_defineProperty$1(TextGeorefField,"GEOREF_SOURCE_POSTCODE",'postcode');_defineProperty$1(TextGeorefField,"GEOREF_SOURCE_PLACE",'place');function _createSuper$h(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$h();return function _createSuperInternal(){var Super=_getPrototypeOf$1(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf$1(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn$1(this,result);};}function _isNativeReflectConstruct$h(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var Survey=/*#__PURE__*/function(_Model){_inherits$1(Survey,_Model);var _super=_createSuper$h(Survey);function Survey(){var _this;_classCallCheck$1(this,Survey);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_defineProperty$1(_assertThisInitialized$1(_this),"SAVE_ENDPOINT",'/savesurvey.php');_defineProperty$1(_assertThisInitialized$1(_this),"TYPE",'survey');_defineProperty$1(_assertThisInitialized$1(_this),"attributes",{});_defineProperty$1(_assertThisInitialized$1(_this),"isNew",false);return _this;}_createClass$1(Survey,[{key:"geoReference",get:/**
@@ -4378,7 +4378,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1639604553-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1639608838-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
@@ -5763,25 +5763,25 @@
 	var serviceWorker = new BSBIServiceWorker();
 	serviceWorker.initialise({
 	  forageName: NyphApp.forageName,
-	  postPassThroughWhitelist: /^https:\/\/nyph\.bsbi\.app\/loadsurveys.php/,
-	  postImageUrlMatch: /^https:\/\/nyph\.bsbi\.app\/saveimage.php/,
-	  getImageUrlMatch: /^https:\/\/nyph\.bsbi\.app\/image\.php/,
-	  interceptUrlMatches: new RegExp("^https://nyph.bsbi.app/".concat(pathPrefix, "/|^https://nyph.bsbi.app/").concat(pathPrefix, "$")),
-	  ignoreUrlMatches: new RegExp("^https://nyph.bsbi.app/".concat(pathPrefix, "/app.js|^https://nyph.bsbi.app/").concat(pathPrefix, "/serviceworker.js|^https://nyph.bsbi.app/").concat(pathPrefix, "/manifest.webmanifest|^https://nyph.bsbi.app/").concat(pathPrefix, "/index.html|^https://api.mapbox.com")),
-	  indexUrl: "https://nyph.bsbi.app/".concat(pathPrefix, "/index.html"),
-	  // postPassThroughWhitelist : /^https:\/\/nyph\.bsbi\.app\/loadsurveys.php/,
-	  // postImageUrlMatch : /^https:\/\/nyph\.bsbi\.app\/saveimage.php/,
-	  // getImageUrlMatch : /^https:\/\/nyph\.bsbi\.app\/image\.php/,
-	  // interceptUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/|^https:\/\/nyph\.bsbi\.app\/app$/,
-	  // ignoreUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/app\.js|^https:\/\/nyph\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyph\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyph\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
-	  // indexUrl : 'https://nyph.bsbi.app/app/index.html',
+	  postPassThroughWhitelist: /^https:\/\/nyphtest\.bsbi\.app\/loadsurveys.php/,
+	  postImageUrlMatch: /^https:\/\/nyphtest\.bsbi\.app\/saveimage.php/,
+	  getImageUrlMatch: /^https:\/\/nyphtest\.bsbi\.app\/image\.php/,
+	  interceptUrlMatches: new RegExp("^https://nyphtest.bsbi.app/".concat(pathPrefix, "/|^https://nyphtest.bsbi.app/").concat(pathPrefix, "$")),
+	  ignoreUrlMatches: new RegExp("^https://nyphtest.bsbi.app/".concat(pathPrefix, "/app.js|^https://nyphtest.bsbi.app/").concat(pathPrefix, "/serviceworker.js|^https://nyphtest.bsbi.app/").concat(pathPrefix, "/manifest.webmanifest|^https://nyphtest.bsbi.app/").concat(pathPrefix, "/index.html|^https://api.mapbox.com")),
+	  indexUrl: "https://nyphtest.bsbi.app/".concat(pathPrefix, "/index.html"),
+	  // postPassThroughWhitelist : /^https:\/\/nyphtest\.bsbi\.app\/loadsurveys.php/,
+	  // postImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.app\/saveimage.php/,
+	  // getImageUrlMatch : /^https:\/\/nyphtest\.bsbi\.app\/image\.php/,
+	  // interceptUrlMatches : /^https:\/\/nyphtest\.bsbi\.app\/app\/|^https:\/\/nyphtest\.bsbi\.app\/app$/,
+	  // ignoreUrlMatches : /^https:\/\/nyphtest\.bsbi\.app\/app\/app\.js|^https:\/\/nyphtest\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyphtest\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyphtest\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
+	  // indexUrl : 'https://nyphtest.bsbi.app/app/index.html',
 	  urlCacheSet: ['./index.html', './manifest.webmanifest', '/appcss/app.2021-12-15.css', // note no leading '.' - this is an absolute path
 	  '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
 	  '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1639607535'
+	  version: '1.0.3.1639609050'
 	});
 
 })();
