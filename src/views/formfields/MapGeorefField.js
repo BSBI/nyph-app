@@ -80,7 +80,7 @@ export class MapGeorefField extends TextGeorefField {
 
     geocoderOnMap = false;
 
-    useSeparateInputField = true;
+    useSeparateInputField = false;
 
     /**
      *
@@ -242,6 +242,15 @@ export class MapGeorefField extends TextGeorefField {
                 inputGroupEl.appendChild(geocoder.onAdd(this.map));
 
                 //geocoder.addTo(inputGroupEl);
+            }
+
+            if (!this.useSeparateInputField) {
+                const geoCoderInputEl = container.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0];
+
+                if (!geoCoderInputEl) {
+                    console.error("Failed to look-up geocoder's input element by class name");
+                }
+                geoCoderInputEl.id = this._inputId;
             }
         }
 

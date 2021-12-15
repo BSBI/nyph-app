@@ -12598,7 +12598,7 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "geocoderOnMap", false);
 
-	    _defineProperty$1(_assertThisInitialized$1(_this), "useSeparateInputField", true);
+	    _defineProperty$1(_assertThisInitialized$1(_this), "useSeparateInputField", false);
 
 	    if (params) {
 	      if (params.includeSearchBox) {
@@ -12742,6 +12742,16 @@
 	        } else {
 	          // put the geocoder outside the map area
 	          inputGroupEl.appendChild(geocoder.onAdd(this.map)); //geocoder.addTo(inputGroupEl);
+	        }
+
+	        if (!this.useSeparateInputField) {
+	          var geoCoderInputEl = container.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0];
+
+	          if (!geoCoderInputEl) {
+	            console.error("Failed to look-up geocoder's input element by class name");
+	          }
+
+	          geoCoderInputEl.id = this._inputId;
 	        }
 	      }
 
@@ -14941,7 +14951,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639579740</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639580277</p>";
 	    }
 	  }]);
 
