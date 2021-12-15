@@ -12596,6 +12596,10 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "gpsInitialisationMode", MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED);
 
+	    _defineProperty$1(_assertThisInitialized$1(_this), "geocoderOnMap", false);
+
+	    _defineProperty$1(_assertThisInitialized$1(_this), "useSeparateInputField", true);
+
 	    if (params) {
 	      if (params.includeSearchBox) {
 	        _this.includeSearchBox = params.includeSearchBox;
@@ -12651,6 +12655,8 @@
 	  }, {
 	    key: "buildField",
 	    value: function buildField() {
+	      var _this2 = this;
+
 	      // <div class="form-group">
 	      //     <label for="{baseId}gridref">Postcode or grid-reference</label>
 	      //     <input type="text" class="form-control" id="{baseId}gridref" aria-describedby="{baseId}grHelp" placeholder="Grid-reference or postcode">
@@ -12679,28 +12685,70 @@
 	      labelEl.textContent = this.label;
 	      var inputGroupEl = container.appendChild(document.createElement('div'));
 	      inputGroupEl.className = 'input-group';
-	      var inputField = inputGroupEl.appendChild(document.createElement('input'));
-	      inputField.className = "form-control";
-	      inputField.id = this._inputId;
-	      inputField.type = 'text';
 
-	      if (this.placeholder) {
-	        inputField.placeholder = this.placeholder;
+	      if (this.useSeparateInputField) {
+	        var _inputField = inputGroupEl.appendChild(document.createElement('input'));
+
+	        _inputField.className = "form-control";
+	        _inputField.id = this._inputId;
+	        _inputField.type = 'text';
+
+	        if (this.placeholder) {
+	          _inputField.placeholder = this.placeholder;
+	        }
+
+	        if (this._autocomplete) {
+	          _inputField.autocomplete = this._autocomplete;
+
+	          if ('off' === this._autocomplete || '' === this._autocomplete) {
+	            // browsers tend to ignore autocomplete off, so also assign a random 'name' value
+	            _inputField.name = uuid();
+	          }
+	        }
+
+	        _inputField.addEventListener('change', this.inputChangeHandler.bind(this));
 	      }
 
-	      if (this._autocomplete) {
-	        inputField.autocomplete = this._autocomplete;
+	      if (this.completion === FormField.COMPLETION_COMPULSORY) {
+	        inputField.required = true;
+	      }
 
-	        if ('off' === this._autocomplete) {
-	          // browsers tend to ignore autocomplete off, so also assign a random 'name' value
-	          inputField.name = uuid();
+	      if (this.validationMessage) {
+	        var validationMessageElement = container.appendChild(document.createElement('div'));
+	        validationMessageElement.className = 'invalid-feedback';
+	        validationMessageElement.innerHTML = this.validationMessage;
+	      }
+
+	      this.addMapBox(container);
+
+	      if (this.includeSearchBox) {
+	        // noinspection JSUnresolvedFunction
+	        var geocoder = new MapboxGeocoder({
+	          accessToken: mapboxgl.accessToken,
+	          mapboxgl: mapboxgl,
+	          marker: false,
+	          bbox: [-11, 49.1, 2, 61] // [minX, minY, maxX, maxY] {lat: 49.1, lng: -11}, {lat: 61, lng: 2}
+
+	        });
+	        geocoder.on('result', function (result) {
+	          console.log({
+	            'geocode result': result
+	          });
+
+	          _classPrivateMethodGet$4(_this2, _setGridrefFromGeocodedResult, _setGridrefFromGeocodedResult2).call(_this2, result.result);
+	        });
+
+	        if (this.geocoderOnMap) {
+	          this.map.addControl(geocoder, 'top-right');
+	        } else {
+	          // put the geocoder outside the map area
+	          inputGroupEl.appendChild(geocoder.onAdd(this.map)); //geocoder.addTo(inputGroupEl);
 	        }
 	      }
 
-	      var buttonContainerEl = inputGroupEl.appendChild(document.createElement('span'));
-	      buttonContainerEl.className = 'input-group-btn';
-
 	      if (navigator.geolocation) {
+	        var buttonContainerEl = inputGroupEl.appendChild(document.createElement('span'));
+	        buttonContainerEl.className = 'input-group-btn';
 	        var gpsButton = buttonContainerEl.appendChild(document.createElement('button'));
 	        gpsButton.id = FormField.nextId;
 	        gpsButton.type = 'button';
@@ -12724,17 +12772,6 @@
 	        gpsButton.addEventListener('click', this.gpsButtonClickHandler.bind(this));
 	      }
 
-	      if (this.completion === FormField.COMPLETION_COMPULSORY) {
-	        inputField.required = true;
-	      }
-
-	      if (this.validationMessage) {
-	        var validationMessageElement = container.appendChild(document.createElement('div'));
-	        validationMessageElement.className = 'invalid-feedback';
-	        validationMessageElement.innerHTML = this.validationMessage;
-	      }
-
-	      this.addMapBox(container);
 	      var offlineWarning = container.appendChild(document.createElement('small'));
 	      offlineWarning.classList.add('offline-warning');
 	      offlineWarning.innerHTML = 'The map box might not display properly because you may not have a network connection currently. You can still use GPS or type in a grid-reference to locate records.';
@@ -12744,7 +12781,6 @@
 	        helpTextField.innerHTML = this.helpText;
 	      }
 
-	      inputField.addEventListener('change', this.inputChangeHandler.bind(this));
 	      this._fieldEl = container;
 	    }
 	    /**
@@ -12755,7 +12791,7 @@
 	  }, {
 	    key: "addField",
 	    value: function addField(contentContainer) {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      // const formEl = this.parentForm.formElement;
 	      //
@@ -12773,23 +12809,23 @@
 	                case 0:
 	                  console.log('Handling initialisation of new MapGeoRefField.');
 
-	                  if (!_this2._value.gridRef) {
+	                  if (!_this3._value.gridRef) {
 	                    _context.next = 4;
 	                    break;
 	                  }
 
 	                  console.log({
-	                    'In georef form initialisation already have a value set, so aborting.': _this2._value
+	                    'In georef form initialisation already have a value set, so aborting.': _this3._value
 	                  });
 	                  return _context.abrupt("return");
 
 	                case 4:
-	                  if (!(navigator.geolocation && _this2.gpsInitialisationMode !== MapGeorefField.GPS_INITIALISATION_MODE_NEVER)) {
+	                  if (!(navigator.geolocation && _this3.gpsInitialisationMode !== MapGeorefField.GPS_INITIALISATION_MODE_NEVER)) {
 	                    _context.next = 29;
 	                    break;
 	                  }
 
-	                  if (!(_this2.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_ALWAYS || _this2.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED)) {
+	                  if (!(_this3.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_ALWAYS || _this3.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED)) {
 	                    _context.next = 19;
 	                    break;
 	                  }
@@ -12801,7 +12837,7 @@
 	                    break;
 	                  }
 
-	                  _context.t1 = _this2.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_ALWAYS;
+	                  _context.t1 = _this3.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_ALWAYS;
 
 	                  if (_context.t1) {
 	                    _context.next = 15;
@@ -12825,7 +12861,7 @@
 	                  break;
 
 	                case 19:
-	                  _context.t4 = _this2.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_ALWAYS;
+	                  _context.t4 = _this3.gpsInitialisationMode === MapGeorefField.GPS_INITIALISATION_MODE_ALWAYS;
 
 	                  if (_context.t4) {
 	                    _context.next = 26;
@@ -12855,20 +12891,20 @@
 	                  //
 	                  // console.log({'grant state':grantState});
 	                  if (doGPSInitialisation) {
-	                    _this2.seekGPS().then(function () {
+	                    _this3.seekGPS().then(function () {
 	                      console.log('GPS initialisation succeeded.');
 
-	                      _this2._tryDefaultGeoreferenceFromSurvey(params.survey, false); // don't move the map, but do set a placeholder value
+	                      _this3._tryDefaultGeoreferenceFromSurvey(params.survey, false); // don't move the map, but do set a placeholder value
 
 	                    }, function (error) {
 	                      console.log({
 	                        'GPS initialisation failed': error
 	                      });
 
-	                      _this2._tryDefaultGeoreferenceFromSurvey(params.survey, true);
+	                      _this3._tryDefaultGeoreferenceFromSurvey(params.survey, true);
 	                    });
 	                  } else {
-	                    _this2._tryDefaultGeoreferenceFromSurvey(params.survey, true);
+	                    _this3._tryDefaultGeoreferenceFromSurvey(params.survey, true);
 	                  }
 
 	                case 31:
@@ -12888,7 +12924,7 @@
 	      params) {
 	        console.log('Handling re-initialisation of new MapGeoRefField.'); // set the geo-ref field placeholder to match the survey grid-ref and center the map there if no grid-ref has been specified
 
-	        _this2._tryDefaultGeoreferenceFromSurvey(params.survey, !_this2._value.gridRef);
+	        _this3._tryDefaultGeoreferenceFromSurvey(params.survey, !_this3._value.gridRef);
 	      });
 	    }
 	    /**
@@ -12901,7 +12937,7 @@
 	  }, {
 	    key: "_tryDefaultGeoreferenceFromSurvey",
 	    value: function _tryDefaultGeoreferenceFromSurvey(survey, setMap) {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      if (this.initialiseFromDefaultSurveyGeoref) {
 	        var geoRef = survey.geoReference;
@@ -12927,7 +12963,7 @@
 	          var newGeoRef = survey.geoReference;
 
 	          if (newGeoRef && newGeoRef.gridRef) {
-	            var _inputEl = document.getElementById(_this3._inputId);
+	            var _inputEl = document.getElementById(_this4._inputId);
 
 	            if (_inputEl) {
 	              _inputEl.placeholder = geoRef.gridRef;
@@ -12944,7 +12980,7 @@
 	  }, {
 	    key: "addMapBox",
 	    value: function addMapBox(container) {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      var divEl = container.appendChild(document.createElement('div'));
 	      divEl.id = "map".concat(FormField.nextId);
@@ -12962,26 +12998,6 @@
 	        cooperativeGestures: true // see https://github.com/mapbox/mapbox-gl-js/issues/6884
 
 	      });
-
-	      if (this.includeSearchBox) {
-	        // noinspection JSUnresolvedFunction
-	        var geocoder = new MapboxGeocoder({
-	          accessToken: mapboxgl.accessToken,
-	          mapboxgl: mapboxgl,
-	          marker: false,
-	          bbox: [-11, 49.1, 2, 61] // [minX, minY, maxX, maxY] {lat: 49.1, lng: -11}, {lat: 61, lng: 2}
-
-	        });
-	        geocoder.on('result', function (result) {
-	          console.log({
-	            'geocode result': result
-	          });
-
-	          _classPrivateMethodGet$4(_this4, _setGridrefFromGeocodedResult, _setGridrefFromGeocodedResult2).call(_this4, result.result);
-	        });
-	        this.map.addControl(geocoder, 'top-right');
-	      }
-
 	      this.map.on('click',
 	      /** @param {mapboxgl.MapMouseEvent} mapMouseEvent */
 	      function (mapMouseEvent) {
@@ -12990,27 +13006,27 @@
 	          mapMouseEvent: mapMouseEvent
 	        });
 
-	        var zoom = _this4.map.getZoom();
+	        var zoom = _this5.map.getZoom();
 
-	        var squareDimension = _this4.reverseZoomMapping(zoom);
+	        var squareDimension = _this5.reverseZoomMapping(zoom);
 
-	        if (squareDimension <= _this4.minResolution) {
+	        if (squareDimension <= _this5.minResolution) {
 	          // only allow selection if zoomed-in sufficiently
-	          _this4.map.jumpTo({
+	          _this5.map.jumpTo({
 	            center: [mapMouseEvent.lngLat.lng, mapMouseEvent.lngLat.lat],
 	            zoom: zoom
 	          }, null);
 
-	          _this4.mapPositionIsCurrent = true;
+	          _this5.mapPositionIsCurrent = true;
 
-	          _this4.processLatLngPosition(mapMouseEvent.lngLat.lat, mapMouseEvent.lngLat.lng, squareDimension, TextGeorefField.GEOREF_SOURCE_MAP);
+	          _this5.processLatLngPosition(mapMouseEvent.lngLat.lat, mapMouseEvent.lngLat.lng, squareDimension, TextGeorefField.GEOREF_SOURCE_MAP);
 	        }
 	      });
 	      this.respondToVisibility(divEl, function (visible) {
 	        if (visible) {
 	          console.log('Map is visible');
 
-	          _this4.map.resize(null);
+	          _this5.map.resize(null);
 	        }
 	      });
 	    }
@@ -14926,7 +14942,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639568594</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639579452</p>";
 	    }
 	  }]);
 

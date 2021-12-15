@@ -78,6 +78,10 @@ export class MapGeorefField extends TextGeorefField {
 
     gpsInitialisationMode = MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED;
 
+    geocoderOnMap = false;
+
+    useSeparateInputField = true;
+
     /**
      *
      * @param {{
@@ -182,28 +186,71 @@ export class MapGeorefField extends TextGeorefField {
         const inputGroupEl = container.appendChild(document.createElement('div'));
         inputGroupEl.className = 'input-group';
 
-        const inputField = inputGroupEl.appendChild(document.createElement('input'));
-        inputField.className = "form-control";
-        inputField.id = this._inputId;
-        inputField.type = 'text';
+        if (this.useSeparateInputField) {
+            const inputField = inputGroupEl.appendChild(document.createElement('input'));
+            inputField.className = "form-control";
+            inputField.id = this._inputId;
+            inputField.type = 'text';
 
-        if (this.placeholder) {
-            inputField.placeholder = this.placeholder;
+            if (this.placeholder) {
+                inputField.placeholder = this.placeholder;
+            }
+
+            if (this._autocomplete) {
+                inputField.autocomplete = this._autocomplete;
+
+                if ('off' === this._autocomplete || '' === this._autocomplete) {
+                    // browsers tend to ignore autocomplete off, so also assign a random 'name' value
+                    inputField.name = uuid();
+                }
+            }
+
+            inputField.addEventListener('change', this.inputChangeHandler.bind(this));
         }
 
-        if (this._autocomplete) {
-            inputField.autocomplete = this._autocomplete;
 
-            if ('off' === this._autocomplete) {
-                // browsers tend to ignore autocomplete off, so also assign a random 'name' value
-                inputField.name = uuid();
+
+        if (this.completion === FormField.COMPLETION_COMPULSORY) {
+            inputField.required = true;
+        }
+
+        if (this.validationMessage) {
+            const validationMessageElement = container.appendChild(document.createElement('div'));
+            validationMessageElement.className = 'invalid-feedback';
+            validationMessageElement.innerHTML = this.validationMessage;
+        }
+
+        this.addMapBox(container);
+
+        if (this.includeSearchBox) {
+            // noinspection JSUnresolvedFunction
+            const geocoder = new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl,
+                marker: false,
+                bbox: [-11, 49.1, 2, 61] // [minX, minY, maxX, maxY] {lat: 49.1, lng: -11}, {lat: 61, lng: 2}
+            });
+
+            geocoder.on('result', (result) => {
+                console.log({'geocode result' : result});
+                this.#setGridrefFromGeocodedResult(result.result);
+            });
+
+            if (this.geocoderOnMap) {
+                this.map.addControl(geocoder, 'top-right');
+            } else {
+                // put the geocoder outside the map area
+
+                inputGroupEl.appendChild(geocoder.onAdd(this.map));
+
+                //geocoder.addTo(inputGroupEl);
             }
         }
 
-        const buttonContainerEl = inputGroupEl.appendChild(document.createElement('span'));
-        buttonContainerEl.className = 'input-group-btn';
-
         if (navigator.geolocation) {
+            const buttonContainerEl = inputGroupEl.appendChild(document.createElement('span'));
+            buttonContainerEl.className = 'input-group-btn';
+
             const gpsButton = buttonContainerEl.appendChild(document.createElement('button'));
             gpsButton.id = FormField.nextId;
             gpsButton.type = 'button';
@@ -227,18 +274,6 @@ export class MapGeorefField extends TextGeorefField {
             gpsButton.addEventListener('click', this.gpsButtonClickHandler.bind(this));
         }
 
-        if (this.completion === FormField.COMPLETION_COMPULSORY) {
-            inputField.required = true;
-        }
-
-        if (this.validationMessage) {
-            const validationMessageElement = container.appendChild(document.createElement('div'));
-            validationMessageElement.className = 'invalid-feedback';
-            validationMessageElement.innerHTML = this.validationMessage;
-        }
-
-        this.addMapBox(container);
-
         const offlineWarning = container.appendChild(document.createElement('small'));
         offlineWarning.classList.add('offline-warning');
         offlineWarning.innerHTML = 'The map box might not display properly because you may not have a network connection currently. You can still use GPS or type in a grid-reference to locate records.';
@@ -247,8 +282,6 @@ export class MapGeorefField extends TextGeorefField {
             const helpTextField = container.appendChild(document.createElement('small'));
             helpTextField.innerHTML = this.helpText;
         }
-
-        inputField.addEventListener('change', this.inputChangeHandler.bind(this));
 
         this._fieldEl = container;
     }
@@ -376,23 +409,6 @@ export class MapGeorefField extends TextGeorefField {
             zoom: this.defaultZoom, // starting zoom
             cooperativeGestures: true // see https://github.com/mapbox/mapbox-gl-js/issues/6884
         });
-
-        if (this.includeSearchBox) {
-            // noinspection JSUnresolvedFunction
-            const geocoder = new MapboxGeocoder({
-                accessToken: mapboxgl.accessToken,
-                mapboxgl: mapboxgl,
-                marker: false,
-                bbox: [-11, 49.1, 2, 61] // [minX, minY, maxX, maxY] {lat: 49.1, lng: -11}, {lat: 61, lng: 2}
-            });
-
-            geocoder.on('result', (result) => {
-                console.log({'geocode result' : result});
-                this.#setGridrefFromGeocodedResult(result.result);
-            });
-
-            this.map.addControl(geocoder, 'top-right');
-        }
 
         this.map.on('click', /** @param {mapboxgl.MapMouseEvent} mapMouseEvent */ (mapMouseEvent) => {
             console.log(`A click event has occurred at ${mapMouseEvent.lngLat}`);
