@@ -43,6 +43,7 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
             }},
         email: {
             field: InputField,
+            validator: InputField.emailValidator,
             attributes: {
                 label: 'Your email address',
                 helpText: 'We need to be able to send you an acknowledgement email with a link to view and edit your list.',

@@ -4065,7 +4065,8 @@
 	     * @param property properties of the form descriptor
 	     * @param attributes attributes of the model object
 	     * @return {(boolean|null)} returns null if validity was not assessed
-	     */},{key:"isValid",value:function isValid(key,property,attributes){if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is missing
+	     */},{key:"isValid",value:function isValid(key,property,attributes){//console.log(`FormField isValid for '${key}'`);
+	if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is missing
 	return !(!attributes.hasOwnProperty(key)||property.field.isEmpty(attributes[key]));}// field is present or optional
 	// report as valid unless content is corrupt
 	return null;// field not assessed
@@ -4823,9 +4824,21 @@
 	     *          }} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
-	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}},{key:"isValid",value:function isValid(key,property,attributes){console.log("in TextGeorefField isValid");if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is missing
+	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}/**
+	     *
+	     * @param value
+	     * @returns {boolean}
+	     */},{key:"isEmpty",value:function isEmpty(value){return !(value&&value.gridRef);}/**
+	     *
+	     *
+	     * @param {string} key
+	     * @param property
+	     * @param attributes
+	     * @returns {null|boolean}
+	     */},{key:"isValid",value:function isValid(key,property,attributes){//console.log("in TextGeorefField isValid");
+	if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is missing
 	if(!attributes.hasOwnProperty(key)||property.field.isEmpty(attributes[key])){return false;}else {// check if grid-ref is set
-	var gridRef=attributes[key];console.log({"testing gr validity":gridRef});return !!gridRef;}}// field is present or optional
+	var geoRef=attributes[key];console.log({"testing gr validity":geoRef});return !!(geoRef&&geoRef.gridRef);}}// field is present or optional
 	// report as valid unless content is corrupt
 	return null;// field not assessed
 	}}]);return TextGeorefField;}(FormField);_defineProperty(TextGeorefField,"GEOREF_SOURCE_UNKNOWN",'unknown');_defineProperty(TextGeorefField,"GEOREF_SOURCE_GRIDREF",'gridref');_defineProperty(TextGeorefField,"GEOREF_SOURCE_MAP",'map');_defineProperty(TextGeorefField,"GEOREF_SOURCE_GPS",'gps');_defineProperty(TextGeorefField,"GEOREF_SOURCE_POSTCODE",'postcode');_defineProperty(TextGeorefField,"GEOREF_SOURCE_PLACE",'place');function _createSuper$h(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$h();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$h(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var Survey=/*#__PURE__*/function(_Model){_inherits(Survey,_Model);var _super=_createSuper$h(Survey);function Survey(){var _this;_classCallCheck(this,Survey);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_defineProperty(_assertThisInitialized(_this),"SAVE_ENDPOINT",'/savesurvey.php');_defineProperty(_assertThisInitialized(_this),"TYPE",'survey');_defineProperty(_assertThisInitialized(_this),"attributes",{});_defineProperty(_assertThisInitialized(_this),"isNew",false);return _this;}_createClass(Survey,[{key:"geoReference",get:/**
@@ -5516,7 +5529,12 @@
 	this.parentForm.pingOccurrence();var images=[];var _iterator4=_createForOfIteratorHelper$3(fileList),_step4;try{for(_iterator4.s();!(_step4=_iterator4.n()).done;){var file=_step4.value;images.push(OccurrenceImage.fromFile(file));}}catch(err){_iterator4.e(err);}finally{_iterator4.f();}return _classPrivateMethodGet$3(this,_save,_save2).call(this,images);}function _save2(images){var _this3=this;if(images.length){var image=images.shift();return image.save(this.parentForm.surveyId,this.parentForm.occurrenceId,this.parentForm.projectId).then(function(jsonImageDescriptor){console.log("Added image '".concat(image.id,"'"));console.log({jsonDescription:jsonImageDescriptor});_this3._value.images.push(image);_this3.updateView();// excessive view updates, should do once when all promises have succeeded
 	// this may break with multiple images if fileList is live and is cleared when input is cleared
 	// during view update, need to test
-	},function(reason){console.log("Failed to add image ".concat(image.id));console.log({"Failure reason":reason});}).finally(function(){return _classPrivateMethodGet$3(_this3,_save,_save2).call(_this3,images);});}else {return Promise.resolve();}}_defineProperty(ImageField,"LICENSE_MODAL",'imagelicensemodal');function _createSuper$6(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$6();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$6(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec$4(obj,privateMap,value){_checkPrivateRedeclaration$4(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$4(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _inputId=/*#__PURE__*/new WeakMap();var _containerId$4=/*#__PURE__*/new WeakMap();var InputField=/*#__PURE__*/function(_FormField){_inherits(InputField,_FormField);var _super=_createSuper$6(InputField);/**
+	},function(reason){console.log("Failed to add image ".concat(image.id));console.log({"Failure reason":reason});}).finally(function(){return _classPrivateMethodGet$3(_this3,_save,_save2).call(_this3,images);});}else {return Promise.resolve();}}_defineProperty(ImageField,"LICENSE_MODAL",'imagelicensemodal');var tester$2=/^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;// Thanks to:
+	// http://fightingforalostcause.net/misc/2006/compare-email-regex.php
+	// http://thedailywtf.com/Articles/Validating_Email_Addresses.aspx
+	// http://stackoverflow.com/questions/201323/what-is-the-best-regular-expression-for-validating-email-addresses/201378#201378
+	var validate=function(email){if(!email)return false;if(email.length>254)return false;var valid=tester$2.test(email);if(!valid)return false;// Further checking of some things regex can't handle
+	var parts=email.split("@");if(parts[0].length>64)return false;var domainParts=parts[1].split(".");if(domainParts.some(function(part){return part.length>63;}))return false;return true;};function _createSuper$6(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$6();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$6(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec$4(obj,privateMap,value){_checkPrivateRedeclaration$4(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$4(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _inputId=/*#__PURE__*/new WeakMap();var _containerId$4=/*#__PURE__*/new WeakMap();var InputField=/*#__PURE__*/function(_FormField){_inherits(InputField,_FormField);var _super=_createSuper$6(InputField);/**
 	   * @type {string}
 	   */ /**
 	   * @type {string}
@@ -5537,11 +5555,17 @@
 	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
 	   */function InputField(params){var _this;_classCallCheck(this,InputField);_this=_super.call(this,params);_classPrivateFieldInitSpec$4(_assertThisInitialized(_this),_inputId,{writable:true,value:void 0});_classPrivateFieldInitSpec$4(_assertThisInitialized(_this),_containerId$4,{writable:true,value:void 0});_defineProperty(_assertThisInitialized(_this),"_value",'');_defineProperty(_assertThisInitialized(_this),"_inputType",'text');_defineProperty(_assertThisInitialized(_this),"_autocomplete",'');if(params){if(params.type){_this._inputType=params.type;}if(params.placeholder){_this.placeholder=params.placeholder;}if(params.autocomplete){_this._autocomplete=params.autocomplete;}}return _this;}/**
 	   *
-	   * @param {(string|null|undefined)} textContent
+	   * @param {string} key
+	   * @param property properties of the form descriptor
+	   * @param attributes attributes of the model object
+	   * @return {(boolean|null)} returns null if validity was not assessed
 	   */_createClass(InputField,[{key:"value",get:/**
 	     *
 	     * @returns {string}
-	     */function get(){return this._value;},set:function set(textContent){this._value=undefined===textContent||null==textContent?'':textContent.trim();this.updateView();}},{key:"updateView",value:function updateView(){if(this._fieldEl){// do nothing until the view has been constructed
+	     */function get(){return this._value;},set:/**
+	     *
+	     * @param {(string|null|undefined)} textContent
+	     */function set(textContent){this._value=undefined===textContent||null==textContent?'':textContent.trim();this.updateView();}},{key:"updateView",value:function updateView(){if(this._fieldEl){// do nothing until the view has been constructed
 	var inputEl=document.getElementById(_classPrivateFieldGet(this,_inputId));inputEl.value=FormField.cleanRawString(this._value);}}/**
 	     * initialises this._fieldEl
 	     *
@@ -5564,7 +5588,12 @@
 	     * @param {{field : typeof InputField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
-	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}}]);return InputField;}(FormField);/**
+	     */}],[{key:"emailValidator",value:function emailValidator(key,property,attributes){//console.log(`FormField isValid for '${key}'`);
+	if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is present and is email
+	return !(!attributes.hasOwnProperty(key)||property.field.isEmpty(attributes[key])&&validate(attributes[key]));}// field is present or optional
+	// report as valid unless content is corrupt
+	return null;// field not assessed
+	}},{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}}]);return InputField;}(FormField);/**
 	 *
 	 * @param {string} separator
 	 * @param {string} finalSeparator
@@ -8359,6 +8388,7 @@
 	  },
 	  email: {
 	    field: InputField,
+	    validator: InputField.emailValidator,
 	    attributes: {
 	      label: 'Your email address',
 	      helpText: 'We need to be able to send you an acknowledgement email with a link to view and edit your list.',
@@ -15026,7 +15056,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639609050</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639611475</p>";
 	    }
 	  }]);
 
