@@ -36,7 +36,7 @@ serviceWorker.initialise({
     urlCacheSet : [
         './index.html',
         './manifest.webmanifest',
-        '/appcss/app.2021-12-01.css', // note no leading '.' - this is an absolute path
+        '/appcss/app.2021-12-15.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
         //'/img/gwh_logo1_tsp.png',
         '/img/icons/favicon-32x32.png',
