@@ -896,14 +896,20 @@ export class MainView extends Page {
         this.fireEvent(MainController.EVENT_NEW_RECORD);
     }
 
-    /**
-     *
-     */
-    #buildOccurrenceList() {
+    #getOccurrenceListContainer() {
         const listContainer = document.getElementById(OCCURRENCE_LIST_CONTAINER_ID);
         if (!listContainer) {
             throw new InternalAppError("Failed to find list container.");
         }
+
+        return listContainer;
+    }
+
+    /**
+     *
+     */
+    #buildOccurrenceList() {
+        const listContainer = this.#getOccurrenceListContainer();
 
         this.#clearOccurrenceListeners();
 
@@ -931,16 +937,16 @@ export class MainView extends Page {
 
         let nullListInputId = `nullList${Form.nextId}`;
 
-        if (occurrencesHtml.length === 0) {
-            const checked = this.controller.app.currentSurvey.attributes['nulllist'] ? ' checked' : '';
 
-            const nullListMessage =
-                `<div class="nyph-null-list"><p>Very occasionally people encounter no plants in bloom during their survey.
+        const checked = this.controller.app.currentSurvey.attributes['nulllist'] ? ' checked' : '';
+
+        // this will be hidden by css if the list is not empty
+        const nullListMessage =
+            `<div class="nyph-null-list-prompt"><p>Very occasionally people encounter no plants in bloom during their survey.
 These 'null lists' are still useful to us, so please tell us even if you recorded no plants in flower.</p>
 <p><label><input type="checkbox" value="1" name="nulllist" id="${nullListInputId}"${checked}> This is a null list (I saw no plants in flower during my walk).</label></div></p>`;
 
-            occurrencesHtml[0] = nullListMessage;
-        }
+        occurrencesHtml.push(nullListMessage);
 
         listContainer.className = 'accordion';
         listContainer.innerHTML = occurrencesHtml.join('');
@@ -988,6 +994,8 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
                 //this.fireEvent(MainView.EVENT_NULL_LIST_CHANGE, {'isNull' : nullListToggleEl.checked});
             });
         }
+
+        this.testForEmptyList(); // sets a class on the occurrence list container
     }
 
     /**
@@ -996,7 +1004,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
      * @param {{occurrenceId: string, surveyId: string}} params
      */
     occurrenceAddedHandler(params) {
-        const occurrenceList = document.getElementById(OCCURRENCE_LIST_CONTAINER_ID);
+        const occurrenceList = this.#getOccurrenceListContainer();
 
         if (occurrenceList) {
             const occurrence = this.controller.occurrences.get(params.occurrenceId);
@@ -1012,6 +1020,8 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
             );
 
             occurrenceList.insertBefore(itemCard, occurrenceList.firstChild);
+
+            occurrenceList.classList.add('has-occurrences');
         }
     }
 
@@ -1054,6 +1064,27 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
                     this.#occurrenceChangeHandles[params.occurrenceId] = null;
                 }
             }
+        }
+
+        this.testForEmptyList()
+    }
+
+    testForEmptyList() {
+        let haveOccurrences = false;
+        for (let occurrenceTuple of [...this.controller.occurrences.entries()]) {
+            let occurrence = occurrenceTuple[1];
+
+            if (!occurrence.deleted) {
+                haveOccurrences = true;
+            }
+        }
+
+        const listContainer = this.#getOccurrenceListContainer();
+
+        if (haveOccurrences) {
+            listContainer.classList.add('has-occurrences');
+        } else {
+            listContainer.classList.remove('has-occurrences');
         }
     }
 

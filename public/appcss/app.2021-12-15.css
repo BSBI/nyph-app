@@ -82,3 +82,14 @@ div.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
     width: 1%;
     max-width: none;
 }
+
+div.nyph-null-list-prompt {
+    display: none;
+    margin: 2em;
+    border: thin gray solid;
+    border-radius: 5px;
+}
+
+div.has-occurrences div.nyph-null-list-prompt {
+    display: block;
+}

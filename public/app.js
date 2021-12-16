@@ -13887,6 +13887,8 @@
 
 	var _appendOccurrenceListContainer = /*#__PURE__*/new WeakSet();
 
+	var _getOccurrenceListContainer = /*#__PURE__*/new WeakSet();
+
 	var _buildOccurrenceList = /*#__PURE__*/new WeakSet();
 
 	var _occurrenceSummaryHTML = /*#__PURE__*/new WeakSet();
@@ -13943,6 +13945,8 @@
 	    _classPrivateMethodInitSpec$4(_assertThisInitialized$1(_this), _occurrenceSummaryHTML);
 
 	    _classPrivateMethodInitSpec$4(_assertThisInitialized$1(_this), _buildOccurrenceList);
+
+	    _classPrivateMethodInitSpec$4(_assertThisInitialized$1(_this), _getOccurrenceListContainer);
 
 	    _classPrivateMethodInitSpec$4(_assertThisInitialized$1(_this), _appendOccurrenceListContainer);
 
@@ -14304,10 +14308,6 @@
 	      event.stopPropagation();
 	      this.fireEvent(MainController$1.EVENT_NEW_RECORD);
 	    }
-	    /**
-	     *
-	     */
-
 	  }, {
 	    key: "occurrenceAddedHandler",
 	    value:
@@ -14317,7 +14317,7 @@
 	     * @param {{occurrenceId: string, surveyId: string}} params
 	     */
 	    function occurrenceAddedHandler(params) {
-	      var occurrenceList = document.getElementById(OCCURRENCE_LIST_CONTAINER_ID);
+	      var occurrenceList = _classPrivateMethodGet$4(this, _getOccurrenceListContainer, _getOccurrenceListContainer2).call(this);
 
 	      if (occurrenceList) {
 	        var occurrence = this.controller.occurrences.get(params.occurrenceId);
@@ -14329,6 +14329,7 @@
 	          occurrenceId: occurrence.id
 	        });
 	        occurrenceList.insertBefore(itemCard, occurrenceList.firstChild);
+	        occurrenceList.classList.add('has-occurrences');
 	      }
 	    }
 	    /**
@@ -14375,6 +14376,30 @@
 	            _classPrivateFieldGet$1(this, _occurrenceChangeHandles)[params.occurrenceId] = null;
 	          }
 	        }
+	      }
+
+	      this.testForEmptyList();
+	    }
+	  }, {
+	    key: "testForEmptyList",
+	    value: function testForEmptyList() {
+	      var haveOccurrences = false;
+
+	      for (var _i = 0, _arr = _toConsumableArray(this.controller.occurrences.entries()); _i < _arr.length; _i++) {
+	        var occurrenceTuple = _arr[_i];
+	        var occurrence = occurrenceTuple[1];
+
+	        if (!occurrence.deleted) {
+	          haveOccurrences = true;
+	        }
+	      }
+
+	      var listContainer = _classPrivateMethodGet$4(this, _getOccurrenceListContainer, _getOccurrenceListContainer2).call(this);
+
+	      if (haveOccurrences) {
+	        listContainer.classList.add('has-occurrences');
+	      } else {
+	        listContainer.classList.remove('has-occurrences');
 	      }
 	    }
 	    /**
@@ -15005,14 +15030,20 @@
 
 	}
 
-	function _buildOccurrenceList2() {
-	  var _this9 = this;
-
+	function _getOccurrenceListContainer2() {
 	  var listContainer = document.getElementById(OCCURRENCE_LIST_CONTAINER_ID);
 
 	  if (!listContainer) {
 	    throw new InternalAppError("Failed to find list container.");
 	  }
+
+	  return listContainer;
+	}
+
+	function _buildOccurrenceList2() {
+	  var _this9 = this;
+
+	  var listContainer = _classPrivateMethodGet$4(this, _getOccurrenceListContainer, _getOccurrenceListContainer2).call(this);
 
 	  _classPrivateMethodGet$4(this, _clearOccurrenceListeners, _clearOccurrenceListeners2).call(this);
 
@@ -15043,13 +15074,10 @@
 	  }
 
 	  var nullListInputId = "nullList".concat(Form.nextId);
+	  var checked = this.controller.app.currentSurvey.attributes['nulllist'] ? ' checked' : ''; // this will be hidden by css if the list is not empty
 
-	  if (occurrencesHtml.length === 0) {
-	    var checked = this.controller.app.currentSurvey.attributes['nulllist'] ? ' checked' : '';
-	    var nullListMessage = "<div class=\"nyph-null-list\"><p>Very occasionally people encounter no plants in bloom during their survey.\nThese 'null lists' are still useful to us, so please tell us even if you recorded no plants in flower.</p>\n<p><label><input type=\"checkbox\" value=\"1\" name=\"nulllist\" id=\"".concat(nullListInputId, "\"").concat(checked, "> This is a null list (I saw no plants in flower during my walk).</label></div></p>");
-	    occurrencesHtml[0] = nullListMessage;
-	  }
-
+	  var nullListMessage = "<div class=\"nyph-null-list-prompt\"><p>Very occasionally people encounter no plants in bloom during their survey.\nThese 'null lists' are still useful to us, so please tell us even if you recorded no plants in flower.</p>\n<p><label><input type=\"checkbox\" value=\"1\" name=\"nulllist\" id=\"".concat(nullListInputId, "\"").concat(checked, "> This is a null list (I saw no plants in flower during my walk).</label></div></p>");
+	  occurrencesHtml.push(nullListMessage);
 	  listContainer.className = 'accordion';
 	  listContainer.innerHTML = occurrencesHtml.join('');
 	  /**
@@ -15098,6 +15126,8 @@
 
 	    });
 	  }
+
+	  this.testForEmptyList(); // sets a class on the occurrence list container
 	}
 
 	function _occurrenceSummaryHTML2(occurrence) {
