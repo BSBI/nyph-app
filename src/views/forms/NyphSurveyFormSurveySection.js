@@ -50,6 +50,7 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 placeholder: 'Grid-reference or search',
                 //autocomplete: 'postal-code',
                 completion: FormField.COMPLETION_COMPULSORY,
+                validationMessage: 'Please specify an approximate starting point for the survey. You can do this by typing a grid-reference, clicking the GPS button, selecting a place from the drop-down list or clicking on the map.',
                 includeSearchBox: true,
                 baseSquareResolution: 2000,
                 gpsTextLabel: true,

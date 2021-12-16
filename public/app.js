@@ -5597,7 +5597,7 @@
 	     * @return {string}
 	     */}],[{key:"emailValidator",value:function emailValidator(key,property,attributes){//console.log(`FormField isValid for '${key}'`);
 	if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is present and is email
-	return !(!attributes.hasOwnProperty(key)||property.field.isEmpty(attributes[key])&&validate(attributes[key]));}// field is present or optional
+	return attributes.hasOwnProperty(key)&&!property.field.isEmpty(attributes[key])&&validate(attributes[key]);}// field is present or optional
 	// report as valid unless content is corrupt
 	return null;// field not assessed
 	}},{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}}]);return InputField;}(FormField);/**
@@ -8401,7 +8401,8 @@
 	      helpText: 'We need to be able to send you an acknowledgement email with a link to view and edit your list.',
 	      autocomplete: 'email',
 	      type: 'email',
-	      completion: FormField.COMPLETION_COMPULSORY
+	      completion: FormField.COMPLETION_COMPULSORY,
+	      validationMessage: 'Please provide an email address'
 	    }
 	  }
 	});
@@ -13761,6 +13762,7 @@
 	      placeholder: 'Grid-reference or search',
 	      //autocomplete: 'postal-code',
 	      completion: FormField.COMPLETION_COMPULSORY,
+	      validationMessage: 'Please specify an approximate starting point for the survey. You can do this by typing a grid-reference, clicking the GPS button, selecting a place from the drop-down list or clicking on the map.',
 	      includeSearchBox: true,
 	      baseSquareResolution: 2000,
 	      gpsTextLabel: true,
@@ -15086,7 +15088,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639654137</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639655047</p>";
 	    }
 	  }]);
 

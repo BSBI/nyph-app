@@ -50,6 +50,7 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
                 autocomplete: 'email',
                 type: 'email',
                 completion: FormField.COMPLETION_COMPULSORY,
+                validationMessage: 'Please provide an email address'
             }},
     };
 }
