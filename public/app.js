@@ -13517,7 +13517,8 @@
 	    attributes: {
 	      label: 'Grid-reference',
 	      helpText: '(optional) leave blank to use the overall survey grid-square, use gps or enter a grid-reference',
-	      completion: FormField.COMPLETION_DESIRED,
+	      completion: FormField.COMPLETION_OPTIONAL,
+	      // not required as can fall-back to the survey grid-ref
 	      includeSearchBox: true,
 	      baseSquareResolution: 1000,
 	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED,
@@ -15078,7 +15079,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639614714</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639653442</p>";
 	    }
 	  }]);
 
