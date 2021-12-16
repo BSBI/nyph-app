@@ -12794,12 +12794,27 @@
 	          }
 
 	          geoCoderInputEl.id = this._inputId;
+	          geoCoderInputEl.classList.add('form-control'); // bootstrap class needed for validation display
+
 	          geoCoderInputEl.addEventListener('change', this.inputChangeHandler.bind(this));
 
 	          if (this.placeholder) {
 	            geoCoderInputEl.placeholder = this.placeholder;
-	          } //mapbox-gl-geocoder--error mapbox-gl-geocoder--no-results
+	          }
 
+	          geocoder.on('clear', function () {
+	            console.log('geocoder cleared');
+	            _this2.value = {
+	              gridRef: '',
+	              rawString: '',
+	              // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+	              source: TextGeorefField.GEOREF_SOURCE_UNKNOWN,
+	              latLng: null,
+	              precision: null
+	            };
+
+	            _this2.fireEvent(FormField.EVENT_CHANGE);
+	          }); //mapbox-gl-geocoder--error mapbox-gl-geocoder--no-results
 	        }
 	      }
 
@@ -15056,7 +15071,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639611475</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639613199</p>";
 	    }
 	  }]);
 

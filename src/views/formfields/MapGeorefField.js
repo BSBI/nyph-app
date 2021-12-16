@@ -258,12 +258,27 @@ export class MapGeorefField extends TextGeorefField {
                     console.error("Failed to look-up geocoder's input element by class name");
                 }
                 geoCoderInputEl.id = this._inputId;
+                geoCoderInputEl.classList.add('form-control'); // bootstrap class needed for validation display
 
                 geoCoderInputEl.addEventListener('change', this.inputChangeHandler.bind(this));
 
                 if (this.placeholder) {
                     geoCoderInputEl.placeholder = this.placeholder;
                 }
+
+                geocoder.on('clear', () => {
+                    console.log('geocoder cleared');
+
+                    this.value = {
+                        gridRef: '',
+                        rawString: '', // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+                        source: TextGeorefField.GEOREF_SOURCE_UNKNOWN,
+                        latLng: null,
+                        precision: null
+                    };
+
+                    this.fireEvent(FormField.EVENT_CHANGE);
+                });
 
                 //mapbox-gl-geocoder--error mapbox-gl-geocoder--no-results
             }
