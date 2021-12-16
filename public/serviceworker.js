@@ -3228,14 +3228,13 @@
 	field.addField(this._formContentContainer);field.addListener(FormField.EVENT_CHANGE,this.changeHandler.bind(this));}}this._formFieldsBuilt=true;}/**
 	     * called after a form change once the model has been updated
 	     * validation is only applied if the form is subject to live validation
-	     */},{key:"conditionallyValidateForm",value:function conditionallyValidateForm(){if(this.liveValidation){this.validateForm();}}/**
+	     */},{key:"conditionallyValidateForm",value:function conditionallyValidateForm(){console.log('called conditionallyValidateForm');if(this.liveValidation){console.log('doing validation conditionallyValidateForm');this.validateForm();}}/**
 	     * similar to validateForm but does not update form validity UI
 	     * @returns {boolean}
 	     */},{key:"testRequiredComplete",value:function testRequiredComplete(){var validityResult=this.model.evaluateCompletionStatus(this.getFormSectionProperties()).requiredFieldsPresent;if(this.isValid!==validityResult){this.isValid=validityResult;this.fireEvent(Form.EVENT_VALIDATION_STATE_CHANGE,{isValid:this.isValid});}return validityResult;}/**
 	     *
 	     * @returns {boolean}
-	     */},{key:"validateForm",value:function validateForm(){//this.liveValidation = true;
-	if(this.liveValidation){this.formElement.classList.add('needs-validation');// add a bootstrap class marking that the form should be subject to validation
+	     */},{key:"validateForm",value:function validateForm(){if(this.liveValidation){this.formElement.classList.add('needs-validation');// add a bootstrap class marking that the form should be subject to validation
 	}var validationResult=this.model.evaluateCompletionStatus(this.getFormSectionProperties());for(var key in this.fields){if(this.fields.hasOwnProperty(key)){var field=this.fields[key];field.markValidity(validationResult.validity[key]);}}if(this.isValid!==validationResult.requiredFieldsPresent){this.isValid=validationResult.requiredFieldsPresent;this.fireEvent(Form.EVENT_VALIDATION_STATE_CHANGE,{isValid:this.isValid});}return validationResult.requiredFieldsPresent;}/**
 	     * fills in the form fields based on the model
 	     */},{key:"populateFormContent",value:function populateFormContent(){if(this._formFieldsBuilt){// throw new Error("populateFormContent shouldn't be called until fields have been initialised");
@@ -3551,7 +3550,15 @@
 	     */},{key:"model",get:function get(){return this._survey;}/**
 	     * the change event triggers after a field has changed, before the value has been read back into the model
 	     *
-	     * @param event
+	     * @param {{
+	     *      'context' : {
+	     *     'attributeName' : string,
+	     *     'completion' : string,
+	     *     'parentForm' : Form,
+	     *     'validationMessage' : ''
+	     *     },
+	     *     'eventName' : string
+	     * }} event
 	     */,set:function set(model){this._survey=model;this.populateFormContent();}},{key:"changeHandler",value:function changeHandler(event){console.log({'survey form change event':event});//this.liveValidation = true; // after the first change start reflecting state
 	this.fireEvent(Form.CHANGE_EVENT,{form:this});}},{key:"destructor",value:function destructor(){_get(_getPrototypeOf$1(SurveyForm.prototype),"destructor",this).call(this);this._survey=null;}/**
 	     *
@@ -3968,12 +3975,12 @@
 	     * @param {{form: SurveyForm}} params
 	     */function formChangedHandler(params){console.log('Survey change handler invoked.');// read new values
 	// then fire its own change event (Occurrence.EVENT_MODIFIED)
-	params.form.updateModelFromContent();// refresh the form's validation state
+	params.form.updateModelFromContent();console.log('Survey calling conditional validation.');// refresh the form's validation state
 	params.form.conditionallyValidateForm();this.touch();this.fireEvent(Survey.EVENT_MODIFIED,{surveyId:this.id});}/**
 	     *
 	     * @param {SurveyForm} form
 	     */},{key:"registerForm",value:function registerForm(form){form.model=this;form.addListener(Form.CHANGE_EVENT,this.formChangedHandler.bind(this));if(this.isNew){form.fireEvent(Form.EVENT_INITIALISE_NEW,{});// allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
-	}}/**
+	form.liveValidation=false;}else {form.liveValidation=true;}}/**
 	     * if not securely saved then makes a post to /savesurvey.php
 	     *
 	     * this may be intercepted by a service worker, which could write the image to indexdb
@@ -4391,7 +4398,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1639611402-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1639654105-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
@@ -5794,7 +5801,7 @@
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1639653963'
+	  version: '1.0.3.1639654137'
 	});
 
 })();
