@@ -929,6 +929,19 @@ export class MainView extends Page {
             }
         }
 
+        let nullListInputId = `nullList${Form.nextId}`;
+
+        if (occurrencesHtml.length === 0) {
+            const checked = this.controller.app.currentSurvey.attributes['nulllist'] ? ' checked' : '';
+
+            const nullListMessage =
+                `<div class="nyph-null-list"><p>Very occasionally people encounter no plants in bloom during their survey.
+These 'null lists' are still useful to us, so please tell us even if you recorded no plants in flower.</p>
+<p><label><input type="checkbox" value="1" name="nulllist" id="${nullListInputId}"${checked}> This is a null list (I saw no plants in flower during my walk).</label></div></p>`;
+
+            occurrencesHtml[0] = nullListMessage;
+        }
+
         listContainer.className = 'accordion';
         listContainer.innerHTML = occurrencesHtml.join('');
 
@@ -955,6 +968,26 @@ export class MainView extends Page {
                 event.stopPropagation();
             }
         });
+
+        /**
+         *
+         * @type {HTMLInputElement}
+         */
+        const nullListToggleEl = document.getElementById(nullListInputId);
+
+        if (nullListToggleEl) {
+            nullListToggleEl.addEventListener('change', /** @param {MouseEvent} event */ (event) => {
+                if (doubleClickIntercepted(event)) {
+                    return;
+                }
+
+                console.log({'Updating null list state' : nullListToggleEl.checked});
+
+                this.controller.app.currentSurvey.setAttribute('nulllist', nullListToggleEl.checked);
+
+                //this.fireEvent(MainView.EVENT_NULL_LIST_CHANGE, {'isNull' : nullListToggleEl.checked});
+            });
+        }
     }
 
     /**

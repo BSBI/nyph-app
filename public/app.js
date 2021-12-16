@@ -4860,6 +4860,13 @@
 	// then fire its own change event (Occurrence.EVENT_MODIFIED)
 	params.form.updateModelFromContent();console.log('Survey calling conditional validation.');// refresh the form's validation state
 	params.form.conditionallyValidateForm();this.touch();this.fireEvent(Survey.EVENT_MODIFIED,{surveyId:this.id});}/**
+	     * Used for special-case setting of a custom attribute
+	     * (i.e. not usually one linked to a form)
+	     * e.g. used for updating the NYPH null-list flag
+	     *
+	     * @param attributeName
+	     * @param value
+	     */},{key:"setAttribute",value:function setAttribute(attributeName,value){if(this.attributes[attributeName]!==value){this.attributes[attributeName]=value;this.touch();this.fireEvent(Survey.EVENT_MODIFIED,{surveyId:this.id});}}/**
 	     *
 	     * @param {SurveyForm} form
 	     */},{key:"registerForm",value:function registerForm(form){form.model=this;form.addListener(Form.CHANGE_EVENT,this.formChangedHandler.bind(this));if(this.isNew){form.fireEvent(Form.EVENT_INITIALISE_NEW,{});// allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
@@ -8210,7 +8217,7 @@
 
 	var htmlLayout = "\r\n<div class=\"container-fluid\">\r\n    <div class=\"row\" style=\"height: 90vh;\">\r\n        <div class=\"col d-md-block pr-md-0 pt-3\" id=\"col1panel\" style=\"overflow-y: auto; max-height: calc(100vh - 5rem);\">\r\n        </div>\r\n        <div class=\"col d-md-none pl-0 pr-0\" id=\"ctrlpanel\" style=\"background-color: aliceblue; width: 28px; max-width: 28px; overflow-y: hidden; \">\r\n            <button class=\"navbar-light navbar-toggler pl-0 pr-0\" type=\"button\" aria-label=\"Back\" id=\"right-panel-back\">\r\n                <i class=\"material-icons-round\" style=\"color: gray;\">arrow_back</i><!-- was view_list -->\r\n            </button>\r\n        </div>\r\n        <div class=\"col d-md-block pr-md-0\" id=\"col2panel\" style=\"overflow-y: auto; height: 100%;\">\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
-	var welcomeContent = "<!-- begin: templates/welcome.html -->\r\n<p>Help us record the plants that are in bloom over the New Year (from the 1<sup>st</sup> to 4<sup>th</sup> January).</p>\r\n<p>Data collected by New Year Plant Hunters help us build up a clearer picture of how our wildflowers are responding to changes in autumn and winter weather patterns.</p>\r\n<p>Each Plant Hunt survey should last no more than three hours, on a single day. If you visit different places or take-part on multiple days then you can send as many separate surveys as you like.</p>\r\n<p>Have fun and stay safe.</p>\r\n<!-- end: templates/welcome.html -->\r\n";
+	var welcomeContent = "<!-- begin: templates/welcome.html -->\r\n<p>Help us record the plants that are in bloom over the New Year (from the 1<sup>st</sup> to 4<sup>th</sup> January).</p>\r\n<p>Data collected by New Year Plant Hunters help us build up a clearer picture of how our wildflowers are responding to changes in autumn and winter weather patterns.</p>\r\n<p>Each Plant Hunt survey should last no more than three hours, on a single day. If you visit different places or take-part on multiple days then you can send as many separate surveys as you like.</p>\r\n<p>To start are new list, or to return to one of your previous lists please use the 'Your lists' menu at the top of the page.</p>\r\n<p>Have fun and stay safe.</p>\r\n<!-- end: templates/welcome.html -->\r\n";
 
 	var defaultRightHandSideHelp = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<h3>Background to the project</h3>\r\n<p></p>\r\n<p>The information that you provide will be used by\r\n    <a href=\"https://bsbi.org/\" target=\"_blank\" title=\"Botanical Society of Britain and Ireland\">BSBI</a> as part of a long-term study looking at changes in plant phenology and distribution. We'll include your plant records in a permanent archive held by BSBI.</p>\r\n<p>To follow up any queries about the survey we request that you please provide your name and email address. You can choose whether or not\r\n    to include your name in our archive of plant records. Your email address will be\r\n    confidential and won't be archived.</p>\r\n<p>A summary of the New Year Plant Hunt surveys will appear on the project website.</p>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
 
@@ -14999,6 +15006,8 @@
 	}
 
 	function _buildOccurrenceList2() {
+	  var _this9 = this;
+
 	  var listContainer = document.getElementById(OCCURRENCE_LIST_CONTAINER_ID);
 
 	  if (!listContainer) {
@@ -15033,6 +15042,14 @@
 	    _iterator5.f();
 	  }
 
+	  var nullListInputId = "nullList".concat(Form.nextId);
+
+	  if (occurrencesHtml.length === 0) {
+	    var checked = this.controller.app.currentSurvey.attributes['nulllist'] ? ' checked' : '';
+	    var nullListMessage = "<div class=\"nyph-null-list\"><p>Very occasionally people encounter no plants in bloom during their survey.\nThese 'null lists' are still useful to us, so please tell us even if you recorded no plants in flower.</p>\n<p><label><input type=\"checkbox\" value=\"1\" name=\"nulllist\" id=\"".concat(nullListInputId, "\"").concat(checked, "> This is a null list (I saw no plants in flower during my walk).</label></div></p>");
+	    occurrencesHtml[0] = nullListMessage;
+	  }
+
 	  listContainer.className = 'accordion';
 	  listContainer.innerHTML = occurrencesHtml.join('');
 	  /**
@@ -15058,6 +15075,29 @@
 	      event.stopPropagation();
 	    }
 	  });
+	  /**
+	   *
+	   * @type {HTMLInputElement}
+	   */
+
+	  var nullListToggleEl = document.getElementById(nullListInputId);
+
+	  if (nullListToggleEl) {
+	    nullListToggleEl.addEventListener('change',
+	    /** @param {MouseEvent} event */
+	    function (event) {
+	      if (doubleClickIntercepted(event)) {
+	        return;
+	      }
+
+	      console.log({
+	        'Updating null list state': nullListToggleEl.checked
+	      });
+
+	      _this9.controller.app.currentSurvey.setAttribute('nulllist', nullListToggleEl.checked); //this.fireEvent(MainView.EVENT_NULL_LIST_CHANGE, {'isNull' : nullListToggleEl.checked});
+
+	    });
+	  }
 	}
 
 	function _occurrenceSummaryHTML2(occurrence) {

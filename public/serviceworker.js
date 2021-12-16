@@ -3977,6 +3977,13 @@
 	// then fire its own change event (Occurrence.EVENT_MODIFIED)
 	params.form.updateModelFromContent();console.log('Survey calling conditional validation.');// refresh the form's validation state
 	params.form.conditionallyValidateForm();this.touch();this.fireEvent(Survey.EVENT_MODIFIED,{surveyId:this.id});}/**
+	     * Used for special-case setting of a custom attribute
+	     * (i.e. not usually one linked to a form)
+	     * e.g. used for updating the NYPH null-list flag
+	     *
+	     * @param attributeName
+	     * @param value
+	     */},{key:"setAttribute",value:function setAttribute(attributeName,value){if(this.attributes[attributeName]!==value){this.attributes[attributeName]=value;this.touch();this.fireEvent(Survey.EVENT_MODIFIED,{surveyId:this.id});}}/**
 	     *
 	     * @param {SurveyForm} form
 	     */},{key:"registerForm",value:function registerForm(form){form.model=this;form.addListener(Form.CHANGE_EVENT,this.formChangedHandler.bind(this));if(this.isNew){form.fireEvent(Form.EVENT_INITIALISE_NEW,{});// allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
@@ -4398,7 +4405,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1639655022-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1639662588-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
