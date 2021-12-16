@@ -137,12 +137,18 @@ export class MainView extends Page {
         }
 
         for (let card of cards) {
-            let cardSection = card.getAttribute('data-sectionkey');
-
-            if (cardSection === targetMatch) {
+            let parentDiv = card.parentElement;
+            if (parentDiv.classList.contains('is-invalid')) {
+                // don't ever hide invalid sections
                 card.classList.add('show');
             } else {
-                card.classList.remove('show');
+                let cardSection = card.getAttribute('data-sectionkey');
+
+                if (cardSection === targetMatch) {
+                    card.classList.add('show');
+                } else {
+                    card.classList.remove('show');
+                }
             }
         }
 

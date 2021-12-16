@@ -14037,12 +14037,19 @@
 	      try {
 	        for (_iterator.s(); !(_step = _iterator.n()).done;) {
 	          var card = _step.value;
-	          var cardSection = card.getAttribute('data-sectionkey');
+	          var parentDiv = card.parentElement;
 
-	          if (cardSection === targetMatch) {
+	          if (parentDiv.classList.contains('is-invalid')) {
+	            // don't ever hide invalid sections
 	            card.classList.add('show');
 	          } else {
-	            card.classList.remove('show');
+	            var cardSection = card.getAttribute('data-sectionkey');
+
+	            if (cardSection === targetMatch) {
+	              card.classList.add('show');
+	            } else {
+	              card.classList.remove('show');
+	            }
 	          }
 	        }
 	      } catch (err) {
@@ -15071,7 +15078,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639613199</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639614714</p>";
 	    }
 	  }]);
 
