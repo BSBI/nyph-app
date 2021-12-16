@@ -90,6 +90,6 @@ div.nyph-null-list-prompt {
     border-radius: 5px;
 }
 
-div.has-occurrences div.nyph-null-list-prompt {
+div#occurrencelistcontainer.has-occurrences div.nyph-null-list-prompt {
     display: block;
 }
