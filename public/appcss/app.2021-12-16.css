@@ -84,12 +84,13 @@ div.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
 }
 
 div.nyph-null-list-prompt {
-    display: none;
+    display: block;
     margin: 2em;
+    padding: 1em;
     border: thin gray solid;
     border-radius: 5px;
 }
 
 div#occurrencelistcontainer.has-occurrences div.nyph-null-list-prompt {
-    display: block;
+    display: none;
 }
