@@ -8390,6 +8390,7 @@
 	      helpText: 'This helps us follow-up if we have any queries about your records. If several people are taking part in your Plant Hunt you can list them in the next section.',
 	      placeholder: 'full name',
 	      completion: FormField.COMPLETION_COMPULSORY,
+	      validationMessage: 'Please provide your name',
 	      autocomplete: 'name'
 	    }
 	  },
@@ -13981,8 +13982,6 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "pathPrefix", void 0);
 
-	    _defineProperty$1(_assertThisInitialized$1(_this), "separateListsHTMLMessage", "<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href=\"/".concat(_this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start another separate list</a>."));
-
 	    _this.pathPrefix = window.location.pathname.split('/')[1];
 	    return _this;
 	  }
@@ -14961,9 +14960,10 @@
 	  var accordionEl = document.getElementById(this.leftPanelAccordionId);
 	  var content = document.createDocumentFragment();
 	  var summaryEl = content.appendChild(document.createElement('p'));
-	  this.recordsHeaderListDescriptorId = Form.nextId; // noinspection HtmlUnknownTarget
+	  this.recordsHeaderListDescriptorId = Form.nextId;
+	  var separateListsHTMLMessage = "<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href=\"/".concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start another separate list</a>."); // noinspection HtmlUnknownTarget
 
-	  summaryEl.innerHTML = "<span id=\"".concat(this.recordsHeaderListDescriptorId, "\"><strong>Records of plants in bloom from ").concat(this.controller.survey.generateSurveyName(), ".</strong></span><small class=\"d-block d-md-none\"><a href=\"/").concat(this.pathPrefix, "/list/record/help\">(help)</a></small>").concat(this.separateListsHTMLMessage);
+	  summaryEl.innerHTML = "<span id=\"".concat(this.recordsHeaderListDescriptorId, "\"><strong>Records of plants in bloom from ").concat(this.controller.survey.generateSurveyName(), ".</strong></span><small class=\"d-block d-md-none\"><a href=\"/").concat(this.pathPrefix, "/list/record/help\">(help)</a></small>").concat(separateListsHTMLMessage);
 	  var newButtonEl = content.appendChild(document.createElement('button'));
 	  newButtonEl.type = 'button';
 	  newButtonEl.className = 'btn btn-primary btn-lg mb-2';
@@ -15088,7 +15088,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639655047</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1639656802</p>";
 	    }
 	  }]);
 

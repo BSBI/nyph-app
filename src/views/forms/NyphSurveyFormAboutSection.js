@@ -39,6 +39,7 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
                 helpText: 'This helps us follow-up if we have any queries about your records. If several people are taking part in your Plant Hunt you can list them in the next section.',
                 placeholder: 'full name',
                 completion: FormField.COMPLETION_COMPULSORY,
+                validationMessage: 'Please provide your name',
                 autocomplete: 'name'
             }},
         email: {

@@ -831,8 +831,6 @@ export class MainView extends Page {
         }
     }
 
-    separateListsHTMLMessage = `<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start another separate list</a>.`;
-
     #appendOccurrenceListContainer() {
         const accordionEl = document.getElementById(this.leftPanelAccordionId);
 
@@ -841,8 +839,11 @@ export class MainView extends Page {
 
         this.recordsHeaderListDescriptorId = Form.nextId;
 
+        const separateListsHTMLMessage = `<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start another separate list</a>.`;
+
+
         // noinspection HtmlUnknownTarget
-        summaryEl.innerHTML = `<span id="${this.recordsHeaderListDescriptorId}"><strong>Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.</strong></span><small class="d-block d-md-none"><a href="/${this.pathPrefix}/list/record/help">(help)</a></small>${this.separateListsHTMLMessage}`;
+        summaryEl.innerHTML = `<span id="${this.recordsHeaderListDescriptorId}"><strong>Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.</strong></span><small class="d-block d-md-none"><a href="/${this.pathPrefix}/list/record/help">(help)</a></small>${separateListsHTMLMessage}`;
 
         const newButtonEl = content.appendChild(document.createElement('button'));
         newButtonEl.type = 'button';
