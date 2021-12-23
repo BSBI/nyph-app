@@ -183,6 +183,18 @@ export class MapGeorefField extends TextGeorefField {
 
         this._inputId = FormField.nextId;
 
+        if (navigator.geolocation && this.showGPSEnableLinkIfNotActiveOnMobile && GPSRequest.getDeviceType() === GPSRequest.DEVICE_TYPE_MOBILE) {
+            // if on a mobile device and GPS is not turned on
+
+            const gpsEnabledLinkEl = document.createElement('a');
+            gpsEnabledLinkEl.className = 'no-gps-link-prompt'; // will be visible only if document body doesn't have a 'gps-enabled' class
+            gpsEnabledLinkEl.href = '#';
+            gpsEnabledLinkEl.innerText = 'Please enable GPS';
+            container.appendChild(gpsEnabledLinkEl);
+
+            gpsEnabledLinkEl.addEventListener('click', this.gpsButtonClickHandler.bind(this));
+        }
+
         const labelEl = container.appendChild(document.createElement('label'));
         labelEl.htmlFor = this._inputId;
         labelEl.textContent = this.label;
@@ -286,7 +298,7 @@ export class MapGeorefField extends TextGeorefField {
 
         if (navigator.geolocation) {
             const buttonContainerEl = inputGroupEl.appendChild(document.createElement('span'));
-            buttonContainerEl.className = 'input-group-btn';
+            buttonContainerEl.className = 'input-group-btn gps-button-flex';
 
             const gpsButton = buttonContainerEl.appendChild(document.createElement('button'));
             gpsButton.id = FormField.nextId;
@@ -301,7 +313,7 @@ export class MapGeorefField extends TextGeorefField {
             }
 
             const buttonIconEl = gpsButton.appendChild(document.createElement('span'));
-            buttonIconEl.className = 'material-icons';
+            buttonIconEl.className = 'material-icons gps-icon';
             buttonIconEl.innerText = 'gps_not_fixed';
 
             if (this.gpsTextLabel) {
@@ -406,6 +418,16 @@ export class MapGeorefField extends TextGeorefField {
             // console.log({'grant state':grantState});
 
             if (doGPSInitialisation) {
+                this.parentForm.addListener(Form.EVENT_CAMERA, () => {
+                    // also set GPS when photo is taken
+
+                    this.seekGPS().then(() => {
+                        console.log('After photo got successful GPS fix.');
+                    }, () => {
+                        console.log('After photo failed GPS fix.');
+                    });
+                });
+
                 this.seekGPS().then(() => {
                     console.log('GPS initialisation succeeded.');
 

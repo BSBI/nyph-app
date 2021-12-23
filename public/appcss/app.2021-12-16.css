@@ -78,7 +78,7 @@ body.gps-enabled .no-gps-link-prompt {
 }
 
 div.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
-    flex: 1 1 auto;
+    flex: 5 1 auto;
     width: 1%;
     max-width: none;
 }
@@ -93,4 +93,22 @@ div.nyph-null-list-prompt {
 
 div#occurrencelistcontainer.has-occurrences div.nyph-null-list-prompt {
     display: none;
+}
+
+span.gps-button-flex {
+    flex: 1 1 auto; display: block; width: 1%;
+}
+
+@keyframes fa-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+.gps-active span.gps-icon {
+    vertical-align: middle;
+    animation: fa-spin 3s infinite linear
 }

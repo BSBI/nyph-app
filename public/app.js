@@ -4113,7 +4113,7 @@
 	var model=this.model;for(var key in this.fields){if(this.fields.hasOwnProperty(key)){var field=this.fields[key];field.value=model.attributes[key];// value setter will update the field
 	}}this.conditionallyValidateForm();}}/**
 	     * @abstract
-	     */},{key:"updateModelFromContent",value:function updateModelFromContent(){}}],[{key:"nextId",get:function get(){var _Form$idIndex;return "id".concat((_classStaticPrivateFieldSpecSet(Form,Form,_idIndex,(_Form$idIndex=+_classStaticPrivateFieldSpecGet$2(Form,Form,_idIndex))+1),_Form$idIndex));}}]);return Form;}(EventHarness);_defineProperty(Form,"CHANGE_EVENT",'change');_defineProperty(Form,"EVENT_INITIALISE_NEW",'initialisenew');_defineProperty(Form,"EVENT_INITIALISED",'initialised');var _formSerial={writable:true,value:0};_defineProperty(Form,"EVENT_VALIDATION_STATE_CHANGE",'validationstatechange');var _idIndex={writable:true,value:0};_defineProperty(Form,"COMPLETION_STATUS_UNSTARTED",'unstarted');_defineProperty(Form,"COMPLETION_STATUS_COMPLETE",'complete');_defineProperty(Form,"COMPLETION_STATUS_IN_PROGRESS",'inProgress');function _createSuper$q(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$q();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$q(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var Occurrence=/*#__PURE__*/function(_Model){_inherits(Occurrence,_Model);var _super=_createSuper$q(Occurrence);function Occurrence(){var _this;_classCallCheck(this,Occurrence);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_defineProperty(_assertThisInitialized(_this),"attributes",{// taxon: {
+	     */},{key:"updateModelFromContent",value:function updateModelFromContent(){}}],[{key:"nextId",get:function get(){var _Form$idIndex;return "id".concat((_classStaticPrivateFieldSpecSet(Form,Form,_idIndex,(_Form$idIndex=+_classStaticPrivateFieldSpecGet$2(Form,Form,_idIndex))+1),_Form$idIndex));}}]);return Form;}(EventHarness);_defineProperty(Form,"CHANGE_EVENT",'change');_defineProperty(Form,"EVENT_INITIALISE_NEW",'initialisenew');_defineProperty(Form,"EVENT_INITIALISED",'initialised');_defineProperty(Form,"EVENT_CAMERA",'cameraimage');var _formSerial={writable:true,value:0};_defineProperty(Form,"EVENT_VALIDATION_STATE_CHANGE",'validationstatechange');var _idIndex={writable:true,value:0};_defineProperty(Form,"COMPLETION_STATUS_UNSTARTED",'unstarted');_defineProperty(Form,"COMPLETION_STATUS_COMPLETE",'complete');_defineProperty(Form,"COMPLETION_STATUS_IN_PROGRESS",'inProgress');function _createSuper$q(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$q();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$q(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var Occurrence=/*#__PURE__*/function(_Model){_inherits(Occurrence,_Model);var _super=_createSuper$q(Occurrence);function Occurrence(){var _this;_classCallCheck(this,Occurrence);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_defineProperty(_assertThisInitialized(_this),"attributes",{// taxon: {
 	//     taxonId: '',
 	//     taxonName: '',
 	//     vernacularMatch: false
@@ -4797,7 +4797,7 @@
 	/**
 	     *
 	     * @param {MouseEvent} event
-	     */},{key:"gpsButtonClickHandler",value:function gpsButtonClickHandler(event){if(doubleClickIntercepted(event)){return;}this.seekGPS().catch(function(error){console.log({'gps look-up failed, error':error});});event.preventDefault();event.stopPropagation();}/**
+	     */},{key:"gpsButtonClickHandler",value:function gpsButtonClickHandler(event){if(doubleClickIntercepted(event)){return;}var containerEl=document.getElementById(_classPrivateFieldGet(this,_containerId$7));containerEl.classList.add('gps-active');this.seekGPS().catch(function(error){console.log({'gps look-up failed, error':error});}).finally(function(){containerEl.classList.remove('gps-active');});event.preventDefault();event.stopPropagation();}/**
 	     *
 	     * @returns {Promise<unknown>}
 	     */},{key:"seekGPS",value:function seekGPS(){var _this2=this;return GPSRequest.seekGPS(this._gpsPermissionsPromptId).then(function(position){// const latitude  = position.coords.latitude;
@@ -5122,7 +5122,8 @@
 	   */function Layout(){var _this;_classCallCheck(this,Layout);_this=_super.call(this);_defineProperty(_assertThisInitialized(_this),"app",void 0);_defineProperty(_assertThisInitialized(_this),"surveysMenuId",void 0);_defineProperty(_assertThisInitialized(_this),"newSurveyLabel",'new survey');_defineProperty(_assertThisInitialized(_this),"newSurveyContent",newSurveyModal);_defineProperty(_assertThisInitialized(_this),"pathPrefix",void 0);_this.pathPrefix=window.location.pathname.split('/')[1];return _this;}/**
 	   *
 	   * @param {App} app
-	   */_createClass(Layout,[{key:"setApp",value:function setApp(app){var _this2=this;this.app=app;app.addListener(App.EVENT_SURVEYS_CHANGED,function(){_this2.refreshSurveysMenu();});if(navigator.hasOwnProperty('onLine')&&navigator.onLine===false){this.addOfflineFlag();}window.addEventListener('online',function(){document.body.classList.remove('offline');});window.addEventListener('offline',this.addOfflineFlag);this.registerGPSClassMarker();}},{key:"addOfflineFlag",value:function addOfflineFlag(){document.body.classList.add('offline');}},{key:"registerGPSClassMarker",value:function registerGPSClassMarker(){if(navigator.geolocation){GPSRequest.haveGPSPermissionPromise().then(function(permission){if(permission===GPSRequest.GPS_PERMISSION_GRANTED){document.body.classList.add('gps-enabled');}GPSRequest.gpsEventObject.addListener(GPSRequest.EVENT_GPS_PERMISSION_CHANGE,function(permission){if(permission===GPSRequest.GPS_PERMISSION_GRANTED){document.body.classList.add('gps-enabled');}else {document.body.classList.remove('gps-enabled');}});});}}},{key:"initialise",value:function initialise(){var _this3=this;this.refreshSurveysMenu();var modalContent=document.createElement('div');modalContent.innerHTML=this.newSurveyContent;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=resetModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=saveAllSuccessModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=saveAllFailureModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);// register event handlers once the content is likely to be in the DOM
+	   */_createClass(Layout,[{key:"setApp",value:function setApp(app){var _this2=this;this.app=app;app.addListener(App.EVENT_SURVEYS_CHANGED,function(){_this2.refreshSurveysMenu();});if(navigator.hasOwnProperty('onLine')&&navigator.onLine===false){this.addOfflineFlag();}window.addEventListener('online',function(){document.body.classList.remove('offline');app.syncAll();// possibly not needed but useful as fallback to try to force saving
+	});window.addEventListener('offline',this.addOfflineFlag);this.registerGPSClassMarker();}},{key:"addOfflineFlag",value:function addOfflineFlag(){document.body.classList.add('offline');}},{key:"registerGPSClassMarker",value:function registerGPSClassMarker(){if(navigator.geolocation){GPSRequest.haveGPSPermissionPromise().then(function(permission){if(permission===GPSRequest.GPS_PERMISSION_GRANTED){document.body.classList.add('gps-enabled');}GPSRequest.gpsEventObject.addListener(GPSRequest.EVENT_GPS_PERMISSION_CHANGE,function(permission){if(permission===GPSRequest.GPS_PERMISSION_GRANTED){document.body.classList.add('gps-enabled');}else {document.body.classList.remove('gps-enabled');}});});}}},{key:"initialise",value:function initialise(){var _this3=this;this.refreshSurveysMenu();var modalContent=document.createElement('div');modalContent.innerHTML=this.newSurveyContent;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=resetModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=saveAllSuccessModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=saveAllFailureModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);// register event handlers once the content is likely to be in the DOM
 	setTimeout(function(){document.getElementById("".concat(Layout.NEW_SURVEY_MODAL_ID,"confirmed")).addEventListener('click',function(event){event.stopPropagation();event.preventDefault();if(event.detail<2){// only if not a double click
 	// force hide the new survey modal
 	$("#".concat(Layout.NEW_SURVEY_MODAL_ID)).modal('hide');_this3.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);}});document.getElementById("".concat(Layout.RESET_MODAL_ID,"confirmed")).addEventListener('click',function(event){event.stopPropagation();event.preventDefault();if(event.detail<2){// force hide the new survey modal
@@ -5509,18 +5510,18 @@
 	//     <input type="file" class="custom-file-input" id="customFile">
 	//     <label class="custom-file-label" for="customFile">Choose file</label>
 	// </div>
-	var container=document.createElement('div');container.className='form-group';_classPrivateFieldSet(this,_containerId$5,container.id=FormField.nextId);_classPrivateFieldSet(this,_inputId$1,FormField.nextId);var labelEl=container.appendChild(document.createElement('label'));labelEl.htmlFor=_classPrivateFieldGet(this,_inputId$1);labelEl.textContent=this.label;var inputGroupEl=container.appendChild(document.createElement('div'));inputGroupEl.className='input-group';var filePickerWrapper=document.createElement('div');filePickerWrapper.className='custom-file';inputGroupEl.appendChild(filePickerWrapper);var filePickerField=filePickerWrapper.appendChild(document.createElement('input'));filePickerField.type='file';filePickerField.className="custom-file-input";filePickerField.id=_classPrivateFieldGet(this,_inputId$1);filePickerField.accept=".jpeg, .jpg, image/png, image/jpeg";filePickerField.multiple=true;if(this.placeholder){var pickerLabelEl=filePickerWrapper.appendChild(document.createElement('label'));pickerLabelEl.className='custom-file-label';pickerLabelEl.htmlFor=_classPrivateFieldGet(this,_inputId$1);pickerLabelEl.textContent=this.placeholder;}if(this.includeCamera){var cameraButtonContainer=document.createElement('div');cameraButtonContainer.className='input-group-append';var cameraSpan=cameraButtonContainer.appendChild(document.createElement('span'));cameraSpan.className='input-group-text';var cameraLabel=cameraSpan.appendChild(document.createElement('label'));cameraLabel.className='pl-0 pr-0 ml-0 mr-0 mt-0 mb-0 pt-0 pb-0 material-icons';var cameraIcon=cameraLabel.appendChild(document.createElement('i'));cameraIcon.className='material-icons pl-0 pr-0 ml-0 mr-0 mt-0 mb-0 pt-0 pb-0';cameraIcon.textContent='add_a_photo';var cameraInput=cameraLabel.appendChild(document.createElement('input'));cameraInput.type='file';cameraInput.capture='environment';cameraInput.accept='image/*';cameraInput.style.display='none';cameraInput.id=FormField.nextId;inputGroupEl.appendChild(cameraButtonContainer);cameraInput.addEventListener('change',this.inputChangeHandler.bind(this,cameraInput.id));}// styling save buttons: https://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3
+	var container=document.createElement('div');container.className='form-group';_classPrivateFieldSet(this,_containerId$5,container.id=FormField.nextId);_classPrivateFieldSet(this,_inputId$1,FormField.nextId);var labelEl=container.appendChild(document.createElement('label'));labelEl.htmlFor=_classPrivateFieldGet(this,_inputId$1);labelEl.textContent=this.label;var inputGroupEl=container.appendChild(document.createElement('div'));inputGroupEl.className='input-group';var filePickerWrapper=document.createElement('div');filePickerWrapper.className='custom-file';inputGroupEl.appendChild(filePickerWrapper);var filePickerField=filePickerWrapper.appendChild(document.createElement('input'));filePickerField.type='file';filePickerField.className="custom-file-input";filePickerField.id=_classPrivateFieldGet(this,_inputId$1);filePickerField.accept=".jpeg, .jpg, image/png, image/jpeg";filePickerField.multiple=true;if(this.placeholder){var pickerLabelEl=filePickerWrapper.appendChild(document.createElement('label'));pickerLabelEl.className='custom-file-label';pickerLabelEl.htmlFor=_classPrivateFieldGet(this,_inputId$1);pickerLabelEl.textContent=this.placeholder;}if(this.includeCamera&&GPSRequest.getDeviceType()!==GPSRequest.DEVICE_TYPE_IMMOBILE){var cameraButtonContainer=document.createElement('div');cameraButtonContainer.className='input-group-append';var cameraSpan=cameraButtonContainer.appendChild(document.createElement('span'));cameraSpan.className='input-group-text';var cameraLabel=cameraSpan.appendChild(document.createElement('label'));cameraLabel.className='pl-0 pr-0 ml-0 mr-0 mt-0 mb-0 pt-0 pb-0 material-icons';var cameraIcon=cameraLabel.appendChild(document.createElement('i'));cameraIcon.className='material-icons pl-0 pr-0 ml-0 mr-0 mt-0 mb-0 pt-0 pb-0';cameraIcon.textContent='add_a_photo';var cameraInput=cameraLabel.appendChild(document.createElement('input'));cameraInput.type='file';cameraInput.capture='environment';cameraInput.accept='image/*';cameraInput.style.display='none';cameraInput.id=FormField.nextId;inputGroupEl.appendChild(cameraButtonContainer);cameraInput.addEventListener('change',this.inputChangeHandler.bind(this,{inputId:cameraInput.id,origin:ImageField.ORIGIN_CAMERA}));}// styling save buttons: https://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3
 	// (partially relevant)
 	// <label class="img-picker icon icon-camera">
 	// <input type="file" accept="image/*" capture="environment"/>
 	// </label>
 	if(this.helpText){var helpTextField=container.appendChild(document.createElement('small'));helpTextField.innerHTML=this.helpText;}var statusBlockEl=container.appendChild(document.createElement('p'));_classPrivateFieldSet(this,_statusBlockId,statusBlockEl.id=FormField.nextId);// register a click handler for images (to open a modal)
-	statusBlockEl.addEventListener('click',this.imageClickHandler.bind(this));if(this.validationMessage){var validationMessageElement=container.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}filePickerField.addEventListener('change',this.inputChangeHandler.bind(this,filePickerField.id));this._fieldEl=container;this.parentForm.addListener(EVENT_DELETE_IMAGE,this.deleteImageHandler.bind(this));}/**
+	statusBlockEl.addEventListener('click',this.imageClickHandler.bind(this));if(this.validationMessage){var validationMessageElement=container.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}filePickerField.addEventListener('change',this.inputChangeHandler.bind(this,{inputId:filePickerField.id,origin:ImageField.ORIGIN_FILE}));this._fieldEl=container;this.parentForm.addListener(EVENT_DELETE_IMAGE,this.deleteImageHandler.bind(this));}/**
 	     * called after user has clicked delete button on an image
 	     *
 	     * @param {{imageId : string}} params
-	     */},{key:"deleteImageHandler",value:function deleteImageHandler(params){console.log("delete image ".concat(params.imageId));var image;for(var key in this._value.images){if(this._value.images.hasOwnProperty(key)){if(this._value.images[key].id===params.imageId){image=this._value.images.splice(key,1)[0];break;}}}if(!image){console.log("Failed to find image id ".concat(params.imageId));}else {// @todo need to resave image to flag as deleted
-	this.updateView();this.fireEvent(FormField.EVENT_CHANGE);}}/**
+	     */},{key:"deleteImageHandler",value:function deleteImageHandler(params){console.log("delete image ".concat(params.imageId));var image;for(var _key in this._value.images){if(this._value.images.hasOwnProperty(_key)){if(this._value.images[_key].id===params.imageId){image=this._value.images.splice(_key,1)[0];break;}}}if(!image){console.log("Failed to find image id ".concat(params.imageId));}else {// re-save image to flag as deleted
+	this._value.images[key].deleted=true;_classPrivateMethodGet$3(this,_save,_save2).call(this,[this._value.images[key]]);this.updateView();this.fireEvent(FormField.EVENT_CHANGE);}}/**
 	     *
 	     * @param {MouseEvent} event
 	     */},{key:"imageClickHandler",value:function imageClickHandler(event){if(doubleClickIntercepted(event)){return;}var targetEl=event.target.closest('picture');if(!targetEl){targetEl=event.target.closest('img');}// console.log({'clicked image' : targetEl});
@@ -5528,10 +5529,12 @@
 	     * called with an additional bound element id parameter
 	     * (this allows the handler to easily distinguish between the two file pickers)
 	     *
-	     * @param {string} inputId
+	     * @param {{inputId : string, origin : string}} params
 	     * @param {Event} event
-	     */},{key:"inputChangeHandler",value:function inputChangeHandler(inputId,event){var _this2=this;event.stopPropagation();// don't allow the change event to reach the form-level event handler (will handle it here instead)
-	console.log('got image field input change event');var imageEl=document.getElementById(inputId);if(imageEl.files.length){_classPrivateMethodGet$3(this,_addFiles,_addFiles2).call(this,imageEl.files).then(function(){_this2.fireEvent(FormField.EVENT_CHANGE);});}else {this.fireEvent(FormField.EVENT_CHANGE);}}/**
+	     */},{key:"inputChangeHandler",value:function inputChangeHandler(params,event){var _this2=this;event.stopPropagation();// don't allow the change event to reach the form-level event handler (will handle it here instead)
+	console.log({'got image field input change event':params});var imageEl=document.getElementById(params.inputId);if(imageEl.files.length){_classPrivateMethodGet$3(this,_addFiles,_addFiles2).call(this,imageEl.files).then(function(){_this2.fireEvent(FormField.EVENT_CHANGE);});if(params.origin===ImageField.ORIGIN_CAMERA){// if origin of image was camera button click then it's useful to fire event
+	// as this might be a good time to take a GPS fix
+	this.parentForm.fireEvent(Form.EVENT_CAMERA);}}else {this.fireEvent(FormField.EVENT_CHANGE);}}/**
 	     *
 	     * @param {FileList} fileList
 	     * @return {Promise<void>}
@@ -5542,10 +5545,10 @@
 	// this pop-up is informational only
 	var modalEl=document.createElement('div');modalEl.innerHTML="<div class=\"modal fade\" id=\"".concat(ImageField.LICENSE_MODAL,"\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(ImageField.LICENSE_MODAL,"Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(ImageField.LICENSE_MODAL,"Title\">Image licensing</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <p>By choosing to submit images with your Garden Wildflower Hunt records you agree to license the image under the terms of the Creative Common Attribution 4.0 International license (CC BY 4.0).</p>\n        <p>The following is a summary of (and not a substitute for) the <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">license</a>.</p>\n        <p>Licensees are free to:</p>\n        <ul class=\"license-properties\">\n<li>\n<strong>Share</strong> \u2014 copy and redistribute the material in any medium or format\n</li>\n<li>\n<strong>Adapt</strong> \u2014 remix, transform, and build upon the material for any purpose, even commercially.\n</li>\n</ul>\n<p>Licensees are most follow these term:</p>\n<ul>\n<li>\n<p>\n<strong>Attribution</strong> \u2014 licensees must give appropriate credit, provide a link to the license, and indicate if changes were made.\n</p>\n</li>\n</ul>\n<p>Full details of the license are here: <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">CC BY 4.0 license</a></p>\n\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");return modalEl.firstChild;}}]);return ImageField;}(FormField);function _addFiles2(fileList){// cannot save until parent occurrence has been saved
 	// so pre-trigger a save event
-	this.parentForm.pingOccurrence();var images=[];var _iterator4=_createForOfIteratorHelper$3(fileList),_step4;try{for(_iterator4.s();!(_step4=_iterator4.n()).done;){var file=_step4.value;images.push(OccurrenceImage.fromFile(file));}}catch(err){_iterator4.e(err);}finally{_iterator4.f();}return _classPrivateMethodGet$3(this,_save,_save2).call(this,images);}function _save2(images){var _this3=this;if(images.length){var image=images.shift();return image.save(this.parentForm.surveyId,this.parentForm.occurrenceId,this.parentForm.projectId).then(function(jsonImageDescriptor){console.log("Added image '".concat(image.id,"'"));console.log({jsonDescription:jsonImageDescriptor});_this3._value.images.push(image);_this3.updateView();// excessive view updates, should do once when all promises have succeeded
+	this.parentForm.pingOccurrence();var images=[];var _iterator4=_createForOfIteratorHelper$3(fileList),_step4;try{for(_iterator4.s();!(_step4=_iterator4.n()).done;){var file=_step4.value;images.push(OccurrenceImage.fromFile(file));}}catch(err){_iterator4.e(err);}finally{_iterator4.f();}return _classPrivateMethodGet$3(this,_save,_save2).call(this,images);}function _save2(images){var _this3=this;if(images.length){var image=images.shift();return image.save(this.parentForm.surveyId,this.parentForm.occurrenceId,this.parentForm.projectId).then(function(jsonImageDescriptor){if(!image.deleted){console.log("Added image '".concat(image.id,"'"));console.log({jsonDescription:jsonImageDescriptor});_this3._value.images.push(image);_this3.updateView();// excessive view updates, should do once when all promises have succeeded
 	// this may break with multiple images if fileList is live and is cleared when input is cleared
 	// during view update, need to test
-	},function(reason){console.log("Failed to add image ".concat(image.id));console.log({"Failure reason":reason});}).finally(function(){return _classPrivateMethodGet$3(_this3,_save,_save2).call(_this3,images);});}else {return Promise.resolve();}}_defineProperty(ImageField,"LICENSE_MODAL",'imagelicensemodal');var tester$2=/^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;// Thanks to:
+	}else {console.log({'deleted image':image.id});}},function(reason){console.log("Failed to add image ".concat(image.id));console.log({"Failure reason":reason});}).finally(function(){return _classPrivateMethodGet$3(_this3,_save,_save2).call(_this3,images);});}else {return Promise.resolve();}}_defineProperty(ImageField,"LICENSE_MODAL",'imagelicensemodal');_defineProperty(ImageField,"ORIGIN_CAMERA",'cameraimage');_defineProperty(ImageField,"ORIGIN_FILE",'fileimage');var tester$2=/^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;// Thanks to:
 	// http://fightingforalostcause.net/misc/2006/compare-email-regex.php
 	// http://thedailywtf.com/Articles/Validating_Email_Addresses.aspx
 	// http://stackoverflow.com/questions/201323/what-is-the-best-regular-expression-for-validating-email-addresses/201378#201378
@@ -12337,6 +12340,18 @@
 	      _classPrivateFieldSet$1(this, _containerId, container.id = FormField.nextId);
 
 	      this._inputId = FormField.nextId;
+
+	      if (navigator.geolocation && this.showGPSEnableLinkIfNotActiveOnMobile && GPSRequest.getDeviceType() === GPSRequest.DEVICE_TYPE_MOBILE) {
+	        // if on a mobile device and GPS is not turned on
+	        var gpsEnabledLinkEl = document.createElement('a');
+	        gpsEnabledLinkEl.className = 'no-gps-link-prompt'; // will be visible only if document body doesn't have a 'gps-enabled' class
+
+	        gpsEnabledLinkEl.href = '#';
+	        gpsEnabledLinkEl.innerText = 'Please enable GPS';
+	        container.appendChild(gpsEnabledLinkEl);
+	        gpsEnabledLinkEl.addEventListener('click', this.gpsButtonClickHandler.bind(this));
+	      }
+
 	      var labelEl = container.appendChild(document.createElement('label'));
 	      labelEl.htmlFor = this._inputId;
 	      labelEl.textContent = this.label;
@@ -12438,7 +12453,7 @@
 
 	      if (navigator.geolocation) {
 	        var buttonContainerEl = inputGroupEl.appendChild(document.createElement('span'));
-	        buttonContainerEl.className = 'input-group-btn';
+	        buttonContainerEl.className = 'input-group-btn gps-button-flex';
 	        var gpsButton = buttonContainerEl.appendChild(document.createElement('button'));
 	        gpsButton.id = FormField.nextId;
 	        gpsButton.type = 'button';
@@ -12452,7 +12467,7 @@
 	        }
 
 	        var buttonIconEl = gpsButton.appendChild(document.createElement('span'));
-	        buttonIconEl.className = 'material-icons';
+	        buttonIconEl.className = 'material-icons gps-icon';
 	        buttonIconEl.innerText = 'gps_not_fixed';
 
 	        if (this.gpsTextLabel) {
@@ -12622,6 +12637,15 @@
 	                  //
 	                  // console.log({'grant state':grantState});
 	                  if (doGPSInitialisation) {
+	                    _this3.parentForm.addListener(Form.EVENT_CAMERA, function () {
+	                      // also set GPS when photo is taken
+	                      _this3.seekGPS().then(function () {
+	                        console.log('After photo got successful GPS fix.');
+	                      }, function () {
+	                        console.log('After photo failed GPS fix.');
+	                      });
+	                    });
+
 	                    _this3.seekGPS().then(function () {
 	                      console.log('GPS initialisation succeeded.');
 
@@ -14095,7 +14119,12 @@
 	          break;
 
 	        case PANEL_RIGHT:
-	          leftPanel.classList.remove('d-block');
+	          if (leftPanel.classList.contains('d-block')) {
+	            leftPanel.classList.remove('d-block');
+	            console.log('scrolling to top in setResponsivePanel');
+	            leftPanel.scrollTop = 0;
+	          }
+
 	          leftPanel.classList.add('d-none');
 	          rightPanel.classList.remove('d-none');
 	          rightPanel.classList.add('d-block');
@@ -14146,6 +14175,7 @@
 
 	        _classPrivateFieldGet$1(this, _occurrenceForm).surveyId = this.controller.app.currentSurvey.id; // scroll to the top of the panel
 
+	        console.log('scrolling to top of occurrence');
 	        editorContainer.scrollTop = 0;
 	      }
 
@@ -14763,7 +14793,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640270547</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640300258</p>";
 	    }
 	  }]);
 
@@ -16406,9 +16436,9 @@
 
 	    $ArrayBuffer[PROTOTYPE] = ArrayBufferPrototype$1;
 
-	    for (var keys$2 = getOwnPropertyNames$4(NativeArrayBuffer$1), j$1 = 0, key$1; keys$2.length > j$1;) {
-	      if (!((key$1 = keys$2[j$1++]) in $ArrayBuffer)) {
-	        createNonEnumerableProperty$3($ArrayBuffer, key$1, NativeArrayBuffer$1[key$1]);
+	    for (var keys$2 = getOwnPropertyNames$4(NativeArrayBuffer$1), j$1 = 0, key$2; keys$2.length > j$1;) {
+	      if (!((key$2 = keys$2[j$1++]) in $ArrayBuffer)) {
+	        createNonEnumerableProperty$3($ArrayBuffer, key$2, NativeArrayBuffer$1[key$2]);
 	      }
 	    }
 
@@ -17735,9 +17765,9 @@
 	    'EPSILON,MAX_SAFE_INTEGER,MIN_SAFE_INTEGER,isFinite,isInteger,isNaN,isSafeInteger,parseFloat,parseInt,' +
 	    // ESNext
 	    'fromString,range'
-	  ).split(','), j = 0, key; keys$1.length > j; j++) {
-	    if (hasOwn$6(NativeNumber, key = keys$1[j]) && !hasOwn$6(NumberWrapper, key)) {
-	      defineProperty$4(NumberWrapper, key, getOwnPropertyDescriptor$5(NativeNumber, key));
+	  ).split(','), j = 0, key$1; keys$1.length > j; j++) {
+	    if (hasOwn$6(NativeNumber, key$1 = keys$1[j]) && !hasOwn$6(NumberWrapper, key$1)) {
+	      defineProperty$4(NumberWrapper, key$1, getOwnPropertyDescriptor$5(NativeNumber, key$1));
 	    }
 	  }
 	  NumberWrapper.prototype = NumberPrototype;

@@ -249,6 +249,7 @@ export class MainView extends Page {
                     this.#occurrenceForm.surveyId = this.controller.app.currentSurvey.id;
 
                     // scroll to the top of the panel
+                    console.log('scrolling to top of occurrence');
                     editorContainer.scrollTop = 0;
                 }
                 editorContainer.innerHTML = '';
@@ -1192,7 +1193,13 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
                 break;
 
             case PANEL_RIGHT:
-                leftPanel.classList.remove('d-block');
+                if (leftPanel.classList.contains('d-block')) {
+                    leftPanel.classList.remove('d-block');
+
+                    console.log('scrolling to top in setResponsivePanel');
+                    leftPanel.scrollTop = 0;
+                }
+
                 leftPanel.classList.add('d-none');
                 rightPanel.classList.remove('d-none');
                 rightPanel.classList.add('d-block');
