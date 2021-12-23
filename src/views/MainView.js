@@ -347,6 +347,9 @@ export class MainView extends Page {
                         this.controller.app.router.navigate('/list/record/');
                         // display the finish dialogue box
                         $(`#${FINISH_MODAL_ID}`).modal();
+
+                        // it's opportune at this point to try to ping the server again to save anything left outstanding
+                        this.controller.app.syncAll();
                         break;
 
                     case 'next':
