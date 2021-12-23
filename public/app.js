@@ -14122,7 +14122,7 @@
 	          if (leftPanel.classList.contains('d-block')) {
 	            leftPanel.classList.remove('d-block');
 	            console.log('scrolling to top in setResponsivePanel');
-	            leftPanel.scrollTop = 0;
+	            rightPanel.scrollTop = 0;
 	          }
 
 	          leftPanel.classList.add('d-none');
@@ -14793,7 +14793,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640300258</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640300576</p>";
 	    }
 	  }]);
 

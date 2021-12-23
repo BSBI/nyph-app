@@ -1197,7 +1197,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
                     leftPanel.classList.remove('d-block');
 
                     console.log('scrolling to top in setResponsivePanel');
-                    leftPanel.scrollTop = 0;
+                    rightPanel.scrollTop = 0;
                 }
 
                 leftPanel.classList.add('d-none');
