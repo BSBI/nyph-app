@@ -3022,20 +3022,20 @@
 	  return fn;
 	}
 
-	function _checkPrivateRedeclaration$c(obj, privateCollection) {
+	function _checkPrivateRedeclaration$b(obj, privateCollection) {
 	  if (privateCollection.has(obj)) {
 	    throw new TypeError("Cannot initialize the same private elements twice on an object");
 	  }
 	}
 
-	function _classPrivateFieldInitSpec$c(obj, privateMap, value) {
-	  _checkPrivateRedeclaration$c(obj, privateMap);
+	function _classPrivateFieldInitSpec$b(obj, privateMap, value) {
+	  _checkPrivateRedeclaration$b(obj, privateMap);
 
 	  privateMap.set(obj, value);
 	}
 
 	function _classPrivateMethodInitSpec$4(obj, privateSet) {
-	  _checkPrivateRedeclaration$c(obj, privateSet);
+	  _checkPrivateRedeclaration$b(obj, privateSet);
 
 	  privateSet.add(obj);
 	}
@@ -3519,7 +3519,7 @@
 	}:[].forEach;var global$b$1=global$Z;var DOMIterables$2=domIterables$1;var DOMTokenListPrototype$3=domTokenListPrototype$1;var forEach$3=arrayForEach$1;var createNonEnumerableProperty$1$1=createNonEnumerableProperty$8$1;var handlePrototype$2=function(CollectionPrototype){// some Chrome versions have non-configurable methods on DOMTokenList
 	if(CollectionPrototype&&CollectionPrototype.forEach!==forEach$3)try{createNonEnumerableProperty$1$1(CollectionPrototype,'forEach',forEach$3);}catch(error){CollectionPrototype.forEach=forEach$3;}};for(var COLLECTION_NAME$2 in DOMIterables$2){if(DOMIterables$2[COLLECTION_NAME$2]){handlePrototype$2(global$b$1[COLLECTION_NAME$2]&&global$b$1[COLLECTION_NAME$2].prototype);}}handlePrototype$2(DOMTokenListPrototype$3);var $$h$1=_export;var DESCRIPTORS$6$1=descriptors;var ownKeys$1$1=ownKeys$3;var toIndexedObject$2$1=toIndexedObject$b;var getOwnPropertyDescriptorModule$6=objectGetOwnPropertyDescriptor;var createProperty$3$1=createProperty$5$1;// `Object.getOwnPropertyDescriptors` method
 	// https://tc39.es/ecma262/#sec-object.getownpropertydescriptors
-	$$h$1({target:'Object',stat:true,sham:!DESCRIPTORS$6$1},{getOwnPropertyDescriptors:function getOwnPropertyDescriptors(object){var O=toIndexedObject$2$1(object);var getOwnPropertyDescriptor=getOwnPropertyDescriptorModule$6.f;var keys=ownKeys$1$1(O);var result={};var index=0;var key,descriptor;while(keys.length>index){descriptor=getOwnPropertyDescriptor(O,key=keys[index++]);if(descriptor!==undefined)createProperty$3$1(result,key,descriptor);}return result;}});function ownKeys$4(object,enumerableOnly){var keys=Object.keys(object);if(Object.getOwnPropertySymbols){var symbols=Object.getOwnPropertySymbols(object);enumerableOnly&&(symbols=symbols.filter(function(sym){return Object.getOwnPropertyDescriptor(object,sym).enumerable;})),keys.push.apply(keys,symbols);}return keys;}function _objectSpread(target){for(var i=1;i<arguments.length;i++){var source=null!=arguments[i]?arguments[i]:{};i%2?ownKeys$4(Object(source),!0).forEach(function(key){_defineProperty(target,key,source[key]);}):Object.getOwnPropertyDescriptors?Object.defineProperties(target,Object.getOwnPropertyDescriptors(source)):ownKeys$4(Object(source)).forEach(function(key){Object.defineProperty(target,key,Object.getOwnPropertyDescriptor(source,key));});}return target;}function _classPrivateFieldInitSpec$b(obj,privateMap,value){_checkPrivateRedeclaration$b(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$b(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _eventListeners=/*#__PURE__*/new WeakMap();var EventHarness=/*#__PURE__*/function(){function EventHarness(){_classCallCheck(this,EventHarness);_classPrivateFieldInitSpec$b(this,_eventListeners,{writable:true,value:[]});}_createClass(EventHarness,[{key:"bindListener",value:/**
+	$$h$1({target:'Object',stat:true,sham:!DESCRIPTORS$6$1},{getOwnPropertyDescriptors:function getOwnPropertyDescriptors(object){var O=toIndexedObject$2$1(object);var getOwnPropertyDescriptor=getOwnPropertyDescriptorModule$6.f;var keys=ownKeys$1$1(O);var result={};var index=0;var key,descriptor;while(keys.length>index){descriptor=getOwnPropertyDescriptor(O,key=keys[index++]);if(descriptor!==undefined)createProperty$3$1(result,key,descriptor);}return result;}});function ownKeys$4(object,enumerableOnly){var keys=Object.keys(object);if(Object.getOwnPropertySymbols){var symbols=Object.getOwnPropertySymbols(object);enumerableOnly&&(symbols=symbols.filter(function(sym){return Object.getOwnPropertyDescriptor(object,sym).enumerable;})),keys.push.apply(keys,symbols);}return keys;}function _objectSpread(target){for(var i=1;i<arguments.length;i++){var source=null!=arguments[i]?arguments[i]:{};i%2?ownKeys$4(Object(source),!0).forEach(function(key){_defineProperty(target,key,source[key]);}):Object.getOwnPropertyDescriptors?Object.defineProperties(target,Object.getOwnPropertyDescriptors(source)):ownKeys$4(Object(source)).forEach(function(key){Object.defineProperty(target,key,Object.getOwnPropertyDescriptor(source,key));});}return target;}function _classPrivateFieldInitSpec$a(obj,privateMap,value){_checkPrivateRedeclaration$a(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$a(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _eventListeners=/*#__PURE__*/new WeakMap();var EventHarness=/*#__PURE__*/function(){function EventHarness(){_classCallCheck(this,EventHarness);_classPrivateFieldInitSpec$a(this,_eventListeners,{writable:true,value:[]});}_createClass(EventHarness,[{key:"bindListener",value:/**
 	     *
 	     * @param {string} eventName
 	     * @param {Object} obj
@@ -4084,7 +4084,7 @@
 	     * @param {{field : FormField, [attributes]: {}, summary : {}}} property properties of the form descriptor
 	     * @param {{}} attributes attributes of the model object
 	     * @returns {string}
-	     */},{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return '';}}]);return FormField;}(EventHarness);_defineProperty(FormField,"COMPLETION_COMPULSORY",'compulsory');_defineProperty(FormField,"COMPLETION_DESIRED",'desired');_defineProperty(FormField,"COMPLETION_OPTIONAL",'optional');var _fieldIdIndex={writable:true,value:1};_defineProperty(FormField,"EVENT_CHANGE",'fieldChange');function _createSuper$r(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$r();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$r(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec$a(obj,privateMap,value){_checkPrivateRedeclaration$a(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$a(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}function _classStaticPrivateFieldSpecSet(receiver,classConstructor,descriptor,value){_classCheckPrivateStaticAccess$2(receiver,classConstructor);_classCheckPrivateStaticFieldDescriptor$2(descriptor,"set");_classApplyDescriptorSet(receiver,descriptor,value);return value;}function _classApplyDescriptorSet(receiver,descriptor,value){if(descriptor.set){descriptor.set.call(receiver,value);}else {if(!descriptor.writable){throw new TypeError("attempted to set read only private field");}descriptor.value=value;}}function _classStaticPrivateFieldSpecGet$2(receiver,classConstructor,descriptor){_classCheckPrivateStaticAccess$2(receiver,classConstructor);_classCheckPrivateStaticFieldDescriptor$2(descriptor,"get");return _classApplyDescriptorGet$2(receiver,descriptor);}function _classCheckPrivateStaticFieldDescriptor$2(descriptor,action){if(descriptor===undefined){throw new TypeError("attempted to "+action+" private static field before its declaration");}}function _classCheckPrivateStaticAccess$2(receiver,classConstructor){if(receiver!==classConstructor){throw new TypeError("Private static access of wrong provenance");}}function _classApplyDescriptorGet$2(receiver,descriptor){if(descriptor.get){return descriptor.get.call(receiver);}return descriptor.value;}var _formEl=/*#__PURE__*/new WeakMap();var Form=/*#__PURE__*/function(_EventHarness){_inherits(Form,_EventHarness);var _super=_createSuper$r(Form);function Form(){var _this;_classCallCheck(this,Form);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_classPrivateFieldInitSpec$a(_assertThisInitialized(_this),_formEl,{writable:true,value:void 0});_defineProperty(_assertThisInitialized(_this),"_formId",void 0);_defineProperty(_assertThisInitialized(_this),"_formContentContainer",void 0);_defineProperty(_assertThisInitialized(_this),"fields",void 0);_defineProperty(_assertThisInitialized(_this),"liveValidation",false);_defineProperty(_assertThisInitialized(_this),"isValid",null);_defineProperty(_assertThisInitialized(_this),"nextButtonId",null);_defineProperty(_assertThisInitialized(_this),"_formFieldsBuilt",false);return _this;}_createClass(Form,[{key:"formElement",get:/**
+	     */},{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return '';}}]);return FormField;}(EventHarness);_defineProperty(FormField,"COMPLETION_COMPULSORY",'compulsory');_defineProperty(FormField,"COMPLETION_DESIRED",'desired');_defineProperty(FormField,"COMPLETION_OPTIONAL",'optional');var _fieldIdIndex={writable:true,value:1};_defineProperty(FormField,"EVENT_CHANGE",'fieldChange');function _createSuper$r(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$r();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$r(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec$9(obj,privateMap,value){_checkPrivateRedeclaration$9(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$9(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}function _classStaticPrivateFieldSpecSet(receiver,classConstructor,descriptor,value){_classCheckPrivateStaticAccess$2(receiver,classConstructor);_classCheckPrivateStaticFieldDescriptor$2(descriptor,"set");_classApplyDescriptorSet(receiver,descriptor,value);return value;}function _classApplyDescriptorSet(receiver,descriptor,value){if(descriptor.set){descriptor.set.call(receiver,value);}else {if(!descriptor.writable){throw new TypeError("attempted to set read only private field");}descriptor.value=value;}}function _classStaticPrivateFieldSpecGet$2(receiver,classConstructor,descriptor){_classCheckPrivateStaticAccess$2(receiver,classConstructor);_classCheckPrivateStaticFieldDescriptor$2(descriptor,"get");return _classApplyDescriptorGet$2(receiver,descriptor);}function _classCheckPrivateStaticFieldDescriptor$2(descriptor,action){if(descriptor===undefined){throw new TypeError("attempted to "+action+" private static field before its declaration");}}function _classCheckPrivateStaticAccess$2(receiver,classConstructor){if(receiver!==classConstructor){throw new TypeError("Private static access of wrong provenance");}}function _classApplyDescriptorGet$2(receiver,descriptor){if(descriptor.get){return descriptor.get.call(receiver);}return descriptor.value;}var _formEl=/*#__PURE__*/new WeakMap();var Form=/*#__PURE__*/function(_EventHarness){_inherits(Form,_EventHarness);var _super=_createSuper$r(Form);function Form(){var _this;_classCallCheck(this,Form);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_classPrivateFieldInitSpec$9(_assertThisInitialized(_this),_formEl,{writable:true,value:void 0});_defineProperty(_assertThisInitialized(_this),"_formId",void 0);_defineProperty(_assertThisInitialized(_this),"_formContentContainer",void 0);_defineProperty(_assertThisInitialized(_this),"fields",void 0);_defineProperty(_assertThisInitialized(_this),"liveValidation",false);_defineProperty(_assertThisInitialized(_this),"isValid",null);_defineProperty(_assertThisInitialized(_this),"nextButtonId",null);_defineProperty(_assertThisInitialized(_this),"_formFieldsBuilt",false);return _this;}_createClass(Form,[{key:"formElement",get:/**
 	     *
 	     * @returns {HTMLElement}
 	     */function get(){var _this2=this;if(!_classPrivateFieldGet(this,_formEl)){var _Form$formSerial;_classPrivateFieldSet(this,_formEl,document.createElement('form'));_classPrivateFieldGet(this,_formEl).id=this._formId="form".concat((_classStaticPrivateFieldSpecSet(Form,Form,_formSerial,(_Form$formSerial=+_classStaticPrivateFieldSpecGet$2(Form,Form,_formSerial))+1),_Form$formSerial));_classPrivateFieldGet(this,_formEl).noValidate=true;// bootstrap overrides browser-based validation
@@ -4151,10 +4151,10 @@
 	     * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean|string, created: number, modified: number, projectId: number, surveyId: string}} descriptor
 	     */},{key:"_parseDescriptor",value:function _parseDescriptor(descriptor){_get(_getPrototypeOf(Occurrence.prototype),"_parseDescriptor",this).call(this,descriptor);this.surveyId=descriptor.surveyId;}}]);return Occurrence;}(Model);_defineProperty(Occurrence,"EVENT_MODIFIED",'modified');function _createSuper$p(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$p();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$p(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}/**
 	 *
-	 */var InternalAppError=/*#__PURE__*/function(_Error){_inherits(InternalAppError,_Error);var _super=_createSuper$p(InternalAppError);function InternalAppError(){_classCallCheck(this,InternalAppError);return _super.apply(this,arguments);}return InternalAppError;}(/*#__PURE__*/_wrapNativeSuper(Error));function _createSuper$o(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$o();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$o(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec$9(obj,privateMap,value){_checkPrivateRedeclaration$9(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$9(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _currentOccurrenceId$1=/*#__PURE__*/new WeakMap();var MainController$1=/*#__PURE__*/function(_AppController){_inherits(MainController,_AppController);var _super=_createSuper$o(MainController);/**
+	 */var InternalAppError=/*#__PURE__*/function(_Error){_inherits(InternalAppError,_Error);var _super=_createSuper$p(InternalAppError);function InternalAppError(){_classCallCheck(this,InternalAppError);return _super.apply(this,arguments);}return InternalAppError;}(/*#__PURE__*/_wrapNativeSuper(Error));function _createSuper$o(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$o();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$o(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec$8(obj,privateMap,value){_checkPrivateRedeclaration$8(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$8(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _currentOccurrenceId$1=/*#__PURE__*/new WeakMap();var MainController$1=/*#__PURE__*/function(_AppController){_inherits(MainController,_AppController);var _super=_createSuper$o(MainController);/**
 	   *
 	   * @param {MainView} view
-	   */function MainController(view){var _this;_classCallCheck(this,MainController);_this=_super.call(this);_defineProperty(_assertThisInitialized(_this),"route",'/list/:action/:id');_defineProperty(_assertThisInitialized(_this),"title",'App homepage');_defineProperty(_assertThisInitialized(_this),"app",void 0);_defineProperty(_assertThisInitialized(_this),"view",void 0);_classPrivateFieldInitSpec$9(_assertThisInitialized(_this),_currentOccurrenceId$1,{writable:true,value:''});_defineProperty(_assertThisInitialized(_this),"needsFullRefresh",true);_defineProperty(_assertThisInitialized(_this),"needRightPanelRefresh",true);_defineProperty(_assertThisInitialized(_this),"viewSubcontext",'');_defineProperty(_assertThisInitialized(_this),"surveySection",void 0);_defineProperty(_assertThisInitialized(_this),"leftPanelBaseRoute",'');_defineProperty(_assertThisInitialized(_this),"viewContexts",{/**
+	   */function MainController(view){var _this;_classCallCheck(this,MainController);_this=_super.call(this);_defineProperty(_assertThisInitialized(_this),"route",'/list/:action/:id');_defineProperty(_assertThisInitialized(_this),"title",'App homepage');_defineProperty(_assertThisInitialized(_this),"app",void 0);_defineProperty(_assertThisInitialized(_this),"view",void 0);_classPrivateFieldInitSpec$8(_assertThisInitialized(_this),_currentOccurrenceId$1,{writable:true,value:''});_defineProperty(_assertThisInitialized(_this),"needsFullRefresh",true);_defineProperty(_assertThisInitialized(_this),"needRightPanelRefresh",true);_defineProperty(_assertThisInitialized(_this),"viewSubcontext",'');_defineProperty(_assertThisInitialized(_this),"surveySection",void 0);_defineProperty(_assertThisInitialized(_this),"leftPanelBaseRoute",'');_defineProperty(_assertThisInitialized(_this),"viewContexts",{/**
 	       * @this {MainController}
 	       * @param {({[id] : string}|null)} queryParameters
 	       */record:function record(queryParameters){// if (queryParameters && queryParameters.id) {
@@ -4648,7 +4648,7 @@
 	 *
 	 * @param {MouseEvent} event
 	 * @returns {boolean}
-	 */function doubleClickIntercepted(event){if(event.detail&&event.detail>1){event.preventDefault();event.stopPropagation();return true;}return false;}function _createSuper$i(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$i();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$i(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec$8(obj,privateMap,value){_checkPrivateRedeclaration$8(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$8(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _containerId$7=/*#__PURE__*/new WeakMap();var TextGeorefField=/*#__PURE__*/function(_FormField){_inherits(TextGeorefField,_FormField);var _super=_createSuper$i(TextGeorefField);/**
+	 */function doubleClickIntercepted(event){if(event.detail&&event.detail>1){event.preventDefault();event.stopPropagation();return true;}return false;}function _createSuper$i(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$i();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$i(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var TextGeorefField=/*#__PURE__*/function(_FormField){_inherits(TextGeorefField,_FormField);var _super=_createSuper$i(TextGeorefField);/**
 	   * @type {string}
 	   */ /**
 	   * @type {string}
@@ -4720,7 +4720,7 @@
 	   * [gpsTextLabel] : boolean,
 	   * [showGPSEnableLinkIfNotActiveOnMobile] : boolean,
 	   * }} [params]
-	   */function TextGeorefField(params){var _this;_classCallCheck(this,TextGeorefField);_this=_super.call(this,params);_defineProperty(_assertThisInitialized(_this),"_inputId",void 0);_classPrivateFieldInitSpec$8(_assertThisInitialized(_this),_containerId$7,{writable:true,value:void 0});_defineProperty(_assertThisInitialized(_this),"mapPositionIsCurrent",false);_defineProperty(_assertThisInitialized(_this),"_value",{gridRef:'',rawString:'',// what was provided by the user to generate this grid-ref (might be a postcode or placename)
+	   */function TextGeorefField(params){var _this;_classCallCheck(this,TextGeorefField);_this=_super.call(this,params);_defineProperty(_assertThisInitialized(_this),"_inputId",void 0);_defineProperty(_assertThisInitialized(_this),"containerId",void 0);_defineProperty(_assertThisInitialized(_this),"mapPositionIsCurrent",false);_defineProperty(_assertThisInitialized(_this),"_value",{gridRef:'',rawString:'',// what was provided by the user to generate this grid-ref (might be a postcode or placename)
 	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null});_defineProperty(_assertThisInitialized(_this),"_inputType",'text');_defineProperty(_assertThisInitialized(_this),"_autocomplete",'');_defineProperty(_assertThisInitialized(_this),"baseSquareResolution",null);_defineProperty(_assertThisInitialized(_this),"minResolution",2000);_defineProperty(_assertThisInitialized(_this),"gpsTextLabel",false);_defineProperty(_assertThisInitialized(_this),"gpsPermissionsPromptText",'<p class="gps-nudge">Allowing access to GPS will save you time by allowing the app to locate your records automatically.</p>');_defineProperty(_assertThisInitialized(_this),"initialiseFromDefaultSurveyGeoref",false);_defineProperty(_assertThisInitialized(_this),"showGPSEnableLinkIfNotActiveOnMobile",true);_defineProperty(_assertThisInitialized(_this),"_gpsPermissionsPromptId",null);if(params){if(params.type){_this._inputType=params.type;}if(params.placeholder){_this.placeholder=params.placeholder;}// if (params.dynamicPlaceholder) {
 	//     this.dynamicPlaceholder = params.dynamicPlaceholder;
 	// }
@@ -4756,7 +4756,7 @@
 	//     </div>
 	//     <small id="{baseId}grHelp" class="form-text text-muted">We need to be able to put your survey on our map. Detailed locations won't be made public.</small>
 	// </div>
-	var container=document.createElement('div');container.className='form-group';_classPrivateFieldSet(this,_containerId$7,container.id=FormField.nextId);this._inputId=FormField.nextId;if(navigator.geolocation&&this.showGPSEnableLinkIfNotActiveOnMobile&&GPSRequest.getDeviceType()===GPSRequest.DEVICE_TYPE_MOBILE){// if on a mobile device and GPS is not turned on
+	var container=document.createElement('div');container.className='form-group';this.containerId=container.id=FormField.nextId;this._inputId=FormField.nextId;if(navigator.geolocation&&this.showGPSEnableLinkIfNotActiveOnMobile&&GPSRequest.getDeviceType()===GPSRequest.DEVICE_TYPE_MOBILE){// if on a mobile device and GPS is not turned on
 	var gpsEnabledLinkEl=document.createElement('a');gpsEnabledLinkEl.className='no-gps-link-prompt';// will be visible only if document body doesn't have a 'gps-enabled' class
 	gpsEnabledLinkEl.href='#';gpsEnabledLinkEl.innerText='Please enable GPS';container.appendChild(gpsEnabledLinkEl);gpsEnabledLinkEl.addEventListener('click',this.gpsButtonClickHandler.bind(this));}var labelEl=container.appendChild(document.createElement('label'));labelEl.htmlFor=this._inputId;labelEl.textContent=this.label;var inputGroupEl=container.appendChild(document.createElement('div'));inputGroupEl.className='input-group';var inputField=inputGroupEl.appendChild(document.createElement('input'));inputField.className="form-control";inputField.id=this._inputId;inputField.type='text';if(this.placeholder){inputField.placeholder=this.placeholder;}if(this._autocomplete){inputField.autocomplete=this._autocomplete;if('off'===this._autocomplete){// browsers tend to ignore autocomplete off, so also assign a random 'name' value
 	inputField.name=uuid$1();}}var buttonContainerEl=inputGroupEl.appendChild(document.createElement('span'));buttonContainerEl.className='input-group-btn';if(navigator.geolocation){var gpsButton=buttonContainerEl.appendChild(document.createElement('button'));gpsButton.id=FormField.nextId;gpsButton.type='button';gpsButton.className='btn btn-outline-secondary btn-sm';gpsButton.title='use GPS';if(this.gpsTextLabel){var gpsTextLabel=gpsButton.appendChild(document.createElement('span'));gpsTextLabel.style.verticalAlign='middle';gpsTextLabel.innerText='GPS ';}var buttonIconEl=gpsButton.appendChild(document.createElement('span'));buttonIconEl.className='material-icons';buttonIconEl.innerText='gps_not_fixed';if(this.gpsTextLabel){buttonIconEl.style.verticalAlign='middle';}gpsButton.addEventListener('click',this.gpsButtonClickHandler.bind(this));}if(this.completion===FormField.COMPLETION_COMPULSORY){inputField.required=true;}if(this.validationMessage){var validationMessageElement=container.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}if(this.gpsPermissionsPromptText&&navigator.geolocation){var gpsPermissionsPromptField=container.appendChild(document.createElement('small'));this._gpsPermissionsPromptId=gpsPermissionsPromptField.id=FormField.nextId;gpsPermissionsPromptField.style.display='none';// hidden initially
@@ -4797,7 +4797,7 @@
 	/**
 	     *
 	     * @param {MouseEvent} event
-	     */},{key:"gpsButtonClickHandler",value:function gpsButtonClickHandler(event){if(doubleClickIntercepted(event)){return;}var containerEl=document.getElementById(_classPrivateFieldGet(this,_containerId$7));containerEl.classList.add('gps-active');this.seekGPS().catch(function(error){console.log({'gps look-up failed, error':error});}).finally(function(){containerEl.classList.remove('gps-active');});event.preventDefault();event.stopPropagation();}/**
+	     */},{key:"gpsButtonClickHandler",value:function gpsButtonClickHandler(event){if(doubleClickIntercepted(event)){return;}var containerEl=document.getElementById(this.containerId);containerEl.classList.add('gps-active');this.seekGPS().catch(function(error){console.log({'gps look-up failed, error':error});}).finally(function(){containerEl.classList.remove('gps-active');});event.preventDefault();event.stopPropagation();}/**
 	     *
 	     * @returns {Promise<unknown>}
 	     */},{key:"seekGPS",value:function seekGPS(){var _this2=this;return GPSRequest.seekGPS(this._gpsPermissionsPromptId).then(function(position){// const latitude  = position.coords.latitude;
@@ -5969,7 +5969,7 @@
 	if(text.length>=TaxonSearch.MIN_SEARCH_LENGTH){// Set new timeout - don't run if user is typing
 	_classPrivateFieldSet(this,_taxonLookupTimeoutHandle,setTimeout(function(){_classPrivateFieldSet(_this4,_searchResults,_this4.taxonSearch.lookup(FormField.cleanRawInput(document.getElementById(_classPrivateFieldGet(_this4,_inputFieldId)))));//console.log(this.#searchResults);
 	_this4.refreshSearchResultsList();_classPrivateFieldSet(_this4,_taxonLookupTimeoutHandle,null);},TaxonPickerField.timeoutDelay));}else {// clear the results list
-	_classPrivateFieldSet(this,_searchResults,[]);this.refreshSearchResultsList();}}_defineProperty(TaxonPickerField,"timeoutDelay",50);function _createSuper$2(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$2();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$2(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec(obj,privateMap,value){_checkPrivateRedeclaration(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _textAreaId=/*#__PURE__*/new WeakMap();var _containerId$8=/*#__PURE__*/new WeakMap();var TextAreaField=/*#__PURE__*/function(_FormField){_inherits(TextAreaField,_FormField);var _super=_createSuper$2(TextAreaField);/**
+	_classPrivateFieldSet(this,_searchResults,[]);this.refreshSearchResultsList();}}_defineProperty(TaxonPickerField,"timeoutDelay",50);function _createSuper$2(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$2();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$2(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec(obj,privateMap,value){_checkPrivateRedeclaration(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _textAreaId=/*#__PURE__*/new WeakMap();var _containerId=/*#__PURE__*/new WeakMap();var TextAreaField=/*#__PURE__*/function(_FormField){_inherits(TextAreaField,_FormField);var _super=_createSuper$2(TextAreaField);/**
 	   * @type {string}
 	   */ /**
 	   * @type {string}
@@ -5984,7 +5984,7 @@
 	   */ /**
 	   *
 	   * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
-	   */function TextAreaField(params){var _this;_classCallCheck(this,TextAreaField);_this=_super.call(this,params);_classPrivateFieldInitSpec(_assertThisInitialized(_this),_textAreaId,{writable:true,value:void 0});_classPrivateFieldInitSpec(_assertThisInitialized(_this),_containerId$8,{writable:true,value:void 0});_defineProperty(_assertThisInitialized(_this),"_value",'');_defineProperty(_assertThisInitialized(_this),"_autocomplete",'');if(params){if(params.options){_this.options=params.options;}if(params.placeholder){_this.placeholder=params.placeholder;}if(params.autocomplete){_this._autocomplete=params.autocomplete;}}return _this;}/**
+	   */function TextAreaField(params){var _this;_classCallCheck(this,TextAreaField);_this=_super.call(this,params);_classPrivateFieldInitSpec(_assertThisInitialized(_this),_textAreaId,{writable:true,value:void 0});_classPrivateFieldInitSpec(_assertThisInitialized(_this),_containerId,{writable:true,value:void 0});_defineProperty(_assertThisInitialized(_this),"_value",'');_defineProperty(_assertThisInitialized(_this),"_autocomplete",'');if(params){if(params.options){_this.options=params.options;}if(params.placeholder){_this.placeholder=params.placeholder;}if(params.autocomplete){_this._autocomplete=params.autocomplete;}}return _this;}/**
 	   *
 	   * @param {(string|null|undefined)} textContent
 	   */_createClass(TextAreaField,[{key:"value",get:function get(){return this._value;},set:function set(textContent){this._value=undefined===textContent||null==textContent?'':textContent.trim();this.updateView();}},{key:"updateView",value:function updateView(){if(this._fieldEl){// do nothing until the view has been constructed
@@ -5996,7 +5996,7 @@
 	//     <label for="exampleFormControlTextarea1">Example textarea</label>
 	//     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 	// </div>
-	var container=document.createElement('div');container.className='form-group';_classPrivateFieldSet(this,_containerId$8,container.id=FormField.nextId);_classPrivateFieldSet(this,_textAreaId,FormField.nextId);var labelEl=container.appendChild(document.createElement('label'));labelEl.htmlFor=_classPrivateFieldGet(this,_textAreaId);labelEl.textContent=this.label;var textareaField=container.appendChild(document.createElement('textarea'));textareaField.className="form-control";textareaField.id=_classPrivateFieldGet(this,_textAreaId);if(this.helpText){var helpTextField=container.appendChild(document.createElement('small'));helpTextField.innerHTML=this.helpText;}if(this._autocomplete){textareaField.autocomplete=this._autocomplete;if('off'===this._autocomplete){textareaField.name=uuid$1();}}if(this.validationMessage){var validationMessageElement=container.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}textareaField.addEventListener('change',this.inputChangeHandler.bind(this));this._fieldEl=container;}},{key:"inputChangeHandler",value:function inputChangeHandler(event){event.stopPropagation();// don't allow the change event to reach the form-level event handler (will handle it here instead)
+	var container=document.createElement('div');container.className='form-group';_classPrivateFieldSet(this,_containerId,container.id=FormField.nextId);_classPrivateFieldSet(this,_textAreaId,FormField.nextId);var labelEl=container.appendChild(document.createElement('label'));labelEl.htmlFor=_classPrivateFieldGet(this,_textAreaId);labelEl.textContent=this.label;var textareaField=container.appendChild(document.createElement('textarea'));textareaField.className="form-control";textareaField.id=_classPrivateFieldGet(this,_textAreaId);if(this.helpText){var helpTextField=container.appendChild(document.createElement('small'));helpTextField.innerHTML=this.helpText;}if(this._autocomplete){textareaField.autocomplete=this._autocomplete;if('off'===this._autocomplete){textareaField.name=uuid$1();}}if(this.validationMessage){var validationMessageElement=container.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}textareaField.addEventListener('change',this.inputChangeHandler.bind(this));this._fieldEl=container;}},{key:"inputChangeHandler",value:function inputChangeHandler(event){event.stopPropagation();// don't allow the change event to reach the form-level event handler (will handle it here instead)
 	console.log('got text area field input change event');this.value=FormField.cleanRawString(document.getElementById(_classPrivateFieldGet(this,_textAreaId)).value);this.fireEvent(FormField.EVENT_CHANGE);}/**
 	     * by the time summariseImpl has been called have already checked that summary is wanted
 	     *
@@ -7138,7 +7138,7 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "view", void 0);
 
-	    _classPrivateFieldInitSpec$c(_assertThisInitialized$1(_this), _currentOccurrenceId, {
+	    _classPrivateFieldInitSpec$b(_assertThisInitialized$1(_this), _currentOccurrenceId, {
 	      writable: true,
 	      value: ''
 	    });
@@ -12142,8 +12142,6 @@
 
 	_defineProperty$1(MapMarker, "_markerSerial", 0);
 
-	var _containerId = /*#__PURE__*/new WeakMap();
-
 	var _setGridrefFromGeocodedResult = /*#__PURE__*/new WeakSet();
 
 	var MapGeorefField = /*#__PURE__*/function (_TextGeorefField) {
@@ -12151,9 +12149,10 @@
 
 	  var _super = _createSuper$a(MapGeorefField);
 
-	  /**
-	   * @type {string}
-	   */
+	  // /**
+	  //  * @type {string}
+	  //  */
+	  // containerId;
 	  // /**
 	  //  *
 	  //  * @type {string}
@@ -12230,11 +12229,6 @@
 	    _this = _super.call(this, params);
 
 	    _classPrivateMethodInitSpec$4(_assertThisInitialized$1(_this), _setGridrefFromGeocodedResult);
-
-	    _classPrivateFieldInitSpec$c(_assertThisInitialized$1(_this), _containerId, {
-	      writable: true,
-	      value: void 0
-	    });
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "includeSearchBox", false);
 
@@ -12336,9 +12330,7 @@
 	      // </div>
 	      var container = document.createElement('div');
 	      container.className = 'form-group';
-
-	      _classPrivateFieldSet$1(this, _containerId, container.id = FormField.nextId);
-
+	      this.containerId = container.id = FormField.nextId;
 	      this._inputId = FormField.nextId;
 
 	      if (navigator.geolocation && this.showGPSEnableLinkIfNotActiveOnMobile && GPSRequest.getDeviceType() === GPSRequest.DEVICE_TYPE_MOBILE) {
@@ -13596,17 +13588,17 @@
 
 	    _defineProperty$1(_assertThisInitialized$1(_this), "controller", void 0);
 
-	    _classPrivateFieldInitSpec$c(_assertThisInitialized$1(_this), _surveyFormSections, {
+	    _classPrivateFieldInitSpec$b(_assertThisInitialized$1(_this), _surveyFormSections, {
 	      writable: true,
 	      value: {}
 	    });
 
-	    _classPrivateFieldInitSpec$c(_assertThisInitialized$1(_this), _occurrenceForm, {
+	    _classPrivateFieldInitSpec$b(_assertThisInitialized$1(_this), _occurrenceForm, {
 	      writable: true,
 	      value: void 0
 	    });
 
-	    _classPrivateFieldInitSpec$c(_assertThisInitialized$1(_this), _occurrenceChangeHandles, {
+	    _classPrivateFieldInitSpec$b(_assertThisInitialized$1(_this), _occurrenceChangeHandles, {
 	      writable: true,
 	      value: {}
 	    });
@@ -14143,6 +14135,7 @@
 
 	function _refreshSurveyHelpPanel2() {
 	  var rightPanelContainer = document.getElementById(RIGHT_PANEL_ID);
+	  rightPanelContainer.scrollTop = 0;
 	  var sectionKey = this.controller.surveySection; // section key can be 'welcome' which is a special case that doesn't match a section form
 
 	  var help = NyphSurveyForm.sectionsByKey[sectionKey] ? NyphSurveyForm.sectionsByKey[sectionKey].help : '';
@@ -14225,8 +14218,9 @@
 	}
 
 	function _displayDefaultRightPanel2(htmlText) {
-	  var editorContainer = document.getElementById(RIGHT_PANEL_ID);
-	  editorContainer.innerHTML = htmlText || defaultRightHandSideHelp;
+	  var rightPanelContainer = document.getElementById(RIGHT_PANEL_ID);
+	  rightPanelContainer.innerHTML = htmlText || defaultRightHandSideHelp;
+	  rightPanelContainer.scrollTop = 0;
 	  this.controller.app.router.updatePageLinks(); // required in case help text contains any Navigo links
 	}
 
@@ -14793,7 +14787,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640300576</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640301357</p>";
 	    }
 	  }]);
 

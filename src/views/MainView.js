@@ -212,6 +212,7 @@ export class MainView extends Page {
 
     #refreshSurveyHelpPanel() {
         let rightPanelContainer = document.getElementById(RIGHT_PANEL_ID);
+        rightPanelContainer.scrollTop = 0;
 
         const sectionKey = this.controller.surveySection;
 
@@ -384,8 +385,10 @@ export class MainView extends Page {
      * @param {string} [htmlText]
      */
     #displayDefaultRightPanel(htmlText) {
-        let editorContainer = document.getElementById(RIGHT_PANEL_ID);
-        editorContainer.innerHTML = htmlText || defaultRightHandSideHelp;
+        let rightPanelContainer = document.getElementById(RIGHT_PANEL_ID);
+        rightPanelContainer.innerHTML = htmlText || defaultRightHandSideHelp;
+
+        rightPanelContainer.scrollTop = 0;
 
         this.controller.app.router.updatePageLinks(); // required in case help text contains any Navigo links
     }

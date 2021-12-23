@@ -8,10 +8,10 @@ import {MapMarker} from "../MapMarker";
 
 export class MapGeorefField extends TextGeorefField {
 
-    /**
-     * @type {string}
-     */
-    #containerId;
+    // /**
+    //  * @type {string}
+    //  */
+    // containerId;
 
     // /**
     //  *
@@ -179,7 +179,7 @@ export class MapGeorefField extends TextGeorefField {
 
         const container = document.createElement('div');
         container.className = 'form-group';
-        this.#containerId = container.id = FormField.nextId;
+        this.containerId = container.id = FormField.nextId;
 
         this._inputId = FormField.nextId;
 
