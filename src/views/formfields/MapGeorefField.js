@@ -508,6 +508,8 @@ export class MapGeorefField extends TextGeorefField {
             cooperativeGestures: true // see https://github.com/mapbox/mapbox-gl-js/issues/6884
         });
 
+        this.map.addControl(new mapboxgl.NavigationControl());
+
         this.map.on('click', /** @param {mapboxgl.MapMouseEvent} mapMouseEvent */ (mapMouseEvent) => {
             console.log(`A click event has occurred at ${mapMouseEvent.lngLat}`);
             console.log({mapMouseEvent});

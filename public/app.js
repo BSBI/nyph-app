@@ -12739,6 +12739,7 @@
 	        cooperativeGestures: true // see https://github.com/mapbox/mapbox-gl-js/issues/6884
 
 	      });
+	      this.map.addControl(new mapboxgl.NavigationControl());
 	      this.map.on('click',
 	      /** @param {mapboxgl.MapMouseEvent} mapMouseEvent */
 	      function (mapMouseEvent) {
@@ -14799,7 +14800,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640359224</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640360486</p>";
 	    }
 	  }]);
 
