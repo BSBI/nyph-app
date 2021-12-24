@@ -852,6 +852,9 @@ export class MainView extends Page {
         // noinspection HtmlUnknownTarget
         summaryEl.innerHTML = `<span id="${this.recordsHeaderListDescriptorId}"><strong>Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.</strong></span><small class="d-block d-md-none"><a href="/${this.pathPrefix}/list/record/help">(help)</a></small>${separateListsHTMLMessage}`;
 
+        // @todo include a warning here if the date has changed - prompting for new list
+
+
         const newButtonEl = content.appendChild(document.createElement('button'));
         newButtonEl.type = 'button';
         newButtonEl.className = 'btn btn-primary btn-lg mb-2';
@@ -1136,7 +1139,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
         }
 
         if (occurrence.attributes.taxon && occurrence.attributes.taxon.taxonId) {
-            // have an well-formed taxon
+            // have a well-formed taxon
             html += occurrence.taxon.formattedHTML(occurrence.attributes.taxon.vernacularMatch);
         } else if (occurrence.attributes.taxon && occurrence.attributes.taxon.taxonName) {
             // match with unrecognised taxon name
@@ -1149,8 +1152,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
     }
 
     /**
-     * cardHeadingEl.setAttribute('data-toggle', 'collapse');
-     cardHeadingEl.setAttribute('data-target', `#${descriptor.cardDescriptionId}`);
+     *
      *
      * @param {Occurrence} occurrence
      * @return {string}

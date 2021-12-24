@@ -5337,7 +5337,9 @@
 	return a.acceptedEntityId?1:-1;// prefer accepted name
 	}else {// for NYPH purposes agg. and s.l. should be prioritised over
 	// agg., s.l., empty, s.s.
-	var aQIndex=['s.s.','',null,'s.l.','agg.'].indexOf(a.qualifier);var bQIndex=['s.s.','',null,'s.l.','agg.'].indexOf(b.qualifier);return aQIndex===bQIndex?0:aQIndex<bQIndex?1:-1;}}return a.uname<b.uname?-1:1;});// truncate results
+	var aQIndex=['s.s.','',null,'s.l.','agg.'].indexOf(a.qualifier);var bQIndex=['s.s.','',null,'s.l.','agg.'].indexOf(b.qualifier);return aQIndex===bQIndex?0:aQIndex<bQIndex?1:-1;}}else if(a.vernacularMatched&&b.vernacularMatched){// matching both names using vernacular
+	// so sort by this
+	if(a.vernacular!==b.vernacular){return a.vernacular<b.vernacular?-1:1;}}return a.uname<b.uname?-1:1;});// truncate results
 	if(results.length>TaxonSearch.MAXIMUM_RESULTS){results.length=TaxonSearch.MAXIMUM_RESULTS;}}return results;}}],[{key:"formatter",value:function formatter(taxonResult){if(TaxonSearch.showVernacular){if(taxonResult.vernacularMatched){if(taxonResult.acceptedEntityId){return "<q><b>".concat(taxonResult.vernacular,"</b></q> <span class=\"italictaxon\">").concat(taxonResult.uname).concat(taxonResult.qualifier?" <b>".concat(taxonResult.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(taxonResult.authority,"</span>")+" = <span class=\"italictaxon\">".concat(taxonResult.acceptedNameString).concat(taxonResult.acceptedQualifier?" <b>".concat(taxonResult.acceptedQualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(taxonResult.acceptedAuthority,"</span>");}return "<q><b>".concat(taxonResult.vernacular,"</b></q> <span class=\"italictaxon\">").concat(taxonResult.uname).concat(taxonResult.qualifier?" <b>".concat(taxonResult.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(taxonResult.authority,"</span>");}if(taxonResult.acceptedEntityId){return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier?" <b>".concat(taxonResult.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(taxonResult.authority,"</span>").concat(taxonResult.vernacular?" <q><b>".concat(taxonResult.vernacular,"</b></q>"):''," = <span class=\"italictaxon\">").concat(taxonResult.acceptedNameString).concat(taxonResult.acceptedQualifier?" <b>".concat(taxonResult.acceptedQualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(taxonResult.acceptedAuthority,"</span>");}return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier?" <b>".concat(taxonResult.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(taxonResult.authority,"</span>").concat(taxonResult.vernacular?" <q><b>".concat(taxonResult.vernacular,"</b></q>"):'');}if(taxonResult.acceptedEntityId){return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier?" <b>".concat(taxonResult.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(taxonResult.authority,"</span>")+" = <span class=\"italictaxon\">".concat(taxonResult.acceptedNameString).concat(taxonResult.acceptedQualifier?" <b>".concat(taxonResult.acceptedQualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(taxonResult.acceptedAuthority,"</span>");}return "<span class=\"italictaxon\">".concat(taxonResult.uname).concat(taxonResult.qualifier?" <b>".concat(taxonResult.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(taxonResult.authority,"</span>");}},{key:"normaliseTaxonName",value:/**
 	     *
 	     * @param {string} taxonString
@@ -13158,6 +13160,14 @@
 	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED,
 	      initialiseFromDefaultSurveyGeoref: true,
 	      gpsTextLabel: true
+	    },
+	    summarise: function summarise(key, property, modelAttributes) {
+	      if (!(modelAttributes.hasOwnProperty(key) && !property.field.isEmpty(modelAttributes[key]))) {
+	        var precision = modelAttributes[key].source === TextGeorefField.GEOREF_SOURCE_GPS && modelAttributes[key].precision ? " &#177;".concat(Math.round(modelAttributes[key].precision / 2), " m") : '';
+	        return "<span class=\"gridref-summary\">".concat(modelAttributes[key].gridRef, "</span>").concat(modelAttributes[key].source === TextGeorefField.GEOREF_SOURCE_GPS ? "".concat(precision, " [GPS]") : '');
+	      } else {
+	        return '';
+	      }
 	    }
 	  },
 	  // idConfidence : {
@@ -14069,7 +14079,7 @@
 	      }
 
 	      if (occurrence.attributes.taxon && occurrence.attributes.taxon.taxonId) {
-	        // have an well-formed taxon
+	        // have a well-formed taxon
 	        html += occurrence.taxon.formattedHTML(occurrence.attributes.taxon.vernacularMatch);
 	      } else if (occurrence.attributes.taxon && occurrence.attributes.taxon.taxonName) {
 	        // match with unrecognised taxon name
@@ -14081,8 +14091,7 @@
 	      return html;
 	    }
 	    /**
-	     * cardHeadingEl.setAttribute('data-toggle', 'collapse');
-	     cardHeadingEl.setAttribute('data-target', `#${descriptor.cardDescriptionId}`);
+	     *
 	     *
 	     * @param {Occurrence} occurrence
 	     * @return {string}
@@ -14624,7 +14633,8 @@
 	  this.recordsHeaderListDescriptorId = Form.nextId;
 	  var separateListsHTMLMessage = "<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href=\"/".concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start another separate list</a>."); // noinspection HtmlUnknownTarget
 
-	  summaryEl.innerHTML = "<span id=\"".concat(this.recordsHeaderListDescriptorId, "\"><strong>Records of plants in bloom from ").concat(this.controller.survey.generateSurveyName(), ".</strong></span><small class=\"d-block d-md-none\"><a href=\"/").concat(this.pathPrefix, "/list/record/help\">(help)</a></small>").concat(separateListsHTMLMessage);
+	  summaryEl.innerHTML = "<span id=\"".concat(this.recordsHeaderListDescriptorId, "\"><strong>Records of plants in bloom from ").concat(this.controller.survey.generateSurveyName(), ".</strong></span><small class=\"d-block d-md-none\"><a href=\"/").concat(this.pathPrefix, "/list/record/help\">(help)</a></small>").concat(separateListsHTMLMessage); // @todo include a warning here if the date has changed - prompting for new list
+
 	  var newButtonEl = content.appendChild(document.createElement('button'));
 	  newButtonEl.type = 'button';
 	  newButtonEl.className = 'btn btn-primary btn-lg mb-2';
@@ -14787,7 +14797,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640301357</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640340888</p>";
 	    }
 	  }]);
 

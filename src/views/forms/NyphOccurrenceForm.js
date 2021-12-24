@@ -6,7 +6,7 @@ import {
     //OptionsField,
     //SelectField,
     TaxonPickerField,
-    TextAreaField
+    TextAreaField, TextGeorefField
 } from "bsbi-app-framework";
 import {MapGeorefField} from "../formfields/MapGeorefField";
 
@@ -94,6 +94,20 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED,
                 initialiseFromDefaultSurveyGeoref: true,
                 gpsTextLabel: true,
+            },
+            summarise(key, property, modelAttributes) {
+                if (!(modelAttributes.hasOwnProperty(key) &&
+                    !property.field.isEmpty(modelAttributes[key])
+                )) {
+                    const precision = (modelAttributes[key].source === TextGeorefField.GEOREF_SOURCE_GPS && modelAttributes[key].precision) ?
+                        ` &#177;${Math.round(modelAttributes[key].precision / 2)} m`
+                        :
+                        '';
+
+                    return `<span class="gridref-summary">${modelAttributes[key].gridRef}</span>${modelAttributes[key].source === TextGeorefField.GEOREF_SOURCE_GPS ? `${precision} [GPS]` : ''}`;
+                } else {
+                    return '';
+                }
             }
         },
         // idConfidence : {
