@@ -14097,6 +14097,10 @@
 	        html += '<span>(unnamed plant)</span>';
 	      }
 
+	      if (!occurrence.isPristine && occurrence.unsaved()) {
+	        html += '<span class="occurrence-unsaved-warning">Not yet saved.</span>';
+	      }
+
 	      return html;
 	    }
 	    /**
@@ -14643,7 +14647,7 @@
 	  var separateListsHTMLMessage; // include a warning here if the date has changed - prompting for new list
 
 	  if (this.controller.survey.date < DateField.todaysDate()) {
-	    separateListsHTMLMessage = "<p>Please survey for up to 3 hours on a single day.</p><p><strong>The current survey is from ".concat(this.controller.survey.date, ", please <a href=\"/").concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start a new list</a> if you are now adding records for a different day.</strong></p>");
+	    separateListsHTMLMessage = "<p>A survey can last for up to 3 hours on a single day from a single local area. You can send in as many separate lists as you like.</p><p><strong>The current survey is from ".concat(this.controller.survey.date, ", please <a href=\"/").concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start a new list</a> if you are now adding records for a different day.</strong></p>");
 	  } else {
 	    separateListsHTMLMessage = "<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href=\"/".concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start another separate list</a>.</p>");
 	  } // noinspection HtmlUnknownTarget
@@ -14812,7 +14816,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640345823</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640346942</p>";
 	    }
 	  }]);
 

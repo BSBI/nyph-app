@@ -850,7 +850,7 @@ export class MainView extends Page {
 
         // include a warning here if the date has changed - prompting for new list
         if (this.controller.survey.date < DateField.todaysDate()) {
-            separateListsHTMLMessage = `<p>Please survey for up to 3 hours on a single day.</p><p><strong>The current survey is from ${this.controller.survey.date}, please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start a new list</a> if you are now adding records for a different day.</strong></p>`;
+            separateListsHTMLMessage = `<p>A survey can last for up to 3 hours on a single day from a single local area. You can send in as many separate lists as you like.</p><p><strong>The current survey is from ${this.controller.survey.date}, please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start a new list</a> if you are now adding records for a different day.</strong></p>`;
         } else {
             separateListsHTMLMessage = `<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start another separate list</a>.</p>`;
         }
@@ -1149,6 +1149,10 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
             html += escapeHTML(occurrence.attributes.taxon.taxonName);
         } else {
             html += '<span>(unnamed plant)</span>';
+        }
+
+        if (!occurrence.isPristine && occurrence.unsaved()) {
+            html += '<span class="occurrence-unsaved-warning">Not yet saved.</span>';
         }
 
         return html;
