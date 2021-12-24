@@ -4831,7 +4831,7 @@
 	     *          }} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
-	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}/**
+	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined&&attributes[key].gridRef?escapeHTML(attributes[key].gridRef.trim()):'';}/**
 	     *
 	     * @param value
 	     * @returns {boolean}
@@ -12989,7 +12989,7 @@
 	  }], [{
 	    key: "summariseImpl",
 	    value: function summariseImpl(key, property, attributes) {
-	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined ? escapeHTML(attributes[key].trim()) : '';
+	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined && attributes[key].gridRef ? escapeHTML(attributes[key].gridRef.trim()) : '';
 	    }
 	  }]);
 
@@ -13160,6 +13160,9 @@
 	      gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED,
 	      initialiseFromDefaultSurveyGeoref: true,
 	      gpsTextLabel: true
+	    },
+	    summary: {
+	      summarise: true
 	    },
 	    summarise: function summarise(key, property, modelAttributes) {
 	      if (modelAttributes.hasOwnProperty(key) && !property.field.isEmpty(modelAttributes[key])) {
@@ -14797,7 +14800,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640341638</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640342979</p>";
 	    }
 	  }]);
 

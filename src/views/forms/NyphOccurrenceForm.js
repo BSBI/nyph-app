@@ -95,6 +95,9 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 initialiseFromDefaultSurveyGeoref: true,
                 gpsTextLabel: true,
             },
+            summary : {
+                summarise : true
+            },
             summarise(key, property, modelAttributes) {
                 if (modelAttributes.hasOwnProperty(key) &&
                     !property.field.isEmpty(modelAttributes[key])

@@ -3948,7 +3948,7 @@
 	     *          }} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
-	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined?escapeHTML(attributes[key].trim()):'';}/**
+	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined&&attributes[key].gridRef?escapeHTML(attributes[key].gridRef.trim()):'';}/**
 	     *
 	     * @param value
 	     * @returns {boolean}
@@ -4408,7 +4408,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640340831-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640342949-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
@@ -5415,7 +5415,7 @@
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1640341638'
+	  version: '1.0.3.1640342979'
 	});
 
 })();
