@@ -4839,7 +4839,7 @@
 	     *
 	     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
 	     */function get(){return this.attributes.georef||{gridRef:'',rawString:'',// what was provided by the user to generate this grid-ref (might be a postcode or placename)
-	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null};}},{key:"date",get:function get(){return this.attributes.date||'';}/**
+	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null};}},{key:"date",get:function get(){return this.attributes.date||'';}},{key:"place",get:function get(){return this.attributes.place||'';}/**
 	     * called after the form has changed, before the values have been read back in to the occurrence
 	     *
 	     * @param {{form: SurveyForm}} params
@@ -5158,11 +5158,13 @@
 	     */},{key:"newSurveyHandler",value:function newSurveyHandler(context,subcontext,rhs,queryParameters){// should not get here, as beforeNewHandler ought to have been invoked first
 	}/**
 	     * called after user has confirmed add new survey dialog box
+	     *
 	     */},{key:"addNewSurveyHandler",value:function addNewSurveyHandler(){console.log("reached addNewSurveyHandler");this.app.currentControllerHandle=this.handle;// when navigate back need to list need to ensure full view refresh
 	// the apps occurrences should only relate to the current survey
 	// (the reset are remote or in IndexedDb)
 	this.app.clearCurrentSurvey();this.app.setNewSurvey();// it's opportune at this point to try to ping the server again to save anything left outstanding
-	this.app.syncAll();this.app.router.pause();this.app.router.navigate('/list/survey/welcome').resume();this.app.router.resolve();}/**
+	this.app.syncAll();this.app.router.pause();this.app.router.navigate('/list/survey/about').resume();// jump straight into the survey rather than to welcome stage
+	this.app.router.resolve();}/**
 	     * called after user has confirmed reset surveys dialog box
 	     */},{key:"resetSurveysHandler",value:function resetSurveysHandler(){var _this2=this;this.app.clearLocalForage().then(function(){_this2.app.reset();_this2.addNewSurveyHandler();});}/**
 	     *
@@ -13893,6 +13895,27 @@
 	     */
 
 	  }, {
+	    key: "_reviseWelcomeButtons",
+	    value:
+	    /**
+	     *
+	     * @param {HTMLButtonElement} nextButton
+	     * @param {HTMLAnchorElement} newButton
+	     * @param {HTMLElement} container
+	     * @private
+	     */
+	    function _reviseWelcomeButtons(nextButton, newButton, container) {
+	      //container.className = 'welcome-container';
+	      //let numberOfSurveys = this.controller.app.surveys.size;
+	      if (this.controller.app.currentSurvey && this.controller.app.currentSurvey && this.controller.app.currentSurvey.place) {
+	        nextButton.textContent = "continue '".concat(this.controller.app.currentSurvey.generateSurveyName(), "' \xBB");
+	        newButton.style.display = 'inline';
+	      } else {
+	        nextButton.textContent = 'get started »';
+	        newButton.style.display = 'none';
+	      }
+	    }
+	  }, {
 	    key: "_refreshVisibilityOfAccordionSections",
 	    value: function _refreshVisibilityOfAccordionSections() {
 	      //const accordionEl = document.getElementById(this.leftPanelAccordionId);
@@ -14462,6 +14485,8 @@
 	}
 
 	function _appendWelcomeSection2() {
+	  var _this7 = this;
+
 	  var accordionEl = document.getElementById(this.leftPanelAccordionId); // add 'next' button to the bottom of the survey form
 
 	  var nextButton = document.createElement('button');
@@ -14470,10 +14495,24 @@
 	  nextButton.textContent = 'get started »';
 	  nextButton.setAttribute('data-toggle', 'collapse');
 	  nextButton.setAttribute('data-target', '#survey-0-about');
+	  var newSurveyButton = document.createElement('a');
+	  newSurveyButton.className = 'btn';
+	  newSurveyButton.type = 'button';
+	  newSurveyButton.href = "/".concat(this.pathPrefix, "/survey/new");
+	  newSurveyButton.dataset.navigo = 'survey/new';
+	  newSurveyButton.textContent = 'start new list »';
+	  newSurveyButton.style.display = 'none';
 	  var cardId = Form.nextId;
 	  var sectionElement = document.createElement('div');
 	  sectionElement.innerHTML = welcomeContent;
+
+	  this._reviseWelcomeButtons(nextButton, newSurveyButton, sectionElement);
+
+	  this.controller.app.addListener(App.EVENT_SURVEYS_CHANGED, function () {
+	    _this7._reviseWelcomeButtons(nextButton, newSurveyButton, sectionElement);
+	  });
 	  sectionElement.appendChild(nextButton);
+	  sectionElement.appendChild(newSurveyButton);
 	  var helpLink = document.createElement('span');
 	  helpLink.className = 'd-md-none pl-2'; // noinspection HtmlUnknownTarget
 
@@ -14499,7 +14538,7 @@
 	}
 
 	function _appendSurveyForm2(formIndex, accordionEl, next) {
-	  var _this7 = this;
+	  var _this8 = this;
 
 	  var sectionClass = NyphSurveyForm.sections[formIndex];
 	  var surveyFormSection = new NyphSurveyForm(sectionClass);
@@ -14526,7 +14565,7 @@
 	          surveyFormSection.liveValidation = true;
 
 	          if (surveyFormSection.validateForm()) {
-	            _this7.fireEvent(MainController$1.EVENT_NEXT_TO_RECORDS);
+	            _this8.fireEvent(MainController$1.EVENT_NEXT_TO_RECORDS);
 	          }
 	        }
 	      });
@@ -14567,7 +14606,7 @@
 	      /** @param {MouseEvent} event */
 	      function (event) {
 	        if (!doubleClickIntercepted(event)) {
-	          _this7.controller.app.router.navigate('/list/'); // display the finish dialogue box
+	          _this8.controller.app.router.navigate('/list/'); // display the finish dialogue box
 
 
 	          $("#".concat(FINISH_MODAL_ID)).modal();
@@ -14617,13 +14656,13 @@
 	    //}
 
 
-	    _this7._refreshVisibilityOfAccordionSections();
+	    _this8._refreshVisibilityOfAccordionSections();
 	  });
 	  surveyFormSection.testRequiredComplete(); // will trigger event if required sections are incomplete
 	}
 
 	function _appendOccurrenceListContainer2() {
-	  var _this8 = this;
+	  var _this9 = this;
 
 	  var accordionEl = document.getElementById(this.leftPanelAccordionId);
 	  var content = document.createDocumentFragment();
@@ -14647,10 +14686,10 @@
 	  var recordListContainer = content.appendChild(document.createElement('div'));
 	  recordListContainer.id = OCCURRENCE_LIST_CONTAINER_ID;
 	  this.controller.survey.addListener(Survey.EVENT_MODIFIED, function () {
-	    var occurrenceHeadingEl = document.getElementById(_this8.recordsHeaderListDescriptorId);
+	    var occurrenceHeadingEl = document.getElementById(_this9.recordsHeaderListDescriptorId);
 
 	    if (occurrenceHeadingEl) {
-	      occurrenceHeadingEl.innerHTML = "<strong>Records of plants in bloom from ".concat(_this8.controller.survey.generateSurveyName(), ".</strong>");
+	      occurrenceHeadingEl.innerHTML = "<strong>Records of plants in bloom from ".concat(_this9.controller.survey.generateSurveyName(), ".</strong>");
 	    }
 	  });
 	  var cardId = Form.nextId;
@@ -14684,7 +14723,7 @@
 	}
 
 	function _buildOccurrenceList2() {
-	  var _this9 = this;
+	  var _this10 = this;
 
 	  var listContainer = _classPrivateMethodGet$4(this, _getOccurrenceListContainer, _getOccurrenceListContainer2).call(this);
 
@@ -14765,7 +14804,7 @@
 	        'Updating null list state': nullListToggleEl.checked
 	      });
 
-	      _this9.controller.app.currentSurvey.setAttribute('nulllist', nullListToggleEl.checked); //this.fireEvent(MainView.EVENT_NULL_LIST_CHANGE, {'isNull' : nullListToggleEl.checked});
+	      _this10.controller.app.currentSurvey.setAttribute('nulllist', nullListToggleEl.checked); //this.fireEvent(MainView.EVENT_NULL_LIST_CHANGE, {'isNull' : nullListToggleEl.checked});
 
 	    });
 	  }
@@ -14802,7 +14841,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640360730</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640368864</p>";
 	    }
 	  }]);
 

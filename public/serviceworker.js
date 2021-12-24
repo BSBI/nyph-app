@@ -3956,7 +3956,7 @@
 	     *
 	     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
 	     */function get(){return this.attributes.georef||{gridRef:'',rawString:'',// what was provided by the user to generate this grid-ref (might be a postcode or placename)
-	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null};}},{key:"date",get:function get(){return this.attributes.date||'';}/**
+	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null};}},{key:"date",get:function get(){return this.attributes.date||'';}},{key:"place",get:function get(){return this.attributes.place||'';}/**
 	     * called after the form has changed, before the values have been read back in to the occurrence
 	     *
 	     * @param {{form: SurveyForm}} params
@@ -4275,11 +4275,13 @@
 	     */},{key:"newSurveyHandler",value:function newSurveyHandler(context,subcontext,rhs,queryParameters){// should not get here, as beforeNewHandler ought to have been invoked first
 	}/**
 	     * called after user has confirmed add new survey dialog box
+	     *
 	     */},{key:"addNewSurveyHandler",value:function addNewSurveyHandler(){console.log("reached addNewSurveyHandler");this.app.currentControllerHandle=this.handle;// when navigate back need to list need to ensure full view refresh
 	// the apps occurrences should only relate to the current survey
 	// (the reset are remote or in IndexedDb)
 	this.app.clearCurrentSurvey();this.app.setNewSurvey();// it's opportune at this point to try to ping the server again to save anything left outstanding
-	this.app.syncAll();this.app.router.pause();this.app.router.navigate('/list/survey/welcome').resume();this.app.router.resolve();}/**
+	this.app.syncAll();this.app.router.pause();this.app.router.navigate('/list/survey/about').resume();// jump straight into the survey rather than to welcome stage
+	this.app.router.resolve();}/**
 	     * called after user has confirmed reset surveys dialog box
 	     */},{key:"resetSurveysHandler",value:function resetSurveysHandler(){var _this2=this;this.app.clearLocalForage().then(function(){_this2.app.reset();_this2.addNewSurveyHandler();});}/**
 	     *
@@ -4395,7 +4397,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640359205-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640368827-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
@@ -5402,7 +5404,7 @@
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1640360730'
+	  version: '1.0.3.1640368864'
 	});
 
 })();
