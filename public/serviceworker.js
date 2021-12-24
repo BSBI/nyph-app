@@ -2996,43 +2996,24 @@
 	var localforage_js=new LocalForage();module.exports=localforage_js;},{"3":3}]},{},[4])(4);});})(localforage$1);var localforage=localforage$1.exports;function _createSuper$u(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$u();return function _createSuperInternal(){var Super=_getPrototypeOf$1(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf$1(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn$1(this,result);};}function _isNativeReflectConstruct$u(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function uuid(a){return a?(a^Math.random()*16>>a/4).toString(16):([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,uuid);}/**
 	 * regex used to validate AppObject external ids
 	 * (UUID form is 8 digits followed by three groups of 4 digits followed by a group of 12)
-	 */var UUID_REGEX=/^[a-fA-F0-9]{8}-(?:[a-fA-F0-9]{4}-){3}[a-fA-F0-9]{12}$/;var SAVE_STATE_LOCAL='SAVED_LOCALLY';var SAVE_STATE_SERVER='SAVED_TO_SERVER';var Model=/*#__PURE__*/function(_EventHarness){_inherits$1(Model,_EventHarness);var _super=_createSuper$u(Model);/**
-	   * @type {string}
-	   */ /**
-	   * set if the object has been posted to the server
-	   *
-	   * @type {boolean}
-	   */ /**
-	   * set if the object has been added to a temporary store (e.g. indexedDb)
-	   *
-	   * @type {boolean}
-	   */ /**
-	   *
-	   * @type {boolean}
-	   */ /**
-	   * unix timestamp
-	   * Provided that the created stamp is < the modified stamp then the externally assigned creation stamp will be used
-	   *
-	   * @type {number}
-	   */ /**
-	   * unix timestamp
-	   * modified stamp is generally server assigned - rather than using a potentially discrepant client clock
-	   * this may increase synchrony and trust between distributed clients
-	   *
-	   * @type {number}
-	   */ /**
-	   * DDb AppProject id
-	   *
-	   * @type {number}
-	   */ /**
-	   * paired with isNew this marks records that have never been edited
-	   *
-	   * @type {boolean}
-	   */function Model(){var _this;_classCallCheck$1(this,Model);_this=_super.call(this);_defineProperty$1(_assertThisInitialized$1(_this),"_id",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"_savedRemotely",false);_defineProperty$1(_assertThisInitialized$1(_this),"_savedLocally",false);_defineProperty$1(_assertThisInitialized$1(_this),"deleted",false);_defineProperty$1(_assertThisInitialized$1(_this),"createdStamp",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"modifiedStamp",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"projectId",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"isPristine",false);_this.createdStamp=Math.floor(Date.now()/1000);return _this;}/**
+	 */var UUID_REGEX=/^[a-fA-F0-9]{8}-(?:[a-fA-F0-9]{4}-){3}[a-fA-F0-9]{12}$/;var SAVE_STATE_LOCAL='SAVED_LOCALLY';var SAVE_STATE_SERVER='SAVED_TO_SERVER';var Model=/*#__PURE__*/function(_EventHarness){_inherits$1(Model,_EventHarness);var _super=_createSuper$u(Model);function Model(){var _this;_classCallCheck$1(this,Model);_this=_super.call(this);_defineProperty$1(_assertThisInitialized$1(_this),"_id",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"_savedRemotely",false);_defineProperty$1(_assertThisInitialized$1(_this),"_savedLocally",false);_defineProperty$1(_assertThisInitialized$1(_this),"deleted",false);_defineProperty$1(_assertThisInitialized$1(_this),"createdStamp",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"modifiedStamp",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"projectId",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"isPristine",false);_this.createdStamp=Math.floor(Date.now()/1000);return _this;}/**
 	   * returns true if either remote or local copy is missing
 	   *
 	   * @returns {boolean}
-	   */_createClass$1(Model,[{key:"unsaved",value:function unsaved(){return !(this._savedLocally&&this._savedRemotely);}/**
+	   */_createClass$1(Model,[{key:"savedRemotely",set:/**
+	     * @type {string}
+	     */ /**
+	     * set if the object has been posted to the server
+	     *
+	     * @type {boolean}
+	     */ /**
+	     *
+	     * @param {Boolean} savedFlag
+	     */function set(savedFlag){if(this._savedRemotely!==savedFlag){this._savedRemotely=!!savedFlag;if(this._savedRemotely){this.fireEvent(Model.EVENT_SAVED_REMOTELY,{id:this.id});}}}/**
+	     * set if the object has been added to a temporary store (e.g. indexedDb)
+	     *
+	     * @type {boolean}
+	     */},{key:"unsaved",value:function unsaved(){return !(this._savedLocally&&this._savedRemotely);}/**
 	     * string
 	     */},{key:"id",get:function get(){if(!this._id){this._id=uuid();}else if(this._id==='undefined'){console.error("id is literal 'undefined', am forcing new id");this._id=uuid();}return this._id;}/**
 	     *
@@ -3075,7 +3056,9 @@
 	// or a server-side save
 	// to do that need to decode the json response
 	// which can only be done once, so need to clone first
-	var clonedResponse=response.clone();return clonedResponse.json().then(function(responseData){/** @param {{saveState : string, created : number, modified : number}} responseData */console.log({'returned to client after save':responseData});switch(responseData.saveState){case SAVE_STATE_SERVER:_this3._savedLocally=true;_this3._savedRemotely=true;break;case SAVE_STATE_LOCAL:_this3._savedLocally=true;_this3._savedRemotely=false;break;default:console.log("Unrecognised save state '".concat(responseData.saveState,"'"));}_this3.createdStamp=parseInt(responseData.created,10);_this3.modifiedStamp=parseInt(responseData.modified,10);// return the json version of the original response as a promise
+	var clonedResponse=response.clone();return clonedResponse.json().then(function(responseData){/** @param {{saveState : string, created : number, modified : number}} responseData */console.log({'returned to client after save':responseData});switch(responseData.saveState){case SAVE_STATE_SERVER:_this3._savedLocally=true;//this._savedRemotely = true;
+	_this3.savedRemotely=true;break;case SAVE_STATE_LOCAL:_this3._savedLocally=true;//this._savedRemotely = false;
+	_this3.savedRemotely=false;break;default:console.log("Unrecognised save state '".concat(responseData.saveState,"'"));}_this3.createdStamp=parseInt(responseData.created,10);_this3.modifiedStamp=parseInt(responseData.modified,10);// return the json version of the original response as a promise
 	return response.json();// assign appropriate JSON type to the response
 	});}else {// try instead to write the data to local storage
 	console.log('Save failed, presumably service worker is missing and there is no network connection. Should write to IndexedDb here.');return Promise.reject('IndexedDb storage not yet implemented');}});}/**
@@ -3096,16 +3079,19 @@
 	console.log('Attributes were spuriously represented as an array rather than as an empty object');this.attributes={};}else {this.attributes=attributes;}}/**
 	     *
 	     * @param {string} saveState
-	     */},{key:"_parseSavedState",value:function _parseSavedState(saveState){switch(saveState){case SAVE_STATE_LOCAL:this._savedRemotely=false;this._savedLocally=true;break;case SAVE_STATE_SERVER:this._savedRemotely=true;this._savedLocally=true;break;default:throw new Error("Unrecognised saved state '".concat(saveState));}}/**
+	     */},{key:"_parseSavedState",value:function _parseSavedState(saveState){switch(saveState){case SAVE_STATE_LOCAL://this._savedRemotely = false;
+	this.savedRemotely=false;this._savedLocally=true;break;case SAVE_STATE_SERVER://this._savedRemotely = true;
+	this.savedRemotely=true;this._savedLocally=true;break;default:throw new Error("Unrecognised saved state '".concat(saveState));}}/**
 	     * update modified stamp to current time
-	     */},{key:"touch",value:function touch(){this.modifiedStamp=Math.floor(Date.now()/1000);if(this.isPristine){this.isPristine=false;this.createdStamp=this.modifiedStamp;}this._savedLocally=false;this._savedRemotely=false;}/**
+	     */},{key:"touch",value:function touch(){this.modifiedStamp=Math.floor(Date.now()/1000);if(this.isPristine){this.isPristine=false;this.createdStamp=this.modifiedStamp;}this._savedLocally=false;//this._savedRemotely = false;
+	this.savedRemotely=false;}/**
 	     *
 	     * @param {{}} formSectionProperties
 	     * @return {{requiredFieldsPresent: boolean, validity: Object.<string, boolean>}}
 	     */},{key:"evaluateCompletionStatus",value:function evaluateCompletionStatus(formSectionProperties){var validity={};var requiredFieldsPresent=true;for(var key in formSectionProperties){if(formSectionProperties.hasOwnProperty(key)){var property=formSectionProperties[key];validity[key]=property.validator?property.validator(key,property,this.attributes):property.field.isValid(key,property,this.attributes);if(null!==validity[key]){// validity can be 'null' in which case field was optional and not assessed
 	requiredFieldsPresent=requiredFieldsPresent&&validity[key];}}}return {requiredFieldsPresent:requiredFieldsPresent,validity:validity};}}],[{key:"_next",value:function _next(){Model._tasks.shift();// save is done
 	if(Model._tasks.length){// run the next task
-	console.log('Running the next task.');return Model._tasks[0]().finally(Model._next);}}},{key:"retrieveFromLocal",value:function retrieveFromLocal(id,modelObject){return localforage.getItem("".concat(modelObject.TYPE,".").concat(id)).then(function(descriptor){if(descriptor){modelObject.id=id;modelObject._parseDescriptor(descriptor);return modelObject;}else {return Promise.reject("Failed to retrieve ".concat(modelObject.TYPE,".").concat(id," locally"));}});}}]);return Model;}(EventHarness);_defineProperty$1(Model,"_tasks",[]);function _createSuper$t(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$t();return function _createSuperInternal(){var Super=_getPrototypeOf$1(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf$1(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn$1(this,result);};}function _isNativeReflectConstruct$t(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var TaxonError=/*#__PURE__*/function(_Error){_inherits$1(TaxonError,_Error);var _super=_createSuper$t(TaxonError);function TaxonError(){_classCallCheck$1(this,TaxonError);return _super.apply(this,arguments);}return TaxonError;}(/*#__PURE__*/_wrapNativeSuper(Error));/**
+	console.log('Running the next task.');return Model._tasks[0]().finally(Model._next);}}},{key:"retrieveFromLocal",value:function retrieveFromLocal(id,modelObject){return localforage.getItem("".concat(modelObject.TYPE,".").concat(id)).then(function(descriptor){if(descriptor){modelObject.id=id;modelObject._parseDescriptor(descriptor);return modelObject;}else {return Promise.reject("Failed to retrieve ".concat(modelObject.TYPE,".").concat(id," locally"));}});}}]);return Model;}(EventHarness);_defineProperty$1(Model,"EVENT_SAVED_REMOTELY",'savedremotely');_defineProperty$1(Model,"_tasks",[]);function _createSuper$t(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$t();return function _createSuperInternal(){var Super=_getPrototypeOf$1(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf$1(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn$1(this,result);};}function _isNativeReflectConstruct$t(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var TaxonError=/*#__PURE__*/function(_Error){_inherits$1(TaxonError,_Error);var _super=_createSuper$t(TaxonError);function TaxonError(){_classCallCheck$1(this,TaxonError);return _super.apply(this,arguments);}return TaxonError;}(/*#__PURE__*/_wrapNativeSuper(Error));/**
 	 *
 	 * @param text
 	 * @returns {string}
@@ -3247,7 +3233,7 @@
 	//     taxonName: '',
 	//     vernacularMatch: false
 	// }
-	});_defineProperty$1(_assertThisInitialized$1(_this),"_savedRemotely",false);_defineProperty$1(_assertThisInitialized$1(_this),"_savedLocally",false);_defineProperty$1(_assertThisInitialized$1(_this),"SAVE_ENDPOINT",'/saveoccurrence.php');_defineProperty$1(_assertThisInitialized$1(_this),"TYPE",'occurrence');_defineProperty$1(_assertThisInitialized$1(_this),"isNew",false);return _this;}_createClass$1(Occurrence,[{key:"taxon",get:/**
+	});_defineProperty$1(_assertThisInitialized$1(_this),"SAVE_ENDPOINT",'/saveoccurrence.php');_defineProperty$1(_assertThisInitialized$1(_this),"TYPE",'occurrence');_defineProperty$1(_assertThisInitialized$1(_this),"isNew",false);return _this;}_createClass$1(Occurrence,[{key:"taxon",get:/**
 	     *
 	     * @returns {(Taxon|null)} returns null for unmatched taxa specified by name
 	     */function get(){return this.attributes.taxon&&this.attributes.taxon.taxonId?Taxon.fromId(this.attributes.taxon.taxonId):null;}},{key:"setForm",value:/**
@@ -4409,7 +4395,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640345801-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640348364-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
@@ -5416,7 +5402,7 @@
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1640346942'
+	  version: '1.0.3.1640348418'
 	});
 
 })();

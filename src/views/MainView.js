@@ -1151,10 +1151,6 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
             html += '<span>(unnamed plant)</span>';
         }
 
-        if (!occurrence.isPristine && occurrence.unsaved()) {
-            html += '<span class="occurrence-unsaved-warning">Not yet saved.</span>';
-        }
-
         return html;
     }
 
@@ -1165,6 +1161,11 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
      * @return {string}
      */
     #occurrenceSummaryHTML (occurrence) {
+        let unsavedMessage = (!occurrence.isPristine && occurrence.unsaved()) ?
+            '<span class="occurrence-unsaved-warning">Not yet saved.</span>'
+            :
+            ''
+
         return `<div class="card-header pointer pl-2 pr-2 pt-2 pb-2" id="heading_${occurrence.id}" data-toggle="collapse" data-target="#description_${occurrence.id}">
     <div class="float-right">
         <button type="button" class="btn btn-outline-danger delete-occurrence-button" data-toggle="modal" data-target="#${DELETE_OCCURRENCE_MODAL_ID}" data-occurrenceid="${occurrence.id}"><i class="material-icons">delete</i></button>
@@ -1176,7 +1177,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
     </h2>
     <div class="card-invalid-feedback">
         <small>Please check for errors or missing details.</small>
-    </div>
+    </div>${unsavedMessage}
 </div>
 <div id="description_${occurrence.id}" class="collapse${(this.controller.currentOccurrenceId === occurrence.id ? ' show' : '')}" aria-labelledby="heading_${occurrence.id}" data-parent="#${OCCURRENCE_LIST_CONTAINER_ID}" data-occurrenceid="${occurrence.id}">
   <div class="card-body">
