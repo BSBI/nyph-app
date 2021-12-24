@@ -1173,7 +1173,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
 
         if (occurrence.attributes.hasOwnProperty('images') && occurrence.attributes.images.length) {
             const firstImageId = occurrence.attributes.images[0];
-            html += OccurrenceImage.imageLink(firstImageId, 48, 48, {className : 'mr-1'});
+            html += OccurrenceImage.imageLink(firstImageId, 48, 48, {className : 'mr-1 image-float-left'});
         }
 
         if (occurrence.attributes.taxon && occurrence.attributes.taxon.taxonId) {

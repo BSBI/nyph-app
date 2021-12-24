@@ -112,3 +112,7 @@ span.gps-button-flex {
     vertical-align: middle;
     animation: fa-spin 3s infinite linear
 }
+
+img.image-float-left {
+    float: left;
+}
