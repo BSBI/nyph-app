@@ -13133,7 +13133,7 @@
 	     */
 	    validator: function validator(key, property, modelAttributes) {
 	      if (!(modelAttributes.hasOwnProperty(key) && !property.field.isEmpty(modelAttributes[key]))) {
-	        // taxon field is empty, check if have an image
+	        // taxon field is empty, check whether there is an image
 	        return modelAttributes.hasOwnProperty('images') && !ImageField.isEmpty(modelAttributes['images']);
 	      } else {
 	        return true;
@@ -13162,7 +13162,7 @@
 	      gpsTextLabel: true
 	    },
 	    summarise: function summarise(key, property, modelAttributes) {
-	      if (!(modelAttributes.hasOwnProperty(key) && !property.field.isEmpty(modelAttributes[key]))) {
+	      if (modelAttributes.hasOwnProperty(key) && !property.field.isEmpty(modelAttributes[key])) {
 	        var precision = modelAttributes[key].source === TextGeorefField.GEOREF_SOURCE_GPS && modelAttributes[key].precision ? " &#177;".concat(Math.round(modelAttributes[key].precision / 2), " m") : '';
 	        return "<span class=\"gridref-summary\">".concat(modelAttributes[key].gridRef, "</span>").concat(modelAttributes[key].source === TextGeorefField.GEOREF_SOURCE_GPS ? "".concat(precision, " [GPS]") : '');
 	      } else {
@@ -14797,7 +14797,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640340888</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640341638</p>";
 	    }
 	  }]);
 

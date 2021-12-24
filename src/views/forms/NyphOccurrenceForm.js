@@ -66,7 +66,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 if (!(modelAttributes.hasOwnProperty(key) &&
                     !property.field.isEmpty(modelAttributes[key])
                 )) {
-                    // taxon field is empty, check if have an image
+                    // taxon field is empty, check whether there is an image
                     return (modelAttributes.hasOwnProperty('images') &&
                         !ImageField.isEmpty(modelAttributes['images'])
                     )
@@ -96,9 +96,9 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 gpsTextLabel: true,
             },
             summarise(key, property, modelAttributes) {
-                if (!(modelAttributes.hasOwnProperty(key) &&
+                if (modelAttributes.hasOwnProperty(key) &&
                     !property.field.isEmpty(modelAttributes[key])
-                )) {
+                ) {
                     const precision = (modelAttributes[key].source === TextGeorefField.GEOREF_SOURCE_GPS && modelAttributes[key].precision) ?
                         ` &#177;${Math.round(modelAttributes[key].precision / 2)} m`
                         :
