@@ -14,7 +14,7 @@ import {
     MainController,
     Occurrence,
     OccurrenceImage,
-    Page, escapeHTML, doubleClickIntercepted, App, Survey
+    Page, escapeHTML, doubleClickIntercepted, App, Survey, DateField
 } from "bsbi-app-framework";
 import {NyphSurveyFormSurveySection} from "./forms/NyphSurveyFormSurveySection";
 
@@ -846,14 +846,17 @@ export class MainView extends Page {
 
         this.recordsHeaderListDescriptorId = Form.nextId;
 
-        const separateListsHTMLMessage = `<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start another separate list</a>.`;
+        let separateListsHTMLMessage;
 
+        // include a warning here if the date has changed - prompting for new list
+        if (this.controller.survey.date < DateField.todaysDate()) {
+            separateListsHTMLMessage = `<p>Please survey for up to 3 hours on a single day.</p><p><strong>The current survey is from ${this.controller.survey.date}, please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start a new list</a> if you are now adding records for a different day.</strong></p>`;
+        } else {
+            separateListsHTMLMessage = `<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start another separate list</a>.</p>`;
+        }
 
         // noinspection HtmlUnknownTarget
         summaryEl.innerHTML = `<span id="${this.recordsHeaderListDescriptorId}"><strong>Records of plants in bloom from ${this.controller.survey.generateSurveyName()}.</strong></span><small class="d-block d-md-none"><a href="/${this.pathPrefix}/list/record/help">(help)</a></small>${separateListsHTMLMessage}`;
-
-        // @todo include a warning here if the date has changed - prompting for new list
-
 
         const newButtonEl = content.appendChild(document.createElement('button'));
         newButtonEl.type = 'button';

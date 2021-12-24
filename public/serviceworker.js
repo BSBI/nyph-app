@@ -3970,11 +3970,11 @@
 	     *
 	     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
 	     */function get(){return this.attributes.georef||{gridRef:'',rawString:'',// what was provided by the user to generate this grid-ref (might be a postcode or placename)
-	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null};}},{key:"formChangedHandler",value:/**
+	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null};}},{key:"date",get:function get(){return this.attributes.date||'';}/**
 	     * called after the form has changed, before the values have been read back in to the occurrence
 	     *
 	     * @param {{form: SurveyForm}} params
-	     */function formChangedHandler(params){console.log('Survey change handler invoked.');// read new values
+	     */},{key:"formChangedHandler",value:function formChangedHandler(params){console.log('Survey change handler invoked.');// read new values
 	// then fire its own change event (Occurrence.EVENT_MODIFIED)
 	params.form.updateModelFromContent();console.log('Survey calling conditional validation.');// refresh the form's validation state
 	params.form.conditionallyValidateForm();this.touch();this.fireEvent(Survey.EVENT_MODIFIED,{surveyId:this.id});}/**
@@ -4409,7 +4409,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640343806-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640345801-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
@@ -5416,7 +5416,7 @@
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1640343832'
+	  version: '1.0.3.1640345823'
 	});
 
 })();

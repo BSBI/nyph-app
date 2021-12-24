@@ -4853,11 +4853,11 @@
 	     *
 	     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
 	     */function get(){return this.attributes.georef||{gridRef:'',rawString:'',// what was provided by the user to generate this grid-ref (might be a postcode or placename)
-	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null};}},{key:"formChangedHandler",value:/**
+	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null};}},{key:"date",get:function get(){return this.attributes.date||'';}/**
 	     * called after the form has changed, before the values have been read back in to the occurrence
 	     *
 	     * @param {{form: SurveyForm}} params
-	     */function formChangedHandler(params){console.log('Survey change handler invoked.');// read new values
+	     */},{key:"formChangedHandler",value:function formChangedHandler(params){console.log('Survey change handler invoked.');// read new values
 	// then fire its own change event (Occurrence.EVENT_MODIFIED)
 	params.form.updateModelFromContent();console.log('Survey calling conditional validation.');// refresh the form's validation state
 	params.form.conditionallyValidateForm();this.touch();this.fireEvent(Survey.EVENT_MODIFIED,{surveyId:this.id});}/**
@@ -5426,8 +5426,12 @@
 	   */_createClass(DateField,[{key:"value",get:/**
 	     *
 	     * @returns {string}
-	     */function get(){return this._value?this._value.slice(0,10):'';},set:function set(textContent){this._value=undefined===textContent||null==textContent?new Date().toJSON().slice(0,10)// current date in ISO format
-	:textContent.trim();this.updateView();}},{key:"updateView",value:function updateView(){if(this._fieldEl){// do nothing until the view has been constructed
+	     */function get(){return this._value?this._value.slice(0,10):'';},set:function set(textContent){this._value=undefined===textContent||null==textContent?DateField.todaysDate()// current date in ISO format
+	:textContent.trim();this.updateView();}/**
+	     * current date in ISO format
+	     *
+	     * @returns {string}
+	     */},{key:"updateView",value:function updateView(){if(this._fieldEl){// do nothing until the view has been constructed
 	var inputEl=document.getElementById(_classPrivateFieldGet(this,_inputId$2));inputEl.value=FormField.cleanRawString(this._value);}}/**
 	     * initialises this._fieldEl
 	     *
@@ -5447,7 +5451,7 @@
 	         * [type]: string,
 	         * [autocomplete]: string,
 	         * [minDate] : string,
-	         * [maxDate] : string
+	         * [maxDate] : string,
 	         * }
 	     * }} property properties of the form descriptor
 	     * @param attributes attributes of the model object
@@ -5463,7 +5467,8 @@
 	     * @param {{field : DateField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
-	     */}],[{key:"isValid",value:function isValid(key,property,attributes){if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is missing
+	     */}],[{key:"todaysDate",value:function todaysDate(){return new Date().toJSON().slice(0,10);// current date in ISO format
+	}},{key:"isValid",value:function isValid(key,property,attributes){if(property.attributes.completion&&(property.attributes.completion===FormField.COMPLETION_COMPULSORY||property.attributes.completion===FormField.COMPLETION_DESIRED)){// test whether required field is missing
 	if(!attributes.hasOwnProperty(key)||property.field.isEmpty(attributes[key])){return false;}else {// check if range constraints are met
 	var dateValue=attributes[key];if(property.attributes.minDate&&dateValue<property.attributes.minDate){return false;}if(property.attributes.maxDate&&dateValue>property.attributes.maxDate){return false;}var today=new Date().toJSON().slice(0,10);if(dateValue>today){return false;}}}// field is present or optional
 	// report as valid unless content is corrupt
@@ -13413,7 +13418,7 @@
 	    field: DateField,
 	    attributes: {
 	      label: 'Date',
-	      helpText: 'When did you survey? Please start a new list if you explore for a second day.',
+	      helpText: 'When did you survey? <strong>Please start a new list if you explore for a second day.</strong>',
 	      placeholder: 'date',
 	      type: 'date',
 	      completion: FormField.COMPLETION_COMPULSORY,
@@ -14635,10 +14640,16 @@
 	  var content = document.createDocumentFragment();
 	  var summaryEl = content.appendChild(document.createElement('p'));
 	  this.recordsHeaderListDescriptorId = Form.nextId;
-	  var separateListsHTMLMessage = "<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href=\"/".concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start another separate list</a>."); // noinspection HtmlUnknownTarget
+	  var separateListsHTMLMessage; // include a warning here if the date has changed - prompting for new list
 
-	  summaryEl.innerHTML = "<span id=\"".concat(this.recordsHeaderListDescriptorId, "\"><strong>Records of plants in bloom from ").concat(this.controller.survey.generateSurveyName(), ".</strong></span><small class=\"d-block d-md-none\"><a href=\"/").concat(this.pathPrefix, "/list/record/help\">(help)</a></small>").concat(separateListsHTMLMessage); // @todo include a warning here if the date has changed - prompting for new list
+	  if (this.controller.survey.date < DateField.todaysDate()) {
+	    separateListsHTMLMessage = "<p>Please survey for up to 3 hours on a single day.</p><p><strong>The current survey is from ".concat(this.controller.survey.date, ", please <a href=\"/").concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start a new list</a> if you are now adding records for a different day.</strong></p>");
+	  } else {
+	    separateListsHTMLMessage = "<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href=\"/".concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start another separate list</a>.</p>");
+	  } // noinspection HtmlUnknownTarget
 
+
+	  summaryEl.innerHTML = "<span id=\"".concat(this.recordsHeaderListDescriptorId, "\"><strong>Records of plants in bloom from ").concat(this.controller.survey.generateSurveyName(), ".</strong></span><small class=\"d-block d-md-none\"><a href=\"/").concat(this.pathPrefix, "/list/record/help\">(help)</a></small>").concat(separateListsHTMLMessage);
 	  var newButtonEl = content.appendChild(document.createElement('button'));
 	  newButtonEl.type = 'button';
 	  newButtonEl.className = 'btn btn-primary btn-lg mb-2';
@@ -14801,7 +14812,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640343832</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640345823</p>";
 	    }
 	  }]);
 
