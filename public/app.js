@@ -4077,7 +4077,8 @@
 	     * @param attributes attributes of the model object
 	     * @return {string}
 	     */},{key:"summarise",value:function summarise(key,property,attributes){if(property.summary&&(!property.summary.hasOwnProperty('summarise')||true===property.summary.summarise)){// test is that summary spec object exists and doesn't have the summarise flag set to false
-	return property.field.summariseImpl(key,property,attributes);}else {return '';}}/**
+	// return property.field.summariseImpl(key, property, attributes);
+	if(property.summarise){return property.summarise(key,property,attributes);}else {return property.field.summariseImpl(key,property,attributes);}}else {return '';}}/**
 	     * by the time summariseImpl has been called have already checked that summary is wanted
 	     *
 	     * @param {string} key
@@ -4831,7 +4832,7 @@
 	     *          }} property properties of the form descriptor
 	     * @param {Object.<string, {}>} attributes attributes of the model object
 	     * @return {string}
-	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined&&attributes[key].gridRef?escapeHTML(attributes[key].gridRef.trim()):'';}/**
+	     */}],[{key:"summariseImpl",value:function summariseImpl(key,property,attributes){return attributes[key]!==''&&attributes[key]!==null&&attributes[key]!==undefined&&attributes[key].gridRef?"<span>grid-reference <span class=\"gridref-summary\">".concat(escapeHTML(attributes[key].gridRef.trim()),"</span></span>"):'';}/**
 	     *
 	     * @param value
 	     * @returns {boolean}
@@ -12976,21 +12977,21 @@
 
 	        this._squareMarker.addToMap(this.map);
 	      }
-	    }
-	    /**
-	     * by the time summariseImpl has been called have already checked that summary is wanted
-	     *
-	     * @param {string} key
-	     * @param {{field : TextGeorefField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
-	     * @param {Object.<string, {}>} attributes attributes of the model object
-	     * @return {string}
-	     */
+	    } // /**
+	    //  * by the time summariseImpl has been called have already checked that summary is wanted
+	    //  *
+	    //  * @param {string} key
+	    //  * @param {{field : TextGeorefField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+	    //  * @param {Object.<string, {}>} attributes attributes of the model object
+	    //  * @return {string}
+	    //  */
+	    // static summariseImpl(key, property, attributes) {
+	    //     return (attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined && attributes[key].gridRef) ?
+	    //         escapeHTML(attributes[key].gridRef.trim())
+	    //         :
+	    //         '';
+	    // }
 
-	  }], [{
-	    key: "summariseImpl",
-	    value: function summariseImpl(key, property, attributes) {
-	      return attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined && attributes[key].gridRef ? escapeHTML(attributes[key].gridRef.trim()) : '';
-	    }
 	  }]);
 
 	  return MapGeorefField;
@@ -14800,7 +14801,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640343385</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640343832</p>";
 	    }
 	  }]);
 

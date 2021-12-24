@@ -784,18 +784,18 @@ export class MapGeorefField extends TextGeorefField {
         }
     }
 
-    /**
-     * by the time summariseImpl has been called have already checked that summary is wanted
-     *
-     * @param {string} key
-     * @param {{field : TextGeorefField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
-     * @param {Object.<string, {}>} attributes attributes of the model object
-     * @return {string}
-     */
-    static summariseImpl(key, property, attributes) {
-        return (attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined && attributes[key].gridRef) ?
-            escapeHTML(attributes[key].gridRef.trim())
-            :
-            '';
-    }
+    // /**
+    //  * by the time summariseImpl has been called have already checked that summary is wanted
+    //  *
+    //  * @param {string} key
+    //  * @param {{field : TextGeorefField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+    //  * @param {Object.<string, {}>} attributes attributes of the model object
+    //  * @return {string}
+    //  */
+    // static summariseImpl(key, property, attributes) {
+    //     return (attributes[key] !== '' && attributes[key] !== null && attributes[key] !== undefined && attributes[key].gridRef) ?
+    //         escapeHTML(attributes[key].gridRef.trim())
+    //         :
+    //         '';
+    // }
 }
