@@ -125,11 +125,11 @@ div.icon-show-collapsed {
 }
 
 .collapsed div.icon-show-collapsed {
-    display: inline;
+    display: inline-block;
 }
 
 div.icon-hide-collapsed {
-    display: inline;
+    display: inline-block;
     vertical-align: bottom;
     text-decoration: none !important;
     border: none !important;
