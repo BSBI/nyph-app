@@ -116,3 +116,19 @@ span.gps-button-flex {
 img.image-float-left {
     float: left;
 }
+
+span.icon-show-collapsed {
+    display: none;
+}
+
+.collapsed span.icon-show-collapsed {
+    display: inline;
+}
+
+span.icon-hide-collapsed {
+    display: inline;
+}
+
+.collapsed span.icon-show-collapsed {
+    display: none;
+}

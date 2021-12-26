@@ -827,7 +827,7 @@ export class MainView extends Page {
             collapsed: this.controller.surveySection !== sectionClass.sectionNavigationKey,
             headingButtonId: Form.nextId,
             headingHTML: sectionClass.sectionTitle,
-            headingNonbuttonHTML: `<small class="btn d-md-none" style="margin: 0; padding: 0;">(<a href="/${this.pathPrefix}/list/survey/${sectionClass.sectionNavigationKey}/help" data-help-link="/list/survey/${sectionClass.sectionNavigationKey}/help">help</a>)</small>`,
+            headingNonbuttonHTML: `<small class="btn d-md-none" style="margin: 0; padding: 0;"><a href="/${this.pathPrefix}/list/survey/${sectionClass.sectionNavigationKey}/help" data-help-link="/list/survey/${sectionClass.sectionNavigationKey}/help" style="margin-left: 1em;">(<span class="material-icons">help_outline</span>&nbsp;help&nbsp;)</a></small>`,
             headingValidationWarningHTML: 'Please check the form for some missing responses.',
             cardDescriptionId: `survey-${formIndex}-${sectionClass.sectionNavigationKey}`,// Form.nextId,
             parentContainerId: accordionEl.id,
