@@ -141,6 +141,7 @@ div.icon-hide-collapsed {
 
 span.italictaxon {
     font-style: italic;
+    display: inline-block;
 }
 
 span.taxon-qualifier {
@@ -151,4 +152,13 @@ span.taxon-qualifier {
 span.taxauthority {
     font-weight: lighter;
     font-style: normal;
+}
+
+q.taxon-vernacular {
+    font-weight: bold;
+    display: inline-block;
+}
+
+button.btn.occurrence-heading {
+    text-align: left;
 }

@@ -1221,7 +1221,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
         <button type="button" class="btn btn-outline-danger delete-occurrence-button" data-toggle="modal" data-target="#${DELETE_OCCURRENCE_MODAL_ID}" data-occurrenceid="${occurrence.id}"><i class="material-icons">delete</i></button>
     </div>
     <h2 class="mb-0 pb-0 mt-0 pt-0 pl-0 ml-0">
-        <button class="btn btn-link${(this.controller.currentOccurrenceId === occurrence.id ? '' : ' collapsed')} pt-0 pb-0 pl-0" id="headingbutton_${occurrence.id}" type="button" data-toggle="collapse" data-target="#description_${occurrence.id}" aria-expanded="${(this.controller.currentOccurrenceId === occurrence.id ? 'true' : 'false')}" aria-controls="description_${occurrence.id}">
+        <button class="occurrence-heading btn btn-link${(this.controller.currentOccurrenceId === occurrence.id ? '' : ' collapsed')} pt-0 pb-0 pl-0" id="headingbutton_${occurrence.id}" type="button" data-toggle="collapse" data-target="#description_${occurrence.id}" aria-expanded="${(this.controller.currentOccurrenceId === occurrence.id ? 'true' : 'false')}" aria-controls="description_${occurrence.id}">
           ${this.occurrenceSummaryHeadingHTML(occurrence)}
         </button>
     </h2>
