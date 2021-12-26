@@ -3974,7 +3974,7 @@
 	     *
 	     * @param {boolean} vernacularMatched
 	     * @returns {string}
-	     */function formattedHTML(vernacularMatched){var acceptedTaxon;if(this.id!==this.acceptedEntityId){acceptedTaxon=Taxon.fromId(this.acceptedEntityId);}if(Taxon.showVernacular){if(vernacularMatched){return acceptedTaxon?"<q><b>".concat(escapeHTML(this.vernacular),"</b></q> <span class=\"italictaxon\">").concat(this.nameString).concat(this.qualifier?" <b>".concat(this.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(this.authority),"</span>")+" = <span class=\"italictaxon\">".concat(acceptedTaxon.nameString).concat(acceptedTaxon.qualifier?" <b>".concat(acceptedTaxon.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(acceptedTaxon.authority),"</span>"):"<q><b>".concat(escapeHTML(this.vernacular),"</b></q> <span class=\"italictaxon\">").concat(this.nameString).concat(this.qualifier?" <b>".concat(this.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(this.authority),"</span>");}else {return acceptedTaxon?"<span class=\"italictaxon\">".concat(this.nameString).concat(this.qualifier?" <b>".concat(this.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(this.authority,"</span>").concat(this.vernacular?" <q><b>".concat(escapeHTML(this.vernacular),"</b></q>"):''," = <span class=\"italictaxon\">").concat(acceptedTaxon.nameString).concat(acceptedTaxon.qualifier?" <b>".concat(acceptedTaxon.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(acceptedTaxon.authority),"</span>"):"<span class=\"italictaxon\">".concat(this.nameString).concat(this.qualifier?" <b>".concat(this.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(this.authority),"</span>").concat(this.vernacular?" <q><b>".concat(escapeHTML(this.vernacular),"</b></q>"):'');}}else {return acceptedTaxon?"<span class=\"italictaxon\">".concat(this.nameString).concat(this.qualifier?" <b>".concat(this.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(this.authority,"</span>")+" = <span class=\"italictaxon\">".concat(acceptedTaxon.nameString).concat(acceptedTaxon.qualifier?" <b>".concat(acceptedTaxon.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(acceptedTaxon.authority),"</span>"):"<span class=\"italictaxon\">".concat(this.nameString).concat(this.qualifier?" <b>".concat(this.qualifier,"</b>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(this.authority),"</span>");}}}],[{key:"fromId",value:/**
+	     */function formattedHTML(vernacularMatched){var acceptedTaxon;if(this.id!==this.acceptedEntityId){acceptedTaxon=Taxon.fromId(this.acceptedEntityId);}if(Taxon.showVernacular){if(vernacularMatched){return acceptedTaxon?"<q><b>".concat(escapeHTML(this.vernacular),"</b></q><wbr> <span class=\"italictaxon\">").concat(this.nameString).concat(this.qualifier?" <span class=\"taxon-qualifier\">".concat(this.qualifier,"</span>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(this.authority),"</span>")+" = <span class=\"italictaxon\">".concat(acceptedTaxon.nameString).concat(acceptedTaxon.qualifier?" <span class=\"taxon-qualifier\">".concat(acceptedTaxon.qualifier,"</span>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(acceptedTaxon.authority),"</span>"):"<q><b>".concat(escapeHTML(this.vernacular),"</b></q><wbr> <span class=\"italictaxon\">").concat(this.nameString).concat(this.qualifier?" <span class=\"taxon-qualifier\">".concat(this.qualifier,"</span>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(this.authority),"</span>");}else {return acceptedTaxon?"<span class=\"italictaxon\">".concat(this.nameString).concat(this.qualifier?" <span class=\"taxon-qualifier\">".concat(this.qualifier,"</span>"):'',"</span> <span class=\"taxauthority\">").concat(this.authority,"</span>").concat(this.vernacular?" <wbr><q><b>".concat(escapeHTML(this.vernacular),"</b></q>"):''," = <span class=\"italictaxon\">").concat(acceptedTaxon.nameString).concat(acceptedTaxon.qualifier?" <span class=\"taxon-qualifier\">".concat(acceptedTaxon.qualifier,"</span>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(acceptedTaxon.authority),"</span>"):"<span class=\"italictaxon\">".concat(this.nameString).concat(this.qualifier?" <span class=\"taxon-qualifier\">".concat(this.qualifier,"</span>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(this.authority),"</span>").concat(this.vernacular?" <wbr><q><b>".concat(escapeHTML(this.vernacular),"</b></q>"):'');}}else {return acceptedTaxon?"<span class=\"italictaxon\">".concat(this.nameString).concat(this.qualifier?" <span class=\"taxon-qualifier\">".concat(this.qualifier,"</span>"):'',"</span> <span class=\"taxauthority\">").concat(this.authority,"</span>")+" = <span class=\"italictaxon\">".concat(acceptedTaxon.nameString).concat(acceptedTaxon.qualifier?" <span class=\"taxon-qualifier\">".concat(acceptedTaxon.qualifier,"</span>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(acceptedTaxon.authority),"</span>"):"<span class=\"italictaxon\">".concat(this.nameString).concat(this.qualifier?" <span class=\"taxon-qualifier\">".concat(this.qualifier,"</span>"):'',"</span> <span class=\"taxauthority\">").concat(escapeHTML(this.authority),"</span>");}}}],[{key:"fromId",value:/**
 	     *
 	     * @param {string} id
 	     * @returns {Taxon}
@@ -14487,12 +14487,15 @@
 	  nextButton.textContent = 'get started »';
 	  nextButton.setAttribute('data-toggle', 'collapse');
 	  nextButton.setAttribute('data-target', '#survey-0-about');
+	  nextButton.style.marginRight = '1em';
+	  nextButton.style.marginTop = '0.5em';
 	  var newSurveyLink = document.createElement('a');
 	  var newSurveyButton = newSurveyLink.appendChild(document.createElement('button'));
 	  newSurveyButton.className = 'btn';
 	  newSurveyButton.type = 'button';
-	  newSurveyButton.style.borderColor = '#046931';
-	  newSurveyButton.style.marginLeft = '1em';
+	  newSurveyButton.style.borderColor = '#046931'; //newSurveyButton.style.marginLeft = '1em';
+
+	  newSurveyButton.style.marginTop = '0.5em';
 	  newSurveyLink.href = "/".concat(this.pathPrefix, "/survey/new");
 	  newSurveyLink.dataset.navigo = 'survey/new';
 	  newSurveyButton.textContent = 'start new list »';
@@ -14839,7 +14842,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640542197</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640552032</p>";
 	    }
 	  }]);
 

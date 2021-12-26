@@ -681,6 +681,8 @@ export class MainView extends Page {
         nextButton.textContent = 'get started »';
         nextButton.setAttribute('data-toggle', 'collapse');
         nextButton.setAttribute('data-target', '#survey-0-about');
+        nextButton.style.marginRight = '1em';
+        nextButton.style.marginTop = '0.5em';
 
         const newSurveyLink = document.createElement('a');
         const newSurveyButton = newSurveyLink.appendChild(document.createElement('button'));
@@ -688,7 +690,8 @@ export class MainView extends Page {
         newSurveyButton.className = 'btn';
         newSurveyButton.type = 'button';
         newSurveyButton.style.borderColor = '#046931';
-        newSurveyButton.style.marginLeft = '1em';
+        //newSurveyButton.style.marginLeft = '1em';
+        newSurveyButton.style.marginTop = '0.5em';
         newSurveyLink.href = `/${this.pathPrefix}/survey/new`;
         newSurveyLink.dataset.navigo = 'survey/new';
         newSurveyButton.textContent = 'start new list »';

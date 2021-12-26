@@ -138,3 +138,17 @@ div.icon-hide-collapsed {
 .collapsed div.icon-hide-collapsed {
     display: none;
 }
+
+span.italictaxon {
+    font-style: italic;
+}
+
+span.taxon-qualifier {
+    font-style: normal;
+    font-weight: bolder;
+}
+
+span.taxauthority {
+    font-weight: lighter;
+    font-style: normal;
+}
