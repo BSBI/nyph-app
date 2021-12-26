@@ -129,6 +129,6 @@ span.icon-hide-collapsed {
     display: inline;
 }
 
-.collapsed span.icon-show-collapsed {
+.collapsed span.icon-hide-collapsed {
     display: none;
 }
