@@ -14491,6 +14491,8 @@
 	  var newSurveyButton = newSurveyLink.appendChild(document.createElement('button'));
 	  newSurveyButton.className = 'btn';
 	  newSurveyButton.type = 'button';
+	  newSurveyButton.style.borderColor = '#046931';
+	  newSurveyButton.style.marginLeft = '1em';
 	  newSurveyLink.href = "/".concat(this.pathPrefix, "/survey/new");
 	  newSurveyLink.dataset.navigo = 'survey/new';
 	  newSurveyButton.textContent = 'start new list »';
@@ -14837,7 +14839,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640518198</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640520195</p>";
 	    }
 	  }]);
 

@@ -687,6 +687,8 @@ export class MainView extends Page {
 
         newSurveyButton.className = 'btn';
         newSurveyButton.type = 'button';
+        newSurveyButton.style.borderColor = '#046931';
+        newSurveyButton.style.marginLeft = '1em';
         newSurveyLink.href = `/${this.pathPrefix}/survey/new`;
         newSurveyLink.dataset.navigo = 'survey/new';
         newSurveyButton.textContent = 'start new list »';
