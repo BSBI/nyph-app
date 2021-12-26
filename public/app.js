@@ -13891,19 +13891,20 @@
 	    /**
 	     *
 	     * @param {HTMLButtonElement} nextButton
-	     * @param {HTMLAnchorElement} newButton
+	     * @param {HTMLAnchorElement} newLink
 	     * @param {HTMLElement} container
 	     * @private
 	     */
-	    function _reviseWelcomeButtons(nextButton, newButton, container) {
+	    function _reviseWelcomeButtons(nextButton, newLink, container) {
 	      //container.className = 'welcome-container';
-	      //let numberOfSurveys = this.controller.app.surveys.size;
+	      newLink.getElementsByTagName('button')[0]; //let numberOfSurveys = this.controller.app.surveys.size;
+
 	      if (this.controller.app.currentSurvey && this.controller.app.currentSurvey && this.controller.app.currentSurvey.place) {
 	        nextButton.textContent = "continue '".concat(this.controller.app.currentSurvey.generateSurveyName(), "' \xBB");
-	        newButton.style.display = 'inline';
+	        newLink.style.display = 'inline';
 	      } else {
 	        nextButton.textContent = 'get started »';
-	        newButton.style.display = 'none';
+	        newLink.style.display = 'none';
 	      }
 	    }
 	  }, {
@@ -14486,24 +14487,25 @@
 	  nextButton.textContent = 'get started »';
 	  nextButton.setAttribute('data-toggle', 'collapse');
 	  nextButton.setAttribute('data-target', '#survey-0-about');
-	  var newSurveyButton = document.createElement('a');
+	  var newSurveyLink = document.createElement('a');
+	  var newSurveyButton = newSurveyLink.appendChild(document.createElement('button'));
 	  newSurveyButton.className = 'btn';
 	  newSurveyButton.type = 'button';
 	  newSurveyButton.href = "/".concat(this.pathPrefix, "/survey/new");
 	  newSurveyButton.dataset.navigo = 'survey/new';
-	  newSurveyButton.textContent = 'start new list »';
-	  newSurveyButton.style.display = 'none';
+	  newSurveyLink.textContent = 'start new list »';
+	  newSurveyLink.style.display = 'none';
 	  var cardId = Form.nextId;
 	  var sectionElement = document.createElement('div');
 	  sectionElement.innerHTML = welcomeContent;
 
-	  this._reviseWelcomeButtons(nextButton, newSurveyButton, sectionElement);
+	  this._reviseWelcomeButtons(nextButton, newSurveyLink, sectionElement);
 
 	  this.controller.app.addListener(App.EVENT_SURVEYS_CHANGED, function () {
-	    _this7._reviseWelcomeButtons(nextButton, newSurveyButton, sectionElement);
+	    _this7._reviseWelcomeButtons(nextButton, newSurveyLink, sectionElement);
 	  });
 	  sectionElement.appendChild(nextButton);
-	  sectionElement.appendChild(newSurveyButton);
+	  sectionElement.appendChild(newSurveyLink);
 	  var helpLink = document.createElement('span');
 	  helpLink.className = 'd-md-none pl-2'; // noinspection HtmlUnknownTarget
 
@@ -14835,7 +14837,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640516934</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640517691</p>";
 	    }
 	  }]);
 

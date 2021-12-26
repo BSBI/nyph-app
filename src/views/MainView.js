@@ -652,20 +652,22 @@ export class MainView extends Page {
     /**
      *
      * @param {HTMLButtonElement} nextButton
-     * @param {HTMLAnchorElement} newButton
+     * @param {HTMLAnchorElement} newLink
      * @param {HTMLElement} container
      * @private
      */
-    _reviseWelcomeButtons(nextButton, newButton, container) {
+    _reviseWelcomeButtons(nextButton, newLink, container) {
         //container.className = 'welcome-container';
+
+        const newButton = newLink.getElementsByTagName('button')[0];
 
         //let numberOfSurveys = this.controller.app.surveys.size;
         if (this.controller.app.currentSurvey && this.controller.app.currentSurvey && this.controller.app.currentSurvey.place) {
             nextButton.textContent = `continue '${this.controller.app.currentSurvey.generateSurveyName()}' »`;
-            newButton.style.display = 'inline';
+            newLink.style.display = 'inline';
         } else {
             nextButton.textContent = 'get started »';
-            newButton.style.display = 'none';
+            newLink.style.display = 'none';
         }
     }
 
@@ -680,27 +682,29 @@ export class MainView extends Page {
         nextButton.setAttribute('data-toggle', 'collapse');
         nextButton.setAttribute('data-target', '#survey-0-about');
 
-        const newSurveyButton = document.createElement('a');
+        const newSurveyLink = document.createElement('a');
+        const newSurveyButton = newSurveyLink.appendChild(document.createElement('button'));
+
         newSurveyButton.className = 'btn';
         newSurveyButton.type = 'button';
         newSurveyButton.href = `/${this.pathPrefix}/survey/new`;
         newSurveyButton.dataset.navigo = 'survey/new';
-        newSurveyButton.textContent = 'start new list »';
-        newSurveyButton.style.display = 'none';
+        newSurveyLink.textContent = 'start new list »';
+        newSurveyLink.style.display = 'none';
 
         let cardId = Form.nextId;
 
         const sectionElement = document.createElement('div');
         sectionElement.innerHTML = welcomeContent;
 
-        this._reviseWelcomeButtons(nextButton, newSurveyButton, sectionElement);
+        this._reviseWelcomeButtons(nextButton, newSurveyLink, sectionElement);
 
         this.controller.app.addListener(App.EVENT_SURVEYS_CHANGED, () => {
-            this._reviseWelcomeButtons(nextButton, newSurveyButton, sectionElement);
+            this._reviseWelcomeButtons(nextButton, newSurveyLink, sectionElement);
         });
 
         sectionElement.appendChild(nextButton);
-        sectionElement.appendChild(newSurveyButton);
+        sectionElement.appendChild(newSurveyLink);
 
         const helpLink = document.createElement('span');
         helpLink.className = 'd-md-none pl-2';
