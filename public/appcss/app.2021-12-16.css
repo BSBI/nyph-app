@@ -117,20 +117,20 @@ img.image-float-left {
     float: left;
 }
 
-span.icon-show-collapsed {
+div.icon-show-collapsed {
     display: none;
     vertical-align: bottom;
 }
 
-.collapsed span.icon-show-collapsed {
-    display: block;
+.collapsed div.icon-show-collapsed {
+    display: inline;
 }
 
-span.icon-hide-collapsed {
-    display: block;
+div.icon-hide-collapsed {
+    display: inline;
     vertical-align: bottom;
 }
 
-.collapsed span.icon-hide-collapsed {
+.collapsed div.icon-hide-collapsed {
     display: none;
 }
