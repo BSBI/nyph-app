@@ -14,7 +14,7 @@ import {
     MainController,
     Occurrence,
     OccurrenceImage,
-    Page, escapeHTML, doubleClickIntercepted, App, Survey, DateField
+    Page, escapeHTML, doubleClickIntercepted, App, Survey, DateField, Model
 } from "bsbi-app-framework";
 import {NyphSurveyFormSurveySection} from "./forms/NyphSurveyFormSurveySection";
 
@@ -980,6 +980,12 @@ export class MainView extends Page {
                     this.occurrenceChangeHandler.bind(this),
                     {occurrenceId: occurrence.id}
                 );
+
+                this.#occurrenceChangeHandles[occurrence.id] = occurrence.addListener(
+                    Model.EVENT_SAVED_REMOTELY,
+                    this.occurrenceChangeHandler.bind(this),
+                    {occurrenceId: occurrence.id}
+                );
             }
         }
 
@@ -1199,7 +1205,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
         let unsavedMessage = (!occurrence.isPristine && occurrence.unsaved()) ?
             '<span class="occurrence-unsaved-warning">Not yet saved.</span>'
             :
-            ''
+            '';
 
         return `<div class="card-header pointer pl-2 pr-2 pt-2 pb-2" id="heading_${occurrence.id}" data-toggle="collapse" data-target="#description_${occurrence.id}">
     <div class="float-right">

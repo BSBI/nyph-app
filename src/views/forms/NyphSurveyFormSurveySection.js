@@ -47,8 +47,7 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
             attributes: {
                 label: 'Starting point of your walk.',
                 helpText: 'Enter a grid-reference, search by place name or postcode or use the GPS button',
-                placeholder: 'Grid-reference or search',
-                //autocomplete: 'postal-code',
+                placeholder: 'Grid-reference, place or postcode',
                 completion: FormField.COMPLETION_COMPULSORY,
                 validationMessage: 'Please specify an approximate starting point for the survey. You can do this by typing a grid-reference, clicking the GPS button, selecting a place from the drop-down list or clicking on the map.',
                 includeSearchBox: true,

@@ -10,7 +10,6 @@ import {
     Occurrence,
     Survey,
     PatchedNavigo,
-    App
 } from "bsbi-app-framework";
 
 export class MainController extends AppController {

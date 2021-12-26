@@ -4922,55 +4922,43 @@
 	     *
 	     * @param id
 	     * @returns {OccurrenceImage}
-	     */function placeholder(id){var placeholderObject=new OccurrenceImage();placeholderObject._id=id;OccurrenceImage.imageCache.set(id,placeholderObject);return placeholderObject;}},{key:"imageLink",value:function imageLink(id,width,height,attributes){width=width||0;height=height||0;var attributesString='';if(attributes.className){attributesString+=" class=\"".concat(attributes.className,"\"");}var renderingConstraint=width>height?"width=\"".concat(width,"\""):"height=\"".concat(height,"\"");return "<picture><source srcset=\"/image.php?imageid=".concat(id,"&amp;height=128&amp;format=webp\" type=\"image/webp\"><img").concat(attributesString," src=\"/image.php?imageid=").concat(id,"&amp;width=").concat(width,"&amp;height=").concat(height,"&amp;format=jpeg\" ").concat(renderingConstraint," alt=\"photo\"></picture>");}}]);return OccurrenceImage;}(Model);_defineProperty(OccurrenceImage,"imageCache",new Map());_defineProperty(OccurrenceImage,"EVENT_MODIFIED",'modified');function _createForOfIteratorHelper$6(o,allowArrayLike){var it=typeof Symbol!=="undefined"&&o[Symbol.iterator]||o["@@iterator"];if(!it){if(Array.isArray(o)||(it=_unsupportedIterableToArray$6(o))||allowArrayLike&&o&&typeof o.length==="number"){if(it)o=it;var i=0;var F=function F(){};return {s:F,n:function n(){if(i>=o.length)return {done:true};return {done:false,value:o[i++]};},e:function e(_e){throw _e;},f:F};}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}var normalCompletion=true,didErr=false,err;return {s:function s(){it=it.call(o);},n:function n(){var step=it.next();normalCompletion=step.done;return step;},e:function e(_e2){didErr=true;err=_e2;},f:function f(){try{if(!normalCompletion&&it.return!=null)it.return();}finally{if(didErr)throw err;}}};}function _unsupportedIterableToArray$6(o,minLen){if(!o)return;if(typeof o==="string")return _arrayLikeToArray$6(o,minLen);var n=Object.prototype.toString.call(o).slice(8,-1);if(n==="Object"&&o.constructor)n=o.constructor.name;if(n==="Map"||n==="Set")return Array.from(o);if(n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return _arrayLikeToArray$6(o,minLen);}function _arrayLikeToArray$6(arr,len){if(len==null||len>arr.length)len=arr.length;for(var i=0,arr2=new Array(len);i<len;i++){arr2[i]=arr[i];}return arr2;}function _createSuper$f(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$f();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$f(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec$7(obj,privateMap,value){_checkPrivateRedeclaration$7(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$7(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _router=/*#__PURE__*/new WeakMap();var _containerEl=/*#__PURE__*/new WeakMap();var App=/*#__PURE__*/function(_EventHarness){_inherits(App,_EventHarness);var _super=_createSuper$f(App);/**
-	   * @type {PatchedNavigo}
-	   */ /**
-	   * @type {HTMLElement}
-	   */ /**
-	   *
-	   * @type {Array.<AppController>}
-	   */ /**
-	   * tracks the handle of the current page controller
-	   * updating this is the responsibility of the controller
-	   *
-	   * @type {number|boolean}
-	   */ /**
-	   *
-	   * @type {Array.<{url : string}>}
-	   */ /**
-	   * keyed by occurrence id (a UUID string)
-	   *
-	   * @type {Map.<string,Occurrence>}
-	   */ /**
-	   * keyed by survey id (a UUID string)
-	   *
-	   * @type {Map.<string,Survey>}
-	   */ /**
-	   * @type {Survey}
-	   */ /**
-	   * @type {Layout}
-	   */ /**
-	   * Event fired when user requests a new blank survey
-	   * @type {string}
-	   */ /**
-	   * Event fired when user requests a reset (local clearance) of all surveys
-	   * @type {string}
-	   */ /**
-	   * Fired after App.currentSurvey has been set to a new blank survey
-	   * the survey will be accessible in App.currentSurvey
-	   *
-	   * @type {string}
-	   */ /**
-	   * Fired if the surveys list might need updating (as a survey has been added, removed or changed)
-	   *
-	   * @type {string}
-	   */ /**
-	   *
-	   * @type {boolean}
-	   */function App(){var _this;_classCallCheck(this,App);_this=_super.call(this);_classPrivateFieldInitSpec$7(_assertThisInitialized(_this),_router,{writable:true,value:void 0});_classPrivateFieldInitSpec$7(_assertThisInitialized(_this),_containerEl,{writable:true,value:void 0});_defineProperty(_assertThisInitialized(_this),"controllers",[]);_defineProperty(_assertThisInitialized(_this),"currentControllerHandle",false);_defineProperty(_assertThisInitialized(_this),"routeHistory",[]);_defineProperty(_assertThisInitialized(_this),"occurrences",void 0);_defineProperty(_assertThisInitialized(_this),"surveys",void 0);_defineProperty(_assertThisInitialized(_this),"currentSurvey",void 0);_defineProperty(_assertThisInitialized(_this),"layout",void 0);_this.reset();return _this;}/**
+	     */function placeholder(id){var placeholderObject=new OccurrenceImage();placeholderObject._id=id;OccurrenceImage.imageCache.set(id,placeholderObject);return placeholderObject;}},{key:"imageLink",value:function imageLink(id,width,height,attributes){width=width||0;height=height||0;var attributesString='';if(attributes.className){attributesString+=" class=\"".concat(attributes.className,"\"");}var renderingConstraint=width>height?"width=\"".concat(width,"\""):"height=\"".concat(height,"\"");return "<picture><source srcset=\"/image.php?imageid=".concat(id,"&amp;height=128&amp;format=webp\" type=\"image/webp\"><img").concat(attributesString," src=\"/image.php?imageid=").concat(id,"&amp;width=").concat(width,"&amp;height=").concat(height,"&amp;format=jpeg\" ").concat(renderingConstraint," alt=\"photo\"></picture>");}}]);return OccurrenceImage;}(Model);_defineProperty(OccurrenceImage,"imageCache",new Map());_defineProperty(OccurrenceImage,"EVENT_MODIFIED",'modified');function _createForOfIteratorHelper$6(o,allowArrayLike){var it=typeof Symbol!=="undefined"&&o[Symbol.iterator]||o["@@iterator"];if(!it){if(Array.isArray(o)||(it=_unsupportedIterableToArray$6(o))||allowArrayLike&&o&&typeof o.length==="number"){if(it)o=it;var i=0;var F=function F(){};return {s:F,n:function n(){if(i>=o.length)return {done:true};return {done:false,value:o[i++]};},e:function e(_e){throw _e;},f:F};}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}var normalCompletion=true,didErr=false,err;return {s:function s(){it=it.call(o);},n:function n(){var step=it.next();normalCompletion=step.done;return step;},e:function e(_e2){didErr=true;err=_e2;},f:function f(){try{if(!normalCompletion&&it.return!=null)it.return();}finally{if(didErr)throw err;}}};}function _unsupportedIterableToArray$6(o,minLen){if(!o)return;if(typeof o==="string")return _arrayLikeToArray$6(o,minLen);var n=Object.prototype.toString.call(o).slice(8,-1);if(n==="Object"&&o.constructor)n=o.constructor.name;if(n==="Map"||n==="Set")return Array.from(o);if(n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return _arrayLikeToArray$6(o,minLen);}function _arrayLikeToArray$6(arr,len){if(len==null||len>arr.length)len=arr.length;for(var i=0,arr2=new Array(len);i<len;i++){arr2[i]=arr[i];}return arr2;}function _createSuper$f(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$f();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$f(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}function _classPrivateFieldInitSpec$7(obj,privateMap,value){_checkPrivateRedeclaration$7(obj,privateMap);privateMap.set(obj,value);}function _checkPrivateRedeclaration$7(obj,privateCollection){if(privateCollection.has(obj)){throw new TypeError("Cannot initialize the same private elements twice on an object");}}var _router=/*#__PURE__*/new WeakMap();var _containerEl=/*#__PURE__*/new WeakMap();var App=/*#__PURE__*/function(_EventHarness){_inherits(App,_EventHarness);var _super=_createSuper$f(App);function App(){var _this;_classCallCheck(this,App);_this=_super.call(this);_classPrivateFieldInitSpec$7(_assertThisInitialized(_this),_router,{writable:true,value:void 0});_classPrivateFieldInitSpec$7(_assertThisInitialized(_this),_containerEl,{writable:true,value:void 0});_defineProperty(_assertThisInitialized(_this),"controllers",[]);_defineProperty(_assertThisInitialized(_this),"currentControllerHandle",false);_defineProperty(_assertThisInitialized(_this),"routeHistory",[]);_defineProperty(_assertThisInitialized(_this),"occurrences",void 0);_defineProperty(_assertThisInitialized(_this),"surveys",void 0);_defineProperty(_assertThisInitialized(_this),"currentSurvey",void 0);_defineProperty(_assertThisInitialized(_this),"layout",void 0);_this.reset();return _this;}/**
 	   *
 	   * @param {string} name
-	   */_createClass(App,[{key:"setLocalForageName",value:function setLocalForageName(name){localforage$2.config({name:name});}},{key:"reset",value:function reset(){this.surveys=new Map();this.clearCurrentSurvey();}/**
+	   */_createClass(App,[{key:"currentSurvey",set:/**
+	     * @type {PatchedNavigo}
+	     */ /**
+	     * @type {HTMLElement}
+	     */ /**
+	     *
+	     * @type {Array.<AppController>}
+	     */ /**
+	     * tracks the handle of the current page controller
+	     * updating this is the responsibility of the controller
+	     *
+	     * @type {number|boolean}
+	     */ /**
+	     *
+	     * @type {Array.<{url : string}>}
+	     */ /**
+	     * keyed by occurrence id (a UUID string)
+	     *
+	     * @type {Map.<string,Occurrence>}
+	     */ /**
+	     * keyed by survey id (a UUID string)
+	     *
+	     * @type {Map.<string,Survey>}
+	     */ /**
+	     * @type {Survey}
+	     */ /**
+	     *
+	     * @param {?Survey} survey
+	     */function set(survey){if(this.currentSurvey!==survey){this.currentSurvey=survey;var surveyId=survey?survey.id:null;localforage$2.setItem(App.CURRENT_SURVEY_KEY_NAME,surveyId);}}/**
+	     *
+	     * @returns {Promise<string | null>}
+	     */},{key:"getLastSurveyId",value:function getLastSurveyId(){return localforage$2.getItem(App.CURRENT_SURVEY_KEY_NAME).catch(function(error){console.log({'Error retrieving last survey id':error});return Promise.resolve(null);});}/**
+	     * @type {Layout}
+	     */},{key:"setLocalForageName",value:function setLocalForageName(name){localforage$2.config({name:name});}},{key:"reset",value:function reset(){this.surveys=new Map();this.clearCurrentSurvey();}/**
 	     * unset the current survey and its associated list of occurrences
 	     * called when switching surveys and during startup
 	     */},{key:"clearCurrentSurvey",value:function clearCurrentSurvey(){this.occurrences=new Map();this.currentSurvey=null;}/**
@@ -5045,7 +5033,7 @@
 	     *
 	     * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
 	     * @returns {Promise}
-	     */},{key:"seekKeys",value:function seekKeys(storedObjectKeys){console.log('starting seekKeys');return localforage$2.keys().then(function(keys){console.log({"in seekKeys: local forage keys":keys});var _iterator6=_createForOfIteratorHelper$6(keys),_step6;try{for(_iterator6.s();!(_step6=_iterator6.n()).done;){var key=_step6.value;var type=void 0,id=void 0;var _key$split=key.split('.',2);var _key$split2=_slicedToArray(_key$split,2);type=_key$split2[0];id=_key$split2[1];if(storedObjectKeys.hasOwnProperty(type)){if(!storedObjectKeys[type].includes(id)){storedObjectKeys[type].push(id);}}else {console.log("Unrecognised stored key type '".concat(type,"."));}}}catch(err){_iterator6.e(err);}finally{_iterator6.f();}return storedObjectKeys;});}/**
+	     */},{key:"seekKeys",value:function seekKeys(storedObjectKeys){console.log('starting seekKeys');return localforage$2.keys().then(function(keys){console.log({"in seekKeys: local forage keys":keys});var _iterator6=_createForOfIteratorHelper$6(keys),_step6;try{for(_iterator6.s();!(_step6=_iterator6.n()).done;){var key=_step6.value;if(key!==App.CURRENT_SURVEY_KEY_NAME){var type=void 0,id=void 0;var _key$split=key.split('.',2);var _key$split2=_slicedToArray(_key$split,2);type=_key$split2[0];id=_key$split2[1];if(storedObjectKeys.hasOwnProperty(type)){if(!storedObjectKeys[type].includes(id)){storedObjectKeys[type].push(id);}}else {console.log("Unrecognised stored key type '".concat(type,"."));}}}}catch(err){_iterator6.e(err);}finally{_iterator6.f();}return storedObjectKeys;});}/**
 	     * @returns {Promise}
 	     */},{key:"syncAll",value:function syncAll(){var _this6=this;var storedObjectKeys={survey:[],occurrence:[],image:[]};return this.seekKeys(storedObjectKeys).then(function(storedObjectKeys){return _this6._syncLocalUnsaved(storedObjectKeys);},function(failedResult){console.log("Failed to sync all: ".concat(failedResult));return false;});}/**
 	     *
@@ -5059,26 +5047,26 @@
 	     *
 	     * @param {string} [targetSurveyId] if specified then select this id as the current survey
 	     * @return {Promise}
-	     */},{key:"restoreOccurrences",value:function restoreOccurrences(targetSurveyId){var _this7=this;console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId));if(targetSurveyId==='undefined'){console.error("Attempt to restore occurrences for literal 'undefined' survey id.");targetSurveyId='';}// need to check for a special case where restoring a survey that has never been saved even locally
+	     */},{key:"restoreOccurrences",value:function restoreOccurrences(){var _this7=this;var targetSurveyId=arguments.length>0&&arguments[0]!==undefined?arguments[0]:'';console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId));if(targetSurveyId==='undefined'){console.error("Attempt to restore occurrences for literal 'undefined' survey id.");targetSurveyId='';}return targetSurveyId?this._restoreOccurrenceImp(targetSurveyId):this.getLastSurveyId().then(function(lastSurveyId){console.log("Retrieved last used survey id '".concat(lastSurveyId,"'"));return _this7._restoreOccurrenceImp(lastSurveyId);},function(){return _this7._restoreOccurrenceImp();});}},{key:"_restoreOccurrenceImp",value:function _restoreOccurrenceImp(targetSurveyId){var _this8=this;// need to check for a special case where restoring a survey that has never been saved even locally
 	// i.e. new and unmodified
 	// only present in current App.surveys
 	// this occurs if user creates a new survey, makes no changes, switches away from it then switches back
 	if(targetSurveyId&&this.surveys.has(targetSurveyId)){var localSurvey=this.surveys.get(targetSurveyId);if(localSurvey.isPristine){this.clearCurrentSurvey();// clear occurrences from the previous survey
 	this.currentSurvey=localSurvey;this.fireEvent(App.EVENT_SURVEYS_CHANGED);// current survey should be set now, so menu needs refresh
-	return Promise.resolve();}}var storedObjectKeys={survey:[],occurrence:[],image:[]};if(targetSurveyId){storedObjectKeys.survey[0]=targetSurveyId;}return this.seekKeys(storedObjectKeys).then(function(storedObjectKeys){if(storedObjectKeys.survey.length){return _this7.refreshFromServer(storedObjectKeys.survey).finally(function(){// re-seek keys from indexed db, to take account of any new occurrences received from the server
-	return _this7.seekKeys(storedObjectKeys);});}else {return null;}}).finally(function(){// called regardless of whether a server refresh was successful
+	return Promise.resolve();}}var storedObjectKeys={survey:[],occurrence:[],image:[]};if(targetSurveyId){storedObjectKeys.survey[0]=targetSurveyId;}return this.seekKeys(storedObjectKeys).then(function(storedObjectKeys){if(storedObjectKeys.survey.length){return _this8.refreshFromServer(storedObjectKeys.survey).finally(function(){// re-seek keys from indexed db, to take account of any new occurrences received from the server
+	return _this8.seekKeys(storedObjectKeys);});}else {return null;}}).finally(function(){// called regardless of whether a server refresh was successful
 	// storedObjectKeys and indexed db should be as up-to-date as possible
 	console.log({storedObjectKeys:storedObjectKeys});if(storedObjectKeys.survey.length){var surveyFetchingPromises=[];var n=0;var _iterator10=_createForOfIteratorHelper$6(storedObjectKeys.survey),_step10;try{for(_iterator10.s();!(_step10=_iterator10.n()).done;){var surveyKey=_step10.value;// arbitrarily set first survey key as current if a target id hasn't been specified
-	surveyFetchingPromises.push(_this7._restoreSurveyFromLocal(surveyKey,storedObjectKeys,targetSurveyId===surveyKey||!targetSurveyId&&n++===0));}}catch(err){_iterator10.e(err);}finally{_iterator10.f();}return Promise.all(surveyFetchingPromises).finally(function(){//this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
-	if(!_this7.currentSurvey){// survey doesn't actually exist
+	surveyFetchingPromises.push(_this8._restoreSurveyFromLocal(surveyKey,storedObjectKeys,targetSurveyId===surveyKey||!targetSurveyId&&n++===0));}}catch(err){_iterator10.e(err);}finally{_iterator10.f();}return Promise.all(surveyFetchingPromises).finally(function(){//this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
+	if(!_this8.currentSurvey){// survey doesn't actually exist
 	// this could have happened in an invalid survey id was provided as a targetSurveyId
-	console.log("Failed to retrieve survey id '".concat(targetSurveyId,"'"));return Promise.reject(new Error("Failed to retrieve survey id '".concat(targetSurveyId,"'")));}if(_this7.currentSurvey.deleted){// unusual case where survey is deleted
+	console.log("Failed to retrieve survey id '".concat(targetSurveyId,"'"));return Promise.reject(new Error("Failed to retrieve survey id '".concat(targetSurveyId,"'")));}if(_this8.currentSurvey.deleted){// unusual case where survey is deleted
 	// substitute a new one
 	// this should probably never happen, as items deleted on the server ought to have been
 	// removed locally
-	_this7.setNewSurvey();}else {_this7.fireEvent(App.EVENT_SURVEYS_CHANGED);// current survey should be set now, so menu needs refresh
+	_this8.setNewSurvey();}else {_this8.fireEvent(App.EVENT_SURVEYS_CHANGED);// current survey should be set now, so menu needs refresh
 	}return Promise.resolve();});}else {console.log('no pre-existing surveys, so creating a new one');// no pre-existing surveys, so create a new one
-	_this7.setNewSurvey();return Promise.resolve();}});}},{key:"setNewSurvey",value:function setNewSurvey(){this.currentSurvey=new Survey();this.currentSurvey.projectId=this.projectId;this.currentSurvey.isPristine=true;this.currentSurvey.isNew=true;this.fireEvent(App.EVENT_NEW_SURVEY);this.addSurvey(this.currentSurvey);}/**
+	_this8.setNewSurvey();return Promise.resolve();}});}},{key:"setNewSurvey",value:function setNewSurvey(){this.currentSurvey=new Survey();this.currentSurvey.projectId=this.projectId;this.currentSurvey.isPristine=true;this.currentSurvey.isNew=true;this.fireEvent(App.EVENT_NEW_SURVEY);this.addSurvey(this.currentSurvey);}/**
 	     * @return {Occurrence}
 	     */},{key:"addNewOccurrence",value:function addNewOccurrence(){var occurrence=new Occurrence();occurrence.surveyId=this.currentSurvey.id;occurrence.projectId=this.projectId;occurrence.isNew=true;occurrence.isPristine=true;this.addOccurrence(occurrence);this.fireEvent(App.EVENT_OCCURRENCE_ADDED,{occurrenceId:occurrence.id,surveyId:occurrence.surveyId});return occurrence;}/**
 	     *
@@ -5087,15 +5075,15 @@
 	     * @param {boolean} setAsCurrent
 	     * @returns {Promise}
 	     * @private
-	     */},{key:"_restoreSurveyFromLocal",value:function _restoreSurveyFromLocal(surveyId,storedObjectKeys,setAsCurrent){var _this8=this;// retrieve surveys first, then occurrences, then images from indexedDb
+	     */},{key:"_restoreSurveyFromLocal",value:function _restoreSurveyFromLocal(surveyId,storedObjectKeys,setAsCurrent){var _this9=this;// retrieve surveys first, then occurrences, then images from indexedDb
 	var promise=Survey.retrieveFromLocal(surveyId,new Survey()).then(function(survey){console.log("retrieving local survey ".concat(surveyId));if(setAsCurrent){// the apps occurrences should only relate to the current survey
 	// (the reset are remote or in IndexedDb)
-	_this8.clearCurrentSurvey();_this8.addSurvey(survey);var occurrenceFetchingPromises=[];var _iterator11=_createForOfIteratorHelper$6(storedObjectKeys.occurrence),_step11;try{var _loop=function _loop(){var occurrenceKey=_step11.value;occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey,new Occurrence()).then(function(occurrence){if(occurrence.surveyId===surveyId){console.log("adding occurrence ".concat(occurrenceKey));_this8.addOccurrence(occurrence);}}));};for(_iterator11.s();!(_step11=_iterator11.n()).done;){_loop();}}catch(err){_iterator11.e(err);}finally{_iterator11.f();}return Promise.all(occurrenceFetchingPromises);}else {// not the current survey, so just add it but don't load occurrences
-	_this8.addSurvey(survey);}});if(setAsCurrent){promise.finally(function(){//console.log('Reached image fetching part');
-	var imageFetchingPromises=[];var _iterator12=_createForOfIteratorHelper$6(storedObjectKeys.image),_step12;try{var _loop2=function _loop2(){var occurrenceImageKey=_step12.value;imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey,new OccurrenceImage()).then(function(occurrenceImage){console.log("restoring image id '".concat(occurrenceImageKey,"'"));if(occurrenceImage.surveyId===surveyId){OccurrenceImage.imageCache.set(occurrenceImageKey,occurrenceImage);}},function(reason){console.log("Failed to retrieve an image: ".concat(reason));}));};for(_iterator12.s();!(_step12=_iterator12.n()).done;){_loop2();}}catch(err){_iterator12.e(err);}finally{_iterator12.f();}_this8.currentSurvey=_this8.surveys.get(storedObjectKeys.survey[0]);return Promise.all(imageFetchingPromises);});}return promise;}/**
+	_this9.clearCurrentSurvey();_this9.addSurvey(survey);var occurrenceFetchingPromises=[];var _iterator11=_createForOfIteratorHelper$6(storedObjectKeys.occurrence),_step11;try{var _loop=function _loop(){var occurrenceKey=_step11.value;occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey,new Occurrence()).then(function(occurrence){if(occurrence.surveyId===surveyId){console.log("adding occurrence ".concat(occurrenceKey));_this9.addOccurrence(occurrence);}}));};for(_iterator11.s();!(_step11=_iterator11.n()).done;){_loop();}}catch(err){_iterator11.e(err);}finally{_iterator11.f();}return Promise.all(occurrenceFetchingPromises);}else {// not the current survey, so just add it but don't load occurrences
+	_this9.addSurvey(survey);}});if(setAsCurrent){promise.finally(function(){//console.log('Reached image fetching part');
+	var imageFetchingPromises=[];var _iterator12=_createForOfIteratorHelper$6(storedObjectKeys.image),_step12;try{var _loop2=function _loop2(){var occurrenceImageKey=_step12.value;imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey,new OccurrenceImage()).then(function(occurrenceImage){console.log("restoring image id '".concat(occurrenceImageKey,"'"));if(occurrenceImage.surveyId===surveyId){OccurrenceImage.imageCache.set(occurrenceImageKey,occurrenceImage);}},function(reason){console.log("Failed to retrieve an image: ".concat(reason));}));};for(_iterator12.s();!(_step12=_iterator12.n()).done;){_loop2();}}catch(err){_iterator12.e(err);}finally{_iterator12.f();}_this9.currentSurvey=_this9.surveys.get(storedObjectKeys.survey[0]);return Promise.all(imageFetchingPromises);});}return promise;}/**
 	     *
 	     * @returns {Promise<void>}
-	     */},{key:"clearLocalForage",value:function clearLocalForage(){return localforage$2.clear();}}]);return App;}(EventHarness);_defineProperty(App,"EVENT_ADD_SURVEY_USER_REQUEST",'useraddsurveyrequest');_defineProperty(App,"EVENT_RESET_SURVEYS",'userresetsurveys');_defineProperty(App,"EVENT_NEW_SURVEY",'newsurvey');_defineProperty(App,"LOAD_SURVEYS_ENDPOINT",'/loadsurveys.php');_defineProperty(App,"EVENT_OCCURRENCE_ADDED",'occurrenceadded');_defineProperty(App,"EVENT_SURVEYS_CHANGED",'surveyschanged');_defineProperty(App,"devMode",false);function _createForOfIteratorHelper$5(o,allowArrayLike){var it=typeof Symbol!=="undefined"&&o[Symbol.iterator]||o["@@iterator"];if(!it){if(Array.isArray(o)||(it=_unsupportedIterableToArray$5(o))||allowArrayLike&&o&&typeof o.length==="number"){if(it)o=it;var i=0;var F=function F(){};return {s:F,n:function n(){if(i>=o.length)return {done:true};return {done:false,value:o[i++]};},e:function e(_e){throw _e;},f:F};}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}var normalCompletion=true,didErr=false,err;return {s:function s(){it=it.call(o);},n:function n(){var step=it.next();normalCompletion=step.done;return step;},e:function e(_e2){didErr=true;err=_e2;},f:function f(){try{if(!normalCompletion&&it.return!=null)it.return();}finally{if(didErr)throw err;}}};}function _unsupportedIterableToArray$5(o,minLen){if(!o)return;if(typeof o==="string")return _arrayLikeToArray$5(o,minLen);var n=Object.prototype.toString.call(o).slice(8,-1);if(n==="Object"&&o.constructor)n=o.constructor.name;if(n==="Map"||n==="Set")return Array.from(o);if(n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return _arrayLikeToArray$5(o,minLen);}function _arrayLikeToArray$5(arr,len){if(len==null||len>arr.length)len=arr.length;for(var i=0,arr2=new Array(len);i<len;i++){arr2[i]=arr[i];}return arr2;}function _createSuper$e(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$e();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$e(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}/**
+	     */},{key:"clearLocalForage",value:function clearLocalForage(){return localforage$2.clear();}}]);return App;}(EventHarness);_defineProperty(App,"EVENT_ADD_SURVEY_USER_REQUEST",'useraddsurveyrequest');_defineProperty(App,"EVENT_RESET_SURVEYS",'userresetsurveys');_defineProperty(App,"EVENT_NEW_SURVEY",'newsurvey');_defineProperty(App,"LOAD_SURVEYS_ENDPOINT",'/loadsurveys.php');_defineProperty(App,"EVENT_OCCURRENCE_ADDED",'occurrenceadded');_defineProperty(App,"EVENT_SURVEYS_CHANGED",'surveyschanged');_defineProperty(App,"CURRENT_SURVEY_KEY_NAME",'currentsurvey');_defineProperty(App,"devMode",false);function _createForOfIteratorHelper$5(o,allowArrayLike){var it=typeof Symbol!=="undefined"&&o[Symbol.iterator]||o["@@iterator"];if(!it){if(Array.isArray(o)||(it=_unsupportedIterableToArray$5(o))||allowArrayLike&&o&&typeof o.length==="number"){if(it)o=it;var i=0;var F=function F(){};return {s:F,n:function n(){if(i>=o.length)return {done:true};return {done:false,value:o[i++]};},e:function e(_e){throw _e;},f:F};}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}var normalCompletion=true,didErr=false,err;return {s:function s(){it=it.call(o);},n:function n(){var step=it.next();normalCompletion=step.done;return step;},e:function e(_e2){didErr=true;err=_e2;},f:function f(){try{if(!normalCompletion&&it.return!=null)it.return();}finally{if(didErr)throw err;}}};}function _unsupportedIterableToArray$5(o,minLen){if(!o)return;if(typeof o==="string")return _arrayLikeToArray$5(o,minLen);var n=Object.prototype.toString.call(o).slice(8,-1);if(n==="Object"&&o.constructor)n=o.constructor.name;if(n==="Map"||n==="Set")return Array.from(o);if(n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return _arrayLikeToArray$5(o,minLen);}function _arrayLikeToArray$5(arr,len){if(len==null||len>arr.length)len=arr.length;for(var i=0,arr2=new Array(len);i<len;i++){arr2[i]=arr[i];}return arr2;}function _createSuper$e(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$e();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$e(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}/**
 	 * @external $
 	 */var Layout=/*#__PURE__*/function(_EventHarness){_inherits(Layout,_EventHarness);var _super=_createSuper$e(Layout);/**
 	   * @type {App}
@@ -13396,8 +13384,7 @@
 	    attributes: {
 	      label: 'Starting point of your walk.',
 	      helpText: 'Enter a grid-reference, search by place name or postcode or use the GPS button',
-	      placeholder: 'Grid-reference or search',
-	      //autocomplete: 'postal-code',
+	      placeholder: 'Grid-reference, place or postcode',
 	      completion: FormField.COMPLETION_COMPULSORY,
 	      validationMessage: 'Please specify an approximate starting point for the survey. You can do this by typing a grid-reference, clicking the GPS button, selecting a place from the drop-down list or clicking on the map.',
 	      includeSearchBox: true,
@@ -14748,6 +14735,9 @@
 	        _classPrivateFieldGet$1(this, _occurrenceChangeHandles)[occurrence.id] = occurrence.addListener(Occurrence.EVENT_MODIFIED, this.occurrenceChangeHandler.bind(this), {
 	          occurrenceId: occurrence.id
 	        });
+	        _classPrivateFieldGet$1(this, _occurrenceChangeHandles)[occurrence.id] = occurrence.addListener(Model.EVENT_SAVED_REMOTELY, this.occurrenceChangeHandler.bind(this), {
+	          occurrenceId: occurrence.id
+	        });
 	      }
 	    }
 	  } catch (err) {
@@ -14842,7 +14832,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640383029</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640516517</p>";
 	    }
 	  }]);
 
@@ -23058,8 +23048,7 @@
 	// even though Rollup is bundling all your files together, errors and
 	// logs will still point to your original source modules
 
-	console.log('if you have sourcemaps enabled in your devtools, click on main.js:5 -->'); // console.log(GridRef.from_string('SD59'));
-	// mainly aiming to determine whether '/app/' or '/testapp/'
+	console.log('if you have sourcemaps enabled in your devtools, click on main.js:5 -->'); // mainly aiming to determine whether '/app/' or '/testapp/'
 
 	var pathPrefix = window.location.pathname.split('/')[1];
 	console.log({
