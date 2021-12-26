@@ -689,7 +689,7 @@ export class MainView extends Page {
         newSurveyButton.type = 'button';
         newSurveyButton.href = `/${this.pathPrefix}/survey/new`;
         newSurveyButton.dataset.navigo = 'survey/new';
-        newSurveyLink.textContent = 'start new list »';
+        newSurveyButton.textContent = 'start new list »';
         newSurveyLink.style.display = 'none';
 
         let cardId = Form.nextId;
