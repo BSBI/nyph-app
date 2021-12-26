@@ -119,14 +119,16 @@ img.image-float-left {
 
 span.icon-show-collapsed {
     display: none;
+    vertical-align: bottom;
 }
 
 .collapsed span.icon-show-collapsed {
-    display: inline;
+    display: block;
 }
 
 span.icon-hide-collapsed {
-    display: inline;
+    display: block;
+    vertical-align: bottom;
 }
 
 .collapsed span.icon-hide-collapsed {
