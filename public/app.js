@@ -14491,8 +14491,8 @@
 	  var newSurveyButton = newSurveyLink.appendChild(document.createElement('button'));
 	  newSurveyButton.className = 'btn';
 	  newSurveyButton.type = 'button';
-	  newSurveyButton.href = "/".concat(this.pathPrefix, "/survey/new");
-	  newSurveyButton.dataset.navigo = 'survey/new';
+	  newSurveyLink.href = "/".concat(this.pathPrefix, "/survey/new");
+	  newSurveyLink.dataset.navigo = 'survey/new';
 	  newSurveyButton.textContent = 'start new list »';
 	  newSurveyLink.style.display = 'none';
 	  var cardId = Form.nextId;
@@ -14837,7 +14837,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640517935</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640518198</p>";
 	    }
 	  }]);
 

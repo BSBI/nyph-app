@@ -687,8 +687,8 @@ export class MainView extends Page {
 
         newSurveyButton.className = 'btn';
         newSurveyButton.type = 'button';
-        newSurveyButton.href = `/${this.pathPrefix}/survey/new`;
-        newSurveyButton.dataset.navigo = 'survey/new';
+        newSurveyLink.href = `/${this.pathPrefix}/survey/new`;
+        newSurveyLink.dataset.navigo = 'survey/new';
         newSurveyButton.textContent = 'start new list »';
         newSurveyLink.style.display = 'none';
 
