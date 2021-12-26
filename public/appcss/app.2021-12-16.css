@@ -120,6 +120,8 @@ img.image-float-left {
 div.icon-show-collapsed {
     display: none;
     vertical-align: bottom;
+    text-decoration: none !important;
+    border: none !important;
 }
 
 .collapsed div.icon-show-collapsed {
@@ -129,6 +131,8 @@ div.icon-show-collapsed {
 div.icon-hide-collapsed {
     display: inline;
     vertical-align: bottom;
+    text-decoration: none !important;
+    border: none !important;
 }
 
 .collapsed div.icon-hide-collapsed {
