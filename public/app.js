@@ -14622,7 +14622,7 @@
 	    collapsed: this.controller.surveySection !== sectionClass.sectionNavigationKey,
 	    headingButtonId: Form.nextId,
 	    headingHTML: sectionClass.sectionTitle,
-	    headingNonbuttonHTML: "<small class=\"btn d-md-none\" style=\"margin: 0; padding: 0;\"><a href=\"/".concat(this.pathPrefix, "/list/survey/").concat(sectionClass.sectionNavigationKey, "/help\" data-help-link=\"/list/survey/").concat(sectionClass.sectionNavigationKey, "/help\" style=\"margin-left: 1em;\">(<span class=\"material-icons\">help_outline</span>&nbsp;help&nbsp;)</a></small>"),
+	    headingNonbuttonHTML: "<small class=\"btn d-md-none\" style=\"margin: 0; padding: 0;\"><a href=\"/".concat(this.pathPrefix, "/list/survey/").concat(sectionClass.sectionNavigationKey, "/help\" data-help-link=\"/list/survey/").concat(sectionClass.sectionNavigationKey, "/help\" style=\"margin-left: 1em;\">(<span class=\"material-icons\" style=\"vertical-align: bottom;\">help_outline</span>&nbsp;help&nbsp;)</a></small>"),
 	    headingValidationWarningHTML: 'Please check the form for some missing responses.',
 	    cardDescriptionId: "survey-".concat(formIndex, "-").concat(sectionClass.sectionNavigationKey),
 	    // Form.nextId,
@@ -14839,7 +14839,7 @@
 	    value: function body() {
 	      // at this point the entire content of #body should be safe to replace
 	      var bodyEl = document.getElementById('body');
-	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640540797</p>";
+	      bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640541125</p>";
 	    }
 	  }]);
 
