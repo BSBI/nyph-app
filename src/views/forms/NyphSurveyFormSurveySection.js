@@ -51,7 +51,7 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 completion: FormField.COMPLETION_COMPULSORY,
                 validationMessage: 'Please specify an approximate starting point for the survey. You can do this by typing a grid-reference, clicking the GPS button, selecting a place from the drop-down list or clicking on the map.',
                 includeSearchBox: true,
-                baseSquareResolution: 2000,
+                baseSquareResolution: 2000, // resolution to use for geo-coded lookups
                 gpsTextLabel: true,
                 gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED,
             }},

@@ -519,10 +519,10 @@ export class MainView extends Page {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" id="${FINISH_MODAL_ID}-body">
         <p>Thank you! Your records have been sent. If you wish, you can continue to make changes and edit or add further records.</p>
-        <p>We will email you a link to this form, so that you can return to it later if needed.</p>
-        <p>If you are planning another Plant Hunt expedition then please start a new survey, using the 'Survey' menu<.</p>
+        <p>We've sent you an email with a link to this form, so that you can return to it later if needed.</p>
+        <p>If you are planning another Plant Hunt expedition then please start a new survey, using the 'Lists' menu.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

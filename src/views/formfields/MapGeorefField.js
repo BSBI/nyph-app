@@ -92,6 +92,8 @@ export class MapGeorefField extends TextGeorefField {
      * [type]: string,
      * [autocomplete]: string,
      * [baseSquareResolution]: ?number,
+     * [maxResolution]: ?number,
+     * [minResolution]: ?number,
      * [includeSearchBox]: boolean,
      * [gpsInitialisationMode]: string
      * }} [params]
