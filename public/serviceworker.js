@@ -4320,15 +4320,15 @@
 	// after : this.afterRouteHandler ? this.afterRouteHandler.bind(this) : null,
 	// leave : this.leaveRouteHandler ? this.leaveRouteHandler.bind(this) : null,
 	// already : this.alreadyRouteHandler ? this.alreadyRouteHandler.bind(this) : null
-	});router.on('/survey/new',this.newSurveyHandler.bind(this,'survey','new',''),{before:this.beforeNewHandler.bind(this)});router.on('/survey/reset',this.mainRouteHandler.bind(this,'survey','reset',''),{before:this.beforeResetHandler.bind(this)});router.on('/survey/save',this.mainRouteHandler.bind(this,'survey','save',''),{before:this.beforeSaveAllHandler.bind(this)});router.on('/survey/add/:surveyId',this.addSurveyHandler.bind(this,'survey','add',''));this.app.addListener(App.EVENT_ADD_SURVEY_USER_REQUEST,this.addNewSurveyHandler.bind(this));this.app.addListener(App.EVENT_RESET_SURVEYS,this.resetSurveysHandler.bind(this));}},{key:"beforeNewHandler",value:function beforeNewHandler(done){$("#".concat(Layout.NEW_SURVEY_MODAL_ID)).modal();this.app.router.pause();window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
-	this.app.router.resume();done(false);// block navigation
-	}},{key:"beforeResetHandler",value:function beforeResetHandler(done){$("#".concat(Layout.RESET_MODAL_ID)).modal();this.app.router.pause();window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
-	this.app.router.resume();done(false);// block navigation
+	});router.on('/survey/new',this.newSurveyHandler.bind(this,'survey','new',''),{before:this.beforeNewHandler.bind(this)});router.on('/survey/reset',this.mainRouteHandler.bind(this,'survey','reset',''),{before:this.beforeResetHandler.bind(this)});router.on('/survey/save',this.mainRouteHandler.bind(this,'survey','save',''),{before:this.beforeSaveAllHandler.bind(this)});router.on('/survey/add/:surveyId',this.addSurveyHandler.bind(this,'survey','add',''));this.app.addListener(App.EVENT_ADD_SURVEY_USER_REQUEST,this.addNewSurveyHandler.bind(this));this.app.addListener(App.EVENT_RESET_SURVEYS,this.resetSurveysHandler.bind(this));}},{key:"beforeNewHandler",value:function beforeNewHandler(done){$("#".concat(Layout.NEW_SURVEY_MODAL_ID)).modal();this.app.router.pause();console.log({'route history':this.app.routeHistory});if(window.history.state){window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
+	}this.app.router.resume();done(false);// block navigation
+	}},{key:"beforeResetHandler",value:function beforeResetHandler(done){$("#".concat(Layout.RESET_MODAL_ID)).modal();this.app.router.pause();if(window.history.state){window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
+	}this.app.router.resume();done(false);// block navigation
 	}},{key:"beforeSaveAllHandler",value:function beforeSaveAllHandler(done){// invoke sync of any/all unsaved data
 	// show pop-ups on success and failure
 	this.app.syncAll().then(function(result){console.log({'In save all handler, success result':result});if(Array.isArray(result)){$("#".concat(Layout.SAVE_ALL_SUCCESS_MODAL_ID)).modal();}else {$("#".concat(Layout.SAVE_ALL_FAILURE_MODAL_ID)).modal();}},function(result){console.log({'In save all handler, failure result':result});$("#".concat(Layout.SAVE_ALL_FAILURE_MODAL_ID)).modal();}).finally(function(){// stop the spinner
-	});this.app.router.pause();window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
-	this.app.router.resume();done(false);// block navigation
+	});this.app.router.pause();if(window.history.state){window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
+	}this.app.router.resume();done(false);// block navigation
 	}/**
 	     *
 	     * @param {string} context typically 'survey'
@@ -4460,7 +4460,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640615657-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640806650-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
@@ -5472,7 +5472,7 @@
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1640799816'
+	  version: '1.0.3.1640806817'
 	});
 
 })();
