@@ -33,17 +33,26 @@ let pathPrefix = window.location.pathname.split('/')[1];
 console.log({pathPrefix});
 
 if (navigator.serviceWorker) {
-    // Register the ServiceWorker limiting its action to those URL starting
-    // by 'controlled'. The scope is not a path but a prefix. First, it is
-    // converted into an absolute URL, then used to determine if a page is
-    // controlled by testing it is a prefix of the request URL.
-    navigator.serviceWorker.register(`/${pathPrefix}/serviceworker.js`, {
-        // scope: './controlled'
-    });
 
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-        window.location.reload(true);
-    });
+    // kill after 2022-03-01 to prevent the app perpetuating itself
+    if ((new Date).toJSON().slice(0,10) >= '2022-03-01') {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+            } });
+    } else {
+        // Register the ServiceWorker limiting its action to those URL starting
+        // by 'controlled'. The scope is not a path but a prefix. First, it is
+        // converted into an absolute URL, then used to determine if a page is
+        // controlled by testing it is a prefix of the request URL.
+        navigator.serviceWorker.register(`/${pathPrefix}/serviceworker.js`, {
+            // scope: './controlled'
+        });
+
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            window.location.reload(true);
+        });
+    }
 }
 
 const app = new NyphApp;
