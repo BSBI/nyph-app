@@ -5146,7 +5146,7 @@
        *
        * @param {string} [targetSurveyId] if specified then select this id as the current survey
        * @return {Promise}
-       */},{key:"restoreOccurrences",value:function restoreOccurrences(){var _this7=this;var targetSurveyId=arguments.length>0&&arguments[0]!==undefined?arguments[0]:'';console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId));if(targetSurveyId==='undefined'){console.error("Attempt to restore occurrences for literal 'undefined' survey id.");targetSurveyId='';}return targetSurveyId?this._restoreOccurrenceImp(targetSurveyId):this.getLastSurveyId().then(function(lastSurveyId){console.log("Retrieved last used survey id '".concat(lastSurveyId,"'"));return _this7._restoreOccurrenceImp(lastSurveyId);},function(){return _this7._restoreOccurrenceImp();});}},{key:"_restoreOccurrenceImp",value:function _restoreOccurrenceImp(targetSurveyId){var _this8=this;// need to check for a special case where restoring a survey that has never been saved even locally
+       */},{key:"restoreOccurrences",value:function restoreOccurrences(){var _this7=this;var targetSurveyId=arguments.length>0&&arguments[0]!==undefined?arguments[0]:'';console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId));if(targetSurveyId==='undefined'){console.error("Attempt to restore occurrences for literal 'undefined' survey id.");targetSurveyId='';}return targetSurveyId?this._restoreOccurrenceImp(targetSurveyId):this.getLastSurveyId().then(function(lastSurveyId){console.log("Retrieved last used survey id '".concat(lastSurveyId,"'"));return _this7._restoreOccurrenceImp(lastSurveyId).catch(function(){console.log("Failed to retrieve lastSurveyId ".concat(lastSurveyId,". Resetting current survey."));_this7.currentSurvey=null;_this7._restoreOccurrenceImp();});},function(){return _this7._restoreOccurrenceImp();});}},{key:"_restoreOccurrenceImp",value:function _restoreOccurrenceImp(targetSurveyId){var _this8=this;// need to check for a special case where restoring a survey that has never been saved even locally
   // i.e. new and unmodified
   // only present in current App.surveys
   // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
@@ -14912,7 +14912,7 @@
       value: function body() {
         // at this point the entire content of #body should be safe to replace
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640948103</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640949713</p>";
       }
     }]);
 
