@@ -4460,12 +4460,12 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640952165-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1640953099-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
 	evt.waitUntil(_this.precache()// see https://serviceworke.rs/immediate-claim_service-worker_doc.html
-	.then(function(){return self.skipWaiting();}));});self.addEventListener('activate',function(event){event.waitUntil(self.clients.matchAll({includeUncontrolled:true}).then(function(clientList){var urls=clientList.map(function(client){return client.url;});console.log('[ServiceWorker] Matching clients:',urls.join(', '));}).then(function(){return caches.keys();}).then(function(cacheNames){return Promise.all(cacheNames.map(function(cacheName){if(cacheName!==_this.CACHE_VERSION){console.log('[ServiceWorker] Deleting old cache:',cacheName);return caches.delete(cacheName);}}));}).then(function(){console.log('[ServiceWorker] Claiming clients for version',_this.CACHE_VERSION);return self.clients.claim();}));});// // see https://davidwalsh.name/background-sync
+	.then(function(){return self.skipWaiting();}));});self.addEventListener('activate',function(event){console.log({'service worker activate event':event});event.waitUntil(self.clients.matchAll({includeUncontrolled:true}).then(function(clientList){var urls=clientList.map(function(client){return client.url;});console.log('[ServiceWorker] Matching clients:',urls.join(', '));}).then(function(){return caches.keys();}).then(function(cacheNames){return Promise.all(cacheNames.map(function(cacheName){if(cacheName!==_this.CACHE_VERSION){console.log('[ServiceWorker] Deleting old cache:',cacheName);return caches.delete(cacheName);}}));}).then(function(){console.log('[ServiceWorker] Claiming clients for version',_this.CACHE_VERSION);return self.clients.claim();}));});// // see https://davidwalsh.name/background-sync
 	// // https://developers.google.com/web/updates/2015/12/background-sync
 	// self.addEventListener('sync', function(event) {
 	//
@@ -5454,7 +5454,7 @@
 	var serviceWorker = new BSBIServiceWorker();
 	serviceWorker.initialise({
 	  forageName: NyphApp.forageName,
-	  postPassThroughWhitelist: /^https:\/\/nyph\.bsbi\.app\/loadsurveys.php/,
+	  postPassThroughWhitelist: /^https:\/\/nyph\.bsbi\.app\/loadsurveys.php|^https:\/\/browser-update\.org/,
 	  postImageUrlMatch: /^https:\/\/nyph\.bsbi\.app\/saveimage.php/,
 	  getImageUrlMatch: /^https:\/\/nyph\.bsbi\.app\/image\.php/,
 	  interceptUrlMatches: new RegExp("^https://nyph.bsbi.app/".concat(pathPrefix, "/|^https://nyph.bsbi.app/").concat(pathPrefix, "$")),
@@ -5470,9 +5470,9 @@
 	  '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
 	  '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
-	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js', 'https://browser-update.org/update.min.js'],
+	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1640952250'
+	  version: '1.0.3.1640953955'
 	});
 
 })();
