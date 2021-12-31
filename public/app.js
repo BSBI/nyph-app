@@ -14884,7 +14884,12 @@
   }
 
   function _occurrenceSummaryHTML2(occurrence) {
-    var unsavedMessage = !occurrence.isPristine && occurrence.unsaved() ? '<span class="occurrence-unsaved-warning">Not yet saved.</span>' : '';
+    //@todo get unsaved message working
+    var unsavedMessage = ''; // let unsavedMessage = (!occurrence.isPristine && occurrence.unsaved()) ?
+    //     '<span class="occurrence-unsaved-warning">Not yet saved.</span>'
+    //     :
+    //     '';
+
     return "<div class=\"card-header pointer pl-2 pr-2 pt-2 pb-2\" id=\"heading_".concat(occurrence.id, "\" data-toggle=\"collapse\" data-target=\"#description_").concat(occurrence.id, "\">\n    <div class=\"float-right\">\n        <button type=\"button\" class=\"btn btn-outline-danger delete-occurrence-button\" data-toggle=\"modal\" data-target=\"#").concat(DELETE_OCCURRENCE_MODAL_ID, "\" data-occurrenceid=\"").concat(occurrence.id, "\"><i class=\"material-icons\">delete</i></button>\n    </div>\n    <h2 class=\"mb-0 pb-0 mt-0 pt-0 pl-0 ml-0\">\n        <button class=\"occurrence-heading btn btn-link").concat(this.controller.currentOccurrenceId === occurrence.id ? '' : ' collapsed', " pt-0 pb-0 pl-0\" id=\"headingbutton_").concat(occurrence.id, "\" type=\"button\" data-toggle=\"collapse\" data-target=\"#description_").concat(occurrence.id, "\" aria-expanded=\"").concat(this.controller.currentOccurrenceId === occurrence.id ? 'true' : 'false', "\" aria-controls=\"description_").concat(occurrence.id, "\">\n          ").concat(this.occurrenceSummaryHeadingHTML(occurrence), "\n        </button>\n    </h2>\n    <div class=\"card-invalid-feedback\">\n        <small>Please check for errors or missing details.</small>\n    </div>").concat(unsavedMessage, "\n</div>\n<div id=\"description_").concat(occurrence.id, "\" class=\"collapse").concat(this.controller.currentOccurrenceId === occurrence.id ? ' show' : '', "\" aria-labelledby=\"heading_").concat(occurrence.id, "\" data-parent=\"#").concat(OCCURRENCE_LIST_CONTAINER_ID, "\" data-occurrenceid=\"").concat(occurrence.id, "\">\n  <div class=\"card-body\">\n    ").concat(this.occurrenceSummaryBodyHTML(occurrence), "\n  </div>\n</div>");
   }
 
@@ -14912,7 +14917,7 @@
       value: function body() {
         // at this point the entire content of #body should be safe to replace
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640968400</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640969733</p>";
       }
     }]);
 

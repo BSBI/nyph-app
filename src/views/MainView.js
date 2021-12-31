@@ -1212,10 +1212,12 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
      * @return {string}
      */
     #occurrenceSummaryHTML (occurrence) {
-        let unsavedMessage = (!occurrence.isPristine && occurrence.unsaved()) ?
-            '<span class="occurrence-unsaved-warning">Not yet saved.</span>'
-            :
-            '';
+        //@todo get unsaved message working
+        let unsavedMessage = '';
+        // let unsavedMessage = (!occurrence.isPristine && occurrence.unsaved()) ?
+        //     '<span class="occurrence-unsaved-warning">Not yet saved.</span>'
+        //     :
+        //     '';
 
         return `<div class="card-header pointer pl-2 pr-2 pt-2 pb-2" id="heading_${occurrence.id}" data-toggle="collapse" data-target="#description_${occurrence.id}">
     <div class="float-right">
