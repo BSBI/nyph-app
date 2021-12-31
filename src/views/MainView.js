@@ -282,7 +282,7 @@ export class MainView extends Page {
             if (editorContainer) {
                 editorContainer.innerHTML = `<p>${error.message}</p>`;
             } else {
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try reloading the page.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p>${error.message}</p><p>Browser version:</p><p>${Navigator.userAgent}</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try reloading the page.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version:</p><p>${Navigator.userAgent}</p>`;
                 //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
             }
         }

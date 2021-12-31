@@ -5146,7 +5146,7 @@
        *
        * @param {string} [targetSurveyId] if specified then select this id as the current survey
        * @return {Promise}
-       */},{key:"restoreOccurrences",value:function restoreOccurrences(){var _this7=this;var targetSurveyId=arguments.length>0&&arguments[0]!==undefined?arguments[0]:'';console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId));if(targetSurveyId==='undefined'){console.error("Attempt to restore occurrences for literal 'undefined' survey id.");targetSurveyId='';}return targetSurveyId?this._restoreOccurrenceImp(targetSurveyId):this.getLastSurveyId().then(function(lastSurveyId){console.log("Retrieved last used survey id '".concat(lastSurveyId,"'"));return _this7._restoreOccurrenceImp(lastSurveyId).catch(function(){console.log("Failed to retrieve lastSurveyId ".concat(lastSurveyId,". Resetting current survey."));_this7.currentSurvey=null;_this7._restoreOccurrenceImp();});},function(){return _this7._restoreOccurrenceImp();});}},{key:"_restoreOccurrenceImp",value:function _restoreOccurrenceImp(targetSurveyId){var _this8=this;// need to check for a special case where restoring a survey that has never been saved even locally
+       */},{key:"restoreOccurrences",value:function restoreOccurrences(){var _this7=this;var targetSurveyId=arguments.length>0&&arguments[0]!==undefined?arguments[0]:'';console.log("Invoked restoreOccurrences, target survey id: ".concat(targetSurveyId));if(targetSurveyId==='undefined'){console.error("Attempt to restore occurrences for literal 'undefined' survey id.");targetSurveyId='';}return targetSurveyId?this._restoreOccurrenceImp(targetSurveyId):this.getLastSurveyId().then(function(lastSurveyId){console.log("Retrieved last used survey id '".concat(lastSurveyId,"'"));return _this7._restoreOccurrenceImp(lastSurveyId).catch(function(){console.log("Failed to retrieve lastSurveyId ".concat(lastSurveyId,". Resetting current survey and retrying."));_this7.currentSurvey=null;return _this7._restoreOccurrenceImp();});},function(){return _this7._restoreOccurrenceImp();});}},{key:"_restoreOccurrenceImp",value:function _restoreOccurrenceImp(targetSurveyId){var _this8=this;// need to check for a special case where restoring a survey that has never been saved even locally
   // i.e. new and unmodified
   // only present in current App.surveys
   // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
@@ -5155,7 +5155,7 @@
   return Promise.resolve();}}var storedObjectKeys={survey:[],occurrence:[],image:[]};if(targetSurveyId){storedObjectKeys.survey[0]=targetSurveyId;}return this.seekKeys(storedObjectKeys).then(function(storedObjectKeys){if(storedObjectKeys.survey.length){return _this8.refreshFromServer(storedObjectKeys.survey).finally(function(){// re-seek keys from indexed db, to take account of any new occurrences received from the server
   return _this8.seekKeys(storedObjectKeys);});}else {return null;}}).finally(function(){// called regardless of whether a server refresh was successful
   // storedObjectKeys and indexed db should be as up-to-date as possible
-  console.log({storedObjectKeys:storedObjectKeys});if(storedObjectKeys.survey.length){var surveyFetchingPromises=[];var n=0;var _iterator10=_createForOfIteratorHelper$6(storedObjectKeys.survey),_step10;try{for(_iterator10.s();!(_step10=_iterator10.n()).done;){var surveyKey=_step10.value;// arbitrarily set first survey key as current if a target id hasn't been specified
+  console.log({storedObjectKeys:storedObjectKeys});if(storedObjectKeys&&storedObjectKeys.survey&&storedObjectKeys.survey.length){var surveyFetchingPromises=[];var n=0;var _iterator10=_createForOfIteratorHelper$6(storedObjectKeys.survey),_step10;try{for(_iterator10.s();!(_step10=_iterator10.n()).done;){var surveyKey=_step10.value;// arbitrarily set first survey key as current if a target id hasn't been specified
   surveyFetchingPromises.push(_this8._restoreSurveyFromLocal(surveyKey,storedObjectKeys,targetSurveyId===surveyKey||!targetSurveyId&&n++===0));}}catch(err){_iterator10.e(err);}finally{_iterator10.f();}return Promise.all(surveyFetchingPromises).finally(function(){//this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
   if(!_this8.currentSurvey){// survey doesn't actually exist
   // this could have happened in an invalid survey id was provided as a targetSurveyId
@@ -7638,7 +7638,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try reloading the page.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p>".concat(rethrownError.message, "</p><p>Browser version:</p><p>").concat(Navigator.userAgent, "</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try reloading the page.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version:</p><p>").concat(Navigator.userAgent, "</p>");
           }
         }
       }
@@ -14304,7 +14304,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try reloading the page.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p>".concat(error.message, "</p><p>Browser version:</p><p>").concat(Navigator.userAgent, "</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try reloading the page.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version:</p><p>").concat(Navigator.userAgent, "</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
   }
@@ -14912,7 +14912,7 @@
       value: function body() {
         // at this point the entire content of #body should be safe to replace
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640950344</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1640951699</p>";
       }
     }]);
 
