@@ -24,7 +24,7 @@ const serviceWorker = new BSBIServiceWorker();
 serviceWorker.initialise({
     forageName : NyphApp.forageName,
 
-    postPassThroughWhitelist : /^https:\/\/__DOMAIN_REGEX__\/loadsurveys.php|^https:\/\/browser-update\.org/,
+    postPassThroughWhitelist : /^https:\/\/__DOMAIN_REGEX__\/loadsurveys.php/,
     postImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/saveimage.php/,
     getImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/image\.php/,
     interceptUrlMatches : new RegExp(`^https://__DOMAIN_REGEX__/${pathPrefix}/|^https://__DOMAIN_REGEX__/${pathPrefix}$`),
@@ -59,6 +59,6 @@ serviceWorker.initialise({
         'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap',
         'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js',
     ],
-    passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
+    passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
     version : 'VERSION'
 });

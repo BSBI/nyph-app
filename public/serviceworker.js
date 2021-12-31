@@ -5454,7 +5454,7 @@
 	var serviceWorker = new BSBIServiceWorker();
 	serviceWorker.initialise({
 	  forageName: NyphApp.forageName,
-	  postPassThroughWhitelist: /^https:\/\/nyph\.bsbi\.app\/loadsurveys.php|^https:\/\/browser-update\.org/,
+	  postPassThroughWhitelist: /^https:\/\/nyph\.bsbi\.app\/loadsurveys.php/,
 	  postImageUrlMatch: /^https:\/\/nyph\.bsbi\.app\/saveimage.php/,
 	  getImageUrlMatch: /^https:\/\/nyph\.bsbi\.app\/image\.php/,
 	  interceptUrlMatches: new RegExp("^https://nyph.bsbi.app/".concat(pathPrefix, "/|^https://nyph.bsbi.app/").concat(pathPrefix, "$")),
@@ -5471,8 +5471,8 @@
 	  '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
-	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com/,
-	  version: '1.0.3.1640959984'
+	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
+	  version: '1.0.3.1640960164'
 	});
 
 })();
