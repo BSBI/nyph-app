@@ -7638,7 +7638,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1641053604</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1641054212</p>");
           }
         }
       }
@@ -14304,7 +14304,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1641053604</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1641054212</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
   }
@@ -14917,7 +14917,7 @@
       value: function body() {
         // at this point the entire content of #body should be safe to replace
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1641053604</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1641054212</p>";
       }
     }]);
 
