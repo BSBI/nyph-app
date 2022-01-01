@@ -4460,7 +4460,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1641052911-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1641071976-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
@@ -4495,8 +4495,8 @@
 	if(response.ok){return Promise.resolve(response).then(function(response){// save the response locally
 	// before returning it to the client
 	console.log('About to clone the json response.');return response.clone().json();}).then(function(jsonResponseData){console.log('Following successful remote post, about to save locally.');return ResponseFactory.fromPostResponse(jsonResponseData).setPrebuiltResponse(response).populateLocalSave().storeLocally();}).catch(function(error){// for some reason local storage failed, after a successful server save
-	console.log({error:error});return Promise.resolve(response);// pass through the server response
-	});}else {console.log("Failed to save, moving on to attempt IndexedDb");return Promise.reject('Failed to save to server.');}}).catch(function(reason){// would get here if the network is down
+	console.log({'local storage failed':error});return Promise.resolve(response);// pass through the server response
+	});}else {console.log("Failed to save, moving on to attempt IndexedDb");return Promise.reject('Failed to save to server.');}}).catch(function(reason){console.log({'post fetch failed (probably no network)':reason});// would get here if the network is down
 	// or if got invalid response from the server
 	console.log("post fetch failed (probably no network), (reason: ".concat(reason,")"));//console.log({'post failure reason' : reason});
 	// /**
@@ -4505,7 +4505,7 @@
 	//  */
 	// let returnedToClient = {};
 	return clonedRequest.formData().then(function(formData){console.log('got to form data handler');//console.log({formData});
-	return ResponseFactory.fromPostedData(formData).populateClientResponse().storeLocally();},function(reason){console.log('failed to read form data locally');console.log({reason:reason});/**
+	return ResponseFactory.fromPostedData(formData).populateClientResponse().storeLocally();},function(reason){console.log({'failed to read form data locally':reason});/**
 	           * simulated result of post, returned as JSON body
 	           * @type {{[surveyId]: string, [occurrenceId]: string, [imageId]: string, [saveState]: string, [error]: string, [errorHelp]: string}}
 	           */var returnedToClient={error:'Failed to process posted response data. (internal error)',errorHelp:'Your internet connection may have failed (or there could be a problem with the server). '+'It wasn\'t possible to save a temporary copy on your device. (an unexpected error occurred) '+'Please try to re-establish a network connection and try again.'};return packageClientResponse(returnedToClient);});}));}/**
@@ -4513,21 +4513,22 @@
 	     * attempts local cache first then saves out to network
 	     *
 	     * @param {FetchEvent} event
-	     */},{key:"handle_image_post",value:function handle_image_post(event){var clonedRequest;console.log('posting image');try{clonedRequest=event.request.clone();}catch(e){console.log('Failed to clone request.');console.log({'Cloning error':e});}event.respondWith(clonedRequest.formData().then(function(formData){console.log('got to form data handler');//console.log({formData});
-	return ResponseFactory.fromPostedData(formData).populateClientResponse().storeLocally();},function(reason){console.log('failed to read form data locally');console.log({reason:reason});/**
-	         * simulated result of post, returned as JSON body
-	         * @type {{[surveyId]: string, [occurrenceId]: string, [imageId]: string, [saveState]: string, [error]: string, [errorHelp]: string}}
-	         */var returnedToClient={error:'Failed to process posted response data. (internal error)',errorHelp:'Your internet connection may have failed (or there could be a problem with the server). '+'It wasn\'t possible to save a temporary copy on your device. (an unexpected error occurred) '+'Please try to re-establish a network connection and try again.'};return packageClientResponse(returnedToClient);}));event.waitUntil(fetch(event.request).then(function(response){console.log('posted image to server in waitUntil part of fetch cycle');// would get here if the server responds at all, but need to check that the response is ok (not a server error)
+	     */},{key:"handle_image_post",value:function handle_image_post(event){var clonedRequest;console.log('posting image');try{clonedRequest=event.request.clone();}catch(e){console.log('Failed to clone request.');console.log({'Cloning error':e});}// send back a quick response to the client from local storage (before the server request completes)
+	event.respondWith(clonedRequest.formData().then(function(formData){console.log('got to form data handler');//console.log({formData});
+	return ResponseFactory.fromPostedData(formData).populateClientResponse().storeLocally().then(function(response){// separately send data to the server, but response goes to client before this completes
+	// am unsure if the return from the wait until part ever reaches the client
+	event.waitUntil(fetch(event.request).then(function(response){console.log('posting image to server in waitUntil part of fetch cycle');// would get here if the server responds at all, but need to check that the response is ok (not a server error)
 	if(response.ok){console.log('posted image to server in waitUntil part of fetch cycle: got OK response');return Promise.resolve(response).then(function(response){// save the response locally
 	// before returning it to the client
 	return response.clone().json();}).then(function(jsonResponseData){return ResponseFactory.fromPostResponse(jsonResponseData).setPrebuiltResponse(response).populateLocalSave().storeLocally();}).catch(function(error){// for some reason local storage failed, after a successful server save
 	console.log({error:error});return Promise.resolve(response);// pass through the server response
-	});}else {// console.log(`Failed to save, moving on to attempt IndexedDb`);
-	// return Promise.reject('Failed to save to server.');
-	/**
-	           * simulated result of post, returned as JSON body
-	           * @type {{[surveyId]: string, [occurrenceId]: string, [imageId]: string, [saveState]: string, [error]: string, [errorHelp]: string}}
-	           */var returnedToClient={error:'Failed to save posted response data. (internal error)',errorHelp:'Your internet connection may have failed (or there could be a problem with the server). '+'It wasn\'t possible to save a temporary copy on your device. (an unexpected error occurred) '+'Please try to re-establish a network connection and try again.'};return packageClientResponse(returnedToClient);}}));}/**
+	});}else {console.log('posted image to server in waitUntil part of fetch cycle: got Error response');/**
+	               * simulated result of post, returned as JSON body
+	               * @type {{[surveyId]: string, [occurrenceId]: string, [imageId]: string, [saveState]: string, [error]: string, [errorHelp]: string}}
+	               */var returnedToClient={error:'Failed to save posted response data. (internal error)',errorHelp:'Your internet connection may have failed (or there could be a problem with the server). '+'It wasn\'t possible to save a temporary copy on your device. (an unexpected error occurred) '+'Please try to re-establish a network connection and try again.'};return packageClientResponse(returnedToClient);}},function(){console.log('Rejected image post fetch from server - implies network is down');}));return response;});},function(reason){console.log('failed to read form data locally');console.log({reason:reason});/**
+	         * simulated result of post, returned as JSON body
+	         * @type {{[surveyId]: string, [occurrenceId]: string, [imageId]: string, [saveState]: string, [error]: string, [errorHelp]: string}}
+	         */var returnedToClient={error:'Failed to process posted response data. (internal error)',errorHelp:'Your internet connection may have failed (or there could be a problem with the server). '+'It wasn\'t possible to save a temporary copy on your device. (an unexpected error occurred) '+'Please try to re-establish a network connection and try again.'};return packageClientResponse(returnedToClient);}));}/**
 	     * Open a cache and use `addAll()` with an array of assets to add all of them
 	     * to the cache. Return a promise resolving when all the assets are added.
 	     *
@@ -5473,7 +5474,7 @@
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-	  version: '1.0.3.1641054212'
+	  version: '1.0.3.1641072045'
 	});
 
 })();
