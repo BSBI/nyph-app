@@ -591,7 +591,7 @@ export class MapGeorefField extends TextGeorefField {
     }
 
     /**
-     * Start observing visibility of element. On change, the
+     * Start observing visibility of element. On change,
      * the callback is called with Boolean visibility as argument.
      * see https://stackoverflow.com/a/44670818
      *
@@ -599,17 +599,20 @@ export class MapGeorefField extends TextGeorefField {
      * @param callback
      */
     respondToVisibility(element, callback) {
-        let options = {
-            root: document.documentElement,
-        };
+        // intersection observer is unsupported on older apple devices
+        if (window.IntersectionObserver) {
+            let options = {
+                root: document.documentElement,
+            };
 
-        let observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                callback(entry.intersectionRatio > 0);
-            });
-        }, options);
+            let observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    callback(entry.intersectionRatio > 0);
+                });
+            }, options);
 
-        observer.observe(element);
+            observer.observe(element);
+        }
     }
 
     /**
