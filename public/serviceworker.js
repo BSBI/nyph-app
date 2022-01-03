@@ -4464,14 +4464,18 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1641116212-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1641206805-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
 	evt.waitUntil(_this.precache()// see https://serviceworke.rs/immediate-claim_service-worker_doc.html
-	.finally(function(){console.log("Service worker skip waiting after precache.");return self.skipWaiting();}));});self.addEventListener('activate',function(event){console.log({'service worker activate event':event});event.waitUntil(self.clients.matchAll({includeUncontrolled:true}).then(function(clientList){var urls=clientList.map(function(client){return client.url;});console.log('[ServiceWorker] Matching clients:',urls.join(', '));}).then(function(){return caches.keys();}).then(function(cacheNames){return Promise.all(cacheNames.map(function(cacheName){// test for 'version' prefix to avoid deleting mapbox tiles
-	if(cacheName.startsWith('version')&&cacheName!==_this.CACHE_VERSION){console.log('[ServiceWorker] Deleting old cache:',cacheName);return caches.delete(cacheName);}}));}).then(function(){console.log('[ServiceWorker] Claiming clients for version',_this.CACHE_VERSION);return self.clients.claim();})//.finally(() => self.skipWaiting())
-	);});// // see https://davidwalsh.name/background-sync
+	// .finally(() => {
+	//     console.log("Service worker skip waiting after precache.");
+	//
+	//     return self.skipWaiting();
+	// })
+	);});self.addEventListener('activate',function(event){console.log({'service worker activate event':event});event.waitUntil(self.clients.matchAll({includeUncontrolled:true}).then(function(clientList){var urls=clientList.map(function(client){return client.url;});console.log('[ServiceWorker] Matching clients:',urls.join(', '));}).then(function(){return caches.keys();}).then(function(cacheNames){return Promise.all(cacheNames.map(function(cacheName){// test for 'version' prefix to avoid deleting mapbox tiles
+	if(cacheName.startsWith('version')&&cacheName!==_this.CACHE_VERSION){console.log('[ServiceWorker] Deleting old cache:',cacheName);return caches.delete(cacheName);}}));}).then(function(){console.log('[ServiceWorker] Claiming clients for version',_this.CACHE_VERSION);return self.clients.claim();}));});// // see https://davidwalsh.name/background-sync
 	// // https://developers.google.com/web/updates/2015/12/background-sync
 	// self.addEventListener('sync', function(event) {
 	//
@@ -4563,7 +4567,7 @@
 	     *
 	     * @param {string} imageId
 	     * @returns {Promise}
-	     */},{key:"imageFromLocalDatabase",value:function imageFromLocalDatabase(imageId){var image=new OccurrenceImage();console.log('attempting retrieval of image data from local database');return Model.retrieveFromLocal(imageId,image).then(function(image){console.log("Retrieved image '".concat(imageId,"' from indexeddb."));if(image.file){var headers=new Headers();headers.append('Content-Type',image.file.type);return new Response(image.file,{"status":200,"statusText":"OK image response from IndexedDb"});}else {console.log("No local file object associated with retrieved image '".concat(imageId,"' from indexeddb."));}});}/**
+	     */},{key:"imageFromLocalDatabase",value:function imageFromLocalDatabase(imageId){var image=new OccurrenceImage();console.log('attempting retrieval of image data from local database');return Model.retrieveFromLocal(imageId,image).then(function(image){console.log("Retrieved image '".concat(imageId,"' from indexeddb."));if(image.file){var headers=new Headers();headers.append('Content-Type',image.file.type);return new Response(image.file,{"status":200,"statusText":"OK image response from IndexedDb"});}else {console.log("No local file object associated with retrieved image '".concat(imageId,"' from indexeddb."));return Promise.reject("No local file object associated with retrieved image '".concat(imageId,"' from indexeddb."));}});}/**
 	     * Update consists in opening the cache, performing a network request and
 	     * storing the new response data.
 	     *
@@ -5473,13 +5477,13 @@
 	  // interceptUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/|^https:\/\/nyph\.bsbi\.app\/app$/,
 	  // ignoreUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/app\.js|^https:\/\/nyph\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyph\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyph\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
 	  // indexUrl : 'https://nyph.bsbi.app/app/index.html',
-	  urlCacheSet: ['./index.html', './manifest.webmanifest', '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
+	  urlCacheSet: ['./index.html', './app.js?version=1.0.3.1641207220', './manifest.webmanifest', '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
 	  '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
 	  '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', '/img/nyph_final@2x.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-	  version: '1.0.3.1641144942'
+	  version: '1.0.3.1641207220'
 	});
 
 })();

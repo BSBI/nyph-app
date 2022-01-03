@@ -50,7 +50,7 @@ if (navigator.serviceWorker) {
         });
 
         navigator.serviceWorker.addEventListener('controllerchange', () => {
-            window.location.reload(true);
+            window.location.reload();
         });
     }
 }

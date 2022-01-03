@@ -40,6 +40,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
+        './app.js?version=VERSION',
         './manifest.webmanifest',
         '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
