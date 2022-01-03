@@ -1,5 +1,5 @@
 //import {GridCoords} from "british-isles-gridrefs";
-import {escapeHTML, Form, FormField, GPSRequest, TextGeorefField, Survey, GridRef, LatLngWGS84} from "bsbi-app-framework";
+import {Form, FormField, GPSRequest, TextGeorefField, Survey, GridRef} from "bsbi-app-framework";
 import {uuid} from "bsbi-app-framework/src/models/Model";
 import mapboxgl from 'mapbox-gl';
 //import {GridRef, LatLngWGS84} from "british-isles-gridrefs";
@@ -420,6 +420,11 @@ export class MapGeorefField extends TextGeorefField {
             // console.log({'grant state':grantState});
 
             if (doGPSInitialisation) {
+
+                // It is somewhat anomalous that linkage with the camera event only happens if the form has been
+                // freshly initialised.
+                // If returning to a previous (perhaps blank-ish) entry later and filling in photo and grid-ref
+                // for the first time then it would be better if the camera event was listened for again.
                 this.parentForm.addListener(Form.EVENT_CAMERA, () => {
                     // also set GPS when photo is taken
 

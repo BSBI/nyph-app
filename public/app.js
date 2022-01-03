@@ -4701,7 +4701,8 @@
        * @return Promise
        */},{key:"seekGPS",value:function seekGPS(gpsPromptBannerId){GPSRequest.haveGPSPermission();// ensures that GPSRequest._gpsPermission is initialised
   // for delayed prompt see Google's UI advice here: https://developers.google.com/web/fundamentals/native-hardware/user-location
-  var nudge=gpsPromptBannerId?document.getElementById(gpsPromptBannerId):null;var showNudgeBanner=nudge?function(){nudge.style.display="block";}:function(){};var hideNudgeBanner=nudge?function(){nudge.style.display="none";}:function(){};var nudgeTimeoutId;if(nudge&&GPSRequest._gpsPermission!==GPSRequest.GPS_PERMISSION_GRANTED){nudgeTimeoutId=setTimeout(showNudgeBanner,5000);}else {nudgeTimeoutId=null;}return new Promise(function(resolve,reject){return navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:60*1000// 60 second timeout
+  var nudge=gpsPromptBannerId?document.getElementById(gpsPromptBannerId):null;var showNudgeBanner=nudge?function(){nudge.style.display="block";}:function(){};var hideNudgeBanner=nudge?function(){nudge.style.display="none";}:function(){};var nudgeTimeoutId;if(nudge&&GPSRequest._gpsPermission!==GPSRequest.GPS_PERMISSION_GRANTED){nudgeTimeoutId=setTimeout(showNudgeBanner,5000);}else {nudgeTimeoutId=null;}return new Promise(function(resolve,reject){return navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:30*1000,// 30 second timeout
+  maximumAge:20*1000// can use a cached response from up to 20s ago
   });}).then(function(position){// const latitude  = position.coords.latitude;
   // const longitude = position.coords.longitude;
   //
@@ -4720,8 +4721,8 @@
   // );
   if(nudge){clearTimeout(nudgeTimeoutId);hideNudgeBanner();}// unsure if this should be set as permission may only have been one-off
   //GPSRequest._gpsPermission = GPSRequest.GPS_PERMISSION_GRANTED;
-  GPSRequest._setGPSPermission(GPSRequest.GPS_PERMISSION_GRANTED);return position;},function(error){console.log('gps look-up failed');console.log(error);switch(error.code){case error.TIMEOUT:case error.PERMISSION_DENIED:// The user didn't accept the callout
-  nudge&&showNudgeBanner();break;}});}}]);return GPSRequest;}(EventHarness);_defineProperty(GPSRequest,"DEVICE_TYPE_UNKNOWN",'unknown');_defineProperty(GPSRequest,"DEVICE_TYPE_UNCHECKED",'unchecked');_defineProperty(GPSRequest,"DEVICE_TYPE_MOBILE",'mobile');_defineProperty(GPSRequest,"DEVICE_TYPE_IMMOBILE",'immobile');_defineProperty(GPSRequest,"EVENT_GPS_PERMISSION_CHANGE",'gpspermissionchange');_defineProperty(GPSRequest,"_deviceType",GPSRequest.DEVICE_TYPE_UNCHECKED);_defineProperty(GPSRequest,"GPS_PERMISSION_UNKNOWN",'unknown');_defineProperty(GPSRequest,"GPS_PERMISSION_UNCHECKED",'unchecked');_defineProperty(GPSRequest,"GPS_PERMISSION_GRANTED",'granted');_defineProperty(GPSRequest,"GPS_PERMISSION_DENIED",'denied');_defineProperty(GPSRequest,"GPS_PERMISSION_PROMPT",'prompt');_defineProperty(GPSRequest,"_gpsPermission",GPSRequest.GPS_PERMISSION_UNCHECKED);_defineProperty(GPSRequest,"gpsEventObject",void 0);/**
+  GPSRequest._setGPSPermission(GPSRequest.GPS_PERMISSION_GRANTED);return position;},function(error){console.log({'gps look-up failed':error});switch(error.code){case error.TIMEOUT:case error.PERMISSION_DENIED:// The user didn't accept the callout
+  nudge&&showNudgeBanner();break;}return null;});}}]);return GPSRequest;}(EventHarness);_defineProperty(GPSRequest,"DEVICE_TYPE_UNKNOWN",'unknown');_defineProperty(GPSRequest,"DEVICE_TYPE_UNCHECKED",'unchecked');_defineProperty(GPSRequest,"DEVICE_TYPE_MOBILE",'mobile');_defineProperty(GPSRequest,"DEVICE_TYPE_IMMOBILE",'immobile');_defineProperty(GPSRequest,"EVENT_GPS_PERMISSION_CHANGE",'gpspermissionchange');_defineProperty(GPSRequest,"_deviceType",GPSRequest.DEVICE_TYPE_UNCHECKED);_defineProperty(GPSRequest,"GPS_PERMISSION_UNKNOWN",'unknown');_defineProperty(GPSRequest,"GPS_PERMISSION_UNCHECKED",'unchecked');_defineProperty(GPSRequest,"GPS_PERMISSION_GRANTED",'granted');_defineProperty(GPSRequest,"GPS_PERMISSION_DENIED",'denied');_defineProperty(GPSRequest,"GPS_PERMISSION_PROMPT",'prompt');_defineProperty(GPSRequest,"_gpsPermission",GPSRequest.GPS_PERMISSION_UNCHECKED);_defineProperty(GPSRequest,"gpsEventObject",void 0);/**
    *
    * @param {MouseEvent} event
    * @returns {boolean}
@@ -4803,7 +4804,7 @@
      * [showGPSEnableLinkIfNotActiveOnMobile] : boolean,
      * }} [params]
      */function TextGeorefField(params){var _this;_classCallCheck(this,TextGeorefField);_this=_super.call(this,params);_defineProperty(_assertThisInitialized(_this),"_inputId",void 0);_defineProperty(_assertThisInitialized(_this),"containerId",void 0);_defineProperty(_assertThisInitialized(_this),"mapPositionIsCurrent",false);_defineProperty(_assertThisInitialized(_this),"_value",{gridRef:'',rawString:'',// what was provided by the user to generate this grid-ref (might be a postcode or placename)
-  source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null});_defineProperty(_assertThisInitialized(_this),"_inputType",'text');_defineProperty(_assertThisInitialized(_this),"_autocomplete",'');_defineProperty(_assertThisInitialized(_this),"baseSquareResolution",null);_defineProperty(_assertThisInitialized(_this),"minResolution",2000);_defineProperty(_assertThisInitialized(_this),"maxResolution",10);_defineProperty(_assertThisInitialized(_this),"gpsTextLabel",false);_defineProperty(_assertThisInitialized(_this),"gpsPermissionsPromptText",'<p class="gps-nudge">Allowing access to GPS will save you time by allowing the app to locate your records automatically.</p>');_defineProperty(_assertThisInitialized(_this),"initialiseFromDefaultSurveyGeoref",false);_defineProperty(_assertThisInitialized(_this),"showGPSEnableLinkIfNotActiveOnMobile",true);_defineProperty(_assertThisInitialized(_this),"_gpsPermissionsPromptId",null);if(params){if(params.type){_this._inputType=params.type;}if(params.placeholder){_this.placeholder=params.placeholder;}// if (params.dynamicPlaceholder) {
+  source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null});_defineProperty(_assertThisInitialized(_this),"_inputType",'text');_defineProperty(_assertThisInitialized(_this),"_autocomplete",'');_defineProperty(_assertThisInitialized(_this),"baseSquareResolution",null);_defineProperty(_assertThisInitialized(_this),"minResolution",2000);_defineProperty(_assertThisInitialized(_this),"maxResolution",10);_defineProperty(_assertThisInitialized(_this),"gpsTextLabel",false);_defineProperty(_assertThisInitialized(_this),"gpsPermissionsPromptText",'<p class="gps-nudge">Allowing access to GPS will save you time by allowing the app to locate your records automatically.</p>');_defineProperty(_assertThisInitialized(_this),"initialiseFromDefaultSurveyGeoref",false);_defineProperty(_assertThisInitialized(_this),"showGPSEnableLinkIfNotActiveOnMobile",true);_defineProperty(_assertThisInitialized(_this),"_gpsPermissionsPromptId",null);_defineProperty(_assertThisInitialized(_this),"_seekingGPS",false);if(params){if(params.type){_this._inputType=params.type;}if(params.placeholder){_this.placeholder=params.placeholder;}// if (params.dynamicPlaceholder) {
   //     this.dynamicPlaceholder = params.dynamicPlaceholder;
   // }
   if(params.autocomplete){_this._autocomplete=params.autocomplete;}if(params.baseSquareResolution){_this.baseSquareResolution=params.baseSquareResolution;}if(params.maxResolution){_this.maxResolution=params.maxResolution;}if(params.minResolution){_this.minResolution=params.minResolution;}if(params.gpsPermissionPromptText){_this.gpsPermissionsPromptText=params.gpsPermissionPromptText;}if(params.gpsTextLabel){_this.gpsTextLabel=params.gpsTextLabel;}if(params.hasOwnProperty('initialiseFromDefaultSurveyGeoref')){_this.initialiseFromDefaultSurveyGeoref=params.initialiseFromDefaultSurveyGeoref;}if(params.hasOwnProperty('showGPSEnableLinkIfNotActiveOnMobile')){_this.showGPSEnableLinkIfNotActiveOnMobile=params.showGPSEnableLinkIfNotActiveOnMobile;}}return _this;}/**
@@ -4879,10 +4880,12 @@
   /**
        *
        * @param {MouseEvent} event
-       */},{key:"gpsButtonClickHandler",value:function gpsButtonClickHandler(event){if(doubleClickIntercepted(event)){return;}var containerEl=document.getElementById(this.containerId);containerEl.classList.add('gps-active');this.seekGPS().catch(function(error){console.log({'gps look-up failed, error':error});}).finally(function(){containerEl.classList.remove('gps-active');});event.preventDefault();event.stopPropagation();}/**
+       */},{key:"gpsButtonClickHandler",value:function gpsButtonClickHandler(event){if(doubleClickIntercepted(event)){return;}var containerEl=document.getElementById(this.containerId);containerEl.classList.add('gps-active');this.seekGPS().catch(function(error){console.log({'gps look-up failed, error':error});}).finally(function(){containerEl.classList.remove('gps-active');});event.preventDefault();event.stopPropagation();}},{key:"seekGPS",value:/**
        *
        * @returns {Promise<unknown>}
-       */},{key:"seekGPS",value:function seekGPS(){var _this2=this;return GPSRequest.seekGPS(this._gpsPermissionsPromptId).then(function(position){// const latitude  = position.coords.latitude;
+       */function seekGPS(){var _this2=this;if(this._seekingGPS){// a GPS request is already in progress
+  // don't allow concurrent GPS seek requests
+  return Promise.reject();}else {this._seekingGPS=true;return GPSRequest.seekGPS(this._gpsPermissionsPromptId).then(function(position){_this2._seekingGPS=false;// const latitude  = position.coords.latitude;
   // const longitude = position.coords.longitude;
   // console.log(`Got GPS fix ${latitude} , ${longitude}`);
   //
@@ -4894,7 +4897,7 @@
   // this.fireEvent(FormField.EVENT_CHANGE);
   //@todo maybe should prevent use of readings if speed is too great (which might imply use of GPS in a moving vehicle)
   console.log({'gps position':position});var accuracy=position.coords.accuracy*2;_this2.mapPositionIsCurrent=false;// force zoom and re-centre
-  _this2.processLatLngPosition(position.coords.latitude,position.coords.longitude,accuracy,TextGeorefField.GEOREF_SOURCE_GPS);});}/**
+  _this2.processLatLngPosition(position.coords.latitude,position.coords.longitude,accuracy,TextGeorefField.GEOREF_SOURCE_GPS);},function(error){_this2._seekingGPS=false;return error;});}}/**
        *
        * @param {number} latitude
        * @param {number} longitude
@@ -7642,7 +7645,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1641207220</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1641254088</p>");
           }
         }
       }
@@ -12690,6 +12693,10 @@
                     //
                     // console.log({'grant state':grantState});
                     if (doGPSInitialisation) {
+                      // It is somewhat anomalous that linkage with the camera event only happens if the form has been
+                      // freshly initialised.
+                      // If returning to a previous (perhaps blank-ish) entry later and filling in photo and grid-ref
+                      // for the first time then it would be better if the camera event was listened for again.
                       _this3.parentForm.addListener(Form.EVENT_CAMERA, function () {
                         // also set GPS when photo is taken
                         _this3.seekGPS().then(function () {
@@ -14311,7 +14318,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1641207220</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1641254088</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
   }
@@ -14924,7 +14931,7 @@
       value: function body() {
         // at this point the entire content of #body should be safe to replace
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1641207220</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1641254088</p>";
       }
     }]);
 

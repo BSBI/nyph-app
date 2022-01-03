@@ -3793,7 +3793,8 @@
 	     * @return Promise
 	     */},{key:"seekGPS",value:function seekGPS(gpsPromptBannerId){GPSRequest.haveGPSPermission();// ensures that GPSRequest._gpsPermission is initialised
 	// for delayed prompt see Google's UI advice here: https://developers.google.com/web/fundamentals/native-hardware/user-location
-	var nudge=gpsPromptBannerId?document.getElementById(gpsPromptBannerId):null;var showNudgeBanner=nudge?function(){nudge.style.display="block";}:function(){};var hideNudgeBanner=nudge?function(){nudge.style.display="none";}:function(){};var nudgeTimeoutId;if(nudge&&GPSRequest._gpsPermission!==GPSRequest.GPS_PERMISSION_GRANTED){nudgeTimeoutId=setTimeout(showNudgeBanner,5000);}else {nudgeTimeoutId=null;}return new Promise(function(resolve,reject){return navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:60*1000// 60 second timeout
+	var nudge=gpsPromptBannerId?document.getElementById(gpsPromptBannerId):null;var showNudgeBanner=nudge?function(){nudge.style.display="block";}:function(){};var hideNudgeBanner=nudge?function(){nudge.style.display="none";}:function(){};var nudgeTimeoutId;if(nudge&&GPSRequest._gpsPermission!==GPSRequest.GPS_PERMISSION_GRANTED){nudgeTimeoutId=setTimeout(showNudgeBanner,5000);}else {nudgeTimeoutId=null;}return new Promise(function(resolve,reject){return navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:30*1000,// 30 second timeout
+	maximumAge:20*1000// can use a cached response from up to 20s ago
 	});}).then(function(position){// const latitude  = position.coords.latitude;
 	// const longitude = position.coords.longitude;
 	//
@@ -3812,8 +3813,8 @@
 	// );
 	if(nudge){clearTimeout(nudgeTimeoutId);hideNudgeBanner();}// unsure if this should be set as permission may only have been one-off
 	//GPSRequest._gpsPermission = GPSRequest.GPS_PERMISSION_GRANTED;
-	GPSRequest._setGPSPermission(GPSRequest.GPS_PERMISSION_GRANTED);return position;},function(error){console.log('gps look-up failed');console.log(error);switch(error.code){case error.TIMEOUT:case error.PERMISSION_DENIED:// The user didn't accept the callout
-	nudge&&showNudgeBanner();break;}});}}]);return GPSRequest;}(EventHarness);_defineProperty$1(GPSRequest,"DEVICE_TYPE_UNKNOWN",'unknown');_defineProperty$1(GPSRequest,"DEVICE_TYPE_UNCHECKED",'unchecked');_defineProperty$1(GPSRequest,"DEVICE_TYPE_MOBILE",'mobile');_defineProperty$1(GPSRequest,"DEVICE_TYPE_IMMOBILE",'immobile');_defineProperty$1(GPSRequest,"EVENT_GPS_PERMISSION_CHANGE",'gpspermissionchange');_defineProperty$1(GPSRequest,"_deviceType",GPSRequest.DEVICE_TYPE_UNCHECKED);_defineProperty$1(GPSRequest,"GPS_PERMISSION_UNKNOWN",'unknown');_defineProperty$1(GPSRequest,"GPS_PERMISSION_UNCHECKED",'unchecked');_defineProperty$1(GPSRequest,"GPS_PERMISSION_GRANTED",'granted');_defineProperty$1(GPSRequest,"GPS_PERMISSION_DENIED",'denied');_defineProperty$1(GPSRequest,"GPS_PERMISSION_PROMPT",'prompt');_defineProperty$1(GPSRequest,"_gpsPermission",GPSRequest.GPS_PERMISSION_UNCHECKED);_defineProperty$1(GPSRequest,"gpsEventObject",void 0);/**
+	GPSRequest._setGPSPermission(GPSRequest.GPS_PERMISSION_GRANTED);return position;},function(error){console.log({'gps look-up failed':error});switch(error.code){case error.TIMEOUT:case error.PERMISSION_DENIED:// The user didn't accept the callout
+	nudge&&showNudgeBanner();break;}return null;});}}]);return GPSRequest;}(EventHarness);_defineProperty$1(GPSRequest,"DEVICE_TYPE_UNKNOWN",'unknown');_defineProperty$1(GPSRequest,"DEVICE_TYPE_UNCHECKED",'unchecked');_defineProperty$1(GPSRequest,"DEVICE_TYPE_MOBILE",'mobile');_defineProperty$1(GPSRequest,"DEVICE_TYPE_IMMOBILE",'immobile');_defineProperty$1(GPSRequest,"EVENT_GPS_PERMISSION_CHANGE",'gpspermissionchange');_defineProperty$1(GPSRequest,"_deviceType",GPSRequest.DEVICE_TYPE_UNCHECKED);_defineProperty$1(GPSRequest,"GPS_PERMISSION_UNKNOWN",'unknown');_defineProperty$1(GPSRequest,"GPS_PERMISSION_UNCHECKED",'unchecked');_defineProperty$1(GPSRequest,"GPS_PERMISSION_GRANTED",'granted');_defineProperty$1(GPSRequest,"GPS_PERMISSION_DENIED",'denied');_defineProperty$1(GPSRequest,"GPS_PERMISSION_PROMPT",'prompt');_defineProperty$1(GPSRequest,"_gpsPermission",GPSRequest.GPS_PERMISSION_UNCHECKED);_defineProperty$1(GPSRequest,"gpsEventObject",void 0);/**
 	 *
 	 * @param {MouseEvent} event
 	 * @returns {boolean}
@@ -3895,7 +3896,7 @@
 	   * [showGPSEnableLinkIfNotActiveOnMobile] : boolean,
 	   * }} [params]
 	   */function TextGeorefField(params){var _this;_classCallCheck$1(this,TextGeorefField);_this=_super.call(this,params);_defineProperty$1(_assertThisInitialized$1(_this),"_inputId",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"containerId",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"mapPositionIsCurrent",false);_defineProperty$1(_assertThisInitialized$1(_this),"_value",{gridRef:'',rawString:'',// what was provided by the user to generate this grid-ref (might be a postcode or placename)
-	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null});_defineProperty$1(_assertThisInitialized$1(_this),"_inputType",'text');_defineProperty$1(_assertThisInitialized$1(_this),"_autocomplete",'');_defineProperty$1(_assertThisInitialized$1(_this),"baseSquareResolution",null);_defineProperty$1(_assertThisInitialized$1(_this),"minResolution",2000);_defineProperty$1(_assertThisInitialized$1(_this),"maxResolution",10);_defineProperty$1(_assertThisInitialized$1(_this),"gpsTextLabel",false);_defineProperty$1(_assertThisInitialized$1(_this),"gpsPermissionsPromptText",'<p class="gps-nudge">Allowing access to GPS will save you time by allowing the app to locate your records automatically.</p>');_defineProperty$1(_assertThisInitialized$1(_this),"initialiseFromDefaultSurveyGeoref",false);_defineProperty$1(_assertThisInitialized$1(_this),"showGPSEnableLinkIfNotActiveOnMobile",true);_defineProperty$1(_assertThisInitialized$1(_this),"_gpsPermissionsPromptId",null);if(params){if(params.type){_this._inputType=params.type;}if(params.placeholder){_this.placeholder=params.placeholder;}// if (params.dynamicPlaceholder) {
+	source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null});_defineProperty$1(_assertThisInitialized$1(_this),"_inputType",'text');_defineProperty$1(_assertThisInitialized$1(_this),"_autocomplete",'');_defineProperty$1(_assertThisInitialized$1(_this),"baseSquareResolution",null);_defineProperty$1(_assertThisInitialized$1(_this),"minResolution",2000);_defineProperty$1(_assertThisInitialized$1(_this),"maxResolution",10);_defineProperty$1(_assertThisInitialized$1(_this),"gpsTextLabel",false);_defineProperty$1(_assertThisInitialized$1(_this),"gpsPermissionsPromptText",'<p class="gps-nudge">Allowing access to GPS will save you time by allowing the app to locate your records automatically.</p>');_defineProperty$1(_assertThisInitialized$1(_this),"initialiseFromDefaultSurveyGeoref",false);_defineProperty$1(_assertThisInitialized$1(_this),"showGPSEnableLinkIfNotActiveOnMobile",true);_defineProperty$1(_assertThisInitialized$1(_this),"_gpsPermissionsPromptId",null);_defineProperty$1(_assertThisInitialized$1(_this),"_seekingGPS",false);if(params){if(params.type){_this._inputType=params.type;}if(params.placeholder){_this.placeholder=params.placeholder;}// if (params.dynamicPlaceholder) {
 	//     this.dynamicPlaceholder = params.dynamicPlaceholder;
 	// }
 	if(params.autocomplete){_this._autocomplete=params.autocomplete;}if(params.baseSquareResolution){_this.baseSquareResolution=params.baseSquareResolution;}if(params.maxResolution){_this.maxResolution=params.maxResolution;}if(params.minResolution){_this.minResolution=params.minResolution;}if(params.gpsPermissionPromptText){_this.gpsPermissionsPromptText=params.gpsPermissionPromptText;}if(params.gpsTextLabel){_this.gpsTextLabel=params.gpsTextLabel;}if(params.hasOwnProperty('initialiseFromDefaultSurveyGeoref')){_this.initialiseFromDefaultSurveyGeoref=params.initialiseFromDefaultSurveyGeoref;}if(params.hasOwnProperty('showGPSEnableLinkIfNotActiveOnMobile')){_this.showGPSEnableLinkIfNotActiveOnMobile=params.showGPSEnableLinkIfNotActiveOnMobile;}}return _this;}/**
@@ -3971,10 +3972,12 @@
 	/**
 	     *
 	     * @param {MouseEvent} event
-	     */},{key:"gpsButtonClickHandler",value:function gpsButtonClickHandler(event){if(doubleClickIntercepted(event)){return;}var containerEl=document.getElementById(this.containerId);containerEl.classList.add('gps-active');this.seekGPS().catch(function(error){console.log({'gps look-up failed, error':error});}).finally(function(){containerEl.classList.remove('gps-active');});event.preventDefault();event.stopPropagation();}/**
+	     */},{key:"gpsButtonClickHandler",value:function gpsButtonClickHandler(event){if(doubleClickIntercepted(event)){return;}var containerEl=document.getElementById(this.containerId);containerEl.classList.add('gps-active');this.seekGPS().catch(function(error){console.log({'gps look-up failed, error':error});}).finally(function(){containerEl.classList.remove('gps-active');});event.preventDefault();event.stopPropagation();}},{key:"seekGPS",value:/**
 	     *
 	     * @returns {Promise<unknown>}
-	     */},{key:"seekGPS",value:function seekGPS(){var _this2=this;return GPSRequest.seekGPS(this._gpsPermissionsPromptId).then(function(position){// const latitude  = position.coords.latitude;
+	     */function seekGPS(){var _this2=this;if(this._seekingGPS){// a GPS request is already in progress
+	// don't allow concurrent GPS seek requests
+	return Promise.reject();}else {this._seekingGPS=true;return GPSRequest.seekGPS(this._gpsPermissionsPromptId).then(function(position){_this2._seekingGPS=false;// const latitude  = position.coords.latitude;
 	// const longitude = position.coords.longitude;
 	// console.log(`Got GPS fix ${latitude} , ${longitude}`);
 	//
@@ -3986,7 +3989,7 @@
 	// this.fireEvent(FormField.EVENT_CHANGE);
 	//@todo maybe should prevent use of readings if speed is too great (which might imply use of GPS in a moving vehicle)
 	console.log({'gps position':position});var accuracy=position.coords.accuracy*2;_this2.mapPositionIsCurrent=false;// force zoom and re-centre
-	_this2.processLatLngPosition(position.coords.latitude,position.coords.longitude,accuracy,TextGeorefField.GEOREF_SOURCE_GPS);});}/**
+	_this2.processLatLngPosition(position.coords.latitude,position.coords.longitude,accuracy,TextGeorefField.GEOREF_SOURCE_GPS);},function(error){_this2._seekingGPS=false;return error;});}}/**
 	     *
 	     * @param {number} latitude
 	     * @param {number} longitude
@@ -4464,7 +4467,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1641206805-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1641253169-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
@@ -5477,13 +5480,13 @@
 	  // interceptUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/|^https:\/\/nyph\.bsbi\.app\/app$/,
 	  // ignoreUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/app\.js|^https:\/\/nyph\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyph\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyph\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
 	  // indexUrl : 'https://nyph.bsbi.app/app/index.html',
-	  urlCacheSet: ['./index.html', './app.js?version=1.0.3.1641207220', './manifest.webmanifest', '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
+	  urlCacheSet: ['./index.html', './app.js?version=1.0.3.1641254088', './manifest.webmanifest', '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
 	  '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
 	  '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', '/img/nyph_final@2x.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
 	  'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js', 'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap', 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-	  version: '1.0.3.1641207220'
+	  version: '1.0.3.1641254088'
 	});
 
 })();
