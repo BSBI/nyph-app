@@ -4971,8 +4971,8 @@
        */},{key:"save",value:function save(){if(!this._savedRemotely){var formData=new FormData();formData.append('type',this.TYPE);formData.append('surveyId',this.id);formData.append('id',this.id);formData.append('projectId',this.projectId.toString());formData.append('attributes',JSON.stringify(this.attributes));formData.append('deleted',this.deleted.toString());formData.append('created',this.createdStamp.toString());console.log('queueing survey post');return this.queuePost(formData);}else {return Promise.reject("".concat(this.id," has already been saved."));}}/**
        *
        * @returns {string} an html-safe string based on the locality and creation date
-       */},{key:"generateSurveyName",value:function generateSurveyName(){var place=(this.attributes.place||this.attributes.georef&&this.attributes.georef.gridRef||'(unlocalised)').trim();var createdDate=new Date(this.createdStamp*1000);var dateString;try{// 'default' locale fails on Edge
-  dateString=createdDate.toLocaleString('default',{year:'numeric',month:'long',day:'numeric'});}catch(e){dateString=createdDate.toLocaleString('en-GB',{year:'numeric',month:'long',day:'numeric'});}return "".concat(escapeHTML(place)," ").concat(dateString);}}]);return Survey;}(Model);_defineProperty(Survey,"EVENT_MODIFIED",'modified');function _createSuper$g(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$g();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$g(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var OccurrenceImage=/*#__PURE__*/function(_Model){_inherits(OccurrenceImage,_Model);var _super=_createSuper$g(OccurrenceImage);function OccurrenceImage(){var _this;_classCallCheck(this,OccurrenceImage);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_defineProperty(_assertThisInitialized(_this),"file",void 0);_defineProperty(_assertThisInitialized(_this),"TYPE",'image');_defineProperty(_assertThisInitialized(_this),"SAVE_ENDPOINT",'/saveimage.php');return _this;}_createClass(OccurrenceImage,[{key:"getUrl",value:/**
+       */},{key:"generateSurveyName",value:function generateSurveyName(){var place=(this.attributes.place||this.attributes.georef&&this.attributes.georef.gridRef||'(unlocalised)').trim();var userDate=this.date;var dateString;if(userDate){dateString=userDate;}else {var createdDate=new Date(this.createdStamp*1000);try{// 'default' locale fails on Edge
+  dateString=createdDate.toLocaleString('default',{year:'numeric',month:'long',day:'numeric'});}catch(e){dateString=createdDate.toLocaleString('en-GB',{year:'numeric',month:'long',day:'numeric'});}}return "".concat(escapeHTML(place)," ").concat(dateString);}}]);return Survey;}(Model);_defineProperty(Survey,"EVENT_MODIFIED",'modified');function _createSuper$g(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$g();return function _createSuperInternal(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$g(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var OccurrenceImage=/*#__PURE__*/function(_Model){_inherits(OccurrenceImage,_Model);var _super=_createSuper$g(OccurrenceImage);function OccurrenceImage(){var _this;_classCallCheck(this,OccurrenceImage);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_defineProperty(_assertThisInitialized(_this),"file",void 0);_defineProperty(_assertThisInitialized(_this),"TYPE",'image');_defineProperty(_assertThisInitialized(_this),"SAVE_ENDPOINT",'/saveimage.php');return _this;}_createClass(OccurrenceImage,[{key:"getUrl",value:/**
        * fetches a url of the image
        * this might be a remote url (or one intercepted by a service worker)
        * or a data url of the raw image, (not yet uploaded)
@@ -5611,8 +5611,8 @@
        * called after user has clicked delete button on an image
        *
        * @param {{imageId : string}} params
-       */},{key:"deleteImageHandler",value:function deleteImageHandler(params){console.log("delete image ".concat(params.imageId));var image;for(var _key in this._value.images){if(this._value.images.hasOwnProperty(_key)){if(this._value.images[_key].id===params.imageId){image=this._value.images.splice(_key,1)[0];break;}}}if(!image){console.log("Failed to find image id ".concat(params.imageId));}else {// re-save image to flag as deleted
-  this._value.images[key].deleted=true;_classPrivateMethodGet$3(this,_save,_save2).call(this,[this._value.images[key]]);this.updateView();this.fireEvent(FormField.EVENT_CHANGE);}}/**
+       */},{key:"deleteImageHandler",value:function deleteImageHandler(params){console.log("delete image ".concat(params.imageId));var image;for(var key in this._value.images){if(this._value.images.hasOwnProperty(key)){if(this._value.images[key].id===params.imageId){image=this._value.images.splice(key,1)[0];break;}}}if(!image){console.log("Failed to find image id ".concat(params.imageId));}else {// re-save image to flag as deleted
+  image.deleted=true;_classPrivateMethodGet$3(this,_save,_save2).call(this,[image]);this.updateView();this.fireEvent(FormField.EVENT_CHANGE);}}/**
        *
        * @param {MouseEvent} event
        */},{key:"imageClickHandler",value:function imageClickHandler(event){if(doubleClickIntercepted(event)){return;}var targetEl=event.target.closest('picture');if(!targetEl){targetEl=event.target.closest('img');}// console.log({'clicked image' : targetEl});
@@ -7645,7 +7645,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1641257853</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1642763397</p>");
           }
         }
       }
@@ -14318,7 +14318,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1641257853</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1642763397</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
   }
@@ -14931,7 +14931,7 @@
       value: function body() {
         // at this point the entire content of #body should be safe to replace
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1641257853</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1642763397</p>";
       }
     }]);
 
@@ -16524,9 +16524,9 @@
 
       $ArrayBuffer[PROTOTYPE] = ArrayBufferPrototype$1;
 
-      for (var keys$2 = getOwnPropertyNames$4(NativeArrayBuffer$1), j$1 = 0, key$2; keys$2.length > j$1;) {
-        if (!((key$2 = keys$2[j$1++]) in $ArrayBuffer)) {
-          createNonEnumerableProperty$3($ArrayBuffer, key$2, NativeArrayBuffer$1[key$2]);
+      for (var keys$2 = getOwnPropertyNames$4(NativeArrayBuffer$1), j$1 = 0, key$1; keys$2.length > j$1;) {
+        if (!((key$1 = keys$2[j$1++]) in $ArrayBuffer)) {
+          createNonEnumerableProperty$3($ArrayBuffer, key$1, NativeArrayBuffer$1[key$1]);
         }
       }
 
@@ -17853,9 +17853,9 @@
       'EPSILON,MAX_SAFE_INTEGER,MIN_SAFE_INTEGER,isFinite,isInteger,isNaN,isSafeInteger,parseFloat,parseInt,' +
       // ESNext
       'fromString,range'
-    ).split(','), j = 0, key$1; keys$1.length > j; j++) {
-      if (hasOwn$6(NativeNumber, key$1 = keys$1[j]) && !hasOwn$6(NumberWrapper, key$1)) {
-        defineProperty$4(NumberWrapper, key$1, getOwnPropertyDescriptor$5(NativeNumber, key$1));
+    ).split(','), j = 0, key; keys$1.length > j; j++) {
+      if (hasOwn$6(NativeNumber, key = keys$1[j]) && !hasOwn$6(NumberWrapper, key)) {
+        defineProperty$4(NumberWrapper, key, getOwnPropertyDescriptor$5(NativeNumber, key));
       }
     }
     NumberWrapper.prototype = NumberPrototype;

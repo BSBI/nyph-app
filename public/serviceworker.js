@@ -4063,8 +4063,8 @@
 	     */},{key:"save",value:function save(){if(!this._savedRemotely){var formData=new FormData();formData.append('type',this.TYPE);formData.append('surveyId',this.id);formData.append('id',this.id);formData.append('projectId',this.projectId.toString());formData.append('attributes',JSON.stringify(this.attributes));formData.append('deleted',this.deleted.toString());formData.append('created',this.createdStamp.toString());console.log('queueing survey post');return this.queuePost(formData);}else {return Promise.reject("".concat(this.id," has already been saved."));}}/**
 	     *
 	     * @returns {string} an html-safe string based on the locality and creation date
-	     */},{key:"generateSurveyName",value:function generateSurveyName(){var place=(this.attributes.place||this.attributes.georef&&this.attributes.georef.gridRef||'(unlocalised)').trim();var createdDate=new Date(this.createdStamp*1000);var dateString;try{// 'default' locale fails on Edge
-	dateString=createdDate.toLocaleString('default',{year:'numeric',month:'long',day:'numeric'});}catch(e){dateString=createdDate.toLocaleString('en-GB',{year:'numeric',month:'long',day:'numeric'});}return "".concat(escapeHTML(place)," ").concat(dateString);}}]);return Survey;}(Model);_defineProperty$1(Survey,"EVENT_MODIFIED",'modified');function _createSuper$g(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$g();return function _createSuperInternal(){var Super=_getPrototypeOf$1(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf$1(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn$1(this,result);};}function _isNativeReflectConstruct$g(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var OccurrenceImage=/*#__PURE__*/function(_Model){_inherits$1(OccurrenceImage,_Model);var _super=_createSuper$g(OccurrenceImage);function OccurrenceImage(){var _this;_classCallCheck$1(this,OccurrenceImage);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_defineProperty$1(_assertThisInitialized$1(_this),"file",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"TYPE",'image');_defineProperty$1(_assertThisInitialized$1(_this),"SAVE_ENDPOINT",'/saveimage.php');return _this;}_createClass$1(OccurrenceImage,[{key:"getUrl",value:/**
+	     */},{key:"generateSurveyName",value:function generateSurveyName(){var place=(this.attributes.place||this.attributes.georef&&this.attributes.georef.gridRef||'(unlocalised)').trim();var userDate=this.date;var dateString;if(userDate){dateString=userDate;}else {var createdDate=new Date(this.createdStamp*1000);try{// 'default' locale fails on Edge
+	dateString=createdDate.toLocaleString('default',{year:'numeric',month:'long',day:'numeric'});}catch(e){dateString=createdDate.toLocaleString('en-GB',{year:'numeric',month:'long',day:'numeric'});}}return "".concat(escapeHTML(place)," ").concat(dateString);}}]);return Survey;}(Model);_defineProperty$1(Survey,"EVENT_MODIFIED",'modified');function _createSuper$g(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$g();return function _createSuperInternal(){var Super=_getPrototypeOf$1(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf$1(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn$1(this,result);};}function _isNativeReflectConstruct$g(){if(typeof Reflect==="undefined"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy==="function")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var OccurrenceImage=/*#__PURE__*/function(_Model){_inherits$1(OccurrenceImage,_Model);var _super=_createSuper$g(OccurrenceImage);function OccurrenceImage(){var _this;_classCallCheck$1(this,OccurrenceImage);for(var _len=arguments.length,args=new Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key];}_this=_super.call.apply(_super,[this].concat(args));_defineProperty$1(_assertThisInitialized$1(_this),"file",void 0);_defineProperty$1(_assertThisInitialized$1(_this),"TYPE",'image');_defineProperty$1(_assertThisInitialized$1(_this),"SAVE_ENDPOINT",'/saveimage.php');return _this;}_createClass$1(OccurrenceImage,[{key:"getUrl",value:/**
 	     * fetches a url of the image
 	     * this might be a remote url (or one intercepted by a service worker)
 	     * or a data url of the raw image, (not yet uploaded)
@@ -4467,7 +4467,7 @@
 	     *  version : string
 	     * }} configuration
 	     */function initialise(configuration){var _this=this;if(!Promise.prototype.finally){Promise.prototype.finally=function(callback){// must use 'function' here rather than arrow, due to this binding requirement
-	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1641253169-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
+	return this.then(callback).catch(callback);};}ImageResponse.register();SurveyResponse.register();OccurrenceResponse.register();this.CACHE_VERSION="version-1.0.3.1642763236-".concat(configuration.version);var POST_PASS_THROUGH_WHITELIST=configuration.postPassThroughWhitelist;var POST_IMAGE_URL_MATCH=configuration.postImageUrlMatch;var GET_IMAGE_URL_MATCH=configuration.getImageUrlMatch;var SERVICE_WORKER_INTERCEPT_URL_MATCHES=configuration.interceptUrlMatches;var SERVICE_WORKER_IGNORE_URL_MATCHES=configuration.ignoreUrlMatches;var SERVICE_WORKER_PASS_THROUGH_NO_CACHE=configuration.passThroughNoCache;var INDEX_URL=configuration.indexUrl;this.URL_CACHE_SET=configuration.urlCacheSet;localforage.config({name:configuration.forageName});// On install, cache some resources.
 	self.addEventListener('install',function(evt){console.log('BSBI app service worker is being installed.');// noinspection JSIgnoredPromiseFromCall
 	self.skipWaiting();// Ask the service worker to keep installing until the returning promise
 	// resolves.
@@ -4801,8 +4801,8 @@
 	     * called after user has clicked delete button on an image
 	     *
 	     * @param {{imageId : string}} params
-	     */},{key:"deleteImageHandler",value:function deleteImageHandler(params){console.log("delete image ".concat(params.imageId));var image;for(var _key in this._value.images){if(this._value.images.hasOwnProperty(_key)){if(this._value.images[_key].id===params.imageId){image=this._value.images.splice(_key,1)[0];break;}}}if(!image){console.log("Failed to find image id ".concat(params.imageId));}else {// re-save image to flag as deleted
-	this._value.images[key].deleted=true;_classPrivateMethodGet$3(this,_save,_save2).call(this,[this._value.images[key]]);this.updateView();this.fireEvent(FormField.EVENT_CHANGE);}}/**
+	     */},{key:"deleteImageHandler",value:function deleteImageHandler(params){console.log("delete image ".concat(params.imageId));var image;for(var key in this._value.images){if(this._value.images.hasOwnProperty(key)){if(this._value.images[key].id===params.imageId){image=this._value.images.splice(key,1)[0];break;}}}if(!image){console.log("Failed to find image id ".concat(params.imageId));}else {// re-save image to flag as deleted
+	image.deleted=true;_classPrivateMethodGet$3(this,_save,_save2).call(this,[image]);this.updateView();this.fireEvent(FormField.EVENT_CHANGE);}}/**
 	     *
 	     * @param {MouseEvent} event
 	     */},{key:"imageClickHandler",value:function imageClickHandler(event){if(doubleClickIntercepted(event)){return;}var targetEl=event.target.closest('picture');if(!targetEl){targetEl=event.target.closest('img');}// console.log({'clicked image' : targetEl});
@@ -5459,6 +5459,8 @@
 
 	_defineProperty(NyphApp, "devMode", false);
 
+	// service worker for Nyph app
+
 	var pathPrefix = location.pathname.split('/')[1]; // kill after 2022-03-01 to prevent the app perpetuating itself
 
 	if (new Date().toJSON().slice(0, 10) >= '2022-03-01') {
@@ -5480,7 +5482,7 @@
 	  // interceptUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/|^https:\/\/nyph\.bsbi\.app\/app$/,
 	  // ignoreUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/app\.js|^https:\/\/nyph\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyph\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyph\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
 	  // indexUrl : 'https://nyph.bsbi.app/app/index.html',
-	  urlCacheSet: ['./index.html', './app.js?version=1.0.3.1641257853', './manifest.webmanifest', '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
+	  urlCacheSet: ['./index.html', './app.js?version=1.0.3.1642763397', './manifest.webmanifest', '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
 	  '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
 	  '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', '/img/nyph_final@2x.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
@@ -5489,7 +5491,7 @@
 	  //'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js',
 	  '/js/mapbox-gl-geocoder-v4.7.2.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-	  version: '1.0.3.1641257853'
+	  version: '1.0.3.1642763397'
 	});
 
 })();
