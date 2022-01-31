@@ -6,9 +6,9 @@ import {
     //OptionsField,
     //SelectField,
     TaxonPickerField,
-    TextAreaField, TextGeorefField
+    TextAreaField, TextGeorefField, MapGeorefField
 } from "bsbi-app-framework";
-import {MapGeorefField} from "../formfields/MapGeorefField";
+//import {MapGeorefField} from "../formfields/MapGeorefField";
 
 export class NyphOccurrenceForm extends OccurrenceForm {
     /**
