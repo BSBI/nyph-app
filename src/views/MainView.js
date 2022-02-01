@@ -17,7 +17,7 @@ import {
     Page, escapeHTML, doubleClickIntercepted, App, Survey, DateField, Model
 } from "bsbi-app-framework";
 import {NyphSurveyFormSurveySection} from "./forms/NyphSurveyFormSurveySection";
-import {Collapse} from "bootstrap";
+import {Collapse, Modal} from "bootstrap";
 
 const LEFT_PANEL_ID = 'col1panel';
 const RIGHT_PANEL_ID = 'col2panel';

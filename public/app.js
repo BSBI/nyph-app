@@ -5571,7 +5571,7 @@
    * ------------------------------------------------------------------------
    * Class Definition
    * ------------------------------------------------------------------------
-   */class Modal$2 extends BaseComponent$1{constructor(element,config){super(element);this._config=this._getConfig(config);this._dialog=SelectorEngine$1.findOne(SELECTOR_DIALOG$1,this._element);this._backdrop=this._initializeBackDrop();this._focustrap=this._initializeFocusTrap();this._isShown=false;this._ignoreBackdropClick=false;this._isTransitioning=false;this._scrollBar=new ScrollBarHelper$1();}// Getters
+   */class Modal$1 extends BaseComponent$1{constructor(element,config){super(element);this._config=this._getConfig(config);this._dialog=SelectorEngine$1.findOne(SELECTOR_DIALOG$1,this._element);this._backdrop=this._initializeBackDrop();this._focustrap=this._initializeFocusTrap();this._isShown=false;this._ignoreBackdropClick=false;this._isTransitioning=false;this._scrollBar=new ScrollBarHelper$1();}// Getters
   static get Default(){return Default$5$1;}static get NAME(){return NAME$6$1;}// Public
   toggle(relatedTarget){return this._isShown?this.hide():this.show(relatedTarget);}show(relatedTarget){if(this._isShown||this._isTransitioning){return;}const showEvent=EventHandler$1.trigger(this._element,EVENT_SHOW$3$1,{relatedTarget});if(showEvent.defaultPrevented){return;}this._isShown=true;if(this._isAnimated()){this._isTransitioning=true;}this._scrollBar.hide();document.body.classList.add(CLASS_NAME_OPEN$1);this._adjustDialog();this._setEscapeEvent();this._setResizeEvent();EventHandler$1.on(this._dialog,EVENT_MOUSEDOWN_DISMISS$1,()=>{EventHandler$1.one(this._element,EVENT_MOUSEUP_DISMISS$1,event=>{if(event.target===this._element){this._ignoreBackdropClick=true;}});});this._showBackdrop(()=>this._showElement(relatedTarget));}hide(){if(!this._isShown||this._isTransitioning){return;}const hideEvent=EventHandler$1.trigger(this._element,EVENT_HIDE$3$1);if(hideEvent.defaultPrevented){return;}this._isShown=false;const isAnimated=this._isAnimated();if(isAnimated){this._isTransitioning=true;}this._setEscapeEvent();this._setResizeEvent();this._focustrap.deactivate();this._element.classList.remove(CLASS_NAME_SHOW$4$1);EventHandler$1.off(this._element,EVENT_CLICK_DISMISS$1);EventHandler$1.off(this._dialog,EVENT_MOUSEDOWN_DISMISS$1);this._queueCallback(()=>this._hideModal(),this._element,isAnimated);}dispose(){[window,this._dialog].forEach(htmlElement=>EventHandler$1.off(htmlElement,EVENT_KEY$6$1));this._backdrop.dispose();this._focustrap.deactivate();super.dispose();}handleUpdate(){this._adjustDialog();}// Private
   _initializeBackDrop(){return new Backdrop$1({isVisible:Boolean(this._config.backdrop),// 'static' option will be translated to true, and booleans will keep their value
@@ -5581,18 +5581,18 @@
   // the following methods are used to handle overflowing modals
   // ----------------------------------------------------------------------
   _adjustDialog(){const isModalOverflowing=this._element.scrollHeight>document.documentElement.clientHeight;const scrollbarWidth=this._scrollBar.getWidth();const isBodyOverflowing=scrollbarWidth>0;if(!isBodyOverflowing&&isModalOverflowing&&!isRTL$1()||isBodyOverflowing&&!isModalOverflowing&&isRTL$1()){this._element.style.paddingLeft=`${scrollbarWidth}px`;}if(isBodyOverflowing&&!isModalOverflowing&&!isRTL$1()||!isBodyOverflowing&&isModalOverflowing&&isRTL$1()){this._element.style.paddingRight=`${scrollbarWidth}px`;}}_resetAdjustments(){this._element.style.paddingLeft='';this._element.style.paddingRight='';}// Static
-  static jQueryInterface(config,relatedTarget){return this.each(function(){const data=Modal$2.getOrCreateInstance(this,config);if(typeof config!=='string'){return;}if(typeof data[config]==='undefined'){throw new TypeError(`No method named "${config}"`);}data[config](relatedTarget);});}}/**
+  static jQueryInterface(config,relatedTarget){return this.each(function(){const data=Modal$1.getOrCreateInstance(this,config);if(typeof config!=='string'){return;}if(typeof data[config]==='undefined'){throw new TypeError(`No method named "${config}"`);}data[config](relatedTarget);});}}/**
    * ------------------------------------------------------------------------
    * Data Api implementation
    * ------------------------------------------------------------------------
    */EventHandler$1.on(document,EVENT_CLICK_DATA_API$2$1,SELECTOR_DATA_TOGGLE$2$1,function(event){const target=getElementFromSelector$1(this);if(['A','AREA'].includes(this.tagName)){event.preventDefault();}EventHandler$1.one(target,EVENT_SHOW$3$1,showEvent=>{if(showEvent.defaultPrevented){// only register focus restorer if modal will actually get shown
   return;}EventHandler$1.one(target,EVENT_HIDDEN$3$1,()=>{if(isVisible$1(this)){this.focus();}});});// avoid conflict when clicking moddal toggler while another one is open
-  const allReadyOpen=SelectorEngine$1.findOne(OPEN_SELECTOR$1$1);if(allReadyOpen){Modal$2.getInstance(allReadyOpen).hide();}const data=Modal$2.getOrCreateInstance(target);data.toggle(this);});enableDismissTrigger$1(Modal$2);/**
+  const allReadyOpen=SelectorEngine$1.findOne(OPEN_SELECTOR$1$1);if(allReadyOpen){Modal$1.getInstance(allReadyOpen).hide();}const data=Modal$1.getOrCreateInstance(target);data.toggle(this);});enableDismissTrigger$1(Modal$1);/**
    * ------------------------------------------------------------------------
    * jQuery
    * ------------------------------------------------------------------------
    * add .Modal to jQuery only if jQuery is present
-   */defineJQueryPlugin$1(Modal$2);/**
+   */defineJQueryPlugin$1(Modal$1);/**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.1.3): offcanvas.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
@@ -5797,7 +5797,7 @@
        * @type {Modal}
        */},{key:"initialise",value:function initialise(){var _this3=this;this.refreshSurveysMenu();var modalContent=document.createElement('div');modalContent.innerHTML=this.newSurveyContent;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=resetModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=saveAllSuccessModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=saveAllFailureModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);// register event handlers once the content is likely to be in the DOM
   //setTimeout(() => {
-  this.newSurveyModal=Modal$2.getOrCreateInstance(document.getElementById(Layout.NEW_SURVEY_MODAL_ID),{});this.resetModal=Modal$2.getOrCreateInstance(document.getElementById(Layout.RESET_MODAL_ID),{});this.saveAllSuccessModal=Modal$2.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_SUCCESS_MODAL_ID),{});this.saveAllFailureModal=Modal$2.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_FAILURE_MODAL_ID),{});document.getElementById("".concat(Layout.NEW_SURVEY_MODAL_ID,"confirmed")).addEventListener('click',function(event){event.stopPropagation();event.preventDefault();if(event.detail<2){// only if not a double click
+  this.newSurveyModal=Modal$1.getOrCreateInstance(document.getElementById(Layout.NEW_SURVEY_MODAL_ID),{});this.resetModal=Modal$1.getOrCreateInstance(document.getElementById(Layout.RESET_MODAL_ID),{});this.saveAllSuccessModal=Modal$1.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_SUCCESS_MODAL_ID),{});this.saveAllFailureModal=Modal$1.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_FAILURE_MODAL_ID),{});document.getElementById("".concat(Layout.NEW_SURVEY_MODAL_ID,"confirmed")).addEventListener('click',function(event){event.stopPropagation();event.preventDefault();if(event.detail<2){// only if not a double click
   // force hide the new survey modal
   //$(`#${Layout.NEW_SURVEY_MODAL_ID}`).modal('hide');
   _this3.newSurveyModal.hide();_this3.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);}});document.getElementById("".concat(Layout.RESET_MODAL_ID,"confirmed")).addEventListener('click',function(event){event.stopPropagation();event.preventDefault();if(event.detail<2){// force hide the new survey modal
@@ -5828,17 +5828,17 @@
   // leave : this.leaveRouteHandler ? this.leaveRouteHandler.bind(this) : null,
   // already : this.alreadyRouteHandler ? this.alreadyRouteHandler.bind(this) : null
   });router.on('/survey/new',this.newSurveyHandler.bind(this,'survey','new',''),{before:this.beforeNewHandler.bind(this)});router.on('/survey/reset',this.mainRouteHandler.bind(this,'survey','reset',''),{before:this.beforeResetHandler.bind(this)});router.on('/survey/save',this.mainRouteHandler.bind(this,'survey','save',''),{before:this.beforeSaveAllHandler.bind(this)});router.on('/survey/add/:surveyId',this.addSurveyHandler.bind(this,'survey','add',''));this.app.addListener(App.EVENT_ADD_SURVEY_USER_REQUEST,this.addNewSurveyHandler.bind(this));this.app.addListener(App.EVENT_RESET_SURVEYS,this.resetSurveysHandler.bind(this));}},{key:"beforeNewHandler",value:function beforeNewHandler(done){//$(`#${Layout.NEW_SURVEY_MODAL_ID}`).modal();
-  Modal$2.getOrCreateInstance(Layout.NEW_SURVEY_MODAL_ID).show();this.app.router.pause();console.log({'route history':this.app.routeHistory});if(window.history.state){window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
+  Modal$1.getOrCreateInstance(Layout.NEW_SURVEY_MODAL_ID).show();this.app.router.pause();console.log({'route history':this.app.routeHistory});if(window.history.state){window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
   }this.app.router.resume();done(false);// block navigation
   }},{key:"beforeResetHandler",value:function beforeResetHandler(done){//$(`#${Layout.RESET_MODAL_ID}`).modal();
-  Modal$2.getOrCreateInstance(Layout.RESET_MODAL_ID).show();this.app.router.pause();if(window.history.state){window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
+  Modal$1.getOrCreateInstance(Layout.RESET_MODAL_ID).show();this.app.router.pause();if(window.history.state){window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
   }this.app.router.resume();done(false);// block navigation
   }},{key:"beforeSaveAllHandler",value:function beforeSaveAllHandler(done){// invoke sync of any/all unsaved data
   // show pop-ups on success and failure
   this.app.syncAll().then(function(result){console.log({'In save all handler, success result':result});if(Array.isArray(result)){//$(`#${Layout.SAVE_ALL_SUCCESS_MODAL_ID}`).modal();
-  Modal$2.getOrCreateInstance(Layout.SAVE_ALL_SUCCESS_MODAL_ID).show();}else {//$(`#${Layout.SAVE_ALL_FAILURE_MODAL_ID}`).modal();
-  Modal$2.getOrCreateInstance(Layout.SAVE_ALL_FAILURE_MODAL_ID).show();}},function(result){console.log({'In save all handler, failure result':result});//$(`#${Layout.SAVE_ALL_FAILURE_MODAL_ID}`).modal();
-  Modal$2.getOrCreateInstance(Layout.SAVE_ALL_FAILURE_MODAL_ID).show();}).finally(function(){// stop the spinner
+  Modal$1.getOrCreateInstance(Layout.SAVE_ALL_SUCCESS_MODAL_ID).show();}else {//$(`#${Layout.SAVE_ALL_FAILURE_MODAL_ID}`).modal();
+  Modal$1.getOrCreateInstance(Layout.SAVE_ALL_FAILURE_MODAL_ID).show();}},function(result){console.log({'In save all handler, failure result':result});//$(`#${Layout.SAVE_ALL_FAILURE_MODAL_ID}`).modal();
+  Modal$1.getOrCreateInstance(Layout.SAVE_ALL_FAILURE_MODAL_ID).show();}).finally(function(){// stop the spinner
   });this.app.router.pause();if(window.history.state){window.history.back();// this could fail if previous url was not under the single-page-app umbrella (should test)
   }this.app.router.resume();done(false);// block navigation
   }/**
@@ -6236,7 +6236,7 @@
        *
        * @param {HTMLDivElement} container
        * @param {MainView} mainView
-       */function registerImageModalElement(container,mainView){var imageModalEl=document.createElement('div');imageModalEl.innerHTML="<div class=\"modal fade\" id=\"".concat(IMAGE_MODAL_ID,"\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(IMAGE_MODAL_ID,"Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header d-none d-md-flex\">\n        <h5 class=\"modal-title\" id=\"").concat(IMAGE_MODAL_ID,"Title\">Photo</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\" style=\"position: relative;\">\n        <picture>\n        </picture>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" id=\"").concat(IMAGE_MODAL_DELETE_BUTTON_ID,"\" class=\"btn btn-outline-danger delete-occurrence-button mr-3\" data-toggle=\"modal\" data-target=\"#").concat(DELETE_IMAGE_MODAL_ID,"\" data-imageid=\"\"><i class=\"material-icons\">delete</i></button>\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");container.appendChild(imageModalEl.firstChild);ImageField.imageModal=Modal$2.getOrCreateInstance(document.getElementById(IMAGE_MODAL_ID));document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID).addEventListener('click',function(event){if(doubleClickIntercepted(event)){return;}var deleteButtonEl=event.target.closest('button');if(deleteButtonEl&&deleteButtonEl.hasAttribute('data-imageid')){var imageId=deleteButtonEl.getAttribute('data-imageid');//console.log(`Deleting image ${occurrenceId}.`);
+       */function registerImageModalElement(container,mainView){var imageModalEl=document.createElement('div');imageModalEl.innerHTML="<div class=\"modal fade\" id=\"".concat(IMAGE_MODAL_ID,"\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(IMAGE_MODAL_ID,"Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header d-none d-md-flex\">\n        <h5 class=\"modal-title\" id=\"").concat(IMAGE_MODAL_ID,"Title\">Photo</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\" style=\"position: relative;\">\n        <picture>\n        </picture>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" id=\"").concat(IMAGE_MODAL_DELETE_BUTTON_ID,"\" class=\"btn btn-outline-danger delete-occurrence-button mr-3\" data-toggle=\"modal\" data-target=\"#").concat(DELETE_IMAGE_MODAL_ID,"\" data-imageid=\"\"><i class=\"material-icons\">delete</i></button>\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");container.appendChild(imageModalEl.firstChild);ImageField.imageModal=Modal$1.getOrCreateInstance(document.getElementById(IMAGE_MODAL_ID));document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID).addEventListener('click',function(event){if(doubleClickIntercepted(event)){return;}var deleteButtonEl=event.target.closest('button');if(deleteButtonEl&&deleteButtonEl.hasAttribute('data-imageid')){var imageId=deleteButtonEl.getAttribute('data-imageid');//console.log(`Deleting image ${occurrenceId}.`);
   mainView.getOccurrenceForm().fireEvent(EVENT_DELETE_IMAGE,{imageId:imageId});ImageField.imageModal.hide();//$(`#${IMAGE_MODAL_ID}`).modal('hide');
   }});}/**
        * @type {Modal}
@@ -6245,7 +6245,7 @@
        * @param {HTMLDivElement} container
        */function registerLicenseModal(container){// 'image license' modal
   // this pop-up is informational only
-  var modalEl=document.createElement('div');modalEl.innerHTML="<div class=\"modal fade\" id=\"".concat(ImageField.LICENSE_MODAL,"\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(ImageField.LICENSE_MODAL,"Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(ImageField.LICENSE_MODAL,"Title\">Image licensing</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <p>By choosing to submit images with your Garden Wildflower Hunt records you agree to license the image under the terms of the Creative Common Attribution 4.0 International license (CC BY 4.0).</p>\n        <p>The following is a summary of (and not a substitute for) the <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">license</a>.</p>\n        <p>Licensees are free to:</p>\n        <ul class=\"license-properties\">\n<li>\n<strong>Share</strong> \u2014 copy and redistribute the material in any medium or format\n</li>\n<li>\n<strong>Adapt</strong> \u2014 remix, transform, and build upon the material for any purpose, even commercially.\n</li>\n</ul>\n<p>Licensees are most follow these term:</p>\n<ul>\n<li>\n<p>\n<strong>Attribution</strong> \u2014 licensees must give appropriate credit, provide a link to the license, and indicate if changes were made.\n</p>\n</li>\n</ul>\n<p>Full details of the license are here: <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">CC BY 4.0 license</a></p>\n\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");container.appendChild(modalEl.firstChild);ImageField.licenseModal=Modal$2.getOrCreateInstance(document.getElementById(ImageField.LICENSE_MODAL));}}]);return ImageField;}(FormField);function _addFiles2(fileList){// cannot save until parent occurrence has been saved
+  var modalEl=document.createElement('div');modalEl.innerHTML="<div class=\"modal fade\" id=\"".concat(ImageField.LICENSE_MODAL,"\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(ImageField.LICENSE_MODAL,"Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(ImageField.LICENSE_MODAL,"Title\">Image licensing</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <p>By choosing to submit images with your Garden Wildflower Hunt records you agree to license the image under the terms of the Creative Common Attribution 4.0 International license (CC BY 4.0).</p>\n        <p>The following is a summary of (and not a substitute for) the <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">license</a>.</p>\n        <p>Licensees are free to:</p>\n        <ul class=\"license-properties\">\n<li>\n<strong>Share</strong> \u2014 copy and redistribute the material in any medium or format\n</li>\n<li>\n<strong>Adapt</strong> \u2014 remix, transform, and build upon the material for any purpose, even commercially.\n</li>\n</ul>\n<p>Licensees are most follow these term:</p>\n<ul>\n<li>\n<p>\n<strong>Attribution</strong> \u2014 licensees must give appropriate credit, provide a link to the license, and indicate if changes were made.\n</p>\n</li>\n</ul>\n<p>Full details of the license are here: <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">CC BY 4.0 license</a></p>\n\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");container.appendChild(modalEl.firstChild);ImageField.licenseModal=Modal$1.getOrCreateInstance(document.getElementById(ImageField.LICENSE_MODAL));}}]);return ImageField;}(FormField);function _addFiles2(fileList){// cannot save until parent occurrence has been saved
   // so pre-trigger a save event
   this.parentForm.pingOccurrence();var images=[];var _iterator4=_createForOfIteratorHelper$4(fileList),_step4;try{for(_iterator4.s();!(_step4=_iterator4.n()).done;){var file=_step4.value;images.push(OccurrenceImage.fromFile(file));}}catch(err){_iterator4.e(err);}finally{_iterator4.f();}return _classPrivateMethodGet$5(this,_save,_save2).call(this,images);}function _save2(images){var _this3=this;if(images.length){var image=images.shift();return image.save(this.parentForm.surveyId,this.parentForm.occurrenceId,this.parentForm.projectId).then(function(jsonImageDescriptor){if(!image.deleted){console.log("Added image '".concat(image.id,"'"));console.log({jsonDescription:jsonImageDescriptor});_this3._value.images.push(image);_this3.updateView();// excessive view updates, should do once when all promises have succeeded
   // this may break with multiple images if fileList is live and is cleared when input is cleared
@@ -8577,7 +8577,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1643711406</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1643712072</p>");
           }
         }
       }
@@ -14240,7 +14240,7 @@
    * ------------------------------------------------------------------------
    */
 
-  class Modal$1 extends BaseComponent {
+  class Modal extends BaseComponent {
     constructor(element, config) {
       super(element);
       this._config = this._getConfig(config);
@@ -14556,7 +14556,7 @@
 
     static jQueryInterface(config, relatedTarget) {
       return this.each(function () {
-        const data = Modal$1.getOrCreateInstance(this, config);
+        const data = Modal.getOrCreateInstance(this, config);
 
         if (typeof config !== 'string') {
           return;
@@ -14601,13 +14601,13 @@
     const allReadyOpen = SelectorEngine.findOne(OPEN_SELECTOR$1);
 
     if (allReadyOpen) {
-      Modal$1.getInstance(allReadyOpen).hide();
+      Modal.getInstance(allReadyOpen).hide();
     }
 
-    const data = Modal$1.getOrCreateInstance(target);
+    const data = Modal.getOrCreateInstance(target);
     data.toggle(this);
   });
-  enableDismissTrigger(Modal$1);
+  enableDismissTrigger(Modal);
   /**
    * ------------------------------------------------------------------------
    * jQuery
@@ -14615,7 +14615,7 @@
    * add .Modal to jQuery only if jQuery is present
    */
 
-  defineJQueryPlugin(Modal$1);
+  defineJQueryPlugin(Modal);
 
   /**
    * --------------------------------------------------------------------------
@@ -17250,7 +17250,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1643711406</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1643712072</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
   }
@@ -17887,7 +17887,7 @@
       value: function body() {
         // at this point the entire content of #body should be safe to replace
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1643711406</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1643712072</p>";
       }
     }]);
 
