@@ -1,4 +1,4 @@
-// version VERSION
+// version __BSBI_APP_VERSION__
 
 import {NyphApp} from './framework/NyphApp';
 import {MainController} from "./controllers/MainController";

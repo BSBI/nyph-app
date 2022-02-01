@@ -4,7 +4,6 @@
 // see https://serviceworke.rs
 
 'use strict';
-//import {VERSION} from "rollup";
 
 import {BSBIServiceWorker} from "bsbi-app-framework";
 import {NyphApp} from "../framework/NyphApp";
@@ -17,7 +16,7 @@ let pathPrefix = location.pathname.split('/')[1];
 
 // kill after 2022-03-01 to prevent the app perpetuating itself
 if ((new Date).toJSON().slice(0,10) >= '2022-03-01') {
-    throw new Error("Built-in expiry date has past for NYPH.");
+    throw new Error("Built-in expiry date has passed for NYPH.");
 }
 
 const serviceWorker = new BSBIServiceWorker();
@@ -40,7 +39,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.js?version=VERSION',
+        './app.js?version=__BSBI_APP_VERSION__',
         './manifest.webmanifest',
         '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -55,9 +54,9 @@ serviceWorker.initialise({
         'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
         '/js/taxonnames.js.php',
         //'https://database.bsbi.org/js/taxonnames.js.php',
-        'https://code.jquery.com/jquery-3.3.1.slim.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
-        'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
+        //'https://code.jquery.com/jquery-3.3.1.slim.min.js',
+        //'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
+        //'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
         'https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap',
         // am not caching files under api.mapbox.com
         // so instead serve this locally
@@ -65,5 +64,5 @@ serviceWorker.initialise({
         '/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : 'VERSION'
+    version : '__BSBI_APP_VERSION__'
 });

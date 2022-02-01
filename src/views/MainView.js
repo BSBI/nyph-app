@@ -9,7 +9,7 @@ import {NyphApp} from "../framework/NyphApp";
 import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
 import {
     Form,
-    ImageField, EVENT_DELETE_IMAGE, IMAGE_MODAL_ID, IMAGE_MODAL_DELETE_BUTTON_ID, DELETE_IMAGE_MODAL_ID,
+    ImageField,
     InternalAppError,
     MainController,
     Occurrence,
@@ -17,6 +17,7 @@ import {
     Page, escapeHTML, doubleClickIntercepted, App, Survey, DateField, Model
 } from "bsbi-app-framework";
 import {NyphSurveyFormSurveySection} from "./forms/NyphSurveyFormSurveySection";
+import {Collapse} from "bootstrap";
 
 const LEFT_PANEL_ID = 'col1panel';
 const RIGHT_PANEL_ID = 'col2panel';
@@ -271,7 +272,8 @@ export class MainView extends Page {
                 this.refreshOccurrenceFooterControls(editorContainer);
 
                 // ensures that the accordion matches the navigation state
-                $(`#description_${occurrence.id}`).collapse('show');
+                //$(`#description_${occurrence.id}`).collapse('show');
+                Collapse.getOrCreateInstance(document.getElementById(`description_${occurrence.id}`)).show();
             } else {
                 this.#displayDefaultRightPanel(NyphOccurrenceForm.help);
             }
@@ -282,7 +284,7 @@ export class MainView extends Page {
             if (editorContainer) {
                 editorContainer.innerHTML = `<p>${error.message}</p>`;
             } else {
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: VERSION</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: __BSBI_APP_VERSION__</p>`;
                 //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
             }
         }
@@ -349,7 +351,8 @@ export class MainView extends Page {
                     case 'finish':
                         this.controller.app.router.navigate('/list/record/');
                         // display the finish dialogue box
-                        $(`#${FINISH_MODAL_ID}`).modal();
+                        //$(`#${FINISH_MODAL_ID}`).modal();
+                        this.finishModal.show();
 
                         // it's opportune at this point to try to ping the server again to save anything left outstanding
                         this.controller.app.syncAll();
@@ -451,8 +454,17 @@ export class MainView extends Page {
         this.#registerModals();
     }
 
+    /**
+     * @type {Modal}
+     */
+    deleteOccurrenceModal;
+
+    /**
+     * @type {Modal}
+     */
+    finishModal;
+
     #registerModals() {
-        //const container = document.getElementById(LEFT_PANEL_ID);
         const container = document.body;
 
         // Delete record modal
@@ -476,13 +488,15 @@ export class MainView extends Page {
   </div>
 </div>`;
 
-        const deleteOccurrenceModalEl = document.createElement('div');
-        deleteOccurrenceModalEl.innerHTML = deleteOccurrenceModalHTML;
+        const deleteOccurrenceModalFragmentEl = document.createElement('div');
+        deleteOccurrenceModalFragmentEl.innerHTML = deleteOccurrenceModalHTML;
 
-        container.appendChild(deleteOccurrenceModalEl.firstChild);
+        const deleteOccurrenceModalEl = container.appendChild(deleteOccurrenceModalFragmentEl.firstChild);
 
-        $(`#${DELETE_OCCURRENCE_MODAL_ID}`).on('show.bs.modal', (event) => {
-            const button = $(event.relatedTarget); // Button that triggered the modal
+        this.deleteOccurrenceModal = Modal.getOrCreateInstance(deleteOccurrenceModalEl, {});
+
+        deleteOccurrenceModalEl.addEventListener('show.bs.modal', (event) => {
+            const button = event.relatedTarget; // Button that triggered the modal
 
             // button will not be valid if modal has been invoked directly from script,
             // in which case the occurrence id attribute will already have been set
@@ -510,8 +524,8 @@ export class MainView extends Page {
 
         // 'finish' modal
         // this pop-up is informational only
-        const finishModalEl = document.createElement('div');
-        finishModalEl.innerHTML = `<div class="modal fade" id="${FINISH_MODAL_ID}" tabindex="-1" role="dialog" aria-labelledby="${FINISH_MODAL_ID}Title" aria-hidden="true">
+        const finishModalContainerEl = document.createElement('div');
+        finishModalContainerEl.innerHTML = `<div class="modal fade" id="${FINISH_MODAL_ID}" tabindex="-1" role="dialog" aria-labelledby="${FINISH_MODAL_ID}Title" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -532,56 +546,69 @@ export class MainView extends Page {
   </div>
 </div>`;
 
-        container.appendChild(finishModalEl.firstChild);
+        const finishModalEl = container.appendChild(finishModalContainerEl.firstChild);
 
-        container.appendChild(ImageField.licenseModal());
+        this.finishModal = Modal.getOrCreateInstance(finishModalEl);
+
+        ImageField.registerLicenseModal(container);
 
         // image modal
         // includes a button to delete the image
-        const imageModalEl = document.createElement('div');
-        imageModalEl.innerHTML = `<div class="modal fade" id="${IMAGE_MODAL_ID}" tabindex="-1" role="dialog" aria-labelledby="${IMAGE_MODAL_ID}Title" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header d-none d-md-flex">
-        <h5 class="modal-title" id="${IMAGE_MODAL_ID}Title">Photo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" style="position: relative;">
-        <picture>
-        </picture>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="${IMAGE_MODAL_DELETE_BUTTON_ID}" class="btn btn-outline-danger delete-occurrence-button mr-3" data-toggle="modal" data-target="#${DELETE_IMAGE_MODAL_ID}" data-imageid=""><i class="material-icons">delete</i></button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>`;
-        container.appendChild(imageModalEl.firstChild);
+        ImageField.registerImageModalElement(container, this);
+//         const imageModalEl = document.createElement('div');
+//         imageModalEl.innerHTML = `<div class="modal fade" id="${IMAGE_MODAL_ID}" tabindex="-1" role="dialog" aria-labelledby="${IMAGE_MODAL_ID}Title" aria-hidden="true">
+//   <div class="modal-dialog modal-dialog-centered" role="document">
+//     <div class="modal-content">
+//       <div class="modal-header d-none d-md-flex">
+//         <h5 class="modal-title" id="${IMAGE_MODAL_ID}Title">Photo</h5>
+//         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+//           <span aria-hidden="true">&times;</span>
+//         </button>
+//       </div>
+//       <div class="modal-body" style="position: relative;">
+//         <picture>
+//         </picture>
+//       </div>
+//       <div class="modal-footer">
+//         <button type="button" id="${IMAGE_MODAL_DELETE_BUTTON_ID}" class="btn btn-outline-danger delete-occurrence-button mr-3" data-toggle="modal" data-target="#${DELETE_IMAGE_MODAL_ID}" data-imageid=""><i class="material-icons">delete</i></button>
+//         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+//       </div>
+//     </div>
+//   </div>
+// </div>`;
+//         container.appendChild(imageModalEl.firstChild);
+//
+//         document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID).addEventListener('click',/** @param {MouseEvent} event */ (event) => {
+//             if (doubleClickIntercepted(event)) {
+//                 return;
+//             }
+//
+//             const deleteButtonEl = event.target.closest('button');
+//
+//             if (deleteButtonEl && deleteButtonEl.hasAttribute('data-imageid')) {
+//                 const imageId = deleteButtonEl.getAttribute('data-imageid');
+//                 //console.log(`Deleting image ${occurrenceId}.`);
+//
+//                 this.#occurrenceForm.fireEvent(EVENT_DELETE_IMAGE, {imageId});
+//                 $(`#${IMAGE_MODAL_ID}`).modal('hide');
+//             }
+//         });
+    }
 
-        document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID).addEventListener('click',/** @param {MouseEvent} event */ (event) => {
-            if (doubleClickIntercepted(event)) {
-                return;
-            }
-
-            const deleteButtonEl = event.target.closest('button');
-
-            if (deleteButtonEl && deleteButtonEl.hasAttribute('data-imageid')) {
-                const imageId = deleteButtonEl.getAttribute('data-imageid');
-                //console.log(`Deleting image ${occurrenceId}.`);
-
-                this.#occurrenceForm.fireEvent(EVENT_DELETE_IMAGE, {imageId});
-                $(`#${IMAGE_MODAL_ID}`).modal('hide');
-            }
-        });
+    /**
+     * @returns {NyphOccurrenceForm}
+     */
+    getOccurrenceForm() {
+        return this.#occurrenceForm;
     }
 
     #registerLeftPanelAccordionEvent() {
         // console.log('Registering left panel accordion event handler.');
 
-        $(`#${LEFT_PANEL_ID}`).on('show.bs.collapse', (event) => {
+        const leftPanelEl = document.getElementById(LEFT_PANEL_ID);
+
+        //$(`#${LEFT_PANEL_ID}`).on('show.bs.collapse', (event) => {
+        leftPanelEl.addEventListener('show.bs.collapse', (event) => {
             // this will fire for both selection events within the records list and for changes to the top-level accordion
 
             console.log({'left panel show.bs.collapse' : event});
@@ -595,7 +622,9 @@ export class MainView extends Page {
             } else {
                 console.log({'left panel accordion show event (other)' : event});
             }
-        }).on('hide.bs.collapse', (event) => {
+        });
+
+        leftPanelEl.addEventListener('hide.bs.collapse', (event) => {
             console.log({'left panel hide.bs.collapse' : event});
 
             if (event.target.dataset.sectionkey && this.#surveyFormSections[event.target.dataset.sectionkey]) {
@@ -606,7 +635,9 @@ export class MainView extends Page {
                     event.preventDefault();
                 }
             }
-        }).on('hidden.bs.collapse', (event) => {
+        });
+
+        leftPanelEl.addEventListener('hidden.bs.collapse', (event) => {
             // this will fire for both selection events within the records list and for changes to the top-level accordion
 
             console.log({'left panel accordion hidden event' : event});
@@ -660,7 +691,7 @@ export class MainView extends Page {
     _reviseWelcomeButtons(nextButton, newLink, container) {
         //container.className = 'welcome-container';
 
-        const newButton = newLink.getElementsByTagName('button')[0];
+        //const newButton = newLink.getElementsByTagName('button')[0];
 
         //let numberOfSurveys = this.controller.app.surveys.size;
         if (this.controller.app.currentSurvey && this.controller.app.currentSurvey && this.controller.app.currentSurvey.place) {
@@ -810,7 +841,8 @@ export class MainView extends Page {
                     if (!doubleClickIntercepted(event)) {
                         this.controller.app.router.navigate('/list/');
                         // display the finish dialogue box
-                        $(`#${FINISH_MODAL_ID}`).modal();
+                        //$(`#${FINISH_MODAL_ID}`).modal();
+                        this.finishModal.show();
                     }
                 });
                 break;
@@ -1032,7 +1064,8 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
                     .setAttribute('data-occurrenceid', targetButtonEl.getAttribute('data-occurrenceid'));
 
                 // display the dialogue box
-                $(targetButtonEl.getAttribute('data-target')).modal();
+                //$(targetButtonEl.getAttribute('data-target')).modal();
+                this.deleteOccurrenceModal.show();
 
                 event.preventDefault();
                 event.stopPropagation();

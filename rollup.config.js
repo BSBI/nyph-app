@@ -30,18 +30,18 @@ export default [
 		output: {
 			file: 'public/app.js',
 			format: 'iife', // immediately-invoked function expression — suitable for <script> tags
-			globals: { BsbiDb: 'BsbiDb', jquery: '$', MapboxGeocoder: 'MapboxGeocoder' },
+			globals: { BsbiDb: 'BsbiDb', MapboxGeocoder: 'MapboxGeocoder' },
 			sourcemap: true,
 			name: 'nyphapp'
 		},
-		external: ['BsbiDb', 'jquery'],
+		external: ['BsbiDb'],
 
 		plugins: [
 			resolve(), // tells Rollup how to find files in node_modules
 			replace({
 				preventAssignment: true,
 				values: {
-					VERSION: version,
+					__BSBI_APP_VERSION__: version,
 					__DOMAIN__: domain, // 'nyphtest.bsbi.org',
 					__DOMAIN_REGEX__: domainRegex, // 'nyphtest\\.bsbi\\.org',
 					// ENVIRONMENT: JSON.stringify('development')
@@ -53,7 +53,7 @@ export default [
 						src: 'src/index.html',
 						dest: 'public',
 						transform: (contents) =>
-							contents.toString().replaceAll('VERSION', version).replaceAll('__PATH__', path)
+							contents.toString().replaceAll('__BSBI_APP_VERSION__', version).replaceAll('__PATH__', path)
 					}
 				],
 			}),
@@ -109,7 +109,7 @@ export default [
 			replace({
 				preventAssignment: true,
 				values: {
-					VERSION: version,
+					__BSBI_APP_VERSION__: version,
 					__DOMAIN__: domain, // 'nyphtest.bsbi.org',
 					__DOMAIN_REGEX__: domainRegex, // 'nyphtest\\.bsbi\\.org',
 					// ENVIRONMENT: JSON.stringify('development')
