@@ -30,11 +30,11 @@ div.dropdown-list.dropdown-focused {
     display: block;
 }
 
-div.card div.card-invalid-feedback {
+div.card div.card-invalid-feedback, div.accordion-item div.card-invalid-feedback {
     display: none;
 }
 
-div.card.is-invalid div.card-invalid-feedback {
+div.card.is-invalid div.card-invalid-feedback, div.accordion-item.is-invalid div.card-invalid-feedback{
     display: block;
     color: red;
     font-weight: bolder;
