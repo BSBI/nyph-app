@@ -473,7 +473,7 @@ export class MainView extends Page {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="${DELETE_OCCURRENCE_MODAL_ID}Title">Delete record?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -481,8 +481,8 @@ export class MainView extends Page {
         Please confirm that you wish to delete the record.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" id="${DELETE_OCCURRENCE_MODAL_ID}confirmed">Delete record</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="${DELETE_OCCURRENCE_MODAL_ID}confirmed">Delete record</button>
       </div>
     </div>
   </div>
@@ -530,7 +530,7 @@ export class MainView extends Page {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="${FINISH_MODAL_ID}Title">Thank you</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -540,7 +540,7 @@ export class MainView extends Page {
         <p>If you are planning another Plant Hunt expedition then please start a new survey, using the 'Lists' menu.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -561,7 +561,7 @@ export class MainView extends Page {
 //     <div class="modal-content">
 //       <div class="modal-header d-none d-md-flex">
 //         <h5 class="modal-title" id="${IMAGE_MODAL_ID}Title">Photo</h5>
-//         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+//         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 //           <span aria-hidden="true">&times;</span>
 //         </button>
 //       </div>
@@ -570,8 +570,8 @@ export class MainView extends Page {
 //         </picture>
 //       </div>
 //       <div class="modal-footer">
-//         <button type="button" id="${IMAGE_MODAL_DELETE_BUTTON_ID}" class="btn btn-outline-danger delete-occurrence-button mr-3" data-toggle="modal" data-target="#${DELETE_IMAGE_MODAL_ID}" data-imageid=""><i class="material-icons">delete</i></button>
-//         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+//         <button type="button" id="${IMAGE_MODAL_DELETE_BUTTON_ID}" class="btn btn-outline-danger delete-occurrence-button mr-3" data-bs-toggle="modal" data-bs-target="#${DELETE_IMAGE_MODAL_ID}" data-imageid=""><i class="material-icons">delete</i></button>
+//         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 //       </div>
 //     </div>
 //   </div>
@@ -711,8 +711,8 @@ export class MainView extends Page {
         nextButton.className = 'btn btn-primary';
         nextButton.type = 'button';
         nextButton.textContent = 'get started »';
-        nextButton.setAttribute('data-toggle', 'collapse');
-        nextButton.setAttribute('data-target', '#survey-0-about');
+        nextButton.setAttribute('data-bs-toggle', 'collapse');
+        nextButton.setAttribute('data-bs-target', '#survey-0-about');
         nextButton.style.marginRight = '1em';
         nextButton.style.marginTop = '0.5em';
 
@@ -749,7 +749,7 @@ export class MainView extends Page {
         helpLink.innerHTML = `(<a href="/${this.pathPrefix}/list/survey/welcome/help" data-navigo="list/survey/welcome/help">more info</a>)`;
         sectionElement.appendChild(helpLink);
 
-        accordionEl.appendChild(this.card({
+        accordionEl.appendChild(this.accordionItem({
             cardId: cardId,
             cardHeadingId: Form.nextId,
             collapsed: this.controller.surveySection !== 'welcome',
@@ -827,8 +827,8 @@ export class MainView extends Page {
                     }
                 });
 
-                nextButton.setAttribute('data-toggle', 'collapse');
-                nextButton.setAttribute('data-target', `#survey-${formIndex + 1}-${nextSection.sectionNavigationKey}`);
+                nextButton.setAttribute('data-bs-toggle', 'collapse');
+                nextButton.setAttribute('data-bs-target', `#survey-${formIndex + 1}-${nextSection.sectionNavigationKey}`);
                 nextButton.title = nextSection.sectionTitle;
                 break;
 
@@ -857,7 +857,7 @@ export class MainView extends Page {
 
         //surveyFormSection.cardId = cardId; // need to register this so that subsequent cards can be hidden completely while earlier sections are invalid
 
-        accordionEl.appendChild(this.card({
+        accordionEl.appendChild(this.accordionItem({
             cardId: cardId,
             cardHeadingId: Form.nextId,
             collapsed: this.controller.surveySection !== sectionClass.sectionNavigationKey,
@@ -955,7 +955,7 @@ export class MainView extends Page {
 
         let cardId = Form.nextId;
 
-        accordionEl.appendChild(this.card({
+        accordionEl.appendChild(this.accordionItem({
             cardId: cardId,
             cardHeadingId: Form.nextId,
             collapsed: this.controller.viewSubcontext !== 'record',
@@ -1058,13 +1058,13 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
 
             const targetButtonEl = event.target.closest('button');
 
-            if (targetButtonEl && targetButtonEl.hasAttribute('data-toggle') && targetButtonEl.getAttribute('data-toggle') === 'modal') {
+            if (targetButtonEl && targetButtonEl.hasAttribute('data-bs-toggle') && targetButtonEl.getAttribute('data-bs-toggle') === 'modal') {
                 // annotate the delete record modal dialogue box with the occurrence id
                 document.getElementById(`${DELETE_OCCURRENCE_MODAL_ID}confirmed`)
                     .setAttribute('data-occurrenceid', targetButtonEl.getAttribute('data-occurrenceid'));
 
                 // display the dialogue box
-                //$(targetButtonEl.getAttribute('data-target')).modal();
+                //$(targetButtonEl.getAttribute('data-bs-target')).modal();
                 this.deleteOccurrenceModal.show();
 
                 event.preventDefault();
@@ -1252,12 +1252,12 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
         //     :
         //     '';
 
-        return `<div class="card-header pointer pl-2 pr-2 pt-2 pb-2" id="heading_${occurrence.id}" data-toggle="collapse" data-target="#description_${occurrence.id}">
+        return `<div class="card-header pointer pl-2 pr-2 pt-2 pb-2" id="heading_${occurrence.id}" data-bs-toggle="collapse" data-bs-target="#description_${occurrence.id}">
     <div class="float-right">
-        <button type="button" class="btn btn-outline-danger delete-occurrence-button" data-toggle="modal" data-target="#${DELETE_OCCURRENCE_MODAL_ID}" data-occurrenceid="${occurrence.id}"><i class="material-icons">delete</i></button>
+        <button type="button" class="btn btn-outline-danger delete-occurrence-button" data-bs-toggle="modal" data-bs-target="#${DELETE_OCCURRENCE_MODAL_ID}" data-occurrenceid="${occurrence.id}"><i class="material-icons">delete</i></button>
     </div>
     <h2 class="mb-0 pb-0 mt-0 pt-0 pl-0 ml-0">
-        <button class="occurrence-heading btn btn-link${(this.controller.currentOccurrenceId === occurrence.id ? '' : ' collapsed')} pt-0 pb-0 pl-0" id="headingbutton_${occurrence.id}" type="button" data-toggle="collapse" data-target="#description_${occurrence.id}" aria-expanded="${(this.controller.currentOccurrenceId === occurrence.id ? 'true' : 'false')}" aria-controls="description_${occurrence.id}">
+        <button class="occurrence-heading btn btn-link${(this.controller.currentOccurrenceId === occurrence.id ? '' : ' collapsed')} pt-0 pb-0 pl-0" id="headingbutton_${occurrence.id}" type="button" data-bs-toggle="collapse" data-bs-target="#description_${occurrence.id}" aria-expanded="${(this.controller.currentOccurrenceId === occurrence.id ? 'true' : 'false')}" aria-controls="description_${occurrence.id}">
           ${this.occurrenceSummaryHeadingHTML(occurrence)}
         </button>
     </h2>
