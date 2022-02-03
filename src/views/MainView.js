@@ -127,7 +127,7 @@ export class MainView extends Page {
      * @todo for survey sections should enforce that the first invalid or empty section is always opened
      */
     refreshLeftPanelAccordionState() {
-        const cards = document.querySelectorAll(`div#${this.leftPanelAccordionId} div[data-parent="#${this.leftPanelAccordionId}"].collapse`);
+        const cards = document.querySelectorAll(`div#${this.leftPanelAccordionId} div[data-bs-parent="#${this.leftPanelAccordionId}"].collapse`);
         let targetMatch;
 
         if (this.controller.viewSubcontext) {
@@ -162,7 +162,7 @@ export class MainView extends Page {
      * @private
      */
     _refreshOccurrenceAccordionState() {
-        const occurrenceCards = document.querySelectorAll(`div#${OCCURRENCE_LIST_CONTAINER_ID} div[data-parent="#${OCCURRENCE_LIST_CONTAINER_ID}"].collapse`);
+        const occurrenceCards = document.querySelectorAll(`div#${OCCURRENCE_LIST_CONTAINER_ID} div[data-bs-parent="#${OCCURRENCE_LIST_CONTAINER_ID}"].collapse`);
 
         const targetMatch = this.controller.currentOccurrenceId;
 
@@ -744,7 +744,7 @@ export class MainView extends Page {
         sectionElement.appendChild(newSurveyLink);
 
         const helpLink = document.createElement('span');
-        helpLink.className = 'd-md-none pl-2';
+        helpLink.className = 'd-md-none ps-2';
         // noinspection HtmlUnknownTarget
         helpLink.innerHTML = `(<a href="/${this.pathPrefix}/list/survey/welcome/help" data-navigo="list/survey/welcome/help">more info</a>)`;
         sectionElement.appendChild(helpLink);
@@ -1252,12 +1252,12 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
         //     :
         //     '';
 
-        return `<div class="card-header pointer pl-2 pr-2 pt-2 pb-2" id="heading_${occurrence.id}" data-bs-toggle="collapse" data-bs-target="#description_${occurrence.id}">
-    <div class="float-right">
+        return `<div class="card-header pointer ps-2 pe-2 pt-2 pb-2" id="heading_${occurrence.id}" data-bs-toggle="collapse" data-bs-target="#description_${occurrence.id}">
+    <div class="float-end">
         <button type="button" class="btn btn-outline-danger delete-occurrence-button" data-bs-toggle="modal" data-bs-target="#${DELETE_OCCURRENCE_MODAL_ID}" data-occurrenceid="${occurrence.id}"><i class="material-icons">delete</i></button>
     </div>
-    <h2 class="mb-0 pb-0 mt-0 pt-0 pl-0 ms-0">
-        <button class="occurrence-heading btn btn-link${(this.controller.currentOccurrenceId === occurrence.id ? '' : ' collapsed')} pt-0 pb-0 pl-0" id="headingbutton_${occurrence.id}" type="button" data-bs-toggle="collapse" data-bs-target="#description_${occurrence.id}" aria-expanded="${(this.controller.currentOccurrenceId === occurrence.id ? 'true' : 'false')}" aria-controls="description_${occurrence.id}">
+    <h2 class="mb-0 pb-0 mt-0 pt-0 ps-0 ms-0">
+        <button class="occurrence-heading btn btn-link${(this.controller.currentOccurrenceId === occurrence.id ? '' : ' collapsed')} pt-0 pb-0 ps-0" id="headingbutton_${occurrence.id}" type="button" data-bs-toggle="collapse" data-bs-target="#description_${occurrence.id}" aria-expanded="${(this.controller.currentOccurrenceId === occurrence.id ? 'true' : 'false')}" aria-controls="description_${occurrence.id}">
           ${this.occurrenceSummaryHeadingHTML(occurrence)}
         </button>
     </h2>
@@ -1265,7 +1265,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
         <small>Please check for errors or missing details.</small>
     </div>${unsavedMessage}
 </div>
-<div id="description_${occurrence.id}" class="collapse${(this.controller.currentOccurrenceId === occurrence.id ? ' show' : '')}" aria-labelledby="heading_${occurrence.id}" data-parent="#${OCCURRENCE_LIST_CONTAINER_ID}" data-occurrenceid="${occurrence.id}">
+<div id="description_${occurrence.id}" class="collapse${(this.controller.currentOccurrenceId === occurrence.id ? ' show' : '')}" aria-labelledby="heading_${occurrence.id}" data-bs-parent="#${OCCURRENCE_LIST_CONTAINER_ID}" data-occurrenceid="${occurrence.id}">
   <div class="card-body">
     ${this.occurrenceSummaryBodyHTML(occurrence)}
   </div>
