@@ -5,7 +5,8 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import scss from 'rollup-plugin-scss';
-import copy from 'rollup-plugin-copy'
+import copy from 'rollup-plugin-copy';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 // import json from '@rollup/plugin-json';
 // import nodePolyfills from 'rollup-plugin-polyfill-node';
@@ -79,6 +80,7 @@ export default [
 			// 		exclude: ['node_modules/localforage/**']
 			// 	}
 			// ),
+			sourcemaps(),
 			babel({
 				exclude: 'node_modules/**', // only transpile our source code
 				babelHelpers: 'bundled'
@@ -89,6 +91,59 @@ export default [
 				// 	'node_modules/**',
 				// 	]
 			}
+			), // converts npm packages to ES modules
+			production && terser() // minify, but only in production
+		]
+	},
+	{
+		input: 'src/main.js',
+		output: {
+			file: 'public/app.mjs',
+			format: 'esm', // immediately-invoked function expression — suitable for <script> tags
+			globals: { BsbiDb: 'BsbiDb', MapboxGeocoder: 'MapboxGeocoder' },
+			sourcemap: true,
+			name: 'nyphapp'
+		},
+		external: ['BsbiDb'],
+
+		plugins: [
+			resolve(), // tells Rollup how to find files in node_modules
+			replace({
+				preventAssignment: true,
+				values: {
+					__BSBI_APP_VERSION__: version,
+					__DOMAIN__: domain, // 'nyphtest.bsbi.org',
+					__DOMAIN_REGEX__: domainRegex, // 'nyphtest\\.bsbi\\.org',
+					// ENVIRONMENT: JSON.stringify('development')
+				},
+			}),
+			// copy({
+			// 	targets: [
+			// 		{
+			// 			src: 'src/index.html',
+			// 			dest: 'public',
+			// 			transform: (contents) =>
+			// 				contents.toString().replaceAll('__BSBI_APP_VERSION__', version).replaceAll('__PATH__', path)
+			// 		}
+			// 	],
+			// }),
+			string({
+				// Required to be specified
+				include: "**/*.html",
+
+				// Undefined by default
+				exclude: ["**/index.html"]
+			}),
+			scss({
+				output: 'public/appcss/theme.css',
+			}),
+
+			// babel({
+			// 	exclude: 'node_modules/**', // only transpile our source code
+			// 	babelHelpers: 'bundled'
+			// }),
+			commonjs(
+				{}
 			), // converts npm packages to ES modules
 			production && terser() // minify, but only in production
 		]
@@ -122,9 +177,9 @@ export default [
 				// Undefined by default
 				exclude: ["**/index.html"]
 			}),
-			scss({
-				//output: 'public/appcss/theme.css',
-			}),
+			// scss({
+			// 	//output: 'public/appcss/theme.css',
+			// }),
 			babel({
 				exclude: 'node_modules/**', // only transpile our source code
 				babelHelpers: 'bundled'
@@ -133,5 +188,44 @@ export default [
 			production && terser() // minify, but only in production
 		]
 	},
+	{
+		input: 'src/serviceworker/worker.js',
+		output: {
+			file: 'public/serviceworker.mjs',
+			format: 'esm', // immediately-invoked function expression — suitable for <script> tags
+			globals: { BsbiDb: 'BsbiDb' },
+			sourcemap: true,
+			name: 'nyphappserviceworker'
+		},
+		external: ['BsbiDb'],
 
+		plugins: [
+			resolve(), // tells Rollup how to find files in node_modules
+			replace({
+				preventAssignment: true,
+				values: {
+					__BSBI_APP_VERSION__: version,
+					__DOMAIN__: domain, // 'nyphtest.bsbi.org',
+					__DOMAIN_REGEX__: domainRegex, // 'nyphtest\\.bsbi\\.org',
+					// ENVIRONMENT: JSON.stringify('development')
+				},
+			}),
+			string({
+				// Required to be specified
+				include: "**/*.html",
+
+				// Undefined by default
+				exclude: ["**/index.html"]
+			}),
+			// scss({
+			// 	//output: 'public/appcss/theme.css',
+			// }),
+			// babel({
+			// 	exclude: 'node_modules/**', // only transpile our source code
+			// 	babelHelpers: 'bundled'
+			// }),
+			commonjs(), // converts npm packages to ES modules
+			production && terser() // minify, but only in production
+		]
+	},
 	];

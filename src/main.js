@@ -10,7 +10,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 // polyfill stuff
-import "core-js/stable";
+//import "core-js/stable";
+
 //import 'element-closest-polyfill'; // still needed for IE11
 //import 'whatwg-fetch';
 import {PatchedNavigo, StaticContentController, TaxaLoadedHook, SurveyPickerController, SurveyPickerView} from "bsbi-app-framework";
