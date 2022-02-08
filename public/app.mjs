@@ -6701,7 +6701,7 @@ class MainController extends AppController {
                 this.view.display();
             } catch (rethrownError) {
                 console.log({rethrownError});
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1644340335</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1644340529</p>`;
             }
         }
     }
@@ -22736,7 +22736,7 @@ class MainView extends Page {
 
                     // form has not been initialised or current occurrence has changed
                     //this.#occurrenceForm = occurrence.setForm(new NyphOccurrenceForm(occurrence));
-                    //this.#occurrenceForm = new NyphOccurrenceForm(occurrence);
+                    this.#occurrenceForm = new NyphOccurrenceForm(occurrence);
                     this.#occurrenceForm.setOccurrence(occurrence);
 
                     this.#occurrenceForm.surveyId = this.controller.app.currentSurvey.id;
@@ -22775,7 +22775,7 @@ class MainView extends Page {
             if (editorContainer) {
                 editorContainer.innerHTML = `<p>${error.message}</p>`;
             } else {
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1644340335</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1644340529</p>`;
                 //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
             }
         }
@@ -23810,7 +23810,7 @@ class HelpView extends Page {
         // at this point the entire content of #body should be safe to replace
 
         const bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1644340335</p>`;
+        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1644340529</p>`;
     }
 }
 
@@ -37317,7 +37317,7 @@ $({ target: 'URL', proto: true, enumerable: true }, {
   }
 });
 
-// version 1.0.3.1644340335
+// version 1.0.3.1644340529
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {

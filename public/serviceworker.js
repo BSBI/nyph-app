@@ -8570,7 +8570,7 @@
 	  // interceptUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/|^https:\/\/nyph\.bsbi\.app\/app$/,
 	  // ignoreUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/app\.js|^https:\/\/nyph\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyph\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyph\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
 	  // indexUrl : 'https://nyph.bsbi.app/app/index.html',
-	  urlCacheSet: ['./index.html', './app.js?version=1.0.3.1644340335', './manifest.webmanifest', '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
+	  urlCacheSet: ['./index.html', './app.js?version=1.0.3.1644340529', './manifest.webmanifest', '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
 	  '/appcss/theme.css', //'/img/gwh_logo1_tsp.png',
 	  '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', '/img/nyph_final@2x.png', //'/img/icons/gwh_logo1_tsp-512x512.png',
 	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', '/js/taxonnames.js.php', //'https://database.bsbi.org/js/taxonnames.js.php',
@@ -8582,7 +8582,7 @@
 	  //'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js',
 	  '/js/mapbox-gl-geocoder-v4.7.2.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-	  version: '1.0.3.1644340335'
+	  version: '1.0.3.1644340529'
 	});
 
 })();

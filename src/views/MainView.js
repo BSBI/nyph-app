@@ -255,7 +255,7 @@ export class MainView extends Page {
 
                     // form has not been initialised or current occurrence has changed
                     //this.#occurrenceForm = occurrence.setForm(new NyphOccurrenceForm(occurrence));
-                    //this.#occurrenceForm = new NyphOccurrenceForm(occurrence);
+                    this.#occurrenceForm = new NyphOccurrenceForm(occurrence);
                     this.#occurrenceForm.setOccurrence(occurrence);
 
                     this.#occurrenceForm.surveyId = this.controller.app.currentSurvey.id;
