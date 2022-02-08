@@ -5895,7 +5895,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.js?version=1.0.3.1644340075',
+        './app.js?version=1.0.3.1644340335',
         './manifest.webmanifest',
         '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -5920,6 +5920,6 @@ serviceWorker.initialise({
         '/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : '1.0.3.1644340075'
+    version : '1.0.3.1644340335'
 });
 //# sourceMappingURL=serviceworker.mjs.map
