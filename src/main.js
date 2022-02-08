@@ -14,7 +14,8 @@ import "core-js/stable";
 
 //import 'element-closest-polyfill'; // still needed for IE11
 //import 'whatwg-fetch';
-import {PatchedNavigo, StaticContentController, TaxaLoadedHook, SurveyPickerController, SurveyPickerView} from "bsbi-app-framework";
+import {PatchedNavigo, StaticContentController, TaxaLoadedHook, SurveyPickerController} from "bsbi-app-framework";
+import {SurveyPickerView} from "bsbi-app-framework-view";
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {

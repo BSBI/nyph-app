@@ -1,6 +1,6 @@
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 import helpPanelText from "../../templates/formHelp/surveyAboutHelp.html";
-import {FormField, InputField} from "bsbi-app-framework";
+import {FormField, InputField} from "bsbi-app-framework-view";
 
 export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
 

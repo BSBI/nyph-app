@@ -8,16 +8,23 @@ import {NyphSurveyFormAboutSection} from "./forms/NyphSurveyFormAboutSection";
 import {NyphApp} from "../framework/NyphApp";
 import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
 import {
+    DateField,
     Form,
     ImageField,
+    Page,
+    escapeHTML, doubleClickIntercepted,
+} from "bsbi-app-framework-view";
+import {
     InternalAppError,
     MainController,
     Occurrence,
     OccurrenceImage,
-    Page, escapeHTML, doubleClickIntercepted, App, Survey, DateField, Model
+    App, Survey, Model
 } from "bsbi-app-framework";
 import {NyphSurveyFormSurveySection} from "./forms/NyphSurveyFormSurveySection";
-import {Collapse, Modal} from "bootstrap";
+//import {Collapse, Modal} from "bootstrap";
+import Modal from "bootstrap/js/dist/modal";
+import Collapse from "bootstrap/js/dist/collapse"
 
 const LEFT_PANEL_ID = 'col1panel';
 const RIGHT_PANEL_ID = 'col2panel';

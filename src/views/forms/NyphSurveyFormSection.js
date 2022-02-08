@@ -1,4 +1,4 @@
-import {FormField} from "bsbi-app-framework";
+import {FormField} from "bsbi-app-framework-view";
 
 export class NyphSurveyFormSection {
     /**

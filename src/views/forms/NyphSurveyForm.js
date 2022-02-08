@@ -1,4 +1,4 @@
-import {SurveyForm} from "bsbi-app-framework";
+import {SurveyForm} from "bsbi-app-framework-view";
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 
 export class NyphSurveyForm extends SurveyForm {

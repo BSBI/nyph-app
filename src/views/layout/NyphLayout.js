@@ -1,6 +1,6 @@
 // Overall page layout for NYPH app
 
-import {Layout} from "bsbi-app-framework";
+import {Layout} from "bsbi-app-framework-view";
 import nyphNewSurveyModal from "../../templates/nyphNewSurveyModal.html";
 
 export class NyphLayout extends Layout {

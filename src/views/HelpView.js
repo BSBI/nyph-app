@@ -1,7 +1,7 @@
 // Help page
 
 import htmlContent from "../templates/helpPage.html";
-import {Page} from "bsbi-app-framework";
+import {Page} from "bsbi-app-framework-view";
 
 export class HelpView extends Page {
 
