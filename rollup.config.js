@@ -83,7 +83,8 @@ export default [
 			sourcemaps(),
 			babel({
 				exclude: 'node_modules/**', // only transpile our source code
-				babelHelpers: 'bundled'
+				babelHelpers: 'bundled',
+				inputSourceMap: false, // see https://github.com/rollup/rollup/issues/3457
 			}),
 			commonjs(
 			{
