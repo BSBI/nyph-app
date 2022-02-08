@@ -66,4 +66,9 @@ export class NyphApp extends App {
             console.log('Have reset core survey field cache.');
         });
     }
+
+    notFoundView() {
+        const view = new NotFoundView();
+        view.display();
+    }
 }

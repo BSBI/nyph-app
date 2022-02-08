@@ -254,7 +254,10 @@ export class MainView extends Page {
                     }
 
                     // form has not been initialised or current occurrence has changed
-                    this.#occurrenceForm = occurrence.setForm(new NyphOccurrenceForm(occurrence));
+                    //this.#occurrenceForm = occurrence.setForm(new NyphOccurrenceForm(occurrence));
+                    //this.#occurrenceForm = new NyphOccurrenceForm(occurrence);
+                    this.#occurrenceForm.setOccurrence(occurrence);
+
                     this.#occurrenceForm.surveyId = this.controller.app.currentSurvey.id;
 
                     // scroll to the top of the panel
@@ -879,7 +882,8 @@ export class MainView extends Page {
         }));
 
         // cannot call registerForm until the form is part of the document
-        this.controller.survey.registerForm(surveyFormSection);
+        //this.controller.survey.registerForm(surveyFormSection);
+        surveyFormSection.registerSurvey(this.controller.survey);
 
         surveyFormSection.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, (params) => {
             const cardEl = document.getElementById(cardId);
