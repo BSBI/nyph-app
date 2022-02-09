@@ -6,7 +6,7 @@
 'use strict';
 
 import {BSBIServiceWorker} from "bsbi-app-framework";
-import {NyphApp} from "../framework/NyphApp";
+import {FORAGE_NAME} from "../framework/NyphApp";
 
 // noinspection JSUnusedLocalSymbols
 let BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
@@ -21,7 +21,7 @@ if ((new Date).toJSON().slice(0,10) >= '2022-03-01') {
 
 const serviceWorker = new BSBIServiceWorker();
 serviceWorker.initialise({
-    forageName : NyphApp.forageName,
+    forageName : FORAGE_NAME,
 
     postPassThroughWhitelist : /^https:\/\/__DOMAIN_REGEX__\/loadsurveys.php/,
     postImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/saveimage.php/,

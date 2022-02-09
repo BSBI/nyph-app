@@ -2,13 +2,15 @@ import {App} from "bsbi-app-framework";
 
 export const PROJECT_ID_NYPH = 2;
 
+export const FORAGE_NAME = 'Nyph App';
+
 export class NyphApp extends App {
     /**
      * @type {number}
      */
     projectId = PROJECT_ID_NYPH;
 
-    static forageName = 'Nyph App';
+    static forageName = FORAGE_NAME;
 
     //static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
 

@@ -9,8 +9,8 @@ import {
     NotFoundError,
     Occurrence,
     Survey,
-    PatchedNavigo,
 } from "bsbi-app-framework";
+import {PatchedNavigo} from "bsbi-app-framework-view";
 
 export class MainController extends AppController {
     route = '/list/:action/:id';

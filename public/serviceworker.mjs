@@ -5093,7 +5093,7 @@ class BSBIServiceWorker {
         SurveyResponse.register();
         OccurrenceResponse.register();
 
-        this.CACHE_VERSION = `version-1.0.3.1644339970-${configuration.version}`;
+        this.CACHE_VERSION = `version-1.0.3.1644400597-${configuration.version}`;
 
         const POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         const POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
@@ -5791,13 +5791,15 @@ class GPSRequest extends EventHarness {
 
 const PROJECT_ID_NYPH = 2;
 
+const FORAGE_NAME = 'Nyph App';
+
 class NyphApp extends App {
     /**
      * @type {number}
      */
     projectId = PROJECT_ID_NYPH;
 
-    static forageName = 'Nyph App';
+    static forageName = FORAGE_NAME;
 
     //static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
 
@@ -5877,7 +5879,7 @@ if ((new Date).toJSON().slice(0,10) >= '2022-03-01') {
 
 const serviceWorker = new BSBIServiceWorker();
 serviceWorker.initialise({
-    forageName : NyphApp.forageName,
+    forageName : FORAGE_NAME,
 
     postPassThroughWhitelist : /^https:\/\/nyph\.bsbi\.app\/loadsurveys.php/,
     postImageUrlMatch : /^https:\/\/nyph\.bsbi\.app\/saveimage.php/,
@@ -5895,7 +5897,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.js?version=1.0.3.1644340529',
+        './app.js?version=1.0.3.1644399705',
         './manifest.webmanifest',
         '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -5920,6 +5922,6 @@ serviceWorker.initialise({
         '/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : '1.0.3.1644340529'
+    version : '1.0.3.1644399705'
 });
 //# sourceMappingURL=serviceworker.mjs.map

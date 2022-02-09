@@ -25,13 +25,12 @@
     "spserver": "^1.1.1"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.12.1",
     "@mapbox/mapbox-gl-geocoder": "^4.7.4",
     "bootstrap": "^5.1.3",
     "bsbi-app-framework": "file:D:\\appframework\\bsbi-app-framework",
     "bsbi-app-framework-view": "file:D:\\appframework\\bsbi-app-framework-view",
     "core-js": "^3.21.0",
-    "mapbox-gl": "^2.6.1"
+    "mapbox-gl": "^2.7.0"
   },
   "scripts": {
     "build": "rollup -c",
