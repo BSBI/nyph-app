@@ -138,7 +138,7 @@ export default [
 			scss({
 				output: 'public/appcss/theme.css',
 			}),
-
+			sourcemaps(),
 			// babel({
 			// 	exclude: 'node_modules/**', // only transpile our source code
 			// 	babelHelpers: 'bundled'
@@ -181,9 +181,11 @@ export default [
 			// scss({
 			// 	//output: 'public/appcss/theme.css',
 			// }),
+			sourcemaps(),
 			babel({
 				exclude: 'node_modules/**', // only transpile our source code
-				babelHelpers: 'bundled'
+				babelHelpers: 'bundled',
+				inputSourceMap: false, // see https://github.com/rollup/rollup/issues/3457
 			}),
 			commonjs(), // converts npm packages to ES modules
 			production && terser() // minify, but only in production

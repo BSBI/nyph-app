@@ -5093,7 +5093,7 @@ class BSBIServiceWorker {
         SurveyResponse.register();
         OccurrenceResponse.register();
 
-        this.CACHE_VERSION = `version-1.0.3.1644400597-${configuration.version}`;
+        this.CACHE_VERSION = `version-1.0.3.1644405637-${configuration.version}`;
 
         const POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         const POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
@@ -5897,7 +5897,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.js?version=1.0.3.1644399705',
+        './app.js?version=1.0.3.1644405798',
         './manifest.webmanifest',
         '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -5922,6 +5922,6 @@ serviceWorker.initialise({
         '/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : '1.0.3.1644399705'
+    version : '1.0.3.1644405798'
 });
 //# sourceMappingURL=serviceworker.mjs.map
