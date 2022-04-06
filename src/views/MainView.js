@@ -12,17 +12,17 @@ import {
     Form,
     ImageField,
     Page,
-    escapeHTML, doubleClickIntercepted,
+    doubleClickIntercepted,
 } from "bsbi-app-framework-view";
 import {
     InternalAppError,
     MainController,
     Occurrence,
     OccurrenceImage,
-    App, Survey, Model
+    App, Survey, Model,
+    escapeHTML
 } from "bsbi-app-framework";
 import {NyphSurveyFormSurveySection} from "./forms/NyphSurveyFormSurveySection";
-//import {Collapse, Modal} from "bootstrap";
 import Modal from "bootstrap/js/dist/modal";
 import Collapse from "bootstrap/js/dist/collapse"
 
@@ -275,7 +275,7 @@ export class MainView extends Page {
                     console.log('Firing event for initialisation of new occurrence.');
                     this.#occurrenceForm.fireEvent(Form.EVENT_INITIALISE_NEW, {survey : this.controller.app.currentSurvey}); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
                 } else {
-                    console.log('Firing event for initialisation of new occurrence.');
+                    console.log('Firing event for initialisation of existing occurrence.');
                     this.#occurrenceForm.fireEvent(Form.EVENT_INITIALISED, {survey : this.controller.app.currentSurvey}); // allows re-initialisation of dynamic default data, e.g. setting a default geo-ref based on the survey
                 }
 
@@ -510,8 +510,8 @@ export class MainView extends Page {
 
             // button will not be valid if modal has been invoked directly from script,
             // in which case the occurrence id attribute will already have been set
-            if (button && button.data('occurrenceid')) {
-                const occurrenceId = button.data('occurrenceid');
+            if (button && 'occurrenceid' in button.dataset && button.dataset.occurrenceid) {
+                const occurrenceId = button.dataset.occurrenceid;
                 document.getElementById(`${DELETE_OCCURRENCE_MODAL_ID}confirmed`).setAttribute('data-occurrenceid', occurrenceId);
             }
         });

@@ -41,7 +41,7 @@ serviceWorker.initialise({
         './index.html',
         './app.js?version=__BSBI_APP_VERSION__',
         './manifest.webmanifest',
-        '/appcss/app.2021-12-16.css', // note no leading '.' - this is an absolute path
+        '/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
         //'/img/gwh_logo1_tsp.png',
         '/img/icons/favicon-32x32.png',
@@ -51,7 +51,7 @@ serviceWorker.initialise({
         //'/img/icons/gwh_logo1_tsp-512x512.png',
         '/img/BSBIlong.png',
         'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round',
-        'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
+        //'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
         '/js/taxonnames.js.php',
         //'https://database.bsbi.org/js/taxonnames.js.php',
         //'https://code.jquery.com/jquery-3.3.1.slim.min.js',

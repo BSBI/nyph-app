@@ -6,6 +6,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import scss from 'rollup-plugin-scss';
 import copy from 'rollup-plugin-copy';
+import del from 'rollup-plugin-delete';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 
 // import json from '@rollup/plugin-json';
@@ -48,6 +49,9 @@ export default [
 					// ENVIRONMENT: JSON.stringify('development')
 				},
 			}),
+			del(
+				{targets: 'public/appcss/*'}
+			),
 			copy({
 				targets: [
 					{
@@ -55,6 +59,11 @@ export default [
 						dest: 'public',
 						transform: (contents) =>
 							contents.toString().replaceAll('__BSBI_APP_VERSION__', version).replaceAll('__PATH__', path)
+					},
+					{
+						src: 'src/app.css',
+						dest: 'public/appcss',
+						rename: `app.${version}.css`
 					}
 				],
 			}),
@@ -100,7 +109,7 @@ export default [
 		input: 'src/main.js',
 		output: {
 			file: 'public/app.mjs',
-			format: 'esm', // immediately-invoked function expression — suitable for <script> tags
+			format: 'esm',
 			globals: { BsbiDb: 'BsbiDb', MapboxGeocoder: 'MapboxGeocoder' },
 			sourcemap: true,
 			name: 'nyphapp'
@@ -195,7 +204,7 @@ export default [
 		input: 'src/serviceworker/worker.js',
 		output: {
 			file: 'public/serviceworker.mjs',
-			format: 'esm', // immediately-invoked function expression — suitable for <script> tags
+			format: 'esm',
 			globals: { BsbiDb: 'BsbiDb' },
 			sourcemap: true,
 			name: 'nyphappserviceworker'

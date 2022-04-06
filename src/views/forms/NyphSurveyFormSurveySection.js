@@ -1,7 +1,6 @@
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 import helpPanelText from "../../templates/formHelp/surveyAboutHelp.html";
 import {DateField, FormField, InputField, SelectField, TextAreaField, MapGeorefField} from "bsbi-app-framework-view";
-//import {MapGeorefField} from "../formfields/MapGeorefField";
 
 export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
 
@@ -49,9 +48,9 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 helpText: 'Enter a grid-reference, search by place name or postcode or use the GPS button',
                 placeholder: 'Grid-reference, place or postcode',
                 completion: FormField.COMPLETION_COMPULSORY,
-                validationMessage: 'Please specify an approximate starting point for the survey. You can do this by typing a grid-reference, clicking the GPS button, selecting a place from the drop-down list or clicking on the map.',
+                validationMessage: 'Please specify an approximate starting point for the survey. You can do this by typing a grid-reference, clicking the GPS button, selecting a place from the drop-down list or by clicking on the map.',
                 includeSearchBox: true,
-                baseSquareResolution: 2000, // resolution to use for geo-coded lookups
+                baseSquareResolution: 2000, // resolution to use for geocoded lookups
                 gpsTextLabel: true,
                 gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED,
             }},

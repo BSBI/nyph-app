@@ -13,6 +13,7 @@
     "postcss": "^8.4.3",
     "rollup": "^2.67.0",
     "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-polyfill-node": "^0.8.0",
     "rollup-plugin-replace-html-vars": "^1.0.3",
     "rollup-plugin-sass": "^1.2.10",
