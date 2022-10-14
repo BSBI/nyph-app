@@ -6,6 +6,7 @@ import defaultRightHandSideHelp from "../templates/defaultRightHandSideHelp.html
 import {NyphSurveyForm} from "./forms/NyphSurveyForm";
 import {NyphSurveyFormAboutSection} from "./forms/NyphSurveyFormAboutSection";
 import {NyphApp} from "../framework/NyphApp";
+import {MainController} from "../controllers/MainController";
 import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
 import {
     DateField,
@@ -16,7 +17,6 @@ import {
 } from "bsbi-app-framework-view";
 import {
     InternalAppError,
-    MainController,
     Occurrence,
     OccurrenceImage,
     App, Survey, Model,

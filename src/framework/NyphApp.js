@@ -1,8 +1,9 @@
 import {App} from "bsbi-app-framework";
+import {NotFoundView} from "bsbi-app-framework-view";
 
 export const PROJECT_ID_NYPH = 2;
 
-export const FORAGE_NAME = 'Nyph App';
+export const FORAGE_NAME = 'Nyph App2023';
 
 export class NyphApp extends App {
     /**

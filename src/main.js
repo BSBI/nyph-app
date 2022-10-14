@@ -8,14 +8,11 @@ import {NyphLayout} from "./views/layout/NyphLayout";
 import './theme.scss';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-
-// polyfill stuff
-// import "core-js/stable";
-
-//import 'element-closest-polyfill'; // still needed for IE11
-//import 'whatwg-fetch';
+import './app.css';
+import 'bsbi-app-framework-view/dist/css.css';
 import {StaticContentController, TaxaLoadedHook, SurveyPickerController} from "bsbi-app-framework";
 import {PatchedNavigo, SurveyPickerView} from "bsbi-app-framework-view";
+import 'bootstrap';
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {
@@ -36,8 +33,8 @@ console.log({pathPrefix});
 
 if (navigator.serviceWorker) {
 
-    // kill after 2022-03-01 to prevent the app perpetuating itself
-    if ((new Date).toJSON().slice(0,10) >= '2022-03-01') {
+    // kill after 2023-03-01 to prevent the app perpetuating itself
+    if ((new Date).toJSON().slice(0,10) >= '2023-03-01') {
         navigator.serviceWorker.getRegistrations().then(function(registrations) {
             for(let registration of registrations) {
                 registration.unregister();

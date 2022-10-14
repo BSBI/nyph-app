@@ -14,8 +14,8 @@ let BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
 // mainly aiming to determine whether '/app/' or '/testapp/'
 let pathPrefix = location.pathname.split('/')[1];
 
-// kill after 2022-03-01 to prevent the app perpetuating itself
-if ((new Date).toJSON().slice(0,10) >= '2022-03-01') {
+// kill after 2023-03-01 to prevent the app perpetuating itself
+if ((new Date).toJSON().slice(0,10) >= '2023-03-01') {
     throw new Error("Built-in expiry date has passed for NYPH.");
 }
 
