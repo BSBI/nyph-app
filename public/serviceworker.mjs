@@ -5733,7 +5733,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.mjs?version=1.0.3.1666902118',
+        './app.mjs?version=1.0.3.1666902929',
         './manifest.webmanifest',
         '/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -5758,6 +5758,6 @@ serviceWorker.initialise({
         '/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : '1.0.3.1666902118'
+    version : '1.0.3.1666902929'
 });
 //# sourceMappingURL=serviceworker.mjs.map
