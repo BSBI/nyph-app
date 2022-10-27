@@ -45,6 +45,7 @@ if (navigator.serviceWorker) {
         // converted into an absolute URL, then used to determine if a page is
         // controlled by testing it is a prefix of the request URL.
         navigator.serviceWorker.register(`/${pathPrefix}/serviceworker.mjs`, {
+            type: 'module'
             // scope: './controlled'
         });
 

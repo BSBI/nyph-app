@@ -18934,7 +18934,7 @@ class MainController extends AppController {
                 this.view.display();
             } catch (rethrownError) {
                 console.log({rethrownError});
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1666884011</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1666884298</p>`;
             }
         }
     }
@@ -22296,7 +22296,7 @@ class MainView extends Page {
             if (editorContainer) {
                 editorContainer.innerHTML = `<p>${error.message}</p>`;
             } else {
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1666884011</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1666884298</p>`;
                 //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
             }
         }
@@ -23326,7 +23326,7 @@ class HelpView extends Page {
         // at this point the entire content of #body should be safe to replace
 
         const bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1666884011</p>`;
+        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1666884298</p>`;
     }
 }
 
@@ -30580,7 +30580,7 @@ enableDismissTrigger(Toast);
 
 defineJQueryPlugin(Toast);
 
-// version 1.0.3.1666884011
+// version 1.0.3.1666884298
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {
@@ -30613,6 +30613,7 @@ if (navigator.serviceWorker) {
         // converted into an absolute URL, then used to determine if a page is
         // controlled by testing it is a prefix of the request URL.
         navigator.serviceWorker.register(`/${pathPrefix}/serviceworker.mjs`, {
+            type: 'module'
             // scope: './controlled'
         });
 
