@@ -9614,7 +9614,7 @@
 	  postImageUrlMatch: /^https:\/\/nyph\.bsbi\.app\/saveimage.php/,
 	  getImageUrlMatch: /^https:\/\/nyph\.bsbi\.app\/image\.php/,
 	  interceptUrlMatches: new RegExp("^https://nyph.bsbi.app/".concat(pathPrefix, "/|^https://nyph.bsbi.app/").concat(pathPrefix, "$")),
-	  ignoreUrlMatches: new RegExp("^https://nyph.bsbi.app/".concat(pathPrefix, "/app.js|^https://nyph.bsbi.app/").concat(pathPrefix, "/serviceworker.js|^https://nyph.bsbi.app/").concat(pathPrefix, "/manifest.webmanifest|^https://nyph.bsbi.app/").concat(pathPrefix, "/index.html|^https://api.mapbox.com")),
+	  ignoreUrlMatches: new RegExp("^https://nyph.bsbi.app/".concat(pathPrefix, "/app.m?js|^https://nyph.bsbi.app/").concat(pathPrefix, "/serviceworker.m?js|^https://nyph.bsbi.app/").concat(pathPrefix, "/manifest.webmanifest|^https://nyph.bsbi.app/").concat(pathPrefix, "/index.html|^https://api.mapbox.com")),
 	  indexUrl: "https://nyph.bsbi.app/".concat(pathPrefix, "/index.html"),
 	  // postPassThroughWhitelist : /^https:\/\/nyph\.bsbi\.app\/loadsurveys.php/,
 	  // postImageUrlMatch : /^https:\/\/nyph\.bsbi\.app\/saveimage.php/,
@@ -9623,13 +9623,14 @@
 	  // ignoreUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/app\.js|^https:\/\/nyph\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyph\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyph\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
 	  // indexUrl : 'https://nyph.bsbi.app/app/index.html',
 
-	  urlCacheSet: ['./index.html', './app.js?version=1.0.3.1666880802', './manifest.webmanifest', '/appcss/app.__BSBI_APP_VERSION__.css',
+	  urlCacheSet: ['./index.html', './app.mjs?version=1.0.3.1666882827', './manifest.webmanifest', '/appcss/app.__BSBI_APP_VERSION__.css',
 	  // note no leading '.' - this is an absolute path
 	  '/appcss/theme.css',
 	  //'/img/gwh_logo1_tsp.png',
 	  '/img/icons/favicon-32x32.png', '/img/icons/favicon-16x16.png', '/img/icons/android-icon-192x192.png', '/img/nyph_final@2x.png',
 	  //'/img/icons/gwh_logo1_tsp-512x512.png',
-	  '/img/BSBIlong.png', 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round',
+	  //'/img/BSBIlong.png',
+	  'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round',
 	  //'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
 	  '/js/taxonnames.js.php',
 	  //'https://database.bsbi.org/js/taxonnames.js.php',
@@ -9642,7 +9643,7 @@
 	  //'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js',
 	  '/js/mapbox-gl-geocoder-v4.7.2.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-	  version: '1.0.3.1666880802'
+	  version: '1.0.3.1666882827'
 	});
 
 })();

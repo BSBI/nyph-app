@@ -44,7 +44,7 @@ if (navigator.serviceWorker) {
         // by 'controlled'. The scope is not a path but a prefix. First, it is
         // converted into an absolute URL, then used to determine if a page is
         // controlled by testing it is a prefix of the request URL.
-        navigator.serviceWorker.register(`/${pathPrefix}/serviceworker.js`, {
+        navigator.serviceWorker.register(`/${pathPrefix}/serviceworker.mjs`, {
             // scope: './controlled'
         });
 

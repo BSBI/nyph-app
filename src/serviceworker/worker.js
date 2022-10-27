@@ -27,7 +27,7 @@ serviceWorker.initialise({
     postImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/saveimage.php/,
     getImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/image\.php/,
     interceptUrlMatches : new RegExp(`^https://__DOMAIN_REGEX__/${pathPrefix}/|^https://__DOMAIN_REGEX__/${pathPrefix}$`),
-    ignoreUrlMatches : new RegExp(`^https://__DOMAIN_REGEX__/${pathPrefix}/app\.js|^https://__DOMAIN_REGEX__/${pathPrefix}/serviceworker\.js|^https://__DOMAIN_REGEX__/${pathPrefix}/manifest\.webmanifest|^https://__DOMAIN_REGEX__/${pathPrefix}/index\.html|^https://api\.mapbox\.com`),
+    ignoreUrlMatches : new RegExp(`^https://__DOMAIN_REGEX__/${pathPrefix}/app\.m?js|^https://__DOMAIN_REGEX__/${pathPrefix}/serviceworker\.m?js|^https://__DOMAIN_REGEX__/${pathPrefix}/manifest\.webmanifest|^https://__DOMAIN_REGEX__/${pathPrefix}/index\.html|^https://api\.mapbox\.com`),
     indexUrl : `https://__DOMAIN__/${pathPrefix}/index.html`,
 
     // postPassThroughWhitelist : /^https:\/\/__DOMAIN_REGEX__\/loadsurveys.php/,
@@ -39,7 +39,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.js?version=__BSBI_APP_VERSION__',
+        './app.mjs?version=__BSBI_APP_VERSION__',
         './manifest.webmanifest',
         '/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -49,7 +49,7 @@ serviceWorker.initialise({
         '/img/icons/android-icon-192x192.png',
         '/img/nyph_final@2x.png',
         //'/img/icons/gwh_logo1_tsp-512x512.png',
-        '/img/BSBIlong.png',
+        //'/img/BSBIlong.png',
         'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round',
         //'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
         '/js/taxonnames.js.php',

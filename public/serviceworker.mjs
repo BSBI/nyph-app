@@ -9361,7 +9361,7 @@ serviceWorker.initialise({
     postImageUrlMatch : /^https:\/\/nyph\.bsbi\.app\/saveimage.php/,
     getImageUrlMatch : /^https:\/\/nyph\.bsbi\.app\/image\.php/,
     interceptUrlMatches : new RegExp(`^https://nyph\.bsbi\.app/${pathPrefix}/|^https://nyph\.bsbi\.app/${pathPrefix}$`),
-    ignoreUrlMatches : new RegExp(`^https://nyph\.bsbi\.app/${pathPrefix}/app\.js|^https://nyph\.bsbi\.app/${pathPrefix}/serviceworker\.js|^https://nyph\.bsbi\.app/${pathPrefix}/manifest\.webmanifest|^https://nyph\.bsbi\.app/${pathPrefix}/index\.html|^https://api\.mapbox\.com`),
+    ignoreUrlMatches : new RegExp(`^https://nyph\.bsbi\.app/${pathPrefix}/app\.m?js|^https://nyph\.bsbi\.app/${pathPrefix}/serviceworker\.m?js|^https://nyph\.bsbi\.app/${pathPrefix}/manifest\.webmanifest|^https://nyph\.bsbi\.app/${pathPrefix}/index\.html|^https://api\.mapbox\.com`),
     indexUrl : `https://nyph.bsbi.app/${pathPrefix}/index.html`,
 
     // postPassThroughWhitelist : /^https:\/\/nyph\.bsbi\.app\/loadsurveys.php/,
@@ -9373,7 +9373,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.js?version=1.0.3.1666880802',
+        './app.mjs?version=1.0.3.1666882827',
         './manifest.webmanifest',
         '/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -9383,7 +9383,7 @@ serviceWorker.initialise({
         '/img/icons/android-icon-192x192.png',
         '/img/nyph_final@2x.png',
         //'/img/icons/gwh_logo1_tsp-512x512.png',
-        '/img/BSBIlong.png',
+        //'/img/BSBIlong.png',
         'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round',
         //'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
         '/js/taxonnames.js.php',
@@ -9398,6 +9398,6 @@ serviceWorker.initialise({
         '/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : '1.0.3.1666880802'
+    version : '1.0.3.1666882827'
 });
 //# sourceMappingURL=serviceworker.mjs.map
