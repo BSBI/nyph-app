@@ -4264,9 +4264,6 @@ const FORAGE_NAME = 'Nyph App2023';
 
 // service worker for Nyph app
 
-// noinspection JSUnusedLocalSymbols
-let BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
-
 // mainly aiming to determine whether '/app/' or '/testapp/'
 let pathPrefix = location.pathname.split('/')[1];
 
@@ -4295,7 +4292,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.mjs?version=1.0.3.1666887028',
+        './app.mjs?version=1.0.3.1666888407',
         './manifest.webmanifest',
         '/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -4320,6 +4317,6 @@ serviceWorker.initialise({
         '/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : '1.0.3.1666887028'
+    version : '1.0.3.1666888407'
 });
 //# sourceMappingURL=serviceworker.mjs.map

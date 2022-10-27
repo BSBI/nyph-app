@@ -8,8 +8,8 @@
 import {BSBIServiceWorker} from "bsbi-app-framework";
 import {FORAGE_NAME} from "../framework/NyphApp";
 
-// noinspection JSUnusedLocalSymbols
-let BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
+// noinspection JSUnusedLocalSymbols,ES6ConvertVarToLetConst
+var BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
 
 // mainly aiming to determine whether '/app/' or '/testapp/'
 let pathPrefix = location.pathname.split('/')[1];
