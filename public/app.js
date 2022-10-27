@@ -7362,7 +7362,7 @@
     }
   }
 
-  var modal$1 = {exports: {}};
+  var modal = {exports: {}};
 
   var eventHandler$1 = {exports: {}};
 
@@ -8925,9 +8925,9 @@
   	  return Modal;
   	});
   	
-  } (modal$1));
+  } (modal));
 
-  var Modal$2 = modal$1.exports;
+  var Modal$1 = modal.exports;
 
   // shim for using process in browser
   // based off https://github.com/defunctzombie/node-process/blob/master/browser.js
@@ -10644,7 +10644,7 @@
       </div>
     </div>
   </div>
-</div>`;container.appendChild(imageModalEl.firstChild);ImageField.imageModal=Modal$2.getOrCreateInstance(document.getElementById(IMAGE_MODAL_ID));document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID).addEventListener('click',event=>{if(doubleClickIntercepted(event)){return;}const deleteButtonEl=event.target.closest('button');if(deleteButtonEl&&deleteButtonEl.hasAttribute('data-imageid')){const imageId=deleteButtonEl.getAttribute('data-imageid');//console.log(`Deleting image ${occurrenceId}.`);
+</div>`;container.appendChild(imageModalEl.firstChild);ImageField.imageModal=Modal$1.getOrCreateInstance(document.getElementById(IMAGE_MODAL_ID));document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID).addEventListener('click',event=>{if(doubleClickIntercepted(event)){return;}const deleteButtonEl=event.target.closest('button');if(deleteButtonEl&&deleteButtonEl.hasAttribute('data-imageid')){const imageId=deleteButtonEl.getAttribute('data-imageid');//console.log(`Deleting image ${occurrenceId}.`);
   mainView.getOccurrenceForm().fireEvent(EVENT_DELETE_IMAGE,{imageId});ImageField.imageModal.hide();}});}/**
        * @type {Modal}
        */static licenseModal;/**
@@ -10689,7 +10689,7 @@
       </div>
     </div>
   </div>
-</div>`;container.appendChild(modalEl.firstChild);ImageField.licenseModal=Modal$2.getOrCreateInstance(document.getElementById(ImageField.LICENSE_MODAL));}}var commonjsGlobal=typeof globalThis!=='undefined'?globalThis:typeof window!=='undefined'?window:typeof global!=='undefined'?global:typeof self!=='undefined'?self:{};var tester=/^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;// Thanks to:
+</div>`;container.appendChild(modalEl.firstChild);ImageField.licenseModal=Modal$1.getOrCreateInstance(document.getElementById(ImageField.LICENSE_MODAL));}}var commonjsGlobal=typeof globalThis!=='undefined'?globalThis:typeof window!=='undefined'?window:typeof global!=='undefined'?global:typeof self!=='undefined'?self:{};var tester=/^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;// Thanks to:
   // http://fightingforalostcause.net/misc/2006/compare-email-regex.php
   // http://thedailywtf.com/Articles/Validating_Email_Addresses.aspx
   // http://stackoverflow.com/questions/201323/what-is-the-best-regular-expression-for-validating-email-addresses/201378#201378
@@ -11799,7 +11799,7 @@
        * @type {Modal}
        */saveAllSuccessModal;/**
        * @type {Modal}
-       */saveAllFailureModal;initialise(){this.refreshSurveysMenu();let modalContent=document.createElement('div');modalContent.innerHTML=this.newSurveyContent;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=resetModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=saveAllSuccessModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=saveAllFailureModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);this.newSurveyModal=Modal$2.getOrCreateInstance(document.getElementById(Layout.NEW_SURVEY_MODAL_ID),{});this.resetModal=Modal$2.getOrCreateInstance(document.getElementById(Layout.RESET_MODAL_ID),{});this.saveAllSuccessModal=Modal$2.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_SUCCESS_MODAL_ID),{});this.saveAllFailureModal=Modal$2.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_FAILURE_MODAL_ID),{});document.getElementById(`${Layout.NEW_SURVEY_MODAL_ID}confirmed`).addEventListener('click',event=>{event.stopPropagation();event.preventDefault();if(event.detail<2){// only if not a double click
+       */saveAllFailureModal;initialise(){this.refreshSurveysMenu();let modalContent=document.createElement('div');modalContent.innerHTML=this.newSurveyContent;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=resetModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=saveAllSuccessModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);modalContent=document.createElement('div');modalContent.innerHTML=saveAllFailureModal;document.body.appendChild(modalContent.getElementsByTagName('div')[0]);this.newSurveyModal=Modal$1.getOrCreateInstance(document.getElementById(Layout.NEW_SURVEY_MODAL_ID),{});this.resetModal=Modal$1.getOrCreateInstance(document.getElementById(Layout.RESET_MODAL_ID),{});this.saveAllSuccessModal=Modal$1.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_SUCCESS_MODAL_ID),{});this.saveAllFailureModal=Modal$1.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_FAILURE_MODAL_ID),{});document.getElementById(`${Layout.NEW_SURVEY_MODAL_ID}confirmed`).addEventListener('click',event=>{event.stopPropagation();event.preventDefault();if(event.detail<2){// only if not a double click
   // force hide the new survey modal
   this.newSurveyModal.hide();this.app.fireEvent(App.EVENT_ADD_SURVEY_USER_REQUEST);}});document.getElementById(`${Layout.RESET_MODAL_ID}confirmed`).addEventListener('click',event=>{event.stopPropagation();event.preventDefault();if(event.detail<2){// force hide the new survey modal
   this.resetModal.hide();// only if not a double click
@@ -11813,7 +11813,7 @@
            * @type {Array.<string>}
            */const items=[];const currentSurveyId=this.app.currentSurvey?this.app.currentSurvey.id:null;for(const surveyTuple of this.app.surveys){const survey=surveyTuple[1];const label=survey.generateSurveyName()+(surveyTuple[0]===currentSurveyId?' <span style="color: green">●</span>':'');items[items.length]=`<li><a class="dropdown-item" href="/${this.pathPrefix}/survey/add/${surveyTuple[0]}" data-navigo="survey/add/${surveyTuple[0]}">${label}</a></li>`;}return items;}}// Survey picker page
   class SurveyPickerView extends Page{content='<p>Placeholder survey picker content.</p>';body(){// at this point the entire content of #body should be safe to replace
-  const bodyEl=document.getElementById('body');bodyEl.innerHTML=this.content;}showSaveAllSuccess(){Modal$2.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_SUCCESS_MODAL_ID)).show();}showSaveAllFailure(){Modal$2.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_FAILURE_MODAL_ID)).show();}showResetDialog(){Modal$2.getOrCreateInstance(document.getElementById(Layout.RESET_MODAL_ID)).show();}newSurveyDialog(){Modal$2.getOrCreateInstance(document.getElementById(Layout.NEW_SURVEY_MODAL_ID)).show();}}
+  const bodyEl=document.getElementById('body');bodyEl.innerHTML=this.content;}showSaveAllSuccess(){Modal$1.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_SUCCESS_MODAL_ID)).show();}showSaveAllFailure(){Modal$1.getOrCreateInstance(document.getElementById(Layout.SAVE_ALL_FAILURE_MODAL_ID)).show();}showResetDialog(){Modal$1.getOrCreateInstance(document.getElementById(Layout.RESET_MODAL_ID)).show();}newSurveyDialog(){Modal$1.getOrCreateInstance(document.getElementById(Layout.NEW_SURVEY_MODAL_ID)).show();}}
 
   var PROJECT_ID_NYPH = 2;
   var FORAGE_NAME = 'Nyph App2023';
@@ -13504,7 +13504,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666884518</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666885875</p>");
           }
         }
       }
@@ -14533,7 +14533,7 @@
     }
   });
 
-  var modal = {exports: {}};
+  var collapse = {exports: {}};
 
   var util = {exports: {}};
 
@@ -15286,7 +15286,86 @@
   	return selectorEngine.exports;
   }
 
-  var scrollbar = {exports: {}};
+  var baseComponent = {exports: {}};
+
+  var data = {exports: {}};
+
+  /*!
+    * Bootstrap data.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+    */
+
+  var hasRequiredData;
+
+  function requireData () {
+  	if (hasRequiredData) return data.exports;
+  	hasRequiredData = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory() ;
+  		})(commonjsGlobal$3, (function () {
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): dom/data.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+
+  		  /**
+  		   * Constants
+  		   */
+  		  const elementMap = new Map();
+  		  const data = {
+  		    set(element, key, instance) {
+  		      if (!elementMap.has(element)) {
+  		        elementMap.set(element, new Map());
+  		      }
+
+  		      const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
+  		      // can be removed later when multiple key/instances are fine to be used
+
+  		      if (!instanceMap.has(key) && instanceMap.size !== 0) {
+  		        // eslint-disable-next-line no-console
+  		        console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
+  		        return;
+  		      }
+
+  		      instanceMap.set(key, instance);
+  		    },
+
+  		    get(element, key) {
+  		      if (elementMap.has(element)) {
+  		        return elementMap.get(element).get(key) || null;
+  		      }
+
+  		      return null;
+  		    },
+
+  		    remove(element, key) {
+  		      if (!elementMap.has(element)) {
+  		        return;
+  		      }
+
+  		      const instanceMap = elementMap.get(element);
+  		      instanceMap.delete(key); // free up element references if there are no instances left for an element
+
+  		      if (instanceMap.size === 0) {
+  		        elementMap.delete(element);
+  		      }
+  		    }
+
+  		  };
+
+  		  return data;
+
+  		}));
+  		
+  } (data));
+  	return data.exports;
+  }
+
+  var config = {exports: {}};
 
   var manipulator = {exports: {}};
 
@@ -15382,234 +15461,6 @@
   } (manipulator));
   	return manipulator.exports;
   }
-
-  /*!
-    * Bootstrap scrollbar.js v5.2.2 (https://getbootstrap.com/)
-    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-    */
-
-  var hasRequiredScrollbar;
-
-  function requireScrollbar () {
-  	if (hasRequiredScrollbar) return scrollbar.exports;
-  	hasRequiredScrollbar = 1;
-  	(function (module, exports) {
-  		(function (global, factory) {
-  		  module.exports = factory(requireSelectorEngine(), requireManipulator(), requireUtil()) ;
-  		})(commonjsGlobal$3, (function (SelectorEngine, Manipulator, index) {
-  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
-
-  		  const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
-  		  const Manipulator__default = /*#__PURE__*/_interopDefaultLegacy(Manipulator);
-
-  		  /**
-  		   * --------------------------------------------------------------------------
-  		   * Bootstrap (v5.2.2): util/scrollBar.js
-  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-  		   * --------------------------------------------------------------------------
-  		   */
-  		  /**
-  		   * Constants
-  		   */
-
-  		  const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
-  		  const SELECTOR_STICKY_CONTENT = '.sticky-top';
-  		  const PROPERTY_PADDING = 'padding-right';
-  		  const PROPERTY_MARGIN = 'margin-right';
-  		  /**
-  		   * Class definition
-  		   */
-
-  		  class ScrollBarHelper {
-  		    constructor() {
-  		      this._element = document.body;
-  		    } // Public
-
-
-  		    getWidth() {
-  		      // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
-  		      const documentWidth = document.documentElement.clientWidth;
-  		      return Math.abs(window.innerWidth - documentWidth);
-  		    }
-
-  		    hide() {
-  		      const width = this.getWidth();
-
-  		      this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
-
-
-  		      this._setElementAttributes(this._element, PROPERTY_PADDING, calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
-
-
-  		      this._setElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING, calculatedValue => calculatedValue + width);
-
-  		      this._setElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN, calculatedValue => calculatedValue - width);
-  		    }
-
-  		    reset() {
-  		      this._resetElementAttributes(this._element, 'overflow');
-
-  		      this._resetElementAttributes(this._element, PROPERTY_PADDING);
-
-  		      this._resetElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING);
-
-  		      this._resetElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN);
-  		    }
-
-  		    isOverflowing() {
-  		      return this.getWidth() > 0;
-  		    } // Private
-
-
-  		    _disableOverFlow() {
-  		      this._saveInitialAttribute(this._element, 'overflow');
-
-  		      this._element.style.overflow = 'hidden';
-  		    }
-
-  		    _setElementAttributes(selector, styleProperty, callback) {
-  		      const scrollbarWidth = this.getWidth();
-
-  		      const manipulationCallBack = element => {
-  		        if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
-  		          return;
-  		        }
-
-  		        this._saveInitialAttribute(element, styleProperty);
-
-  		        const calculatedValue = window.getComputedStyle(element).getPropertyValue(styleProperty);
-  		        element.style.setProperty(styleProperty, `${callback(Number.parseFloat(calculatedValue))}px`);
-  		      };
-
-  		      this._applyManipulationCallback(selector, manipulationCallBack);
-  		    }
-
-  		    _saveInitialAttribute(element, styleProperty) {
-  		      const actualValue = element.style.getPropertyValue(styleProperty);
-
-  		      if (actualValue) {
-  		        Manipulator__default.default.setDataAttribute(element, styleProperty, actualValue);
-  		      }
-  		    }
-
-  		    _resetElementAttributes(selector, styleProperty) {
-  		      const manipulationCallBack = element => {
-  		        const value = Manipulator__default.default.getDataAttribute(element, styleProperty); // We only want to remove the property if the value is `null`; the value can also be zero
-
-  		        if (value === null) {
-  		          element.style.removeProperty(styleProperty);
-  		          return;
-  		        }
-
-  		        Manipulator__default.default.removeDataAttribute(element, styleProperty);
-  		        element.style.setProperty(styleProperty, value);
-  		      };
-
-  		      this._applyManipulationCallback(selector, manipulationCallBack);
-  		    }
-
-  		    _applyManipulationCallback(selector, callBack) {
-  		      if (index.isElement(selector)) {
-  		        callBack(selector);
-  		        return;
-  		      }
-
-  		      for (const sel of SelectorEngine__default.default.find(selector, this._element)) {
-  		        callBack(sel);
-  		      }
-  		    }
-
-  		  }
-
-  		  return ScrollBarHelper;
-
-  		}));
-  		
-  } (scrollbar));
-  	return scrollbar.exports;
-  }
-
-  var baseComponent = {exports: {}};
-
-  var data = {exports: {}};
-
-  /*!
-    * Bootstrap data.js v5.2.2 (https://getbootstrap.com/)
-    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-    */
-
-  var hasRequiredData;
-
-  function requireData () {
-  	if (hasRequiredData) return data.exports;
-  	hasRequiredData = 1;
-  	(function (module, exports) {
-  		(function (global, factory) {
-  		  module.exports = factory() ;
-  		})(commonjsGlobal$3, (function () {
-  		  /**
-  		   * --------------------------------------------------------------------------
-  		   * Bootstrap (v5.2.2): dom/data.js
-  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-  		   * --------------------------------------------------------------------------
-  		   */
-
-  		  /**
-  		   * Constants
-  		   */
-  		  const elementMap = new Map();
-  		  const data = {
-  		    set(element, key, instance) {
-  		      if (!elementMap.has(element)) {
-  		        elementMap.set(element, new Map());
-  		      }
-
-  		      const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
-  		      // can be removed later when multiple key/instances are fine to be used
-
-  		      if (!instanceMap.has(key) && instanceMap.size !== 0) {
-  		        // eslint-disable-next-line no-console
-  		        console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
-  		        return;
-  		      }
-
-  		      instanceMap.set(key, instance);
-  		    },
-
-  		    get(element, key) {
-  		      if (elementMap.has(element)) {
-  		        return elementMap.get(element).get(key) || null;
-  		      }
-
-  		      return null;
-  		    },
-
-  		    remove(element, key) {
-  		      if (!elementMap.has(element)) {
-  		        return;
-  		      }
-
-  		      const instanceMap = elementMap.get(element);
-  		      instanceMap.delete(key); // free up element references if there are no instances left for an element
-
-  		      if (instanceMap.size === 0) {
-  		        elementMap.delete(element);
-  		      }
-  		    }
-
-  		  };
-
-  		  return data;
-
-  		}));
-  		
-  } (data));
-  	return data.exports;
-  }
-
-  var config = {exports: {}};
 
   /*!
     * Bootstrap config.js v5.2.2 (https://getbootstrap.com/)
@@ -15806,784 +15657,6 @@
   } (baseComponent));
   	return baseComponent.exports;
   }
-
-  var backdrop = {exports: {}};
-
-  /*!
-    * Bootstrap backdrop.js v5.2.2 (https://getbootstrap.com/)
-    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-    */
-
-  var hasRequiredBackdrop;
-
-  function requireBackdrop () {
-  	if (hasRequiredBackdrop) return backdrop.exports;
-  	hasRequiredBackdrop = 1;
-  	(function (module, exports) {
-  		(function (global, factory) {
-  		  module.exports = factory(requireEventHandler(), requireUtil(), requireConfig()) ;
-  		})(commonjsGlobal$3, (function (EventHandler, index, Config) {
-  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
-
-  		  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
-  		  const Config__default = /*#__PURE__*/_interopDefaultLegacy(Config);
-
-  		  /**
-  		   * --------------------------------------------------------------------------
-  		   * Bootstrap (v5.2.2): util/backdrop.js
-  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-  		   * --------------------------------------------------------------------------
-  		   */
-  		  /**
-  		   * Constants
-  		   */
-
-  		  const NAME = 'backdrop';
-  		  const CLASS_NAME_FADE = 'fade';
-  		  const CLASS_NAME_SHOW = 'show';
-  		  const EVENT_MOUSEDOWN = `mousedown.bs.${NAME}`;
-  		  const Default = {
-  		    className: 'modal-backdrop',
-  		    clickCallback: null,
-  		    isAnimated: false,
-  		    isVisible: true,
-  		    // if false, we use the backdrop helper without adding any element to the dom
-  		    rootElement: 'body' // give the choice to place backdrop under different elements
-
-  		  };
-  		  const DefaultType = {
-  		    className: 'string',
-  		    clickCallback: '(function|null)',
-  		    isAnimated: 'boolean',
-  		    isVisible: 'boolean',
-  		    rootElement: '(element|string)'
-  		  };
-  		  /**
-  		   * Class definition
-  		   */
-
-  		  class Backdrop extends Config__default.default {
-  		    constructor(config) {
-  		      super();
-  		      this._config = this._getConfig(config);
-  		      this._isAppended = false;
-  		      this._element = null;
-  		    } // Getters
-
-
-  		    static get Default() {
-  		      return Default;
-  		    }
-
-  		    static get DefaultType() {
-  		      return DefaultType;
-  		    }
-
-  		    static get NAME() {
-  		      return NAME;
-  		    } // Public
-
-
-  		    show(callback) {
-  		      if (!this._config.isVisible) {
-  		        index.execute(callback);
-  		        return;
-  		      }
-
-  		      this._append();
-
-  		      const element = this._getElement();
-
-  		      if (this._config.isAnimated) {
-  		        index.reflow(element);
-  		      }
-
-  		      element.classList.add(CLASS_NAME_SHOW);
-
-  		      this._emulateAnimation(() => {
-  		        index.execute(callback);
-  		      });
-  		    }
-
-  		    hide(callback) {
-  		      if (!this._config.isVisible) {
-  		        index.execute(callback);
-  		        return;
-  		      }
-
-  		      this._getElement().classList.remove(CLASS_NAME_SHOW);
-
-  		      this._emulateAnimation(() => {
-  		        this.dispose();
-  		        index.execute(callback);
-  		      });
-  		    }
-
-  		    dispose() {
-  		      if (!this._isAppended) {
-  		        return;
-  		      }
-
-  		      EventHandler__default.default.off(this._element, EVENT_MOUSEDOWN);
-
-  		      this._element.remove();
-
-  		      this._isAppended = false;
-  		    } // Private
-
-
-  		    _getElement() {
-  		      if (!this._element) {
-  		        const backdrop = document.createElement('div');
-  		        backdrop.className = this._config.className;
-
-  		        if (this._config.isAnimated) {
-  		          backdrop.classList.add(CLASS_NAME_FADE);
-  		        }
-
-  		        this._element = backdrop;
-  		      }
-
-  		      return this._element;
-  		    }
-
-  		    _configAfterMerge(config) {
-  		      // use getElement() with the default "body" to get a fresh Element on each instantiation
-  		      config.rootElement = index.getElement(config.rootElement);
-  		      return config;
-  		    }
-
-  		    _append() {
-  		      if (this._isAppended) {
-  		        return;
-  		      }
-
-  		      const element = this._getElement();
-
-  		      this._config.rootElement.append(element);
-
-  		      EventHandler__default.default.on(element, EVENT_MOUSEDOWN, () => {
-  		        index.execute(this._config.clickCallback);
-  		      });
-  		      this._isAppended = true;
-  		    }
-
-  		    _emulateAnimation(callback) {
-  		      index.executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
-  		    }
-
-  		  }
-
-  		  return Backdrop;
-
-  		}));
-  		
-  } (backdrop));
-  	return backdrop.exports;
-  }
-
-  var focustrap = {exports: {}};
-
-  /*!
-    * Bootstrap focustrap.js v5.2.2 (https://getbootstrap.com/)
-    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-    */
-
-  var hasRequiredFocustrap;
-
-  function requireFocustrap () {
-  	if (hasRequiredFocustrap) return focustrap.exports;
-  	hasRequiredFocustrap = 1;
-  	(function (module, exports) {
-  		(function (global, factory) {
-  		  module.exports = factory(requireEventHandler(), requireSelectorEngine(), requireConfig()) ;
-  		})(commonjsGlobal$3, (function (EventHandler, SelectorEngine, Config) {
-  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
-
-  		  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
-  		  const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
-  		  const Config__default = /*#__PURE__*/_interopDefaultLegacy(Config);
-
-  		  /**
-  		   * --------------------------------------------------------------------------
-  		   * Bootstrap (v5.2.2): util/focustrap.js
-  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-  		   * --------------------------------------------------------------------------
-  		   */
-  		  /**
-  		   * Constants
-  		   */
-
-  		  const NAME = 'focustrap';
-  		  const DATA_KEY = 'bs.focustrap';
-  		  const EVENT_KEY = `.${DATA_KEY}`;
-  		  const EVENT_FOCUSIN = `focusin${EVENT_KEY}`;
-  		  const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY}`;
-  		  const TAB_KEY = 'Tab';
-  		  const TAB_NAV_FORWARD = 'forward';
-  		  const TAB_NAV_BACKWARD = 'backward';
-  		  const Default = {
-  		    autofocus: true,
-  		    trapElement: null // The element to trap focus inside of
-
-  		  };
-  		  const DefaultType = {
-  		    autofocus: 'boolean',
-  		    trapElement: 'element'
-  		  };
-  		  /**
-  		   * Class definition
-  		   */
-
-  		  class FocusTrap extends Config__default.default {
-  		    constructor(config) {
-  		      super();
-  		      this._config = this._getConfig(config);
-  		      this._isActive = false;
-  		      this._lastTabNavDirection = null;
-  		    } // Getters
-
-
-  		    static get Default() {
-  		      return Default;
-  		    }
-
-  		    static get DefaultType() {
-  		      return DefaultType;
-  		    }
-
-  		    static get NAME() {
-  		      return NAME;
-  		    } // Public
-
-
-  		    activate() {
-  		      if (this._isActive) {
-  		        return;
-  		      }
-
-  		      if (this._config.autofocus) {
-  		        this._config.trapElement.focus();
-  		      }
-
-  		      EventHandler__default.default.off(document, EVENT_KEY); // guard against infinite focus loop
-
-  		      EventHandler__default.default.on(document, EVENT_FOCUSIN, event => this._handleFocusin(event));
-  		      EventHandler__default.default.on(document, EVENT_KEYDOWN_TAB, event => this._handleKeydown(event));
-  		      this._isActive = true;
-  		    }
-
-  		    deactivate() {
-  		      if (!this._isActive) {
-  		        return;
-  		      }
-
-  		      this._isActive = false;
-  		      EventHandler__default.default.off(document, EVENT_KEY);
-  		    } // Private
-
-
-  		    _handleFocusin(event) {
-  		      const {
-  		        trapElement
-  		      } = this._config;
-
-  		      if (event.target === document || event.target === trapElement || trapElement.contains(event.target)) {
-  		        return;
-  		      }
-
-  		      const elements = SelectorEngine__default.default.focusableChildren(trapElement);
-
-  		      if (elements.length === 0) {
-  		        trapElement.focus();
-  		      } else if (this._lastTabNavDirection === TAB_NAV_BACKWARD) {
-  		        elements[elements.length - 1].focus();
-  		      } else {
-  		        elements[0].focus();
-  		      }
-  		    }
-
-  		    _handleKeydown(event) {
-  		      if (event.key !== TAB_KEY) {
-  		        return;
-  		      }
-
-  		      this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
-  		    }
-
-  		  }
-
-  		  return FocusTrap;
-
-  		}));
-  		
-  } (focustrap));
-  	return focustrap.exports;
-  }
-
-  var componentFunctions = {exports: {}};
-
-  /*!
-    * Bootstrap component-functions.js v5.2.2 (https://getbootstrap.com/)
-    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-    */
-
-  var hasRequiredComponentFunctions;
-
-  function requireComponentFunctions () {
-  	if (hasRequiredComponentFunctions) return componentFunctions.exports;
-  	hasRequiredComponentFunctions = 1;
-  	(function (module, exports) {
-  		(function (global, factory) {
-  		  factory(exports, requireEventHandler(), requireUtil()) ;
-  		})(commonjsGlobal$3, (function (exports, EventHandler, index) {
-  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
-
-  		  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
-
-  		  /**
-  		   * --------------------------------------------------------------------------
-  		   * Bootstrap (v5.2.2): util/component-functions.js
-  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-  		   * --------------------------------------------------------------------------
-  		   */
-
-  		  const enableDismissTrigger = (component, method = 'hide') => {
-  		    const clickEvent = `click.dismiss${component.EVENT_KEY}`;
-  		    const name = component.NAME;
-  		    EventHandler__default.default.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
-  		      if (['A', 'AREA'].includes(this.tagName)) {
-  		        event.preventDefault();
-  		      }
-
-  		      if (index.isDisabled(this)) {
-  		        return;
-  		      }
-
-  		      const target = index.getElementFromSelector(this) || this.closest(`.${name}`);
-  		      const instance = component.getOrCreateInstance(target); // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
-
-  		      instance[method]();
-  		    });
-  		  };
-
-  		  exports.enableDismissTrigger = enableDismissTrigger;
-
-  		  Object.defineProperties(exports, { __esModule: { value: true }, [Symbol.toStringTag]: { value: 'Module' } });
-
-  		}));
-  		
-  } (componentFunctions, componentFunctions.exports));
-  	return componentFunctions.exports;
-  }
-
-  /*!
-    * Bootstrap modal.js v5.2.2 (https://getbootstrap.com/)
-    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-    */
-
-  (function (module, exports) {
-  	(function (global, factory) {
-  	  module.exports = factory(requireUtil(), requireEventHandler(), requireSelectorEngine(), requireScrollbar(), requireBaseComponent(), requireBackdrop(), requireFocustrap(), requireComponentFunctions()) ;
-  	})(commonjsGlobal$3, (function (index, EventHandler, SelectorEngine, ScrollBarHelper, BaseComponent, Backdrop, FocusTrap, componentFunctions) {
-  	  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
-
-  	  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
-  	  const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
-  	  const ScrollBarHelper__default = /*#__PURE__*/_interopDefaultLegacy(ScrollBarHelper);
-  	  const BaseComponent__default = /*#__PURE__*/_interopDefaultLegacy(BaseComponent);
-  	  const Backdrop__default = /*#__PURE__*/_interopDefaultLegacy(Backdrop);
-  	  const FocusTrap__default = /*#__PURE__*/_interopDefaultLegacy(FocusTrap);
-
-  	  /**
-  	   * --------------------------------------------------------------------------
-  	   * Bootstrap (v5.2.2): modal.js
-  	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-  	   * --------------------------------------------------------------------------
-  	   */
-  	  /**
-  	   * Constants
-  	   */
-
-  	  const NAME = 'modal';
-  	  const DATA_KEY = 'bs.modal';
-  	  const EVENT_KEY = `.${DATA_KEY}`;
-  	  const DATA_API_KEY = '.data-api';
-  	  const ESCAPE_KEY = 'Escape';
-  	  const EVENT_HIDE = `hide${EVENT_KEY}`;
-  	  const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY}`;
-  	  const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
-  	  const EVENT_SHOW = `show${EVENT_KEY}`;
-  	  const EVENT_SHOWN = `shown${EVENT_KEY}`;
-  	  const EVENT_RESIZE = `resize${EVENT_KEY}`;
-  	  const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY}`;
-  	  const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY}`;
-  	  const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY}`;
-  	  const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
-  	  const CLASS_NAME_OPEN = 'modal-open';
-  	  const CLASS_NAME_FADE = 'fade';
-  	  const CLASS_NAME_SHOW = 'show';
-  	  const CLASS_NAME_STATIC = 'modal-static';
-  	  const OPEN_SELECTOR = '.modal.show';
-  	  const SELECTOR_DIALOG = '.modal-dialog';
-  	  const SELECTOR_MODAL_BODY = '.modal-body';
-  	  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="modal"]';
-  	  const Default = {
-  	    backdrop: true,
-  	    focus: true,
-  	    keyboard: true
-  	  };
-  	  const DefaultType = {
-  	    backdrop: '(boolean|string)',
-  	    focus: 'boolean',
-  	    keyboard: 'boolean'
-  	  };
-  	  /**
-  	   * Class definition
-  	   */
-
-  	  class Modal extends BaseComponent__default.default {
-  	    constructor(element, config) {
-  	      super(element, config);
-  	      this._dialog = SelectorEngine__default.default.findOne(SELECTOR_DIALOG, this._element);
-  	      this._backdrop = this._initializeBackDrop();
-  	      this._focustrap = this._initializeFocusTrap();
-  	      this._isShown = false;
-  	      this._isTransitioning = false;
-  	      this._scrollBar = new ScrollBarHelper__default.default();
-
-  	      this._addEventListeners();
-  	    } // Getters
-
-
-  	    static get Default() {
-  	      return Default;
-  	    }
-
-  	    static get DefaultType() {
-  	      return DefaultType;
-  	    }
-
-  	    static get NAME() {
-  	      return NAME;
-  	    } // Public
-
-
-  	    toggle(relatedTarget) {
-  	      return this._isShown ? this.hide() : this.show(relatedTarget);
-  	    }
-
-  	    show(relatedTarget) {
-  	      if (this._isShown || this._isTransitioning) {
-  	        return;
-  	      }
-
-  	      const showEvent = EventHandler__default.default.trigger(this._element, EVENT_SHOW, {
-  	        relatedTarget
-  	      });
-
-  	      if (showEvent.defaultPrevented) {
-  	        return;
-  	      }
-
-  	      this._isShown = true;
-  	      this._isTransitioning = true;
-
-  	      this._scrollBar.hide();
-
-  	      document.body.classList.add(CLASS_NAME_OPEN);
-
-  	      this._adjustDialog();
-
-  	      this._backdrop.show(() => this._showElement(relatedTarget));
-  	    }
-
-  	    hide() {
-  	      if (!this._isShown || this._isTransitioning) {
-  	        return;
-  	      }
-
-  	      const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE);
-
-  	      if (hideEvent.defaultPrevented) {
-  	        return;
-  	      }
-
-  	      this._isShown = false;
-  	      this._isTransitioning = true;
-
-  	      this._focustrap.deactivate();
-
-  	      this._element.classList.remove(CLASS_NAME_SHOW);
-
-  	      this._queueCallback(() => this._hideModal(), this._element, this._isAnimated());
-  	    }
-
-  	    dispose() {
-  	      for (const htmlElement of [window, this._dialog]) {
-  	        EventHandler__default.default.off(htmlElement, EVENT_KEY);
-  	      }
-
-  	      this._backdrop.dispose();
-
-  	      this._focustrap.deactivate();
-
-  	      super.dispose();
-  	    }
-
-  	    handleUpdate() {
-  	      this._adjustDialog();
-  	    } // Private
-
-
-  	    _initializeBackDrop() {
-  	      return new Backdrop__default.default({
-  	        isVisible: Boolean(this._config.backdrop),
-  	        // 'static' option will be translated to true, and booleans will keep their value,
-  	        isAnimated: this._isAnimated()
-  	      });
-  	    }
-
-  	    _initializeFocusTrap() {
-  	      return new FocusTrap__default.default({
-  	        trapElement: this._element
-  	      });
-  	    }
-
-  	    _showElement(relatedTarget) {
-  	      // try to append dynamic modal
-  	      if (!document.body.contains(this._element)) {
-  	        document.body.append(this._element);
-  	      }
-
-  	      this._element.style.display = 'block';
-
-  	      this._element.removeAttribute('aria-hidden');
-
-  	      this._element.setAttribute('aria-modal', true);
-
-  	      this._element.setAttribute('role', 'dialog');
-
-  	      this._element.scrollTop = 0;
-  	      const modalBody = SelectorEngine__default.default.findOne(SELECTOR_MODAL_BODY, this._dialog);
-
-  	      if (modalBody) {
-  	        modalBody.scrollTop = 0;
-  	      }
-
-  	      index.reflow(this._element);
-
-  	      this._element.classList.add(CLASS_NAME_SHOW);
-
-  	      const transitionComplete = () => {
-  	        if (this._config.focus) {
-  	          this._focustrap.activate();
-  	        }
-
-  	        this._isTransitioning = false;
-  	        EventHandler__default.default.trigger(this._element, EVENT_SHOWN, {
-  	          relatedTarget
-  	        });
-  	      };
-
-  	      this._queueCallback(transitionComplete, this._dialog, this._isAnimated());
-  	    }
-
-  	    _addEventListeners() {
-  	      EventHandler__default.default.on(this._element, EVENT_KEYDOWN_DISMISS, event => {
-  	        if (event.key !== ESCAPE_KEY) {
-  	          return;
-  	        }
-
-  	        if (this._config.keyboard) {
-  	          event.preventDefault();
-  	          this.hide();
-  	          return;
-  	        }
-
-  	        this._triggerBackdropTransition();
-  	      });
-  	      EventHandler__default.default.on(window, EVENT_RESIZE, () => {
-  	        if (this._isShown && !this._isTransitioning) {
-  	          this._adjustDialog();
-  	        }
-  	      });
-  	      EventHandler__default.default.on(this._element, EVENT_MOUSEDOWN_DISMISS, event => {
-  	        // a bad trick to segregate clicks that may start inside dialog but end outside, and avoid listen to scrollbar clicks
-  	        EventHandler__default.default.one(this._element, EVENT_CLICK_DISMISS, event2 => {
-  	          if (this._element !== event.target || this._element !== event2.target) {
-  	            return;
-  	          }
-
-  	          if (this._config.backdrop === 'static') {
-  	            this._triggerBackdropTransition();
-
-  	            return;
-  	          }
-
-  	          if (this._config.backdrop) {
-  	            this.hide();
-  	          }
-  	        });
-  	      });
-  	    }
-
-  	    _hideModal() {
-  	      this._element.style.display = 'none';
-
-  	      this._element.setAttribute('aria-hidden', true);
-
-  	      this._element.removeAttribute('aria-modal');
-
-  	      this._element.removeAttribute('role');
-
-  	      this._isTransitioning = false;
-
-  	      this._backdrop.hide(() => {
-  	        document.body.classList.remove(CLASS_NAME_OPEN);
-
-  	        this._resetAdjustments();
-
-  	        this._scrollBar.reset();
-
-  	        EventHandler__default.default.trigger(this._element, EVENT_HIDDEN);
-  	      });
-  	    }
-
-  	    _isAnimated() {
-  	      return this._element.classList.contains(CLASS_NAME_FADE);
-  	    }
-
-  	    _triggerBackdropTransition() {
-  	      const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE_PREVENTED);
-
-  	      if (hideEvent.defaultPrevented) {
-  	        return;
-  	      }
-
-  	      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
-  	      const initialOverflowY = this._element.style.overflowY; // return if the following background transition hasn't yet completed
-
-  	      if (initialOverflowY === 'hidden' || this._element.classList.contains(CLASS_NAME_STATIC)) {
-  	        return;
-  	      }
-
-  	      if (!isModalOverflowing) {
-  	        this._element.style.overflowY = 'hidden';
-  	      }
-
-  	      this._element.classList.add(CLASS_NAME_STATIC);
-
-  	      this._queueCallback(() => {
-  	        this._element.classList.remove(CLASS_NAME_STATIC);
-
-  	        this._queueCallback(() => {
-  	          this._element.style.overflowY = initialOverflowY;
-  	        }, this._dialog);
-  	      }, this._dialog);
-
-  	      this._element.focus();
-  	    }
-  	    /**
-  	     * The following methods are used to handle overflowing modals
-  	     */
-
-
-  	    _adjustDialog() {
-  	      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
-
-  	      const scrollbarWidth = this._scrollBar.getWidth();
-
-  	      const isBodyOverflowing = scrollbarWidth > 0;
-
-  	      if (isBodyOverflowing && !isModalOverflowing) {
-  	        const property = index.isRTL() ? 'paddingLeft' : 'paddingRight';
-  	        this._element.style[property] = `${scrollbarWidth}px`;
-  	      }
-
-  	      if (!isBodyOverflowing && isModalOverflowing) {
-  	        const property = index.isRTL() ? 'paddingRight' : 'paddingLeft';
-  	        this._element.style[property] = `${scrollbarWidth}px`;
-  	      }
-  	    }
-
-  	    _resetAdjustments() {
-  	      this._element.style.paddingLeft = '';
-  	      this._element.style.paddingRight = '';
-  	    } // Static
-
-
-  	    static jQueryInterface(config, relatedTarget) {
-  	      return this.each(function () {
-  	        const data = Modal.getOrCreateInstance(this, config);
-
-  	        if (typeof config !== 'string') {
-  	          return;
-  	        }
-
-  	        if (typeof data[config] === 'undefined') {
-  	          throw new TypeError(`No method named "${config}"`);
-  	        }
-
-  	        data[config](relatedTarget);
-  	      });
-  	    }
-
-  	  }
-  	  /**
-  	   * Data API implementation
-  	   */
-
-
-  	  EventHandler__default.default.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
-  	    const target = index.getElementFromSelector(this);
-
-  	    if (['A', 'AREA'].includes(this.tagName)) {
-  	      event.preventDefault();
-  	    }
-
-  	    EventHandler__default.default.one(target, EVENT_SHOW, showEvent => {
-  	      if (showEvent.defaultPrevented) {
-  	        // only register focus restorer if modal will actually get shown
-  	        return;
-  	      }
-
-  	      EventHandler__default.default.one(target, EVENT_HIDDEN, () => {
-  	        if (index.isVisible(this)) {
-  	          this.focus();
-  	        }
-  	      });
-  	    }); // avoid conflict when clicking modal toggler while another one is open
-
-  	    const alreadyOpen = SelectorEngine__default.default.findOne(OPEN_SELECTOR);
-
-  	    if (alreadyOpen) {
-  	      Modal.getInstance(alreadyOpen).hide();
-  	    }
-
-  	    const data = Modal.getOrCreateInstance(target);
-  	    data.toggle(this);
-  	  });
-  	  componentFunctions.enableDismissTrigger(Modal);
-  	  /**
-  	   * jQuery
-  	   */
-
-  	  index.defineJQueryPlugin(Modal);
-
-  	  return Modal;
-
-  	}));
-  	
-  } (modal));
-
-  var Modal$1 = modal.exports;
-
-  var collapse = {exports: {}};
 
   /*!
     * Bootstrap collapse.js v5.2.2 (https://getbootstrap.com/)
@@ -17565,7 +16638,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666884518</p>");
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666885875</p>");
         //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
@@ -18127,7 +17200,7 @@
         // at this point the entire content of #body should be safe to replace
 
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1666884518</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1666885875</p>";
       }
     }]);
     return HelpView;
