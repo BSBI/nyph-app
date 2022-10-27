@@ -2752,7 +2752,7 @@
       super(message);
     }
   }
-  class EventHarness$1 {
+  let EventHarness$1 = class EventHarness {
     /**
      *
      * @type {*[]}
@@ -2846,7 +2846,7 @@
         }
       }
     }
-  }
+  };
   var commonjsGlobal$2 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
   function commonjsRequire$1(path) {
     throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
@@ -5399,7 +5399,7 @@
   const UUID_REGEX = /^[a-fA-F0-9]{8}-(?:[a-fA-F0-9]{4}-){3}[a-fA-F0-9]{12}$/;
   const SAVE_STATE_LOCAL$1 = 'SAVED_LOCALLY';
   const SAVE_STATE_SERVER$1 = 'SAVED_TO_SERVER';
-  class Model$1 extends EventHarness$1 {
+  let Model$1 = class Model extends EventHarness$1 {
     /**
      * @type {string}
      */
@@ -5734,7 +5734,7 @@
         validity
       };
     }
-  }
+  };
 
   /**
    *
@@ -5758,7 +5758,7 @@
   //import {TextGeorefField} from "../views/formfields/TextGeorefField";
   //import {Form} from "../views/forms/Form";
 
-  class Survey$1 extends Model$1 {
+  let Survey$1 = class Survey extends Model$1 {
     /**
      * fired from Survey when the object's contents have been modified
      *
@@ -5930,19 +5930,19 @@
         return `${escapeHTML$1(place)} ${dateString}`;
       }
     }
-  }
+  };
 
   /**
    *
    */
-  class InternalAppError$1 extends Error {}
-  class TaxonError$1 extends Error {}
+  let InternalAppError$1 = class InternalAppError extends Error {};
+  let TaxonError$1 = class TaxonError extends Error {};
 
   /**
    * @external BsbiDb
    */
 
-  class Taxon$1 {
+  let Taxon$1 = class Taxon {
     /**
      * @typedef RawTaxon
      * @type {array}
@@ -6094,11 +6094,11 @@
         }
       }
     }
-  }
+  };
 
   //import {Form} from "../views/forms/Form";
 
-  class Occurrence$1 extends Model$1 {
+  let Occurrence$1 = class Occurrence extends Model$1 {
     /**
      *
      * @type {Object.<string, *>}
@@ -6238,8 +6238,8 @@
       super._parseDescriptor(descriptor);
       this.surveyId = descriptor.surveyId;
     }
-  }
-  class OccurrenceImage$1 extends Model$1 {
+  };
+  let OccurrenceImage$1 = class OccurrenceImage extends Model$1 {
     /**
      * raw file object retrieved from a file upload image element
      *
@@ -6358,11 +6358,11 @@
       const renderingConstraint = width > height ? `width="${width}"` : `height="${height}"`;
       return `<picture><source srcset="/image.php?imageid=${id}&amp;height=128&amp;format=webp" type="image/webp"><img${attributesString} src="/image.php?imageid=${id}&amp;width=${width}&amp;height=${height}&amp;format=jpeg" ${renderingConstraint} alt="photo"></picture>`;
     }
-  }
+  };
 
   // App.js
 
-  class App$1 extends EventHarness$1 {
+  let App$1 = class App extends EventHarness$1 {
     /**
      * @type {PatchedNavigo}
      */
@@ -7099,7 +7099,7 @@
       // const view = new NotFoundView();
       // view.display();
     }
-  }
+  };
 
   // SurveyPickerController
   //import Modal from 'bootstrap/js/dist/modal';
@@ -13518,7 +13518,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666888968</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666900998</p>");
           }
         }
       }
@@ -16652,7 +16652,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666888968</p>");
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666900998</p>");
         //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
@@ -17214,7 +17214,7 @@
         // at this point the entire content of #body should be safe to replace
 
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1666888968</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1666900998</p>";
       }
     }]);
     return HelpView;

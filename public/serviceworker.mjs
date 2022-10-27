@@ -3287,6 +3287,545 @@ class Model extends EventHarness {
     }
 }
 
+/**
+ *
+ * @param text
+ * @returns {string}
+ */
+function escapeHTML(text) {
+    try {
+        // IE (even v 11) sometimes fails here with 'Unknown runtime error', see http://blog.rakeshpai.me/2007/02/ies-unknown-runtime-error-when-using.html
+        const textArea = document.createElement('textarea');
+        textArea.innerHTML = text;
+        return textArea.innerHTML.replace(/"/g, '&quot;');
+    } catch (e) {
+        const pre = document.createElement('pre');
+        pre.appendChild(document.createTextNode(text));
+        return pre.innerHTML.replace(/"/g, '&quot;');
+    }
+}
+
+// a Survey captures the currentSurvey meta data
+//import {TextGeorefField} from "../views/formfields/TextGeorefField";
+//import {Form} from "../views/forms/Form";
+
+class Survey extends Model {
+
+    /**
+     * fired from Survey when the object's contents have been modified
+     *
+     * @type {string}
+     */
+    static EVENT_MODIFIED = 'modified';
+
+    SAVE_ENDPOINT = '/savesurvey.php';
+
+    TYPE = 'survey';
+
+    /**
+     *
+     * @type {Object.<string, *>}
+     */
+    attributes = {
+
+    };
+
+    /**
+     * if set then provide default values (e.g. GPS look-up of current geo-reference)
+     *
+     * @type {boolean}
+     */
+    isNew = false;
+
+    /**
+     * kludge to flag once the App singleton has set up a listner for changes on the survey
+     * @type {boolean}
+     */
+    hasAppModifiedListener = false;
+
+    /**
+     *
+     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
+     */
+    get geoReference() {
+        return this.attributes.georef || {
+            gridRef: '',
+            rawString: '', // what was provided by the user to generate this grid-ref (might be a postcode or placename)
+            source: 'unknown', //TextGeorefField.GEOREF_SOURCE_UNKNOWN,
+            latLng: null,
+            precision: null
+        };
+    };
+
+    get date() {
+        return this.attributes.date || '';
+    }
+
+    get place() {
+        return this.attributes.place || '';
+    }
+
+    /**
+     * called after the form has changed, before the values have been read back in to the occurrence
+     *
+     * @param {{form: SurveyForm}} params
+     */
+    formChangedHandler(params) {
+        console.log('Survey change handler invoked.');
+
+        // read new values
+        // then fire its own change event (Occurrence.EVENT_MODIFIED)
+        params.form.updateModelFromContent();
+
+        console.log('Survey calling conditional validation.');
+
+        // refresh the form's validation state
+        params.form.conditionallyValidateForm();
+
+        this.touch();
+        this.fireEvent(Survey.EVENT_MODIFIED, {surveyId : this.id});
+    }
+
+    /**
+     * Used for special-case setting of a custom attribute
+     * (i.e. not usually one linked to a form)
+     * e.g. used for updating the NYPH null-list flag
+     *
+     * @param attributeName
+     * @param value
+     */
+    setAttribute(attributeName, value) {
+        if (this.attributes[attributeName] !== value) {
+            this.attributes[attributeName] = value;
+
+            this.touch();
+            this.fireEvent(Survey.EVENT_MODIFIED, {surveyId : this.id});
+        }
+    }
+
+    // /**
+    //  *
+    //  * @param {SurveyForm} form
+    //  */
+    // registerForm(form) {
+    //     form.model = this;
+    //     form.addListener('change', this.formChangedHandler.bind(this));
+    //
+    //     if (this.isNew) {
+    //         form.fireEvent('initialisenew', {}); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
+    //         form.liveValidation = false;
+    //     } else {
+    //         form.liveValidation = true;
+    //     }
+    // }
+
+    /**
+     * if not securely saved then makes a post to /savesurvey.php
+     *
+     * this may be intercepted by a service worker, which could write the image to indexdb
+     * a successful save will result in a json response containing the uri from which the image may be retrieved
+     * and also the state of persistence (whether or not the image was intercepted by a service worker while offline)
+     *
+     * if saving fails then the expectation is that there is no service worker, in which case should attempt to write
+     * the image directly to indexdb
+     *
+     * must test indexdb for this eventuality after the save has returned
+     *
+     * @returns {Promise}
+     */
+    save() {
+        if (!this._savedRemotely) {
+            const formData = new FormData;
+
+            formData.append('type', this.TYPE);
+            formData.append('surveyId', this.id);
+            formData.append('id', this.id);
+            formData.append('projectId', this.projectId.toString());
+            formData.append('attributes', JSON.stringify(this.attributes));
+            formData.append('deleted', this.deleted.toString());
+            formData.append('created', this.createdStamp.toString());
+
+            console.log('queueing survey post');
+            return this.queuePost(formData);
+        } else {
+            return Promise.reject(`${this.id} has already been saved.`);
+        }
+    }
+
+    /**
+     *
+     * @returns {string} an html-safe string based on the locality and creation date
+     */
+    generateSurveyName() {
+        if (this.attributes.casual) {
+            // special-case treatment of surveys with 'casual' attribute (which won't have a locality or date as part of the survey)
+
+            return this.attributes.surveyName ?
+                escapeHTML(this.attributes.surveyName)
+                :
+                `Data-set created on ${(new Date(this.createdStamp * 1000)).toString()}`
+        } else {
+            let place = (this.attributes.place || (this.attributes.georef && this.attributes.georef.gridRef) || '(unlocalised)').trim();
+
+            const userDate = this.date;
+            let dateString;
+
+            if (userDate) {
+                dateString = userDate;
+            } else {
+                const createdDate = new Date(this.createdStamp * 1000);
+
+                try {
+                    // 'default' locale fails on Edge
+                    dateString = createdDate.toLocaleString('default', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                } catch (e) {
+                    dateString = createdDate.toLocaleString('en-GB', {year: 'numeric', month: 'long', day: 'numeric'});
+                }
+            }
+
+            return `${escapeHTML(place)} ${dateString}`;
+        }
+    }
+}
+
+/**
+ *
+ */
+class InternalAppError extends Error {
+
+}
+
+class TaxonError extends Error {
+
+}
+
+/**
+ * @external BsbiDb
+ */
+
+class Taxon {
+    /**
+     * @typedef RawTaxon
+     * @type {array}
+     * @property {string} 0 - nameString
+     * @property {(string|number)} 1 - canonical
+     * @property {string} 2 hybridCanonical, raw entry is 0 if canonical == hybridCanonical
+     * @property {(string|number)} 3 acceptedEntityId or 0 if name is accepted
+     * @property {string} 4 qualifier
+     * @property {string} 5 authority
+     * @property {string} 6 vernacular
+     * @property {string} 7 vernacularRoot
+     * @property {number} 8 used
+     * @property {number} 9 sortOrder
+     * @property {Array.<string>} 10 parentIds
+     */
+
+    /**
+     *
+     * @type {Object.<string, RawTaxon>}
+     */
+    static rawTaxa; // = BsbiDb.TaxonNames;
+
+    /**
+     * @type {string}
+     */
+    id;
+
+    /**
+     *
+     * @type {string}
+     */
+    nameString = '';
+
+    /**
+     *
+     * @type {string}
+     */
+    canonical = '';
+
+    /**
+     *
+     * @type {string}
+     */
+    hybridCanonical = '';
+
+    /**
+     *
+     * @type {string}
+     */
+    acceptedEntityId = '';
+
+    /**
+     *
+     * @type {string}
+     */
+    qualifier = '';
+
+    /**
+     *
+     * @type {string}
+     */
+    authority = '';
+
+    /**
+     *
+     * @type {string}
+     */
+    vernacular = '';
+
+    /**
+     *
+     * @type {string}
+     */
+    vernacularRoot = '';
+
+    /**
+     * @type {boolean}
+     */
+    used;
+
+    /**
+     * @type {number}
+     */
+    sortOrder;
+
+    /**
+     *
+     * @type {Array.<string>}
+     */
+    parentIds = [];
+
+    /**
+     *
+     * @type {boolean}
+     */
+    static showVernacular = true;
+
+    /**
+     *
+     * @param {string} id
+     * @returns {Taxon}
+     * @throws {TaxonError}
+     */
+    static fromId (id) {
+        if (!Taxon.rawTaxa) {
+            // may not yet have been initialised due to deferred loading
+
+            if (BsbiDb.TaxonNames) {
+                Taxon.rawTaxa = BsbiDb.TaxonNames;
+            } else {
+                throw new TaxonError(`Taxon.fromId() called before taxon list has loaded.`);
+            }
+        }
+
+        if (!Taxon.rawTaxa.hasOwnProperty(id)) {
+            throw new TaxonError(`Taxon id '${id}' not found.`);
+        }
+
+        const raw = Taxon.rawTaxa[id];
+
+        const taxon = new Taxon;
+
+        taxon.id = id;
+        taxon.nameString = raw[0];
+        taxon.canonical = raw[1] || raw[0]; // raw entry is blank if namesString == canonical
+        taxon.hybridCanonical = raw[2] || taxon.canonical; // raw entry is blank if canonical == hybridCanonical
+        taxon.acceptedEntityId = raw[3] || id;
+        taxon.qualifier = raw[4];
+        taxon.authority = raw[5];
+        taxon.vernacular = raw[6];
+        taxon.vernacularRoot = raw[7];
+        taxon.used = raw[8];
+        taxon.sortOrder = raw[9];
+        taxon.parentIds = raw[10];
+
+        return taxon;
+    }
+
+    /**
+     *
+     * @param {boolean} vernacularMatched
+     * @returns {string}
+     */
+    formattedHTML(vernacularMatched) {
+        let acceptedTaxon;
+        if (this.id !== this.acceptedEntityId) {
+            acceptedTaxon = Taxon.fromId(this.acceptedEntityId);
+        }
+
+        {
+            if (vernacularMatched) {
+                return (acceptedTaxon) ?
+                    `<q class="taxon-vernacular">${escapeHTML(this.vernacular)}</q><wbr> <span class="italictaxon">${this.nameString}${this.qualifier ? ` <span class="taxon-qualifier">${this.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML(this.authority)}</span>` +
+                        ` = <span class="italictaxon">${acceptedTaxon.nameString}${acceptedTaxon.qualifier ? ` <span class="taxon-qualifier">${acceptedTaxon.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML(acceptedTaxon.authority)}</span>`
+                    :
+                    `<q class="taxon-vernacular">${escapeHTML(this.vernacular)}</q><wbr> <span class="italictaxon">${this.nameString}${this.qualifier ? ` <span class="taxon-qualifier">${this.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML(this.authority)}</span>`
+                    ;
+            } else {
+                return (acceptedTaxon) ?
+                    `<span class="italictaxon">${this.nameString}${this.qualifier ? ` <span class="taxon-qualifier">${this.qualifier}</span>` : ''}</span> <span class="taxauthority">${this.authority}</span>${this.vernacular ? ` <wbr><q class="taxon-vernacular">${escapeHTML(this.vernacular)}</q>` : ''
+                        } = <span class="italictaxon">${acceptedTaxon.nameString}${acceptedTaxon.qualifier ? ` <span class="taxon-qualifier">${acceptedTaxon.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML(acceptedTaxon.authority)}</span>`
+                    :
+                    `<span class="italictaxon">${this.nameString}${this.qualifier ? ` <span class="taxon-qualifier">${this.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML(this.authority)}</span>${this.vernacular ? ` <wbr><q class="taxon-vernacular">${escapeHTML(this.vernacular)}</q>` : ''}`
+                    ;
+            }
+        }
+    }
+}
+
+//import {Form} from "../views/forms/Form";
+
+class Occurrence extends Model {
+
+    /**
+     *
+     * @type {Object.<string, *>}
+     */
+    attributes = {
+        // taxon: {
+        //     taxonId: '',
+        //     taxonName: '',
+        //     vernacularMatch: false
+        // }
+    };
+
+    // /**
+    //  * set if the image has been posted to the server
+    //  * (a local copy might still exist, which may have been reduced to thumbnail resolution)
+    //  *
+    //  * @type {boolean}
+    //  */
+    // _savedRemotely = false;
+
+    // /**
+    //  * set if the image has been added to a temporary store (e.g. indexedDb)
+    //  *
+    //  * @type {boolean}
+    //  */
+    // _savedLocally = false;
+
+    SAVE_ENDPOINT = '/saveoccurrence.php';
+
+    TYPE = 'occurrence';
+
+    /**
+     * fired from Occurrence when the object's contents have been modified
+     *
+     * @type {string}
+     */
+    static EVENT_MODIFIED = 'modified';
+
+    /**
+     * set if this is a new entry (before user has moved on to the next entry)
+     * influences whether form validation errors are displayed
+     *
+     * @type {boolean}
+     */
+    isNew = false;
+
+    /**
+     *
+     * @returns {(Taxon|null)} returns null for unmatched taxa specified by name
+     */
+    get taxon() {
+        return this.attributes.taxon && this.attributes.taxon.taxonId ? Taxon.fromId(this.attributes.taxon.taxonId) : null;
+    };
+
+    // /**
+    //  *
+    //  * @param {OccurrenceForm} form
+    //  * @returns {OccurrenceForm}
+    //  */
+    // setForm(form) {
+    //     form.addListener(Form.CHANGE_EVENT, this.formChangedHandler.bind(this));
+    //
+    //     if (!this.isNew) {
+    //         form.liveValidation = true;
+    //     }
+    //     return form;
+    // }
+
+    /**
+     * called after the form has changed, before the values have been read back in to the occurrence
+     *
+     * @param {{form: Form}} params
+     */
+    formChangedHandler(params) {
+        console.log('Occurrence change handler invoked.');
+
+        // read new values
+        // then fire it's own change event (Occurrence.EVENT_MODIFIED)
+        params.form.updateModelFromContent();
+
+        // refresh the form's validation state
+        params.form.conditionallyValidateForm();
+
+        this.touch();
+        this.fireEvent(Occurrence.EVENT_MODIFIED, {occurrenceId : this.id});
+    }
+
+    delete() {
+        if (!this.deleted) {
+            this.touch();
+            this.deleted = true;
+
+            this.fireEvent(Occurrence.EVENT_MODIFIED, {occurrenceId : this.id});
+        }
+    }
+
+    /**
+     * if not securely saved then makes a post to /saveoccurrence.php
+     *
+     * this may be intercepted by a service worker, which could write the image to indexdb
+     * a successful save will result in a json response containing the uri from which the image may be retrieved
+     * and also the state of persistence (whether or not the image was intercepted by a service worker while offline)
+     *
+     * if saving fails then the expectation is that there is no service worker, in which case should attempt to write
+     * the image directly to indexdb
+     *
+     * must test indexdb for this eventuality after the save has returned
+     *
+     * @param {string} surveyId
+     * @returns {Promise}
+     */
+    save(surveyId) {
+        if (!this._savedRemotely) {
+            const formData = new FormData;
+
+            if (!surveyId && this.surveyId) {
+                surveyId = this.surveyId;
+            }
+
+            formData.append('type', this.TYPE);
+            formData.append('surveyId', surveyId);
+            formData.append('occurrenceId', this.id);
+            formData.append('id', this.id);
+            formData.append('projectId', this.projectId.toString());
+            formData.append('attributes', JSON.stringify(this.attributes));
+            formData.append('deleted', this.deleted.toString());
+            formData.append('created', this.createdStamp.toString());
+
+            console.log('queueing occurrence post');
+            return this.queuePost(formData);
+        } else {
+            return Promise.reject(`${this.id} has already been saved.`);
+        }
+    }
+
+    /**
+     *
+     * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean|string, created: number, modified: number, projectId: number, surveyId: string}} descriptor
+     */
+    _parseDescriptor(descriptor) {
+        super._parseDescriptor(descriptor);
+        this.surveyId = descriptor.surveyId;
+    }
+}
+
 class OccurrenceImage extends Model {
 
     /**
@@ -3422,6 +3961,821 @@ class OccurrenceImage extends Model {
             `height="${height}"`;
 
         return `<picture><source srcset="/image.php?imageid=${id}&amp;height=128&amp;format=webp" type="image/webp"><img${attributesString} src="/image.php?imageid=${id}&amp;width=${width}&amp;height=${height}&amp;format=jpeg" ${renderingConstraint} alt="photo"></picture>`;
+    }
+}
+
+// App.js
+
+class App extends EventHarness {
+    /**
+     * @type {PatchedNavigo}
+     */
+    #router;
+
+    /**
+     * @type {HTMLElement}
+     */
+    #containerEl;
+
+    /**
+     *
+     * @type {Array.<AppController>}
+     */
+    controllers = [];
+
+    /**
+     * tracks the handle of the current page controller
+     * updating this is the responsibility of the controller
+     *
+     * @type {number|boolean}
+     */
+    currentControllerHandle = false;
+
+    /**
+     *
+     * @type {Array.<{url : string}>}
+     */
+    routeHistory = [];
+
+    /**
+     * keyed by occurrence id (a UUID string)
+     *
+     * @type {Map.<string,Occurrence>}
+     */
+    occurrences;
+
+    /**
+     * keyed by survey id (a UUID string)
+     *
+     * @type {Map.<string,Survey>}
+     */
+    surveys;
+
+    /**
+     * @type {?Survey}
+     */
+    _currentSurvey = null;
+
+    /**
+     * @abstract
+     * @type {number}
+     */
+    projectId;
+
+    /**
+     *
+     * @param {?Survey} survey
+     */
+    set currentSurvey(survey) {
+        if (this._currentSurvey !== survey) {
+            this._currentSurvey = survey || null;
+
+            let surveyId = survey ? survey.id : null;
+            localforage.setItem(App.CURRENT_SURVEY_KEY_NAME, surveyId);
+        }
+    }
+
+    /**
+     *
+     * @returns {?Survey}
+     */
+    get currentSurvey() {
+        return this._currentSurvey;
+    }
+
+    /**
+     *
+     * @returns {Promise<string | null>}
+     */
+    getLastSurveyId() {
+        return localforage.getItem(App.CURRENT_SURVEY_KEY_NAME)
+            .catch((error) => {
+                console.log({'Error retrieving last survey id' : error});
+                return Promise.resolve(null);
+            });
+    }
+
+    /**
+     * @type {Layout}
+     */
+    layout;
+
+    /**
+     * Event fired when user requests a new blank survey
+     * @type {string}
+     */
+    static EVENT_ADD_SURVEY_USER_REQUEST = 'useraddsurveyrequest';
+
+    /**
+     * Event fired when user requests a reset (local clearance) of all surveys
+     * @type {string}
+     */
+    static EVENT_RESET_SURVEYS = 'userresetsurveys';
+
+    /**
+     * Fired after App.currentSurvey has been set to a new blank survey
+     * the survey will be accessible in App.currentSurvey
+     *
+     * @type {string}
+     */
+    static EVENT_NEW_SURVEY = 'newsurvey';
+
+    static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
+
+    static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
+
+    /**
+     * Fired if the surveys list might need updating (as a survey has been added, removed or changed)
+     *
+     * @type {string}
+     */
+    static EVENT_SURVEYS_CHANGED = 'surveyschanged';
+
+    /**
+     * Fired after fully-successful sync-all
+     * (or if sync-all resolved with nothing to send)
+     *
+     * @type {string}
+     */
+    static EVENT_ALL_SYNCED_TO_SERVER = 'allsyncedtoserver';
+
+    /**
+     * fired if sync-all called, but one or more objects failed to be saved to the server
+     *
+     * @type {string}
+     */
+    static EVENT_SYNC_ALL_FAILED = 'syncallfailed';
+
+    /**
+     * IndexedDb key used for storing id of current (last accessed) survey (or null)
+     *
+     * @type {string}
+     */
+    static CURRENT_SURVEY_KEY_NAME = 'currentsurvey';
+
+    /**
+     *
+     * @type {boolean}
+     */
+    static devMode = false;
+
+    constructor() {
+        super();
+        this.reset();
+    }
+
+    /**
+     *
+     * @param {string} name
+     */
+    setLocalForageName(name) {
+        localforage.config({
+            name: name
+        });
+    }
+
+    reset() {
+        this.surveys = new Map();
+        this.clearCurrentSurvey();
+    }
+
+    /**
+     * unset the current survey and its associated list of occurrences
+     * called when switching surveys and during startup
+     */
+    clearCurrentSurvey() {
+        this.occurrences = new Map();
+        this.currentSurvey = null;
+    }
+
+    /**
+     * see https://github.com/krasimir/navigo
+     * @param {PatchedNavigo} router
+     */
+    set router(router) {
+        this.#router = router;
+    }
+
+    /**
+     *
+     * @returns {PatchedNavigo}
+     */
+    get router() {
+        return this.#router;
+    }
+
+    set containerId(containerId) {
+        const el = document.getElementById(containerId);
+        if (!el) {
+            throw new Error(`App container '${containerId}' not found.`);
+        } else {
+            this.#containerEl = el;
+        }
+    }
+
+    get container() {
+        return this.#containerEl;
+    }
+
+    /**
+     *
+     * @param {AppController} controller
+     */
+    registerController(controller) {
+        controller.handle = this.controllers.length;
+        this.controllers[this.controllers.length] = controller;
+
+        controller.app = this;
+        controller.registerRoute(this.#router);
+    }
+
+    initialise() {
+        //Page.initialise_layout(this.#containerEl);
+        this.layout.initialise();
+
+        this.#router.notFound((query) => {
+            // called when there is path specified but
+            // there is no route matching
+
+            console.log(`no route found for '${query}'`);
+            //this.#router.navigate('/list');
+
+            // const view = new NotFoundView();
+            // view.display();
+            this.notFoundView();
+        });
+
+        //default homepage
+        this.#router.on(() => {
+            // special-case redirect (replacing in history) from '/' to '/list' without updating browser history
+
+            console.log("redirecting from '/' to '/list'");
+
+            this.#router.pause();
+            //if (this.clearCurrentSurvey && this.currentSurvey.isPristine) { // this appears to be a bug 'this.clearCurrentSurvey'
+            // rather than 'this.clearCurrentSurvey()' is nonsensical
+            // and if clearCurrentSurvey() was actually called then the isPristine test would fail (called on null)
+            if (this.currentSurvey && this.currentSurvey.isPristine) {
+                this.#router.navigate('/list/survey/welcome').resume();
+            } else {
+                this.#router.navigate('/list').resume();
+            }
+            this.#router.resolve();
+        });
+
+        for (let controller of this.controllers) {
+            controller.initialise();
+        }
+    }
+
+    display() {
+        console.log('App display');
+        this.#router.resolve();
+
+        // it's opportune at this point to try to ping the server again to save anything left outstanding
+        this.syncAll();
+    }
+
+    saveRoute() {
+        const lastRoute = this.#router.lastRouteResolved();
+        if (this.routeHistory.length) {
+            if (this.routeHistory[this.routeHistory.length - 1] !== lastRoute) {
+                this.routeHistory[this.routeHistory.length] = lastRoute;
+            }
+        } else {
+            this.routeHistory[0] = lastRoute;
+        }
+    }
+
+    /**
+     * mark the current survey and its constituent records as subject to validation checks (not pristine)
+     */
+    markAllNotPristine() {
+        for (let occurrenceTuple of this.occurrences) {
+            occurrenceTuple[1].isPristine = false;
+        }
+    }
+
+    /**
+     *
+     * @param {Layout} layout
+     */
+    setLayout(layout) {
+        this.layout = layout;
+        layout.setApp(this);
+    }
+
+    /**
+     *
+     * @param {Survey} survey
+     */
+    addSurvey(survey) {
+        if (survey.projectId !== this.projectId) {
+            throw new Error(`Survey project id '${survey.projectId} does not match with current project ('${this.projectId}')`);
+        }
+
+        //if (!this.surveys.has(survey.id)) {
+        if (!survey.hasAppModifiedListener) {
+            survey.hasAppModifiedListener = true;
+
+            console.log("setting survey's modified/save handler");
+            survey.addListener(
+                Survey.EVENT_MODIFIED,
+                () => {
+                    this.fireEvent(App.EVENT_SURVEYS_CHANGED);
+                    return survey.save();
+                }
+            );
+        }
+
+        this.surveys.set(survey.id, survey);
+        this.fireEvent(App.EVENT_SURVEYS_CHANGED);
+    }
+
+    /**
+     * tests whether occurrences have been defined, excluding any that have been deleted
+     *
+     * @returns {boolean}
+     */
+    haveExtantOccurrences() {
+        for (let occurrence of this.occurrences) {
+            if (!occurrence.deleted) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param {Occurrence} occurrence
+     */
+    addOccurrence(occurrence) {
+        if (!occurrence.surveyId) {
+            throw new InternalAppError('Survey id must set prior to registering occurrence.');
+        }
+
+        if (this.occurrences.size === 0) {
+            // this is the first occurrence added, set the survey creation stamp to match
+            // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
+            // for a protracted period
+
+            const survey = this.surveys.get(occurrence.surveyId);
+            survey.createdStamp = occurrence.createdStamp;
+        }
+        console.log(`in addOccurrence setting id '${occurrence.id}'`);
+        this.occurrences.set(occurrence.id, occurrence);
+
+        occurrence.addListener(Occurrence.EVENT_MODIFIED,
+            // possibly this should be async, with await on the survey and occurrence save
+            () => {
+                const survey = this.surveys.get(occurrence.surveyId);
+                if (!survey) {
+                    throw new Error(`Failed to look up survey id ${occurrence.surveyId}`);
+                } else {
+                    survey.isPristine = false;
+
+                    // need to ensure that currentSurvey is saved before occurrence
+                    // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
+                    // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
+                    if (survey.unsaved()) {
+                        // noinspection JSIgnoredPromiseFromCall
+                        survey.save();
+                    }
+                    occurrence.save(survey.id);
+                }
+            });
+    }
+
+    /**
+     * attempts to refresh the state of local storage for the specified survey ids
+     * if fetch fails then return a failed promise
+     *
+     * updates local copy of surveys and occurrences
+     *
+     * no service worker interception of this call - passed through and not cached
+     *
+     * @param {Array.<string>} surveyIds
+     * @return {Promise}
+     */
+    refreshFromServer(surveyIds) {
+        console.log({'Refresh from server, ids' : surveyIds});
+        const formData = new FormData;
+
+        let n = 0;
+        for (let key of surveyIds) {
+            if (key && key !== 'undefined') {
+                formData.append(`surveyId[${n++}]`, key);
+            }
+        }
+
+        return fetch(App.LOAD_SURVEYS_ENDPOINT, {
+            method: 'POST',
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return Promise.reject(`Invalid response from server when refreshing survey ids`);
+            }
+        }).then((jsonResponse) => {
+            /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
+
+            console.log({'refresh from server json response' : jsonResponse});
+
+            // if external objects newer than local version then place in local storage
+            const promises = [];
+
+            for (let type in jsonResponse) {
+                if (jsonResponse.hasOwnProperty(type)) {
+                    for (let object of jsonResponse[type]) {
+                        promises.push(this._conditionallyReplaceObject(object));
+                    }
+                }
+            }
+
+
+            return Promise.all(promises);
+        });
+    }
+
+    /**
+     * compare modified stamp of indexeddb and external objects and write external version locally if more recent
+     *
+     * @param {{id : string, type : string, modified : number, created : number, saveState : string, deleted : boolean}} externalVersion
+     * @returns {Promise}
+     * @private
+     */
+    _conditionallyReplaceObject(externalVersion) {
+        const objectType = externalVersion.type;
+        const id = externalVersion.id;
+        const key = `${objectType}.${id}`;
+
+        return localforage.getItem(key)
+            .then((localVersion) => {
+                if (localVersion) {
+                    // compare stamps
+
+                    // if (externalVersion.deleted) {
+                    //     // if the external copy is deleted then remove the local copy
+                    //     return localforage.removeItem(key);
+                    // }
+
+                    if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
+                        console.log(`Local copy of ${key} is the same or newer than the server copy. (${localVersion.modified} >= ${externalVersion.modified}) `);
+                        return Promise.resolve();
+                    }
+                }
+
+                // no local copy or stale copy
+                // so store response locally
+                console.log(`Adding or replacing local copy of ${key}`);
+                return localforage.setItem(key, externalVersion);
+            });
+    }
+
+    /**
+     * retrieve the full set of keys from local storage (IndexedDb)
+     *
+     * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
+     * @returns {Promise}
+     */
+    seekKeys(storedObjectKeys) {
+        console.log('starting seekKeys');
+        return localforage.keys().then((keys) => {
+            console.log({"in seekKeys: local forage keys" : keys});
+
+            for (let key of keys) {
+                if (key !== App.CURRENT_SURVEY_KEY_NAME) {
+                    let type, id;
+
+                    [type, id] = key.split('.', 2);
+
+                    if (storedObjectKeys.hasOwnProperty(type)) {
+                        if (!storedObjectKeys[type].includes(id)) {
+                            storedObjectKeys[type].push(id);
+                        }
+                    } else {
+                        console.log(`Unrecognised stored key type '${type}.`);
+                    }
+                }
+            }
+
+            return storedObjectKeys;
+        });
+    }
+
+    /**
+     * @returns {Promise}
+     */
+    syncAll() {
+        const storedObjectKeys = {
+            survey : [],
+            occurrence : [],
+            image : []
+        };
+
+        return this.seekKeys(storedObjectKeys)
+            .then((storedObjectKeys) => {
+                return this._syncLocalUnsaved(storedObjectKeys)
+                    .then((result) => {
+                        this.fireEvent(App.EVENT_ALL_SYNCED_TO_SERVER);
+
+                        return result;
+                    });
+            }, (failedResult) => {
+                console.log(`Failed to sync all: ${failedResult}`);
+                this.fireEvent(App.EVENT_SYNC_ALL_FAILED);
+                return false;
+            });
+    }
+
+    /**
+     *
+     * @param storedObjectKeys
+     * @returns {Promise}
+     * @private
+     */
+    _syncLocalUnsaved(storedObjectKeys) {
+        // synchronises surveys first, then occurrences, then images from indexedDb
+
+        const promises = [];
+        for(let surveyKey of storedObjectKeys.survey) {
+            promises.push(Survey.retrieveFromLocal(surveyKey, new Survey)
+                .then((survey) => {
+                    if (survey.unsaved()) {
+                        return survey.save();
+                    }
+                })
+            );
+        }
+
+        for(let occurrenceKey of storedObjectKeys.occurrence) {
+            promises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
+                .then((occurrence) => {
+                    if (occurrence.unsaved()) {
+                        return occurrence.save();
+                    }
+                })
+            );
+        }
+
+        for(let imageKey of storedObjectKeys.image) {
+            promises.push(OccurrenceImage.retrieveFromLocal(imageKey, new OccurrenceImage)
+                .then((image) => {
+                    if (image.unsaved()) {
+                        return image.save();
+                    }
+                })
+            );
+        }
+
+        return Promise.all(promises).catch((result) => {
+            console.log(`Save failure: ${result}`);
+            return Promise.reject(result); // pass on the failed save (catch was only for logging, not to allow subsequent success)
+        });
+    }
+
+    /**
+     * restore previous state, pulling back from local and external store
+     * @todo this needs a save phase, so that local changes are saved back to the server
+     *
+     * @param {string} [targetSurveyId] if specified then select this id as the current survey
+     * @return {Promise}
+     */
+    restoreOccurrences(targetSurveyId = '') {
+
+        console.log(`Invoked restoreOccurrences, target survey id: ${targetSurveyId}`);
+
+        if (targetSurveyId === 'undefined') {
+            console.error(`Attempt to restore occurrences for literal 'undefined' survey id.`);
+            targetSurveyId = '';
+        }
+
+        return (targetSurveyId) ?
+            this._restoreOccurrenceImp(targetSurveyId)
+            :
+            this.getLastSurveyId().then(
+                (lastSurveyId) => {
+                    console.log(`Retrieved last used survey id '${lastSurveyId}'`);
+
+                    return this._restoreOccurrenceImp(lastSurveyId).catch(() => {
+                        console.log(`Failed to retrieve lastSurveyId ${lastSurveyId}. Resetting current survey and retrying.`);
+
+                        this.currentSurvey = null;
+                        return this._restoreOccurrenceImp();
+                    });
+                },
+                () => this._restoreOccurrenceImp()
+            );
+    }
+
+    _restoreOccurrenceImp(targetSurveyId) {
+        // need to check for a special case where restoring a survey that has never been saved even locally
+        // i.e. new and unmodified
+        // only present in current App.surveys
+        // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
+        if (targetSurveyId && this.surveys.has(targetSurveyId)) {
+            const localSurvey = this.surveys.get(targetSurveyId);
+
+            if (localSurvey.isPristine) {
+                this.clearCurrentSurvey(); // clear occurrences from the previous survey
+
+                this.currentSurvey = localSurvey;
+                this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
+                return Promise.resolve();
+            }
+        }
+
+        const storedObjectKeys = {
+            survey: [],
+            occurrence: [],
+            image: []
+        };
+
+        if (targetSurveyId) {
+            storedObjectKeys.survey[0] = targetSurveyId;
+        }
+
+        return this.seekKeys(storedObjectKeys).then((storedObjectKeys) => {
+            if (storedObjectKeys.survey.length) {
+                return this.refreshFromServer(storedObjectKeys.survey).finally(() => {
+                    // re-seek keys from indexed db, to take account of any new occurrences received from the server
+                    return this.seekKeys(storedObjectKeys);
+                });
+            } else {
+                return null;
+            }
+        }).finally(() => {
+            // called regardless of whether a server refresh was successful
+            // storedObjectKeys and indexed db should be as up-to-date as possible
+
+            console.log({storedObjectKeys});
+
+            if (storedObjectKeys && storedObjectKeys.survey && storedObjectKeys.survey.length) {
+
+                const surveyFetchingPromises = [];
+                let n = 0;
+
+                for (let surveyKey of storedObjectKeys.survey) {
+                    // arbitrarily set first survey key as current if a target id hasn't been specified
+
+                    surveyFetchingPromises.push(
+                        this._restoreSurveyFromLocal(surveyKey, storedObjectKeys, (targetSurveyId === surveyKey) || (!targetSurveyId && n++ === 0))
+                    );
+                }
+
+                return Promise.all(surveyFetchingPromises)
+                    .finally(() => {
+                        //this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
+
+                        if (!this.currentSurvey) {
+                            // survey doesn't actually exist
+                            // this could have happened in an invalid survey id was provided as a targetSurveyId
+                            console.log(`Failed to retrieve survey id '${targetSurveyId}'`);
+                            return Promise.reject(new Error(`Failed to retrieve survey id '${targetSurveyId}'`));
+                        }
+
+                        if (this.currentSurvey.deleted) {
+                            // unusual case where survey is deleted
+                            // substitute a new one
+
+                            // this should probably never happen, as items deleted on the server ought to have been
+                            // removed locally
+                            this.setNewSurvey();
+                        } else {
+                            this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
+                        }
+                        return Promise.resolve();
+                    });
+            } else {
+                console.log('no pre-existing surveys, so creating a new one');
+                // no pre-existing surveys, so create a new one
+                this.setNewSurvey();
+
+                return Promise.resolve();
+            }
+        });
+    }
+
+    /**
+     *
+     * @param {{}|null} [attributes]
+     */
+    setNewSurvey(attributes) {
+        this.currentSurvey = new Survey();
+
+        if (attributes) {
+            this.currentSurvey.attributes = {...this.currentSurvey.attributes, ...attributes};
+        }
+
+        this.currentSurvey.projectId = this.projectId;
+        this.currentSurvey.isPristine = true;
+        this.currentSurvey.isNew = true;
+
+        this.fireEvent(App.EVENT_NEW_SURVEY);
+
+        this.addSurvey(this.currentSurvey);
+    }
+
+    /**
+     * @return {Occurrence}
+     */
+    addNewOccurrence() {
+        const occurrence = new Occurrence();
+        occurrence.surveyId = this.currentSurvey.id;
+        occurrence.projectId = this.projectId;
+
+        occurrence.isNew = true;
+        occurrence.isPristine = true;
+
+        this.addOccurrence(occurrence);
+
+        this.fireEvent(App.EVENT_OCCURRENCE_ADDED, {occurrenceId: occurrence.id, surveyId: occurrence.surveyId});
+
+        return occurrence;
+    }
+
+    /**
+     *
+     * @param {string} surveyId
+     * @param {{survey: Array, occurrence: Array, image: Array}} storedObjectKeys
+     * @param {boolean} setAsCurrent
+     * @returns {Promise}
+     * @private
+     */
+    _restoreSurveyFromLocal(surveyId, storedObjectKeys, setAsCurrent) {
+        // retrieve surveys first, then occurrences, then images from indexedDb
+
+        let promise = Survey.retrieveFromLocal(surveyId, new Survey).then((survey) => {
+            console.log(`retrieving local survey ${surveyId}`);
+
+            if (setAsCurrent) {
+                // the apps occurrences should only relate to the current survey
+                // (the reset are remote or in IndexedDb)
+                this.clearCurrentSurvey();
+
+                this.addSurvey(survey);
+                const occurrenceFetchingPromises = [];
+
+                for (let occurrenceKey of storedObjectKeys.occurrence) {
+                    occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
+                        .then((occurrence) => {
+                            if (occurrence.surveyId === surveyId) {
+                                console.log(`adding occurrence ${occurrenceKey}`);
+                                this.addOccurrence(occurrence);
+                            }
+                        }));
+                }
+
+                return Promise.all(occurrenceFetchingPromises);
+            } else {
+                // not the current survey, so just add it but don't load occurrences
+                this.addSurvey(survey);
+            }
+        });
+
+        if (setAsCurrent) {
+            promise.finally(() => {
+                //console.log('Reached image fetching part');
+                const imageFetchingPromises = [];
+
+                for (let occurrenceImageKey of storedObjectKeys.image) {
+                    imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage)
+                        .then((occurrenceImage) => {
+                            console.log(`restoring image id '${occurrenceImageKey}'`);
+
+                            if (occurrenceImage.surveyId === surveyId) {
+                                OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
+                            }
+                        }, (reason) => {
+                            console.log(`Failed to retrieve an image: ${reason}`);
+                        }));
+                }
+
+                this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
+
+                return Promise.all(imageFetchingPromises);
+            });
+        }
+
+        return promise;
+    }
+
+    /**
+     *
+     * @returns {Promise<void>}
+     */
+    clearLocalForage() {
+        return localforage.clear();
+    }
+
+    /**
+     * @abstract
+     */
+    notFoundView() {
+        // const view = new NotFoundView();
+        // view.display();
     }
 }
 
@@ -4260,7 +5614,94 @@ class BSBIServiceWorker {
     }
 }
 
+//import {NotFoundView} from "bsbi-app-framework-view";
+
+const PROJECT_ID_NYPH = 2;
+
 const FORAGE_NAME = 'Nyph App2023';
+
+class NyphApp extends App {
+    /**
+     * @type {number}
+     */
+    projectId = PROJECT_ID_NYPH;
+
+    static forageName = FORAGE_NAME;
+
+    //static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
+
+    //static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
+    //static EVENT_SURVEYS_CHANGED = 'surveyschanged';
+
+    /**
+     *
+     * @type {boolean}
+     */
+    static devMode = false;
+
+    constructor() {
+        super();
+
+        this.initialiseSurveyFieldsMirror();
+    }
+
+    _coreSurveyFields = [
+        'recorder',
+        'email'
+    ];
+
+    _coreSurveyFieldCache = [
+
+    ];
+
+    /**
+     * Sets handlers to allow certain survey fields to be duplicated from last current survey to new survey
+     * used for email address and primary recorder name
+     */
+    initialiseSurveyFieldsMirror() {
+        this.addListener(App.EVENT_NEW_SURVEY, () => {
+            console.log('Try to initialise core fields of new survey.');
+            if (this._coreSurveyFieldCache) {
+                console.log({'Using cached survey values' : this._coreSurveyFieldCache});
+                for (let key of this._coreSurveyFields) {
+                    this.currentSurvey.attributes[key] = this._coreSurveyFieldCache[key];
+                }
+            }
+        });
+
+        this.addListener(App.EVENT_SURVEYS_CHANGED, () => {
+            if (this.currentSurvey && !this.currentSurvey.isNew) {
+                for (let key of this._coreSurveyFields) {
+                    this._coreSurveyFieldCache[key] = this.currentSurvey.attributes[key];
+                }
+
+                console.log({'Saved core survey fields' : this._coreSurveyFieldCache});
+            }
+        });
+
+        this.addListener(App.EVENT_RESET_SURVEYS, () => {
+            this._coreSurveyFieldCache = [];
+            console.log('Have reset core survey field cache.');
+        });
+    }
+
+    /**
+     * A convoluted approach is used to avoid requirement to import NotFoundView
+     * (as that bloats the service worker, by pulling in the full view library and bootstrap)
+     *
+     * @type {NotFoundView}
+     */
+    notFoundViewObject;
+
+    notFoundView() {
+        this.notFoundViewObject.display();
+    }
+
+    // notFoundView() {
+    //     const view = new NotFoundView();
+    //     view.display();
+    // }
+}
 
 // service worker for Nyph app
 
@@ -4292,7 +5733,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.mjs?version=1.0.3.1666888968',
+        './app.mjs?version=1.0.3.1666900998',
         './manifest.webmanifest',
         '/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -4317,6 +5758,6 @@ serviceWorker.initialise({
         '/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : '1.0.3.1666888968'
+    version : '1.0.3.1666900998'
 });
 //# sourceMappingURL=serviceworker.mjs.map

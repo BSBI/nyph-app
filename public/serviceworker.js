@@ -7597,7 +7597,7 @@
 	  // ignoreUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/app\.js|^https:\/\/nyph\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyph\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyph\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
 	  // indexUrl : 'https://nyph.bsbi.app/app/index.html',
 
-	  urlCacheSet: ['./index.html', './app.mjs?version=1.0.3.1666888968', './manifest.webmanifest', '/appcss/app.__BSBI_APP_VERSION__.css',
+	  urlCacheSet: ['./index.html', './app.mjs?version=1.0.3.1666900998', './manifest.webmanifest', '/appcss/app.__BSBI_APP_VERSION__.css',
 	  // note no leading '.' - this is an absolute path
 	  '/appcss/theme.css',
 	  //'/img/gwh_logo1_tsp.png',
@@ -7617,7 +7617,7 @@
 	  //'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js',
 	  '/js/mapbox-gl-geocoder-v4.7.2.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-	  version: '1.0.3.1666888968'
+	  version: '1.0.3.1666900998'
 	});
 
 })();
