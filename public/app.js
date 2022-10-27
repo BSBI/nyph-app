@@ -10724,14 +10724,14 @@
   if(type===TYPE_BLOB&&BLOB_TYPE_PREFIX_REGEX.test(serializedString)){var matcher=serializedString.match(BLOB_TYPE_PREFIX_REGEX);blobType=matcher[1];serializedString=serializedString.substring(matcher[0].length);}var buffer=stringToBuffer(serializedString);// Return the right type based on the code/type set during
   // serialization.
   switch(type){case TYPE_ARRAYBUFFER:return buffer;case TYPE_BLOB:return createBlob([buffer],{type:blobType});case TYPE_INT8ARRAY:return new Int8Array(buffer);case TYPE_UINT8ARRAY:return new Uint8Array(buffer);case TYPE_UINT8CLAMPEDARRAY:return new Uint8ClampedArray(buffer);case TYPE_INT16ARRAY:return new Int16Array(buffer);case TYPE_UINT16ARRAY:return new Uint16Array(buffer);case TYPE_INT32ARRAY:return new Int32Array(buffer);case TYPE_UINT32ARRAY:return new Uint32Array(buffer);case TYPE_FLOAT32ARRAY:return new Float32Array(buffer);case TYPE_FLOAT64ARRAY:return new Float64Array(buffer);default:throw new Error('Unkown type: '+type);}}var localforageSerializer={serialize:serialize,deserialize:deserialize,stringToBuffer:stringToBuffer,bufferToString:bufferToString};/*
-   * Includes code from:
-   *
-   * base64-arraybuffer
-   * https://github.com/niklasvh/base64-arraybuffer
-   *
-   * Copyright (c) 2012 Niklas von Hertzen
-   * Licensed under the MIT license.
-   */function createDbTable(t,dbInfo,callback,errorCallback){t.executeSql('CREATE TABLE IF NOT EXISTS '+dbInfo.storeName+' '+'(id INTEGER PRIMARY KEY, key unique, value)',[],callback,errorCallback);}// Open the WebSQL database (automatically creates one if one didn't
+  	 * Includes code from:
+  	 *
+  	 * base64-arraybuffer
+  	 * https://github.com/niklasvh/base64-arraybuffer
+  	 *
+  	 * Copyright (c) 2012 Niklas von Hertzen
+  	 * Licensed under the MIT license.
+  	 */function createDbTable(t,dbInfo,callback,errorCallback){t.executeSql('CREATE TABLE IF NOT EXISTS '+dbInfo.storeName+' '+'(id INTEGER PRIMARY KEY, key unique, value)',[],callback,errorCallback);}// Open the WebSQL database (automatically creates one if one didn't
   // previously exist), using any options set in the config.
   function _initStorage$1(options){var self=this;var dbInfo={db:null};if(options){for(var i in options){dbInfo[i]=typeof options[i]!=='string'?options[i].toString():options[i];}}var dbInfoPromise=new Promise$1(function(resolve,reject){// Open the database; the openDatabase API will automatically
   // create it for us if it doesn't exist.
@@ -13518,7 +13518,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666903675</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666904571</p>");
           }
         }
       }
@@ -16652,7 +16652,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666903675</p>");
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666904571</p>");
         //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
@@ -17214,7 +17214,7 @@
         // at this point the entire content of #body should be safe to replace
 
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1666903675</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1666904571</p>";
       }
     }]);
     return HelpView;
