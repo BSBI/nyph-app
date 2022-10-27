@@ -6,7 +6,6 @@
       throw new TypeError("Cannot call a class as a function");
     }
   }
-
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
       var descriptor = props[i];
@@ -16,7 +15,6 @@
       Object.defineProperty(target, descriptor.key, descriptor);
     }
   }
-
   function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
@@ -25,7 +23,6 @@
     });
     return Constructor;
   }
-
   function _defineProperty(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, {
@@ -37,15 +34,12 @@
     } else {
       obj[key] = value;
     }
-
     return obj;
   }
-
   function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function");
     }
-
     subClass.prototype = Object.create(superClass && superClass.prototype, {
       constructor: {
         value: subClass,
@@ -58,28 +52,23 @@
     });
     if (superClass) _setPrototypeOf(subClass, superClass);
   }
-
   function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
       return o.__proto__ || Object.getPrototypeOf(o);
     };
     return _getPrototypeOf(o);
   }
-
   function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
       o.__proto__ = p;
       return o;
     };
-
     return _setPrototypeOf(o, p);
   }
-
   function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
-
     try {
       Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
       return true;
@@ -87,56 +76,43 @@
       return false;
     }
   }
-
   function _assertThisInitialized(self) {
     if (self === void 0) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     }
-
     return self;
   }
-
   function _possibleConstructorReturn(self, call) {
     if (call && (typeof call === "object" || typeof call === "function")) {
       return call;
     } else if (call !== void 0) {
       throw new TypeError("Derived constructors may only return object or undefined");
     }
-
     return _assertThisInitialized(self);
   }
-
   function _createSuper(Derived) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();
-
     return function _createSuperInternal() {
       var Super = _getPrototypeOf(Derived),
-          result;
-
+        result;
       if (hasNativeReflectConstruct) {
         var NewTarget = _getPrototypeOf(this).constructor;
-
         result = Reflect.construct(Super, arguments, NewTarget);
       } else {
         result = Super.apply(this, arguments);
       }
-
       return _possibleConstructorReturn(this, result);
     };
   }
-
   function _toConsumableArray(arr) {
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
-
   function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
-
   function _iterableToArray(iter) {
     if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
   }
-
   function _unsupportedIterableToArray(o, minLen) {
     if (!o) return;
     if (typeof o === "string") return _arrayLikeToArray(o, minLen);
@@ -145,29 +121,21 @@
     if (n === "Map" || n === "Set") return Array.from(o);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
   }
-
   function _arrayLikeToArray(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
-
     for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
     return arr2;
   }
-
   function _nonIterableSpread() {
     throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-
   function _createForOfIteratorHelper(o, allowArrayLike) {
     var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
-
     if (!it) {
       if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
         if (it) o = it;
         var i = 0;
-
         var F = function () {};
-
         return {
           s: F,
           n: function () {
@@ -185,13 +153,11 @@
           f: F
         };
       }
-
       throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     }
-
     var normalCompletion = true,
-        didErr = false,
-        err;
+      didErr = false,
+      err;
     return {
       s: function () {
         it = it.call(o);
@@ -214,37 +180,27 @@
       }
     };
   }
-
   function _classPrivateFieldGet(receiver, privateMap) {
     var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
-
     return _classApplyDescriptorGet(receiver, descriptor);
   }
-
   function _classPrivateFieldSet(receiver, privateMap, value) {
     var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
-
     _classApplyDescriptorSet(receiver, descriptor, value);
-
     return value;
   }
-
   function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) {
       throw new TypeError("attempted to " + action + " private field on non-instance");
     }
-
     return privateMap.get(receiver);
   }
-
   function _classApplyDescriptorGet(receiver, descriptor) {
     if (descriptor.get) {
       return descriptor.get.call(receiver);
     }
-
     return descriptor.value;
   }
-
   function _classApplyDescriptorSet(receiver, descriptor, value) {
     if (descriptor.set) {
       descriptor.set.call(receiver, value);
@@ -252,34 +208,26 @@
       if (!descriptor.writable) {
         throw new TypeError("attempted to set read only private field");
       }
-
       descriptor.value = value;
     }
   }
-
   function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) {
       throw new TypeError("attempted to get private field on non-instance");
     }
-
     return fn;
   }
-
   function _checkPrivateRedeclaration(obj, privateCollection) {
     if (privateCollection.has(obj)) {
       throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
   }
-
   function _classPrivateFieldInitSpec(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
-
     privateMap.set(obj, value);
   }
-
   function _classPrivateMethodInitSpec(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
-
     privateSet.add(obj);
   }
 
@@ -290,7 +238,7 @@
   };
 
   // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-  var global$N =
+  var global$m =
     // eslint-disable-next-line es/no-global-this -- safe
     check(typeof globalThis == 'object' && globalThis) ||
     check(typeof window == 'object' && window) ||
@@ -302,7 +250,7 @@
 
   var objectGetOwnPropertyDescriptor = {};
 
-  var fails$q = function (exec) {
+  var fails$m = function (exec) {
     try {
       return !!exec();
     } catch (error) {
@@ -310,17 +258,18 @@
     }
   };
 
-  var fails$p = fails$q;
+  var fails$l = fails$m;
 
   // Detect IE8's incomplete defineProperty implementation
-  var descriptors = !fails$p(function () {
+  var descriptors = !fails$l(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
   });
 
-  var fails$o = fails$q;
+  var fails$k = fails$m;
 
-  var functionBindNative = !fails$o(function () {
+  var functionBindNative = !fails$k(function () {
+    // eslint-disable-next-line es/no-function-prototype-bind -- safe
     var test = (function () { /* empty */ }).bind();
     // eslint-disable-next-line no-prototype-builtins -- safe
     return typeof test != 'function' || test.hasOwnProperty('prototype');
@@ -362,100 +311,133 @@
   var NATIVE_BIND$2 = functionBindNative;
 
   var FunctionPrototype$2 = Function.prototype;
-  var bind$6 = FunctionPrototype$2.bind;
   var call$d = FunctionPrototype$2.call;
-  var uncurryThis$p = NATIVE_BIND$2 && bind$6.bind(call$d, call$d);
+  var uncurryThisWithBind = NATIVE_BIND$2 && FunctionPrototype$2.bind.bind(call$d, call$d);
 
-  var functionUncurryThis = NATIVE_BIND$2 ? function (fn) {
-    return fn && uncurryThis$p(fn);
-  } : function (fn) {
-    return fn && function () {
+  var functionUncurryThisRaw = NATIVE_BIND$2 ? uncurryThisWithBind : function (fn) {
+    return function () {
       return call$d.apply(fn, arguments);
     };
   };
 
-  var uncurryThis$o = functionUncurryThis;
+  var uncurryThisRaw$1 = functionUncurryThisRaw;
 
-  var toString$9 = uncurryThis$o({}.toString);
-  var stringSlice$3 = uncurryThis$o(''.slice);
+  var toString$7 = uncurryThisRaw$1({}.toString);
+  var stringSlice$1 = uncurryThisRaw$1(''.slice);
 
-  var classofRaw$1 = function (it) {
-    return stringSlice$3(toString$9(it), 8, -1);
+  var classofRaw$2 = function (it) {
+    return stringSlice$1(toString$7(it), 8, -1);
   };
 
-  var global$M = global$N;
-  var uncurryThis$n = functionUncurryThis;
-  var fails$n = fails$q;
-  var classof$b = classofRaw$1;
+  var classofRaw$1 = classofRaw$2;
+  var uncurryThisRaw = functionUncurryThisRaw;
 
-  var Object$5 = global$M.Object;
-  var split = uncurryThis$n(''.split);
+  var functionUncurryThis = function (fn) {
+    // Nashorn bug:
+    //   https://github.com/zloirock/core-js/issues/1128
+    //   https://github.com/zloirock/core-js/issues/1130
+    if (classofRaw$1(fn) === 'Function') return uncurryThisRaw(fn);
+  };
+
+  var uncurryThis$i = functionUncurryThis;
+  var fails$j = fails$m;
+  var classof$9 = classofRaw$2;
+
+  var $Object$4 = Object;
+  var split = uncurryThis$i(''.split);
 
   // fallback for non-array-like ES3 and non-enumerable old V8 strings
-  var indexedObject = fails$n(function () {
+  var indexedObject = fails$j(function () {
     // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
     // eslint-disable-next-line no-prototype-builtins -- safe
-    return !Object$5('z').propertyIsEnumerable(0);
+    return !$Object$4('z').propertyIsEnumerable(0);
   }) ? function (it) {
-    return classof$b(it) == 'String' ? split(it, '') : Object$5(it);
-  } : Object$5;
+    return classof$9(it) == 'String' ? split(it, '') : $Object$4(it);
+  } : $Object$4;
 
-  var global$L = global$N;
+  // we can't use just `it == null` since of `document.all` special case
+  // https://tc39.es/ecma262/#sec-IsHTMLDDA-internal-slot-aec
+  var isNullOrUndefined$6 = function (it) {
+    return it === null || it === undefined;
+  };
 
-  var TypeError$g = global$L.TypeError;
+  var isNullOrUndefined$5 = isNullOrUndefined$6;
+
+  var $TypeError$e = TypeError;
 
   // `RequireObjectCoercible` abstract operation
   // https://tc39.es/ecma262/#sec-requireobjectcoercible
-  var requireObjectCoercible$4 = function (it) {
-    if (it == undefined) throw TypeError$g("Can't call method on " + it);
+  var requireObjectCoercible$3 = function (it) {
+    if (isNullOrUndefined$5(it)) throw $TypeError$e("Can't call method on " + it);
     return it;
   };
 
   // toObject with fallback for non-array-like ES3 strings
-  var IndexedObject$2 = indexedObject;
-  var requireObjectCoercible$3 = requireObjectCoercible$4;
+  var IndexedObject$1 = indexedObject;
+  var requireObjectCoercible$2 = requireObjectCoercible$3;
 
-  var toIndexedObject$8 = function (it) {
-    return IndexedObject$2(requireObjectCoercible$3(it));
+  var toIndexedObject$7 = function (it) {
+    return IndexedObject$1(requireObjectCoercible$2(it));
   };
+
+  var documentAll$2 = typeof document == 'object' && document.all;
+
+  // https://tc39.es/ecma262/#sec-IsHTMLDDA-internal-slot
+  var IS_HTMLDDA = typeof documentAll$2 == 'undefined' && documentAll$2 !== undefined;
+
+  var documentAll_1 = {
+    all: documentAll$2,
+    IS_HTMLDDA: IS_HTMLDDA
+  };
+
+  var $documentAll$1 = documentAll_1;
+
+  var documentAll$1 = $documentAll$1.all;
 
   // `IsCallable` abstract operation
   // https://tc39.es/ecma262/#sec-iscallable
-  var isCallable$l = function (argument) {
+  var isCallable$n = $documentAll$1.IS_HTMLDDA ? function (argument) {
+    return typeof argument == 'function' || argument === documentAll$1;
+  } : function (argument) {
     return typeof argument == 'function';
   };
 
-  var isCallable$k = isCallable$l;
+  var isCallable$m = isCallable$n;
+  var $documentAll = documentAll_1;
 
-  var isObject$i = function (it) {
-    return typeof it == 'object' ? it !== null : isCallable$k(it);
+  var documentAll = $documentAll.all;
+
+  var isObject$i = $documentAll.IS_HTMLDDA ? function (it) {
+    return typeof it == 'object' ? it !== null : isCallable$m(it) || it === documentAll;
+  } : function (it) {
+    return typeof it == 'object' ? it !== null : isCallable$m(it);
   };
 
-  var global$K = global$N;
-  var isCallable$j = isCallable$l;
+  var global$l = global$m;
+  var isCallable$l = isCallable$n;
 
   var aFunction = function (argument) {
-    return isCallable$j(argument) ? argument : undefined;
+    return isCallable$l(argument) ? argument : undefined;
   };
 
-  var getBuiltIn$9 = function (namespace, method) {
-    return arguments.length < 2 ? aFunction(global$K[namespace]) : global$K[namespace] && global$K[namespace][method];
+  var getBuiltIn$a = function (namespace, method) {
+    return arguments.length < 2 ? aFunction(global$l[namespace]) : global$l[namespace] && global$l[namespace][method];
   };
 
-  var uncurryThis$m = functionUncurryThis;
+  var uncurryThis$h = functionUncurryThis;
 
-  var objectIsPrototypeOf = uncurryThis$m({}.isPrototypeOf);
+  var objectIsPrototypeOf = uncurryThis$h({}.isPrototypeOf);
 
-  var getBuiltIn$8 = getBuiltIn$9;
+  var getBuiltIn$9 = getBuiltIn$a;
 
-  var engineUserAgent = getBuiltIn$8('navigator', 'userAgent') || '';
+  var engineUserAgent = getBuiltIn$9('navigator', 'userAgent') || '';
 
-  var global$J = global$N;
+  var global$k = global$m;
   var userAgent$5 = engineUserAgent;
 
-  var process$4 = global$J.process;
-  var Deno = global$J.Deno;
-  var versions = process$4 && process$4.versions || Deno && Deno.version;
+  var process$4 = global$k.process;
+  var Deno$1 = global$k.Deno;
+  var versions = process$4 && process$4.versions || Deno$1 && Deno$1.version;
   var v8 = versions && versions.v8;
   var match$1, version;
 
@@ -481,10 +463,10 @@
   /* eslint-disable es/no-symbol -- required for testing */
 
   var V8_VERSION$3 = engineV8Version;
-  var fails$m = fails$q;
+  var fails$i = fails$m;
 
   // eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
-  var nativeSymbol = !!Object.getOwnPropertySymbols && !fails$m(function () {
+  var symbolConstructorDetection = !!Object.getOwnPropertySymbols && !fails$i(function () {
     var symbol = Symbol();
     // Chrome 38 Symbol has incorrect toString conversion
     // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
@@ -495,157 +477,153 @@
 
   /* eslint-disable es/no-symbol -- required for testing */
 
-  var NATIVE_SYMBOL$1 = nativeSymbol;
+  var NATIVE_SYMBOL$1 = symbolConstructorDetection;
 
   var useSymbolAsUid = NATIVE_SYMBOL$1
     && !Symbol.sham
     && typeof Symbol.iterator == 'symbol';
 
-  var global$I = global$N;
-  var getBuiltIn$7 = getBuiltIn$9;
-  var isCallable$i = isCallable$l;
+  var getBuiltIn$8 = getBuiltIn$a;
+  var isCallable$k = isCallable$n;
   var isPrototypeOf$3 = objectIsPrototypeOf;
   var USE_SYMBOL_AS_UID$1 = useSymbolAsUid;
 
-  var Object$4 = global$I.Object;
+  var $Object$3 = Object;
 
   var isSymbol$2 = USE_SYMBOL_AS_UID$1 ? function (it) {
     return typeof it == 'symbol';
   } : function (it) {
-    var $Symbol = getBuiltIn$7('Symbol');
-    return isCallable$i($Symbol) && isPrototypeOf$3($Symbol.prototype, Object$4(it));
+    var $Symbol = getBuiltIn$8('Symbol');
+    return isCallable$k($Symbol) && isPrototypeOf$3($Symbol.prototype, $Object$3(it));
   };
 
-  var global$H = global$N;
+  var $String$3 = String;
 
-  var String$5 = global$H.String;
-
-  var tryToString$4 = function (argument) {
+  var tryToString$5 = function (argument) {
     try {
-      return String$5(argument);
+      return $String$3(argument);
     } catch (error) {
       return 'Object';
     }
   };
 
-  var global$G = global$N;
-  var isCallable$h = isCallable$l;
-  var tryToString$3 = tryToString$4;
+  var isCallable$j = isCallable$n;
+  var tryToString$4 = tryToString$5;
 
-  var TypeError$f = global$G.TypeError;
+  var $TypeError$d = TypeError;
 
   // `Assert: IsCallable(argument) is true`
-  var aCallable$6 = function (argument) {
-    if (isCallable$h(argument)) return argument;
-    throw TypeError$f(tryToString$3(argument) + ' is not a function');
+  var aCallable$8 = function (argument) {
+    if (isCallable$j(argument)) return argument;
+    throw $TypeError$d(tryToString$4(argument) + ' is not a function');
   };
 
-  var aCallable$5 = aCallable$6;
+  var aCallable$7 = aCallable$8;
+  var isNullOrUndefined$4 = isNullOrUndefined$6;
 
   // `GetMethod` abstract operation
   // https://tc39.es/ecma262/#sec-getmethod
-  var getMethod$4 = function (V, P) {
+  var getMethod$3 = function (V, P) {
     var func = V[P];
-    return func == null ? undefined : aCallable$5(func);
+    return isNullOrUndefined$4(func) ? undefined : aCallable$7(func);
   };
 
-  var global$F = global$N;
   var call$c = functionCall;
-  var isCallable$g = isCallable$l;
+  var isCallable$i = isCallable$n;
   var isObject$h = isObject$i;
 
-  var TypeError$e = global$F.TypeError;
+  var $TypeError$c = TypeError;
 
   // `OrdinaryToPrimitive` abstract operation
   // https://tc39.es/ecma262/#sec-ordinarytoprimitive
   var ordinaryToPrimitive$1 = function (input, pref) {
     var fn, val;
-    if (pref === 'string' && isCallable$g(fn = input.toString) && !isObject$h(val = call$c(fn, input))) return val;
-    if (isCallable$g(fn = input.valueOf) && !isObject$h(val = call$c(fn, input))) return val;
-    if (pref !== 'string' && isCallable$g(fn = input.toString) && !isObject$h(val = call$c(fn, input))) return val;
-    throw TypeError$e("Can't convert object to primitive value");
+    if (pref === 'string' && isCallable$i(fn = input.toString) && !isObject$h(val = call$c(fn, input))) return val;
+    if (isCallable$i(fn = input.valueOf) && !isObject$h(val = call$c(fn, input))) return val;
+    if (pref !== 'string' && isCallable$i(fn = input.toString) && !isObject$h(val = call$c(fn, input))) return val;
+    throw $TypeError$c("Can't convert object to primitive value");
   };
 
-  var shared$4 = {exports: {}};
+  var shared$3 = {exports: {}};
 
-  var global$E = global$N;
+  var global$j = global$m;
 
   // eslint-disable-next-line es/no-object-defineproperty -- safe
-  var defineProperty$3 = Object.defineProperty;
+  var defineProperty$6 = Object.defineProperty;
 
-  var setGlobal$3 = function (key, value) {
+  var defineGlobalProperty$3 = function (key, value) {
     try {
-      defineProperty$3(global$E, key, { value: value, configurable: true, writable: true });
+      defineProperty$6(global$j, key, { value: value, configurable: true, writable: true });
     } catch (error) {
-      global$E[key] = value;
+      global$j[key] = value;
     } return value;
   };
 
-  var global$D = global$N;
-  var setGlobal$2 = setGlobal$3;
+  var global$i = global$m;
+  var defineGlobalProperty$2 = defineGlobalProperty$3;
 
   var SHARED = '__core-js_shared__';
-  var store$3 = global$D[SHARED] || setGlobal$2(SHARED, {});
+  var store$3 = global$i[SHARED] || defineGlobalProperty$2(SHARED, {});
 
   var sharedStore = store$3;
 
   var store$2 = sharedStore;
 
-  (shared$4.exports = function (key, value) {
+  (shared$3.exports = function (key, value) {
     return store$2[key] || (store$2[key] = value !== undefined ? value : {});
   })('versions', []).push({
-    version: '3.21.0',
+    version: '3.26.0',
     mode: 'global',
     copyright: '© 2014-2022 Denis Pushkarev (zloirock.ru)',
-    license: 'https://github.com/zloirock/core-js/blob/v3.21.0/LICENSE',
+    license: 'https://github.com/zloirock/core-js/blob/v3.26.0/LICENSE',
     source: 'https://github.com/zloirock/core-js'
   });
 
-  var global$C = global$N;
-  var requireObjectCoercible$2 = requireObjectCoercible$4;
+  var requireObjectCoercible$1 = requireObjectCoercible$3;
 
-  var Object$3 = global$C.Object;
+  var $Object$2 = Object;
 
   // `ToObject` abstract operation
   // https://tc39.es/ecma262/#sec-toobject
   var toObject$5 = function (argument) {
-    return Object$3(requireObjectCoercible$2(argument));
+    return $Object$2(requireObjectCoercible$1(argument));
   };
 
-  var uncurryThis$l = functionUncurryThis;
+  var uncurryThis$g = functionUncurryThis;
   var toObject$4 = toObject$5;
 
-  var hasOwnProperty = uncurryThis$l({}.hasOwnProperty);
+  var hasOwnProperty = uncurryThis$g({}.hasOwnProperty);
 
   // `HasOwnProperty` abstract operation
   // https://tc39.es/ecma262/#sec-hasownproperty
+  // eslint-disable-next-line es/no-object-hasown -- safe
   var hasOwnProperty_1 = Object.hasOwn || function hasOwn(it, key) {
     return hasOwnProperty(toObject$4(it), key);
   };
 
-  var uncurryThis$k = functionUncurryThis;
+  var uncurryThis$f = functionUncurryThis;
 
   var id$2 = 0;
   var postfix = Math.random();
-  var toString$8 = uncurryThis$k(1.0.toString);
+  var toString$6 = uncurryThis$f(1.0.toString);
 
   var uid$3 = function (key) {
-    return 'Symbol(' + (key === undefined ? '' : key) + ')_' + toString$8(++id$2 + postfix, 36);
+    return 'Symbol(' + (key === undefined ? '' : key) + ')_' + toString$6(++id$2 + postfix, 36);
   };
 
-  var global$B = global$N;
-  var shared$3 = shared$4.exports;
+  var global$h = global$m;
+  var shared$2 = shared$3.exports;
   var hasOwn$c = hasOwnProperty_1;
   var uid$2 = uid$3;
-  var NATIVE_SYMBOL = nativeSymbol;
+  var NATIVE_SYMBOL = symbolConstructorDetection;
   var USE_SYMBOL_AS_UID = useSymbolAsUid;
 
-  var WellKnownSymbolsStore = shared$3('wks');
-  var Symbol$1 = global$B.Symbol;
+  var WellKnownSymbolsStore = shared$2('wks');
+  var Symbol$1 = global$h.Symbol;
   var symbolFor = Symbol$1 && Symbol$1['for'];
   var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol$1 : Symbol$1 && Symbol$1.withoutSetter || uid$2;
 
-  var wellKnownSymbol$k = function (name) {
+  var wellKnownSymbol$i = function (name) {
     if (!hasOwn$c(WellKnownSymbolsStore, name) || !(NATIVE_SYMBOL || typeof WellKnownSymbolsStore[name] == 'string')) {
       var description = 'Symbol.' + name;
       if (NATIVE_SYMBOL && hasOwn$c(Symbol$1, name)) {
@@ -658,28 +636,27 @@
     } return WellKnownSymbolsStore[name];
   };
 
-  var global$A = global$N;
   var call$b = functionCall;
   var isObject$g = isObject$i;
   var isSymbol$1 = isSymbol$2;
-  var getMethod$3 = getMethod$4;
+  var getMethod$2 = getMethod$3;
   var ordinaryToPrimitive = ordinaryToPrimitive$1;
-  var wellKnownSymbol$j = wellKnownSymbol$k;
+  var wellKnownSymbol$h = wellKnownSymbol$i;
 
-  var TypeError$d = global$A.TypeError;
-  var TO_PRIMITIVE = wellKnownSymbol$j('toPrimitive');
+  var $TypeError$b = TypeError;
+  var TO_PRIMITIVE = wellKnownSymbol$h('toPrimitive');
 
   // `ToPrimitive` abstract operation
   // https://tc39.es/ecma262/#sec-toprimitive
   var toPrimitive$1 = function (input, pref) {
     if (!isObject$g(input) || isSymbol$1(input)) return input;
-    var exoticToPrim = getMethod$3(input, TO_PRIMITIVE);
+    var exoticToPrim = getMethod$2(input, TO_PRIMITIVE);
     var result;
     if (exoticToPrim) {
       if (pref === undefined) pref = 'default';
       result = call$b(exoticToPrim, input, pref);
       if (!isObject$g(result) || isSymbol$1(result)) return result;
-      throw TypeError$d("Can't convert object to primitive value");
+      throw $TypeError$b("Can't convert object to primitive value");
     }
     if (pref === undefined) pref = 'number';
     return ordinaryToPrimitive(input, pref);
@@ -695,10 +672,10 @@
     return isSymbol(key) ? key : key + '';
   };
 
-  var global$z = global$N;
+  var global$g = global$m;
   var isObject$f = isObject$i;
 
-  var document$3 = global$z.document;
+  var document$3 = global$g.document;
   // typeof document.createElement is 'object' in old IE
   var EXISTS$1 = isObject$f(document$3) && isObject$f(document$3.createElement);
 
@@ -706,23 +683,23 @@
     return EXISTS$1 ? document$3.createElement(it) : {};
   };
 
-  var DESCRIPTORS$8 = descriptors;
-  var fails$l = fails$q;
+  var DESCRIPTORS$a = descriptors;
+  var fails$h = fails$m;
   var createElement$1 = documentCreateElement$2;
 
   // Thanks to IE8 for its funny defineProperty
-  var ie8DomDefine = !DESCRIPTORS$8 && !fails$l(function () {
+  var ie8DomDefine = !DESCRIPTORS$a && !fails$h(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty(createElement$1('div'), 'a', {
       get: function () { return 7; }
     }).a != 7;
   });
 
-  var DESCRIPTORS$7 = descriptors;
+  var DESCRIPTORS$9 = descriptors;
   var call$a = functionCall;
   var propertyIsEnumerableModule = objectPropertyIsEnumerable;
   var createPropertyDescriptor$4 = createPropertyDescriptor$5;
-  var toIndexedObject$7 = toIndexedObject$8;
+  var toIndexedObject$6 = toIndexedObject$7;
   var toPropertyKey$2 = toPropertyKey$3;
   var hasOwn$b = hasOwnProperty_1;
   var IE8_DOM_DEFINE$1 = ie8DomDefine;
@@ -732,8 +709,8 @@
 
   // `Object.getOwnPropertyDescriptor` method
   // https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
-  objectGetOwnPropertyDescriptor.f = DESCRIPTORS$7 ? $getOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
-    O = toIndexedObject$7(O);
+  objectGetOwnPropertyDescriptor.f = DESCRIPTORS$9 ? $getOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
+    O = toIndexedObject$6(O);
     P = toPropertyKey$2(P);
     if (IE8_DOM_DEFINE$1) try {
       return $getOwnPropertyDescriptor$1(O, P);
@@ -743,12 +720,12 @@
 
   var objectDefineProperty = {};
 
-  var DESCRIPTORS$6 = descriptors;
-  var fails$k = fails$q;
+  var DESCRIPTORS$8 = descriptors;
+  var fails$g = fails$m;
 
   // V8 ~ Chrome 36-
   // https://bugs.chromium.org/p/v8/issues/detail?id=3334
-  var v8PrototypeDefineBug = DESCRIPTORS$6 && fails$k(function () {
+  var v8PrototypeDefineBug = DESCRIPTORS$8 && fails$g(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty(function () { /* empty */ }, 'prototype', {
       value: 42,
@@ -756,26 +733,24 @@
     }).prototype != 42;
   });
 
-  var global$y = global$N;
   var isObject$e = isObject$i;
 
-  var String$4 = global$y.String;
-  var TypeError$c = global$y.TypeError;
+  var $String$2 = String;
+  var $TypeError$a = TypeError;
 
   // `Assert: Type(argument) is Object`
-  var anObject$e = function (argument) {
+  var anObject$b = function (argument) {
     if (isObject$e(argument)) return argument;
-    throw TypeError$c(String$4(argument) + ' is not an object');
+    throw $TypeError$a($String$2(argument) + ' is not an object');
   };
 
-  var global$x = global$N;
-  var DESCRIPTORS$5 = descriptors;
+  var DESCRIPTORS$7 = descriptors;
   var IE8_DOM_DEFINE = ie8DomDefine;
   var V8_PROTOTYPE_DEFINE_BUG$1 = v8PrototypeDefineBug;
-  var anObject$d = anObject$e;
+  var anObject$a = anObject$b;
   var toPropertyKey$1 = toPropertyKey$3;
 
-  var TypeError$b = global$x.TypeError;
+  var $TypeError$9 = TypeError;
   // eslint-disable-next-line es/no-object-defineproperty -- safe
   var $defineProperty = Object.defineProperty;
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
@@ -786,10 +761,10 @@
 
   // `Object.defineProperty` method
   // https://tc39.es/ecma262/#sec-object.defineproperty
-  objectDefineProperty.f = DESCRIPTORS$5 ? V8_PROTOTYPE_DEFINE_BUG$1 ? function defineProperty(O, P, Attributes) {
-    anObject$d(O);
+  objectDefineProperty.f = DESCRIPTORS$7 ? V8_PROTOTYPE_DEFINE_BUG$1 ? function defineProperty(O, P, Attributes) {
+    anObject$a(O);
     P = toPropertyKey$1(P);
-    anObject$d(Attributes);
+    anObject$a(Attributes);
     if (typeof O === 'function' && P === 'prototype' && 'value' in Attributes && WRITABLE in Attributes && !Attributes[WRITABLE]) {
       var current = $getOwnPropertyDescriptor(O, P);
       if (current && current[WRITABLE]) {
@@ -802,57 +777,74 @@
       }
     } return $defineProperty(O, P, Attributes);
   } : $defineProperty : function defineProperty(O, P, Attributes) {
-    anObject$d(O);
+    anObject$a(O);
     P = toPropertyKey$1(P);
-    anObject$d(Attributes);
+    anObject$a(Attributes);
     if (IE8_DOM_DEFINE) try {
       return $defineProperty(O, P, Attributes);
     } catch (error) { /* empty */ }
-    if ('get' in Attributes || 'set' in Attributes) throw TypeError$b('Accessors not supported');
+    if ('get' in Attributes || 'set' in Attributes) throw $TypeError$9('Accessors not supported');
     if ('value' in Attributes) O[P] = Attributes.value;
     return O;
   };
 
-  var DESCRIPTORS$4 = descriptors;
+  var DESCRIPTORS$6 = descriptors;
   var definePropertyModule$5 = objectDefineProperty;
   var createPropertyDescriptor$3 = createPropertyDescriptor$5;
 
-  var createNonEnumerableProperty$8 = DESCRIPTORS$4 ? function (object, key, value) {
+  var createNonEnumerableProperty$6 = DESCRIPTORS$6 ? function (object, key, value) {
     return definePropertyModule$5.f(object, key, createPropertyDescriptor$3(1, value));
   } : function (object, key, value) {
     object[key] = value;
     return object;
   };
 
-  var redefine$9 = {exports: {}};
+  var makeBuiltIn$2 = {exports: {}};
 
-  var uncurryThis$j = functionUncurryThis;
-  var isCallable$f = isCallable$l;
+  var DESCRIPTORS$5 = descriptors;
+  var hasOwn$a = hasOwnProperty_1;
+
+  var FunctionPrototype$1 = Function.prototype;
+  // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
+  var getDescriptor = DESCRIPTORS$5 && Object.getOwnPropertyDescriptor;
+
+  var EXISTS = hasOwn$a(FunctionPrototype$1, 'name');
+  // additional protection from minified / mangled / dropped function names
+  var PROPER = EXISTS && (function something() { /* empty */ }).name === 'something';
+  var CONFIGURABLE = EXISTS && (!DESCRIPTORS$5 || (DESCRIPTORS$5 && getDescriptor(FunctionPrototype$1, 'name').configurable));
+
+  var functionName = {
+    EXISTS: EXISTS,
+    PROPER: PROPER,
+    CONFIGURABLE: CONFIGURABLE
+  };
+
+  var uncurryThis$e = functionUncurryThis;
+  var isCallable$h = isCallable$n;
   var store$1 = sharedStore;
 
-  var functionToString = uncurryThis$j(Function.toString);
+  var functionToString = uncurryThis$e(Function.toString);
 
   // this helper broken in `core-js@3.4.1-3.4.4`, so we can't use `shared` helper
-  if (!isCallable$f(store$1.inspectSource)) {
+  if (!isCallable$h(store$1.inspectSource)) {
     store$1.inspectSource = function (it) {
       return functionToString(it);
     };
   }
 
-  var inspectSource$4 = store$1.inspectSource;
+  var inspectSource$3 = store$1.inspectSource;
 
-  var global$w = global$N;
-  var isCallable$e = isCallable$l;
-  var inspectSource$3 = inspectSource$4;
+  var global$f = global$m;
+  var isCallable$g = isCallable$n;
 
-  var WeakMap$2 = global$w.WeakMap;
+  var WeakMap$2 = global$f.WeakMap;
 
-  var nativeWeakMap = isCallable$e(WeakMap$2) && /native code/.test(inspectSource$3(WeakMap$2));
+  var weakMapBasicDetection = isCallable$g(WeakMap$2) && /native code/.test(String(WeakMap$2));
 
-  var shared$2 = shared$4.exports;
+  var shared$1 = shared$3.exports;
   var uid$1 = uid$3;
 
-  var keys = shared$2('keys');
+  var keys = shared$1('keys');
 
   var sharedKey$3 = function (key) {
     return keys[key] || (keys[key] = uid$1(key));
@@ -860,19 +852,18 @@
 
   var hiddenKeys$5 = {};
 
-  var NATIVE_WEAK_MAP$1 = nativeWeakMap;
-  var global$v = global$N;
-  var uncurryThis$i = functionUncurryThis;
+  var NATIVE_WEAK_MAP$1 = weakMapBasicDetection;
+  var global$e = global$m;
   var isObject$d = isObject$i;
-  var createNonEnumerableProperty$7 = createNonEnumerableProperty$8;
-  var hasOwn$a = hasOwnProperty_1;
-  var shared$1 = sharedStore;
+  var createNonEnumerableProperty$5 = createNonEnumerableProperty$6;
+  var hasOwn$9 = hasOwnProperty_1;
+  var shared = sharedStore;
   var sharedKey$2 = sharedKey$3;
   var hiddenKeys$4 = hiddenKeys$5;
 
   var OBJECT_ALREADY_INITIALIZED = 'Object already initialized';
-  var TypeError$a = global$v.TypeError;
-  var WeakMap$1 = global$v.WeakMap;
+  var TypeError$2 = global$e.TypeError;
+  var WeakMap$1 = global$e.WeakMap;
   var set$1, get, has;
 
   var enforce = function (it) {
@@ -883,42 +874,44 @@
     return function (it) {
       var state;
       if (!isObject$d(it) || (state = get(it)).type !== TYPE) {
-        throw TypeError$a('Incompatible receiver, ' + TYPE + ' required');
+        throw TypeError$2('Incompatible receiver, ' + TYPE + ' required');
       } return state;
     };
   };
 
-  if (NATIVE_WEAK_MAP$1 || shared$1.state) {
-    var store = shared$1.state || (shared$1.state = new WeakMap$1());
-    var wmget = uncurryThis$i(store.get);
-    var wmhas = uncurryThis$i(store.has);
-    var wmset = uncurryThis$i(store.set);
+  if (NATIVE_WEAK_MAP$1 || shared.state) {
+    var store = shared.state || (shared.state = new WeakMap$1());
+    /* eslint-disable no-self-assign -- prototype methods protection */
+    store.get = store.get;
+    store.has = store.has;
+    store.set = store.set;
+    /* eslint-enable no-self-assign -- prototype methods protection */
     set$1 = function (it, metadata) {
-      if (wmhas(store, it)) throw new TypeError$a(OBJECT_ALREADY_INITIALIZED);
+      if (store.has(it)) throw TypeError$2(OBJECT_ALREADY_INITIALIZED);
       metadata.facade = it;
-      wmset(store, it, metadata);
+      store.set(it, metadata);
       return metadata;
     };
     get = function (it) {
-      return wmget(store, it) || {};
+      return store.get(it) || {};
     };
     has = function (it) {
-      return wmhas(store, it);
+      return store.has(it);
     };
   } else {
     var STATE = sharedKey$2('state');
     hiddenKeys$4[STATE] = true;
     set$1 = function (it, metadata) {
-      if (hasOwn$a(it, STATE)) throw new TypeError$a(OBJECT_ALREADY_INITIALIZED);
+      if (hasOwn$9(it, STATE)) throw TypeError$2(OBJECT_ALREADY_INITIALIZED);
       metadata.facade = it;
-      createNonEnumerableProperty$7(it, STATE, metadata);
+      createNonEnumerableProperty$5(it, STATE, metadata);
       return metadata;
     };
     get = function (it) {
-      return hasOwn$a(it, STATE) ? it[STATE] : {};
+      return hasOwn$9(it, STATE) ? it[STATE] : {};
     };
     has = function (it) {
-      return hasOwn$a(it, STATE);
+      return hasOwn$9(it, STATE);
     };
   }
 
@@ -930,123 +923,146 @@
     getterFor: getterFor
   };
 
-  var DESCRIPTORS$3 = descriptors;
-  var hasOwn$9 = hasOwnProperty_1;
-
-  var FunctionPrototype$1 = Function.prototype;
-  // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-  var getDescriptor = DESCRIPTORS$3 && Object.getOwnPropertyDescriptor;
-
-  var EXISTS = hasOwn$9(FunctionPrototype$1, 'name');
-  // additional protection from minified / mangled / dropped function names
-  var PROPER = EXISTS && (function something() { /* empty */ }).name === 'something';
-  var CONFIGURABLE = EXISTS && (!DESCRIPTORS$3 || (DESCRIPTORS$3 && getDescriptor(FunctionPrototype$1, 'name').configurable));
-
-  var functionName = {
-    EXISTS: EXISTS,
-    PROPER: PROPER,
-    CONFIGURABLE: CONFIGURABLE
-  };
-
-  var global$u = global$N;
-  var isCallable$d = isCallable$l;
+  var fails$f = fails$m;
+  var isCallable$f = isCallable$n;
   var hasOwn$8 = hasOwnProperty_1;
-  var createNonEnumerableProperty$6 = createNonEnumerableProperty$8;
-  var setGlobal$1 = setGlobal$3;
-  var inspectSource$2 = inspectSource$4;
-  var InternalStateModule$4 = internalState;
+  var DESCRIPTORS$4 = descriptors;
   var CONFIGURABLE_FUNCTION_NAME$1 = functionName.CONFIGURABLE;
+  var inspectSource$2 = inspectSource$3;
+  var InternalStateModule$4 = internalState;
 
-  var getInternalState$4 = InternalStateModule$4.get;
   var enforceInternalState$1 = InternalStateModule$4.enforce;
+  var getInternalState$2 = InternalStateModule$4.get;
+  // eslint-disable-next-line es/no-object-defineproperty -- safe
+  var defineProperty$5 = Object.defineProperty;
+
+  var CONFIGURABLE_LENGTH = DESCRIPTORS$4 && !fails$f(function () {
+    return defineProperty$5(function () { /* empty */ }, 'length', { value: 8 }).length !== 8;
+  });
+
   var TEMPLATE = String(String).split('String');
 
-  (redefine$9.exports = function (O, key, value, options) {
-    var unsafe = options ? !!options.unsafe : false;
-    var simple = options ? !!options.enumerable : false;
-    var noTargetGet = options ? !!options.noTargetGet : false;
-    var name = options && options.name !== undefined ? options.name : key;
-    var state;
-    if (isCallable$d(value)) {
-      if (String(name).slice(0, 7) === 'Symbol(') {
-        name = '[' + String(name).replace(/^Symbol\(([^)]*)\)/, '$1') + ']';
-      }
-      if (!hasOwn$8(value, 'name') || (CONFIGURABLE_FUNCTION_NAME$1 && value.name !== name)) {
-        createNonEnumerableProperty$6(value, 'name', name);
-      }
-      state = enforceInternalState$1(value);
-      if (!state.source) {
-        state.source = TEMPLATE.join(typeof name == 'string' ? name : '');
-      }
+  var makeBuiltIn$1 = makeBuiltIn$2.exports = function (value, name, options) {
+    if (String(name).slice(0, 7) === 'Symbol(') {
+      name = '[' + String(name).replace(/^Symbol\(([^)]*)\)/, '$1') + ']';
     }
-    if (O === global$u) {
-      if (simple) O[key] = value;
-      else setGlobal$1(key, value);
-      return;
-    } else if (!unsafe) {
-      delete O[key];
-    } else if (!noTargetGet && O[key]) {
-      simple = true;
+    if (options && options.getter) name = 'get ' + name;
+    if (options && options.setter) name = 'set ' + name;
+    if (!hasOwn$8(value, 'name') || (CONFIGURABLE_FUNCTION_NAME$1 && value.name !== name)) {
+      if (DESCRIPTORS$4) defineProperty$5(value, 'name', { value: name, configurable: true });
+      else value.name = name;
     }
-    if (simple) O[key] = value;
-    else createNonEnumerableProperty$6(O, key, value);
+    if (CONFIGURABLE_LENGTH && options && hasOwn$8(options, 'arity') && value.length !== options.arity) {
+      defineProperty$5(value, 'length', { value: options.arity });
+    }
+    try {
+      if (options && hasOwn$8(options, 'constructor') && options.constructor) {
+        if (DESCRIPTORS$4) defineProperty$5(value, 'prototype', { writable: false });
+      // in V8 ~ Chrome 53, prototypes of some methods, like `Array.prototype.values`, are non-writable
+      } else if (value.prototype) value.prototype = undefined;
+    } catch (error) { /* empty */ }
+    var state = enforceInternalState$1(value);
+    if (!hasOwn$8(state, 'source')) {
+      state.source = TEMPLATE.join(typeof name == 'string' ? name : '');
+    } return value;
+  };
+
   // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
-  })(Function.prototype, 'toString', function toString() {
-    return isCallable$d(this) && getInternalState$4(this).source || inspectSource$2(this);
-  });
+  // eslint-disable-next-line no-extend-native -- required
+  Function.prototype.toString = makeBuiltIn$1(function toString() {
+    return isCallable$f(this) && getInternalState$2(this).source || inspectSource$2(this);
+  }, 'toString');
+
+  var isCallable$e = isCallable$n;
+  var definePropertyModule$4 = objectDefineProperty;
+  var makeBuiltIn = makeBuiltIn$2.exports;
+  var defineGlobalProperty$1 = defineGlobalProperty$3;
+
+  var defineBuiltIn$9 = function (O, key, value, options) {
+    if (!options) options = {};
+    var simple = options.enumerable;
+    var name = options.name !== undefined ? options.name : key;
+    if (isCallable$e(value)) makeBuiltIn(value, name, options);
+    if (options.global) {
+      if (simple) O[key] = value;
+      else defineGlobalProperty$1(key, value);
+    } else {
+      try {
+        if (!options.unsafe) delete O[key];
+        else if (O[key]) simple = true;
+      } catch (error) { /* empty */ }
+      if (simple) O[key] = value;
+      else definePropertyModule$4.f(O, key, {
+        value: value,
+        enumerable: false,
+        configurable: !options.nonConfigurable,
+        writable: !options.nonWritable
+      });
+    } return O;
+  };
 
   var objectGetOwnPropertyNames = {};
 
   var ceil = Math.ceil;
   var floor$1 = Math.floor;
 
+  // `Math.trunc` method
+  // https://tc39.es/ecma262/#sec-math.trunc
+  // eslint-disable-next-line es/no-math-trunc -- safe
+  var mathTrunc = Math.trunc || function trunc(x) {
+    var n = +x;
+    return (n > 0 ? floor$1 : ceil)(n);
+  };
+
+  var trunc = mathTrunc;
+
   // `ToIntegerOrInfinity` abstract operation
   // https://tc39.es/ecma262/#sec-tointegerorinfinity
   var toIntegerOrInfinity$3 = function (argument) {
     var number = +argument;
-    // eslint-disable-next-line no-self-compare -- safe
-    return number !== number || number === 0 ? 0 : (number > 0 ? floor$1 : ceil)(number);
+    // eslint-disable-next-line no-self-compare -- NaN check
+    return number !== number || number === 0 ? 0 : trunc(number);
   };
 
   var toIntegerOrInfinity$2 = toIntegerOrInfinity$3;
 
   var max$3 = Math.max;
-  var min$3 = Math.min;
+  var min$2 = Math.min;
 
   // Helper for a popular repeating case of the spec:
   // Let integer be ? ToInteger(index).
   // If integer < 0, let result be max((length + integer), 0); else let result be min(integer, length).
   var toAbsoluteIndex$3 = function (index, length) {
     var integer = toIntegerOrInfinity$2(index);
-    return integer < 0 ? max$3(integer + length, 0) : min$3(integer, length);
+    return integer < 0 ? max$3(integer + length, 0) : min$2(integer, length);
   };
 
   var toIntegerOrInfinity$1 = toIntegerOrInfinity$3;
 
-  var min$2 = Math.min;
+  var min$1 = Math.min;
 
   // `ToLength` abstract operation
   // https://tc39.es/ecma262/#sec-tolength
-  var toLength$2 = function (argument) {
-    return argument > 0 ? min$2(toIntegerOrInfinity$1(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+  var toLength$1 = function (argument) {
+    return argument > 0 ? min$1(toIntegerOrInfinity$1(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
   };
 
-  var toLength$1 = toLength$2;
+  var toLength = toLength$1;
 
   // `LengthOfArrayLike` abstract operation
   // https://tc39.es/ecma262/#sec-lengthofarraylike
   var lengthOfArrayLike$7 = function (obj) {
-    return toLength$1(obj.length);
+    return toLength(obj.length);
   };
 
-  var toIndexedObject$6 = toIndexedObject$8;
+  var toIndexedObject$5 = toIndexedObject$7;
   var toAbsoluteIndex$2 = toAbsoluteIndex$3;
   var lengthOfArrayLike$6 = lengthOfArrayLike$7;
 
   // `Array.prototype.{ indexOf, includes }` methods implementation
   var createMethod$2 = function (IS_INCLUDES) {
     return function ($this, el, fromIndex) {
-      var O = toIndexedObject$6($this);
+      var O = toIndexedObject$5($this);
       var length = lengthOfArrayLike$6(O);
       var index = toAbsoluteIndex$2(fromIndex, length);
       var value;
@@ -1072,23 +1088,23 @@
     indexOf: createMethod$2(false)
   };
 
-  var uncurryThis$h = functionUncurryThis;
+  var uncurryThis$d = functionUncurryThis;
   var hasOwn$7 = hasOwnProperty_1;
-  var toIndexedObject$5 = toIndexedObject$8;
-  var indexOf$1 = arrayIncludes.indexOf;
+  var toIndexedObject$4 = toIndexedObject$7;
+  var indexOf = arrayIncludes.indexOf;
   var hiddenKeys$3 = hiddenKeys$5;
 
-  var push$3 = uncurryThis$h([].push);
+  var push$2 = uncurryThis$d([].push);
 
   var objectKeysInternal = function (object, names) {
-    var O = toIndexedObject$5(object);
+    var O = toIndexedObject$4(object);
     var i = 0;
     var result = [];
     var key;
-    for (key in O) !hasOwn$7(hiddenKeys$3, key) && hasOwn$7(O, key) && push$3(result, key);
+    for (key in O) !hasOwn$7(hiddenKeys$3, key) && hasOwn$7(O, key) && push$2(result, key);
     // Don't enum bug & hidden keys
     while (names.length > i) if (hasOwn$7(O, key = names[i++])) {
-      ~indexOf$1(result, key) || push$3(result, key);
+      ~indexOf(result, key) || push$2(result, key);
     }
     return result;
   };
@@ -1121,17 +1137,17 @@
   // eslint-disable-next-line es/no-object-getownpropertysymbols -- safe
   objectGetOwnPropertySymbols.f = Object.getOwnPropertySymbols;
 
-  var getBuiltIn$6 = getBuiltIn$9;
-  var uncurryThis$g = functionUncurryThis;
+  var getBuiltIn$7 = getBuiltIn$a;
+  var uncurryThis$c = functionUncurryThis;
   var getOwnPropertyNamesModule$1 = objectGetOwnPropertyNames;
   var getOwnPropertySymbolsModule = objectGetOwnPropertySymbols;
-  var anObject$c = anObject$e;
+  var anObject$9 = anObject$b;
 
-  var concat = uncurryThis$g([].concat);
+  var concat = uncurryThis$c([].concat);
 
   // all object keys, includes non-enumerable and symbols
-  var ownKeys$1 = getBuiltIn$6('Reflect', 'ownKeys') || function ownKeys(it) {
-    var keys = getOwnPropertyNamesModule$1.f(anObject$c(it));
+  var ownKeys$1 = getBuiltIn$7('Reflect', 'ownKeys') || function ownKeys(it) {
+    var keys = getOwnPropertyNamesModule$1.f(anObject$9(it));
     var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
     return getOwnPropertySymbols ? concat(keys, getOwnPropertySymbols(it)) : keys;
   };
@@ -1139,11 +1155,11 @@
   var hasOwn$6 = hasOwnProperty_1;
   var ownKeys = ownKeys$1;
   var getOwnPropertyDescriptorModule = objectGetOwnPropertyDescriptor;
-  var definePropertyModule$4 = objectDefineProperty;
+  var definePropertyModule$3 = objectDefineProperty;
 
   var copyConstructorProperties$2 = function (target, source, exceptions) {
     var keys = ownKeys(source);
-    var defineProperty = definePropertyModule$4.f;
+    var defineProperty = definePropertyModule$3.f;
     var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
@@ -1153,8 +1169,8 @@
     }
   };
 
-  var fails$j = fails$q;
-  var isCallable$c = isCallable$l;
+  var fails$e = fails$m;
+  var isCallable$d = isCallable$n;
 
   var replacement = /#|\.prototype\./;
 
@@ -1162,7 +1178,7 @@
     var value = data$2[normalize(feature)];
     return value == POLYFILL ? true
       : value == NATIVE ? false
-      : isCallable$c(detection) ? fails$j(detection)
+      : isCallable$d(detection) ? fails$e(detection)
       : !!detection;
   };
 
@@ -1176,28 +1192,28 @@
 
   var isForced_1 = isForced$3;
 
-  var global$t = global$N;
+  var global$d = global$m;
   var getOwnPropertyDescriptor$1 = objectGetOwnPropertyDescriptor.f;
-  var createNonEnumerableProperty$5 = createNonEnumerableProperty$8;
-  var redefine$8 = redefine$9.exports;
-  var setGlobal = setGlobal$3;
+  var createNonEnumerableProperty$4 = createNonEnumerableProperty$6;
+  var defineBuiltIn$8 = defineBuiltIn$9;
+  var defineGlobalProperty = defineGlobalProperty$3;
   var copyConstructorProperties$1 = copyConstructorProperties$2;
   var isForced$2 = isForced_1;
 
   /*
-    options.target      - name of the target object
-    options.global      - target is the global object
-    options.stat        - export as static methods of target
-    options.proto       - export as prototype methods of target
-    options.real        - real prototype method for the `pure` version
-    options.forced      - export even if the native feature is available
-    options.bind        - bind methods to the target, required for the `pure` version
-    options.wrap        - wrap constructors to preventing global pollution, required for the `pure` version
-    options.unsafe      - use the simple assignment of property instead of delete + defineProperty
-    options.sham        - add a flag to not completely full polyfills
-    options.enumerable  - export as enumerable property
-    options.noTargetGet - prevent calling a getter on target
-    options.name        - the .name of the function if it does not match the key
+    options.target         - name of the target object
+    options.global         - target is the global object
+    options.stat           - export as static methods of target
+    options.proto          - export as prototype methods of target
+    options.real           - real prototype method for the `pure` version
+    options.forced         - export even if the native feature is available
+    options.bind           - bind methods to the target, required for the `pure` version
+    options.wrap           - wrap constructors to preventing global pollution, required for the `pure` version
+    options.unsafe         - use the simple assignment of property instead of delete + defineProperty
+    options.sham           - add a flag to not completely full polyfills
+    options.enumerable     - export as enumerable property
+    options.dontCallGetSet - prevent calling a getter on target
+    options.name           - the .name of the function if it does not match the key
   */
   var _export = function (options, source) {
     var TARGET = options.target;
@@ -1205,15 +1221,15 @@
     var STATIC = options.stat;
     var FORCED, target, key, targetProperty, sourceProperty, descriptor;
     if (GLOBAL) {
-      target = global$t;
+      target = global$d;
     } else if (STATIC) {
-      target = global$t[TARGET] || setGlobal(TARGET, {});
+      target = global$d[TARGET] || defineGlobalProperty(TARGET, {});
     } else {
-      target = (global$t[TARGET] || {}).prototype;
+      target = (global$d[TARGET] || {}).prototype;
     }
     if (target) for (key in source) {
       sourceProperty = source[key];
-      if (options.noTargetGet) {
+      if (options.dontCallGetSet) {
         descriptor = getOwnPropertyDescriptor$1(target, key);
         targetProperty = descriptor && descriptor.value;
       } else targetProperty = target[key];
@@ -1225,30 +1241,37 @@
       }
       // add a flag to not completely full polyfills
       if (options.sham || (targetProperty && targetProperty.sham)) {
-        createNonEnumerableProperty$5(sourceProperty, 'sham', true);
+        createNonEnumerableProperty$4(sourceProperty, 'sham', true);
       }
-      // extend global
-      redefine$8(target, key, sourceProperty, options);
+      defineBuiltIn$8(target, key, sourceProperty, options);
     }
   };
 
-  var wellKnownSymbol$i = wellKnownSymbol$k;
+  var classof$8 = classofRaw$2;
 
-  var TO_STRING_TAG$3 = wellKnownSymbol$i('toStringTag');
+  // `IsArray` abstract operation
+  // https://tc39.es/ecma262/#sec-isarray
+  // eslint-disable-next-line es/no-array-isarray -- safe
+  var isArray$3 = Array.isArray || function isArray(argument) {
+    return classof$8(argument) == 'Array';
+  };
+
+  var wellKnownSymbol$g = wellKnownSymbol$i;
+
+  var TO_STRING_TAG$3 = wellKnownSymbol$g('toStringTag');
   var test$1 = {};
 
   test$1[TO_STRING_TAG$3] = 'z';
 
   var toStringTagSupport = String(test$1) === '[object z]';
 
-  var global$s = global$N;
   var TO_STRING_TAG_SUPPORT$2 = toStringTagSupport;
-  var isCallable$b = isCallable$l;
-  var classofRaw = classofRaw$1;
-  var wellKnownSymbol$h = wellKnownSymbol$k;
+  var isCallable$c = isCallable$n;
+  var classofRaw = classofRaw$2;
+  var wellKnownSymbol$f = wellKnownSymbol$i;
 
-  var TO_STRING_TAG$2 = wellKnownSymbol$h('toStringTag');
-  var Object$2 = global$s.Object;
+  var TO_STRING_TAG$2 = wellKnownSymbol$f('toStringTag');
+  var $Object$1 = Object;
 
   // ES3 wrong here
   var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
@@ -1261,458 +1284,33 @@
   };
 
   // getting tag from ES6+ `Object.prototype.toString`
-  var classof$a = TO_STRING_TAG_SUPPORT$2 ? classofRaw : function (it) {
+  var classof$7 = TO_STRING_TAG_SUPPORT$2 ? classofRaw : function (it) {
     var O, tag, result;
     return it === undefined ? 'Undefined' : it === null ? 'Null'
       // @@toStringTag case
-      : typeof (tag = tryGet(O = Object$2(it), TO_STRING_TAG$2)) == 'string' ? tag
+      : typeof (tag = tryGet(O = $Object$1(it), TO_STRING_TAG$2)) == 'string' ? tag
       // builtinTag case
       : CORRECT_ARGUMENTS ? classofRaw(O)
       // ES3 arguments fallback
-      : (result = classofRaw(O)) == 'Object' && isCallable$b(O.callee) ? 'Arguments' : result;
+      : (result = classofRaw(O)) == 'Object' && isCallable$c(O.callee) ? 'Arguments' : result;
   };
 
-  var global$r = global$N;
-  var classof$9 = classof$a;
-
-  var String$3 = global$r.String;
-
-  var toString$7 = function (argument) {
-    if (classof$9(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
-    return String$3(argument);
-  };
-
-  var anObject$b = anObject$e;
-
-  // `RegExp.prototype.flags` getter implementation
-  // https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
-  var regexpFlags$1 = function () {
-    var that = anObject$b(this);
-    var result = '';
-    if (that.global) result += 'g';
-    if (that.ignoreCase) result += 'i';
-    if (that.multiline) result += 'm';
-    if (that.dotAll) result += 's';
-    if (that.unicode) result += 'u';
-    if (that.sticky) result += 'y';
-    return result;
-  };
-
-  var fails$i = fails$q;
-  var global$q = global$N;
-
-  // babel-minify and Closure Compiler transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError
-  var $RegExp$2 = global$q.RegExp;
-
-  var UNSUPPORTED_Y$2 = fails$i(function () {
-    var re = $RegExp$2('a', 'y');
-    re.lastIndex = 2;
-    return re.exec('abcd') != null;
-  });
-
-  // UC Browser bug
-  // https://github.com/zloirock/core-js/issues/1008
-  var MISSED_STICKY = UNSUPPORTED_Y$2 || fails$i(function () {
-    return !$RegExp$2('a', 'y').sticky;
-  });
-
-  var BROKEN_CARET = UNSUPPORTED_Y$2 || fails$i(function () {
-    // https://bugzilla.mozilla.org/show_bug.cgi?id=773687
-    var re = $RegExp$2('^r', 'gy');
-    re.lastIndex = 2;
-    return re.exec('str') != null;
-  });
-
-  var regexpStickyHelpers = {
-    BROKEN_CARET: BROKEN_CARET,
-    MISSED_STICKY: MISSED_STICKY,
-    UNSUPPORTED_Y: UNSUPPORTED_Y$2
-  };
-
-  var objectDefineProperties = {};
-
-  var internalObjectKeys = objectKeysInternal;
-  var enumBugKeys$1 = enumBugKeys$3;
-
-  // `Object.keys` method
-  // https://tc39.es/ecma262/#sec-object.keys
-  // eslint-disable-next-line es/no-object-keys -- safe
-  var objectKeys$1 = Object.keys || function keys(O) {
-    return internalObjectKeys(O, enumBugKeys$1);
-  };
-
-  var DESCRIPTORS$2 = descriptors;
-  var V8_PROTOTYPE_DEFINE_BUG = v8PrototypeDefineBug;
-  var definePropertyModule$3 = objectDefineProperty;
-  var anObject$a = anObject$e;
-  var toIndexedObject$4 = toIndexedObject$8;
-  var objectKeys = objectKeys$1;
-
-  // `Object.defineProperties` method
-  // https://tc39.es/ecma262/#sec-object.defineproperties
-  // eslint-disable-next-line es/no-object-defineproperties -- safe
-  objectDefineProperties.f = DESCRIPTORS$2 && !V8_PROTOTYPE_DEFINE_BUG ? Object.defineProperties : function defineProperties(O, Properties) {
-    anObject$a(O);
-    var props = toIndexedObject$4(Properties);
-    var keys = objectKeys(Properties);
-    var length = keys.length;
-    var index = 0;
-    var key;
-    while (length > index) definePropertyModule$3.f(O, key = keys[index++], props[key]);
-    return O;
-  };
-
-  var getBuiltIn$5 = getBuiltIn$9;
-
-  var html$2 = getBuiltIn$5('document', 'documentElement');
-
-  /* global ActiveXObject -- old IE, WSH */
-
-  var anObject$9 = anObject$e;
-  var definePropertiesModule = objectDefineProperties;
-  var enumBugKeys = enumBugKeys$3;
-  var hiddenKeys$1 = hiddenKeys$5;
-  var html$1 = html$2;
-  var documentCreateElement$1 = documentCreateElement$2;
-  var sharedKey$1 = sharedKey$3;
-
-  var GT = '>';
-  var LT = '<';
-  var PROTOTYPE = 'prototype';
-  var SCRIPT = 'script';
-  var IE_PROTO$1 = sharedKey$1('IE_PROTO');
-
-  var EmptyConstructor = function () { /* empty */ };
-
-  var scriptTag = function (content) {
-    return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;
-  };
-
-  // Create object with fake `null` prototype: use ActiveX Object with cleared prototype
-  var NullProtoObjectViaActiveX = function (activeXDocument) {
-    activeXDocument.write(scriptTag(''));
-    activeXDocument.close();
-    var temp = activeXDocument.parentWindow.Object;
-    activeXDocument = null; // avoid memory leak
-    return temp;
-  };
-
-  // Create object with fake `null` prototype: use iframe Object with cleared prototype
-  var NullProtoObjectViaIFrame = function () {
-    // Thrash, waste and sodomy: IE GC bug
-    var iframe = documentCreateElement$1('iframe');
-    var JS = 'java' + SCRIPT + ':';
-    var iframeDocument;
-    iframe.style.display = 'none';
-    html$1.appendChild(iframe);
-    // https://github.com/zloirock/core-js/issues/475
-    iframe.src = String(JS);
-    iframeDocument = iframe.contentWindow.document;
-    iframeDocument.open();
-    iframeDocument.write(scriptTag('document.F=Object'));
-    iframeDocument.close();
-    return iframeDocument.F;
-  };
-
-  // Check for document.domain and active x support
-  // No need to use active x approach when document.domain is not set
-  // see https://github.com/es-shims/es5-shim/issues/150
-  // variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
-  // avoid IE GC bug
-  var activeXDocument;
-  var NullProtoObject = function () {
-    try {
-      activeXDocument = new ActiveXObject('htmlfile');
-    } catch (error) { /* ignore */ }
-    NullProtoObject = typeof document != 'undefined'
-      ? document.domain && activeXDocument
-        ? NullProtoObjectViaActiveX(activeXDocument) // old IE
-        : NullProtoObjectViaIFrame()
-      : NullProtoObjectViaActiveX(activeXDocument); // WSH
-    var length = enumBugKeys.length;
-    while (length--) delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];
-    return NullProtoObject();
-  };
-
-  hiddenKeys$1[IE_PROTO$1] = true;
-
-  // `Object.create` method
-  // https://tc39.es/ecma262/#sec-object.create
-  var objectCreate = Object.create || function create(O, Properties) {
-    var result;
-    if (O !== null) {
-      EmptyConstructor[PROTOTYPE] = anObject$9(O);
-      result = new EmptyConstructor();
-      EmptyConstructor[PROTOTYPE] = null;
-      // add "__proto__" for Object.getPrototypeOf polyfill
-      result[IE_PROTO$1] = O;
-    } else result = NullProtoObject();
-    return Properties === undefined ? result : definePropertiesModule.f(result, Properties);
-  };
-
-  var fails$h = fails$q;
-  var global$p = global$N;
-
-  // babel-minify and Closure Compiler transpiles RegExp('.', 's') -> /./s and it causes SyntaxError
-  var $RegExp$1 = global$p.RegExp;
-
-  var regexpUnsupportedDotAll = fails$h(function () {
-    var re = $RegExp$1('.', 's');
-    return !(re.dotAll && re.exec('\n') && re.flags === 's');
-  });
-
-  var fails$g = fails$q;
-  var global$o = global$N;
-
-  // babel-minify and Closure Compiler transpiles RegExp('(?<a>b)', 'g') -> /(?<a>b)/g and it causes SyntaxError
-  var $RegExp = global$o.RegExp;
-
-  var regexpUnsupportedNcg = fails$g(function () {
-    var re = $RegExp('(?<a>b)', 'g');
-    return re.exec('b').groups.a !== 'b' ||
-      'b'.replace(re, '$<a>c') !== 'bc';
-  });
-
-  /* eslint-disable regexp/no-empty-capturing-group, regexp/no-empty-group, regexp/no-lazy-ends -- testing */
-  /* eslint-disable regexp/no-useless-quantifier -- testing */
-  var call$9 = functionCall;
-  var uncurryThis$f = functionUncurryThis;
-  var toString$6 = toString$7;
-  var regexpFlags = regexpFlags$1;
-  var stickyHelpers$1 = regexpStickyHelpers;
-  var shared = shared$4.exports;
-  var create$2 = objectCreate;
-  var getInternalState$3 = internalState.get;
-  var UNSUPPORTED_DOT_ALL = regexpUnsupportedDotAll;
-  var UNSUPPORTED_NCG = regexpUnsupportedNcg;
-
-  var nativeReplace = shared('native-string-replace', String.prototype.replace);
-  var nativeExec = RegExp.prototype.exec;
-  var patchedExec = nativeExec;
-  var charAt$3 = uncurryThis$f(''.charAt);
-  var indexOf = uncurryThis$f(''.indexOf);
-  var replace$1 = uncurryThis$f(''.replace);
-  var stringSlice$2 = uncurryThis$f(''.slice);
-
-  var UPDATES_LAST_INDEX_WRONG = (function () {
-    var re1 = /a/;
-    var re2 = /b*/g;
-    call$9(nativeExec, re1, 'a');
-    call$9(nativeExec, re2, 'a');
-    return re1.lastIndex !== 0 || re2.lastIndex !== 0;
-  })();
-
-  var UNSUPPORTED_Y$1 = stickyHelpers$1.BROKEN_CARET;
-
-  // nonparticipating capturing group, copied from es5-shim's String#split patch.
-  var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
-
-  var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED || UNSUPPORTED_Y$1 || UNSUPPORTED_DOT_ALL || UNSUPPORTED_NCG;
-
-  if (PATCH) {
-    patchedExec = function exec(string) {
-      var re = this;
-      var state = getInternalState$3(re);
-      var str = toString$6(string);
-      var raw = state.raw;
-      var result, reCopy, lastIndex, match, i, object, group;
-
-      if (raw) {
-        raw.lastIndex = re.lastIndex;
-        result = call$9(patchedExec, raw, str);
-        re.lastIndex = raw.lastIndex;
-        return result;
-      }
-
-      var groups = state.groups;
-      var sticky = UNSUPPORTED_Y$1 && re.sticky;
-      var flags = call$9(regexpFlags, re);
-      var source = re.source;
-      var charsAdded = 0;
-      var strCopy = str;
-
-      if (sticky) {
-        flags = replace$1(flags, 'y', '');
-        if (indexOf(flags, 'g') === -1) {
-          flags += 'g';
-        }
-
-        strCopy = stringSlice$2(str, re.lastIndex);
-        // Support anchored sticky behavior.
-        if (re.lastIndex > 0 && (!re.multiline || re.multiline && charAt$3(str, re.lastIndex - 1) !== '\n')) {
-          source = '(?: ' + source + ')';
-          strCopy = ' ' + strCopy;
-          charsAdded++;
-        }
-        // ^(? + rx + ) is needed, in combination with some str slicing, to
-        // simulate the 'y' flag.
-        reCopy = new RegExp('^(?:' + source + ')', flags);
-      }
-
-      if (NPCG_INCLUDED) {
-        reCopy = new RegExp('^' + source + '$(?!\\s)', flags);
-      }
-      if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
-
-      match = call$9(nativeExec, sticky ? reCopy : re, strCopy);
-
-      if (sticky) {
-        if (match) {
-          match.input = stringSlice$2(match.input, charsAdded);
-          match[0] = stringSlice$2(match[0], charsAdded);
-          match.index = re.lastIndex;
-          re.lastIndex += match[0].length;
-        } else re.lastIndex = 0;
-      } else if (UPDATES_LAST_INDEX_WRONG && match) {
-        re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
-      }
-      if (NPCG_INCLUDED && match && match.length > 1) {
-        // Fix browsers whose `exec` methods don't consistently return `undefined`
-        // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
-        call$9(nativeReplace, match[0], reCopy, function () {
-          for (i = 1; i < arguments.length - 2; i++) {
-            if (arguments[i] === undefined) match[i] = undefined;
-          }
-        });
-      }
-
-      if (match && groups) {
-        match.groups = object = create$2(null);
-        for (i = 0; i < groups.length; i++) {
-          group = groups[i];
-          object[group[0]] = match[group[1]];
-        }
-      }
-
-      return match;
-    };
-  }
-
-  var regexpExec$3 = patchedExec;
-
-  var $$b = _export;
-  var exec$2 = regexpExec$3;
-
-  // `RegExp.prototype.exec` method
-  // https://tc39.es/ecma262/#sec-regexp.prototype.exec
-  $$b({ target: 'RegExp', proto: true, forced: /./.exec !== exec$2 }, {
-    exec: exec$2
-  });
-
-  var NATIVE_BIND$1 = functionBindNative;
-
-  var FunctionPrototype = Function.prototype;
-  var apply$3 = FunctionPrototype.apply;
-  var call$8 = FunctionPrototype.call;
-
-  // eslint-disable-next-line es/no-reflect -- safe
-  var functionApply = typeof Reflect == 'object' && Reflect.apply || (NATIVE_BIND$1 ? call$8.bind(apply$3) : function () {
-    return call$8.apply(apply$3, arguments);
-  });
-
-  // TODO: Remove from `core-js@4` since it's moved to entry points
-
-  var uncurryThis$e = functionUncurryThis;
-  var redefine$7 = redefine$9.exports;
-  var regexpExec$2 = regexpExec$3;
-  var fails$f = fails$q;
-  var wellKnownSymbol$g = wellKnownSymbol$k;
-  var createNonEnumerableProperty$4 = createNonEnumerableProperty$8;
-
-  var SPECIES$6 = wellKnownSymbol$g('species');
-  var RegExpPrototype = RegExp.prototype;
-
-  var fixRegexpWellKnownSymbolLogic = function (KEY, exec, FORCED, SHAM) {
-    var SYMBOL = wellKnownSymbol$g(KEY);
-
-    var DELEGATES_TO_SYMBOL = !fails$f(function () {
-      // String methods call symbol-named RegEp methods
-      var O = {};
-      O[SYMBOL] = function () { return 7; };
-      return ''[KEY](O) != 7;
-    });
-
-    var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails$f(function () {
-      // Symbol-named RegExp methods call .exec
-      var execCalled = false;
-      var re = /a/;
-
-      if (KEY === 'split') {
-        // We can't use real regex here since it causes deoptimization
-        // and serious performance degradation in V8
-        // https://github.com/zloirock/core-js/issues/306
-        re = {};
-        // RegExp[@@split] doesn't call the regex's exec method, but first creates
-        // a new one. We need to return the patched regex when creating the new one.
-        re.constructor = {};
-        re.constructor[SPECIES$6] = function () { return re; };
-        re.flags = '';
-        re[SYMBOL] = /./[SYMBOL];
-      }
-
-      re.exec = function () { execCalled = true; return null; };
-
-      re[SYMBOL]('');
-      return !execCalled;
-    });
-
-    if (
-      !DELEGATES_TO_SYMBOL ||
-      !DELEGATES_TO_EXEC ||
-      FORCED
-    ) {
-      var uncurriedNativeRegExpMethod = uncurryThis$e(/./[SYMBOL]);
-      var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
-        var uncurriedNativeMethod = uncurryThis$e(nativeMethod);
-        var $exec = regexp.exec;
-        if ($exec === regexpExec$2 || $exec === RegExpPrototype.exec) {
-          if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
-            // The native String method already delegates to @@method (this
-            // polyfilled function), leasing to infinite recursion.
-            // We avoid it by directly calling the native @@method method.
-            return { done: true, value: uncurriedNativeRegExpMethod(regexp, str, arg2) };
-          }
-          return { done: true, value: uncurriedNativeMethod(str, regexp, arg2) };
-        }
-        return { done: false };
-      });
-
-      redefine$7(String.prototype, KEY, methods[0]);
-      redefine$7(RegExpPrototype, SYMBOL, methods[1]);
-    }
-
-    if (SHAM) createNonEnumerableProperty$4(RegExpPrototype[SYMBOL], 'sham', true);
-  };
-
-  var isObject$c = isObject$i;
-  var classof$8 = classofRaw$1;
-  var wellKnownSymbol$f = wellKnownSymbol$k;
-
-  var MATCH = wellKnownSymbol$f('match');
-
-  // `IsRegExp` abstract operation
-  // https://tc39.es/ecma262/#sec-isregexp
-  var isRegexp = function (it) {
-    var isRegExp;
-    return isObject$c(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classof$8(it) == 'RegExp');
-  };
-
-  var uncurryThis$d = functionUncurryThis;
-  var fails$e = fails$q;
-  var isCallable$a = isCallable$l;
-  var classof$7 = classof$a;
-  var getBuiltIn$4 = getBuiltIn$9;
-  var inspectSource$1 = inspectSource$4;
+  var uncurryThis$b = functionUncurryThis;
+  var fails$d = fails$m;
+  var isCallable$b = isCallable$n;
+  var classof$6 = classof$7;
+  var getBuiltIn$6 = getBuiltIn$a;
+  var inspectSource$1 = inspectSource$3;
 
   var noop$1 = function () { /* empty */ };
   var empty = [];
-  var construct = getBuiltIn$4('Reflect', 'construct');
+  var construct = getBuiltIn$6('Reflect', 'construct');
   var constructorRegExp = /^\s*(?:class|function)\b/;
-  var exec$1 = uncurryThis$d(constructorRegExp.exec);
+  var exec = uncurryThis$b(constructorRegExp.exec);
   var INCORRECT_TO_STRING = !constructorRegExp.exec(noop$1);
 
   var isConstructorModern = function isConstructor(argument) {
-    if (!isCallable$a(argument)) return false;
+    if (!isCallable$b(argument)) return false;
     try {
       construct(noop$1, empty, argument);
       return true;
@@ -1722,8 +1320,8 @@
   };
 
   var isConstructorLegacy = function isConstructor(argument) {
-    if (!isCallable$a(argument)) return false;
-    switch (classof$7(argument)) {
+    if (!isCallable$b(argument)) return false;
+    switch (classof$6(argument)) {
       case 'AsyncFunction':
       case 'GeneratorFunction':
       case 'AsyncGeneratorFunction': return false;
@@ -1732,7 +1330,7 @@
       // we can't check .prototype since constructors produced by .bind haven't it
       // `Function#toString` throws on some built-it function in some legacy engines
       // (for example, `DOMQuad` and similar in FF41-)
-      return INCORRECT_TO_STRING || !!exec$1(constructorRegExp, inspectSource$1(argument));
+      return INCORRECT_TO_STRING || !!exec(constructorRegExp, inspectSource$1(argument));
     } catch (error) {
       return true;
     }
@@ -1742,84 +1340,13 @@
 
   // `IsConstructor` abstract operation
   // https://tc39.es/ecma262/#sec-isconstructor
-  var isConstructor$3 = !construct || fails$e(function () {
+  var isConstructor$3 = !construct || fails$d(function () {
     var called;
     return isConstructorModern(isConstructorModern.call)
       || !isConstructorModern(Object)
       || !isConstructorModern(function () { called = true; })
       || called;
   }) ? isConstructorLegacy : isConstructorModern;
-
-  var global$n = global$N;
-  var isConstructor$2 = isConstructor$3;
-  var tryToString$2 = tryToString$4;
-
-  var TypeError$9 = global$n.TypeError;
-
-  // `Assert: IsConstructor(argument) is true`
-  var aConstructor$1 = function (argument) {
-    if (isConstructor$2(argument)) return argument;
-    throw TypeError$9(tryToString$2(argument) + ' is not a constructor');
-  };
-
-  var anObject$8 = anObject$e;
-  var aConstructor = aConstructor$1;
-  var wellKnownSymbol$e = wellKnownSymbol$k;
-
-  var SPECIES$5 = wellKnownSymbol$e('species');
-
-  // `SpeciesConstructor` abstract operation
-  // https://tc39.es/ecma262/#sec-speciesconstructor
-  var speciesConstructor$3 = function (O, defaultConstructor) {
-    var C = anObject$8(O).constructor;
-    var S;
-    return C === undefined || (S = anObject$8(C)[SPECIES$5]) == undefined ? defaultConstructor : aConstructor(S);
-  };
-
-  var uncurryThis$c = functionUncurryThis;
-  var toIntegerOrInfinity = toIntegerOrInfinity$3;
-  var toString$5 = toString$7;
-  var requireObjectCoercible$1 = requireObjectCoercible$4;
-
-  var charAt$2 = uncurryThis$c(''.charAt);
-  var charCodeAt = uncurryThis$c(''.charCodeAt);
-  var stringSlice$1 = uncurryThis$c(''.slice);
-
-  var createMethod$1 = function (CONVERT_TO_STRING) {
-    return function ($this, pos) {
-      var S = toString$5(requireObjectCoercible$1($this));
-      var position = toIntegerOrInfinity(pos);
-      var size = S.length;
-      var first, second;
-      if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
-      first = charCodeAt(S, position);
-      return first < 0xD800 || first > 0xDBFF || position + 1 === size
-        || (second = charCodeAt(S, position + 1)) < 0xDC00 || second > 0xDFFF
-          ? CONVERT_TO_STRING
-            ? charAt$2(S, position)
-            : first
-          : CONVERT_TO_STRING
-            ? stringSlice$1(S, position, position + 2)
-            : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
-    };
-  };
-
-  var stringMultibyte = {
-    // `String.prototype.codePointAt` method
-    // https://tc39.es/ecma262/#sec-string.prototype.codepointat
-    codeAt: createMethod$1(false),
-    // `String.prototype.at` method
-    // https://github.com/mathiasbynens/String.prototype.at
-    charAt: createMethod$1(true)
-  };
-
-  var charAt$1 = stringMultibyte.charAt;
-
-  // `AdvanceStringIndex` abstract operation
-  // https://tc39.es/ecma262/#sec-advancestringindex
-  var advanceStringIndex$1 = function (S, index, unicode) {
-    return index + (unicode ? charAt$1(S, index).length : 1);
-  };
 
   var toPropertyKey = toPropertyKey$3;
   var definePropertyModule$2 = objectDefineProperty;
@@ -1831,216 +1358,11 @@
     else object[propertyKey] = value;
   };
 
-  var global$m = global$N;
-  var toAbsoluteIndex$1 = toAbsoluteIndex$3;
-  var lengthOfArrayLike$5 = lengthOfArrayLike$7;
-  var createProperty$2 = createProperty$3;
-
-  var Array$3 = global$m.Array;
-  var max$2 = Math.max;
-
-  var arraySliceSimple = function (O, start, end) {
-    var length = lengthOfArrayLike$5(O);
-    var k = toAbsoluteIndex$1(start, length);
-    var fin = toAbsoluteIndex$1(end === undefined ? length : end, length);
-    var result = Array$3(max$2(fin - k, 0));
-    for (var n = 0; k < fin; k++, n++) createProperty$2(result, n, O[k]);
-    result.length = n;
-    return result;
-  };
-
-  var global$l = global$N;
-  var call$7 = functionCall;
-  var anObject$7 = anObject$e;
-  var isCallable$9 = isCallable$l;
-  var classof$6 = classofRaw$1;
-  var regexpExec$1 = regexpExec$3;
-
-  var TypeError$8 = global$l.TypeError;
-
-  // `RegExpExec` abstract operation
-  // https://tc39.es/ecma262/#sec-regexpexec
-  var regexpExecAbstract = function (R, S) {
-    var exec = R.exec;
-    if (isCallable$9(exec)) {
-      var result = call$7(exec, R, S);
-      if (result !== null) anObject$7(result);
-      return result;
-    }
-    if (classof$6(R) === 'RegExp') return call$7(regexpExec$1, R, S);
-    throw TypeError$8('RegExp#exec called on incompatible receiver');
-  };
-
-  var apply$2 = functionApply;
-  var call$6 = functionCall;
-  var uncurryThis$b = functionUncurryThis;
-  var fixRegExpWellKnownSymbolLogic = fixRegexpWellKnownSymbolLogic;
-  var isRegExp = isRegexp;
-  var anObject$6 = anObject$e;
-  var requireObjectCoercible = requireObjectCoercible$4;
-  var speciesConstructor$2 = speciesConstructor$3;
-  var advanceStringIndex = advanceStringIndex$1;
-  var toLength = toLength$2;
-  var toString$4 = toString$7;
-  var getMethod$2 = getMethod$4;
-  var arraySlice$4 = arraySliceSimple;
-  var callRegExpExec = regexpExecAbstract;
-  var regexpExec = regexpExec$3;
-  var stickyHelpers = regexpStickyHelpers;
-  var fails$d = fails$q;
-
-  var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y;
-  var MAX_UINT32 = 0xFFFFFFFF;
-  var min$1 = Math.min;
-  var $push = [].push;
-  var exec = uncurryThis$b(/./.exec);
-  var push$2 = uncurryThis$b($push);
-  var stringSlice = uncurryThis$b(''.slice);
-
-  // Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
-  // Weex JS has frozen built-in prototypes, so use try / catch wrapper
-  var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails$d(function () {
-    // eslint-disable-next-line regexp/no-empty-group -- required for testing
-    var re = /(?:)/;
-    var originalExec = re.exec;
-    re.exec = function () { return originalExec.apply(this, arguments); };
-    var result = 'ab'.split(re);
-    return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
-  });
-
-  // @@split logic
-  fixRegExpWellKnownSymbolLogic('split', function (SPLIT, nativeSplit, maybeCallNative) {
-    var internalSplit;
-    if (
-      'abbc'.split(/(b)*/)[1] == 'c' ||
-      // eslint-disable-next-line regexp/no-empty-group -- required for testing
-      'test'.split(/(?:)/, -1).length != 4 ||
-      'ab'.split(/(?:ab)*/).length != 2 ||
-      '.'.split(/(.?)(.?)/).length != 4 ||
-      // eslint-disable-next-line regexp/no-empty-capturing-group, regexp/no-empty-group -- required for testing
-      '.'.split(/()()/).length > 1 ||
-      ''.split(/.?/).length
-    ) {
-      // based on es5-shim implementation, need to rework it
-      internalSplit = function (separator, limit) {
-        var string = toString$4(requireObjectCoercible(this));
-        var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
-        if (lim === 0) return [];
-        if (separator === undefined) return [string];
-        // If `separator` is not a regex, use native split
-        if (!isRegExp(separator)) {
-          return call$6(nativeSplit, string, separator, lim);
-        }
-        var output = [];
-        var flags = (separator.ignoreCase ? 'i' : '') +
-                    (separator.multiline ? 'm' : '') +
-                    (separator.unicode ? 'u' : '') +
-                    (separator.sticky ? 'y' : '');
-        var lastLastIndex = 0;
-        // Make `global` and avoid `lastIndex` issues by working with a copy
-        var separatorCopy = new RegExp(separator.source, flags + 'g');
-        var match, lastIndex, lastLength;
-        while (match = call$6(regexpExec, separatorCopy, string)) {
-          lastIndex = separatorCopy.lastIndex;
-          if (lastIndex > lastLastIndex) {
-            push$2(output, stringSlice(string, lastLastIndex, match.index));
-            if (match.length > 1 && match.index < string.length) apply$2($push, output, arraySlice$4(match, 1));
-            lastLength = match[0].length;
-            lastLastIndex = lastIndex;
-            if (output.length >= lim) break;
-          }
-          if (separatorCopy.lastIndex === match.index) separatorCopy.lastIndex++; // Avoid an infinite loop
-        }
-        if (lastLastIndex === string.length) {
-          if (lastLength || !exec(separatorCopy, '')) push$2(output, '');
-        } else push$2(output, stringSlice(string, lastLastIndex));
-        return output.length > lim ? arraySlice$4(output, 0, lim) : output;
-      };
-    // Chakra, V8
-    } else if ('0'.split(undefined, 0).length) {
-      internalSplit = function (separator, limit) {
-        return separator === undefined && limit === 0 ? [] : call$6(nativeSplit, this, separator, limit);
-      };
-    } else internalSplit = nativeSplit;
-
-    return [
-      // `String.prototype.split` method
-      // https://tc39.es/ecma262/#sec-string.prototype.split
-      function split(separator, limit) {
-        var O = requireObjectCoercible(this);
-        var splitter = separator == undefined ? undefined : getMethod$2(separator, SPLIT);
-        return splitter
-          ? call$6(splitter, separator, O, limit)
-          : call$6(internalSplit, toString$4(O), separator, limit);
-      },
-      // `RegExp.prototype[@@split]` method
-      // https://tc39.es/ecma262/#sec-regexp.prototype-@@split
-      //
-      // NOTE: This cannot be properly polyfilled in engines that don't support
-      // the 'y' flag.
-      function (string, limit) {
-        var rx = anObject$6(this);
-        var S = toString$4(string);
-        var res = maybeCallNative(internalSplit, rx, S, limit, internalSplit !== nativeSplit);
-
-        if (res.done) return res.value;
-
-        var C = speciesConstructor$2(rx, RegExp);
-
-        var unicodeMatching = rx.unicode;
-        var flags = (rx.ignoreCase ? 'i' : '') +
-                    (rx.multiline ? 'm' : '') +
-                    (rx.unicode ? 'u' : '') +
-                    (UNSUPPORTED_Y ? 'g' : 'y');
-
-        // ^(? + rx + ) is needed, in combination with some S slicing, to
-        // simulate the 'y' flag.
-        var splitter = new C(UNSUPPORTED_Y ? '^(?:' + rx.source + ')' : rx, flags);
-        var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
-        if (lim === 0) return [];
-        if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
-        var p = 0;
-        var q = 0;
-        var A = [];
-        while (q < S.length) {
-          splitter.lastIndex = UNSUPPORTED_Y ? 0 : q;
-          var z = callRegExpExec(splitter, UNSUPPORTED_Y ? stringSlice(S, q) : S);
-          var e;
-          if (
-            z === null ||
-            (e = min$1(toLength(splitter.lastIndex + (UNSUPPORTED_Y ? q : 0)), S.length)) === p
-          ) {
-            q = advanceStringIndex(S, q, unicodeMatching);
-          } else {
-            push$2(A, stringSlice(S, p, q));
-            if (A.length === lim) return A;
-            for (var i = 1; i <= z.length - 1; i++) {
-              push$2(A, z[i]);
-              if (A.length === lim) return A;
-            }
-            q = p = e;
-          }
-        }
-        push$2(A, stringSlice(S, p));
-        return A;
-      }
-    ];
-  }, !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC, UNSUPPORTED_Y);
-
-  var classof$5 = classofRaw$1;
-
-  // `IsArray` abstract operation
-  // https://tc39.es/ecma262/#sec-isarray
-  // eslint-disable-next-line es/no-array-isarray -- safe
-  var isArray$3 = Array.isArray || function isArray(argument) {
-    return classof$5(argument) == 'Array';
-  };
-
-  var fails$c = fails$q;
-  var wellKnownSymbol$d = wellKnownSymbol$k;
+  var fails$c = fails$m;
+  var wellKnownSymbol$e = wellKnownSymbol$i;
   var V8_VERSION$2 = engineV8Version;
 
-  var SPECIES$4 = wellKnownSymbol$d('species');
+  var SPECIES$5 = wellKnownSymbol$e('species');
 
   var arrayMethodHasSpeciesSupport$2 = function (METHOD_NAME) {
     // We can't use this feature detection in V8 since it causes
@@ -2049,7 +1371,7 @@
     return V8_VERSION$2 >= 51 || !fails$c(function () {
       var array = [];
       var constructor = array.constructor = {};
-      constructor[SPECIES$4] = function () {
+      constructor[SPECIES$5] = function () {
         return { foo: 1 };
       };
       return array[METHOD_NAME](Boolean).foo !== 1;
@@ -2060,112 +1382,104 @@
 
   var arraySlice$3 = uncurryThis$a([].slice);
 
-  var $$a = _export;
-  var global$k = global$N;
+  var $$e = _export;
   var isArray$2 = isArray$3;
-  var isConstructor$1 = isConstructor$3;
-  var isObject$b = isObject$i;
-  var toAbsoluteIndex = toAbsoluteIndex$3;
-  var lengthOfArrayLike$4 = lengthOfArrayLike$7;
-  var toIndexedObject$3 = toIndexedObject$8;
-  var createProperty$1 = createProperty$3;
-  var wellKnownSymbol$c = wellKnownSymbol$k;
+  var isConstructor$2 = isConstructor$3;
+  var isObject$c = isObject$i;
+  var toAbsoluteIndex$1 = toAbsoluteIndex$3;
+  var lengthOfArrayLike$5 = lengthOfArrayLike$7;
+  var toIndexedObject$3 = toIndexedObject$7;
+  var createProperty$2 = createProperty$3;
+  var wellKnownSymbol$d = wellKnownSymbol$i;
   var arrayMethodHasSpeciesSupport$1 = arrayMethodHasSpeciesSupport$2;
-  var un$Slice = arraySlice$3;
+  var nativeSlice = arraySlice$3;
 
   var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport$1('slice');
 
-  var SPECIES$3 = wellKnownSymbol$c('species');
-  var Array$2 = global$k.Array;
-  var max$1 = Math.max;
+  var SPECIES$4 = wellKnownSymbol$d('species');
+  var $Array$2 = Array;
+  var max$2 = Math.max;
 
   // `Array.prototype.slice` method
   // https://tc39.es/ecma262/#sec-array.prototype.slice
   // fallback for not array-like ES3 strings and DOM objects
-  $$a({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
+  $$e({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
     slice: function slice(start, end) {
       var O = toIndexedObject$3(this);
-      var length = lengthOfArrayLike$4(O);
-      var k = toAbsoluteIndex(start, length);
-      var fin = toAbsoluteIndex(end === undefined ? length : end, length);
+      var length = lengthOfArrayLike$5(O);
+      var k = toAbsoluteIndex$1(start, length);
+      var fin = toAbsoluteIndex$1(end === undefined ? length : end, length);
       // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
       var Constructor, result, n;
       if (isArray$2(O)) {
         Constructor = O.constructor;
         // cross-realm fallback
-        if (isConstructor$1(Constructor) && (Constructor === Array$2 || isArray$2(Constructor.prototype))) {
+        if (isConstructor$2(Constructor) && (Constructor === $Array$2 || isArray$2(Constructor.prototype))) {
           Constructor = undefined;
-        } else if (isObject$b(Constructor)) {
-          Constructor = Constructor[SPECIES$3];
+        } else if (isObject$c(Constructor)) {
+          Constructor = Constructor[SPECIES$4];
           if (Constructor === null) Constructor = undefined;
         }
-        if (Constructor === Array$2 || Constructor === undefined) {
-          return un$Slice(O, k, fin);
+        if (Constructor === $Array$2 || Constructor === undefined) {
+          return nativeSlice(O, k, fin);
         }
       }
-      result = new (Constructor === undefined ? Array$2 : Constructor)(max$1(fin - k, 0));
-      for (n = 0; k < fin; k++, n++) if (k in O) createProperty$1(result, n, O[k]);
+      result = new (Constructor === undefined ? $Array$2 : Constructor)(max$2(fin - k, 0));
+      for (n = 0; k < fin; k++, n++) if (k in O) createProperty$2(result, n, O[k]);
       result.length = n;
       return result;
     }
   });
 
-  var $$9 = _export;
-  var call$5 = functionCall;
+  var $$d = _export;
+  var call$9 = functionCall;
 
   // `URL.prototype.toJSON` method
   // https://url.spec.whatwg.org/#dom-url-tojson
-  $$9({ target: 'URL', proto: true, enumerable: true }, {
+  $$d({ target: 'URL', proto: true, enumerable: true }, {
     toJSON: function toJSON() {
-      return call$5(URL.prototype.toString, this);
+      return call$9(URL.prototype.toString, this);
     }
   });
 
   var TO_STRING_TAG_SUPPORT$1 = toStringTagSupport;
-  var classof$4 = classof$a;
+  var classof$5 = classof$7;
 
   // `Object.prototype.toString` method implementation
   // https://tc39.es/ecma262/#sec-object.prototype.tostring
   var objectToString = TO_STRING_TAG_SUPPORT$1 ? {}.toString : function toString() {
-    return '[object ' + classof$4(this) + ']';
+    return '[object ' + classof$5(this) + ']';
   };
 
   var TO_STRING_TAG_SUPPORT = toStringTagSupport;
-  var redefine$6 = redefine$9.exports;
-  var toString$3 = objectToString;
+  var defineBuiltIn$7 = defineBuiltIn$9;
+  var toString$5 = objectToString;
 
   // `Object.prototype.toString` method
   // https://tc39.es/ecma262/#sec-object.prototype.tostring
   if (!TO_STRING_TAG_SUPPORT) {
-    redefine$6(Object.prototype, 'toString', toString$3, { unsafe: true });
+    defineBuiltIn$7(Object.prototype, 'toString', toString$5, { unsafe: true });
   }
 
-  var global$j = global$N;
+  var classof$4 = classofRaw$2;
+  var global$c = global$m;
 
-  var nativePromiseConstructor = global$j.Promise;
+  var engineIsNode = classof$4(global$c.process) == 'process';
 
-  var redefine$5 = redefine$9.exports;
+  var isCallable$a = isCallable$n;
 
-  var redefineAll$3 = function (target, src, options) {
-    for (var key in src) redefine$5(target, key, src[key], options);
-    return target;
-  };
-
-  var global$i = global$N;
-  var isCallable$8 = isCallable$l;
-
-  var String$2 = global$i.String;
-  var TypeError$7 = global$i.TypeError;
+  var $String$1 = String;
+  var $TypeError$8 = TypeError;
 
   var aPossiblePrototype$1 = function (argument) {
-    if (typeof argument == 'object' || isCallable$8(argument)) return argument;
-    throw TypeError$7("Can't set " + String$2(argument) + ' as a prototype');
+    if (typeof argument == 'object' || isCallable$a(argument)) return argument;
+    throw $TypeError$8("Can't set " + $String$1(argument) + ' as a prototype');
   };
 
   /* eslint-disable no-proto -- safe */
 
   var uncurryThis$9 = functionUncurryThis;
-  var anObject$5 = anObject$e;
+  var anObject$8 = anObject$b;
   var aPossiblePrototype = aPossiblePrototype$1;
 
   // `Object.setPrototypeOf` method
@@ -2183,7 +1497,7 @@
       CORRECT_SETTER = test instanceof Array;
     } catch (error) { /* empty */ }
     return function setPrototypeOf(O, proto) {
-      anObject$5(O);
+      anObject$8(O);
       aPossiblePrototype(proto);
       if (CORRECT_SETTER) setter(O, proto);
       else O.__proto__ = proto;
@@ -2191,68 +1505,742 @@
     };
   }() : undefined);
 
-  var defineProperty$2 = objectDefineProperty.f;
+  var defineProperty$4 = objectDefineProperty.f;
   var hasOwn$5 = hasOwnProperty_1;
-  var wellKnownSymbol$b = wellKnownSymbol$k;
+  var wellKnownSymbol$c = wellKnownSymbol$i;
 
-  var TO_STRING_TAG$1 = wellKnownSymbol$b('toStringTag');
+  var TO_STRING_TAG$1 = wellKnownSymbol$c('toStringTag');
 
   var setToStringTag$4 = function (target, TAG, STATIC) {
     if (target && !STATIC) target = target.prototype;
     if (target && !hasOwn$5(target, TO_STRING_TAG$1)) {
-      defineProperty$2(target, TO_STRING_TAG$1, { configurable: true, value: TAG });
+      defineProperty$4(target, TO_STRING_TAG$1, { configurable: true, value: TAG });
     }
   };
 
-  var getBuiltIn$3 = getBuiltIn$9;
+  var getBuiltIn$5 = getBuiltIn$a;
   var definePropertyModule$1 = objectDefineProperty;
-  var wellKnownSymbol$a = wellKnownSymbol$k;
-  var DESCRIPTORS$1 = descriptors;
+  var wellKnownSymbol$b = wellKnownSymbol$i;
+  var DESCRIPTORS$3 = descriptors;
 
-  var SPECIES$2 = wellKnownSymbol$a('species');
+  var SPECIES$3 = wellKnownSymbol$b('species');
 
   var setSpecies$1 = function (CONSTRUCTOR_NAME) {
-    var Constructor = getBuiltIn$3(CONSTRUCTOR_NAME);
+    var Constructor = getBuiltIn$5(CONSTRUCTOR_NAME);
     var defineProperty = definePropertyModule$1.f;
 
-    if (DESCRIPTORS$1 && Constructor && !Constructor[SPECIES$2]) {
-      defineProperty(Constructor, SPECIES$2, {
+    if (DESCRIPTORS$3 && Constructor && !Constructor[SPECIES$3]) {
+      defineProperty(Constructor, SPECIES$3, {
         configurable: true,
         get: function () { return this; }
       });
     }
   };
 
-  var global$h = global$N;
   var isPrototypeOf$2 = objectIsPrototypeOf;
 
-  var TypeError$6 = global$h.TypeError;
+  var $TypeError$7 = TypeError;
 
   var anInstance$3 = function (it, Prototype) {
     if (isPrototypeOf$2(Prototype, it)) return it;
-    throw TypeError$6('Incorrect invocation');
+    throw $TypeError$7('Incorrect invocation');
   };
 
+  var isConstructor$1 = isConstructor$3;
+  var tryToString$3 = tryToString$5;
+
+  var $TypeError$6 = TypeError;
+
+  // `Assert: IsConstructor(argument) is true`
+  var aConstructor$1 = function (argument) {
+    if (isConstructor$1(argument)) return argument;
+    throw $TypeError$6(tryToString$3(argument) + ' is not a constructor');
+  };
+
+  var anObject$7 = anObject$b;
+  var aConstructor = aConstructor$1;
+  var isNullOrUndefined$3 = isNullOrUndefined$6;
+  var wellKnownSymbol$a = wellKnownSymbol$i;
+
+  var SPECIES$2 = wellKnownSymbol$a('species');
+
+  // `SpeciesConstructor` abstract operation
+  // https://tc39.es/ecma262/#sec-speciesconstructor
+  var speciesConstructor$2 = function (O, defaultConstructor) {
+    var C = anObject$7(O).constructor;
+    var S;
+    return C === undefined || isNullOrUndefined$3(S = anObject$7(C)[SPECIES$2]) ? defaultConstructor : aConstructor(S);
+  };
+
+  var NATIVE_BIND$1 = functionBindNative;
+
+  var FunctionPrototype = Function.prototype;
+  var apply$2 = FunctionPrototype.apply;
+  var call$8 = FunctionPrototype.call;
+
+  // eslint-disable-next-line es/no-reflect -- safe
+  var functionApply = typeof Reflect == 'object' && Reflect.apply || (NATIVE_BIND$1 ? call$8.bind(apply$2) : function () {
+    return call$8.apply(apply$2, arguments);
+  });
+
   var uncurryThis$8 = functionUncurryThis;
-  var aCallable$4 = aCallable$6;
+  var aCallable$6 = aCallable$8;
   var NATIVE_BIND = functionBindNative;
 
   var bind$5 = uncurryThis$8(uncurryThis$8.bind);
 
   // optional / simple context binding
   var functionBindContext = function (fn, that) {
-    aCallable$4(fn);
+    aCallable$6(fn);
     return that === undefined ? fn : NATIVE_BIND ? bind$5(fn, that) : function (/* ...args */) {
       return fn.apply(that, arguments);
     };
   };
 
+  var getBuiltIn$4 = getBuiltIn$a;
+
+  var html$2 = getBuiltIn$4('document', 'documentElement');
+
+  var $TypeError$5 = TypeError;
+
+  var validateArgumentsLength$1 = function (passed, required) {
+    if (passed < required) throw $TypeError$5('Not enough arguments');
+    return passed;
+  };
+
+  var userAgent$4 = engineUserAgent;
+
+  var engineIsIos = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent$4);
+
+  var global$b = global$m;
+  var apply$1 = functionApply;
+  var bind$4 = functionBindContext;
+  var isCallable$9 = isCallable$n;
+  var hasOwn$4 = hasOwnProperty_1;
+  var fails$b = fails$m;
+  var html$1 = html$2;
+  var arraySlice$2 = arraySlice$3;
+  var createElement = documentCreateElement$2;
+  var validateArgumentsLength = validateArgumentsLength$1;
+  var IS_IOS$1 = engineIsIos;
+  var IS_NODE$3 = engineIsNode;
+
+  var set = global$b.setImmediate;
+  var clear = global$b.clearImmediate;
+  var process$3 = global$b.process;
+  var Dispatch = global$b.Dispatch;
+  var Function$1 = global$b.Function;
+  var MessageChannel$1 = global$b.MessageChannel;
+  var String$1 = global$b.String;
+  var counter = 0;
+  var queue$1 = {};
+  var ONREADYSTATECHANGE = 'onreadystatechange';
+  var $location, defer, channel, port;
+
+  try {
+    // Deno throws a ReferenceError on `location` access without `--location` flag
+    $location = global$b.location;
+  } catch (error) { /* empty */ }
+
+  var run = function (id) {
+    if (hasOwn$4(queue$1, id)) {
+      var fn = queue$1[id];
+      delete queue$1[id];
+      fn();
+    }
+  };
+
+  var runner = function (id) {
+    return function () {
+      run(id);
+    };
+  };
+
+  var listener = function (event) {
+    run(event.data);
+  };
+
+  var post = function (id) {
+    // old engines have not location.origin
+    global$b.postMessage(String$1(id), $location.protocol + '//' + $location.host);
+  };
+
+  // Node.js 0.9+ & IE10+ has setImmediate, otherwise:
+  if (!set || !clear) {
+    set = function setImmediate(handler) {
+      validateArgumentsLength(arguments.length, 1);
+      var fn = isCallable$9(handler) ? handler : Function$1(handler);
+      var args = arraySlice$2(arguments, 1);
+      queue$1[++counter] = function () {
+        apply$1(fn, undefined, args);
+      };
+      defer(counter);
+      return counter;
+    };
+    clear = function clearImmediate(id) {
+      delete queue$1[id];
+    };
+    // Node.js 0.8-
+    if (IS_NODE$3) {
+      defer = function (id) {
+        process$3.nextTick(runner(id));
+      };
+    // Sphere (JS game engine) Dispatch API
+    } else if (Dispatch && Dispatch.now) {
+      defer = function (id) {
+        Dispatch.now(runner(id));
+      };
+    // Browsers with MessageChannel, includes WebWorkers
+    // except iOS - https://github.com/zloirock/core-js/issues/624
+    } else if (MessageChannel$1 && !IS_IOS$1) {
+      channel = new MessageChannel$1();
+      port = channel.port2;
+      channel.port1.onmessage = listener;
+      defer = bind$4(port.postMessage, port);
+    // Browsers with postMessage, skip WebWorkers
+    // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
+    } else if (
+      global$b.addEventListener &&
+      isCallable$9(global$b.postMessage) &&
+      !global$b.importScripts &&
+      $location && $location.protocol !== 'file:' &&
+      !fails$b(post)
+    ) {
+      defer = post;
+      global$b.addEventListener('message', listener, false);
+    // IE8-
+    } else if (ONREADYSTATECHANGE in createElement('script')) {
+      defer = function (id) {
+        html$1.appendChild(createElement('script'))[ONREADYSTATECHANGE] = function () {
+          html$1.removeChild(this);
+          run(id);
+        };
+      };
+    // Rest old browsers
+    } else {
+      defer = function (id) {
+        setTimeout(runner(id), 0);
+      };
+    }
+  }
+
+  var task$1 = {
+    set: set,
+    clear: clear
+  };
+
+  var userAgent$3 = engineUserAgent;
+  var global$a = global$m;
+
+  var engineIsIosPebble = /ipad|iphone|ipod/i.test(userAgent$3) && global$a.Pebble !== undefined;
+
+  var userAgent$2 = engineUserAgent;
+
+  var engineIsWebosWebkit = /web0s(?!.*chrome)/i.test(userAgent$2);
+
+  var global$9 = global$m;
+  var bind$3 = functionBindContext;
+  var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
+  var macrotask = task$1.set;
+  var IS_IOS = engineIsIos;
+  var IS_IOS_PEBBLE = engineIsIosPebble;
+  var IS_WEBOS_WEBKIT = engineIsWebosWebkit;
+  var IS_NODE$2 = engineIsNode;
+
+  var MutationObserver = global$9.MutationObserver || global$9.WebKitMutationObserver;
+  var document$2 = global$9.document;
+  var process$2 = global$9.process;
+  var Promise$1 = global$9.Promise;
+  // Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
+  var queueMicrotaskDescriptor = getOwnPropertyDescriptor(global$9, 'queueMicrotask');
+  var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
+
+  var flush, head, last, notify$1, toggle, node, promise, then;
+
+  // modern engines have queueMicrotask method
+  if (!queueMicrotask) {
+    flush = function () {
+      var parent, fn;
+      if (IS_NODE$2 && (parent = process$2.domain)) parent.exit();
+      while (head) {
+        fn = head.fn;
+        head = head.next;
+        try {
+          fn();
+        } catch (error) {
+          if (head) notify$1();
+          else last = undefined;
+          throw error;
+        }
+      } last = undefined;
+      if (parent) parent.enter();
+    };
+
+    // browsers with MutationObserver, except iOS - https://github.com/zloirock/core-js/issues/339
+    // also except WebOS Webkit https://github.com/zloirock/core-js/issues/898
+    if (!IS_IOS && !IS_NODE$2 && !IS_WEBOS_WEBKIT && MutationObserver && document$2) {
+      toggle = true;
+      node = document$2.createTextNode('');
+      new MutationObserver(flush).observe(node, { characterData: true });
+      notify$1 = function () {
+        node.data = toggle = !toggle;
+      };
+    // environments with maybe non-completely correct, but existent Promise
+    } else if (!IS_IOS_PEBBLE && Promise$1 && Promise$1.resolve) {
+      // Promise.resolve without an argument throws an error in LG WebOS 2
+      promise = Promise$1.resolve(undefined);
+      // workaround of WebKit ~ iOS Safari 10.1 bug
+      promise.constructor = Promise$1;
+      then = bind$3(promise.then, promise);
+      notify$1 = function () {
+        then(flush);
+      };
+    // Node.js without promises
+    } else if (IS_NODE$2) {
+      notify$1 = function () {
+        process$2.nextTick(flush);
+      };
+    // for other environments - macrotask based on:
+    // - setImmediate
+    // - MessageChannel
+    // - window.postMessage
+    // - onreadystatechange
+    // - setTimeout
+    } else {
+      // strange IE + webpack dev server bug - use .bind(global)
+      macrotask = bind$3(macrotask, global$9);
+      notify$1 = function () {
+        macrotask(flush);
+      };
+    }
+  }
+
+  var microtask$1 = queueMicrotask || function (fn) {
+    var task = { fn: fn, next: undefined };
+    if (last) last.next = task;
+    if (!head) {
+      head = task;
+      notify$1();
+    } last = task;
+  };
+
+  var global$8 = global$m;
+
+  var hostReportErrors$1 = function (a, b) {
+    var console = global$8.console;
+    if (console && console.error) {
+      arguments.length == 1 ? console.error(a) : console.error(a, b);
+    }
+  };
+
+  var perform$3 = function (exec) {
+    try {
+      return { error: false, value: exec() };
+    } catch (error) {
+      return { error: true, value: error };
+    }
+  };
+
+  var Queue$1 = function () {
+    this.head = null;
+    this.tail = null;
+  };
+
+  Queue$1.prototype = {
+    add: function (item) {
+      var entry = { item: item, next: null };
+      if (this.head) this.tail.next = entry;
+      else this.head = entry;
+      this.tail = entry;
+    },
+    get: function () {
+      var entry = this.head;
+      if (entry) {
+        this.head = entry.next;
+        if (this.tail === entry) this.tail = null;
+        return entry.item;
+      }
+    }
+  };
+
+  var queue = Queue$1;
+
+  var global$7 = global$m;
+
+  var promiseNativeConstructor = global$7.Promise;
+
+  /* global Deno -- Deno case */
+
+  var engineIsDeno = typeof Deno == 'object' && Deno && typeof Deno.version == 'object';
+
+  var IS_DENO$1 = engineIsDeno;
+  var IS_NODE$1 = engineIsNode;
+
+  var engineIsBrowser = !IS_DENO$1 && !IS_NODE$1
+    && typeof window == 'object'
+    && typeof document == 'object';
+
+  var global$6 = global$m;
+  var NativePromiseConstructor$4 = promiseNativeConstructor;
+  var isCallable$8 = isCallable$n;
+  var isForced$1 = isForced_1;
+  var inspectSource = inspectSource$3;
+  var wellKnownSymbol$9 = wellKnownSymbol$i;
+  var IS_BROWSER = engineIsBrowser;
+  var IS_DENO = engineIsDeno;
+  var V8_VERSION$1 = engineV8Version;
+
+  NativePromiseConstructor$4 && NativePromiseConstructor$4.prototype;
+  var SPECIES$1 = wellKnownSymbol$9('species');
+  var SUBCLASSING = false;
+  var NATIVE_PROMISE_REJECTION_EVENT$1 = isCallable$8(global$6.PromiseRejectionEvent);
+
+  var FORCED_PROMISE_CONSTRUCTOR$5 = isForced$1('Promise', function () {
+    var PROMISE_CONSTRUCTOR_SOURCE = inspectSource(NativePromiseConstructor$4);
+    var GLOBAL_CORE_JS_PROMISE = PROMISE_CONSTRUCTOR_SOURCE !== String(NativePromiseConstructor$4);
+    // V8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
+    // We can't detect it synchronously, so just check versions
+    if (!GLOBAL_CORE_JS_PROMISE && V8_VERSION$1 === 66) return true;
+    // We can't use @@species feature detection in V8 since it causes
+    // deoptimization and performance degradation
+    // https://github.com/zloirock/core-js/issues/679
+    if (!V8_VERSION$1 || V8_VERSION$1 < 51 || !/native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) {
+      // Detect correctness of subclassing with @@species support
+      var promise = new NativePromiseConstructor$4(function (resolve) { resolve(1); });
+      var FakePromise = function (exec) {
+        exec(function () { /* empty */ }, function () { /* empty */ });
+      };
+      var constructor = promise.constructor = {};
+      constructor[SPECIES$1] = FakePromise;
+      SUBCLASSING = promise.then(function () { /* empty */ }) instanceof FakePromise;
+      if (!SUBCLASSING) return true;
+    // Unhandled rejections tracking support, NodeJS Promise without it fails @@species test
+    } return !GLOBAL_CORE_JS_PROMISE && (IS_BROWSER || IS_DENO) && !NATIVE_PROMISE_REJECTION_EVENT$1;
+  });
+
+  var promiseConstructorDetection = {
+    CONSTRUCTOR: FORCED_PROMISE_CONSTRUCTOR$5,
+    REJECTION_EVENT: NATIVE_PROMISE_REJECTION_EVENT$1,
+    SUBCLASSING: SUBCLASSING
+  };
+
+  var newPromiseCapability$2 = {};
+
+  var aCallable$5 = aCallable$8;
+
+  var $TypeError$4 = TypeError;
+
+  var PromiseCapability = function (C) {
+    var resolve, reject;
+    this.promise = new C(function ($$resolve, $$reject) {
+      if (resolve !== undefined || reject !== undefined) throw $TypeError$4('Bad Promise constructor');
+      resolve = $$resolve;
+      reject = $$reject;
+    });
+    this.resolve = aCallable$5(resolve);
+    this.reject = aCallable$5(reject);
+  };
+
+  // `NewPromiseCapability` abstract operation
+  // https://tc39.es/ecma262/#sec-newpromisecapability
+  newPromiseCapability$2.f = function (C) {
+    return new PromiseCapability(C);
+  };
+
+  var $$c = _export;
+  var IS_NODE = engineIsNode;
+  var global$5 = global$m;
+  var call$7 = functionCall;
+  var defineBuiltIn$6 = defineBuiltIn$9;
+  var setPrototypeOf$3 = objectSetPrototypeOf;
+  var setToStringTag$3 = setToStringTag$4;
+  var setSpecies = setSpecies$1;
+  var aCallable$4 = aCallable$8;
+  var isCallable$7 = isCallable$n;
+  var isObject$b = isObject$i;
+  var anInstance$2 = anInstance$3;
+  var speciesConstructor$1 = speciesConstructor$2;
+  var task = task$1.set;
+  var microtask = microtask$1;
+  var hostReportErrors = hostReportErrors$1;
+  var perform$2 = perform$3;
+  var Queue = queue;
+  var InternalStateModule$3 = internalState;
+  var NativePromiseConstructor$3 = promiseNativeConstructor;
+  var PromiseConstructorDetection = promiseConstructorDetection;
+  var newPromiseCapabilityModule$3 = newPromiseCapability$2;
+
+  var PROMISE = 'Promise';
+  var FORCED_PROMISE_CONSTRUCTOR$4 = PromiseConstructorDetection.CONSTRUCTOR;
+  var NATIVE_PROMISE_REJECTION_EVENT = PromiseConstructorDetection.REJECTION_EVENT;
+  var NATIVE_PROMISE_SUBCLASSING = PromiseConstructorDetection.SUBCLASSING;
+  var getInternalPromiseState = InternalStateModule$3.getterFor(PROMISE);
+  var setInternalState$3 = InternalStateModule$3.set;
+  var NativePromisePrototype$2 = NativePromiseConstructor$3 && NativePromiseConstructor$3.prototype;
+  var PromiseConstructor = NativePromiseConstructor$3;
+  var PromisePrototype = NativePromisePrototype$2;
+  var TypeError$1 = global$5.TypeError;
+  var document$1 = global$5.document;
+  var process$1 = global$5.process;
+  var newPromiseCapability$1 = newPromiseCapabilityModule$3.f;
+  var newGenericPromiseCapability = newPromiseCapability$1;
+
+  var DISPATCH_EVENT = !!(document$1 && document$1.createEvent && global$5.dispatchEvent);
+  var UNHANDLED_REJECTION = 'unhandledrejection';
+  var REJECTION_HANDLED = 'rejectionhandled';
+  var PENDING = 0;
+  var FULFILLED = 1;
+  var REJECTED = 2;
+  var HANDLED = 1;
+  var UNHANDLED = 2;
+
+  var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen;
+
+  // helpers
+  var isThenable = function (it) {
+    var then;
+    return isObject$b(it) && isCallable$7(then = it.then) ? then : false;
+  };
+
+  var callReaction = function (reaction, state) {
+    var value = state.value;
+    var ok = state.state == FULFILLED;
+    var handler = ok ? reaction.ok : reaction.fail;
+    var resolve = reaction.resolve;
+    var reject = reaction.reject;
+    var domain = reaction.domain;
+    var result, then, exited;
+    try {
+      if (handler) {
+        if (!ok) {
+          if (state.rejection === UNHANDLED) onHandleUnhandled(state);
+          state.rejection = HANDLED;
+        }
+        if (handler === true) result = value;
+        else {
+          if (domain) domain.enter();
+          result = handler(value); // can throw
+          if (domain) {
+            domain.exit();
+            exited = true;
+          }
+        }
+        if (result === reaction.promise) {
+          reject(TypeError$1('Promise-chain cycle'));
+        } else if (then = isThenable(result)) {
+          call$7(then, result, resolve, reject);
+        } else resolve(result);
+      } else reject(value);
+    } catch (error) {
+      if (domain && !exited) domain.exit();
+      reject(error);
+    }
+  };
+
+  var notify = function (state, isReject) {
+    if (state.notified) return;
+    state.notified = true;
+    microtask(function () {
+      var reactions = state.reactions;
+      var reaction;
+      while (reaction = reactions.get()) {
+        callReaction(reaction, state);
+      }
+      state.notified = false;
+      if (isReject && !state.rejection) onUnhandled(state);
+    });
+  };
+
+  var dispatchEvent = function (name, promise, reason) {
+    var event, handler;
+    if (DISPATCH_EVENT) {
+      event = document$1.createEvent('Event');
+      event.promise = promise;
+      event.reason = reason;
+      event.initEvent(name, false, true);
+      global$5.dispatchEvent(event);
+    } else event = { promise: promise, reason: reason };
+    if (!NATIVE_PROMISE_REJECTION_EVENT && (handler = global$5['on' + name])) handler(event);
+    else if (name === UNHANDLED_REJECTION) hostReportErrors('Unhandled promise rejection', reason);
+  };
+
+  var onUnhandled = function (state) {
+    call$7(task, global$5, function () {
+      var promise = state.facade;
+      var value = state.value;
+      var IS_UNHANDLED = isUnhandled(state);
+      var result;
+      if (IS_UNHANDLED) {
+        result = perform$2(function () {
+          if (IS_NODE) {
+            process$1.emit('unhandledRejection', value, promise);
+          } else dispatchEvent(UNHANDLED_REJECTION, promise, value);
+        });
+        // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
+        state.rejection = IS_NODE || isUnhandled(state) ? UNHANDLED : HANDLED;
+        if (result.error) throw result.value;
+      }
+    });
+  };
+
+  var isUnhandled = function (state) {
+    return state.rejection !== HANDLED && !state.parent;
+  };
+
+  var onHandleUnhandled = function (state) {
+    call$7(task, global$5, function () {
+      var promise = state.facade;
+      if (IS_NODE) {
+        process$1.emit('rejectionHandled', promise);
+      } else dispatchEvent(REJECTION_HANDLED, promise, state.value);
+    });
+  };
+
+  var bind$2 = function (fn, state, unwrap) {
+    return function (value) {
+      fn(state, value, unwrap);
+    };
+  };
+
+  var internalReject = function (state, value, unwrap) {
+    if (state.done) return;
+    state.done = true;
+    if (unwrap) state = unwrap;
+    state.value = value;
+    state.state = REJECTED;
+    notify(state, true);
+  };
+
+  var internalResolve = function (state, value, unwrap) {
+    if (state.done) return;
+    state.done = true;
+    if (unwrap) state = unwrap;
+    try {
+      if (state.facade === value) throw TypeError$1("Promise can't be resolved itself");
+      var then = isThenable(value);
+      if (then) {
+        microtask(function () {
+          var wrapper = { done: false };
+          try {
+            call$7(then, value,
+              bind$2(internalResolve, wrapper, state),
+              bind$2(internalReject, wrapper, state)
+            );
+          } catch (error) {
+            internalReject(wrapper, error, state);
+          }
+        });
+      } else {
+        state.value = value;
+        state.state = FULFILLED;
+        notify(state, false);
+      }
+    } catch (error) {
+      internalReject({ done: false }, error, state);
+    }
+  };
+
+  // constructor polyfill
+  if (FORCED_PROMISE_CONSTRUCTOR$4) {
+    // 25.4.3.1 Promise(executor)
+    PromiseConstructor = function Promise(executor) {
+      anInstance$2(this, PromisePrototype);
+      aCallable$4(executor);
+      call$7(Internal, this);
+      var state = getInternalPromiseState(this);
+      try {
+        executor(bind$2(internalResolve, state), bind$2(internalReject, state));
+      } catch (error) {
+        internalReject(state, error);
+      }
+    };
+
+    PromisePrototype = PromiseConstructor.prototype;
+
+    // eslint-disable-next-line no-unused-vars -- required for `.length`
+    Internal = function Promise(executor) {
+      setInternalState$3(this, {
+        type: PROMISE,
+        done: false,
+        notified: false,
+        parent: false,
+        reactions: new Queue(),
+        rejection: false,
+        state: PENDING,
+        value: undefined
+      });
+    };
+
+    // `Promise.prototype.then` method
+    // https://tc39.es/ecma262/#sec-promise.prototype.then
+    Internal.prototype = defineBuiltIn$6(PromisePrototype, 'then', function then(onFulfilled, onRejected) {
+      var state = getInternalPromiseState(this);
+      var reaction = newPromiseCapability$1(speciesConstructor$1(this, PromiseConstructor));
+      state.parent = true;
+      reaction.ok = isCallable$7(onFulfilled) ? onFulfilled : true;
+      reaction.fail = isCallable$7(onRejected) && onRejected;
+      reaction.domain = IS_NODE ? process$1.domain : undefined;
+      if (state.state == PENDING) state.reactions.add(reaction);
+      else microtask(function () {
+        callReaction(reaction, state);
+      });
+      return reaction.promise;
+    });
+
+    OwnPromiseCapability = function () {
+      var promise = new Internal();
+      var state = getInternalPromiseState(promise);
+      this.promise = promise;
+      this.resolve = bind$2(internalResolve, state);
+      this.reject = bind$2(internalReject, state);
+    };
+
+    newPromiseCapabilityModule$3.f = newPromiseCapability$1 = function (C) {
+      return C === PromiseConstructor || C === PromiseWrapper
+        ? new OwnPromiseCapability(C)
+        : newGenericPromiseCapability(C);
+    };
+
+    if (isCallable$7(NativePromiseConstructor$3) && NativePromisePrototype$2 !== Object.prototype) {
+      nativeThen = NativePromisePrototype$2.then;
+
+      if (!NATIVE_PROMISE_SUBCLASSING) {
+        // make `Promise#then` return a polyfilled `Promise` for native promise-based APIs
+        defineBuiltIn$6(NativePromisePrototype$2, 'then', function then(onFulfilled, onRejected) {
+          var that = this;
+          return new PromiseConstructor(function (resolve, reject) {
+            call$7(nativeThen, that, resolve, reject);
+          }).then(onFulfilled, onRejected);
+        // https://github.com/zloirock/core-js/issues/640
+        }, { unsafe: true });
+      }
+
+      // make `.constructor === Promise` work for native promise-based APIs
+      try {
+        delete NativePromisePrototype$2.constructor;
+      } catch (error) { /* empty */ }
+
+      // make `instanceof Promise` work for native promise-based APIs
+      if (setPrototypeOf$3) {
+        setPrototypeOf$3(NativePromisePrototype$2, PromisePrototype);
+      }
+    }
+  }
+
+  $$c({ global: true, constructor: true, wrap: true, forced: FORCED_PROMISE_CONSTRUCTOR$4 }, {
+    Promise: PromiseConstructor
+  });
+
+  setToStringTag$3(PromiseConstructor, PROMISE, false);
+  setSpecies(PROMISE);
+
   var iterators = {};
 
-  var wellKnownSymbol$9 = wellKnownSymbol$k;
+  var wellKnownSymbol$8 = wellKnownSymbol$i;
   var Iterators$4 = iterators;
 
-  var ITERATOR$5 = wellKnownSymbol$9('iterator');
+  var ITERATOR$5 = wellKnownSymbol$8('iterator');
   var ArrayPrototype$1 = Array.prototype;
 
   // check on default Array iterator
@@ -2260,71 +2248,70 @@
     return it !== undefined && (Iterators$4.Array === it || ArrayPrototype$1[ITERATOR$5] === it);
   };
 
-  var classof$3 = classof$a;
-  var getMethod$1 = getMethod$4;
+  var classof$3 = classof$7;
+  var getMethod$1 = getMethod$3;
+  var isNullOrUndefined$2 = isNullOrUndefined$6;
   var Iterators$3 = iterators;
-  var wellKnownSymbol$8 = wellKnownSymbol$k;
+  var wellKnownSymbol$7 = wellKnownSymbol$i;
 
-  var ITERATOR$4 = wellKnownSymbol$8('iterator');
+  var ITERATOR$4 = wellKnownSymbol$7('iterator');
 
   var getIteratorMethod$2 = function (it) {
-    if (it != undefined) return getMethod$1(it, ITERATOR$4)
+    if (!isNullOrUndefined$2(it)) return getMethod$1(it, ITERATOR$4)
       || getMethod$1(it, '@@iterator')
       || Iterators$3[classof$3(it)];
   };
 
-  var global$g = global$N;
-  var call$4 = functionCall;
-  var aCallable$3 = aCallable$6;
-  var anObject$4 = anObject$e;
-  var tryToString$1 = tryToString$4;
+  var call$6 = functionCall;
+  var aCallable$3 = aCallable$8;
+  var anObject$6 = anObject$b;
+  var tryToString$2 = tryToString$5;
   var getIteratorMethod$1 = getIteratorMethod$2;
 
-  var TypeError$5 = global$g.TypeError;
+  var $TypeError$3 = TypeError;
 
   var getIterator$1 = function (argument, usingIterator) {
     var iteratorMethod = arguments.length < 2 ? getIteratorMethod$1(argument) : usingIterator;
-    if (aCallable$3(iteratorMethod)) return anObject$4(call$4(iteratorMethod, argument));
-    throw TypeError$5(tryToString$1(argument) + ' is not iterable');
+    if (aCallable$3(iteratorMethod)) return anObject$6(call$6(iteratorMethod, argument));
+    throw $TypeError$3(tryToString$2(argument) + ' is not iterable');
   };
 
-  var call$3 = functionCall;
-  var anObject$3 = anObject$e;
-  var getMethod = getMethod$4;
+  var call$5 = functionCall;
+  var anObject$5 = anObject$b;
+  var getMethod = getMethod$3;
 
   var iteratorClose$1 = function (iterator, kind, value) {
     var innerResult, innerError;
-    anObject$3(iterator);
+    anObject$5(iterator);
     try {
       innerResult = getMethod(iterator, 'return');
       if (!innerResult) {
         if (kind === 'throw') throw value;
         return value;
       }
-      innerResult = call$3(innerResult, iterator);
+      innerResult = call$5(innerResult, iterator);
     } catch (error) {
       innerError = true;
       innerResult = error;
     }
     if (kind === 'throw') throw value;
     if (innerError) throw innerResult;
-    anObject$3(innerResult);
+    anObject$5(innerResult);
     return value;
   };
 
-  var global$f = global$N;
-  var bind$4 = functionBindContext;
-  var call$2 = functionCall;
-  var anObject$2 = anObject$e;
-  var tryToString = tryToString$4;
+  var bind$1 = functionBindContext;
+  var call$4 = functionCall;
+  var anObject$4 = anObject$b;
+  var tryToString$1 = tryToString$5;
   var isArrayIteratorMethod = isArrayIteratorMethod$1;
-  var lengthOfArrayLike$3 = lengthOfArrayLike$7;
+  var lengthOfArrayLike$4 = lengthOfArrayLike$7;
   var isPrototypeOf$1 = objectIsPrototypeOf;
   var getIterator = getIterator$1;
   var getIteratorMethod = getIteratorMethod$2;
   var iteratorClose = iteratorClose$1;
 
-  var TypeError$4 = global$f.TypeError;
+  var $TypeError$2 = TypeError;
 
   var Result = function (stopped, result) {
     this.stopped = stopped;
@@ -2333,12 +2320,13 @@
 
   var ResultPrototype = Result.prototype;
 
-  var iterate$3 = function (iterable, unboundFunction, options) {
+  var iterate$4 = function (iterable, unboundFunction, options) {
     var that = options && options.that;
     var AS_ENTRIES = !!(options && options.AS_ENTRIES);
+    var IS_RECORD = !!(options && options.IS_RECORD);
     var IS_ITERATOR = !!(options && options.IS_ITERATOR);
     var INTERRUPTED = !!(options && options.INTERRUPTED);
-    var fn = bind$4(unboundFunction, that);
+    var fn = bind$1(unboundFunction, that);
     var iterator, iterFn, index, length, result, next, step;
 
     var stop = function (condition) {
@@ -2348,19 +2336,21 @@
 
     var callFn = function (value) {
       if (AS_ENTRIES) {
-        anObject$2(value);
+        anObject$4(value);
         return INTERRUPTED ? fn(value[0], value[1], stop) : fn(value[0], value[1]);
       } return INTERRUPTED ? fn(value, stop) : fn(value);
     };
 
-    if (IS_ITERATOR) {
+    if (IS_RECORD) {
+      iterator = iterable.iterator;
+    } else if (IS_ITERATOR) {
       iterator = iterable;
     } else {
       iterFn = getIteratorMethod(iterable);
-      if (!iterFn) throw TypeError$4(tryToString(iterable) + ' is not iterable');
+      if (!iterFn) throw $TypeError$2(tryToString$1(iterable) + ' is not iterable');
       // optimisation for array iterators
       if (isArrayIteratorMethod(iterFn)) {
-        for (index = 0, length = lengthOfArrayLike$3(iterable); length > index; index++) {
+        for (index = 0, length = lengthOfArrayLike$4(iterable); length > index; index++) {
           result = callFn(iterable[index]);
           if (result && isPrototypeOf$1(ResultPrototype, result)) return result;
         } return new Result(false);
@@ -2368,8 +2358,8 @@
       iterator = getIterator(iterable, iterFn);
     }
 
-    next = iterator.next;
-    while (!(step = call$2(next, iterator)).done) {
+    next = IS_RECORD ? iterable.next : iterator.next;
+    while (!(step = call$4(next, iterator)).done) {
       try {
         result = callFn(step.value);
       } catch (error) {
@@ -2379,9 +2369,9 @@
     } return new Result(false);
   };
 
-  var wellKnownSymbol$7 = wellKnownSymbol$k;
+  var wellKnownSymbol$6 = wellKnownSymbol$i;
 
-  var ITERATOR$3 = wellKnownSymbol$7('iterator');
+  var ITERATOR$3 = wellKnownSymbol$6('iterator');
   var SAFE_CLOSING = false;
 
   try {
@@ -2418,684 +2408,40 @@
     return ITERATION_SUPPORT;
   };
 
-  var global$e = global$N;
-
-  var TypeError$3 = global$e.TypeError;
-
-  var validateArgumentsLength$1 = function (passed, required) {
-    if (passed < required) throw TypeError$3('Not enough arguments');
-    return passed;
-  };
-
-  var userAgent$4 = engineUserAgent;
-
-  var engineIsIos = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent$4);
-
-  var classof$2 = classofRaw$1;
-  var global$d = global$N;
-
-  var engineIsNode = classof$2(global$d.process) == 'process';
-
-  var global$c = global$N;
-  var apply$1 = functionApply;
-  var bind$3 = functionBindContext;
-  var isCallable$7 = isCallable$l;
-  var hasOwn$4 = hasOwnProperty_1;
-  var fails$b = fails$q;
-  var html = html$2;
-  var arraySlice$2 = arraySlice$3;
-  var createElement = documentCreateElement$2;
-  var validateArgumentsLength = validateArgumentsLength$1;
-  var IS_IOS$1 = engineIsIos;
-  var IS_NODE$2 = engineIsNode;
-
-  var set = global$c.setImmediate;
-  var clear = global$c.clearImmediate;
-  var process$3 = global$c.process;
-  var Dispatch = global$c.Dispatch;
-  var Function$1 = global$c.Function;
-  var MessageChannel$1 = global$c.MessageChannel;
-  var String$1 = global$c.String;
-  var counter = 0;
-  var queue$1 = {};
-  var ONREADYSTATECHANGE = 'onreadystatechange';
-  var location, defer, channel, port;
-
-  try {
-    // Deno throws a ReferenceError on `location` access without `--location` flag
-    location = global$c.location;
-  } catch (error) { /* empty */ }
-
-  var run = function (id) {
-    if (hasOwn$4(queue$1, id)) {
-      var fn = queue$1[id];
-      delete queue$1[id];
-      fn();
-    }
-  };
-
-  var runner = function (id) {
-    return function () {
-      run(id);
-    };
-  };
-
-  var listener = function (event) {
-    run(event.data);
-  };
-
-  var post = function (id) {
-    // old engines have not location.origin
-    global$c.postMessage(String$1(id), location.protocol + '//' + location.host);
-  };
-
-  // Node.js 0.9+ & IE10+ has setImmediate, otherwise:
-  if (!set || !clear) {
-    set = function setImmediate(handler) {
-      validateArgumentsLength(arguments.length, 1);
-      var fn = isCallable$7(handler) ? handler : Function$1(handler);
-      var args = arraySlice$2(arguments, 1);
-      queue$1[++counter] = function () {
-        apply$1(fn, undefined, args);
-      };
-      defer(counter);
-      return counter;
-    };
-    clear = function clearImmediate(id) {
-      delete queue$1[id];
-    };
-    // Node.js 0.8-
-    if (IS_NODE$2) {
-      defer = function (id) {
-        process$3.nextTick(runner(id));
-      };
-    // Sphere (JS game engine) Dispatch API
-    } else if (Dispatch && Dispatch.now) {
-      defer = function (id) {
-        Dispatch.now(runner(id));
-      };
-    // Browsers with MessageChannel, includes WebWorkers
-    // except iOS - https://github.com/zloirock/core-js/issues/624
-    } else if (MessageChannel$1 && !IS_IOS$1) {
-      channel = new MessageChannel$1();
-      port = channel.port2;
-      channel.port1.onmessage = listener;
-      defer = bind$3(port.postMessage, port);
-    // Browsers with postMessage, skip WebWorkers
-    // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
-    } else if (
-      global$c.addEventListener &&
-      isCallable$7(global$c.postMessage) &&
-      !global$c.importScripts &&
-      location && location.protocol !== 'file:' &&
-      !fails$b(post)
-    ) {
-      defer = post;
-      global$c.addEventListener('message', listener, false);
-    // IE8-
-    } else if (ONREADYSTATECHANGE in createElement('script')) {
-      defer = function (id) {
-        html.appendChild(createElement('script'))[ONREADYSTATECHANGE] = function () {
-          html.removeChild(this);
-          run(id);
-        };
-      };
-    // Rest old browsers
-    } else {
-      defer = function (id) {
-        setTimeout(runner(id), 0);
-      };
-    }
-  }
-
-  var task$1 = {
-    set: set,
-    clear: clear
-  };
-
-  var userAgent$3 = engineUserAgent;
-  var global$b = global$N;
-
-  var engineIsIosPebble = /ipad|iphone|ipod/i.test(userAgent$3) && global$b.Pebble !== undefined;
-
-  var userAgent$2 = engineUserAgent;
-
-  var engineIsWebosWebkit = /web0s(?!.*chrome)/i.test(userAgent$2);
-
-  var global$a = global$N;
-  var bind$2 = functionBindContext;
-  var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
-  var macrotask = task$1.set;
-  var IS_IOS = engineIsIos;
-  var IS_IOS_PEBBLE = engineIsIosPebble;
-  var IS_WEBOS_WEBKIT = engineIsWebosWebkit;
-  var IS_NODE$1 = engineIsNode;
-
-  var MutationObserver = global$a.MutationObserver || global$a.WebKitMutationObserver;
-  var document$2 = global$a.document;
-  var process$2 = global$a.process;
-  var Promise$1 = global$a.Promise;
-  // Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
-  var queueMicrotaskDescriptor = getOwnPropertyDescriptor(global$a, 'queueMicrotask');
-  var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
-
-  var flush, head, last, notify$1, toggle, node, promise, then;
-
-  // modern engines have queueMicrotask method
-  if (!queueMicrotask) {
-    flush = function () {
-      var parent, fn;
-      if (IS_NODE$1 && (parent = process$2.domain)) parent.exit();
-      while (head) {
-        fn = head.fn;
-        head = head.next;
-        try {
-          fn();
-        } catch (error) {
-          if (head) notify$1();
-          else last = undefined;
-          throw error;
-        }
-      } last = undefined;
-      if (parent) parent.enter();
-    };
-
-    // browsers with MutationObserver, except iOS - https://github.com/zloirock/core-js/issues/339
-    // also except WebOS Webkit https://github.com/zloirock/core-js/issues/898
-    if (!IS_IOS && !IS_NODE$1 && !IS_WEBOS_WEBKIT && MutationObserver && document$2) {
-      toggle = true;
-      node = document$2.createTextNode('');
-      new MutationObserver(flush).observe(node, { characterData: true });
-      notify$1 = function () {
-        node.data = toggle = !toggle;
-      };
-    // environments with maybe non-completely correct, but existent Promise
-    } else if (!IS_IOS_PEBBLE && Promise$1 && Promise$1.resolve) {
-      // Promise.resolve without an argument throws an error in LG WebOS 2
-      promise = Promise$1.resolve(undefined);
-      // workaround of WebKit ~ iOS Safari 10.1 bug
-      promise.constructor = Promise$1;
-      then = bind$2(promise.then, promise);
-      notify$1 = function () {
-        then(flush);
-      };
-    // Node.js without promises
-    } else if (IS_NODE$1) {
-      notify$1 = function () {
-        process$2.nextTick(flush);
-      };
-    // for other environments - macrotask based on:
-    // - setImmediate
-    // - MessageChannel
-    // - window.postMessag
-    // - onreadystatechange
-    // - setTimeout
-    } else {
-      // strange IE + webpack dev server bug - use .bind(global)
-      macrotask = bind$2(macrotask, global$a);
-      notify$1 = function () {
-        macrotask(flush);
-      };
-    }
-  }
-
-  var microtask$1 = queueMicrotask || function (fn) {
-    var task = { fn: fn, next: undefined };
-    if (last) last.next = task;
-    if (!head) {
-      head = task;
-      notify$1();
-    } last = task;
-  };
-
-  var newPromiseCapability$2 = {};
-
-  var aCallable$2 = aCallable$6;
-
-  var PromiseCapability = function (C) {
-    var resolve, reject;
-    this.promise = new C(function ($$resolve, $$reject) {
-      if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
-      resolve = $$resolve;
-      reject = $$reject;
-    });
-    this.resolve = aCallable$2(resolve);
-    this.reject = aCallable$2(reject);
-  };
-
-  // `NewPromiseCapability` abstract operation
-  // https://tc39.es/ecma262/#sec-newpromisecapability
-  newPromiseCapability$2.f = function (C) {
-    return new PromiseCapability(C);
-  };
-
-  var anObject$1 = anObject$e;
-  var isObject$a = isObject$i;
-  var newPromiseCapability$1 = newPromiseCapability$2;
-
-  var promiseResolve$2 = function (C, x) {
-    anObject$1(C);
-    if (isObject$a(x) && x.constructor === C) return x;
-    var promiseCapability = newPromiseCapability$1.f(C);
-    var resolve = promiseCapability.resolve;
-    resolve(x);
-    return promiseCapability.promise;
-  };
-
-  var global$9 = global$N;
-
-  var hostReportErrors$1 = function (a, b) {
-    var console = global$9.console;
-    if (console && console.error) {
-      arguments.length == 1 ? console.error(a) : console.error(a, b);
-    }
-  };
-
-  var perform$1 = function (exec) {
-    try {
-      return { error: false, value: exec() };
-    } catch (error) {
-      return { error: true, value: error };
-    }
-  };
-
-  var Queue$1 = function () {
-    this.head = null;
-    this.tail = null;
-  };
-
-  Queue$1.prototype = {
-    add: function (item) {
-      var entry = { item: item, next: null };
-      if (this.head) this.tail.next = entry;
-      else this.head = entry;
-      this.tail = entry;
-    },
-    get: function () {
-      var entry = this.head;
-      if (entry) {
-        this.head = entry.next;
-        if (this.tail === entry) this.tail = null;
-        return entry.item;
-      }
-    }
-  };
-
-  var queue = Queue$1;
-
-  var engineIsBrowser = typeof window == 'object';
-
-  var $$8 = _export;
-  var global$8 = global$N;
-  var getBuiltIn$2 = getBuiltIn$9;
-  var call$1 = functionCall;
-  var NativePromise$1 = nativePromiseConstructor;
-  var redefine$4 = redefine$9.exports;
-  var redefineAll$2 = redefineAll$3;
-  var setPrototypeOf$3 = objectSetPrototypeOf;
-  var setToStringTag$3 = setToStringTag$4;
-  var setSpecies = setSpecies$1;
-  var aCallable$1 = aCallable$6;
-  var isCallable$6 = isCallable$l;
-  var isObject$9 = isObject$i;
-  var anInstance$2 = anInstance$3;
-  var inspectSource = inspectSource$4;
-  var iterate$2 = iterate$3;
+  var NativePromiseConstructor$2 = promiseNativeConstructor;
   var checkCorrectnessOfIteration$1 = checkCorrectnessOfIteration$2;
-  var speciesConstructor$1 = speciesConstructor$3;
-  var task = task$1.set;
-  var microtask = microtask$1;
-  var promiseResolve$1 = promiseResolve$2;
-  var hostReportErrors = hostReportErrors$1;
-  var newPromiseCapabilityModule = newPromiseCapability$2;
-  var perform = perform$1;
-  var Queue = queue;
-  var InternalStateModule$3 = internalState;
-  var isForced$1 = isForced_1;
-  var wellKnownSymbol$6 = wellKnownSymbol$k;
-  var IS_BROWSER = engineIsBrowser;
-  var IS_NODE = engineIsNode;
-  var V8_VERSION$1 = engineV8Version;
+  var FORCED_PROMISE_CONSTRUCTOR$3 = promiseConstructorDetection.CONSTRUCTOR;
 
-  var SPECIES$1 = wellKnownSymbol$6('species');
-  var PROMISE = 'Promise';
-
-  var getInternalState$2 = InternalStateModule$3.getterFor(PROMISE);
-  var setInternalState$3 = InternalStateModule$3.set;
-  var getInternalPromiseState = InternalStateModule$3.getterFor(PROMISE);
-  var NativePromisePrototype = NativePromise$1 && NativePromise$1.prototype;
-  var PromiseConstructor = NativePromise$1;
-  var PromisePrototype = NativePromisePrototype;
-  var TypeError$2 = global$8.TypeError;
-  var document$1 = global$8.document;
-  var process$1 = global$8.process;
-  var newPromiseCapability = newPromiseCapabilityModule.f;
-  var newGenericPromiseCapability = newPromiseCapability;
-
-  var DISPATCH_EVENT = !!(document$1 && document$1.createEvent && global$8.dispatchEvent);
-  var NATIVE_REJECTION_EVENT = isCallable$6(global$8.PromiseRejectionEvent);
-  var UNHANDLED_REJECTION = 'unhandledrejection';
-  var REJECTION_HANDLED = 'rejectionhandled';
-  var PENDING = 0;
-  var FULFILLED = 1;
-  var REJECTED = 2;
-  var HANDLED = 1;
-  var UNHANDLED = 2;
-  var SUBCLASSING = false;
-
-  var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen;
-
-  var FORCED$3 = isForced$1(PROMISE, function () {
-    var PROMISE_CONSTRUCTOR_SOURCE = inspectSource(PromiseConstructor);
-    var GLOBAL_CORE_JS_PROMISE = PROMISE_CONSTRUCTOR_SOURCE !== String(PromiseConstructor);
-    // V8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
-    // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
-    // We can't detect it synchronously, so just check versions
-    if (!GLOBAL_CORE_JS_PROMISE && V8_VERSION$1 === 66) return true;
-    // We can't use @@species feature detection in V8 since it causes
-    // deoptimization and performance degradation
-    // https://github.com/zloirock/core-js/issues/679
-    if (V8_VERSION$1 >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return false;
-    // Detect correctness of subclassing with @@species support
-    var promise = new PromiseConstructor(function (resolve) { resolve(1); });
-    var FakePromise = function (exec) {
-      exec(function () { /* empty */ }, function () { /* empty */ });
-    };
-    var constructor = promise.constructor = {};
-    constructor[SPECIES$1] = FakePromise;
-    SUBCLASSING = promise.then(function () { /* empty */ }) instanceof FakePromise;
-    if (!SUBCLASSING) return true;
-    // Unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-    return !GLOBAL_CORE_JS_PROMISE && IS_BROWSER && !NATIVE_REJECTION_EVENT;
+  var promiseStaticsIncorrectIteration = FORCED_PROMISE_CONSTRUCTOR$3 || !checkCorrectnessOfIteration$1(function (iterable) {
+    NativePromiseConstructor$2.all(iterable).then(undefined, function () { /* empty */ });
   });
 
-  var INCORRECT_ITERATION = FORCED$3 || !checkCorrectnessOfIteration$1(function (iterable) {
-    PromiseConstructor.all(iterable)['catch'](function () { /* empty */ });
-  });
+  var $$b = _export;
+  var call$3 = functionCall;
+  var aCallable$2 = aCallable$8;
+  var newPromiseCapabilityModule$2 = newPromiseCapability$2;
+  var perform$1 = perform$3;
+  var iterate$3 = iterate$4;
+  var PROMISE_STATICS_INCORRECT_ITERATION$1 = promiseStaticsIncorrectIteration;
 
-  // helpers
-  var isThenable = function (it) {
-    var then;
-    return isObject$9(it) && isCallable$6(then = it.then) ? then : false;
-  };
-
-  var callReaction = function (reaction, state) {
-    var value = state.value;
-    var ok = state.state == FULFILLED;
-    var handler = ok ? reaction.ok : reaction.fail;
-    var resolve = reaction.resolve;
-    var reject = reaction.reject;
-    var domain = reaction.domain;
-    var result, then, exited;
-    try {
-      if (handler) {
-        if (!ok) {
-          if (state.rejection === UNHANDLED) onHandleUnhandled(state);
-          state.rejection = HANDLED;
-        }
-        if (handler === true) result = value;
-        else {
-          if (domain) domain.enter();
-          result = handler(value); // can throw
-          if (domain) {
-            domain.exit();
-            exited = true;
-          }
-        }
-        if (result === reaction.promise) {
-          reject(TypeError$2('Promise-chain cycle'));
-        } else if (then = isThenable(result)) {
-          call$1(then, result, resolve, reject);
-        } else resolve(result);
-      } else reject(value);
-    } catch (error) {
-      if (domain && !exited) domain.exit();
-      reject(error);
-    }
-  };
-
-  var notify = function (state, isReject) {
-    if (state.notified) return;
-    state.notified = true;
-    microtask(function () {
-      var reactions = state.reactions;
-      var reaction;
-      while (reaction = reactions.get()) {
-        callReaction(reaction, state);
-      }
-      state.notified = false;
-      if (isReject && !state.rejection) onUnhandled(state);
-    });
-  };
-
-  var dispatchEvent = function (name, promise, reason) {
-    var event, handler;
-    if (DISPATCH_EVENT) {
-      event = document$1.createEvent('Event');
-      event.promise = promise;
-      event.reason = reason;
-      event.initEvent(name, false, true);
-      global$8.dispatchEvent(event);
-    } else event = { promise: promise, reason: reason };
-    if (!NATIVE_REJECTION_EVENT && (handler = global$8['on' + name])) handler(event);
-    else if (name === UNHANDLED_REJECTION) hostReportErrors('Unhandled promise rejection', reason);
-  };
-
-  var onUnhandled = function (state) {
-    call$1(task, global$8, function () {
-      var promise = state.facade;
-      var value = state.value;
-      var IS_UNHANDLED = isUnhandled(state);
-      var result;
-      if (IS_UNHANDLED) {
-        result = perform(function () {
-          if (IS_NODE) {
-            process$1.emit('unhandledRejection', value, promise);
-          } else dispatchEvent(UNHANDLED_REJECTION, promise, value);
-        });
-        // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
-        state.rejection = IS_NODE || isUnhandled(state) ? UNHANDLED : HANDLED;
-        if (result.error) throw result.value;
-      }
-    });
-  };
-
-  var isUnhandled = function (state) {
-    return state.rejection !== HANDLED && !state.parent;
-  };
-
-  var onHandleUnhandled = function (state) {
-    call$1(task, global$8, function () {
-      var promise = state.facade;
-      if (IS_NODE) {
-        process$1.emit('rejectionHandled', promise);
-      } else dispatchEvent(REJECTION_HANDLED, promise, state.value);
-    });
-  };
-
-  var bind$1 = function (fn, state, unwrap) {
-    return function (value) {
-      fn(state, value, unwrap);
-    };
-  };
-
-  var internalReject = function (state, value, unwrap) {
-    if (state.done) return;
-    state.done = true;
-    if (unwrap) state = unwrap;
-    state.value = value;
-    state.state = REJECTED;
-    notify(state, true);
-  };
-
-  var internalResolve = function (state, value, unwrap) {
-    if (state.done) return;
-    state.done = true;
-    if (unwrap) state = unwrap;
-    try {
-      if (state.facade === value) throw TypeError$2("Promise can't be resolved itself");
-      var then = isThenable(value);
-      if (then) {
-        microtask(function () {
-          var wrapper = { done: false };
-          try {
-            call$1(then, value,
-              bind$1(internalResolve, wrapper, state),
-              bind$1(internalReject, wrapper, state)
-            );
-          } catch (error) {
-            internalReject(wrapper, error, state);
-          }
-        });
-      } else {
-        state.value = value;
-        state.state = FULFILLED;
-        notify(state, false);
-      }
-    } catch (error) {
-      internalReject({ done: false }, error, state);
-    }
-  };
-
-  // constructor polyfill
-  if (FORCED$3) {
-    // 25.4.3.1 Promise(executor)
-    PromiseConstructor = function Promise(executor) {
-      anInstance$2(this, PromisePrototype);
-      aCallable$1(executor);
-      call$1(Internal, this);
-      var state = getInternalState$2(this);
-      try {
-        executor(bind$1(internalResolve, state), bind$1(internalReject, state));
-      } catch (error) {
-        internalReject(state, error);
-      }
-    };
-    PromisePrototype = PromiseConstructor.prototype;
-    // eslint-disable-next-line no-unused-vars -- required for `.length`
-    Internal = function Promise(executor) {
-      setInternalState$3(this, {
-        type: PROMISE,
-        done: false,
-        notified: false,
-        parent: false,
-        reactions: new Queue(),
-        rejection: false,
-        state: PENDING,
-        value: undefined
-      });
-    };
-    Internal.prototype = redefineAll$2(PromisePrototype, {
-      // `Promise.prototype.then` method
-      // https://tc39.es/ecma262/#sec-promise.prototype.then
-      // eslint-disable-next-line unicorn/no-thenable -- safe
-      then: function then(onFulfilled, onRejected) {
-        var state = getInternalPromiseState(this);
-        var reaction = newPromiseCapability(speciesConstructor$1(this, PromiseConstructor));
-        state.parent = true;
-        reaction.ok = isCallable$6(onFulfilled) ? onFulfilled : true;
-        reaction.fail = isCallable$6(onRejected) && onRejected;
-        reaction.domain = IS_NODE ? process$1.domain : undefined;
-        if (state.state == PENDING) state.reactions.add(reaction);
-        else microtask(function () {
-          callReaction(reaction, state);
-        });
-        return reaction.promise;
-      },
-      // `Promise.prototype.catch` method
-      // https://tc39.es/ecma262/#sec-promise.prototype.catch
-      'catch': function (onRejected) {
-        return this.then(undefined, onRejected);
-      }
-    });
-    OwnPromiseCapability = function () {
-      var promise = new Internal();
-      var state = getInternalState$2(promise);
-      this.promise = promise;
-      this.resolve = bind$1(internalResolve, state);
-      this.reject = bind$1(internalReject, state);
-    };
-    newPromiseCapabilityModule.f = newPromiseCapability = function (C) {
-      return C === PromiseConstructor || C === PromiseWrapper
-        ? new OwnPromiseCapability(C)
-        : newGenericPromiseCapability(C);
-    };
-
-    if (isCallable$6(NativePromise$1) && NativePromisePrototype !== Object.prototype) {
-      nativeThen = NativePromisePrototype.then;
-
-      if (!SUBCLASSING) {
-        // make `Promise#then` return a polyfilled `Promise` for native promise-based APIs
-        redefine$4(NativePromisePrototype, 'then', function then(onFulfilled, onRejected) {
-          var that = this;
-          return new PromiseConstructor(function (resolve, reject) {
-            call$1(nativeThen, that, resolve, reject);
-          }).then(onFulfilled, onRejected);
-        // https://github.com/zloirock/core-js/issues/640
-        }, { unsafe: true });
-
-        // makes sure that native promise-based APIs `Promise#catch` properly works with patched `Promise#then`
-        redefine$4(NativePromisePrototype, 'catch', PromisePrototype['catch'], { unsafe: true });
-      }
-
-      // make `.constructor === Promise` work for native promise-based APIs
-      try {
-        delete NativePromisePrototype.constructor;
-      } catch (error) { /* empty */ }
-
-      // make `instanceof Promise` work for native promise-based APIs
-      if (setPrototypeOf$3) {
-        setPrototypeOf$3(NativePromisePrototype, PromisePrototype);
-      }
-    }
-  }
-
-  $$8({ global: true, wrap: true, forced: FORCED$3 }, {
-    Promise: PromiseConstructor
-  });
-
-  setToStringTag$3(PromiseConstructor, PROMISE, false);
-  setSpecies(PROMISE);
-
-  PromiseWrapper = getBuiltIn$2(PROMISE);
-
-  // statics
-  $$8({ target: PROMISE, stat: true, forced: FORCED$3 }, {
-    // `Promise.reject` method
-    // https://tc39.es/ecma262/#sec-promise.reject
-    reject: function reject(r) {
-      var capability = newPromiseCapability(this);
-      call$1(capability.reject, undefined, r);
-      return capability.promise;
-    }
-  });
-
-  $$8({ target: PROMISE, stat: true, forced: FORCED$3 }, {
-    // `Promise.resolve` method
-    // https://tc39.es/ecma262/#sec-promise.resolve
-    resolve: function resolve(x) {
-      return promiseResolve$1(this, x);
-    }
-  });
-
-  $$8({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
-    // `Promise.all` method
-    // https://tc39.es/ecma262/#sec-promise.all
+  // `Promise.all` method
+  // https://tc39.es/ecma262/#sec-promise.all
+  $$b({ target: 'Promise', stat: true, forced: PROMISE_STATICS_INCORRECT_ITERATION$1 }, {
     all: function all(iterable) {
       var C = this;
-      var capability = newPromiseCapability(C);
+      var capability = newPromiseCapabilityModule$2.f(C);
       var resolve = capability.resolve;
       var reject = capability.reject;
-      var result = perform(function () {
-        var $promiseResolve = aCallable$1(C.resolve);
+      var result = perform$1(function () {
+        var $promiseResolve = aCallable$2(C.resolve);
         var values = [];
         var counter = 0;
         var remaining = 1;
-        iterate$2(iterable, function (promise) {
+        iterate$3(iterable, function (promise) {
           var index = counter++;
           var alreadyCalled = false;
           remaining++;
-          call$1($promiseResolve, C, promise).then(function (value) {
+          call$3($promiseResolve, C, promise).then(function (value) {
             if (alreadyCalled) return;
             alreadyCalled = true;
             values[index] = value;
@@ -3106,17 +2452,53 @@
       });
       if (result.error) reject(result.value);
       return capability.promise;
-    },
-    // `Promise.race` method
-    // https://tc39.es/ecma262/#sec-promise.race
+    }
+  });
+
+  var $$a = _export;
+  var FORCED_PROMISE_CONSTRUCTOR$2 = promiseConstructorDetection.CONSTRUCTOR;
+  var NativePromiseConstructor$1 = promiseNativeConstructor;
+  var getBuiltIn$3 = getBuiltIn$a;
+  var isCallable$6 = isCallable$n;
+  var defineBuiltIn$5 = defineBuiltIn$9;
+
+  var NativePromisePrototype$1 = NativePromiseConstructor$1 && NativePromiseConstructor$1.prototype;
+
+  // `Promise.prototype.catch` method
+  // https://tc39.es/ecma262/#sec-promise.prototype.catch
+  $$a({ target: 'Promise', proto: true, forced: FORCED_PROMISE_CONSTRUCTOR$2, real: true }, {
+    'catch': function (onRejected) {
+      return this.then(undefined, onRejected);
+    }
+  });
+
+  // makes sure that native promise-based APIs `Promise#catch` properly works with patched `Promise#then`
+  if (isCallable$6(NativePromiseConstructor$1)) {
+    var method$1 = getBuiltIn$3('Promise').prototype['catch'];
+    if (NativePromisePrototype$1['catch'] !== method$1) {
+      defineBuiltIn$5(NativePromisePrototype$1, 'catch', method$1, { unsafe: true });
+    }
+  }
+
+  var $$9 = _export;
+  var call$2 = functionCall;
+  var aCallable$1 = aCallable$8;
+  var newPromiseCapabilityModule$1 = newPromiseCapability$2;
+  var perform = perform$3;
+  var iterate$2 = iterate$4;
+  var PROMISE_STATICS_INCORRECT_ITERATION = promiseStaticsIncorrectIteration;
+
+  // `Promise.race` method
+  // https://tc39.es/ecma262/#sec-promise.race
+  $$9({ target: 'Promise', stat: true, forced: PROMISE_STATICS_INCORRECT_ITERATION }, {
     race: function race(iterable) {
       var C = this;
-      var capability = newPromiseCapability(C);
+      var capability = newPromiseCapabilityModule$1.f(C);
       var reject = capability.reject;
       var result = perform(function () {
         var $promiseResolve = aCallable$1(C.resolve);
         iterate$2(iterable, function (promise) {
-          call$1($promiseResolve, C, promise).then(capability.resolve, reject);
+          call$2($promiseResolve, C, promise).then(capability.resolve, reject);
         });
       });
       if (result.error) reject(result.value);
@@ -3124,24 +2506,69 @@
     }
   });
 
+  var $$8 = _export;
+  var call$1 = functionCall;
+  var newPromiseCapabilityModule = newPromiseCapability$2;
+  var FORCED_PROMISE_CONSTRUCTOR$1 = promiseConstructorDetection.CONSTRUCTOR;
+
+  // `Promise.reject` method
+  // https://tc39.es/ecma262/#sec-promise.reject
+  $$8({ target: 'Promise', stat: true, forced: FORCED_PROMISE_CONSTRUCTOR$1 }, {
+    reject: function reject(r) {
+      var capability = newPromiseCapabilityModule.f(this);
+      call$1(capability.reject, undefined, r);
+      return capability.promise;
+    }
+  });
+
+  var anObject$3 = anObject$b;
+  var isObject$a = isObject$i;
+  var newPromiseCapability = newPromiseCapability$2;
+
+  var promiseResolve$2 = function (C, x) {
+    anObject$3(C);
+    if (isObject$a(x) && x.constructor === C) return x;
+    var promiseCapability = newPromiseCapability.f(C);
+    var resolve = promiseCapability.resolve;
+    resolve(x);
+    return promiseCapability.promise;
+  };
+
   var $$7 = _export;
-  var NativePromise = nativePromiseConstructor;
-  var fails$a = fails$q;
-  var getBuiltIn$1 = getBuiltIn$9;
-  var isCallable$5 = isCallable$l;
-  var speciesConstructor = speciesConstructor$3;
+  var getBuiltIn$2 = getBuiltIn$a;
+  var FORCED_PROMISE_CONSTRUCTOR = promiseConstructorDetection.CONSTRUCTOR;
+  var promiseResolve$1 = promiseResolve$2;
+
+  getBuiltIn$2('Promise');
+
+  // `Promise.resolve` method
+  // https://tc39.es/ecma262/#sec-promise.resolve
+  $$7({ target: 'Promise', stat: true, forced: FORCED_PROMISE_CONSTRUCTOR }, {
+    resolve: function resolve(x) {
+      return promiseResolve$1(this, x);
+    }
+  });
+
+  var $$6 = _export;
+  var NativePromiseConstructor = promiseNativeConstructor;
+  var fails$a = fails$m;
+  var getBuiltIn$1 = getBuiltIn$a;
+  var isCallable$5 = isCallable$n;
+  var speciesConstructor = speciesConstructor$2;
   var promiseResolve = promiseResolve$2;
-  var redefine$3 = redefine$9.exports;
+  var defineBuiltIn$4 = defineBuiltIn$9;
+
+  var NativePromisePrototype = NativePromiseConstructor && NativePromiseConstructor.prototype;
 
   // Safari bug https://bugs.webkit.org/show_bug.cgi?id=200829
-  var NON_GENERIC = !!NativePromise && fails$a(function () {
+  var NON_GENERIC = !!NativePromiseConstructor && fails$a(function () {
     // eslint-disable-next-line unicorn/no-thenable -- required for testing
-    NativePromise.prototype['finally'].call({ then: function () { /* empty */ } }, function () { /* empty */ });
+    NativePromisePrototype['finally'].call({ then: function () { /* empty */ } }, function () { /* empty */ });
   });
 
   // `Promise.prototype.finally` method
   // https://tc39.es/ecma262/#sec-promise.prototype.finally
-  $$7({ target: 'Promise', proto: true, real: true, forced: NON_GENERIC }, {
+  $$6({ target: 'Promise', proto: true, real: true, forced: NON_GENERIC }, {
     'finally': function (onFinally) {
       var C = speciesConstructor(this, getBuiltIn$1('Promise'));
       var isFunction = isCallable$5(onFinally);
@@ -3157,90 +2584,87 @@
   });
 
   // makes sure that native promise-based APIs `Promise#finally` properly works with patched `Promise#then`
-  if (isCallable$5(NativePromise)) {
+  if (isCallable$5(NativePromiseConstructor)) {
     var method = getBuiltIn$1('Promise').prototype['finally'];
-    if (NativePromise.prototype['finally'] !== method) {
-      redefine$3(NativePromise.prototype, 'finally', method, { unsafe: true });
+    if (NativePromisePrototype['finally'] !== method) {
+      defineBuiltIn$4(NativePromisePrototype, 'finally', method, { unsafe: true });
     }
   }
 
   // AppController
   // Abstract super-class for page controllers
+
   class AppController {
     /**
      *
      * @type {(null|string)}
      */
     route = null;
+
     /**
      *
      * @type {Page}
      */
-
     view;
     title = 'untitled';
+
     /**
      *
      * @type {number}
      */
-
     handle;
+
     /**
      *
      * @type {App}
      */
-
     app;
+
     /**
      *
      * @type {function|null}
      */
-
     beforeRouteHandler = null;
+
     /**
      *
      * @type {function|null}
      */
-
     afterRouteHandler = null;
+
     /**
      *
      * @type {function|null}
      */
-
     leaveRouteHandler = null;
+
     /**
      *
      * @type {function|null}
      */
-
     alreadyRouteHandler = null;
     static #handleIndex = 0;
-
     static get nextHandle() {
       return AppController.#handleIndex++;
     }
+
     /**
      * called from App.initialise() to trigger late-stage initialisation
      */
-
-
     initialise() {
       this.view.initialise();
     }
+
     /**
      * registers the default route from this.route
      * or alternatively is overridden in a child class
      *
      * @param {PatchedNavigo} router
      */
-
-
     registerRoute(router) {
       if (null === this.route) {
         throw new Error(`No route set for '${this.title}' controller.`);
       }
-
       console.log({
         route: this.route
       });
@@ -3251,57 +2675,52 @@
         already: this.alreadyRouteHandler ? this.alreadyRouteHandler.bind(this) : null
       });
     }
+
     /**
      *
      * @param {object} params
      * @param {string} query
      */
-
-
     routeHandler(params, query) {}
+  }
 
-  } // StaticContentController
-
+  // StaticContentController
 
   class StaticContentController extends AppController {
     /**
      * @type {string}
      */
     route;
+
     /**
      *
      * @param {Page} view
      * @param {string} route
      */
-
     constructor(view, route) {
       super();
       this.view = view;
       this.route = route;
       this.handle = AppController.nextHandle;
     }
+
     /**
      *
      * @param {object} params
      * @param {string} query
      */
-
-
     routeHandler(params, query) {
       // console.log("reached route handler for StaticContentController.js");
+
       this.app.currentControllerHandle = this.handle;
       this.view.display();
     }
-
   }
-
   class NotFoundError extends Error {
     constructor(message) {
       super(message);
     }
-
   }
-
   class EventHarness$1 {
     /**
      *
@@ -3309,6 +2728,7 @@
      */
     #eventListeners = [];
     static STOP_PROPAGATION = 'STOP_PROPAGATION';
+
     /**
      *
      * @param {string} eventName
@@ -3318,14 +2738,11 @@
      * @deprecated use addListener instead
      * @return {number} handle
      */
-
     bindListener(eventName, obj, method, constructionParam) {
       this.#eventListeners = this.#eventListeners || [];
-
       const handlerFunction = function (context, eventName, invocationParam) {
         return method.call(obj, context, eventName, invocationParam, constructionParam);
       };
-
       if (this.#eventListeners[eventName]) {
         return this.#eventListeners[eventName].push(handlerFunction) - 1;
       } else {
@@ -3343,7 +2760,6 @@
      */
     addListener(eventName, handler, constructionParam = {}) {
       this.#eventListeners = this.#eventListeners || [];
-
       const handlerFunction = function (context, eventName, invocationParam = {}) {
         return handler({
           context,
@@ -3352,7 +2768,6 @@
           ...constructionParam
         });
       };
-
       if (this.#eventListeners[eventName]) {
         return this.#eventListeners[eventName].push(handlerFunction) - 1;
       } else {
@@ -3373,17 +2788,14 @@
       } else {
         console.log('trying to remove non-existent event handler, event = ' + eventName + ' handle = ' + handle);
       }
-
       return undefined;
     }
-
     /**
      *
      */
     destructor() {
       this.#eventListeners = null;
     }
-
     /**
      *
      * @param {string} eventName
@@ -3392,6 +2804,7 @@
      */
     fireEvent(eventName, param) {
       //console.log('fire event "' + eventName + '" called by '+this.fire_event.caller.caller+' invoked by '+this.fire_event.caller.caller.caller+' instigated by '+this.fire_event.caller.caller.caller.caller);
+
       if (this.#eventListeners) {
         for (let f in this.#eventListeners[eventName]) {
           if (this.#eventListeners[eventName].hasOwnProperty(f)) {
@@ -3402,18 +2815,15 @@
         }
       }
     }
-
   }
-
   var commonjsGlobal$2 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
   function commonjsRequire$1(path) {
     throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
   }
-
   var localforage$1$1 = {
     exports: {}
   };
+
   /*!
       localForage -- Offline Storage, Improved
       Version 1.10.0
@@ -3437,7 +2847,6 @@
               var f = new Error("Cannot find module '" + o + "'");
               throw f.code = "MODULE_NOT_FOUND", f;
             }
-
             var l = n[o] = {
               exports: {}
             };
@@ -3446,14 +2855,10 @@
               return s(n ? n : e);
             }, l, l.exports, e, t, n, r);
           }
-
           return n[o].exports;
         }
-
         var i = typeof commonjsRequire$1 == "function" && commonjsRequire$1;
-
         for (var o = 0; o < r.length; o++) s(r[o]);
-
         return s;
       }({
         1: [function (_dereq_, module, exports) {
@@ -3468,14 +2873,12 @@
                 observer.observe(element, {
                   characterData: true
                 });
-
                 scheduleDrain = function () {
                   element.data = called = ++called % 2;
                 };
               } else if (!global.setImmediate && typeof global.MessageChannel !== 'undefined') {
                 var channel = new global.MessageChannel();
                 channel.port1.onmessage = nextTick;
-
                 scheduleDrain = function () {
                   channel.port2.postMessage(0);
                 };
@@ -3484,14 +2887,12 @@
                   // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
                   // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
                   var scriptEl = global.document.createElement('script');
-
                   scriptEl.onreadystatechange = function () {
                     nextTick();
                     scriptEl.onreadystatechange = null;
                     scriptEl.parentNode.removeChild(scriptEl);
                     scriptEl = null;
                   };
-
                   global.document.documentElement.appendChild(scriptEl);
                 };
               } else {
@@ -3501,30 +2902,24 @@
               }
             }
             var draining;
-            var queue = []; //named nextTick for less confusing stack traces
-
+            var queue = [];
+            //named nextTick for less confusing stack traces
             function nextTick() {
               draining = true;
               var i, oldQueue;
               var len = queue.length;
-
               while (len) {
                 oldQueue = queue;
                 queue = [];
                 i = -1;
-
                 while (++i < len) {
                   oldQueue[i]();
                 }
-
                 len = queue.length;
               }
-
               draining = false;
             }
-
             module.exports = immediate;
-
             function immediate(task) {
               if (queue.push(task) === 1 && !draining) {
                 scheduleDrain();
@@ -3534,92 +2929,72 @@
         }, {}],
         2: [function (_dereq_, module, exports) {
           var immediate = _dereq_(1);
+
           /* istanbul ignore next */
-
-
           function INTERNAL() {}
-
           var handlers = {};
           var REJECTED = ['REJECTED'];
           var FULFILLED = ['FULFILLED'];
           var PENDING = ['PENDING'];
           module.exports = Promise;
-
           function Promise(resolver) {
             if (typeof resolver !== 'function') {
               throw new TypeError('resolver must be a function');
             }
-
             this.state = PENDING;
             this.queue = [];
             this.outcome = void 0;
-
             if (resolver !== INTERNAL) {
               safelyResolveThenable(this, resolver);
             }
           }
-
           Promise.prototype["catch"] = function (onRejected) {
             return this.then(null, onRejected);
           };
-
           Promise.prototype.then = function (onFulfilled, onRejected) {
             if (typeof onFulfilled !== 'function' && this.state === FULFILLED || typeof onRejected !== 'function' && this.state === REJECTED) {
               return this;
             }
-
             var promise = new this.constructor(INTERNAL);
-
             if (this.state !== PENDING) {
               var resolver = this.state === FULFILLED ? onFulfilled : onRejected;
               unwrap(promise, resolver, this.outcome);
             } else {
               this.queue.push(new QueueItem(promise, onFulfilled, onRejected));
             }
-
             return promise;
           };
-
           function QueueItem(promise, onFulfilled, onRejected) {
             this.promise = promise;
-
             if (typeof onFulfilled === 'function') {
               this.onFulfilled = onFulfilled;
               this.callFulfilled = this.otherCallFulfilled;
             }
-
             if (typeof onRejected === 'function') {
               this.onRejected = onRejected;
               this.callRejected = this.otherCallRejected;
             }
           }
-
           QueueItem.prototype.callFulfilled = function (value) {
             handlers.resolve(this.promise, value);
           };
-
           QueueItem.prototype.otherCallFulfilled = function (value) {
             unwrap(this.promise, this.onFulfilled, value);
           };
-
           QueueItem.prototype.callRejected = function (value) {
             handlers.reject(this.promise, value);
           };
-
           QueueItem.prototype.otherCallRejected = function (value) {
             unwrap(this.promise, this.onRejected, value);
           };
-
           function unwrap(promise, func, value) {
             immediate(function () {
               var returnValue;
-
               try {
                 returnValue = func(value);
               } catch (e) {
                 return handlers.reject(promise, e);
               }
-
               if (returnValue === promise) {
                 handlers.reject(promise, new TypeError('Cannot resolve promise with itself'));
               } else {
@@ -3627,16 +3002,12 @@
               }
             });
           }
-
           handlers.resolve = function (self, value) {
             var result = tryCatch(getThen, value);
-
             if (result.status === 'error') {
               return handlers.reject(self, result.value);
             }
-
             var thenable = result.value;
-
             if (thenable) {
               safelyResolveThenable(self, thenable);
             } else {
@@ -3644,75 +3015,58 @@
               self.outcome = value;
               var i = -1;
               var len = self.queue.length;
-
               while (++i < len) {
                 self.queue[i].callFulfilled(value);
               }
             }
-
             return self;
           };
-
           handlers.reject = function (self, error) {
             self.state = REJECTED;
             self.outcome = error;
             var i = -1;
             var len = self.queue.length;
-
             while (++i < len) {
               self.queue[i].callRejected(error);
             }
-
             return self;
           };
-
           function getThen(obj) {
             // Make sure we only access the accessor once as required by the spec
             var then = obj && obj.then;
-
             if (obj && (typeof obj === 'object' || typeof obj === 'function') && typeof then === 'function') {
               return function appyThen() {
                 then.apply(obj, arguments);
               };
             }
           }
-
           function safelyResolveThenable(self, thenable) {
             // Either fulfill, reject or reject with error
             var called = false;
-
             function onError(value) {
               if (called) {
                 return;
               }
-
               called = true;
               handlers.reject(self, value);
             }
-
             function onSuccess(value) {
               if (called) {
                 return;
               }
-
               called = true;
               handlers.resolve(self, value);
             }
-
             function tryToUnwrap() {
               thenable(onSuccess, onError);
             }
-
             var result = tryCatch(tryToUnwrap);
-
             if (result.status === 'error') {
               onError(result.value);
             }
           }
-
           function tryCatch(func, value) {
             var out = {};
-
             try {
               out.value = func(value);
               out.status = 'success';
@@ -3720,54 +3074,39 @@
               out.status = 'error';
               out.value = e;
             }
-
             return out;
           }
-
           Promise.resolve = resolve;
-
           function resolve(value) {
             if (value instanceof this) {
               return value;
             }
-
             return handlers.resolve(new this(INTERNAL), value);
           }
-
           Promise.reject = reject;
-
           function reject(reason) {
             var promise = new this(INTERNAL);
             return handlers.reject(promise, reason);
           }
-
           Promise.all = all;
-
           function all(iterable) {
             var self = this;
-
             if (Object.prototype.toString.call(iterable) !== '[object Array]') {
               return this.reject(new TypeError('must be an array'));
             }
-
             var len = iterable.length;
             var called = false;
-
             if (!len) {
               return this.resolve([]);
             }
-
             var values = new Array(len);
             var resolved = 0;
             var i = -1;
             var promise = new this(INTERNAL);
-
             while (++i < len) {
               allResolver(iterable[i], i);
             }
-
             return promise;
-
             function allResolver(value, i) {
               self.resolve(value).then(resolveFromAll, function (error) {
                 if (!called) {
@@ -3775,10 +3114,8 @@
                   handlers.reject(promise, error);
                 }
               });
-
               function resolveFromAll(outValue) {
                 values[i] = outValue;
-
                 if (++resolved === len && !called) {
                   called = true;
                   handlers.resolve(promise, values);
@@ -3786,32 +3123,23 @@
               }
             }
           }
-
           Promise.race = race;
-
           function race(iterable) {
             var self = this;
-
             if (Object.prototype.toString.call(iterable) !== '[object Array]') {
               return this.reject(new TypeError('must be an array'));
             }
-
             var len = iterable.length;
             var called = false;
-
             if (!len) {
               return this.resolve([]);
             }
-
             var i = -1;
             var promise = new this(INTERNAL);
-
             while (++i < len) {
               resolver(iterable[i]);
             }
-
             return promise;
-
             function resolver(value) {
               self.resolve(value).then(function (response) {
                 if (!called) {
@@ -3844,32 +3172,26 @@
           } : function (obj) {
             return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
           };
-
           function _classCallCheck(instance, Constructor) {
             if (!(instance instanceof Constructor)) {
               throw new TypeError("Cannot call a class as a function");
             }
           }
-
           function getIDB() {
             /* global indexedDB,webkitIndexedDB,mozIndexedDB,OIndexedDB,msIndexedDB */
             try {
               if (typeof indexedDB !== 'undefined') {
                 return indexedDB;
               }
-
               if (typeof webkitIndexedDB !== 'undefined') {
                 return webkitIndexedDB;
               }
-
               if (typeof mozIndexedDB !== 'undefined') {
                 return mozIndexedDB;
               }
-
               if (typeof OIndexedDB !== 'undefined') {
                 return OIndexedDB;
               }
-
               if (typeof msIndexedDB !== 'undefined') {
                 return msIndexedDB;
               }
@@ -3877,30 +3199,29 @@
               return;
             }
           }
-
           var idb = getIDB();
-
           function isIndexedDBValid() {
             try {
               // Initialize IndexedDB; fall back to vendor-prefixed versions
               // if needed.
               if (!idb || !idb.open) {
                 return false;
-              } // We mimic PouchDB here;
+              }
+              // We mimic PouchDB here;
               //
               // We test for openDatabase because IE Mobile identifies itself
               // as Safari. Oh the lulz...
-
-
               var isSafari = typeof openDatabase !== 'undefined' && /(Safari|iPhone|iPad|iPod)/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent) && !/BlackBerry/.test(navigator.platform);
-              var hasFetch = typeof fetch === 'function' && fetch.toString().indexOf('[native code') !== -1; // Safari <10.1 does not meet our requirements for IDB support
+              var hasFetch = typeof fetch === 'function' && fetch.toString().indexOf('[native code') !== -1;
+
+              // Safari <10.1 does not meet our requirements for IDB support
               // (see: https://github.com/pouchdb/pouchdb/issues/5572).
               // Safari 10.1 shipped with fetch, we can use that to detect it.
               // Note: this creates issues with `window.fetch` polyfills and
               // overrides; see:
               // https://github.com/localForage/localForage/issues/856
-
-              return (!isSafari || hasFetch) && typeof indexedDB !== 'undefined' && // some outdated implementations of IDB that appear on Samsung
+              return (!isSafari || hasFetch) && typeof indexedDB !== 'undefined' &&
+              // some outdated implementations of IDB that appear on Samsung
               // and HTC Android devices <4.4 are missing IDBKeyRange
               // See: https://github.com/mozilla/localForage/issues/128
               // See: https://github.com/mozilla/localForage/issues/272
@@ -3908,47 +3229,41 @@
             } catch (e) {
               return false;
             }
-          } // Abstracts constructing a Blob object, so it also works in older
+          }
+
+          // Abstracts constructing a Blob object, so it also works in older
           // browsers that don't support the native Blob constructor. (i.e.
           // old QtWebKit versions, at least).
           // Abstracts constructing a Blob object, so it also works in older
           // browsers that don't support the native Blob constructor. (i.e.
           // old QtWebKit versions, at least).
-
-
           function createBlob(parts, properties) {
             /* global BlobBuilder,MSBlobBuilder,MozBlobBuilder,WebKitBlobBuilder */
             parts = parts || [];
             properties = properties || {};
-
             try {
               return new Blob(parts, properties);
             } catch (e) {
               if (e.name !== 'TypeError') {
                 throw e;
               }
-
               var Builder = typeof BlobBuilder !== 'undefined' ? BlobBuilder : typeof MSBlobBuilder !== 'undefined' ? MSBlobBuilder : typeof MozBlobBuilder !== 'undefined' ? MozBlobBuilder : WebKitBlobBuilder;
               var builder = new Builder();
-
               for (var i = 0; i < parts.length; i += 1) {
                 builder.append(parts[i]);
               }
-
               return builder.getBlob(properties.type);
             }
-          } // This is CommonJS because lie is an external dependency, so Rollup
+          }
+
+          // This is CommonJS because lie is an external dependency, so Rollup
           // can just ignore it.
-
-
           if (typeof Promise === 'undefined') {
             // In the "nopromises" build this will just throw if you don't have
             // a global promise object, but it would throw anyway later.
             _dereq_(3);
           }
-
           var Promise$1 = Promise;
-
           function executeCallback(promise, callback) {
             if (callback) {
               promise.then(function (result) {
@@ -3958,58 +3273,56 @@
               });
             }
           }
-
           function executeTwoCallbacks(promise, callback, errorCallback) {
             if (typeof callback === 'function') {
               promise.then(callback);
             }
-
             if (typeof errorCallback === 'function') {
               promise["catch"](errorCallback);
             }
           }
-
           function normalizeKey(key) {
             // Cast the key to a string, as that's all we can set as a key.
             if (typeof key !== 'string') {
               console.warn(key + ' used as a key, but it is not a string.');
               key = String(key);
             }
-
             return key;
           }
-
           function getCallback() {
             if (arguments.length && typeof arguments[arguments.length - 1] === 'function') {
               return arguments[arguments.length - 1];
             }
-          } // Some code originally from async_storage.js in
-          // [Gaia](https://github.com/mozilla-b2g/gaia).
+          }
 
+          // Some code originally from async_storage.js in
+          // [Gaia](https://github.com/mozilla-b2g/gaia).
 
           var DETECT_BLOB_SUPPORT_STORE = 'local-forage-detect-blob-support';
           var supportsBlobs = void 0;
           var dbContexts = {};
-          var toString = Object.prototype.toString; // Transaction Modes
+          var toString = Object.prototype.toString;
 
+          // Transaction Modes
           var READ_ONLY = 'readonly';
-          var READ_WRITE = 'readwrite'; // Transform a binary string to an array buffer, because otherwise
+          var READ_WRITE = 'readwrite';
+
+          // Transform a binary string to an array buffer, because otherwise
           // weird stuff happens when you try to work with the binary string directly.
           // It is known.
           // From http://stackoverflow.com/questions/14967647/ (continues on next line)
           // encode-decode-image-with-base64-breaks-image (2013-04-21)
-
           function _binStringToArrayBuffer(bin) {
             var length = bin.length;
             var buf = new ArrayBuffer(length);
             var arr = new Uint8Array(buf);
-
             for (var i = 0; i < length; i++) {
               arr[i] = bin.charCodeAt(i);
             }
-
             return buf;
-          } //
+          }
+
+          //
           // Blobs are not supported in all versions of IndexedDB, notably
           // Chrome <37 and Android <5. In those versions, storing a blob will throw.
           //
@@ -4024,14 +3337,11 @@
           // Code borrowed from PouchDB. See:
           // https://github.com/pouchdb/pouchdb/blob/master/packages/node_modules/pouchdb-adapter-idb/src/blobSupport.js
           //
-
-
           function _checkBlobSupportWithoutCaching(idb) {
             return new Promise$1(function (resolve) {
               var txn = idb.transaction(DETECT_BLOB_SUPPORT_STORE, READ_WRITE);
               var blob = createBlob(['']);
               txn.objectStore(DETECT_BLOB_SUPPORT_STORE).put(blob, 'key');
-
               txn.onabort = function (e) {
                 // If the transaction aborts now its due to not being able to
                 // write to the database, likely due to the disk being full
@@ -4039,12 +3349,11 @@
                 e.stopPropagation();
                 resolve(false);
               };
-
               txn.oncomplete = function () {
                 var matchedChrome = navigator.userAgent.match(/Chrome\/(\d+)/);
-                var matchedEdge = navigator.userAgent.match(/Edge\//); // MS Edge pretends to be Chrome 42:
+                var matchedEdge = navigator.userAgent.match(/Edge\//);
+                // MS Edge pretends to be Chrome 42:
                 // https://msdn.microsoft.com/en-us/library/hh869301%28v=vs.85%29.aspx
-
                 resolve(matchedEdge || !matchedChrome || parseInt(matchedChrome[1], 10) >= 43);
               };
             })["catch"](function () {
@@ -4056,24 +3365,25 @@
             if (typeof supportsBlobs === 'boolean') {
               return Promise$1.resolve(supportsBlobs);
             }
-
             return _checkBlobSupportWithoutCaching(idb).then(function (value) {
               supportsBlobs = value;
               return supportsBlobs;
             });
           }
-
           function _deferReadiness(dbInfo) {
-            var dbContext = dbContexts[dbInfo.name]; // Create a deferred object representing the current database operation.
+            var dbContext = dbContexts[dbInfo.name];
 
+            // Create a deferred object representing the current database operation.
             var deferredOperation = {};
             deferredOperation.promise = new Promise$1(function (resolve, reject) {
               deferredOperation.resolve = resolve;
               deferredOperation.reject = reject;
-            }); // Enqueue the deferred operation.
+            });
 
-            dbContext.deferredOperations.push(deferredOperation); // Chain its promise to the database readiness.
+            // Enqueue the deferred operation.
+            dbContext.deferredOperations.push(deferredOperation);
 
+            // Chain its promise to the database readiness.
             if (!dbContext.dbReady) {
               dbContext.dbReady = deferredOperation.promise;
             } else {
@@ -4082,60 +3392,53 @@
               });
             }
           }
-
           function _advanceReadiness(dbInfo) {
-            var dbContext = dbContexts[dbInfo.name]; // Dequeue a deferred operation.
+            var dbContext = dbContexts[dbInfo.name];
 
-            var deferredOperation = dbContext.deferredOperations.pop(); // Resolve its promise (which is part of the database readiness
+            // Dequeue a deferred operation.
+            var deferredOperation = dbContext.deferredOperations.pop();
+
+            // Resolve its promise (which is part of the database readiness
             // chain of promises).
-
             if (deferredOperation) {
               deferredOperation.resolve();
               return deferredOperation.promise;
             }
           }
-
           function _rejectReadiness(dbInfo, err) {
-            var dbContext = dbContexts[dbInfo.name]; // Dequeue a deferred operation.
+            var dbContext = dbContexts[dbInfo.name];
 
-            var deferredOperation = dbContext.deferredOperations.pop(); // Reject its promise (which is part of the database readiness
+            // Dequeue a deferred operation.
+            var deferredOperation = dbContext.deferredOperations.pop();
+
+            // Reject its promise (which is part of the database readiness
             // chain of promises).
-
             if (deferredOperation) {
               deferredOperation.reject(err);
               return deferredOperation.promise;
             }
           }
-
           function _getConnection(dbInfo, upgradeNeeded) {
             return new Promise$1(function (resolve, reject) {
               dbContexts[dbInfo.name] = dbContexts[dbInfo.name] || createDbContext();
-
               if (dbInfo.db) {
                 if (upgradeNeeded) {
                   _deferReadiness(dbInfo);
-
                   dbInfo.db.close();
                 } else {
                   return resolve(dbInfo.db);
                 }
               }
-
               var dbArgs = [dbInfo.name];
-
               if (upgradeNeeded) {
                 dbArgs.push(dbInfo.version);
               }
-
               var openreq = idb.open.apply(idb, dbArgs);
-
               if (upgradeNeeded) {
                 openreq.onupgradeneeded = function (e) {
                   var db = openreq.result;
-
                   try {
                     db.createObjectStore(dbInfo.storeName);
-
                     if (e.oldVersion <= 1) {
                       // Added when support for blob shims was added
                       db.createObjectStore(DETECT_BLOB_SUPPORT_STORE);
@@ -4149,15 +3452,12 @@
                   }
                 };
               }
-
               openreq.onerror = function (e) {
                 e.preventDefault();
                 reject(openreq.error);
               };
-
               openreq.onsuccess = function () {
                 var db = openreq.result;
-
                 db.onversionchange = function (e) {
                   // Triggered when the database is modified (e.g. adding an objectStore) or
                   // deleted (even when initiated by other sessions in different tabs).
@@ -4166,66 +3466,53 @@
                   // will be reopened or the database recreated as needed.
                   e.target.close();
                 };
-
                 resolve(db);
-
                 _advanceReadiness(dbInfo);
               };
             });
           }
-
           function _getOriginalConnection(dbInfo) {
             return _getConnection(dbInfo, false);
           }
-
           function _getUpgradedConnection(dbInfo) {
             return _getConnection(dbInfo, true);
           }
-
           function _isUpgradeNeeded(dbInfo, defaultVersion) {
             if (!dbInfo.db) {
               return true;
             }
-
             var isNewStore = !dbInfo.db.objectStoreNames.contains(dbInfo.storeName);
             var isDowngrade = dbInfo.version < dbInfo.db.version;
             var isUpgrade = dbInfo.version > dbInfo.db.version;
-
             if (isDowngrade) {
               // If the version is not the default one
               // then warn for impossible downgrade.
               if (dbInfo.version !== defaultVersion) {
                 console.warn('The database "' + dbInfo.name + '"' + " can't be downgraded from version " + dbInfo.db.version + ' to version ' + dbInfo.version + '.');
-              } // Align the versions to prevent errors.
-
-
+              }
+              // Align the versions to prevent errors.
               dbInfo.version = dbInfo.db.version;
             }
-
             if (isUpgrade || isNewStore) {
               // If the store is new then increment the version (if needed).
               // This will trigger an "upgradeneeded" event which is required
               // for creating a store.
               if (isNewStore) {
                 var incVersion = dbInfo.db.version + 1;
-
                 if (incVersion > dbInfo.version) {
                   dbInfo.version = incVersion;
                 }
               }
-
               return true;
             }
-
             return false;
-          } // encode a blob for indexeddb engines that don't support blobs
+          }
 
-
+          // encode a blob for indexeddb engines that don't support blobs
           function _encodeBlob(blob) {
             return new Promise$1(function (resolve, reject) {
               var reader = new FileReader();
               reader.onerror = reject;
-
               reader.onloadend = function (e) {
                 var base64 = btoa(e.target.result || '');
                 resolve({
@@ -4234,95 +3521,80 @@
                   type: blob.type
                 });
               };
-
               reader.readAsBinaryString(blob);
             });
-          } // decode an encoded blob
+          }
 
-
+          // decode an encoded blob
           function _decodeBlob(encodedBlob) {
             var arrayBuff = _binStringToArrayBuffer(atob(encodedBlob.data));
-
             return createBlob([arrayBuff], {
               type: encodedBlob.type
             });
-          } // is this one of our fancy encoded blobs?
+          }
 
-
+          // is this one of our fancy encoded blobs?
           function _isEncodedBlob(value) {
             return value && value.__local_forage_encoded_blob;
-          } // Specialize the default `ready()` function by making it dependent
+          }
+
+          // Specialize the default `ready()` function by making it dependent
           // on the current database operations. Thus, the driver will be actually
           // ready when it's been initialized (default) *and* there are no pending
           // operations on the database (initiated by some other instances).
-
-
           function _fullyReady(callback) {
             var self = this;
-
             var promise = self._initReady().then(function () {
               var dbContext = dbContexts[self._dbInfo.name];
-
               if (dbContext && dbContext.dbReady) {
                 return dbContext.dbReady;
               }
             });
-
             executeTwoCallbacks(promise, callback, callback);
             return promise;
-          } // Try to establish a new db connection to replace the
+          }
+
+          // Try to establish a new db connection to replace the
           // current one which is broken (i.e. experiencing
           // InvalidStateError while creating a transaction).
-
-
           function _tryReconnect(dbInfo) {
             _deferReadiness(dbInfo);
-
             var dbContext = dbContexts[dbInfo.name];
             var forages = dbContext.forages;
-
             for (var i = 0; i < forages.length; i++) {
               var forage = forages[i];
-
               if (forage._dbInfo.db) {
                 forage._dbInfo.db.close();
-
                 forage._dbInfo.db = null;
               }
             }
-
             dbInfo.db = null;
             return _getOriginalConnection(dbInfo).then(function (db) {
               dbInfo.db = db;
-
               if (_isUpgradeNeeded(dbInfo)) {
                 // Reopen the database for upgrading.
                 return _getUpgradedConnection(dbInfo);
               }
-
               return db;
             }).then(function (db) {
               // store the latest db reference
               // in case the db was upgraded
               dbInfo.db = dbContext.db = db;
-
               for (var i = 0; i < forages.length; i++) {
                 forages[i]._dbInfo.db = db;
               }
             })["catch"](function (err) {
               _rejectReadiness(dbInfo, err);
-
               throw err;
             });
-          } // FF doesn't like Promises (micro-tasks) and IDDB store operations,
+          }
+
+          // FF doesn't like Promises (micro-tasks) and IDDB store operations,
           // so we have to do it with callbacks
-
-
           function createTransaction(dbInfo, mode, callback, retries) {
             if (retries === undefined) {
               retries = 1;
             }
-
             try {
               var tx = dbInfo.db.transaction(dbInfo.storeName, mode);
               callback(null, tx);
@@ -4333,9 +3605,8 @@
                     // increase the db version, to create the new ObjectStore
                     if (dbInfo.db) {
                       dbInfo.version = dbInfo.db.version + 1;
-                    } // Reopen the database for upgrading.
-
-
+                    }
+                    // Reopen the database for upgrading.
                     return _getUpgradedConnection(dbInfo);
                   }
                 }).then(function () {
@@ -4344,11 +3615,9 @@
                   });
                 })["catch"](callback);
               }
-
               callback(err);
             }
           }
-
           function createDbContext() {
             return {
               // Running localForages sharing a database.
@@ -4360,81 +3629,77 @@
               // Deferred operations on the database.
               deferredOperations: []
             };
-          } // Open the IndexedDB database (automatically creates one if one didn't
+          }
+
+          // Open the IndexedDB database (automatically creates one if one didn't
           // previously exist), using any options set in the config.
-
-
           function _initStorage(options) {
             var self = this;
             var dbInfo = {
               db: null
             };
-
             if (options) {
               for (var i in options) {
                 dbInfo[i] = options[i];
               }
-            } // Get the current context of the database;
+            }
 
+            // Get the current context of the database;
+            var dbContext = dbContexts[dbInfo.name];
 
-            var dbContext = dbContexts[dbInfo.name]; // ...or create a new context.
-
+            // ...or create a new context.
             if (!dbContext) {
-              dbContext = createDbContext(); // Register the new context in the global container.
-
+              dbContext = createDbContext();
+              // Register the new context in the global container.
               dbContexts[dbInfo.name] = dbContext;
-            } // Register itself as a running localForage in the current context.
+            }
 
+            // Register itself as a running localForage in the current context.
+            dbContext.forages.push(self);
 
-            dbContext.forages.push(self); // Replace the default `ready()` function with the specialized one.
-
+            // Replace the default `ready()` function with the specialized one.
             if (!self._initReady) {
               self._initReady = self.ready;
               self.ready = _fullyReady;
-            } // Create an array of initialization states of the related localForages.
+            }
 
-
+            // Create an array of initialization states of the related localForages.
             var initPromises = [];
-
             function ignoreErrors() {
               // Don't handle errors here,
               // just makes sure related localForages aren't pending.
               return Promise$1.resolve();
             }
-
             for (var j = 0; j < dbContext.forages.length; j++) {
               var forage = dbContext.forages[j];
-
               if (forage !== self) {
                 // Don't wait for itself...
                 initPromises.push(forage._initReady()["catch"](ignoreErrors));
               }
-            } // Take a snapshot of the related localForages.
+            }
 
+            // Take a snapshot of the related localForages.
+            var forages = dbContext.forages.slice(0);
 
-            var forages = dbContext.forages.slice(0); // Initialize the connection process only when
+            // Initialize the connection process only when
             // all the related localForages aren't pending.
-
             return Promise$1.all(initPromises).then(function () {
-              dbInfo.db = dbContext.db; // Get the connection or open a new one without upgrade.
-
+              dbInfo.db = dbContext.db;
+              // Get the connection or open a new one without upgrade.
               return _getOriginalConnection(dbInfo);
             }).then(function (db) {
               dbInfo.db = db;
-
               if (_isUpgradeNeeded(dbInfo, self._defaultConfig.version)) {
                 // Reopen the database for upgrading.
                 return _getUpgradedConnection(dbInfo);
               }
-
               return db;
             }).then(function (db) {
               dbInfo.db = dbContext.db = db;
-              self._dbInfo = dbInfo; // Share the final connection amongst related localForages.
-
+              self._dbInfo = dbInfo;
+              // Share the final connection amongst related localForages.
               for (var k = 0; k < forages.length; k++) {
                 var forage = forages[k];
-
                 if (forage !== self) {
                   // Self is already up-to-date.
                   forage._dbInfo.db = dbInfo.db;
@@ -4443,7 +3708,6 @@
               }
             });
           }
-
           function getItem(key, callback) {
             var self = this;
             key = normalizeKey(key);
@@ -4453,77 +3717,19 @@
                   if (err) {
                     return reject(err);
                   }
-
                   try {
                     var store = transaction.objectStore(self._dbInfo.storeName);
                     var req = store.get(key);
-
                     req.onsuccess = function () {
                       var value = req.result;
-
                       if (value === undefined) {
                         value = null;
                       }
-
                       if (_isEncodedBlob(value)) {
                         value = _decodeBlob(value);
                       }
-
                       resolve(value);
                     };
-
-                    req.onerror = function () {
-                      reject(req.error);
-                    };
-                  } catch (e) {
-                    reject(e);
-                  }
-                });
-              })["catch"](reject);
-            });
-            executeCallback(promise, callback);
-            return promise;
-          } // Iterate over all items stored in database.
-
-
-          function iterate(iterator, callback) {
-            var self = this;
-            var promise = new Promise$1(function (resolve, reject) {
-              self.ready().then(function () {
-                createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
-                  if (err) {
-                    return reject(err);
-                  }
-
-                  try {
-                    var store = transaction.objectStore(self._dbInfo.storeName);
-                    var req = store.openCursor();
-                    var iterationNumber = 1;
-
-                    req.onsuccess = function () {
-                      var cursor = req.result;
-
-                      if (cursor) {
-                        var value = cursor.value;
-
-                        if (_isEncodedBlob(value)) {
-                          value = _decodeBlob(value);
-                        }
-
-                        var result = iterator(value, cursor.key, iterationNumber++); // when the iterator callback returns any
-                        // (non-`undefined`) value, then we stop
-                        // the iteration immediately
-
-                        if (result !== void 0) {
-                          resolve(result);
-                        } else {
-                          cursor["continue"]();
-                        }
-                      } else {
-                        resolve();
-                      }
-                    };
-
                     req.onerror = function () {
                       reject(req.error);
                     };
@@ -4537,6 +3743,52 @@
             return promise;
           }
 
+          // Iterate over all items stored in database.
+          function iterate(iterator, callback) {
+            var self = this;
+            var promise = new Promise$1(function (resolve, reject) {
+              self.ready().then(function () {
+                createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
+                  if (err) {
+                    return reject(err);
+                  }
+                  try {
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    var req = store.openCursor();
+                    var iterationNumber = 1;
+                    req.onsuccess = function () {
+                      var cursor = req.result;
+                      if (cursor) {
+                        var value = cursor.value;
+                        if (_isEncodedBlob(value)) {
+                          value = _decodeBlob(value);
+                        }
+                        var result = iterator(value, cursor.key, iterationNumber++);
+
+                        // when the iterator callback returns any
+                        // (non-`undefined`) value, then we stop
+                        // the iteration immediately
+                        if (result !== void 0) {
+                          resolve(result);
+                        } else {
+                          cursor["continue"]();
+                        }
+                      } else {
+                        resolve();
+                      }
+                    };
+                    req.onerror = function () {
+                      reject(req.error);
+                    };
+                  } catch (e) {
+                    reject(e);
+                  }
+                });
+              })["catch"](reject);
+            });
+            executeCallback(promise, callback);
+            return promise;
+          }
           function setItem(key, value, callback) {
             var self = this;
             key = normalizeKey(key);
@@ -4544,36 +3796,31 @@
               var dbInfo;
               self.ready().then(function () {
                 dbInfo = self._dbInfo;
-
                 if (toString.call(value) === '[object Blob]') {
                   return _checkBlobSupport(dbInfo.db).then(function (blobSupport) {
                     if (blobSupport) {
                       return value;
                     }
-
                     return _encodeBlob(value);
                   });
                 }
-
                 return value;
               }).then(function (value) {
                 createTransaction(self._dbInfo, READ_WRITE, function (err, transaction) {
                   if (err) {
                     return reject(err);
                   }
-
                   try {
-                    var store = transaction.objectStore(self._dbInfo.storeName); // The reason we don't _save_ null is because IE 10 does
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+
+                    // The reason we don't _save_ null is because IE 10 does
                     // not support saving the `null` type in IndexedDB. How
                     // ironic, given the bug below!
                     // See: https://github.com/mozilla/localForage/issues/161
-
                     if (value === null) {
                       value = undefined;
                     }
-
                     var req = store.put(value, key);
-
                     transaction.oncomplete = function () {
                       // Cast to undefined so the value passed to
                       // callback/promise is the same as what one would get out
@@ -4584,10 +3831,8 @@
                       if (value === undefined) {
                         value = null;
                       }
-
                       resolve(value);
                     };
-
                     transaction.onabort = transaction.onerror = function () {
                       var err = req.error ? req.error : req.transaction.error;
                       reject(err);
@@ -4601,7 +3846,6 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function removeItem(key, callback) {
             var self = this;
             key = normalizeKey(key);
@@ -4611,26 +3855,23 @@
                   if (err) {
                     return reject(err);
                   }
-
                   try {
-                    var store = transaction.objectStore(self._dbInfo.storeName); // We use a Grunt task to make this safe for IE and some
+                    var store = transaction.objectStore(self._dbInfo.storeName);
+                    // We use a Grunt task to make this safe for IE and some
                     // versions of Android (including those used by Cordova).
                     // Normally IE won't like `.delete()` and will insist on
                     // using `['delete']()`, but we have a build step that
                     // fixes this for us now.
-
                     var req = store["delete"](key);
-
                     transaction.oncomplete = function () {
                       resolve();
                     };
-
                     transaction.onerror = function () {
                       reject(req.error);
-                    }; // The request will be also be aborted if we've exceeded our storage
+                    };
+
+                    // The request will be also be aborted if we've exceeded our storage
                     // space.
-
-
                     transaction.onabort = function () {
                       var err = req.error ? req.error : req.transaction.error;
                       reject(err);
@@ -4644,7 +3885,6 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function clear(callback) {
             var self = this;
             var promise = new Promise$1(function (resolve, reject) {
@@ -4653,15 +3893,12 @@
                   if (err) {
                     return reject(err);
                   }
-
                   try {
                     var store = transaction.objectStore(self._dbInfo.storeName);
                     var req = store.clear();
-
                     transaction.oncomplete = function () {
                       resolve();
                     };
-
                     transaction.onabort = transaction.onerror = function () {
                       var err = req.error ? req.error : req.transaction.error;
                       reject(err);
@@ -4675,7 +3912,6 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function length(callback) {
             var self = this;
             var promise = new Promise$1(function (resolve, reject) {
@@ -4684,15 +3920,12 @@
                   if (err) {
                     return reject(err);
                   }
-
                   try {
                     var store = transaction.objectStore(self._dbInfo.storeName);
                     var req = store.count();
-
                     req.onsuccess = function () {
                       resolve(req.result);
                     };
-
                     req.onerror = function () {
                       reject(req.error);
                     };
@@ -4705,7 +3938,6 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function key(n, callback) {
             var self = this;
             var promise = new Promise$1(function (resolve, reject) {
@@ -4713,27 +3945,22 @@
                 resolve(null);
                 return;
               }
-
               self.ready().then(function () {
                 createTransaction(self._dbInfo, READ_ONLY, function (err, transaction) {
                   if (err) {
                     return reject(err);
                   }
-
                   try {
                     var store = transaction.objectStore(self._dbInfo.storeName);
                     var advanced = false;
                     var req = store.openKeyCursor();
-
                     req.onsuccess = function () {
                       var cursor = req.result;
-
                       if (!cursor) {
                         // this means there weren't enough keys
                         resolve(null);
                         return;
                       }
-
                       if (n === 0) {
                         // We have the first key, return it if that's what they
                         // wanted.
@@ -4750,7 +3977,6 @@
                         }
                       }
                     };
-
                     req.onerror = function () {
                       reject(req.error);
                     };
@@ -4763,7 +3989,6 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function keys(callback) {
             var self = this;
             var promise = new Promise$1(function (resolve, reject) {
@@ -4772,24 +3997,19 @@
                   if (err) {
                     return reject(err);
                   }
-
                   try {
                     var store = transaction.objectStore(self._dbInfo.storeName);
                     var req = store.openKeyCursor();
                     var keys = [];
-
                     req.onsuccess = function () {
                       var cursor = req.result;
-
                       if (!cursor) {
                         resolve(keys);
                         return;
                       }
-
                       keys.push(cursor.key);
                       cursor["continue"]();
                     };
-
                     req.onerror = function () {
                       reject(req.error);
                     };
@@ -4802,20 +4022,16 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function dropInstance(options, callback) {
             callback = getCallback.apply(this, arguments);
             var currentConfig = this.config();
             options = typeof options !== 'function' && options || {};
-
             if (!options.name) {
               options.name = options.name || currentConfig.name;
               options.storeName = options.storeName || currentConfig.storeName;
             }
-
             var self = this;
             var promise;
-
             if (!options.name) {
               promise = Promise$1.reject('Invalid arguments');
             } else {
@@ -4824,62 +4040,47 @@
                 var dbContext = dbContexts[options.name];
                 var forages = dbContext.forages;
                 dbContext.db = db;
-
                 for (var i = 0; i < forages.length; i++) {
                   forages[i]._dbInfo.db = db;
                 }
-
                 return db;
               });
-
               if (!options.storeName) {
                 promise = dbPromise.then(function (db) {
                   _deferReadiness(options);
-
                   var dbContext = dbContexts[options.name];
                   var forages = dbContext.forages;
                   db.close();
-
                   for (var i = 0; i < forages.length; i++) {
                     var forage = forages[i];
                     forage._dbInfo.db = null;
                   }
-
                   var dropDBPromise = new Promise$1(function (resolve, reject) {
                     var req = idb.deleteDatabase(options.name);
-
                     req.onerror = function () {
                       var db = req.result;
-
                       if (db) {
                         db.close();
                       }
-
                       reject(req.error);
                     };
-
                     req.onblocked = function () {
                       // Closing all open connections in onversionchange handler should prevent this situation, but if
                       // we do get here, it just means the request remains pending - eventually it will succeed or error
                       console.warn('dropInstance blocked for database "' + options.name + '" until all open connections are closed');
                     };
-
                     req.onsuccess = function () {
                       var db = req.result;
-
                       if (db) {
                         db.close();
                       }
-
                       resolve(db);
                     };
                   });
                   return dropDBPromise.then(function (db) {
                     dbContext.db = db;
-
                     for (var i = 0; i < forages.length; i++) {
                       var _forage = forages[i];
-
                       _advanceReadiness(_forage._dbInfo);
                     }
                   })["catch"](function (err) {
@@ -4892,35 +4093,27 @@
                   if (!db.objectStoreNames.contains(options.storeName)) {
                     return;
                   }
-
                   var newVersion = db.version + 1;
-
                   _deferReadiness(options);
-
                   var dbContext = dbContexts[options.name];
                   var forages = dbContext.forages;
                   db.close();
-
                   for (var i = 0; i < forages.length; i++) {
                     var forage = forages[i];
                     forage._dbInfo.db = null;
                     forage._dbInfo.version = newVersion;
                   }
-
                   var dropObjectPromise = new Promise$1(function (resolve, reject) {
                     var req = idb.open(options.name, newVersion);
-
                     req.onerror = function (err) {
                       var db = req.result;
                       db.close();
                       reject(err);
                     };
-
                     req.onupgradeneeded = function () {
                       var db = req.result;
                       db.deleteObjectStore(options.storeName);
                     };
-
                     req.onsuccess = function () {
                       var db = req.result;
                       db.close();
@@ -4929,11 +4122,9 @@
                   });
                   return dropObjectPromise.then(function (db) {
                     dbContext.db = db;
-
                     for (var j = 0; j < forages.length; j++) {
                       var _forage2 = forages[j];
                       _forage2._dbInfo.db = db;
-
                       _advanceReadiness(_forage2._dbInfo);
                     }
                   })["catch"](function (err) {
@@ -4943,11 +4134,9 @@
                 });
               }
             }
-
             executeCallback(promise, callback);
             return promise;
           }
-
           var asyncStorage = {
             _driver: 'asyncStorage',
             _initStorage: _initStorage,
@@ -4962,20 +4151,20 @@
             keys: keys,
             dropInstance: dropInstance
           };
-
           function isWebSQLValid() {
             return typeof openDatabase === 'function';
-          } // Sadly, the best way to save binary data in WebSQL/localStorage is serializing
+          }
+
+          // Sadly, the best way to save binary data in WebSQL/localStorage is serializing
           // it to Base64, so this is how we store it to prevent very strange errors with less
           // verbose ways of binary <-> string data storage.
-
-
           var BASE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
           var BLOB_TYPE_PREFIX = '~~local_forage_type~';
           var BLOB_TYPE_PREFIX_REGEX = /^~~local_forage_type~([^~]+)~/;
           var SERIALIZED_MARKER = '__lfsc__:';
-          var SERIALIZED_MARKER_LENGTH = SERIALIZED_MARKER.length; // OMG the serializations!
+          var SERIALIZED_MARKER_LENGTH = SERIALIZED_MARKER.length;
 
+          // OMG the serializations!
           var TYPE_ARRAYBUFFER = 'arbf';
           var TYPE_BLOB = 'blob';
           var TYPE_INT8ARRAY = 'si08';
@@ -4989,7 +4178,6 @@
           var TYPE_FLOAT64ARRAY = 'fl64';
           var TYPE_SERIALIZED_MARKER_LENGTH = SERIALIZED_MARKER_LENGTH + TYPE_ARRAYBUFFER.length;
           var toString$1 = Object.prototype.toString;
-
           function stringToBuffer(serializedString) {
             // Fill the string into a ArrayBuffer.
             var bufferLength = serializedString.length * 0.75;
@@ -4997,41 +4185,35 @@
             var i;
             var p = 0;
             var encoded1, encoded2, encoded3, encoded4;
-
             if (serializedString[serializedString.length - 1] === '=') {
               bufferLength--;
-
               if (serializedString[serializedString.length - 2] === '=') {
                 bufferLength--;
               }
             }
-
             var buffer = new ArrayBuffer(bufferLength);
             var bytes = new Uint8Array(buffer);
-
             for (i = 0; i < len; i += 4) {
               encoded1 = BASE_CHARS.indexOf(serializedString[i]);
               encoded2 = BASE_CHARS.indexOf(serializedString[i + 1]);
               encoded3 = BASE_CHARS.indexOf(serializedString[i + 2]);
               encoded4 = BASE_CHARS.indexOf(serializedString[i + 3]);
-              /*jslint bitwise: true */
 
+              /*jslint bitwise: true */
               bytes[p++] = encoded1 << 2 | encoded2 >> 4;
               bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;
               bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;
             }
-
             return buffer;
-          } // Converts a buffer to a string to store, serialized, in the backend
+          }
+
+          // Converts a buffer to a string to store, serialized, in the backend
           // storage library.
-
-
           function bufferToString(buffer) {
             // base64-arraybuffer
             var bytes = new Uint8Array(buffer);
             var base64String = '';
             var i;
-
             for (i = 0; i < bytes.length; i += 3) {
               /*jslint bitwise: true */
               base64String += BASE_CHARS[bytes[i] >> 2];
@@ -5039,42 +4221,37 @@
               base64String += BASE_CHARS[(bytes[i + 1] & 15) << 2 | bytes[i + 2] >> 6];
               base64String += BASE_CHARS[bytes[i + 2] & 63];
             }
-
             if (bytes.length % 3 === 2) {
               base64String = base64String.substring(0, base64String.length - 1) + '=';
             } else if (bytes.length % 3 === 1) {
               base64String = base64String.substring(0, base64String.length - 2) + '==';
             }
-
             return base64String;
-          } // Serialize a value, afterwards executing a callback (which usually
+          }
+
+          // Serialize a value, afterwards executing a callback (which usually
           // instructs the `setItem()` callback/promise to be executed). This is how
           // we store binary data with localStorage.
-
-
           function serialize(value, callback) {
             var valueType = '';
-
             if (value) {
               valueType = toString$1.call(value);
-            } // Cannot use `value instanceof ArrayBuffer` or such here, as these
+            }
+
+            // Cannot use `value instanceof ArrayBuffer` or such here, as these
             // checks fail when running the tests using casper.js...
             //
             // TODO: See why those tests fail and use a better solution.
-
-
             if (value && (valueType === '[object ArrayBuffer]' || value.buffer && toString$1.call(value.buffer) === '[object ArrayBuffer]')) {
               // Convert binary arrays to a string and prefix the string with
               // a special marker.
               var buffer;
               var marker = SERIALIZED_MARKER;
-
               if (value instanceof ArrayBuffer) {
                 buffer = value;
                 marker += TYPE_ARRAYBUFFER;
               } else {
                 buffer = value.buffer;
-
                 if (valueType === '[object Int8Array]') {
                   marker += TYPE_INT8ARRAY;
                 } else if (valueType === '[object Uint8Array]') {
@@ -5097,18 +4274,15 @@
                   callback(new Error('Failed to get type for BinaryArray'));
                 }
               }
-
               callback(marker + bufferToString(buffer));
             } else if (valueType === '[object Blob]') {
               // Conver the blob to a binaryArray and then to a string.
               var fileReader = new FileReader();
-
               fileReader.onload = function () {
                 // Backwards-compatible prefix for the blob type.
                 var str = BLOB_TYPE_PREFIX + value.type + '~' + bufferToString(this.result);
                 callback(SERIALIZED_MARKER + TYPE_BLOB + str);
               };
-
               fileReader.readAsArrayBuffer(value);
             } else {
               try {
@@ -5118,7 +4292,9 @@
                 callback(null, e);
               }
             }
-          } // Deserialize data we've inserted into a value column/field. We place
+          }
+
+          // Deserialize data we've inserted into a value column/field. We place
           // special markers into our strings to mark them as encoded; this isn't
           // as nice as a meta field, but it's the only sane thing we can do whilst
           // keeping localStorage support intact.
@@ -5126,80 +4302,67 @@
           // Oftentimes this will just deserialize JSON content, but if we have a
           // special marker (SERIALIZED_MARKER, defined above), we will extract
           // some kind of arraybuffer/binary data/typed array out of the string.
-
-
           function deserialize(value) {
             // If we haven't marked this string as being specially serialized (i.e.
             // something other than serialized JSON), we can just return it and be
             // done with it.
             if (value.substring(0, SERIALIZED_MARKER_LENGTH) !== SERIALIZED_MARKER) {
               return JSON.parse(value);
-            } // The following code deals with deserializing some kind of Blob or
+            }
+
+            // The following code deals with deserializing some kind of Blob or
             // TypedArray. First we separate out the type of data we're dealing
             // with from the data itself.
-
-
             var serializedString = value.substring(TYPE_SERIALIZED_MARKER_LENGTH);
             var type = value.substring(SERIALIZED_MARKER_LENGTH, TYPE_SERIALIZED_MARKER_LENGTH);
-            var blobType; // Backwards-compatible blob type serialization strategy.
+            var blobType;
+            // Backwards-compatible blob type serialization strategy.
             // DBs created with older versions of localForage will simply not have the blob type.
-
             if (type === TYPE_BLOB && BLOB_TYPE_PREFIX_REGEX.test(serializedString)) {
               var matcher = serializedString.match(BLOB_TYPE_PREFIX_REGEX);
               blobType = matcher[1];
               serializedString = serializedString.substring(matcher[0].length);
             }
+            var buffer = stringToBuffer(serializedString);
 
-            var buffer = stringToBuffer(serializedString); // Return the right type based on the code/type set during
+            // Return the right type based on the code/type set during
             // serialization.
-
             switch (type) {
               case TYPE_ARRAYBUFFER:
                 return buffer;
-
               case TYPE_BLOB:
                 return createBlob([buffer], {
                   type: blobType
                 });
-
               case TYPE_INT8ARRAY:
                 return new Int8Array(buffer);
-
               case TYPE_UINT8ARRAY:
                 return new Uint8Array(buffer);
-
               case TYPE_UINT8CLAMPEDARRAY:
                 return new Uint8ClampedArray(buffer);
-
               case TYPE_INT16ARRAY:
                 return new Int16Array(buffer);
-
               case TYPE_UINT16ARRAY:
                 return new Uint16Array(buffer);
-
               case TYPE_INT32ARRAY:
                 return new Int32Array(buffer);
-
               case TYPE_UINT32ARRAY:
                 return new Uint32Array(buffer);
-
               case TYPE_FLOAT32ARRAY:
                 return new Float32Array(buffer);
-
               case TYPE_FLOAT64ARRAY:
                 return new Float64Array(buffer);
-
               default:
                 throw new Error('Unkown type: ' + type);
             }
           }
-
           var localforageSerializer = {
             serialize: serialize,
             deserialize: deserialize,
             stringToBuffer: stringToBuffer,
             bufferToString: bufferToString
           };
+
           /*
            * Includes code from:
            *
@@ -5212,22 +4375,20 @@
 
           function createDbTable(t, dbInfo, callback, errorCallback) {
             t.executeSql('CREATE TABLE IF NOT EXISTS ' + dbInfo.storeName + ' ' + '(id INTEGER PRIMARY KEY, key unique, value)', [], callback, errorCallback);
-          } // Open the WebSQL database (automatically creates one if one didn't
+          }
+
+          // Open the WebSQL database (automatically creates one if one didn't
           // previously exist), using any options set in the config.
-
-
           function _initStorage$1(options) {
             var self = this;
             var dbInfo = {
               db: null
             };
-
             if (options) {
               for (var i in options) {
                 dbInfo[i] = typeof options[i] !== 'string' ? options[i].toString() : options[i];
               }
             }
-
             var dbInfoPromise = new Promise$1(function (resolve, reject) {
               // Open the database; the openDatabase API will automatically
               // create it for us if it doesn't exist.
@@ -5235,9 +4396,9 @@
                 dbInfo.db = openDatabase(dbInfo.name, String(dbInfo.version), dbInfo.description, dbInfo.size);
               } catch (e) {
                 return reject(e);
-              } // Create our key/value table if it doesn't exist.
+              }
 
-
+              // Create our key/value table if it doesn't exist.
               dbInfo.db.transaction(function (t) {
                 createDbTable(t, dbInfo, function () {
                   self._dbInfo = dbInfo;
@@ -5250,7 +4411,6 @@
             dbInfo.serializer = localforageSerializer;
             return dbInfoPromise;
           }
-
           function tryExecuteSql(t, dbInfo, sqlStatement, args, callback, errorCallback) {
             t.executeSql(sqlStatement, args, callback, function (t, error) {
               if (error.code === error.SYNTAX_ERR) {
@@ -5270,7 +4430,6 @@
               }
             }, errorCallback);
           }
-
           function getItem$1(key, callback) {
             var self = this;
             key = normalizeKey(key);
@@ -5279,13 +4438,13 @@
                 var dbInfo = self._dbInfo;
                 dbInfo.db.transaction(function (t) {
                   tryExecuteSql(t, dbInfo, 'SELECT * FROM ' + dbInfo.storeName + ' WHERE key = ? LIMIT 1', [key], function (t, results) {
-                    var result = results.rows.length ? results.rows.item(0).value : null; // Check to see if this is serialized content we need to
-                    // unpack.
+                    var result = results.rows.length ? results.rows.item(0).value : null;
 
+                    // Check to see if this is serialized content we need to
+                    // unpack.
                     if (result) {
                       result = dbInfo.serializer.deserialize(result);
                     }
-
                     resolve(result);
                   }, function (t, error) {
                     reject(error);
@@ -5296,7 +4455,6 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function iterate$1(iterator, callback) {
             var self = this;
             var promise = new Promise$1(function (resolve, reject) {
@@ -5306,25 +4464,24 @@
                   tryExecuteSql(t, dbInfo, 'SELECT * FROM ' + dbInfo.storeName, [], function (t, results) {
                     var rows = results.rows;
                     var length = rows.length;
-
                     for (var i = 0; i < length; i++) {
                       var item = rows.item(i);
-                      var result = item.value; // Check to see if this is serialized content
-                      // we need to unpack.
+                      var result = item.value;
 
+                      // Check to see if this is serialized content
+                      // we need to unpack.
                       if (result) {
                         result = dbInfo.serializer.deserialize(result);
                       }
+                      result = iterator(result, item.key, i + 1);
 
-                      result = iterator(result, item.key, i + 1); // void(0) prevents problems with redefinition
+                      // void(0) prevents problems with redefinition
                       // of `undefined`.
-
                       if (result !== void 0) {
                         resolve(result);
                         return;
                       }
                     }
-
                     resolve();
                   }, function (t, error) {
                     reject(error);
@@ -5335,7 +4492,6 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function _setItem(key, value, callback, retriesLeft) {
             var self = this;
             key = normalizeKey(key);
@@ -5346,9 +4502,9 @@
                 // drivers. See: https://github.com/mozilla/localForage/pull/42
                 if (value === undefined) {
                   value = null;
-                } // Save the original value to pass to the callback.
+                }
 
-
+                // Save the original value to pass to the callback.
                 var originalValue = value;
                 var dbInfo = self._dbInfo;
                 dbInfo.serializer.serialize(value, function (value, error) {
@@ -5376,7 +4532,6 @@
                           resolve(_setItem.apply(self, [key, originalValue, callback, retriesLeft - 1]));
                           return;
                         }
-
                         reject(sqlError);
                       }
                     });
@@ -5387,11 +4542,9 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function setItem$1(key, value, callback) {
             return _setItem.apply(this, [key, value, callback, 1]);
           }
-
           function removeItem$1(key, callback) {
             var self = this;
             key = normalizeKey(key);
@@ -5409,10 +4562,10 @@
             });
             executeCallback(promise, callback);
             return promise;
-          } // Deletes every item in the table.
+          }
+
+          // Deletes every item in the table.
           // TODO: Find out if this resets the AUTO_INCREMENT number.
-
-
           function clear$1(callback) {
             var self = this;
             var promise = new Promise$1(function (resolve, reject) {
@@ -5429,10 +4582,10 @@
             });
             executeCallback(promise, callback);
             return promise;
-          } // Does a simple `COUNT(key)` to get the number of items stored in
+          }
+
+          // Does a simple `COUNT(key)` to get the number of items stored in
           // localForage.
-
-
           function length$1(callback) {
             var self = this;
             var promise = new Promise$1(function (resolve, reject) {
@@ -5451,15 +4604,15 @@
             });
             executeCallback(promise, callback);
             return promise;
-          } // Return the key located at key index X; essentially gets the key from a
+          }
+
+          // Return the key located at key index X; essentially gets the key from a
           // `WHERE id = ?`. This is the most efficient way I can think to implement
           // this rarely-used (in my experience) part of the API, but it can seem
           // inconsistent, because we do `INSERT OR REPLACE INTO` on `setItem()`, so
           // the ID of each key will change every time it's updated. Perhaps a stored
           // procedure for the `setItem()` SQL would solve this problem?
           // TODO: Don't change ID on `setItem()`.
-
-
           function key$1(n, callback) {
             var self = this;
             var promise = new Promise$1(function (resolve, reject) {
@@ -5478,7 +4631,6 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function keys$1(callback) {
             var self = this;
             var promise = new Promise$1(function (resolve, reject) {
@@ -5487,11 +4639,9 @@
                 dbInfo.db.transaction(function (t) {
                   tryExecuteSql(t, dbInfo, 'SELECT key FROM ' + dbInfo.storeName, [], function (t, results) {
                     var keys = [];
-
                     for (var i = 0; i < results.rows.length; i++) {
                       keys.push(results.rows.item(i).key);
                     }
-
                     resolve(keys);
                   }, function (t, error) {
                     reject(error);
@@ -5501,20 +4651,18 @@
             });
             executeCallback(promise, callback);
             return promise;
-          } // https://www.w3.org/TR/webdatabase/#databases
+          }
+
+          // https://www.w3.org/TR/webdatabase/#databases
           // > There is no way to enumerate or delete the databases available for an origin from this API.
-
-
           function getAllStoreNames(db) {
             return new Promise$1(function (resolve, reject) {
               db.transaction(function (t) {
                 t.executeSql('SELECT name FROM sqlite_master ' + "WHERE type='table' AND name <> '__WebKitDatabaseInfoTable__'", [], function (t, results) {
                   var storeNames = [];
-
                   for (var i = 0; i < results.rows.length; i++) {
                     storeNames.push(results.rows.item(i).name);
                   }
-
                   resolve({
                     db: db,
                     storeNames: storeNames
@@ -5527,33 +4675,27 @@
               });
             });
           }
-
           function dropInstance$1(options, callback) {
             callback = getCallback.apply(this, arguments);
             var currentConfig = this.config();
             options = typeof options !== 'function' && options || {};
-
             if (!options.name) {
               options.name = options.name || currentConfig.name;
               options.storeName = options.storeName || currentConfig.storeName;
             }
-
             var self = this;
             var promise;
-
             if (!options.name) {
               promise = Promise$1.reject('Invalid arguments');
             } else {
               promise = new Promise$1(function (resolve) {
                 var db;
-
                 if (options.name === currentConfig.name) {
                   // use the db reference of the current instance
                   db = self._dbInfo.db;
                 } else {
                   db = openDatabase(options.name, '', '', 0);
                 }
-
                 if (!options.storeName) {
                   // drop all database tables
                   resolve(getAllStoreNames(db));
@@ -5575,13 +4717,10 @@
                         });
                       });
                     }
-
                     var operations = [];
-
                     for (var i = 0, len = operationInfo.storeNames.length; i < len; i++) {
                       operations.push(dropTable(operationInfo.storeNames[i]));
                     }
-
                     Promise$1.all(operations).then(function () {
                       resolve();
                     })["catch"](function (e) {
@@ -5593,11 +4732,9 @@
                 });
               });
             }
-
             executeCallback(promise, callback);
             return promise;
           }
-
           var webSQLStorage = {
             _driver: 'webSQLStorage',
             _initStorage: _initStorage$1,
@@ -5612,30 +4749,26 @@
             keys: keys$1,
             dropInstance: dropInstance$1
           };
-
           function isLocalStorageValid() {
             try {
-              return typeof localStorage !== 'undefined' && 'setItem' in localStorage && // in IE8 typeof localStorage.setItem === 'object'
+              return typeof localStorage !== 'undefined' && 'setItem' in localStorage &&
+              // in IE8 typeof localStorage.setItem === 'object'
               !!localStorage.setItem;
             } catch (e) {
               return false;
             }
           }
-
           function _getKeyPrefix(options, defaultConfig) {
             var keyPrefix = options.name + '/';
-
             if (options.storeName !== defaultConfig.storeName) {
               keyPrefix += options.storeName + '/';
             }
-
             return keyPrefix;
-          } // Check if localStorage throws when saving an item
+          }
 
-
+          // Check if localStorage throws when saving an item
           function checkIfLocalStorageThrows() {
             var localStorageTestKey = '_localforage_support_test';
-
             try {
               localStorage.setItem(localStorageTestKey, true);
               localStorage.removeItem(localStorageTestKey);
@@ -5643,48 +4776,42 @@
             } catch (e) {
               return true;
             }
-          } // Check if localStorage is usable and allows to save an item
+          }
+
+          // Check if localStorage is usable and allows to save an item
           // This method checks if localStorage is usable in Safari Private Browsing
           // mode, or in any other case where the available quota for localStorage
           // is 0 and there wasn't any saved items yet.
-
-
           function _isLocalStorageUsable() {
             return !checkIfLocalStorageThrows() || localStorage.length > 0;
-          } // Config the localStorage backend, using options set in the config.
+          }
 
-
+          // Config the localStorage backend, using options set in the config.
           function _initStorage$2(options) {
             var self = this;
             var dbInfo = {};
-
             if (options) {
               for (var i in options) {
                 dbInfo[i] = options[i];
               }
             }
-
             dbInfo.keyPrefix = _getKeyPrefix(options, self._defaultConfig);
-
             if (!_isLocalStorageUsable()) {
               return Promise$1.reject();
             }
-
             self._dbInfo = dbInfo;
             dbInfo.serializer = localforageSerializer;
             return Promise$1.resolve();
-          } // Remove all keys from the datastore, effectively destroying all data in
+          }
+
+          // Remove all keys from the datastore, effectively destroying all data in
           // the app's key/value store!
-
-
           function clear$2(callback) {
             var self = this;
             var promise = self.ready().then(function () {
               var keyPrefix = self._dbInfo.keyPrefix;
-
               for (var i = localStorage.length - 1; i >= 0; i--) {
                 var key = localStorage.key(i);
-
                 if (key.indexOf(keyPrefix) === 0) {
                   localStorage.removeItem(key);
                 }
@@ -5692,65 +4819,62 @@
             });
             executeCallback(promise, callback);
             return promise;
-          } // Retrieve an item from the store. Unlike the original async_storage
+          }
+
+          // Retrieve an item from the store. Unlike the original async_storage
           // library in Gaia, we don't modify return values at all. If a key's value
           // is `undefined`, we pass that value to the callback function.
-
-
           function getItem$2(key, callback) {
             var self = this;
             key = normalizeKey(key);
             var promise = self.ready().then(function () {
               var dbInfo = self._dbInfo;
-              var result = localStorage.getItem(dbInfo.keyPrefix + key); // If a result was found, parse it from the serialized
+              var result = localStorage.getItem(dbInfo.keyPrefix + key);
+
+              // If a result was found, parse it from the serialized
               // string into a JS object. If result isn't truthy, the key
               // is likely undefined and we'll pass it straight to the
               // callback.
-
               if (result) {
                 result = dbInfo.serializer.deserialize(result);
               }
-
               return result;
             });
             executeCallback(promise, callback);
             return promise;
-          } // Iterate over all items in the store.
+          }
 
-
+          // Iterate over all items in the store.
           function iterate$2(iterator, callback) {
             var self = this;
             var promise = self.ready().then(function () {
               var dbInfo = self._dbInfo;
               var keyPrefix = dbInfo.keyPrefix;
               var keyPrefixLength = keyPrefix.length;
-              var length = localStorage.length; // We use a dedicated iterator instead of the `i` variable below
+              var length = localStorage.length;
+
+              // We use a dedicated iterator instead of the `i` variable below
               // so other keys we fetch in localStorage aren't counted in
               // the `iterationNumber` argument passed to the `iterate()`
               // callback.
               //
               // See: github.com/mozilla/localForage/pull/435#discussion_r38061530
-
               var iterationNumber = 1;
-
               for (var i = 0; i < length; i++) {
                 var key = localStorage.key(i);
-
                 if (key.indexOf(keyPrefix) !== 0) {
                   continue;
                 }
+                var value = localStorage.getItem(key);
 
-                var value = localStorage.getItem(key); // If a result was found, parse it from the serialized
+                // If a result was found, parse it from the serialized
                 // string into a JS object. If result isn't truthy, the
                 // key is likely undefined and we'll pass it straight
                 // to the iterator.
-
                 if (value) {
                   value = dbInfo.serializer.deserialize(value);
                 }
-
                 value = iterator(value, key.substring(keyPrefixLength), iterationNumber++);
-
                 if (value !== void 0) {
                   return value;
                 }
@@ -5758,54 +4882,48 @@
             });
             executeCallback(promise, callback);
             return promise;
-          } // Same as localStorage's key() method, except takes a callback.
+          }
 
-
+          // Same as localStorage's key() method, except takes a callback.
           function key$2(n, callback) {
             var self = this;
             var promise = self.ready().then(function () {
               var dbInfo = self._dbInfo;
               var result;
-
               try {
                 result = localStorage.key(n);
               } catch (error) {
                 result = null;
-              } // Remove the prefix from the key, if a key is found.
+              }
 
-
+              // Remove the prefix from the key, if a key is found.
               if (result) {
                 result = result.substring(dbInfo.keyPrefix.length);
               }
-
               return result;
             });
             executeCallback(promise, callback);
             return promise;
           }
-
           function keys$2(callback) {
             var self = this;
             var promise = self.ready().then(function () {
               var dbInfo = self._dbInfo;
               var length = localStorage.length;
               var keys = [];
-
               for (var i = 0; i < length; i++) {
                 var itemKey = localStorage.key(i);
-
                 if (itemKey.indexOf(dbInfo.keyPrefix) === 0) {
                   keys.push(itemKey.substring(dbInfo.keyPrefix.length));
                 }
               }
-
               return keys;
             });
             executeCallback(promise, callback);
             return promise;
-          } // Supply the number of keys in the datastore to the callback function.
+          }
 
-
+          // Supply the number of keys in the datastore to the callback function.
           function length$2(callback) {
             var self = this;
             var promise = self.keys().then(function (keys) {
@@ -5813,9 +4931,9 @@
             });
             executeCallback(promise, callback);
             return promise;
-          } // Remove an item from the store, nice and simple.
+          }
 
-
+          // Remove an item from the store, nice and simple.
           function removeItem$2(key, callback) {
             var self = this;
             key = normalizeKey(key);
@@ -5825,12 +4943,12 @@
             });
             executeCallback(promise, callback);
             return promise;
-          } // Set a key's value and run an optional callback once the value is set.
+          }
+
+          // Set a key's value and run an optional callback once the value is set.
           // Unlike Gaia's implementation, the callback function is passed the value,
           // in case you want to operate on that value only after you're sure it
           // saved, or something like that.
-
-
           function setItem$2(key, value, callback) {
             var self = this;
             key = normalizeKey(key);
@@ -5839,9 +4957,9 @@
               // https://github.com/mozilla/localForage/pull/42
               if (value === undefined) {
                 value = null;
-              } // Save the original value to pass to the callback.
+              }
 
-
+              // Save the original value to pass to the callback.
               var originalValue = value;
               return new Promise$1(function (resolve, reject) {
                 var dbInfo = self._dbInfo;
@@ -5858,7 +4976,6 @@
                       if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
                         reject(e);
                       }
-
                       reject(e);
                     }
                   }
@@ -5868,20 +4985,16 @@
             executeCallback(promise, callback);
             return promise;
           }
-
           function dropInstance$2(options, callback) {
             callback = getCallback.apply(this, arguments);
             options = typeof options !== 'function' && options || {};
-
             if (!options.name) {
               var currentConfig = this.config();
               options.name = options.name || currentConfig.name;
               options.storeName = options.storeName || currentConfig.storeName;
             }
-
             var self = this;
             var promise;
-
             if (!options.name) {
               promise = Promise$1.reject('Invalid arguments');
             } else {
@@ -5894,18 +5007,15 @@
               }).then(function (keyPrefix) {
                 for (var i = localStorage.length - 1; i >= 0; i--) {
                   var key = localStorage.key(i);
-
                   if (key.indexOf(keyPrefix) === 0) {
                     localStorage.removeItem(key);
                   }
                 }
               });
             }
-
             executeCallback(promise, callback);
             return promise;
           }
-
           var localStorageWrapper = {
             _driver: 'localStorageWrapper',
             _initStorage: _initStorage$2,
@@ -5920,32 +5030,26 @@
             keys: keys$2,
             dropInstance: dropInstance$2
           };
-
           var sameValue = function sameValue(x, y) {
             return x === y || typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y);
           };
-
           var includes = function includes(array, searchElement) {
             var len = array.length;
             var i = 0;
-
             while (i < len) {
               if (sameValue(array[i], searchElement)) {
                 return true;
               }
-
               i++;
             }
-
             return false;
           };
-
           var isArray = Array.isArray || function (arg) {
             return Object.prototype.toString.call(arg) === '[object Array]';
-          }; // Drivers are stored here when `defineDriver()` is called.
+          };
+
+          // Drivers are stored here when `defineDriver()` is called.
           // They are shared across all instances of localForage.
-
-
           var DefinedDrivers = {};
           var DriverSupport = {};
           var DefaultDrivers = {
@@ -5966,7 +5070,6 @@
             storeName: 'keyvaluepairs',
             version: 1.0
           };
-
           function callWhenReady(localForageInstance, libraryMethod) {
             localForageInstance[libraryMethod] = function () {
               var _args = arguments;
@@ -5975,11 +5078,9 @@
               });
             };
           }
-
           function extend() {
             for (var i = 1; i < arguments.length; i++) {
               var arg = arguments[i];
-
               if (arg) {
                 for (var _key in arg) {
                   if (arg.hasOwnProperty(_key)) {
@@ -5992,20 +5093,16 @@
                 }
               }
             }
-
             return arguments[0];
           }
-
           var LocalForage = function () {
             function LocalForage(options) {
               _classCallCheck(this, LocalForage);
-
               for (var driverTypeKey in DefaultDrivers) {
                 if (DefaultDrivers.hasOwnProperty(driverTypeKey)) {
                   var driver = DefaultDrivers[driverTypeKey];
                   var driverName = driver._driver;
                   this[driverTypeKey] = driverName;
-
                   if (!DefinedDrivers[driverName]) {
                     // we don't need to wait for the promise,
                     // since the default drivers can be defined
@@ -6014,22 +5111,20 @@
                   }
                 }
               }
-
               this._defaultConfig = extend({}, DefaultConfig);
               this._config = extend({}, this._defaultConfig, options);
               this._driverSet = null;
               this._initDriver = null;
               this._ready = false;
               this._dbInfo = null;
-
               this._wrapLibraryMethodsWithReady();
-
               this.setDriver(this._config.driver)["catch"](function () {});
-            } // Set any config values for localForage; can be called anytime before
+            }
+
+            // Set any config values for localForage; can be called anytime before
             // the first API call (e.g. `getItem`, `setItem`).
             // We loop through options so we don't overwrite existing config
             // values.
-
 
             LocalForage.prototype.config = function config(options) {
               // If the options argument is an object, we use it to set values.
@@ -6041,61 +5136,56 @@
                 if (this._ready) {
                   return new Error("Can't call config() after localforage " + 'has been used.');
                 }
-
                 for (var i in options) {
                   if (i === 'storeName') {
                     options[i] = options[i].replace(/\W/g, '_');
                   }
-
                   if (i === 'version' && typeof options[i] !== 'number') {
                     return new Error('Database version must be a number.');
                   }
-
                   this._config[i] = options[i];
-                } // after all config options are set and
+                }
+
+                // after all config options are set and
                 // the driver option is used, try setting it
-
-
                 if ('driver' in options && options.driver) {
                   return this.setDriver(this._config.driver);
                 }
-
                 return true;
               } else if (typeof options === 'string') {
                 return this._config[options];
               } else {
                 return this._config;
               }
-            }; // Used to define a custom driver, shared across all instances of
-            // localForage.
+            };
 
+            // Used to define a custom driver, shared across all instances of
+            // localForage.
 
             LocalForage.prototype.defineDriver = function defineDriver(driverObject, callback, errorCallback) {
               var promise = new Promise$1(function (resolve, reject) {
                 try {
                   var driverName = driverObject._driver;
-                  var complianceError = new Error('Custom driver not compliant; see ' + 'https://mozilla.github.io/localForage/#definedriver'); // A driver name should be defined and not overlap with the
-                  // library-defined, default drivers.
+                  var complianceError = new Error('Custom driver not compliant; see ' + 'https://mozilla.github.io/localForage/#definedriver');
 
+                  // A driver name should be defined and not overlap with the
+                  // library-defined, default drivers.
                   if (!driverObject._driver) {
                     reject(complianceError);
                     return;
                   }
-
                   var driverMethods = LibraryMethods.concat('_initStorage');
-
                   for (var i = 0, len = driverMethods.length; i < len; i++) {
-                    var driverMethodName = driverMethods[i]; // when the property is there,
+                    var driverMethodName = driverMethods[i];
+
+                    // when the property is there,
                     // it should be a method even when optional
-
                     var isRequired = !includes(OptionalDriverMethods, driverMethodName);
-
                     if ((isRequired || driverObject[driverMethodName]) && typeof driverObject[driverMethodName] !== 'function') {
                       reject(complianceError);
                       return;
                     }
                   }
-
                   var configureMissingMethods = function configureMissingMethods() {
                     var methodNotImplementedFactory = function methodNotImplementedFactory(methodName) {
                       return function () {
@@ -6105,31 +5195,25 @@
                         return promise;
                       };
                     };
-
                     for (var _i = 0, _len = OptionalDriverMethods.length; _i < _len; _i++) {
                       var optionalDriverMethod = OptionalDriverMethods[_i];
-
                       if (!driverObject[optionalDriverMethod]) {
                         driverObject[optionalDriverMethod] = methodNotImplementedFactory(optionalDriverMethod);
                       }
                     }
                   };
-
                   configureMissingMethods();
-
                   var setDriverSupport = function setDriverSupport(support) {
                     if (DefinedDrivers[driverName]) {
                       console.info('Redefining LocalForage driver: ' + driverName);
                     }
-
                     DefinedDrivers[driverName] = driverObject;
-                    DriverSupport[driverName] = support; // don't use a then, so that we can define
+                    DriverSupport[driverName] = support;
+                    // don't use a then, so that we can define
                     // drivers that have simple _support methods
                     // in a blocking manner
-
                     resolve();
                   };
-
                   if ('_support' in driverObject) {
                     if (driverObject._support && typeof driverObject._support === 'function') {
                       driverObject._support().then(setDriverSupport, reject);
@@ -6146,63 +5230,48 @@
               executeTwoCallbacks(promise, callback, errorCallback);
               return promise;
             };
-
             LocalForage.prototype.driver = function driver() {
               return this._driver || null;
             };
-
             LocalForage.prototype.getDriver = function getDriver(driverName, callback, errorCallback) {
               var getDriverPromise = DefinedDrivers[driverName] ? Promise$1.resolve(DefinedDrivers[driverName]) : Promise$1.reject(new Error('Driver not found.'));
               executeTwoCallbacks(getDriverPromise, callback, errorCallback);
               return getDriverPromise;
             };
-
             LocalForage.prototype.getSerializer = function getSerializer(callback) {
               var serializerPromise = Promise$1.resolve(localforageSerializer);
               executeTwoCallbacks(serializerPromise, callback);
               return serializerPromise;
             };
-
             LocalForage.prototype.ready = function ready(callback) {
               var self = this;
-
               var promise = self._driverSet.then(function () {
                 if (self._ready === null) {
                   self._ready = self._initDriver();
                 }
-
                 return self._ready;
               });
-
               executeTwoCallbacks(promise, callback, callback);
               return promise;
             };
-
             LocalForage.prototype.setDriver = function setDriver(drivers, callback, errorCallback) {
               var self = this;
-
               if (!isArray(drivers)) {
                 drivers = [drivers];
               }
-
               var supportedDrivers = this._getSupportedDrivers(drivers);
-
               function setDriverToConfig() {
                 self._config.driver = self.driver();
               }
-
               function extendSelfWithDriver(driver) {
                 self._extend(driver);
-
                 setDriverToConfig();
                 self._ready = self._initStorage(self._config);
                 return self._ready;
               }
-
               function initDriver(supportedDrivers) {
                 return function () {
                   var currentDriverIndex = 0;
-
                   function driverPromiseLoop() {
                     while (currentDriverIndex < supportedDrivers.length) {
                       var driverName = supportedDrivers[currentDriverIndex];
@@ -6211,20 +5280,18 @@
                       self._ready = null;
                       return self.getDriver(driverName).then(extendSelfWithDriver)["catch"](driverPromiseLoop);
                     }
-
                     setDriverToConfig();
                     var error = new Error('No available storage method found.');
                     self._driverSet = Promise$1.reject(error);
                     return self._driverSet;
                   }
-
                   return driverPromiseLoop();
                 };
-              } // There might be a driver initialization in progress
+              }
+
+              // There might be a driver initialization in progress
               // so wait for it to finish in order to avoid a possible
               // race condition to set _dbInfo
-
-
               var oldDriverSetDone = this._driverSet !== null ? this._driverSet["catch"](function () {
                 return Promise$1.resolve();
               }) : Promise$1.resolve();
@@ -6235,9 +5302,7 @@
                 return self.getDriver(driverName).then(function (driver) {
                   self._driver = driver._driver;
                   setDriverToConfig();
-
                   self._wrapLibraryMethodsWithReady();
-
                   self._initDriver = initDriver(supportedDrivers);
                 });
               })["catch"](function () {
@@ -6249,29 +5314,22 @@
               executeTwoCallbacks(this._driverSet, callback, errorCallback);
               return this._driverSet;
             };
-
             LocalForage.prototype.supports = function supports(driverName) {
               return !!DriverSupport[driverName];
             };
-
             LocalForage.prototype._extend = function _extend(libraryMethodsAndProperties) {
               extend(this, libraryMethodsAndProperties);
             };
-
             LocalForage.prototype._getSupportedDrivers = function _getSupportedDrivers(drivers) {
               var supportedDrivers = [];
-
               for (var i = 0, len = drivers.length; i < len; i++) {
                 var driverName = drivers[i];
-
                 if (this.supports(driverName)) {
                   supportedDrivers.push(driverName);
                 }
               }
-
               return supportedDrivers;
             };
-
             LocalForage.prototype._wrapLibraryMethodsWithReady = function _wrapLibraryMethodsWithReady() {
               // Add a stub for each driver API method that delays the call to the
               // corresponding driver method until localForage is ready. These stubs
@@ -6281,15 +5339,14 @@
                 callWhenReady(this, LibraryMethods[i]);
               }
             };
-
             LocalForage.prototype.createInstance = function createInstance(options) {
               return new LocalForage(options);
             };
-
             return LocalForage;
-          }(); // The actual localForage object that we expose as a module or via a
-          // global. It's extended by pulling in one of our other libraries.
+          }();
 
+          // The actual localForage object that we expose as a module or via a
+          // global. It's extended by pulling in one of our other libraries.
 
           var localforage_js = new LocalForage();
           module.exports = localforage_js;
@@ -6299,44 +5356,39 @@
       }, {}, [4])(4);
     });
   })(localforage$1$1);
-
   var localforage$2 = localforage$1$1.exports;
-
   function uuid$1(a) {
     return a ? (a ^ Math.random() * 16 >> a / 4).toString(16) : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, uuid$1);
   }
+
   /**
    * regex used to validate AppObject external ids
    * (UUID form is 8 digits followed by three groups of 4 digits followed by a group of 12)
    */
-
-
   const UUID_REGEX = /^[a-fA-F0-9]{8}-(?:[a-fA-F0-9]{4}-){3}[a-fA-F0-9]{12}$/;
   const SAVE_STATE_LOCAL$1 = 'SAVED_LOCALLY';
   const SAVE_STATE_SERVER$1 = 'SAVED_TO_SERVER';
-
   class Model$1 extends EventHarness$1 {
     /**
      * @type {string}
      */
     _id;
+
     /**
      * set if the object has been posted to the server
      *
      * @type {boolean}
      */
-
     _savedRemotely = false;
     static EVENT_SAVED_REMOTELY = 'savedremotely';
+
     /**
      *
      * @param {Boolean} savedFlag
      */
-
     set savedRemotely(savedFlag) {
       if (this._savedRemotely !== savedFlag) {
         this._savedRemotely = !!savedFlag;
-
         if (this._savedRemotely) {
           this.fireEvent(Model$1.EVENT_SAVED_REMOTELY, {
             id: this.id
@@ -6344,28 +5396,28 @@
         }
       }
     }
+
     /**
      * set if the object has been added to a temporary store (e.g. indexedDb)
      *
      * @type {boolean}
      */
-
-
     _savedLocally = false;
+
     /**
      *
      * @type {boolean}
      */
-
     deleted = false;
+
     /**
      * unix timestamp (seconds since epoch)
      * Provided that the created stamp is < the modified stamp then the externally assigned creation stamp will be used
      *
      * @type {number}
      */
-
     createdStamp;
+
     /**
      * unix timestamp (seconds since epoch)
      * modified stamp is generally server assigned - rather than using a potentially discrepant client clock
@@ -6373,42 +5425,38 @@
      *
      * @type {number}
      */
-
     modifiedStamp;
+
     /**
      * DDb AppProject id
      *
      * @type {number}
      */
-
     projectId;
+
     /**
      * paired with isNew this marks records that have never been edited
      *
      * @type {boolean}
      */
-
     isPristine = false;
-
     constructor() {
       super();
       this.createdStamp = Math.floor(Date.now() / 1000);
     }
+
     /**
      * returns true if either remote or local copy is missing
      *
      * @returns {boolean}
      */
-
-
     unsaved() {
       return !(this._savedLocally && this._savedRemotely);
     }
+
     /**
      * string
      */
-
-
     get id() {
       if (!this._id) {
         this._id = uuid$1();
@@ -6416,31 +5464,29 @@
         console.error("id is literal 'undefined', am forcing new id");
         this._id = uuid$1();
       }
-
       return this._id;
     }
+
     /**
      *
      * @param {string} newId
      */
-
-
     set id(newId) {
       // only allow an id to be set if not present already
+
       if (this._id && newId !== this._id) {
         throw new Error(`Occurrence id has already been set, when trying to set new id '${newId}'.`);
       }
-
       this._id = newId;
     }
+
     /**
      *
      * @type {Array.<function>}
      * @private
      */
-
-
     static _tasks = [];
+
     /**
      * Add a post request to the queue
      * Requests run in sequence.
@@ -6451,7 +5497,6 @@
      * @param formData
      * @returns {Promise}
      */
-
     queuePost(formData) {
       return new Promise((resolve, reject) => {
         /**
@@ -6463,9 +5508,7 @@
           });
           return this.post(formData).then(resolve, reject);
         };
-
         Model$1._tasks.push(task);
-
         if (Model$1._tasks.length > 1) {
           console.log(`Added post request to the queue.`);
         } else {
@@ -6474,16 +5517,14 @@
         }
       });
     }
+
     /**
      *
      * @returns {Promise}
      * @private
      */
-
-
     static _next() {
       Model$1._tasks.shift(); // save is done
-
 
       if (Model$1._tasks.length) {
         // run the next task
@@ -6491,6 +5532,7 @@
         return Model$1._tasks[0]().finally(Model$1._next);
       }
     }
+
     /**
      * if not securely saved then makes a post to /save<object>
      *
@@ -6506,8 +5548,6 @@
      * @param {FormData} formData
      * @returns {Promise}
      */
-
-
     post(formData) {
       return fetch(this.SAVE_ENDPOINT, {
         method: 'POST',
@@ -6516,109 +5556,99 @@
         if (response.ok) {
           // need to find out whether this was a local store in indexedDb by the service worker
           // or a server-side save
+
           // to do that need to decode the json response
           // which can only be done once, so need to clone first
           const clonedResponse = response.clone();
           return clonedResponse.json().then(responseData => {
             /** @param {{saveState : string, created : number, modified : number}} responseData */
+
             console.log({
               'returned to client after save': responseData
             });
-
             switch (responseData.saveState) {
               case SAVE_STATE_SERVER$1:
-                this._savedLocally = true; //this._savedRemotely = true;
-
+                this._savedLocally = true;
+                //this._savedRemotely = true;
                 this.savedRemotely = true;
                 break;
-
               case SAVE_STATE_LOCAL$1:
-                this._savedLocally = true; //this._savedRemotely = false;
-
+                this._savedLocally = true;
+                //this._savedRemotely = false;
                 this.savedRemotely = false;
                 break;
-
               default:
                 console.log(`Unrecognised save state '${responseData.saveState}'`);
             }
-
             this.createdStamp = parseInt(responseData.created, 10);
-            this.modifiedStamp = parseInt(responseData.modified, 10); // return the json version of the original response as a promise
+            this.modifiedStamp = parseInt(responseData.modified, 10);
 
+            // return the json version of the original response as a promise
             return response.json(); // assign appropriate JSON type to the response
           });
         } else {
           // try instead to write the data to local storage
+
           console.log('Save failed, presumably service worker is missing and there is no network connection. Should write to IndexedDb here.');
           return Promise.reject('IndexedDb storage not yet implemented');
         }
       });
     }
+
     /**
      *
      * @param {string} id
      * @param {(Survey|Occurrence|OccurrenceImage)} modelObject
      * @returns {Promise}
      */
-
-
     static retrieveFromLocal(id, modelObject) {
       return localforage$2.getItem(`${modelObject.TYPE}.${id}`).then(descriptor => {
         if (descriptor) {
           modelObject.id = id;
-
           modelObject._parseDescriptor(descriptor);
-
           return modelObject;
         } else {
           return Promise.reject(`Failed to retrieve ${modelObject.TYPE}.${id} locally`);
         }
       });
     }
+
     /**
      *
      * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean|string, created: (number|string), modified: (number|string), projectId: (number|string)}} descriptor
      */
-
-
     _parseDescriptor(descriptor) {
       this._parseAttributes(descriptor.attributes);
-
       this._parseSavedState(descriptor.saveState);
-
       this.deleted = descriptor.deleted === true || descriptor.deleted === 'true'; // cast stringified boolean to true boolean
-
-      this.createdStamp = parseInt(descriptor.created, 10); //this.modifiedStamp = descriptor.modified ? parseInt(descriptor.modified, 10) : this.createdStamp; // avoids NaN
-
+      this.createdStamp = parseInt(descriptor.created, 10);
+      //this.modifiedStamp = descriptor.modified ? parseInt(descriptor.modified, 10) : this.createdStamp; // avoids NaN
       this.modifiedStamp = descriptor.modified ? parseInt(descriptor.modified, 10) : 0; // avoids NaN
-
       this.projectId = parseInt(descriptor.projectId, 10);
     }
+
     /**
      *
      * @param {Object.<string, {}>|string|Array} attributes
      */
-
-
     _parseAttributes(attributes) {
       if (typeof attributes === 'string') {
         attributes = JSON.parse(attributes);
       }
-
       if (Array.isArray(attributes)) {
         // problematic bug, where empty attributes come back as an array rather than as an object
+
         console.log('Attributes were spuriously represented as an array rather than as an empty object');
         this.attributes = {};
       } else {
         this.attributes = attributes;
       }
     }
+
     /**
      *
      * @param {string} saveState
      */
-
-
     _parseSavedState(saveState) {
       switch (saveState) {
         case SAVE_STATE_LOCAL$1:
@@ -6626,71 +5656,60 @@
           this.savedRemotely = false;
           this._savedLocally = true;
           break;
-
         case SAVE_STATE_SERVER$1:
           //this._savedRemotely = true;
           this.savedRemotely = true;
           this._savedLocally = true;
           break;
-
         default:
           throw new Error(`Unrecognised saved state '${saveState}`);
       }
     }
+
     /**
      * update modified stamp to current time
      */
-
-
     touch() {
       this.modifiedStamp = Math.floor(Date.now() / 1000);
-
       if (this.isPristine) {
         this.isPristine = false;
         this.createdStamp = this.modifiedStamp;
       }
-
-      this._savedLocally = false; //this._savedRemotely = false;
-
+      this._savedLocally = false;
+      //this._savedRemotely = false;
       this.savedRemotely = false;
     }
+
     /**
      *
      * @param {{}} formSectionProperties
      * @return {{requiredFieldsPresent: boolean, validity: Object.<string, boolean>}}
      */
-
-
     evaluateCompletionStatus(formSectionProperties) {
       const validity = {};
       let requiredFieldsPresent = true;
-
       for (let key in formSectionProperties) {
         if (formSectionProperties.hasOwnProperty(key)) {
           let property = formSectionProperties[key];
           validity[key] = property.validator ? property.validator(key, property, this.attributes) : property.field.isValid(key, property, this.attributes);
-
           if (null !== validity[key]) {
             // validity can be 'null' in which case field was optional and not assessed
             requiredFieldsPresent = requiredFieldsPresent && validity[key];
           }
         }
       }
-
       return {
         requiredFieldsPresent,
         validity
       };
     }
-
   }
+
   /**
    *
    * @param text
    * @returns {string}
    */
-
-
   function escapeHTML$1(text) {
     try {
       // IE (even v 11) sometimes fails here with 'Unknown runtime error', see http://blog.rakeshpai.me/2007/02/ies-unknown-runtime-error-when-using.html
@@ -6702,10 +5721,11 @@
       pre.appendChild(document.createTextNode(text));
       return pre.innerHTML.replace(/"/g, '&quot;');
     }
-  } // a Survey captures the currentSurvey meta data
+  }
+
+  // a Survey captures the currentSurvey meta data
   //import {TextGeorefField} from "../views/formfields/TextGeorefField";
   //import {Form} from "../views/forms/Form";
-
 
   class Survey$1 extends Model$1 {
     /**
@@ -6716,30 +5736,30 @@
     static EVENT_MODIFIED = 'modified';
     SAVE_ENDPOINT = '/savesurvey.php';
     TYPE = 'survey';
+
     /**
      *
      * @type {Object.<string, *>}
      */
-
     attributes = {};
+
     /**
      * if set then provide default values (e.g. GPS look-up of current geo-reference)
      *
      * @type {boolean}
      */
-
     isNew = false;
+
     /**
      * kludge to flag once the App singleton has set up a listner for changes on the survey
      * @type {boolean}
      */
-
     hasAppModifiedListener = false;
+
     /**
      *
      * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
      */
-
     get geoReference() {
       return this.attributes.georef || {
         gridRef: '',
@@ -6751,34 +5771,34 @@
         precision: null
       };
     }
-
     get date() {
       return this.attributes.date || '';
     }
-
     get place() {
       return this.attributes.place || '';
     }
+
     /**
      * called after the form has changed, before the values have been read back in to the occurrence
      *
      * @param {{form: SurveyForm}} params
      */
-
-
     formChangedHandler(params) {
-      console.log('Survey change handler invoked.'); // read new values
+      console.log('Survey change handler invoked.');
+
+      // read new values
       // then fire its own change event (Occurrence.EVENT_MODIFIED)
-
       params.form.updateModelFromContent();
-      console.log('Survey calling conditional validation.'); // refresh the form's validation state
+      console.log('Survey calling conditional validation.');
 
+      // refresh the form's validation state
       params.form.conditionallyValidateForm();
       this.touch();
       this.fireEvent(Survey$1.EVENT_MODIFIED, {
         surveyId: this.id
       });
     }
+
     /**
      * Used for special-case setting of a custom attribute
      * (i.e. not usually one linked to a form)
@@ -6787,8 +5807,6 @@
      * @param attributeName
      * @param value
      */
-
-
     setAttribute(attributeName, value) {
       if (this.attributes[attributeName] !== value) {
         this.attributes[attributeName] = value;
@@ -6797,7 +5815,9 @@
           surveyId: this.id
         });
       }
-    } // /**
+    }
+
+    // /**
     //  *
     //  * @param {SurveyForm} form
     //  */
@@ -6827,8 +5847,6 @@
      *
      * @returns {Promise}
      */
-
-
     save() {
       if (!this._savedRemotely) {
         const formData = new FormData();
@@ -6845,26 +5863,24 @@
         return Promise.reject(`${this.id} has already been saved.`);
       }
     }
+
     /**
      *
      * @returns {string} an html-safe string based on the locality and creation date
      */
-
-
     generateSurveyName() {
       if (this.attributes.casual) {
         // special-case treatment of surveys with 'casual' attribute (which won't have a locality or date as part of the survey)
+
         return this.attributes.surveyName ? escapeHTML$1(this.attributes.surveyName) : `Data-set created on ${new Date(this.createdStamp * 1000).toString()}`;
       } else {
         let place = (this.attributes.place || this.attributes.georef && this.attributes.georef.gridRef || '(unlocalised)').trim();
         const userDate = this.date;
         let dateString;
-
         if (userDate) {
           dateString = userDate;
         } else {
           const createdDate = new Date(this.createdStamp * 1000);
-
           try {
             // 'default' locale fails on Edge
             dateString = createdDate.toLocaleString('default', {
@@ -6880,24 +5896,20 @@
             });
           }
         }
-
         return `${escapeHTML$1(place)} ${dateString}`;
       }
     }
-
   }
+
   /**
    *
    */
-
-
   class InternalAppError$1 extends Error {}
-
   class TaxonError$1 extends Error {}
+
   /**
    * @external BsbiDb
    */
-
 
   class Taxon$1 {
     /**
@@ -6925,107 +5937,103 @@
     /**
      * @type {string}
      */
-
     id;
+
     /**
      *
      * @type {string}
      */
-
     nameString = '';
+
     /**
      *
      * @type {string}
      */
-
     canonical = '';
+
     /**
      *
      * @type {string}
      */
-
     hybridCanonical = '';
+
     /**
      *
      * @type {string}
      */
-
     acceptedEntityId = '';
+
     /**
      *
      * @type {string}
      */
-
     qualifier = '';
+
     /**
      *
      * @type {string}
      */
-
     authority = '';
+
     /**
      *
      * @type {string}
      */
-
     vernacular = '';
+
     /**
      *
      * @type {string}
      */
-
     vernacularRoot = '';
+
     /**
      * @type {boolean}
      */
-
     used;
+
     /**
      * @type {number}
      */
-
     sortOrder;
+
     /**
      *
      * @type {Array.<string>}
      */
-
     parentIds = [];
+
     /**
      *
      * @type {boolean}
      */
-
     static showVernacular = true;
+
     /**
      *
      * @param {string} id
      * @returns {Taxon}
      * @throws {TaxonError}
      */
-
     static fromId(id) {
       if (!Taxon$1.rawTaxa) {
         // may not yet have been initialised due to deferred loading
+
         if (BsbiDb.TaxonNames) {
           Taxon$1.rawTaxa = BsbiDb.TaxonNames;
         } else {
           throw new TaxonError$1(`Taxon.fromId() called before taxon list has loaded.`);
         }
       }
-
       if (!Taxon$1.rawTaxa.hasOwnProperty(id)) {
         throw new TaxonError$1(`Taxon id '${id}' not found.`);
       }
-
       const raw = Taxon$1.rawTaxa[id];
       const taxon = new Taxon$1();
       taxon.id = id;
       taxon.nameString = raw[0];
       taxon.canonical = raw[1] || raw[0]; // raw entry is blank if namesString == canonical
-
       taxon.hybridCanonical = raw[2] || taxon.canonical; // raw entry is blank if canonical == hybridCanonical
-
       taxon.acceptedEntityId = raw[3] || id;
       taxon.qualifier = raw[4];
       taxon.authority = raw[5];
@@ -7036,20 +6044,17 @@
       taxon.parentIds = raw[10];
       return taxon;
     }
+
     /**
      *
      * @param {boolean} vernacularMatched
      * @returns {string}
      */
-
-
     formattedHTML(vernacularMatched) {
       let acceptedTaxon;
-
       if (this.id !== this.acceptedEntityId) {
         acceptedTaxon = Taxon$1.fromId(this.acceptedEntityId);
       }
-
       {
         if (vernacularMatched) {
           return acceptedTaxon ? `<q class="taxon-vernacular">${escapeHTML$1(this.vernacular)}</q><wbr> <span class="italictaxon">${this.nameString}${this.qualifier ? ` <span class="taxon-qualifier">${this.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML$1(this.authority)}</span>` + ` = <span class="italictaxon">${acceptedTaxon.nameString}${acceptedTaxon.qualifier ? ` <span class="taxon-qualifier">${acceptedTaxon.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML$1(acceptedTaxon.authority)}</span>` : `<q class="taxon-vernacular">${escapeHTML$1(this.vernacular)}</q><wbr> <span class="italictaxon">${this.nameString}${this.qualifier ? ` <span class="taxon-qualifier">${this.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML$1(this.authority)}</span>`;
@@ -7058,27 +6063,31 @@
         }
       }
     }
+  }
 
-  } //import {Form} from "../views/forms/Form";
-
+  //import {Form} from "../views/forms/Form";
 
   class Occurrence$1 extends Model$1 {
     /**
      *
      * @type {Object.<string, *>}
      */
-    attributes = {// taxon: {
+    attributes = {
+      // taxon: {
       //     taxonId: '',
       //     taxonName: '',
       //     vernacularMatch: false
       // }
-    }; // /**
+    };
+
+    // /**
     //  * set if the image has been posted to the server
     //  * (a local copy might still exist, which may have been reduced to thumbnail resolution)
     //  *
     //  * @type {boolean}
     //  */
     // _savedRemotely = false;
+
     // /**
     //  * set if the image has been added to a temporary store (e.g. indexedDb)
     //  *
@@ -7088,30 +6097,29 @@
 
     SAVE_ENDPOINT = '/saveoccurrence.php';
     TYPE = 'occurrence';
+
     /**
      * fired from Occurrence when the object's contents have been modified
      *
      * @type {string}
      */
-
     static EVENT_MODIFIED = 'modified';
+
     /**
      * set if this is a new entry (before user has moved on to the next entry)
      * influences whether form validation errors are displayed
      *
      * @type {boolean}
      */
-
     isNew = false;
+
     /**
      *
      * @returns {(Taxon|null)} returns null for unmatched taxa specified by name
      */
-
     get taxon() {
       return this.attributes.taxon && this.attributes.taxon.taxonId ? Taxon$1.fromId(this.attributes.taxon.taxonId) : null;
     }
-
     // /**
     //  *
     //  * @param {OccurrenceForm} form
@@ -7132,18 +6140,19 @@
      * @param {{form: Form}} params
      */
     formChangedHandler(params) {
-      console.log('Occurrence change handler invoked.'); // read new values
+      console.log('Occurrence change handler invoked.');
+
+      // read new values
       // then fire it's own change event (Occurrence.EVENT_MODIFIED)
+      params.form.updateModelFromContent();
 
-      params.form.updateModelFromContent(); // refresh the form's validation state
-
+      // refresh the form's validation state
       params.form.conditionallyValidateForm();
       this.touch();
       this.fireEvent(Occurrence$1.EVENT_MODIFIED, {
         occurrenceId: this.id
       });
     }
-
     delete() {
       if (!this.deleted) {
         this.touch();
@@ -7153,6 +6162,7 @@
         });
       }
     }
+
     /**
      * if not securely saved then makes a post to /saveoccurrence.php
      *
@@ -7168,16 +6178,12 @@
      * @param {string} surveyId
      * @returns {Promise}
      */
-
-
     save(surveyId) {
       if (!this._savedRemotely) {
         const formData = new FormData();
-
         if (!surveyId && this.surveyId) {
           surveyId = this.surveyId;
         }
-
         formData.append('type', this.TYPE);
         formData.append('surveyId', surveyId);
         formData.append('occurrenceId', this.id);
@@ -7192,20 +6198,16 @@
         return Promise.reject(`${this.id} has already been saved.`);
       }
     }
+
     /**
      *
      * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean|string, created: number, modified: number, projectId: number, surveyId: string}} descriptor
      */
-
-
     _parseDescriptor(descriptor) {
       super._parseDescriptor(descriptor);
-
       this.surveyId = descriptor.surveyId;
     }
-
   }
-
   class OccurrenceImage$1 extends Model$1 {
     /**
      * raw file object retrieved from a file upload image element
@@ -7213,13 +6215,14 @@
      * @type {File}
      */
     file;
+
     /**
      *
      * @type {Map.<string, OccurrenceImage>}
      */
-
     static imageCache = new Map();
     TYPE = 'image';
+
     /**
      * fetches a url of the image
      * this might be a remote url (or one intercepted by a service worker)
@@ -7227,20 +6230,19 @@
      *
      * @returns {string}
      */
-
     getUrl() {}
-
     SAVE_ENDPOINT = '/saveimage.php';
+
     /**
      *
      * @param {File} file
      */
-
     static fromFile(file) {
       const image = new OccurrenceImage$1();
       image.file = file;
       return image;
     }
+
     /**
      * if not securely saved then makes a post to /saveimage.php
      *
@@ -7258,16 +6260,12 @@
      * @param {number} projectId
      * @returns {Promise}
      */
-
-
     save(surveyId, occurrenceId, projectId) {
       if (!this._savedRemotely) {
         const formData = new FormData();
         formData.append('type', this.TYPE);
         formData.append('surveyId', surveyId ? surveyId : ''); // avoid 'undefined'
-
         formData.append('occurrenceId', occurrenceId ? occurrenceId : this.occurrenceId); // avoid 'undefined'
-
         formData.append('projectId', projectId ? projectId.toString() : '');
         formData.append('imageId', this.id);
         formData.append('id', this.id);
@@ -7279,42 +6277,38 @@
         return Promise.reject(`${this.id} has already been saved.`);
       }
     }
+
     /**
      * fired from Occurrence when the object's contents have been modified
      *
      * @type {string}
      */
-
-
     static EVENT_MODIFIED = 'modified';
+
     /**
      *
      * @param id
      * @returns {OccurrenceImage}
      */
-
     static placeholder(id) {
       let placeholderObject = new OccurrenceImage$1();
       placeholderObject._id = id;
       OccurrenceImage$1.imageCache.set(id, placeholderObject);
       return placeholderObject;
     }
+
     /**
      *
      * @param {{surveyId: string, occurrenceId: string, [image]: File}} descriptor
      * @private
      */
-
-
     _parseDescriptor(descriptor) {
       super._parseDescriptor(descriptor);
-
       this.surveyId = descriptor.surveyId; // note lower case
-
       this.occurrenceId = descriptor.occurrenceId; // note lower case
-
       this.file = descriptor.image;
     }
+
     /**
      *
      * @param {string} id
@@ -7323,84 +6317,80 @@
      * @param {{[className] : string}} [attributes]
      * @return {string}
      */
-
-
     static imageLink(id, width, height, attributes) {
       width = width || 0;
       height = height || 0;
       let attributesString = '';
-
       if (attributes.className) {
         attributesString += ` class="${attributes.className}"`;
       }
-
       const renderingConstraint = width > height ? `width="${width}"` : `height="${height}"`;
       return `<picture><source srcset="/image.php?imageid=${id}&amp;height=128&amp;format=webp" type="image/webp"><img${attributesString} src="/image.php?imageid=${id}&amp;width=${width}&amp;height=${height}&amp;format=jpeg" ${renderingConstraint} alt="photo"></picture>`;
     }
+  }
 
-  } // App.js
-
+  // App.js
 
   class App$1 extends EventHarness$1 {
     /**
      * @type {PatchedNavigo}
      */
     #router;
+
     /**
      * @type {HTMLElement}
      */
-
     #containerEl;
+
     /**
      *
      * @type {Array.<AppController>}
      */
-
     controllers = [];
+
     /**
      * tracks the handle of the current page controller
      * updating this is the responsibility of the controller
      *
      * @type {number|boolean}
      */
-
     currentControllerHandle = false;
+
     /**
      *
      * @type {Array.<{url : string}>}
      */
-
     routeHistory = [];
+
     /**
      * keyed by occurrence id (a UUID string)
      *
      * @type {Map.<string,Occurrence>}
      */
-
     occurrences;
+
     /**
      * keyed by survey id (a UUID string)
      *
      * @type {Map.<string,Survey>}
      */
-
     surveys;
+
     /**
      * @type {?Survey}
      */
-
     _currentSurvey = null;
+
     /**
      * @abstract
      * @type {number}
      */
-
     projectId;
+
     /**
      *
      * @param {?Survey} survey
      */
-
     set currentSurvey(survey) {
       if (this._currentSurvey !== survey) {
         this._currentSurvey = survey || null;
@@ -7408,21 +6398,19 @@
         localforage$2.setItem(App$1.CURRENT_SURVEY_KEY_NAME, surveyId);
       }
     }
+
     /**
      *
      * @returns {?Survey}
      */
-
-
     get currentSurvey() {
       return this._currentSurvey;
     }
+
     /**
      *
      * @returns {Promise<string | null>}
      */
-
-
     getLastSurveyId() {
       return localforage$2.getItem(App$1.CURRENT_SURVEY_KEY_NAME).catch(error => {
         console.log({
@@ -7431,189 +6419,177 @@
         return Promise.resolve(null);
       });
     }
+
     /**
      * @type {Layout}
      */
-
-
     layout;
+
     /**
      * Event fired when user requests a new blank survey
      * @type {string}
      */
-
     static EVENT_ADD_SURVEY_USER_REQUEST = 'useraddsurveyrequest';
+
     /**
      * Event fired when user requests a reset (local clearance) of all surveys
      * @type {string}
      */
-
     static EVENT_RESET_SURVEYS = 'userresetsurveys';
+
     /**
      * Fired after App.currentSurvey has been set to a new blank survey
      * the survey will be accessible in App.currentSurvey
      *
      * @type {string}
      */
-
     static EVENT_NEW_SURVEY = 'newsurvey';
     static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
     static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
+
     /**
      * Fired if the surveys list might need updating (as a survey has been added, removed or changed)
      *
      * @type {string}
      */
-
     static EVENT_SURVEYS_CHANGED = 'surveyschanged';
+
     /**
      * Fired after fully-successful sync-all
      * (or if sync-all resolved with nothing to send)
      *
      * @type {string}
      */
-
     static EVENT_ALL_SYNCED_TO_SERVER = 'allsyncedtoserver';
+
     /**
      * fired if sync-all called, but one or more objects failed to be saved to the server
      *
      * @type {string}
      */
-
     static EVENT_SYNC_ALL_FAILED = 'syncallfailed';
+
     /**
      * IndexedDb key used for storing id of current (last accessed) survey (or null)
      *
      * @type {string}
      */
-
     static CURRENT_SURVEY_KEY_NAME = 'currentsurvey';
+
     /**
      *
      * @type {boolean}
      */
-
     static devMode = false;
-
     constructor() {
       super();
       this.reset();
     }
+
     /**
      *
      * @param {string} name
      */
-
-
     setLocalForageName(name) {
       localforage$2.config({
         name: name
       });
     }
-
     reset() {
       this.surveys = new Map();
       this.clearCurrentSurvey();
     }
+
     /**
      * unset the current survey and its associated list of occurrences
      * called when switching surveys and during startup
      */
-
-
     clearCurrentSurvey() {
       this.occurrences = new Map();
       this.currentSurvey = null;
     }
+
     /**
      * see https://github.com/krasimir/navigo
      * @param {PatchedNavigo} router
      */
-
-
     set router(router) {
       this.#router = router;
     }
+
     /**
      *
      * @returns {PatchedNavigo}
      */
-
-
     get router() {
       return this.#router;
     }
-
     set containerId(containerId) {
       const el = document.getElementById(containerId);
-
       if (!el) {
         throw new Error(`App container '${containerId}' not found.`);
       } else {
         this.#containerEl = el;
       }
     }
-
     get container() {
       return this.#containerEl;
     }
+
     /**
      *
      * @param {AppController} controller
      */
-
-
     registerController(controller) {
       controller.handle = this.controllers.length;
       this.controllers[this.controllers.length] = controller;
       controller.app = this;
       controller.registerRoute(this.#router);
     }
-
     initialise() {
       //Page.initialise_layout(this.#containerEl);
       this.layout.initialise();
       this.#router.notFound(query => {
         // called when there is path specified but
         // there is no route matching
-        console.log(`no route found for '${query}'`); //this.#router.navigate('/list');
+
+        console.log(`no route found for '${query}'`);
+        //this.#router.navigate('/list');
+
         // const view = new NotFoundView();
         // view.display();
-
         this.notFoundView();
-      }); //default homepage
+      });
 
+      //default homepage
       this.#router.on(() => {
         // special-case redirect (replacing in history) from '/' to '/list' without updating browser history
+
         console.log("redirecting from '/' to '/list'");
-        this.#router.pause(); //if (this.clearCurrentSurvey && this.currentSurvey.isPristine) { // this appears to be a bug 'this.clearCurrentSurvey'
+        this.#router.pause();
+        //if (this.clearCurrentSurvey && this.currentSurvey.isPristine) { // this appears to be a bug 'this.clearCurrentSurvey'
         // rather than 'this.clearCurrentSurvey()' is nonsensical
         // and if clearCurrentSurvey() was actually called then the isPristine test would fail (called on null)
-
         if (this.currentSurvey && this.currentSurvey.isPristine) {
           this.#router.navigate('/list/survey/welcome').resume();
         } else {
           this.#router.navigate('/list').resume();
         }
-
         this.#router.resolve();
       });
-
       for (let controller of this.controllers) {
         controller.initialise();
       }
     }
-
     display() {
       console.log('App display');
-      this.#router.resolve(); // it's opportune at this point to try to ping the server again to save anything left outstanding
+      this.#router.resolve();
 
+      // it's opportune at this point to try to ping the server again to save anything left outstanding
       this.syncAll();
     }
-
     saveRoute() {
       const lastRoute = this.#router.lastRouteResolved();
-
       if (this.routeHistory.length) {
         if (this.routeHistory[this.routeHistory.length - 1] !== lastRoute) {
           this.routeHistory[this.routeHistory.length] = lastRoute;
@@ -7622,38 +6598,35 @@
         this.routeHistory[0] = lastRoute;
       }
     }
+
     /**
      * mark the current survey and its constituent records as subject to validation checks (not pristine)
      */
-
-
     markAllNotPristine() {
       for (let occurrenceTuple of this.occurrences) {
         occurrenceTuple[1].isPristine = false;
       }
     }
+
     /**
      *
      * @param {Layout} layout
      */
-
-
     setLayout(layout) {
       this.layout = layout;
       layout.setApp(this);
     }
+
     /**
      *
      * @param {Survey} survey
      */
-
-
     addSurvey(survey) {
       if (survey.projectId !== this.projectId) {
         throw new Error(`Survey project id '${survey.projectId} does not match with current project ('${this.projectId}')`);
-      } //if (!this.surveys.has(survey.id)) {
+      }
 
-
+      //if (!this.surveys.has(survey.id)) {
       if (!survey.hasAppModifiedListener) {
         survey.hasAppModifiedListener = true;
         console.log("setting survey's modified/save handler");
@@ -7662,67 +6635,63 @@
           return survey.save();
         });
       }
-
       this.surveys.set(survey.id, survey);
       this.fireEvent(App$1.EVENT_SURVEYS_CHANGED);
     }
+
     /**
      * tests whether occurrences have been defined, excluding any that have been deleted
      *
      * @returns {boolean}
      */
-
-
     haveExtantOccurrences() {
       for (let occurrence of this.occurrences) {
         if (!occurrence.deleted) {
           return true;
         }
       }
-
       return false;
     }
+
     /**
      *
      * @param {Occurrence} occurrence
      */
-
-
     addOccurrence(occurrence) {
       if (!occurrence.surveyId) {
         throw new InternalAppError$1('Survey id must set prior to registering occurrence.');
       }
-
       if (this.occurrences.size === 0) {
         // this is the first occurrence added, set the survey creation stamp to match
         // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
         // for a protracted period
+
         const survey = this.surveys.get(occurrence.surveyId);
         survey.createdStamp = occurrence.createdStamp;
       }
-
       console.log(`in addOccurrence setting id '${occurrence.id}'`);
       this.occurrences.set(occurrence.id, occurrence);
-      occurrence.addListener(Occurrence$1.EVENT_MODIFIED, // possibly this should be async, with await on the survey and occurrence save
+      occurrence.addListener(Occurrence$1.EVENT_MODIFIED,
+      // possibly this should be async, with await on the survey and occurrence save
       () => {
         const survey = this.surveys.get(occurrence.surveyId);
-
         if (!survey) {
           throw new Error(`Failed to look up survey id ${occurrence.surveyId}`);
         } else {
-          survey.isPristine = false; // need to ensure that currentSurvey is saved before occurrence
+          survey.isPristine = false;
+
+          // need to ensure that currentSurvey is saved before occurrence
           // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
           // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
-
           if (survey.unsaved()) {
             // noinspection JSIgnoredPromiseFromCall
             survey.save();
           }
-
           occurrence.save(survey.id);
         }
       });
     }
+
     /**
      * attempts to refresh the state of local storage for the specified survey ids
      * if fetch fails then return a failed promise
@@ -7734,21 +6703,17 @@
      * @param {Array.<string>} surveyIds
      * @return {Promise}
      */
-
-
     refreshFromServer(surveyIds) {
       console.log({
         'Refresh from server, ids': surveyIds
       });
       const formData = new FormData();
       let n = 0;
-
       for (let key of surveyIds) {
         if (key && key !== 'undefined') {
           formData.append(`surveyId[${n++}]`, key);
         }
       }
-
       return fetch(App$1.LOAD_SURVEYS_ENDPOINT, {
         method: 'POST',
         body: formData
@@ -7760,12 +6725,13 @@
         }
       }).then(jsonResponse => {
         /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
+
         console.log({
           'refresh from server json response': jsonResponse
-        }); // if external objects newer than local version then place in local storage
+        });
 
+        // if external objects newer than local version then place in local storage
         const promises = [];
-
         for (let type in jsonResponse) {
           if (jsonResponse.hasOwnProperty(type)) {
             for (let object of jsonResponse[type]) {
@@ -7773,10 +6739,10 @@
             }
           }
         }
-
         return Promise.all(promises);
       });
     }
+
     /**
      * compare modified stamp of indexeddb and external objects and write external version locally if more recent
      *
@@ -7784,8 +6750,6 @@
      * @returns {Promise}
      * @private
      */
-
-
     _conditionallyReplaceObject(externalVersion) {
       const objectType = externalVersion.type;
       const id = externalVersion.id;
@@ -7793,42 +6757,41 @@
       return localforage$2.getItem(key).then(localVersion => {
         if (localVersion) {
           // compare stamps
+
           // if (externalVersion.deleted) {
           //     // if the external copy is deleted then remove the local copy
           //     return localforage.removeItem(key);
           // }
+
           if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
             console.log(`Local copy of ${key} is the same or newer than the server copy. (${localVersion.modified} >= ${externalVersion.modified}) `);
             return Promise.resolve();
           }
-        } // no local copy or stale copy
+        }
+
+        // no local copy or stale copy
         // so store response locally
-
-
         console.log(`Adding or replacing local copy of ${key}`);
         return localforage$2.setItem(key, externalVersion);
       });
     }
+
     /**
      * retrieve the full set of keys from local storage (IndexedDb)
      *
      * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
      * @returns {Promise}
      */
-
-
     seekKeys(storedObjectKeys) {
       console.log('starting seekKeys');
       return localforage$2.keys().then(keys => {
         console.log({
           "in seekKeys: local forage keys": keys
         });
-
         for (let key of keys) {
           if (key !== App$1.CURRENT_SURVEY_KEY_NAME) {
             let type, id;
             [type, id] = key.split('.', 2);
-
             if (storedObjectKeys.hasOwnProperty(type)) {
               if (!storedObjectKeys[type].includes(id)) {
                 storedObjectKeys[type].push(id);
@@ -7838,15 +6801,13 @@
             }
           }
         }
-
         return storedObjectKeys;
       });
     }
+
     /**
      * @returns {Promise}
      */
-
-
     syncAll() {
       const storedObjectKeys = {
         survey: [],
@@ -7864,18 +6825,17 @@
         return false;
       });
     }
+
     /**
      *
      * @param storedObjectKeys
      * @returns {Promise}
      * @private
      */
-
-
     _syncLocalUnsaved(storedObjectKeys) {
       // synchronises surveys first, then occurrences, then images from indexedDb
-      const promises = [];
 
+      const promises = [];
       for (let surveyKey of storedObjectKeys.survey) {
         promises.push(Survey$1.retrieveFromLocal(surveyKey, new Survey$1()).then(survey => {
           if (survey.unsaved()) {
@@ -7883,7 +6843,6 @@
           }
         }));
       }
-
       for (let occurrenceKey of storedObjectKeys.occurrence) {
         promises.push(Occurrence$1.retrieveFromLocal(occurrenceKey, new Occurrence$1()).then(occurrence => {
           if (occurrence.unsaved()) {
@@ -7891,7 +6850,6 @@
           }
         }));
       }
-
       for (let imageKey of storedObjectKeys.image) {
         promises.push(OccurrenceImage$1.retrieveFromLocal(imageKey, new OccurrenceImage$1()).then(image => {
           if (image.unsaved()) {
@@ -7899,12 +6857,12 @@
           }
         }));
       }
-
       return Promise.all(promises).catch(result => {
         console.log(`Save failure: ${result}`);
         return Promise.reject(result); // pass on the failed save (catch was only for logging, not to allow subsequent success)
       });
     }
+
     /**
      * restore previous state, pulling back from local and external store
      * @todo this needs a save phase, so that local changes are saved back to the server
@@ -7912,16 +6870,12 @@
      * @param {string} [targetSurveyId] if specified then select this id as the current survey
      * @return {Promise}
      */
-
-
     restoreOccurrences(targetSurveyId = '') {
       console.log(`Invoked restoreOccurrences, target survey id: ${targetSurveyId}`);
-
       if (targetSurveyId === 'undefined') {
         console.error(`Attempt to restore occurrences for literal 'undefined' survey id.`);
         targetSurveyId = '';
       }
-
       return targetSurveyId ? this._restoreOccurrenceImp(targetSurveyId) : this.getLastSurveyId().then(lastSurveyId => {
         console.log(`Retrieved last used survey id '${lastSurveyId}'`);
         return this._restoreOccurrenceImp(lastSurveyId).catch(() => {
@@ -7931,7 +6885,6 @@
         });
       }, () => this._restoreOccurrenceImp());
     }
-
     _restoreOccurrenceImp(targetSurveyId) {
       // need to check for a special case where restoring a survey that has never been saved even locally
       // i.e. new and unmodified
@@ -7939,27 +6892,22 @@
       // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
       if (targetSurveyId && this.surveys.has(targetSurveyId)) {
         const localSurvey = this.surveys.get(targetSurveyId);
-
         if (localSurvey.isPristine) {
           this.clearCurrentSurvey(); // clear occurrences from the previous survey
 
           this.currentSurvey = localSurvey;
           this.fireEvent(App$1.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-
           return Promise.resolve();
         }
       }
-
       const storedObjectKeys = {
         survey: [],
         occurrence: [],
         image: []
       };
-
       if (targetSurveyId) {
         storedObjectKeys.survey[0] = targetSurveyId;
       }
-
       return this.seekKeys(storedObjectKeys).then(storedObjectKeys => {
         if (storedObjectKeys.survey.length) {
           return this.refreshFromServer(storedObjectKeys.survey).finally(() => {
@@ -7972,31 +6920,31 @@
       }).finally(() => {
         // called regardless of whether a server refresh was successful
         // storedObjectKeys and indexed db should be as up-to-date as possible
+
         console.log({
           storedObjectKeys
         });
-
         if (storedObjectKeys && storedObjectKeys.survey && storedObjectKeys.survey.length) {
           const surveyFetchingPromises = [];
           let n = 0;
-
           for (let surveyKey of storedObjectKeys.survey) {
             // arbitrarily set first survey key as current if a target id hasn't been specified
+
             surveyFetchingPromises.push(this._restoreSurveyFromLocal(surveyKey, storedObjectKeys, targetSurveyId === surveyKey || !targetSurveyId && n++ === 0));
           }
-
           return Promise.all(surveyFetchingPromises).finally(() => {
             //this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
+
             if (!this.currentSurvey) {
               // survey doesn't actually exist
               // this could have happened in an invalid survey id was provided as a targetSurveyId
               console.log(`Failed to retrieve survey id '${targetSurveyId}'`);
               return Promise.reject(new Error(`Failed to retrieve survey id '${targetSurveyId}'`));
             }
-
             if (this.currentSurvey.deleted) {
               // unusual case where survey is deleted
               // substitute a new one
+
               // this should probably never happen, as items deleted on the server ought to have been
               // removed locally
               this.setNewSurvey();
@@ -8007,39 +6955,36 @@
             return Promise.resolve();
           });
         } else {
-          console.log('no pre-existing surveys, so creating a new one'); // no pre-existing surveys, so create a new one
-
+          console.log('no pre-existing surveys, so creating a new one');
+          // no pre-existing surveys, so create a new one
           this.setNewSurvey();
           return Promise.resolve();
         }
       });
     }
+
     /**
      *
      * @param {{}|null} [attributes]
      */
-
-
     setNewSurvey(attributes) {
       this.currentSurvey = new Survey$1();
-
       if (attributes) {
-        this.currentSurvey.attributes = { ...this.currentSurvey.attributes,
+        this.currentSurvey.attributes = {
+          ...this.currentSurvey.attributes,
           ...attributes
         };
       }
-
       this.currentSurvey.projectId = this.projectId;
       this.currentSurvey.isPristine = true;
       this.currentSurvey.isNew = true;
       this.fireEvent(App$1.EVENT_NEW_SURVEY);
       this.addSurvey(this.currentSurvey);
     }
+
     /**
      * @return {Occurrence}
      */
-
-
     addNewOccurrence() {
       const occurrence = new Occurrence$1();
       occurrence.surveyId = this.currentSurvey.id;
@@ -8053,6 +6998,7 @@
       });
       return occurrence;
     }
+
     /**
      *
      * @param {string} surveyId
@@ -8061,20 +7007,17 @@
      * @returns {Promise}
      * @private
      */
-
-
     _restoreSurveyFromLocal(surveyId, storedObjectKeys, setAsCurrent) {
       // retrieve surveys first, then occurrences, then images from indexedDb
+
       let promise = Survey$1.retrieveFromLocal(surveyId, new Survey$1()).then(survey => {
         console.log(`retrieving local survey ${surveyId}`);
-
         if (setAsCurrent) {
           // the apps occurrences should only relate to the current survey
           // (the reset are remote or in IndexedDb)
           this.clearCurrentSurvey();
           this.addSurvey(survey);
           const occurrenceFetchingPromises = [];
-
           for (let occurrenceKey of storedObjectKeys.occurrence) {
             occurrenceFetchingPromises.push(Occurrence$1.retrieveFromLocal(occurrenceKey, new Occurrence$1()).then(occurrence => {
               if (occurrence.surveyId === surveyId) {
@@ -8083,23 +7026,19 @@
               }
             }));
           }
-
           return Promise.all(occurrenceFetchingPromises);
         } else {
           // not the current survey, so just add it but don't load occurrences
           this.addSurvey(survey);
         }
       });
-
       if (setAsCurrent) {
         promise.finally(() => {
           //console.log('Reached image fetching part');
           const imageFetchingPromises = [];
-
           for (let occurrenceImageKey of storedObjectKeys.image) {
             imageFetchingPromises.push(OccurrenceImage$1.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage$1()).then(occurrenceImage => {
               console.log(`restoring image id '${occurrenceImageKey}'`);
-
               if (occurrenceImage.surveyId === surveyId) {
                 OccurrenceImage$1.imageCache.set(occurrenceImageKey, occurrenceImage);
               }
@@ -8107,81 +7046,77 @@
               console.log(`Failed to retrieve an image: ${reason}`);
             }));
           }
-
           this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
           return Promise.all(imageFetchingPromises);
         });
       }
-
       return promise;
     }
+
     /**
      *
      * @returns {Promise<void>}
      */
-
-
     clearLocalForage() {
       return localforage$2.clear();
     }
+
     /**
      * @abstract
      */
-
-
-    notFoundView() {// const view = new NotFoundView();
+    notFoundView() {
+      // const view = new NotFoundView();
       // view.display();
     }
+  }
 
-  } // SurveyPickerController
+  // SurveyPickerController
   //import Modal from 'bootstrap/js/dist/modal';
-
 
   class SurveyPickerController extends AppController {
     route = '/survey/:action/:id';
     static EVENT_BACK = 'back';
     title = 'Survey picker';
+
     /**
      * @type {App}
      */
-
     app;
+
     /**
      *
      * @type {SurveyPickerView}
      */
-
     view;
+
     /**
      *
      * @returns {Survey}
      */
-
     get survey() {
       return this.app.currentSurvey;
     }
+
     /**
      *
      * @param {SurveyPickerView} view
      */
-
-
     constructor(view) {
       super();
       this.view = view;
       view.controller = this;
       this.handle = AppController.nextHandle;
     }
+
     /**
      * registers the default route from this.route
      * or alternatively is overridden in a child class
      *
      * @param {PatchedNavigo} router
      */
-
-
     registerRoute(router) {
-      router.on('/survey', this.mainRouteHandler.bind(this, 'survey', '', ''), {// before : this.beforeRouteHandler ? this.beforeRouteHandler.bind(this) : null,
+      router.on('/survey', this.mainRouteHandler.bind(this, 'survey', '', ''), {
+        // before : this.beforeRouteHandler ? this.beforeRouteHandler.bind(this) : null,
         // after : this.afterRouteHandler ? this.afterRouteHandler.bind(this) : null,
         // leave : this.leaveRouteHandler ? this.leaveRouteHandler.bind(this) : null,
         // already : this.alreadyRouteHandler ? this.alreadyRouteHandler.bind(this) : null
@@ -8199,14 +7134,12 @@
       this.app.addListener(App$1.EVENT_ADD_SURVEY_USER_REQUEST, this.addNewSurveyHandler.bind(this));
       this.app.addListener(App$1.EVENT_RESET_SURVEYS, this.resetSurveysHandler.bind(this));
     }
-
     beforeNewHandler(done) {
       this.view.newSurveyDialog();
       this.app.router.pause();
       console.log({
         'route history': this.app.routeHistory
       });
-
       if (window.history.state) {
         window.history.back(); // this could fail if previous url was not under the single-page-app umbrella (should test)
       }
@@ -8218,7 +7151,6 @@
     beforeResetHandler(done) {
       this.view.showResetDialog();
       this.app.router.pause();
-
       if (window.history.state) {
         window.history.back(); // this could fail if previous url was not under the single-page-app umbrella (should test)
       }
@@ -8234,7 +7166,6 @@
         console.log({
           'In save all handler, success result': result
         });
-
         if (Array.isArray(result)) {
           //$(`#${Layout.SAVE_ALL_SUCCESS_MODAL_ID}`).modal();
           //Modal.getOrCreateInstance(Layout.SAVE_ALL_SUCCESS_MODAL_ID).show();
@@ -8247,14 +7178,14 @@
       }, result => {
         console.log({
           'In save all handler, failure result': result
-        }); //$(`#${Layout.SAVE_ALL_FAILURE_MODAL_ID}`).modal();
+        });
+        //$(`#${Layout.SAVE_ALL_FAILURE_MODAL_ID}`).modal();
         //Modal.getOrCreateInstance(Layout.SAVE_ALL_FAILURE_MODAL_ID).show();
-
         this.view.showSaveAllFailure();
-      }).finally(() => {// stop the spinner
+      }).finally(() => {
+        // stop the spinner
       });
       this.app.router.pause();
-
       if (window.history.state) {
         window.history.back(); // this could fail if previous url was not under the single-page-app umbrella (should test)
       }
@@ -8262,6 +7193,7 @@
       this.app.router.resume();
       done(false); // block navigation
     }
+
     /**
      *
      * @param {string} context typically 'survey'
@@ -8269,42 +7201,40 @@
      * @param {(''|'help')} rhs currently not used
      * @param {Object.<string, string>} queryParameters surveyId
      */
-
-
-    newSurveyHandler(context, subcontext, rhs, queryParameters) {// should not get here, as beforeNewHandler ought to have been invoked first
+    newSurveyHandler(context, subcontext, rhs, queryParameters) {
+      // should not get here, as beforeNewHandler ought to have been invoked first
     }
+
     /**
      * called after user has confirmed add new survey dialog box
      *
      */
-
-
     addNewSurveyHandler() {
       console.log("reached addNewSurveyHandler");
       this.app.currentControllerHandle = this.handle; // when navigate back need to list need to ensure full view refresh
+
       // the apps occurrences should only relate to the current survey
       // (the reset are remote or in IndexedDb)
-
       this.app.clearCurrentSurvey();
-      this.app.setNewSurvey(); // it's opportune at this point to try to ping the server again to save anything left outstanding
+      this.app.setNewSurvey();
 
+      // it's opportune at this point to try to ping the server again to save anything left outstanding
       this.app.syncAll();
       this.app.router.pause();
       this.app.router.navigate('/list/survey/about').resume(); // jump straight into the survey rather than to welcome stage
-
       this.app.router.resolve();
     }
+
     /**
      * called after user has confirmed reset surveys dialog box
      */
-
-
     resetSurveysHandler() {
       this.app.clearLocalForage().then(() => {
         this.app.reset();
         this.addNewSurveyHandler();
       });
     }
+
     /**
      *
      * @param {string} context typically 'survey'
@@ -8312,8 +7242,6 @@
      * @param {(''|'help')} rhs currently not used
      * @param {Object.<string, string>} queryParameters surveyId
      */
-
-
     addSurveyHandler(context, subcontext, rhs, queryParameters) {
       console.log("reached addSurveyHandler");
       console.log({
@@ -8324,11 +7252,9 @@
       this.app.currentControllerHandle = this.handle; // when navigate back need to list need to ensure full view refresh
 
       let surveyId = queryParameters.surveyId;
-
       if (!surveyId || !surveyId.match(UUID_REGEX)) {
         throw new NotFoundError(`Failed to match survey id '${surveyId}', the id format appears to be incorrect`);
       }
-
       surveyId = surveyId.toLowerCase();
       this.app.restoreOccurrences(surveyId).then(() => {
         this.app.markAllNotPristine();
@@ -8338,11 +7264,15 @@
       }, error => {
         console.log({
           'failed survey restoration': error
-        }); // should display a modal error message
+        });
+
+        // should display a modal error message
         // either the survey was not found or there was no network connection
+
         // should switch to displaying a list of available surveys and an option to start a new survey
       });
     }
+
     /**
      *
      * @param {string} context typically 'survey'
@@ -8350,8 +7280,6 @@
      * @param {(''|'help')} rhs currently not used
      * @param {Object.<string, string>} queryParameters surveyId
      */
-
-
     mainRouteHandler(context, subcontext, rhs, queryParameters) {
       console.log("reached special route handler for SurveyPickerController.js");
       console.log({
@@ -8360,8 +7288,8 @@
         query: queryParameters
       });
     }
-
   }
+
   /**
    * @external BsbiDb
    */
@@ -8369,17 +7297,12 @@
   /**
    *
    */
-
-
   class TaxaLoadedHook {
     static callbackStack = [];
-
     static taxaLoadedEntryPoint() {
       Taxon$1.rawTaxa = BsbiDb.TaxonNames;
-
       while (TaxaLoadedHook.callbackStack.length) {
         const callback = TaxaLoadedHook.callbackStack.shift();
-
         try {
           callback();
         } catch (e) {
@@ -8389,12 +7312,11 @@
         }
       }
     }
+
     /**
      *
      * @returns {Promise<any>|Promise<void>}
      */
-
-
     static onceTaxaLoaded() {
       if (BsbiDb.hasOwnProperty('TaxonNames')) {
         return Promise.resolve();
@@ -8402,13 +7324,11 @@
         if (!BsbiDb.taxonNamesLoadedEntryPoint) {
           BsbiDb.taxonNamesLoadedEntryPoint = TaxaLoadedHook.taxaLoadedEntryPoint;
         }
-
         return new Promise(resolve => {
           TaxaLoadedHook.callbackStack.push(resolve);
         });
       }
     }
-
   }
 
   var modal$1 = {exports: {}};
@@ -8421,320 +7341,277 @@
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
-  (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory() ;
-  })(commonjsGlobal$3, function () {
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/index.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
+  var hasRequiredEventHandler$1;
 
-    const getjQuery = () => {
-      const {
-        jQuery
-      } = window;
+  function requireEventHandler$1 () {
+  	if (hasRequiredEventHandler$1) return eventHandler$1.exports;
+  	hasRequiredEventHandler$1 = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory() ;
+  		})(commonjsGlobal$3, function () {
 
-      if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
-        return jQuery;
-      }
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.1.3): util/index.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  const getjQuery = () => {
+  		    const {
+  		      jQuery
+  		    } = window;
+  		    if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
+  		      return jQuery;
+  		    }
+  		    return null;
+  		  };
 
-      return null;
-    };
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): dom/event-handler.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.1.3): dom/event-handler.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  /**
+  		   * ------------------------------------------------------------------------
+  		   * Constants
+  		   * ------------------------------------------------------------------------
+  		   */
 
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
+  		  const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
+  		  const stripNameRegex = /\..*/;
+  		  const stripUidRegex = /::\d+$/;
+  		  const eventRegistry = {}; // Events storage
 
+  		  let uidEvent = 1;
+  		  const customEvents = {
+  		    mouseenter: 'mouseover',
+  		    mouseleave: 'mouseout'
+  		  };
+  		  const customEventsRegex = /^(mouseenter|mouseleave)/i;
+  		  const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
+  		  /**
+  		   * ------------------------------------------------------------------------
+  		   * Private methods
+  		   * ------------------------------------------------------------------------
+  		   */
 
-    const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
-    const stripNameRegex = /\..*/;
-    const stripUidRegex = /::\d+$/;
-    const eventRegistry = {}; // Events storage
+  		  function getUidEvent(element, uid) {
+  		    return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
+  		  }
+  		  function getEvent(element) {
+  		    const uid = getUidEvent(element);
+  		    element.uidEvent = uid;
+  		    eventRegistry[uid] = eventRegistry[uid] || {};
+  		    return eventRegistry[uid];
+  		  }
+  		  function bootstrapHandler(element, fn) {
+  		    return function handler(event) {
+  		      event.delegateTarget = element;
+  		      if (handler.oneOff) {
+  		        EventHandler.off(element, event.type, fn);
+  		      }
+  		      return fn.apply(element, [event]);
+  		    };
+  		  }
+  		  function bootstrapDelegationHandler(element, selector, fn) {
+  		    return function handler(event) {
+  		      const domElements = element.querySelectorAll(selector);
+  		      for (let {
+  		        target
+  		      } = event; target && target !== this; target = target.parentNode) {
+  		        for (let i = domElements.length; i--;) {
+  		          if (domElements[i] === target) {
+  		            event.delegateTarget = target;
+  		            if (handler.oneOff) {
+  		              EventHandler.off(element, event.type, selector, fn);
+  		            }
+  		            return fn.apply(target, [event]);
+  		          }
+  		        }
+  		      } // To please ESLint
 
-    let uidEvent = 1;
-    const customEvents = {
-      mouseenter: 'mouseover',
-      mouseleave: 'mouseout'
-    };
-    const customEventsRegex = /^(mouseenter|mouseleave)/i;
-    const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
-    /**
-     * ------------------------------------------------------------------------
-     * Private methods
-     * ------------------------------------------------------------------------
-     */
+  		      return null;
+  		    };
+  		  }
+  		  function findHandler(events, handler, delegationSelector = null) {
+  		    const uidEventList = Object.keys(events);
+  		    for (let i = 0, len = uidEventList.length; i < len; i++) {
+  		      const event = events[uidEventList[i]];
+  		      if (event.originalHandler === handler && event.delegationSelector === delegationSelector) {
+  		        return event;
+  		      }
+  		    }
+  		    return null;
+  		  }
+  		  function normalizeParams(originalTypeEvent, handler, delegationFn) {
+  		    const delegation = typeof handler === 'string';
+  		    const originalHandler = delegation ? delegationFn : handler;
+  		    let typeEvent = getTypeEvent(originalTypeEvent);
+  		    const isNative = nativeEvents.has(typeEvent);
+  		    if (!isNative) {
+  		      typeEvent = originalTypeEvent;
+  		    }
+  		    return [delegation, originalHandler, typeEvent];
+  		  }
+  		  function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
+  		    if (typeof originalTypeEvent !== 'string' || !element) {
+  		      return;
+  		    }
+  		    if (!handler) {
+  		      handler = delegationFn;
+  		      delegationFn = null;
+  		    } // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
+  		    // this prevents the handler from being dispatched the same way as mouseover or mouseout does
 
-    function getUidEvent(element, uid) {
-      return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
-    }
+  		    if (customEventsRegex.test(originalTypeEvent)) {
+  		      const wrapFn = fn => {
+  		        return function (event) {
+  		          if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
+  		            return fn.call(this, event);
+  		          }
+  		        };
+  		      };
+  		      if (delegationFn) {
+  		        delegationFn = wrapFn(delegationFn);
+  		      } else {
+  		        handler = wrapFn(handler);
+  		      }
+  		    }
+  		    const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
+  		    const events = getEvent(element);
+  		    const handlers = events[typeEvent] || (events[typeEvent] = {});
+  		    const previousFn = findHandler(handlers, originalHandler, delegation ? handler : null);
+  		    if (previousFn) {
+  		      previousFn.oneOff = previousFn.oneOff && oneOff;
+  		      return;
+  		    }
+  		    const uid = getUidEvent(originalHandler, originalTypeEvent.replace(namespaceRegex, ''));
+  		    const fn = delegation ? bootstrapDelegationHandler(element, handler, delegationFn) : bootstrapHandler(element, handler);
+  		    fn.delegationSelector = delegation ? handler : null;
+  		    fn.originalHandler = originalHandler;
+  		    fn.oneOff = oneOff;
+  		    fn.uidEvent = uid;
+  		    handlers[uid] = fn;
+  		    element.addEventListener(typeEvent, fn, delegation);
+  		  }
+  		  function removeHandler(element, events, typeEvent, handler, delegationSelector) {
+  		    const fn = findHandler(events[typeEvent], handler, delegationSelector);
+  		    if (!fn) {
+  		      return;
+  		    }
+  		    element.removeEventListener(typeEvent, fn, Boolean(delegationSelector));
+  		    delete events[typeEvent][fn.uidEvent];
+  		  }
+  		  function removeNamespacedHandlers(element, events, typeEvent, namespace) {
+  		    const storeElementEvent = events[typeEvent] || {};
+  		    Object.keys(storeElementEvent).forEach(handlerKey => {
+  		      if (handlerKey.includes(namespace)) {
+  		        const event = storeElementEvent[handlerKey];
+  		        removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
+  		      }
+  		    });
+  		  }
+  		  function getTypeEvent(event) {
+  		    // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
+  		    event = event.replace(stripNameRegex, '');
+  		    return customEvents[event] || event;
+  		  }
+  		  const EventHandler = {
+  		    on(element, event, handler, delegationFn) {
+  		      addHandler(element, event, handler, delegationFn, false);
+  		    },
+  		    one(element, event, handler, delegationFn) {
+  		      addHandler(element, event, handler, delegationFn, true);
+  		    },
+  		    off(element, originalTypeEvent, handler, delegationFn) {
+  		      if (typeof originalTypeEvent !== 'string' || !element) {
+  		        return;
+  		      }
+  		      const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
+  		      const inNamespace = typeEvent !== originalTypeEvent;
+  		      const events = getEvent(element);
+  		      const isNamespace = originalTypeEvent.startsWith('.');
+  		      if (typeof originalHandler !== 'undefined') {
+  		        // Simplest case: handler is passed, remove that listener ONLY.
+  		        if (!events || !events[typeEvent]) {
+  		          return;
+  		        }
+  		        removeHandler(element, events, typeEvent, originalHandler, delegation ? handler : null);
+  		        return;
+  		      }
+  		      if (isNamespace) {
+  		        Object.keys(events).forEach(elementEvent => {
+  		          removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
+  		        });
+  		      }
+  		      const storeElementEvent = events[typeEvent] || {};
+  		      Object.keys(storeElementEvent).forEach(keyHandlers => {
+  		        const handlerKey = keyHandlers.replace(stripUidRegex, '');
+  		        if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
+  		          const event = storeElementEvent[keyHandlers];
+  		          removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
+  		        }
+  		      });
+  		    },
+  		    trigger(element, event, args) {
+  		      if (typeof event !== 'string' || !element) {
+  		        return null;
+  		      }
+  		      const $ = getjQuery();
+  		      const typeEvent = getTypeEvent(event);
+  		      const inNamespace = event !== typeEvent;
+  		      const isNative = nativeEvents.has(typeEvent);
+  		      let jQueryEvent;
+  		      let bubbles = true;
+  		      let nativeDispatch = true;
+  		      let defaultPrevented = false;
+  		      let evt = null;
+  		      if (inNamespace && $) {
+  		        jQueryEvent = $.Event(event, args);
+  		        $(element).trigger(jQueryEvent);
+  		        bubbles = !jQueryEvent.isPropagationStopped();
+  		        nativeDispatch = !jQueryEvent.isImmediatePropagationStopped();
+  		        defaultPrevented = jQueryEvent.isDefaultPrevented();
+  		      }
+  		      if (isNative) {
+  		        evt = document.createEvent('HTMLEvents');
+  		        evt.initEvent(typeEvent, bubbles, true);
+  		      } else {
+  		        evt = new CustomEvent(event, {
+  		          bubbles,
+  		          cancelable: true
+  		        });
+  		      } // merge custom information in our event
 
-    function getEvent(element) {
-      const uid = getUidEvent(element);
-      element.uidEvent = uid;
-      eventRegistry[uid] = eventRegistry[uid] || {};
-      return eventRegistry[uid];
-    }
-
-    function bootstrapHandler(element, fn) {
-      return function handler(event) {
-        event.delegateTarget = element;
-
-        if (handler.oneOff) {
-          EventHandler.off(element, event.type, fn);
-        }
-
-        return fn.apply(element, [event]);
-      };
-    }
-
-    function bootstrapDelegationHandler(element, selector, fn) {
-      return function handler(event) {
-        const domElements = element.querySelectorAll(selector);
-
-        for (let {
-          target
-        } = event; target && target !== this; target = target.parentNode) {
-          for (let i = domElements.length; i--;) {
-            if (domElements[i] === target) {
-              event.delegateTarget = target;
-
-              if (handler.oneOff) {
-                EventHandler.off(element, event.type, selector, fn);
-              }
-
-              return fn.apply(target, [event]);
-            }
-          }
-        } // To please ESLint
-
-
-        return null;
-      };
-    }
-
-    function findHandler(events, handler, delegationSelector = null) {
-      const uidEventList = Object.keys(events);
-
-      for (let i = 0, len = uidEventList.length; i < len; i++) {
-        const event = events[uidEventList[i]];
-
-        if (event.originalHandler === handler && event.delegationSelector === delegationSelector) {
-          return event;
-        }
-      }
-
-      return null;
-    }
-
-    function normalizeParams(originalTypeEvent, handler, delegationFn) {
-      const delegation = typeof handler === 'string';
-      const originalHandler = delegation ? delegationFn : handler;
-      let typeEvent = getTypeEvent(originalTypeEvent);
-      const isNative = nativeEvents.has(typeEvent);
-
-      if (!isNative) {
-        typeEvent = originalTypeEvent;
-      }
-
-      return [delegation, originalHandler, typeEvent];
-    }
-
-    function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
-      if (typeof originalTypeEvent !== 'string' || !element) {
-        return;
-      }
-
-      if (!handler) {
-        handler = delegationFn;
-        delegationFn = null;
-      } // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
-      // this prevents the handler from being dispatched the same way as mouseover or mouseout does
-
-
-      if (customEventsRegex.test(originalTypeEvent)) {
-        const wrapFn = fn => {
-          return function (event) {
-            if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
-              return fn.call(this, event);
-            }
-          };
-        };
-
-        if (delegationFn) {
-          delegationFn = wrapFn(delegationFn);
-        } else {
-          handler = wrapFn(handler);
-        }
-      }
-
-      const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
-      const events = getEvent(element);
-      const handlers = events[typeEvent] || (events[typeEvent] = {});
-      const previousFn = findHandler(handlers, originalHandler, delegation ? handler : null);
-
-      if (previousFn) {
-        previousFn.oneOff = previousFn.oneOff && oneOff;
-        return;
-      }
-
-      const uid = getUidEvent(originalHandler, originalTypeEvent.replace(namespaceRegex, ''));
-      const fn = delegation ? bootstrapDelegationHandler(element, handler, delegationFn) : bootstrapHandler(element, handler);
-      fn.delegationSelector = delegation ? handler : null;
-      fn.originalHandler = originalHandler;
-      fn.oneOff = oneOff;
-      fn.uidEvent = uid;
-      handlers[uid] = fn;
-      element.addEventListener(typeEvent, fn, delegation);
-    }
-
-    function removeHandler(element, events, typeEvent, handler, delegationSelector) {
-      const fn = findHandler(events[typeEvent], handler, delegationSelector);
-
-      if (!fn) {
-        return;
-      }
-
-      element.removeEventListener(typeEvent, fn, Boolean(delegationSelector));
-      delete events[typeEvent][fn.uidEvent];
-    }
-
-    function removeNamespacedHandlers(element, events, typeEvent, namespace) {
-      const storeElementEvent = events[typeEvent] || {};
-      Object.keys(storeElementEvent).forEach(handlerKey => {
-        if (handlerKey.includes(namespace)) {
-          const event = storeElementEvent[handlerKey];
-          removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
-        }
-      });
-    }
-
-    function getTypeEvent(event) {
-      // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
-      event = event.replace(stripNameRegex, '');
-      return customEvents[event] || event;
-    }
-
-    const EventHandler = {
-      on(element, event, handler, delegationFn) {
-        addHandler(element, event, handler, delegationFn, false);
-      },
-
-      one(element, event, handler, delegationFn) {
-        addHandler(element, event, handler, delegationFn, true);
-      },
-
-      off(element, originalTypeEvent, handler, delegationFn) {
-        if (typeof originalTypeEvent !== 'string' || !element) {
-          return;
-        }
-
-        const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
-        const inNamespace = typeEvent !== originalTypeEvent;
-        const events = getEvent(element);
-        const isNamespace = originalTypeEvent.startsWith('.');
-
-        if (typeof originalHandler !== 'undefined') {
-          // Simplest case: handler is passed, remove that listener ONLY.
-          if (!events || !events[typeEvent]) {
-            return;
-          }
-
-          removeHandler(element, events, typeEvent, originalHandler, delegation ? handler : null);
-          return;
-        }
-
-        if (isNamespace) {
-          Object.keys(events).forEach(elementEvent => {
-            removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
-          });
-        }
-
-        const storeElementEvent = events[typeEvent] || {};
-        Object.keys(storeElementEvent).forEach(keyHandlers => {
-          const handlerKey = keyHandlers.replace(stripUidRegex, '');
-
-          if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
-            const event = storeElementEvent[keyHandlers];
-            removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
-          }
-        });
-      },
-
-      trigger(element, event, args) {
-        if (typeof event !== 'string' || !element) {
-          return null;
-        }
-
-        const $ = getjQuery();
-        const typeEvent = getTypeEvent(event);
-        const inNamespace = event !== typeEvent;
-        const isNative = nativeEvents.has(typeEvent);
-        let jQueryEvent;
-        let bubbles = true;
-        let nativeDispatch = true;
-        let defaultPrevented = false;
-        let evt = null;
-
-        if (inNamespace && $) {
-          jQueryEvent = $.Event(event, args);
-          $(element).trigger(jQueryEvent);
-          bubbles = !jQueryEvent.isPropagationStopped();
-          nativeDispatch = !jQueryEvent.isImmediatePropagationStopped();
-          defaultPrevented = jQueryEvent.isDefaultPrevented();
-        }
-
-        if (isNative) {
-          evt = document.createEvent('HTMLEvents');
-          evt.initEvent(typeEvent, bubbles, true);
-        } else {
-          evt = new CustomEvent(event, {
-            bubbles,
-            cancelable: true
-          });
-        } // merge custom information in our event
-
-
-        if (typeof args !== 'undefined') {
-          Object.keys(args).forEach(key => {
-            Object.defineProperty(evt, key, {
-              get() {
-                return args[key];
-              }
-
-            });
-          });
-        }
-
-        if (defaultPrevented) {
-          evt.preventDefault();
-        }
-
-        if (nativeDispatch) {
-          element.dispatchEvent(evt);
-        }
-
-        if (evt.defaultPrevented && typeof jQueryEvent !== 'undefined') {
-          jQueryEvent.preventDefault();
-        }
-
-        return evt;
-      }
-
-    };
-    return EventHandler;
-  }); 
-  }(eventHandler$1));
+  		      if (typeof args !== 'undefined') {
+  		        Object.keys(args).forEach(key => {
+  		          Object.defineProperty(evt, key, {
+  		            get() {
+  		              return args[key];
+  		            }
+  		          });
+  		        });
+  		      }
+  		      if (defaultPrevented) {
+  		        evt.preventDefault();
+  		      }
+  		      if (nativeDispatch) {
+  		        element.dispatchEvent(evt);
+  		      }
+  		      if (evt.defaultPrevented && typeof jQueryEvent !== 'undefined') {
+  		        jQueryEvent.preventDefault();
+  		      }
+  		      return evt;
+  		    }
+  		  };
+  		  return EventHandler;
+  		});
+  		
+  } (eventHandler$1));
+  	return eventHandler$1.exports;
+  }
 
   var manipulator$1 = {exports: {}};
 
@@ -8744,87 +7621,82 @@
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
-  (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory() ;
-  })(commonjsGlobal$3, function () {
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): dom/manipulator.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
+  var hasRequiredManipulator$1;
 
-    function normalizeData(val) {
-      if (val === 'true') {
-        return true;
-      }
+  function requireManipulator$1 () {
+  	if (hasRequiredManipulator$1) return manipulator$1.exports;
+  	hasRequiredManipulator$1 = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory() ;
+  		})(commonjsGlobal$3, function () {
 
-      if (val === 'false') {
-        return false;
-      }
-
-      if (val === Number(val).toString()) {
-        return Number(val);
-      }
-
-      if (val === '' || val === 'null') {
-        return null;
-      }
-
-      return val;
-    }
-
-    function normalizeDataKey(key) {
-      return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
-    }
-
-    const Manipulator = {
-      setDataAttribute(element, key, value) {
-        element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
-      },
-
-      removeDataAttribute(element, key) {
-        element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
-      },
-
-      getDataAttributes(element) {
-        if (!element) {
-          return {};
-        }
-
-        const attributes = {};
-        Object.keys(element.dataset).filter(key => key.startsWith('bs')).forEach(key => {
-          let pureKey = key.replace(/^bs/, '');
-          pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
-          attributes[pureKey] = normalizeData(element.dataset[key]);
-        });
-        return attributes;
-      },
-
-      getDataAttribute(element, key) {
-        return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
-      },
-
-      offset(element) {
-        const rect = element.getBoundingClientRect();
-        return {
-          top: rect.top + window.pageYOffset,
-          left: rect.left + window.pageXOffset
-        };
-      },
-
-      position(element) {
-        return {
-          top: element.offsetTop,
-          left: element.offsetLeft
-        };
-      }
-
-    };
-    return Manipulator;
-  }); 
-  }(manipulator$1));
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.1.3): dom/manipulator.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  function normalizeData(val) {
+  		    if (val === 'true') {
+  		      return true;
+  		    }
+  		    if (val === 'false') {
+  		      return false;
+  		    }
+  		    if (val === Number(val).toString()) {
+  		      return Number(val);
+  		    }
+  		    if (val === '' || val === 'null') {
+  		      return null;
+  		    }
+  		    return val;
+  		  }
+  		  function normalizeDataKey(key) {
+  		    return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
+  		  }
+  		  const Manipulator = {
+  		    setDataAttribute(element, key, value) {
+  		      element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
+  		    },
+  		    removeDataAttribute(element, key) {
+  		      element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
+  		    },
+  		    getDataAttributes(element) {
+  		      if (!element) {
+  		        return {};
+  		      }
+  		      const attributes = {};
+  		      Object.keys(element.dataset).filter(key => key.startsWith('bs')).forEach(key => {
+  		        let pureKey = key.replace(/^bs/, '');
+  		        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
+  		        attributes[pureKey] = normalizeData(element.dataset[key]);
+  		      });
+  		      return attributes;
+  		    },
+  		    getDataAttribute(element, key) {
+  		      return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
+  		    },
+  		    offset(element) {
+  		      const rect = element.getBoundingClientRect();
+  		      return {
+  		        top: rect.top + window.pageYOffset,
+  		        left: rect.left + window.pageXOffset
+  		      };
+  		    },
+  		    position(element) {
+  		      return {
+  		        top: element.offsetTop,
+  		        left: element.offsetLeft
+  		      };
+  		    }
+  		  };
+  		  return Manipulator;
+  		});
+  		
+  } (manipulator$1));
+  	return manipulator$1.exports;
+  }
 
   var selectorEngine$1 = {exports: {}};
 
@@ -8834,126 +7706,109 @@
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
-  (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory() ;
-  })(commonjsGlobal$3, function () {
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/index.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
+  var hasRequiredSelectorEngine$1;
 
-    const isElement = obj => {
-      if (!obj || typeof obj !== 'object') {
-        return false;
-      }
+  function requireSelectorEngine$1 () {
+  	if (hasRequiredSelectorEngine$1) return selectorEngine$1.exports;
+  	hasRequiredSelectorEngine$1 = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory() ;
+  		})(commonjsGlobal$3, function () {
 
-      if (typeof obj.jquery !== 'undefined') {
-        obj = obj[0];
-      }
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.1.3): util/index.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  const isElement = obj => {
+  		    if (!obj || typeof obj !== 'object') {
+  		      return false;
+  		    }
+  		    if (typeof obj.jquery !== 'undefined') {
+  		      obj = obj[0];
+  		    }
+  		    return typeof obj.nodeType !== 'undefined';
+  		  };
+  		  const isVisible = element => {
+  		    if (!isElement(element) || element.getClientRects().length === 0) {
+  		      return false;
+  		    }
+  		    return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
+  		  };
+  		  const isDisabled = element => {
+  		    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+  		      return true;
+  		    }
+  		    if (element.classList.contains('disabled')) {
+  		      return true;
+  		    }
+  		    if (typeof element.disabled !== 'undefined') {
+  		      return element.disabled;
+  		    }
+  		    return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
+  		  };
 
-      return typeof obj.nodeType !== 'undefined';
-    };
-
-    const isVisible = element => {
-      if (!isElement(element) || element.getClientRects().length === 0) {
-        return false;
-      }
-
-      return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
-    };
-
-    const isDisabled = element => {
-      if (!element || element.nodeType !== Node.ELEMENT_NODE) {
-        return true;
-      }
-
-      if (element.classList.contains('disabled')) {
-        return true;
-      }
-
-      if (typeof element.disabled !== 'undefined') {
-        return element.disabled;
-      }
-
-      return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
-    };
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): dom/selector-engine.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-
-    const NODE_TEXT = 3;
-    const SelectorEngine = {
-      find(selector, element = document.documentElement) {
-        return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
-      },
-
-      findOne(selector, element = document.documentElement) {
-        return Element.prototype.querySelector.call(element, selector);
-      },
-
-      children(element, selector) {
-        return [].concat(...element.children).filter(child => child.matches(selector));
-      },
-
-      parents(element, selector) {
-        const parents = [];
-        let ancestor = element.parentNode;
-
-        while (ancestor && ancestor.nodeType === Node.ELEMENT_NODE && ancestor.nodeType !== NODE_TEXT) {
-          if (ancestor.matches(selector)) {
-            parents.push(ancestor);
-          }
-
-          ancestor = ancestor.parentNode;
-        }
-
-        return parents;
-      },
-
-      prev(element, selector) {
-        let previous = element.previousElementSibling;
-
-        while (previous) {
-          if (previous.matches(selector)) {
-            return [previous];
-          }
-
-          previous = previous.previousElementSibling;
-        }
-
-        return [];
-      },
-
-      next(element, selector) {
-        let next = element.nextElementSibling;
-
-        while (next) {
-          if (next.matches(selector)) {
-            return [next];
-          }
-
-          next = next.nextElementSibling;
-        }
-
-        return [];
-      },
-
-      focusableChildren(element) {
-        const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(', ');
-        return this.find(focusables, element).filter(el => !isDisabled(el) && isVisible(el));
-      }
-
-    };
-    return SelectorEngine;
-  }); 
-  }(selectorEngine$1));
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.1.3): dom/selector-engine.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  const NODE_TEXT = 3;
+  		  const SelectorEngine = {
+  		    find(selector, element = document.documentElement) {
+  		      return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
+  		    },
+  		    findOne(selector, element = document.documentElement) {
+  		      return Element.prototype.querySelector.call(element, selector);
+  		    },
+  		    children(element, selector) {
+  		      return [].concat(...element.children).filter(child => child.matches(selector));
+  		    },
+  		    parents(element, selector) {
+  		      const parents = [];
+  		      let ancestor = element.parentNode;
+  		      while (ancestor && ancestor.nodeType === Node.ELEMENT_NODE && ancestor.nodeType !== NODE_TEXT) {
+  		        if (ancestor.matches(selector)) {
+  		          parents.push(ancestor);
+  		        }
+  		        ancestor = ancestor.parentNode;
+  		      }
+  		      return parents;
+  		    },
+  		    prev(element, selector) {
+  		      let previous = element.previousElementSibling;
+  		      while (previous) {
+  		        if (previous.matches(selector)) {
+  		          return [previous];
+  		        }
+  		        previous = previous.previousElementSibling;
+  		      }
+  		      return [];
+  		    },
+  		    next(element, selector) {
+  		      let next = element.nextElementSibling;
+  		      while (next) {
+  		        if (next.matches(selector)) {
+  		          return [next];
+  		        }
+  		        next = next.nextElementSibling;
+  		      }
+  		      return [];
+  		    },
+  		    focusableChildren(element) {
+  		      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(', ');
+  		      return this.find(focusables, element).filter(el => !isDisabled(el) && isVisible(el));
+  		    }
+  		  };
+  		  return SelectorEngine;
+  		});
+  		
+  } (selectorEngine$1));
+  	return selectorEngine$1.exports;
+  }
 
   var baseComponent$1 = {exports: {}};
 
@@ -8965,67 +7820,68 @@
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
-  (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory() ;
-  })(commonjsGlobal$3, function () {
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): dom/data.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
+  var hasRequiredData$1;
 
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
+  function requireData$1 () {
+  	if (hasRequiredData$1) return data$1.exports;
+  	hasRequiredData$1 = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory() ;
+  		})(commonjsGlobal$3, function () {
 
-    const elementMap = new Map();
-    const data = {
-      set(element, key, instance) {
-        if (!elementMap.has(element)) {
-          elementMap.set(element, new Map());
-        }
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.1.3): dom/data.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
 
-        const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
-        // can be removed later when multiple key/instances are fine to be used
+  		  /**
+  		   * ------------------------------------------------------------------------
+  		   * Constants
+  		   * ------------------------------------------------------------------------
+  		   */
+  		  const elementMap = new Map();
+  		  const data = {
+  		    set(element, key, instance) {
+  		      if (!elementMap.has(element)) {
+  		        elementMap.set(element, new Map());
+  		      }
+  		      const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
+  		      // can be removed later when multiple key/instances are fine to be used
 
-        if (!instanceMap.has(key) && instanceMap.size !== 0) {
-          // eslint-disable-next-line no-console
-          console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
-          return;
-        }
+  		      if (!instanceMap.has(key) && instanceMap.size !== 0) {
+  		        // eslint-disable-next-line no-console
+  		        console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
+  		        return;
+  		      }
+  		      instanceMap.set(key, instance);
+  		    },
+  		    get(element, key) {
+  		      if (elementMap.has(element)) {
+  		        return elementMap.get(element).get(key) || null;
+  		      }
+  		      return null;
+  		    },
+  		    remove(element, key) {
+  		      if (!elementMap.has(element)) {
+  		        return;
+  		      }
+  		      const instanceMap = elementMap.get(element);
+  		      instanceMap.delete(key); // free up element references if there are no instances left for an element
 
-        instanceMap.set(key, instance);
-      },
-
-      get(element, key) {
-        if (elementMap.has(element)) {
-          return elementMap.get(element).get(key) || null;
-        }
-
-        return null;
-      },
-
-      remove(element, key) {
-        if (!elementMap.has(element)) {
-          return;
-        }
-
-        const instanceMap = elementMap.get(element);
-        instanceMap.delete(key); // free up element references if there are no instances left for an element
-
-        if (instanceMap.size === 0) {
-          elementMap.delete(element);
-        }
-      }
-
-    };
-    return data;
-  }); 
-  }(data$1));
+  		      if (instanceMap.size === 0) {
+  		        elementMap.delete(element);
+  		      }
+  		    }
+  		  };
+  		  return data;
+  		});
+  		
+  } (data$1));
+  	return data$1.exports;
+  }
 
   /*!
     * Bootstrap base-component.js v5.1.3 (https://getbootstrap.com/)
@@ -9033,187 +7889,163 @@
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
-  (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory(data$1.exports, eventHandler$1.exports) ;
-  })(commonjsGlobal$3, function (Data, EventHandler) {
+  var hasRequiredBaseComponent$1;
 
-    const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : {
-      default: e
-    };
+  function requireBaseComponent$1 () {
+  	if (hasRequiredBaseComponent$1) return baseComponent$1.exports;
+  	hasRequiredBaseComponent$1 = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory(requireData$1(), requireEventHandler$1()) ;
+  		})(commonjsGlobal$3, function (Data, EventHandler) {
 
-    const Data__default = /*#__PURE__*/_interopDefaultLegacy(Data);
+  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : {
+  		    default: e
+  		  };
+  		  const Data__default = /*#__PURE__*/_interopDefaultLegacy(Data);
+  		  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
 
-    const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/index.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.1.3): util/index.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  const MILLISECONDS_MULTIPLIER = 1000;
+  		  const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
 
+  		  const getTransitionDurationFromElement = element => {
+  		    if (!element) {
+  		      return 0;
+  		    } // Get transition-duration of the element
 
-    const MILLISECONDS_MULTIPLIER = 1000;
-    const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
+  		    let {
+  		      transitionDuration,
+  		      transitionDelay
+  		    } = window.getComputedStyle(element);
+  		    const floatTransitionDuration = Number.parseFloat(transitionDuration);
+  		    const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
 
-    const getTransitionDurationFromElement = element => {
-      if (!element) {
-        return 0;
-      } // Get transition-duration of the element
+  		    if (!floatTransitionDuration && !floatTransitionDelay) {
+  		      return 0;
+  		    } // If multiple durations are defined, take the first
 
+  		    transitionDuration = transitionDuration.split(',')[0];
+  		    transitionDelay = transitionDelay.split(',')[0];
+  		    return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
+  		  };
+  		  const triggerTransitionEnd = element => {
+  		    element.dispatchEvent(new Event(TRANSITION_END));
+  		  };
+  		  const isElement = obj => {
+  		    if (!obj || typeof obj !== 'object') {
+  		      return false;
+  		    }
+  		    if (typeof obj.jquery !== 'undefined') {
+  		      obj = obj[0];
+  		    }
+  		    return typeof obj.nodeType !== 'undefined';
+  		  };
+  		  const getElement = obj => {
+  		    if (isElement(obj)) {
+  		      // it's a jQuery object or a node element
+  		      return obj.jquery ? obj[0] : obj;
+  		    }
+  		    if (typeof obj === 'string' && obj.length > 0) {
+  		      return document.querySelector(obj);
+  		    }
+  		    return null;
+  		  };
+  		  const execute = callback => {
+  		    if (typeof callback === 'function') {
+  		      callback();
+  		    }
+  		  };
+  		  const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
+  		    if (!waitForTransition) {
+  		      execute(callback);
+  		      return;
+  		    }
+  		    const durationPadding = 5;
+  		    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
+  		    let called = false;
+  		    const handler = ({
+  		      target
+  		    }) => {
+  		      if (target !== transitionElement) {
+  		        return;
+  		      }
+  		      called = true;
+  		      transitionElement.removeEventListener(TRANSITION_END, handler);
+  		      execute(callback);
+  		    };
+  		    transitionElement.addEventListener(TRANSITION_END, handler);
+  		    setTimeout(() => {
+  		      if (!called) {
+  		        triggerTransitionEnd(transitionElement);
+  		      }
+  		    }, emulatedDuration);
+  		  };
 
-      let {
-        transitionDuration,
-        transitionDelay
-      } = window.getComputedStyle(element);
-      const floatTransitionDuration = Number.parseFloat(transitionDuration);
-      const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.1.3): base-component.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  /**
+  		   * ------------------------------------------------------------------------
+  		   * Constants
+  		   * ------------------------------------------------------------------------
+  		   */
 
-      if (!floatTransitionDuration && !floatTransitionDelay) {
-        return 0;
-      } // If multiple durations are defined, take the first
+  		  const VERSION = '5.1.3';
+  		  class BaseComponent {
+  		    constructor(element) {
+  		      element = getElement(element);
+  		      if (!element) {
+  		        return;
+  		      }
+  		      this._element = element;
+  		      Data__default.default.set(this._element, this.constructor.DATA_KEY, this);
+  		    }
+  		    dispose() {
+  		      Data__default.default.remove(this._element, this.constructor.DATA_KEY);
+  		      EventHandler__default.default.off(this._element, this.constructor.EVENT_KEY);
+  		      Object.getOwnPropertyNames(this).forEach(propertyName => {
+  		        this[propertyName] = null;
+  		      });
+  		    }
+  		    _queueCallback(callback, element, isAnimated = true) {
+  		      executeAfterTransition(callback, element, isAnimated);
+  		    }
+  		    /** Static */
 
-
-      transitionDuration = transitionDuration.split(',')[0];
-      transitionDelay = transitionDelay.split(',')[0];
-      return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
-    };
-
-    const triggerTransitionEnd = element => {
-      element.dispatchEvent(new Event(TRANSITION_END));
-    };
-
-    const isElement = obj => {
-      if (!obj || typeof obj !== 'object') {
-        return false;
-      }
-
-      if (typeof obj.jquery !== 'undefined') {
-        obj = obj[0];
-      }
-
-      return typeof obj.nodeType !== 'undefined';
-    };
-
-    const getElement = obj => {
-      if (isElement(obj)) {
-        // it's a jQuery object or a node element
-        return obj.jquery ? obj[0] : obj;
-      }
-
-      if (typeof obj === 'string' && obj.length > 0) {
-        return document.querySelector(obj);
-      }
-
-      return null;
-    };
-
-    const execute = callback => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    };
-
-    const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
-      if (!waitForTransition) {
-        execute(callback);
-        return;
-      }
-
-      const durationPadding = 5;
-      const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
-      let called = false;
-
-      const handler = ({
-        target
-      }) => {
-        if (target !== transitionElement) {
-          return;
-        }
-
-        called = true;
-        transitionElement.removeEventListener(TRANSITION_END, handler);
-        execute(callback);
-      };
-
-      transitionElement.addEventListener(TRANSITION_END, handler);
-      setTimeout(() => {
-        if (!called) {
-          triggerTransitionEnd(transitionElement);
-        }
-      }, emulatedDuration);
-    };
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): base-component.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
-
-
-    const VERSION = '5.1.3';
-
-    class BaseComponent {
-      constructor(element) {
-        element = getElement(element);
-
-        if (!element) {
-          return;
-        }
-
-        this._element = element;
-        Data__default.default.set(this._element, this.constructor.DATA_KEY, this);
-      }
-
-      dispose() {
-        Data__default.default.remove(this._element, this.constructor.DATA_KEY);
-        EventHandler__default.default.off(this._element, this.constructor.EVENT_KEY);
-        Object.getOwnPropertyNames(this).forEach(propertyName => {
-          this[propertyName] = null;
-        });
-      }
-
-      _queueCallback(callback, element, isAnimated = true) {
-        executeAfterTransition(callback, element, isAnimated);
-      }
-      /** Static */
-
-
-      static getInstance(element) {
-        return Data__default.default.get(getElement(element), this.DATA_KEY);
-      }
-
-      static getOrCreateInstance(element, config = {}) {
-        return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
-      }
-
-      static get VERSION() {
-        return VERSION;
-      }
-
-      static get NAME() {
-        throw new Error('You have to implement the static method "NAME", for each component!');
-      }
-
-      static get DATA_KEY() {
-        return `bs.${this.NAME}`;
-      }
-
-      static get EVENT_KEY() {
-        return `.${this.DATA_KEY}`;
-      }
-
-    }
-
-    return BaseComponent;
-  }); 
-  }(baseComponent$1));
+  		    static getInstance(element) {
+  		      return Data__default.default.get(getElement(element), this.DATA_KEY);
+  		    }
+  		    static getOrCreateInstance(element, config = {}) {
+  		      return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
+  		    }
+  		    static get VERSION() {
+  		      return VERSION;
+  		    }
+  		    static get NAME() {
+  		      throw new Error('You have to implement the static method "NAME", for each component!');
+  		    }
+  		    static get DATA_KEY() {
+  		      return `bs.${this.NAME}`;
+  		    }
+  		    static get EVENT_KEY() {
+  		      return `.${this.DATA_KEY}`;
+  		    }
+  		  }
+  		  return BaseComponent;
+  		});
+  		
+  } (baseComponent$1));
+  	return baseComponent$1.exports;
+  }
 
   /*!
     * Bootstrap modal.js v5.1.3 (https://getbootstrap.com/)
@@ -9222,1049 +8054,847 @@
     */
 
   (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory(eventHandler$1.exports, manipulator$1.exports, selectorEngine$1.exports, baseComponent$1.exports) ;
-  })(commonjsGlobal$3, function (EventHandler, Manipulator, SelectorEngine, BaseComponent) {
-
-    const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : {
-      default: e
-    };
-
-    const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
-
-    const Manipulator__default = /*#__PURE__*/_interopDefaultLegacy(Manipulator);
-
-    const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
-
-    const BaseComponent__default = /*#__PURE__*/_interopDefaultLegacy(BaseComponent);
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/index.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-
-    const MILLISECONDS_MULTIPLIER = 1000;
-    const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
-
-    const toType = obj => {
-      if (obj === null || obj === undefined) {
-        return `${obj}`;
-      }
-
-      return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
-    };
-
-    const getSelector = element => {
-      let selector = element.getAttribute('data-bs-target');
-
-      if (!selector || selector === '#') {
-        let hrefAttr = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
-        // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
-        // `document.querySelector` will rightfully complain it is invalid.
-        // See https://github.com/twbs/bootstrap/issues/32273
-
-        if (!hrefAttr || !hrefAttr.includes('#') && !hrefAttr.startsWith('.')) {
-          return null;
-        } // Just in case some CMS puts out a full URL with the anchor appended
-
-
-        if (hrefAttr.includes('#') && !hrefAttr.startsWith('#')) {
-          hrefAttr = `#${hrefAttr.split('#')[1]}`;
-        }
-
-        selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : null;
-      }
-
-      return selector;
-    };
-
-    const getElementFromSelector = element => {
-      const selector = getSelector(element);
-      return selector ? document.querySelector(selector) : null;
-    };
-
-    const getTransitionDurationFromElement = element => {
-      if (!element) {
-        return 0;
-      } // Get transition-duration of the element
-
-
-      let {
-        transitionDuration,
-        transitionDelay
-      } = window.getComputedStyle(element);
-      const floatTransitionDuration = Number.parseFloat(transitionDuration);
-      const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
-
-      if (!floatTransitionDuration && !floatTransitionDelay) {
-        return 0;
-      } // If multiple durations are defined, take the first
-
-
-      transitionDuration = transitionDuration.split(',')[0];
-      transitionDelay = transitionDelay.split(',')[0];
-      return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
-    };
-
-    const triggerTransitionEnd = element => {
-      element.dispatchEvent(new Event(TRANSITION_END));
-    };
-
-    const isElement = obj => {
-      if (!obj || typeof obj !== 'object') {
-        return false;
-      }
-
-      if (typeof obj.jquery !== 'undefined') {
-        obj = obj[0];
-      }
-
-      return typeof obj.nodeType !== 'undefined';
-    };
-
-    const getElement = obj => {
-      if (isElement(obj)) {
-        // it's a jQuery object or a node element
-        return obj.jquery ? obj[0] : obj;
-      }
-
-      if (typeof obj === 'string' && obj.length > 0) {
-        return document.querySelector(obj);
-      }
-
-      return null;
-    };
-
-    const typeCheckConfig = (componentName, config, configTypes) => {
-      Object.keys(configTypes).forEach(property => {
-        const expectedTypes = configTypes[property];
-        const value = config[property];
-        const valueType = value && isElement(value) ? 'element' : toType(value);
-
-        if (!new RegExp(expectedTypes).test(valueType)) {
-          throw new TypeError(`${componentName.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
-        }
-      });
-    };
-
-    const isVisible = element => {
-      if (!isElement(element) || element.getClientRects().length === 0) {
-        return false;
-      }
-
-      return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
-    };
-
-    const isDisabled = element => {
-      if (!element || element.nodeType !== Node.ELEMENT_NODE) {
-        return true;
-      }
-
-      if (element.classList.contains('disabled')) {
-        return true;
-      }
-
-      if (typeof element.disabled !== 'undefined') {
-        return element.disabled;
-      }
-
-      return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
-    };
-    /**
-     * Trick to restart an element's animation
-     *
-     * @param {HTMLElement} element
-     * @return void
-     *
-     * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
-     */
-
-
-    const reflow = element => {
-      // eslint-disable-next-line no-unused-expressions
-      element.offsetHeight;
-    };
-
-    const getjQuery = () => {
-      const {
-        jQuery
-      } = window;
-
-      if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
-        return jQuery;
-      }
-
-      return null;
-    };
-
-    const DOMContentLoadedCallbacks = [];
-
-    const onDOMContentLoaded = callback => {
-      if (document.readyState === 'loading') {
-        // add listener on the first call when the document is in loading state
-        if (!DOMContentLoadedCallbacks.length) {
-          document.addEventListener('DOMContentLoaded', () => {
-            DOMContentLoadedCallbacks.forEach(callback => callback());
-          });
-        }
-
-        DOMContentLoadedCallbacks.push(callback);
-      } else {
-        callback();
-      }
-    };
-
-    const isRTL = () => document.documentElement.dir === 'rtl';
-
-    const defineJQueryPlugin = plugin => {
-      onDOMContentLoaded(() => {
-        const $ = getjQuery();
-        /* istanbul ignore if */
-
-        if ($) {
-          const name = plugin.NAME;
-          const JQUERY_NO_CONFLICT = $.fn[name];
-          $.fn[name] = plugin.jQueryInterface;
-          $.fn[name].Constructor = plugin;
-
-          $.fn[name].noConflict = () => {
-            $.fn[name] = JQUERY_NO_CONFLICT;
-            return plugin.jQueryInterface;
-          };
-        }
-      });
-    };
-
-    const execute = callback => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    };
-
-    const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
-      if (!waitForTransition) {
-        execute(callback);
-        return;
-      }
-
-      const durationPadding = 5;
-      const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
-      let called = false;
-
-      const handler = ({
-        target
-      }) => {
-        if (target !== transitionElement) {
-          return;
-        }
-
-        called = true;
-        transitionElement.removeEventListener(TRANSITION_END, handler);
-        execute(callback);
-      };
-
-      transitionElement.addEventListener(TRANSITION_END, handler);
-      setTimeout(() => {
-        if (!called) {
-          triggerTransitionEnd(transitionElement);
-        }
-      }, emulatedDuration);
-    };
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/scrollBar.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-
-    const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
-    const SELECTOR_STICKY_CONTENT = '.sticky-top';
-
-    class ScrollBarHelper {
-      constructor() {
-        this._element = document.body;
-      }
-
-      getWidth() {
-        // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
-        const documentWidth = document.documentElement.clientWidth;
-        return Math.abs(window.innerWidth - documentWidth);
-      }
-
-      hide() {
-        const width = this.getWidth();
-
-        this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
-
-
-        this._setElementAttributes(this._element, 'paddingRight', calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
-
-
-        this._setElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight', calculatedValue => calculatedValue + width);
-
-        this._setElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight', calculatedValue => calculatedValue - width);
-      }
-
-      _disableOverFlow() {
-        this._saveInitialAttribute(this._element, 'overflow');
-
-        this._element.style.overflow = 'hidden';
-      }
-
-      _setElementAttributes(selector, styleProp, callback) {
-        const scrollbarWidth = this.getWidth();
-
-        const manipulationCallBack = element => {
-          if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
-            return;
-          }
-
-          this._saveInitialAttribute(element, styleProp);
-
-          const calculatedValue = window.getComputedStyle(element)[styleProp];
-          element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
-        };
-
-        this._applyManipulationCallback(selector, manipulationCallBack);
-      }
-
-      reset() {
-        this._resetElementAttributes(this._element, 'overflow');
-
-        this._resetElementAttributes(this._element, 'paddingRight');
-
-        this._resetElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight');
-
-        this._resetElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight');
-      }
-
-      _saveInitialAttribute(element, styleProp) {
-        const actualValue = element.style[styleProp];
-
-        if (actualValue) {
-          Manipulator__default.default.setDataAttribute(element, styleProp, actualValue);
-        }
-      }
-
-      _resetElementAttributes(selector, styleProp) {
-        const manipulationCallBack = element => {
-          const value = Manipulator__default.default.getDataAttribute(element, styleProp);
-
-          if (typeof value === 'undefined') {
-            element.style.removeProperty(styleProp);
-          } else {
-            Manipulator__default.default.removeDataAttribute(element, styleProp);
-            element.style[styleProp] = value;
-          }
-        };
-
-        this._applyManipulationCallback(selector, manipulationCallBack);
-      }
-
-      _applyManipulationCallback(selector, callBack) {
-        if (isElement(selector)) {
-          callBack(selector);
-        } else {
-          SelectorEngine__default.default.find(selector, this._element).forEach(callBack);
-        }
-      }
-
-      isOverflowing() {
-        return this.getWidth() > 0;
-      }
-
-    }
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/backdrop.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-
-    const Default$2 = {
-      className: 'modal-backdrop',
-      isVisible: true,
-      // if false, we use the backdrop helper without adding any element to the dom
-      isAnimated: false,
-      rootElement: 'body',
-      // give the choice to place backdrop under different elements
-      clickCallback: null
-    };
-    const DefaultType$2 = {
-      className: 'string',
-      isVisible: 'boolean',
-      isAnimated: 'boolean',
-      rootElement: '(element|string)',
-      clickCallback: '(function|null)'
-    };
-    const NAME$2 = 'backdrop';
-    const CLASS_NAME_FADE$1 = 'fade';
-    const CLASS_NAME_SHOW$1 = 'show';
-    const EVENT_MOUSEDOWN = `mousedown.bs.${NAME$2}`;
-
-    class Backdrop {
-      constructor(config) {
-        this._config = this._getConfig(config);
-        this._isAppended = false;
-        this._element = null;
-      }
-
-      show(callback) {
-        if (!this._config.isVisible) {
-          execute(callback);
-          return;
-        }
-
-        this._append();
-
-        if (this._config.isAnimated) {
-          reflow(this._getElement());
-        }
-
-        this._getElement().classList.add(CLASS_NAME_SHOW$1);
-
-        this._emulateAnimation(() => {
-          execute(callback);
-        });
-      }
-
-      hide(callback) {
-        if (!this._config.isVisible) {
-          execute(callback);
-          return;
-        }
-
-        this._getElement().classList.remove(CLASS_NAME_SHOW$1);
-
-        this._emulateAnimation(() => {
-          this.dispose();
-          execute(callback);
-        });
-      } // Private
-
-
-      _getElement() {
-        if (!this._element) {
-          const backdrop = document.createElement('div');
-          backdrop.className = this._config.className;
-
-          if (this._config.isAnimated) {
-            backdrop.classList.add(CLASS_NAME_FADE$1);
-          }
-
-          this._element = backdrop;
-        }
-
-        return this._element;
-      }
-
-      _getConfig(config) {
-        config = { ...Default$2,
-          ...(typeof config === 'object' ? config : {})
-        }; // use getElement() with the default "body" to get a fresh Element on each instantiation
-
-        config.rootElement = getElement(config.rootElement);
-        typeCheckConfig(NAME$2, config, DefaultType$2);
-        return config;
-      }
-
-      _append() {
-        if (this._isAppended) {
-          return;
-        }
-
-        this._config.rootElement.append(this._getElement());
-
-        EventHandler__default.default.on(this._getElement(), EVENT_MOUSEDOWN, () => {
-          execute(this._config.clickCallback);
-        });
-        this._isAppended = true;
-      }
-
-      dispose() {
-        if (!this._isAppended) {
-          return;
-        }
-
-        EventHandler__default.default.off(this._element, EVENT_MOUSEDOWN);
-
-        this._element.remove();
-
-        this._isAppended = false;
-      }
-
-      _emulateAnimation(callback) {
-        executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
-      }
-
-    }
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/focustrap.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-
-    const Default$1 = {
-      trapElement: null,
-      // The element to trap focus inside of
-      autofocus: true
-    };
-    const DefaultType$1 = {
-      trapElement: 'element',
-      autofocus: 'boolean'
-    };
-    const NAME$1 = 'focustrap';
-    const DATA_KEY$1 = 'bs.focustrap';
-    const EVENT_KEY$1 = `.${DATA_KEY$1}`;
-    const EVENT_FOCUSIN = `focusin${EVENT_KEY$1}`;
-    const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$1}`;
-    const TAB_KEY = 'Tab';
-    const TAB_NAV_FORWARD = 'forward';
-    const TAB_NAV_BACKWARD = 'backward';
-
-    class FocusTrap {
-      constructor(config) {
-        this._config = this._getConfig(config);
-        this._isActive = false;
-        this._lastTabNavDirection = null;
-      }
-
-      activate() {
-        const {
-          trapElement,
-          autofocus
-        } = this._config;
-
-        if (this._isActive) {
-          return;
-        }
-
-        if (autofocus) {
-          trapElement.focus();
-        }
-
-        EventHandler__default.default.off(document, EVENT_KEY$1); // guard against infinite focus loop
-
-        EventHandler__default.default.on(document, EVENT_FOCUSIN, event => this._handleFocusin(event));
-        EventHandler__default.default.on(document, EVENT_KEYDOWN_TAB, event => this._handleKeydown(event));
-        this._isActive = true;
-      }
-
-      deactivate() {
-        if (!this._isActive) {
-          return;
-        }
-
-        this._isActive = false;
-        EventHandler__default.default.off(document, EVENT_KEY$1);
-      } // Private
-
-
-      _handleFocusin(event) {
-        const {
-          target
-        } = event;
-        const {
-          trapElement
-        } = this._config;
-
-        if (target === document || target === trapElement || trapElement.contains(target)) {
-          return;
-        }
-
-        const elements = SelectorEngine__default.default.focusableChildren(trapElement);
-
-        if (elements.length === 0) {
-          trapElement.focus();
-        } else if (this._lastTabNavDirection === TAB_NAV_BACKWARD) {
-          elements[elements.length - 1].focus();
-        } else {
-          elements[0].focus();
-        }
-      }
-
-      _handleKeydown(event) {
-        if (event.key !== TAB_KEY) {
-          return;
-        }
-
-        this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
-      }
-
-      _getConfig(config) {
-        config = { ...Default$1,
-          ...(typeof config === 'object' ? config : {})
-        };
-        typeCheckConfig(NAME$1, config, DefaultType$1);
-        return config;
-      }
-
-    }
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/component-functions.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-
-    const enableDismissTrigger = (component, method = 'hide') => {
-      const clickEvent = `click.dismiss${component.EVENT_KEY}`;
-      const name = component.NAME;
-      EventHandler__default.default.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
-        if (['A', 'AREA'].includes(this.tagName)) {
-          event.preventDefault();
-        }
-
-        if (isDisabled(this)) {
-          return;
-        }
-
-        const target = getElementFromSelector(this) || this.closest(`.${name}`);
-        const instance = component.getOrCreateInstance(target); // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
-
-        instance[method]();
-      });
-    };
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): modal.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
-
-
-    const NAME = 'modal';
-    const DATA_KEY = 'bs.modal';
-    const EVENT_KEY = `.${DATA_KEY}`;
-    const DATA_API_KEY = '.data-api';
-    const ESCAPE_KEY = 'Escape';
-    const Default = {
-      backdrop: true,
-      keyboard: true,
-      focus: true
-    };
-    const DefaultType = {
-      backdrop: '(boolean|string)',
-      keyboard: 'boolean',
-      focus: 'boolean'
-    };
-    const EVENT_HIDE = `hide${EVENT_KEY}`;
-    const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY}`;
-    const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
-    const EVENT_SHOW = `show${EVENT_KEY}`;
-    const EVENT_SHOWN = `shown${EVENT_KEY}`;
-    const EVENT_RESIZE = `resize${EVENT_KEY}`;
-    const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY}`;
-    const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY}`;
-    const EVENT_MOUSEUP_DISMISS = `mouseup.dismiss${EVENT_KEY}`;
-    const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY}`;
-    const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
-    const CLASS_NAME_OPEN = 'modal-open';
-    const CLASS_NAME_FADE = 'fade';
-    const CLASS_NAME_SHOW = 'show';
-    const CLASS_NAME_STATIC = 'modal-static';
-    const OPEN_SELECTOR = '.modal.show';
-    const SELECTOR_DIALOG = '.modal-dialog';
-    const SELECTOR_MODAL_BODY = '.modal-body';
-    const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="modal"]';
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
-    class Modal extends BaseComponent__default.default {
-      constructor(element, config) {
-        super(element);
-        this._config = this._getConfig(config);
-        this._dialog = SelectorEngine__default.default.findOne(SELECTOR_DIALOG, this._element);
-        this._backdrop = this._initializeBackDrop();
-        this._focustrap = this._initializeFocusTrap();
-        this._isShown = false;
-        this._ignoreBackdropClick = false;
-        this._isTransitioning = false;
-        this._scrollBar = new ScrollBarHelper();
-      } // Getters
-
-
-      static get Default() {
-        return Default;
-      }
-
-      static get NAME() {
-        return NAME;
-      } // Public
-
-
-      toggle(relatedTarget) {
-        return this._isShown ? this.hide() : this.show(relatedTarget);
-      }
-
-      show(relatedTarget) {
-        if (this._isShown || this._isTransitioning) {
-          return;
-        }
-
-        const showEvent = EventHandler__default.default.trigger(this._element, EVENT_SHOW, {
-          relatedTarget
-        });
-
-        if (showEvent.defaultPrevented) {
-          return;
-        }
-
-        this._isShown = true;
-
-        if (this._isAnimated()) {
-          this._isTransitioning = true;
-        }
-
-        this._scrollBar.hide();
-
-        document.body.classList.add(CLASS_NAME_OPEN);
-
-        this._adjustDialog();
-
-        this._setEscapeEvent();
-
-        this._setResizeEvent();
-
-        EventHandler__default.default.on(this._dialog, EVENT_MOUSEDOWN_DISMISS, () => {
-          EventHandler__default.default.one(this._element, EVENT_MOUSEUP_DISMISS, event => {
-            if (event.target === this._element) {
-              this._ignoreBackdropClick = true;
-            }
-          });
-        });
-
-        this._showBackdrop(() => this._showElement(relatedTarget));
-      }
-
-      hide() {
-        if (!this._isShown || this._isTransitioning) {
-          return;
-        }
-
-        const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE);
-
-        if (hideEvent.defaultPrevented) {
-          return;
-        }
-
-        this._isShown = false;
-
-        const isAnimated = this._isAnimated();
-
-        if (isAnimated) {
-          this._isTransitioning = true;
-        }
-
-        this._setEscapeEvent();
-
-        this._setResizeEvent();
-
-        this._focustrap.deactivate();
-
-        this._element.classList.remove(CLASS_NAME_SHOW);
-
-        EventHandler__default.default.off(this._element, EVENT_CLICK_DISMISS);
-        EventHandler__default.default.off(this._dialog, EVENT_MOUSEDOWN_DISMISS);
-
-        this._queueCallback(() => this._hideModal(), this._element, isAnimated);
-      }
-
-      dispose() {
-        [window, this._dialog].forEach(htmlElement => EventHandler__default.default.off(htmlElement, EVENT_KEY));
-
-        this._backdrop.dispose();
-
-        this._focustrap.deactivate();
-
-        super.dispose();
-      }
-
-      handleUpdate() {
-        this._adjustDialog();
-      } // Private
-
-
-      _initializeBackDrop() {
-        return new Backdrop({
-          isVisible: Boolean(this._config.backdrop),
-          // 'static' option will be translated to true, and booleans will keep their value
-          isAnimated: this._isAnimated()
-        });
-      }
-
-      _initializeFocusTrap() {
-        return new FocusTrap({
-          trapElement: this._element
-        });
-      }
-
-      _getConfig(config) {
-        config = { ...Default,
-          ...Manipulator__default.default.getDataAttributes(this._element),
-          ...(typeof config === 'object' ? config : {})
-        };
-        typeCheckConfig(NAME, config, DefaultType);
-        return config;
-      }
-
-      _showElement(relatedTarget) {
-        const isAnimated = this._isAnimated();
-
-        const modalBody = SelectorEngine__default.default.findOne(SELECTOR_MODAL_BODY, this._dialog);
-
-        if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
-          // Don't move modal's DOM position
-          document.body.append(this._element);
-        }
-
-        this._element.style.display = 'block';
-
-        this._element.removeAttribute('aria-hidden');
-
-        this._element.setAttribute('aria-modal', true);
-
-        this._element.setAttribute('role', 'dialog');
-
-        this._element.scrollTop = 0;
-
-        if (modalBody) {
-          modalBody.scrollTop = 0;
-        }
-
-        if (isAnimated) {
-          reflow(this._element);
-        }
-
-        this._element.classList.add(CLASS_NAME_SHOW);
-
-        const transitionComplete = () => {
-          if (this._config.focus) {
-            this._focustrap.activate();
-          }
-
-          this._isTransitioning = false;
-          EventHandler__default.default.trigger(this._element, EVENT_SHOWN, {
-            relatedTarget
-          });
-        };
-
-        this._queueCallback(transitionComplete, this._dialog, isAnimated);
-      }
-
-      _setEscapeEvent() {
-        if (this._isShown) {
-          EventHandler__default.default.on(this._element, EVENT_KEYDOWN_DISMISS, event => {
-            if (this._config.keyboard && event.key === ESCAPE_KEY) {
-              event.preventDefault();
-              this.hide();
-            } else if (!this._config.keyboard && event.key === ESCAPE_KEY) {
-              this._triggerBackdropTransition();
-            }
-          });
-        } else {
-          EventHandler__default.default.off(this._element, EVENT_KEYDOWN_DISMISS);
-        }
-      }
-
-      _setResizeEvent() {
-        if (this._isShown) {
-          EventHandler__default.default.on(window, EVENT_RESIZE, () => this._adjustDialog());
-        } else {
-          EventHandler__default.default.off(window, EVENT_RESIZE);
-        }
-      }
-
-      _hideModal() {
-        this._element.style.display = 'none';
-
-        this._element.setAttribute('aria-hidden', true);
-
-        this._element.removeAttribute('aria-modal');
-
-        this._element.removeAttribute('role');
-
-        this._isTransitioning = false;
-
-        this._backdrop.hide(() => {
-          document.body.classList.remove(CLASS_NAME_OPEN);
-
-          this._resetAdjustments();
-
-          this._scrollBar.reset();
-
-          EventHandler__default.default.trigger(this._element, EVENT_HIDDEN);
-        });
-      }
-
-      _showBackdrop(callback) {
-        EventHandler__default.default.on(this._element, EVENT_CLICK_DISMISS, event => {
-          if (this._ignoreBackdropClick) {
-            this._ignoreBackdropClick = false;
-            return;
-          }
-
-          if (event.target !== event.currentTarget) {
-            return;
-          }
-
-          if (this._config.backdrop === true) {
-            this.hide();
-          } else if (this._config.backdrop === 'static') {
-            this._triggerBackdropTransition();
-          }
-        });
-
-        this._backdrop.show(callback);
-      }
-
-      _isAnimated() {
-        return this._element.classList.contains(CLASS_NAME_FADE);
-      }
-
-      _triggerBackdropTransition() {
-        const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE_PREVENTED);
-
-        if (hideEvent.defaultPrevented) {
-          return;
-        }
-
-        const {
-          classList,
-          scrollHeight,
-          style
-        } = this._element;
-        const isModalOverflowing = scrollHeight > document.documentElement.clientHeight; // return if the following background transition hasn't yet completed
-
-        if (!isModalOverflowing && style.overflowY === 'hidden' || classList.contains(CLASS_NAME_STATIC)) {
-          return;
-        }
-
-        if (!isModalOverflowing) {
-          style.overflowY = 'hidden';
-        }
-
-        classList.add(CLASS_NAME_STATIC);
-
-        this._queueCallback(() => {
-          classList.remove(CLASS_NAME_STATIC);
-
-          if (!isModalOverflowing) {
-            this._queueCallback(() => {
-              style.overflowY = '';
-            }, this._dialog);
-          }
-        }, this._dialog);
-
-        this._element.focus();
-      } // ----------------------------------------------------------------------
-      // the following methods are used to handle overflowing modals
-      // ----------------------------------------------------------------------
-
-
-      _adjustDialog() {
-        const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
-
-        const scrollbarWidth = this._scrollBar.getWidth();
-
-        const isBodyOverflowing = scrollbarWidth > 0;
-
-        if (!isBodyOverflowing && isModalOverflowing && !isRTL() || isBodyOverflowing && !isModalOverflowing && isRTL()) {
-          this._element.style.paddingLeft = `${scrollbarWidth}px`;
-        }
-
-        if (isBodyOverflowing && !isModalOverflowing && !isRTL() || !isBodyOverflowing && isModalOverflowing && isRTL()) {
-          this._element.style.paddingRight = `${scrollbarWidth}px`;
-        }
-      }
-
-      _resetAdjustments() {
-        this._element.style.paddingLeft = '';
-        this._element.style.paddingRight = '';
-      } // Static
-
-
-      static jQueryInterface(config, relatedTarget) {
-        return this.each(function () {
-          const data = Modal.getOrCreateInstance(this, config);
-
-          if (typeof config !== 'string') {
-            return;
-          }
-
-          if (typeof data[config] === 'undefined') {
-            throw new TypeError(`No method named "${config}"`);
-          }
-
-          data[config](relatedTarget);
-        });
-      }
-
-    }
-    /**
-     * ------------------------------------------------------------------------
-     * Data Api implementation
-     * ------------------------------------------------------------------------
-     */
-
-
-    EventHandler__default.default.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
-      const target = getElementFromSelector(this);
-
-      if (['A', 'AREA'].includes(this.tagName)) {
-        event.preventDefault();
-      }
-
-      EventHandler__default.default.one(target, EVENT_SHOW, showEvent => {
-        if (showEvent.defaultPrevented) {
-          // only register focus restorer if modal will actually get shown
-          return;
-        }
-
-        EventHandler__default.default.one(target, EVENT_HIDDEN, () => {
-          if (isVisible(this)) {
-            this.focus();
-          }
-        });
-      }); // avoid conflict when clicking moddal toggler while another one is open
-
-      const allReadyOpen = SelectorEngine__default.default.findOne(OPEN_SELECTOR);
-
-      if (allReadyOpen) {
-        Modal.getInstance(allReadyOpen).hide();
-      }
-
-      const data = Modal.getOrCreateInstance(target);
-      data.toggle(this);
-    });
-    enableDismissTrigger(Modal);
-    /**
-     * ------------------------------------------------------------------------
-     * jQuery
-     * ------------------------------------------------------------------------
-     * add .Modal to jQuery only if jQuery is present
-     */
-
-    defineJQueryPlugin(Modal);
-    return Modal;
-  }); 
-  }(modal$1));
+  	(function (global, factory) {
+  	  module.exports = factory(requireEventHandler$1(), requireManipulator$1(), requireSelectorEngine$1(), requireBaseComponent$1()) ;
+  	})(commonjsGlobal$3, function (EventHandler, Manipulator, SelectorEngine, BaseComponent) {
+
+  	  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : {
+  	    default: e
+  	  };
+  	  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+  	  const Manipulator__default = /*#__PURE__*/_interopDefaultLegacy(Manipulator);
+  	  const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
+  	  const BaseComponent__default = /*#__PURE__*/_interopDefaultLegacy(BaseComponent);
+
+  	  /**
+  	   * --------------------------------------------------------------------------
+  	   * Bootstrap (v5.1.3): util/index.js
+  	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  	   * --------------------------------------------------------------------------
+  	   */
+  	  const MILLISECONDS_MULTIPLIER = 1000;
+  	  const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
+
+  	  const toType = obj => {
+  	    if (obj === null || obj === undefined) {
+  	      return `${obj}`;
+  	    }
+  	    return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
+  	  };
+  	  const getSelector = element => {
+  	    let selector = element.getAttribute('data-bs-target');
+  	    if (!selector || selector === '#') {
+  	      let hrefAttr = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
+  	      // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
+  	      // `document.querySelector` will rightfully complain it is invalid.
+  	      // See https://github.com/twbs/bootstrap/issues/32273
+
+  	      if (!hrefAttr || !hrefAttr.includes('#') && !hrefAttr.startsWith('.')) {
+  	        return null;
+  	      } // Just in case some CMS puts out a full URL with the anchor appended
+
+  	      if (hrefAttr.includes('#') && !hrefAttr.startsWith('#')) {
+  	        hrefAttr = `#${hrefAttr.split('#')[1]}`;
+  	      }
+  	      selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : null;
+  	    }
+  	    return selector;
+  	  };
+  	  const getElementFromSelector = element => {
+  	    const selector = getSelector(element);
+  	    return selector ? document.querySelector(selector) : null;
+  	  };
+  	  const getTransitionDurationFromElement = element => {
+  	    if (!element) {
+  	      return 0;
+  	    } // Get transition-duration of the element
+
+  	    let {
+  	      transitionDuration,
+  	      transitionDelay
+  	    } = window.getComputedStyle(element);
+  	    const floatTransitionDuration = Number.parseFloat(transitionDuration);
+  	    const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
+
+  	    if (!floatTransitionDuration && !floatTransitionDelay) {
+  	      return 0;
+  	    } // If multiple durations are defined, take the first
+
+  	    transitionDuration = transitionDuration.split(',')[0];
+  	    transitionDelay = transitionDelay.split(',')[0];
+  	    return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
+  	  };
+  	  const triggerTransitionEnd = element => {
+  	    element.dispatchEvent(new Event(TRANSITION_END));
+  	  };
+  	  const isElement = obj => {
+  	    if (!obj || typeof obj !== 'object') {
+  	      return false;
+  	    }
+  	    if (typeof obj.jquery !== 'undefined') {
+  	      obj = obj[0];
+  	    }
+  	    return typeof obj.nodeType !== 'undefined';
+  	  };
+  	  const getElement = obj => {
+  	    if (isElement(obj)) {
+  	      // it's a jQuery object or a node element
+  	      return obj.jquery ? obj[0] : obj;
+  	    }
+  	    if (typeof obj === 'string' && obj.length > 0) {
+  	      return document.querySelector(obj);
+  	    }
+  	    return null;
+  	  };
+  	  const typeCheckConfig = (componentName, config, configTypes) => {
+  	    Object.keys(configTypes).forEach(property => {
+  	      const expectedTypes = configTypes[property];
+  	      const value = config[property];
+  	      const valueType = value && isElement(value) ? 'element' : toType(value);
+  	      if (!new RegExp(expectedTypes).test(valueType)) {
+  	        throw new TypeError(`${componentName.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
+  	      }
+  	    });
+  	  };
+  	  const isVisible = element => {
+  	    if (!isElement(element) || element.getClientRects().length === 0) {
+  	      return false;
+  	    }
+  	    return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
+  	  };
+  	  const isDisabled = element => {
+  	    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+  	      return true;
+  	    }
+  	    if (element.classList.contains('disabled')) {
+  	      return true;
+  	    }
+  	    if (typeof element.disabled !== 'undefined') {
+  	      return element.disabled;
+  	    }
+  	    return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
+  	  };
+  	  /**
+  	   * Trick to restart an element's animation
+  	   *
+  	   * @param {HTMLElement} element
+  	   * @return void
+  	   *
+  	   * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
+  	   */
+
+  	  const reflow = element => {
+  	    // eslint-disable-next-line no-unused-expressions
+  	    element.offsetHeight;
+  	  };
+  	  const getjQuery = () => {
+  	    const {
+  	      jQuery
+  	    } = window;
+  	    if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
+  	      return jQuery;
+  	    }
+  	    return null;
+  	  };
+  	  const DOMContentLoadedCallbacks = [];
+  	  const onDOMContentLoaded = callback => {
+  	    if (document.readyState === 'loading') {
+  	      // add listener on the first call when the document is in loading state
+  	      if (!DOMContentLoadedCallbacks.length) {
+  	        document.addEventListener('DOMContentLoaded', () => {
+  	          DOMContentLoadedCallbacks.forEach(callback => callback());
+  	        });
+  	      }
+  	      DOMContentLoadedCallbacks.push(callback);
+  	    } else {
+  	      callback();
+  	    }
+  	  };
+  	  const isRTL = () => document.documentElement.dir === 'rtl';
+  	  const defineJQueryPlugin = plugin => {
+  	    onDOMContentLoaded(() => {
+  	      const $ = getjQuery();
+  	      /* istanbul ignore if */
+
+  	      if ($) {
+  	        const name = plugin.NAME;
+  	        const JQUERY_NO_CONFLICT = $.fn[name];
+  	        $.fn[name] = plugin.jQueryInterface;
+  	        $.fn[name].Constructor = plugin;
+  	        $.fn[name].noConflict = () => {
+  	          $.fn[name] = JQUERY_NO_CONFLICT;
+  	          return plugin.jQueryInterface;
+  	        };
+  	      }
+  	    });
+  	  };
+  	  const execute = callback => {
+  	    if (typeof callback === 'function') {
+  	      callback();
+  	    }
+  	  };
+  	  const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
+  	    if (!waitForTransition) {
+  	      execute(callback);
+  	      return;
+  	    }
+  	    const durationPadding = 5;
+  	    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
+  	    let called = false;
+  	    const handler = ({
+  	      target
+  	    }) => {
+  	      if (target !== transitionElement) {
+  	        return;
+  	      }
+  	      called = true;
+  	      transitionElement.removeEventListener(TRANSITION_END, handler);
+  	      execute(callback);
+  	    };
+  	    transitionElement.addEventListener(TRANSITION_END, handler);
+  	    setTimeout(() => {
+  	      if (!called) {
+  	        triggerTransitionEnd(transitionElement);
+  	      }
+  	    }, emulatedDuration);
+  	  };
+
+  	  /**
+  	   * --------------------------------------------------------------------------
+  	   * Bootstrap (v5.1.3): util/scrollBar.js
+  	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  	   * --------------------------------------------------------------------------
+  	   */
+  	  const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
+  	  const SELECTOR_STICKY_CONTENT = '.sticky-top';
+  	  class ScrollBarHelper {
+  	    constructor() {
+  	      this._element = document.body;
+  	    }
+  	    getWidth() {
+  	      // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
+  	      const documentWidth = document.documentElement.clientWidth;
+  	      return Math.abs(window.innerWidth - documentWidth);
+  	    }
+  	    hide() {
+  	      const width = this.getWidth();
+  	      this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
+
+  	      this._setElementAttributes(this._element, 'paddingRight', calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
+
+  	      this._setElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight', calculatedValue => calculatedValue + width);
+  	      this._setElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight', calculatedValue => calculatedValue - width);
+  	    }
+  	    _disableOverFlow() {
+  	      this._saveInitialAttribute(this._element, 'overflow');
+  	      this._element.style.overflow = 'hidden';
+  	    }
+  	    _setElementAttributes(selector, styleProp, callback) {
+  	      const scrollbarWidth = this.getWidth();
+  	      const manipulationCallBack = element => {
+  	        if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
+  	          return;
+  	        }
+  	        this._saveInitialAttribute(element, styleProp);
+  	        const calculatedValue = window.getComputedStyle(element)[styleProp];
+  	        element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
+  	      };
+  	      this._applyManipulationCallback(selector, manipulationCallBack);
+  	    }
+  	    reset() {
+  	      this._resetElementAttributes(this._element, 'overflow');
+  	      this._resetElementAttributes(this._element, 'paddingRight');
+  	      this._resetElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight');
+  	      this._resetElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight');
+  	    }
+  	    _saveInitialAttribute(element, styleProp) {
+  	      const actualValue = element.style[styleProp];
+  	      if (actualValue) {
+  	        Manipulator__default.default.setDataAttribute(element, styleProp, actualValue);
+  	      }
+  	    }
+  	    _resetElementAttributes(selector, styleProp) {
+  	      const manipulationCallBack = element => {
+  	        const value = Manipulator__default.default.getDataAttribute(element, styleProp);
+  	        if (typeof value === 'undefined') {
+  	          element.style.removeProperty(styleProp);
+  	        } else {
+  	          Manipulator__default.default.removeDataAttribute(element, styleProp);
+  	          element.style[styleProp] = value;
+  	        }
+  	      };
+  	      this._applyManipulationCallback(selector, manipulationCallBack);
+  	    }
+  	    _applyManipulationCallback(selector, callBack) {
+  	      if (isElement(selector)) {
+  	        callBack(selector);
+  	      } else {
+  	        SelectorEngine__default.default.find(selector, this._element).forEach(callBack);
+  	      }
+  	    }
+  	    isOverflowing() {
+  	      return this.getWidth() > 0;
+  	    }
+  	  }
+
+  	  /**
+  	   * --------------------------------------------------------------------------
+  	   * Bootstrap (v5.1.3): util/backdrop.js
+  	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  	   * --------------------------------------------------------------------------
+  	   */
+  	  const Default$2 = {
+  	    className: 'modal-backdrop',
+  	    isVisible: true,
+  	    // if false, we use the backdrop helper without adding any element to the dom
+  	    isAnimated: false,
+  	    rootElement: 'body',
+  	    // give the choice to place backdrop under different elements
+  	    clickCallback: null
+  	  };
+  	  const DefaultType$2 = {
+  	    className: 'string',
+  	    isVisible: 'boolean',
+  	    isAnimated: 'boolean',
+  	    rootElement: '(element|string)',
+  	    clickCallback: '(function|null)'
+  	  };
+  	  const NAME$2 = 'backdrop';
+  	  const CLASS_NAME_FADE$1 = 'fade';
+  	  const CLASS_NAME_SHOW$1 = 'show';
+  	  const EVENT_MOUSEDOWN = `mousedown.bs.${NAME$2}`;
+  	  class Backdrop {
+  	    constructor(config) {
+  	      this._config = this._getConfig(config);
+  	      this._isAppended = false;
+  	      this._element = null;
+  	    }
+  	    show(callback) {
+  	      if (!this._config.isVisible) {
+  	        execute(callback);
+  	        return;
+  	      }
+  	      this._append();
+  	      if (this._config.isAnimated) {
+  	        reflow(this._getElement());
+  	      }
+  	      this._getElement().classList.add(CLASS_NAME_SHOW$1);
+  	      this._emulateAnimation(() => {
+  	        execute(callback);
+  	      });
+  	    }
+  	    hide(callback) {
+  	      if (!this._config.isVisible) {
+  	        execute(callback);
+  	        return;
+  	      }
+  	      this._getElement().classList.remove(CLASS_NAME_SHOW$1);
+  	      this._emulateAnimation(() => {
+  	        this.dispose();
+  	        execute(callback);
+  	      });
+  	    } // Private
+
+  	    _getElement() {
+  	      if (!this._element) {
+  	        const backdrop = document.createElement('div');
+  	        backdrop.className = this._config.className;
+  	        if (this._config.isAnimated) {
+  	          backdrop.classList.add(CLASS_NAME_FADE$1);
+  	        }
+  	        this._element = backdrop;
+  	      }
+  	      return this._element;
+  	    }
+  	    _getConfig(config) {
+  	      config = {
+  	        ...Default$2,
+  	        ...(typeof config === 'object' ? config : {})
+  	      }; // use getElement() with the default "body" to get a fresh Element on each instantiation
+
+  	      config.rootElement = getElement(config.rootElement);
+  	      typeCheckConfig(NAME$2, config, DefaultType$2);
+  	      return config;
+  	    }
+  	    _append() {
+  	      if (this._isAppended) {
+  	        return;
+  	      }
+  	      this._config.rootElement.append(this._getElement());
+  	      EventHandler__default.default.on(this._getElement(), EVENT_MOUSEDOWN, () => {
+  	        execute(this._config.clickCallback);
+  	      });
+  	      this._isAppended = true;
+  	    }
+  	    dispose() {
+  	      if (!this._isAppended) {
+  	        return;
+  	      }
+  	      EventHandler__default.default.off(this._element, EVENT_MOUSEDOWN);
+  	      this._element.remove();
+  	      this._isAppended = false;
+  	    }
+  	    _emulateAnimation(callback) {
+  	      executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
+  	    }
+  	  }
+
+  	  /**
+  	   * --------------------------------------------------------------------------
+  	   * Bootstrap (v5.1.3): util/focustrap.js
+  	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  	   * --------------------------------------------------------------------------
+  	   */
+  	  const Default$1 = {
+  	    trapElement: null,
+  	    // The element to trap focus inside of
+  	    autofocus: true
+  	  };
+  	  const DefaultType$1 = {
+  	    trapElement: 'element',
+  	    autofocus: 'boolean'
+  	  };
+  	  const NAME$1 = 'focustrap';
+  	  const DATA_KEY$1 = 'bs.focustrap';
+  	  const EVENT_KEY$1 = `.${DATA_KEY$1}`;
+  	  const EVENT_FOCUSIN = `focusin${EVENT_KEY$1}`;
+  	  const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$1}`;
+  	  const TAB_KEY = 'Tab';
+  	  const TAB_NAV_FORWARD = 'forward';
+  	  const TAB_NAV_BACKWARD = 'backward';
+  	  class FocusTrap {
+  	    constructor(config) {
+  	      this._config = this._getConfig(config);
+  	      this._isActive = false;
+  	      this._lastTabNavDirection = null;
+  	    }
+  	    activate() {
+  	      const {
+  	        trapElement,
+  	        autofocus
+  	      } = this._config;
+  	      if (this._isActive) {
+  	        return;
+  	      }
+  	      if (autofocus) {
+  	        trapElement.focus();
+  	      }
+  	      EventHandler__default.default.off(document, EVENT_KEY$1); // guard against infinite focus loop
+
+  	      EventHandler__default.default.on(document, EVENT_FOCUSIN, event => this._handleFocusin(event));
+  	      EventHandler__default.default.on(document, EVENT_KEYDOWN_TAB, event => this._handleKeydown(event));
+  	      this._isActive = true;
+  	    }
+  	    deactivate() {
+  	      if (!this._isActive) {
+  	        return;
+  	      }
+  	      this._isActive = false;
+  	      EventHandler__default.default.off(document, EVENT_KEY$1);
+  	    } // Private
+
+  	    _handleFocusin(event) {
+  	      const {
+  	        target
+  	      } = event;
+  	      const {
+  	        trapElement
+  	      } = this._config;
+  	      if (target === document || target === trapElement || trapElement.contains(target)) {
+  	        return;
+  	      }
+  	      const elements = SelectorEngine__default.default.focusableChildren(trapElement);
+  	      if (elements.length === 0) {
+  	        trapElement.focus();
+  	      } else if (this._lastTabNavDirection === TAB_NAV_BACKWARD) {
+  	        elements[elements.length - 1].focus();
+  	      } else {
+  	        elements[0].focus();
+  	      }
+  	    }
+  	    _handleKeydown(event) {
+  	      if (event.key !== TAB_KEY) {
+  	        return;
+  	      }
+  	      this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
+  	    }
+  	    _getConfig(config) {
+  	      config = {
+  	        ...Default$1,
+  	        ...(typeof config === 'object' ? config : {})
+  	      };
+  	      typeCheckConfig(NAME$1, config, DefaultType$1);
+  	      return config;
+  	    }
+  	  }
+
+  	  /**
+  	   * --------------------------------------------------------------------------
+  	   * Bootstrap (v5.1.3): util/component-functions.js
+  	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  	   * --------------------------------------------------------------------------
+  	   */
+
+  	  const enableDismissTrigger = (component, method = 'hide') => {
+  	    const clickEvent = `click.dismiss${component.EVENT_KEY}`;
+  	    const name = component.NAME;
+  	    EventHandler__default.default.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
+  	      if (['A', 'AREA'].includes(this.tagName)) {
+  	        event.preventDefault();
+  	      }
+  	      if (isDisabled(this)) {
+  	        return;
+  	      }
+  	      const target = getElementFromSelector(this) || this.closest(`.${name}`);
+  	      const instance = component.getOrCreateInstance(target); // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
+
+  	      instance[method]();
+  	    });
+  	  };
+
+  	  /**
+  	   * --------------------------------------------------------------------------
+  	   * Bootstrap (v5.1.3): modal.js
+  	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  	   * --------------------------------------------------------------------------
+  	   */
+  	  /**
+  	   * ------------------------------------------------------------------------
+  	   * Constants
+  	   * ------------------------------------------------------------------------
+  	   */
+
+  	  const NAME = 'modal';
+  	  const DATA_KEY = 'bs.modal';
+  	  const EVENT_KEY = `.${DATA_KEY}`;
+  	  const DATA_API_KEY = '.data-api';
+  	  const ESCAPE_KEY = 'Escape';
+  	  const Default = {
+  	    backdrop: true,
+  	    keyboard: true,
+  	    focus: true
+  	  };
+  	  const DefaultType = {
+  	    backdrop: '(boolean|string)',
+  	    keyboard: 'boolean',
+  	    focus: 'boolean'
+  	  };
+  	  const EVENT_HIDE = `hide${EVENT_KEY}`;
+  	  const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY}`;
+  	  const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
+  	  const EVENT_SHOW = `show${EVENT_KEY}`;
+  	  const EVENT_SHOWN = `shown${EVENT_KEY}`;
+  	  const EVENT_RESIZE = `resize${EVENT_KEY}`;
+  	  const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY}`;
+  	  const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY}`;
+  	  const EVENT_MOUSEUP_DISMISS = `mouseup.dismiss${EVENT_KEY}`;
+  	  const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY}`;
+  	  const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
+  	  const CLASS_NAME_OPEN = 'modal-open';
+  	  const CLASS_NAME_FADE = 'fade';
+  	  const CLASS_NAME_SHOW = 'show';
+  	  const CLASS_NAME_STATIC = 'modal-static';
+  	  const OPEN_SELECTOR = '.modal.show';
+  	  const SELECTOR_DIALOG = '.modal-dialog';
+  	  const SELECTOR_MODAL_BODY = '.modal-body';
+  	  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="modal"]';
+  	  /**
+  	   * ------------------------------------------------------------------------
+  	   * Class Definition
+  	   * ------------------------------------------------------------------------
+  	   */
+
+  	  class Modal extends BaseComponent__default.default {
+  	    constructor(element, config) {
+  	      super(element);
+  	      this._config = this._getConfig(config);
+  	      this._dialog = SelectorEngine__default.default.findOne(SELECTOR_DIALOG, this._element);
+  	      this._backdrop = this._initializeBackDrop();
+  	      this._focustrap = this._initializeFocusTrap();
+  	      this._isShown = false;
+  	      this._ignoreBackdropClick = false;
+  	      this._isTransitioning = false;
+  	      this._scrollBar = new ScrollBarHelper();
+  	    } // Getters
+
+  	    static get Default() {
+  	      return Default;
+  	    }
+  	    static get NAME() {
+  	      return NAME;
+  	    } // Public
+
+  	    toggle(relatedTarget) {
+  	      return this._isShown ? this.hide() : this.show(relatedTarget);
+  	    }
+  	    show(relatedTarget) {
+  	      if (this._isShown || this._isTransitioning) {
+  	        return;
+  	      }
+  	      const showEvent = EventHandler__default.default.trigger(this._element, EVENT_SHOW, {
+  	        relatedTarget
+  	      });
+  	      if (showEvent.defaultPrevented) {
+  	        return;
+  	      }
+  	      this._isShown = true;
+  	      if (this._isAnimated()) {
+  	        this._isTransitioning = true;
+  	      }
+  	      this._scrollBar.hide();
+  	      document.body.classList.add(CLASS_NAME_OPEN);
+  	      this._adjustDialog();
+  	      this._setEscapeEvent();
+  	      this._setResizeEvent();
+  	      EventHandler__default.default.on(this._dialog, EVENT_MOUSEDOWN_DISMISS, () => {
+  	        EventHandler__default.default.one(this._element, EVENT_MOUSEUP_DISMISS, event => {
+  	          if (event.target === this._element) {
+  	            this._ignoreBackdropClick = true;
+  	          }
+  	        });
+  	      });
+  	      this._showBackdrop(() => this._showElement(relatedTarget));
+  	    }
+  	    hide() {
+  	      if (!this._isShown || this._isTransitioning) {
+  	        return;
+  	      }
+  	      const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE);
+  	      if (hideEvent.defaultPrevented) {
+  	        return;
+  	      }
+  	      this._isShown = false;
+  	      const isAnimated = this._isAnimated();
+  	      if (isAnimated) {
+  	        this._isTransitioning = true;
+  	      }
+  	      this._setEscapeEvent();
+  	      this._setResizeEvent();
+  	      this._focustrap.deactivate();
+  	      this._element.classList.remove(CLASS_NAME_SHOW);
+  	      EventHandler__default.default.off(this._element, EVENT_CLICK_DISMISS);
+  	      EventHandler__default.default.off(this._dialog, EVENT_MOUSEDOWN_DISMISS);
+  	      this._queueCallback(() => this._hideModal(), this._element, isAnimated);
+  	    }
+  	    dispose() {
+  	      [window, this._dialog].forEach(htmlElement => EventHandler__default.default.off(htmlElement, EVENT_KEY));
+  	      this._backdrop.dispose();
+  	      this._focustrap.deactivate();
+  	      super.dispose();
+  	    }
+  	    handleUpdate() {
+  	      this._adjustDialog();
+  	    } // Private
+
+  	    _initializeBackDrop() {
+  	      return new Backdrop({
+  	        isVisible: Boolean(this._config.backdrop),
+  	        // 'static' option will be translated to true, and booleans will keep their value
+  	        isAnimated: this._isAnimated()
+  	      });
+  	    }
+  	    _initializeFocusTrap() {
+  	      return new FocusTrap({
+  	        trapElement: this._element
+  	      });
+  	    }
+  	    _getConfig(config) {
+  	      config = {
+  	        ...Default,
+  	        ...Manipulator__default.default.getDataAttributes(this._element),
+  	        ...(typeof config === 'object' ? config : {})
+  	      };
+  	      typeCheckConfig(NAME, config, DefaultType);
+  	      return config;
+  	    }
+  	    _showElement(relatedTarget) {
+  	      const isAnimated = this._isAnimated();
+  	      const modalBody = SelectorEngine__default.default.findOne(SELECTOR_MODAL_BODY, this._dialog);
+  	      if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
+  	        // Don't move modal's DOM position
+  	        document.body.append(this._element);
+  	      }
+  	      this._element.style.display = 'block';
+  	      this._element.removeAttribute('aria-hidden');
+  	      this._element.setAttribute('aria-modal', true);
+  	      this._element.setAttribute('role', 'dialog');
+  	      this._element.scrollTop = 0;
+  	      if (modalBody) {
+  	        modalBody.scrollTop = 0;
+  	      }
+  	      if (isAnimated) {
+  	        reflow(this._element);
+  	      }
+  	      this._element.classList.add(CLASS_NAME_SHOW);
+  	      const transitionComplete = () => {
+  	        if (this._config.focus) {
+  	          this._focustrap.activate();
+  	        }
+  	        this._isTransitioning = false;
+  	        EventHandler__default.default.trigger(this._element, EVENT_SHOWN, {
+  	          relatedTarget
+  	        });
+  	      };
+  	      this._queueCallback(transitionComplete, this._dialog, isAnimated);
+  	    }
+  	    _setEscapeEvent() {
+  	      if (this._isShown) {
+  	        EventHandler__default.default.on(this._element, EVENT_KEYDOWN_DISMISS, event => {
+  	          if (this._config.keyboard && event.key === ESCAPE_KEY) {
+  	            event.preventDefault();
+  	            this.hide();
+  	          } else if (!this._config.keyboard && event.key === ESCAPE_KEY) {
+  	            this._triggerBackdropTransition();
+  	          }
+  	        });
+  	      } else {
+  	        EventHandler__default.default.off(this._element, EVENT_KEYDOWN_DISMISS);
+  	      }
+  	    }
+  	    _setResizeEvent() {
+  	      if (this._isShown) {
+  	        EventHandler__default.default.on(window, EVENT_RESIZE, () => this._adjustDialog());
+  	      } else {
+  	        EventHandler__default.default.off(window, EVENT_RESIZE);
+  	      }
+  	    }
+  	    _hideModal() {
+  	      this._element.style.display = 'none';
+  	      this._element.setAttribute('aria-hidden', true);
+  	      this._element.removeAttribute('aria-modal');
+  	      this._element.removeAttribute('role');
+  	      this._isTransitioning = false;
+  	      this._backdrop.hide(() => {
+  	        document.body.classList.remove(CLASS_NAME_OPEN);
+  	        this._resetAdjustments();
+  	        this._scrollBar.reset();
+  	        EventHandler__default.default.trigger(this._element, EVENT_HIDDEN);
+  	      });
+  	    }
+  	    _showBackdrop(callback) {
+  	      EventHandler__default.default.on(this._element, EVENT_CLICK_DISMISS, event => {
+  	        if (this._ignoreBackdropClick) {
+  	          this._ignoreBackdropClick = false;
+  	          return;
+  	        }
+  	        if (event.target !== event.currentTarget) {
+  	          return;
+  	        }
+  	        if (this._config.backdrop === true) {
+  	          this.hide();
+  	        } else if (this._config.backdrop === 'static') {
+  	          this._triggerBackdropTransition();
+  	        }
+  	      });
+  	      this._backdrop.show(callback);
+  	    }
+  	    _isAnimated() {
+  	      return this._element.classList.contains(CLASS_NAME_FADE);
+  	    }
+  	    _triggerBackdropTransition() {
+  	      const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE_PREVENTED);
+  	      if (hideEvent.defaultPrevented) {
+  	        return;
+  	      }
+  	      const {
+  	        classList,
+  	        scrollHeight,
+  	        style
+  	      } = this._element;
+  	      const isModalOverflowing = scrollHeight > document.documentElement.clientHeight; // return if the following background transition hasn't yet completed
+
+  	      if (!isModalOverflowing && style.overflowY === 'hidden' || classList.contains(CLASS_NAME_STATIC)) {
+  	        return;
+  	      }
+  	      if (!isModalOverflowing) {
+  	        style.overflowY = 'hidden';
+  	      }
+  	      classList.add(CLASS_NAME_STATIC);
+  	      this._queueCallback(() => {
+  	        classList.remove(CLASS_NAME_STATIC);
+  	        if (!isModalOverflowing) {
+  	          this._queueCallback(() => {
+  	            style.overflowY = '';
+  	          }, this._dialog);
+  	        }
+  	      }, this._dialog);
+  	      this._element.focus();
+  	    } // ----------------------------------------------------------------------
+  	    // the following methods are used to handle overflowing modals
+  	    // ----------------------------------------------------------------------
+
+  	    _adjustDialog() {
+  	      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+  	      const scrollbarWidth = this._scrollBar.getWidth();
+  	      const isBodyOverflowing = scrollbarWidth > 0;
+  	      if (!isBodyOverflowing && isModalOverflowing && !isRTL() || isBodyOverflowing && !isModalOverflowing && isRTL()) {
+  	        this._element.style.paddingLeft = `${scrollbarWidth}px`;
+  	      }
+  	      if (isBodyOverflowing && !isModalOverflowing && !isRTL() || !isBodyOverflowing && isModalOverflowing && isRTL()) {
+  	        this._element.style.paddingRight = `${scrollbarWidth}px`;
+  	      }
+  	    }
+  	    _resetAdjustments() {
+  	      this._element.style.paddingLeft = '';
+  	      this._element.style.paddingRight = '';
+  	    } // Static
+
+  	    static jQueryInterface(config, relatedTarget) {
+  	      return this.each(function () {
+  	        const data = Modal.getOrCreateInstance(this, config);
+  	        if (typeof config !== 'string') {
+  	          return;
+  	        }
+  	        if (typeof data[config] === 'undefined') {
+  	          throw new TypeError(`No method named "${config}"`);
+  	        }
+  	        data[config](relatedTarget);
+  	      });
+  	    }
+  	  }
+  	  /**
+  	   * ------------------------------------------------------------------------
+  	   * Data Api implementation
+  	   * ------------------------------------------------------------------------
+  	   */
+
+  	  EventHandler__default.default.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+  	    const target = getElementFromSelector(this);
+  	    if (['A', 'AREA'].includes(this.tagName)) {
+  	      event.preventDefault();
+  	    }
+  	    EventHandler__default.default.one(target, EVENT_SHOW, showEvent => {
+  	      if (showEvent.defaultPrevented) {
+  	        // only register focus restorer if modal will actually get shown
+  	        return;
+  	      }
+  	      EventHandler__default.default.one(target, EVENT_HIDDEN, () => {
+  	        if (isVisible(this)) {
+  	          this.focus();
+  	        }
+  	      });
+  	    }); // avoid conflict when clicking moddal toggler while another one is open
+
+  	    const allReadyOpen = SelectorEngine__default.default.findOne(OPEN_SELECTOR);
+  	    if (allReadyOpen) {
+  	      Modal.getInstance(allReadyOpen).hide();
+  	    }
+  	    const data = Modal.getOrCreateInstance(target);
+  	    data.toggle(this);
+  	  });
+  	  enableDismissTrigger(Modal);
+  	  /**
+  	   * ------------------------------------------------------------------------
+  	   * jQuery
+  	   * ------------------------------------------------------------------------
+  	   * add .Modal to jQuery only if jQuery is present
+  	   */
+
+  	  defineJQueryPlugin(Modal);
+  	  return Modal;
+  	});
+  	
+  } (modal$1));
 
   var Modal$2 = modal$1.exports;
 
@@ -12936,13 +11566,13 @@
   var FORAGE_NAME = 'Nyph App2023';
   var NyphApp = /*#__PURE__*/function (_App) {
     _inherits(NyphApp, _App);
-
     var _super = _createSuper(NyphApp);
-
     /**
      * @type {number}
      */
+
     //static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
+
     //static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
     //static EVENT_SURVEYS_CHANGED = 'surveyschanged';
 
@@ -12950,24 +11580,17 @@
      *
      * @type {boolean}
      */
+
     function NyphApp() {
       var _this;
-
       _classCallCheck(this, NyphApp);
-
       _this = _super.call(this);
-
       _defineProperty(_assertThisInitialized(_this), "projectId", PROJECT_ID_NYPH);
-
       _defineProperty(_assertThisInitialized(_this), "_coreSurveyFields", ['recorder', 'email']);
-
       _defineProperty(_assertThisInitialized(_this), "_coreSurveyFieldCache", []);
-
       _this.initialiseSurveyFieldsMirror();
-
       return _this;
     }
-
     _createClass(NyphApp, [{
       key: "initialiseSurveyFieldsMirror",
       value:
@@ -12977,18 +11600,14 @@
        */
       function initialiseSurveyFieldsMirror() {
         var _this2 = this;
-
         this.addListener(App$1.EVENT_NEW_SURVEY, function () {
           console.log('Try to initialise core fields of new survey.');
-
           if (_this2._coreSurveyFieldCache) {
             console.log({
               'Using cached survey values': _this2._coreSurveyFieldCache
             });
-
             var _iterator = _createForOfIteratorHelper(_this2._coreSurveyFields),
-                _step;
-
+              _step;
             try {
               for (_iterator.s(); !(_step = _iterator.n()).done;) {
                 var key = _step.value;
@@ -13004,8 +11623,7 @@
         this.addListener(App$1.EVENT_SURVEYS_CHANGED, function () {
           if (_this2.currentSurvey && !_this2.currentSurvey.isNew) {
             var _iterator2 = _createForOfIteratorHelper(_this2._coreSurveyFields),
-                _step2;
-
+              _step2;
             try {
               for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
                 var key = _step2.value;
@@ -13016,7 +11634,6 @@
             } finally {
               _iterator2.f();
             }
-
             console.log({
               'Saved core survey fields': _this2._coreSurveyFieldCache
             });
@@ -13034,22 +11651,26 @@
         view.display();
       }
     }]);
-
     return NyphApp;
   }(App$1);
-
   _defineProperty(NyphApp, "forageName", FORAGE_NAME);
-
   _defineProperty(NyphApp, "devMode", false);
 
-  var global$7 = global$N;
+  var $TypeError$1 = TypeError;
+  var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF; // 2 ** 53 - 1 == 9007199254740991
+
+  var doesNotExceedSafeInteger$1 = function (it) {
+    if (it > MAX_SAFE_INTEGER) throw $TypeError$1('Maximum allowed index exceeded');
+    return it;
+  };
+
   var isArray$1 = isArray$3;
   var isConstructor = isConstructor$3;
-  var isObject$8 = isObject$i;
-  var wellKnownSymbol$5 = wellKnownSymbol$k;
+  var isObject$9 = isObject$i;
+  var wellKnownSymbol$5 = wellKnownSymbol$i;
 
   var SPECIES = wellKnownSymbol$5('species');
-  var Array$1 = global$7.Array;
+  var $Array$1 = Array;
 
   // a part of `ArraySpeciesCreate` abstract operation
   // https://tc39.es/ecma262/#sec-arrayspeciescreate
@@ -13058,12 +11679,12 @@
     if (isArray$1(originalArray)) {
       C = originalArray.constructor;
       // cross-realm fallback
-      if (isConstructor(C) && (C === Array$1 || isArray$1(C.prototype))) C = undefined;
-      else if (isObject$8(C)) {
+      if (isConstructor(C) && (C === $Array$1 || isArray$1(C.prototype))) C = undefined;
+      else if (isObject$9(C)) {
         C = C[SPECIES];
         if (C === null) C = undefined;
       }
-    } return C === undefined ? Array$1 : C;
+    } return C === undefined ? $Array$1 : C;
   };
 
   var arraySpeciesConstructor = arraySpeciesConstructor$1;
@@ -13074,23 +11695,20 @@
     return new (arraySpeciesConstructor(originalArray))(length === 0 ? 0 : length);
   };
 
-  var $$6 = _export;
-  var global$6 = global$N;
-  var fails$9 = fails$q;
+  var $$5 = _export;
+  var fails$9 = fails$m;
   var isArray = isArray$3;
-  var isObject$7 = isObject$i;
+  var isObject$8 = isObject$i;
   var toObject$3 = toObject$5;
-  var lengthOfArrayLike$2 = lengthOfArrayLike$7;
-  var createProperty = createProperty$3;
+  var lengthOfArrayLike$3 = lengthOfArrayLike$7;
+  var doesNotExceedSafeInteger = doesNotExceedSafeInteger$1;
+  var createProperty$1 = createProperty$3;
   var arraySpeciesCreate$1 = arraySpeciesCreate$2;
   var arrayMethodHasSpeciesSupport = arrayMethodHasSpeciesSupport$2;
-  var wellKnownSymbol$4 = wellKnownSymbol$k;
+  var wellKnownSymbol$4 = wellKnownSymbol$i;
   var V8_VERSION = engineV8Version;
 
   var IS_CONCAT_SPREADABLE = wellKnownSymbol$4('isConcatSpreadable');
-  var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
-  var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
-  var TypeError$1 = global$6.TypeError;
 
   // We can't use this feature detection in V8 since it causes
   // deoptimization and serious performance degradation
@@ -13104,7 +11722,7 @@
   var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('concat');
 
   var isConcatSpreadable = function (O) {
-    if (!isObject$7(O)) return false;
+    if (!isObject$8(O)) return false;
     var spreadable = O[IS_CONCAT_SPREADABLE];
     return spreadable !== undefined ? !!spreadable : isArray(O);
   };
@@ -13114,7 +11732,7 @@
   // `Array.prototype.concat` method
   // https://tc39.es/ecma262/#sec-array.prototype.concat
   // with adding support of @@isConcatSpreadable and @@species
-  $$6({ target: 'Array', proto: true, forced: FORCED$2 }, {
+  $$5({ target: 'Array', proto: true, arity: 1, forced: FORCED$2 }, {
     // eslint-disable-next-line no-unused-vars -- required for `.length`
     concat: function concat(arg) {
       var O = toObject$3(this);
@@ -13124,12 +11742,12 @@
       for (i = -1, length = arguments.length; i < length; i++) {
         E = i === -1 ? O : arguments[i];
         if (isConcatSpreadable(E)) {
-          len = lengthOfArrayLike$2(E);
-          if (n + len > MAX_SAFE_INTEGER) throw TypeError$1(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
-          for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
+          len = lengthOfArrayLike$3(E);
+          doesNotExceedSafeInteger(n + len);
+          for (k = 0; k < len; k++, n++) if (k in E) createProperty$1(A, n, E[k]);
         } else {
-          if (n >= MAX_SAFE_INTEGER) throw TypeError$1(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
-          createProperty(A, n++, E);
+          doesNotExceedSafeInteger(n + 1);
+          createProperty$1(A, n++, E);
         }
       }
       A.length = n;
@@ -13137,9 +11755,127 @@
     }
   });
 
-  var wellKnownSymbol$3 = wellKnownSymbol$k;
-  var create$1 = objectCreate;
+  var objectDefineProperties = {};
+
+  var internalObjectKeys = objectKeysInternal;
+  var enumBugKeys$1 = enumBugKeys$3;
+
+  // `Object.keys` method
+  // https://tc39.es/ecma262/#sec-object.keys
+  // eslint-disable-next-line es/no-object-keys -- safe
+  var objectKeys$1 = Object.keys || function keys(O) {
+    return internalObjectKeys(O, enumBugKeys$1);
+  };
+
+  var DESCRIPTORS$2 = descriptors;
+  var V8_PROTOTYPE_DEFINE_BUG = v8PrototypeDefineBug;
   var definePropertyModule = objectDefineProperty;
+  var anObject$2 = anObject$b;
+  var toIndexedObject$2 = toIndexedObject$7;
+  var objectKeys = objectKeys$1;
+
+  // `Object.defineProperties` method
+  // https://tc39.es/ecma262/#sec-object.defineproperties
+  // eslint-disable-next-line es/no-object-defineproperties -- safe
+  objectDefineProperties.f = DESCRIPTORS$2 && !V8_PROTOTYPE_DEFINE_BUG ? Object.defineProperties : function defineProperties(O, Properties) {
+    anObject$2(O);
+    var props = toIndexedObject$2(Properties);
+    var keys = objectKeys(Properties);
+    var length = keys.length;
+    var index = 0;
+    var key;
+    while (length > index) definePropertyModule.f(O, key = keys[index++], props[key]);
+    return O;
+  };
+
+  /* global ActiveXObject -- old IE, WSH */
+
+  var anObject$1 = anObject$b;
+  var definePropertiesModule = objectDefineProperties;
+  var enumBugKeys = enumBugKeys$3;
+  var hiddenKeys$1 = hiddenKeys$5;
+  var html = html$2;
+  var documentCreateElement$1 = documentCreateElement$2;
+  var sharedKey$1 = sharedKey$3;
+
+  var GT = '>';
+  var LT = '<';
+  var PROTOTYPE = 'prototype';
+  var SCRIPT = 'script';
+  var IE_PROTO$1 = sharedKey$1('IE_PROTO');
+
+  var EmptyConstructor = function () { /* empty */ };
+
+  var scriptTag = function (content) {
+    return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;
+  };
+
+  // Create object with fake `null` prototype: use ActiveX Object with cleared prototype
+  var NullProtoObjectViaActiveX = function (activeXDocument) {
+    activeXDocument.write(scriptTag(''));
+    activeXDocument.close();
+    var temp = activeXDocument.parentWindow.Object;
+    activeXDocument = null; // avoid memory leak
+    return temp;
+  };
+
+  // Create object with fake `null` prototype: use iframe Object with cleared prototype
+  var NullProtoObjectViaIFrame = function () {
+    // Thrash, waste and sodomy: IE GC bug
+    var iframe = documentCreateElement$1('iframe');
+    var JS = 'java' + SCRIPT + ':';
+    var iframeDocument;
+    iframe.style.display = 'none';
+    html.appendChild(iframe);
+    // https://github.com/zloirock/core-js/issues/475
+    iframe.src = String(JS);
+    iframeDocument = iframe.contentWindow.document;
+    iframeDocument.open();
+    iframeDocument.write(scriptTag('document.F=Object'));
+    iframeDocument.close();
+    return iframeDocument.F;
+  };
+
+  // Check for document.domain and active x support
+  // No need to use active x approach when document.domain is not set
+  // see https://github.com/es-shims/es5-shim/issues/150
+  // variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
+  // avoid IE GC bug
+  var activeXDocument;
+  var NullProtoObject = function () {
+    try {
+      activeXDocument = new ActiveXObject('htmlfile');
+    } catch (error) { /* ignore */ }
+    NullProtoObject = typeof document != 'undefined'
+      ? document.domain && activeXDocument
+        ? NullProtoObjectViaActiveX(activeXDocument) // old IE
+        : NullProtoObjectViaIFrame()
+      : NullProtoObjectViaActiveX(activeXDocument); // WSH
+    var length = enumBugKeys.length;
+    while (length--) delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];
+    return NullProtoObject();
+  };
+
+  hiddenKeys$1[IE_PROTO$1] = true;
+
+  // `Object.create` method
+  // https://tc39.es/ecma262/#sec-object.create
+  // eslint-disable-next-line es/no-object-create -- safe
+  var objectCreate = Object.create || function create(O, Properties) {
+    var result;
+    if (O !== null) {
+      EmptyConstructor[PROTOTYPE] = anObject$1(O);
+      result = new EmptyConstructor();
+      EmptyConstructor[PROTOTYPE] = null;
+      // add "__proto__" for Object.getPrototypeOf polyfill
+      result[IE_PROTO$1] = O;
+    } else result = NullProtoObject();
+    return Properties === undefined ? result : definePropertiesModule.f(result, Properties);
+  };
+
+  var wellKnownSymbol$3 = wellKnownSymbol$i;
+  var create$1 = objectCreate;
+  var defineProperty$3 = objectDefineProperty.f;
 
   var UNSCOPABLES = wellKnownSymbol$3('unscopables');
   var ArrayPrototype = Array.prototype;
@@ -13147,7 +11883,7 @@
   // Array.prototype[@@unscopables]
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
   if (ArrayPrototype[UNSCOPABLES] == undefined) {
-    definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {
+    defineProperty$3(ArrayPrototype, UNSCOPABLES, {
       configurable: true,
       value: create$1(null)
     });
@@ -13158,7 +11894,7 @@
     ArrayPrototype[UNSCOPABLES][key] = true;
   };
 
-  var fails$8 = fails$q;
+  var fails$8 = fails$m;
 
   var correctPrototypeGetter = !fails$8(function () {
     function F() { /* empty */ }
@@ -13167,33 +11903,34 @@
     return Object.getPrototypeOf(new F()) !== F.prototype;
   });
 
-  var global$5 = global$N;
   var hasOwn$3 = hasOwnProperty_1;
-  var isCallable$4 = isCallable$l;
+  var isCallable$4 = isCallable$n;
   var toObject$2 = toObject$5;
   var sharedKey = sharedKey$3;
   var CORRECT_PROTOTYPE_GETTER = correctPrototypeGetter;
 
   var IE_PROTO = sharedKey('IE_PROTO');
-  var Object$1 = global$5.Object;
-  var ObjectPrototype = Object$1.prototype;
+  var $Object = Object;
+  var ObjectPrototype = $Object.prototype;
 
   // `Object.getPrototypeOf` method
   // https://tc39.es/ecma262/#sec-object.getprototypeof
-  var objectGetPrototypeOf = CORRECT_PROTOTYPE_GETTER ? Object$1.getPrototypeOf : function (O) {
+  // eslint-disable-next-line es/no-object-getprototypeof -- safe
+  var objectGetPrototypeOf = CORRECT_PROTOTYPE_GETTER ? $Object.getPrototypeOf : function (O) {
     var object = toObject$2(O);
     if (hasOwn$3(object, IE_PROTO)) return object[IE_PROTO];
     var constructor = object.constructor;
     if (isCallable$4(constructor) && object instanceof constructor) {
       return constructor.prototype;
-    } return object instanceof Object$1 ? ObjectPrototype : null;
+    } return object instanceof $Object ? ObjectPrototype : null;
   };
 
-  var fails$7 = fails$q;
-  var isCallable$3 = isCallable$l;
+  var fails$7 = fails$m;
+  var isCallable$3 = isCallable$n;
+  var isObject$7 = isObject$i;
   var getPrototypeOf$1 = objectGetPrototypeOf;
-  var redefine$2 = redefine$9.exports;
-  var wellKnownSymbol$2 = wellKnownSymbol$k;
+  var defineBuiltIn$3 = defineBuiltIn$9;
+  var wellKnownSymbol$2 = wellKnownSymbol$i;
 
   var ITERATOR$2 = wellKnownSymbol$2('iterator');
   var BUGGY_SAFARI_ITERATORS$1 = false;
@@ -13213,7 +11950,7 @@
     }
   }
 
-  var NEW_ITERATOR_PROTOTYPE = IteratorPrototype$2 == undefined || fails$7(function () {
+  var NEW_ITERATOR_PROTOTYPE = !isObject$7(IteratorPrototype$2) || fails$7(function () {
     var test = {};
     // FF44- legacy iterators case
     return IteratorPrototype$2[ITERATOR$2].call(test) !== test;
@@ -13224,7 +11961,7 @@
   // `%IteratorPrototype%[@@iterator]()` method
   // https://tc39.es/ecma262/#sec-%iteratorprototype%-@@iterator
   if (!isCallable$3(IteratorPrototype$2[ITERATOR$2])) {
-    redefine$2(IteratorPrototype$2, ITERATOR$2, function () {
+    defineBuiltIn$3(IteratorPrototype$2, ITERATOR$2, function () {
       return this;
     });
   }
@@ -13242,7 +11979,7 @@
 
   var returnThis$1 = function () { return this; };
 
-  var createIteratorConstructor$1 = function (IteratorConstructor, NAME, next, ENUMERABLE_NEXT) {
+  var iteratorCreateConstructor = function (IteratorConstructor, NAME, next, ENUMERABLE_NEXT) {
     var TO_STRING_TAG = NAME + ' Iterator';
     IteratorConstructor.prototype = create(IteratorPrototype$1, { next: createPropertyDescriptor$1(+!ENUMERABLE_NEXT, next) });
     setToStringTag$2(IteratorConstructor, TO_STRING_TAG, false);
@@ -13250,17 +11987,17 @@
     return IteratorConstructor;
   };
 
-  var $$5 = _export;
+  var $$4 = _export;
   var call = functionCall;
   var FunctionName = functionName;
-  var isCallable$2 = isCallable$l;
-  var createIteratorConstructor = createIteratorConstructor$1;
+  var isCallable$2 = isCallable$n;
+  var createIteratorConstructor = iteratorCreateConstructor;
   var getPrototypeOf = objectGetPrototypeOf;
   var setPrototypeOf$2 = objectSetPrototypeOf;
   var setToStringTag$1 = setToStringTag$4;
-  var createNonEnumerableProperty$3 = createNonEnumerableProperty$8;
-  var redefine$1 = redefine$9.exports;
-  var wellKnownSymbol$1 = wellKnownSymbol$k;
+  var createNonEnumerableProperty$3 = createNonEnumerableProperty$6;
+  var defineBuiltIn$2 = defineBuiltIn$9;
+  var wellKnownSymbol$1 = wellKnownSymbol$i;
   var Iterators$1 = iterators;
   var IteratorsCore = iteratorsCore;
 
@@ -13275,7 +12012,7 @@
 
   var returnThis = function () { return this; };
 
-  var defineIterator$2 = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
+  var iteratorDefine = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
     createIteratorConstructor(IteratorConstructor, NAME, next);
 
     var getIterationMethod = function (KIND) {
@@ -13306,7 +12043,7 @@
           if (setPrototypeOf$2) {
             setPrototypeOf$2(CurrentIteratorPrototype, IteratorPrototype);
           } else if (!isCallable$2(CurrentIteratorPrototype[ITERATOR$1])) {
-            redefine$1(CurrentIteratorPrototype, ITERATOR$1, returnThis);
+            defineBuiltIn$2(CurrentIteratorPrototype, ITERATOR$1, returnThis);
           }
         }
         // Set @@toStringTag to native iterators
@@ -13333,27 +12070,34 @@
       };
       if (FORCED) for (KEY in methods) {
         if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
-          redefine$1(IterablePrototype, KEY, methods[KEY]);
+          defineBuiltIn$2(IterablePrototype, KEY, methods[KEY]);
         }
-      } else $$5({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+      } else $$4({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
     }
 
     // define iterator
     if (IterablePrototype[ITERATOR$1] !== defaultIterator) {
-      redefine$1(IterablePrototype, ITERATOR$1, defaultIterator, { name: DEFAULT });
+      defineBuiltIn$2(IterablePrototype, ITERATOR$1, defaultIterator, { name: DEFAULT });
     }
     Iterators$1[NAME] = defaultIterator;
 
     return methods;
   };
 
-  var toIndexedObject$2 = toIndexedObject$8;
+  // `CreateIterResultObject` abstract operation
+  // https://tc39.es/ecma262/#sec-createiterresultobject
+  var createIterResultObject$2 = function (value, done) {
+    return { value: value, done: done };
+  };
+
+  var toIndexedObject$1 = toIndexedObject$7;
   var addToUnscopables = addToUnscopables$1;
   var Iterators = iterators;
   var InternalStateModule$2 = internalState;
-  var defineProperty$1 = objectDefineProperty.f;
-  var defineIterator$1 = defineIterator$2;
-  var DESCRIPTORS = descriptors;
+  var defineProperty$2 = objectDefineProperty.f;
+  var defineIterator$1 = iteratorDefine;
+  var createIterResultObject$1 = createIterResultObject$2;
+  var DESCRIPTORS$1 = descriptors;
 
   var ARRAY_ITERATOR = 'Array Iterator';
   var setInternalState$2 = InternalStateModule$2.set;
@@ -13372,7 +12116,7 @@
   var es_array_iterator = defineIterator$1(Array, 'Array', function (iterated, kind) {
     setInternalState$2(this, {
       type: ARRAY_ITERATOR,
-      target: toIndexedObject$2(iterated), // target
+      target: toIndexedObject$1(iterated), // target
       index: 0,                          // next index
       kind: kind                         // kind
     });
@@ -13385,11 +12129,11 @@
     var index = state.index++;
     if (!target || index >= target.length) {
       state.target = undefined;
-      return { value: undefined, done: true };
+      return createIterResultObject$1(undefined, true);
     }
-    if (kind == 'keys') return { value: index, done: false };
-    if (kind == 'values') return { value: target[index], done: false };
-    return { value: [index, target[index]], done: false };
+    if (kind == 'keys') return createIterResultObject$1(index, false);
+    if (kind == 'values') return createIterResultObject$1(target[index], false);
+    return createIterResultObject$1([index, target[index]], false);
   }, 'values');
 
   // argumentsList[@@iterator] is %ArrayProto_values%
@@ -13403,14 +12147,61 @@
   addToUnscopables('entries');
 
   // V8 ~ Chrome 45- bug
-  if (DESCRIPTORS && values.name !== 'values') try {
-    defineProperty$1(values, 'name', { value: 'values' });
+  if (DESCRIPTORS$1 && values.name !== 'values') try {
+    defineProperty$2(values, 'name', { value: 'values' });
   } catch (error) { /* empty */ }
 
+  var classof$2 = classof$7;
+
+  var $String = String;
+
+  var toString$4 = function (argument) {
+    if (classof$2(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
+    return $String(argument);
+  };
+
+  var uncurryThis$7 = functionUncurryThis;
+  var toIntegerOrInfinity = toIntegerOrInfinity$3;
+  var toString$3 = toString$4;
+  var requireObjectCoercible = requireObjectCoercible$3;
+
+  var charAt$1 = uncurryThis$7(''.charAt);
+  var charCodeAt = uncurryThis$7(''.charCodeAt);
+  var stringSlice = uncurryThis$7(''.slice);
+
+  var createMethod$1 = function (CONVERT_TO_STRING) {
+    return function ($this, pos) {
+      var S = toString$3(requireObjectCoercible($this));
+      var position = toIntegerOrInfinity(pos);
+      var size = S.length;
+      var first, second;
+      if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
+      first = charCodeAt(S, position);
+      return first < 0xD800 || first > 0xDBFF || position + 1 === size
+        || (second = charCodeAt(S, position + 1)) < 0xDC00 || second > 0xDFFF
+          ? CONVERT_TO_STRING
+            ? charAt$1(S, position)
+            : first
+          : CONVERT_TO_STRING
+            ? stringSlice(S, position, position + 2)
+            : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
+    };
+  };
+
+  var stringMultibyte = {
+    // `String.prototype.codePointAt` method
+    // https://tc39.es/ecma262/#sec-string.prototype.codepointat
+    codeAt: createMethod$1(false),
+    // `String.prototype.at` method
+    // https://github.com/mathiasbynens/String.prototype.at
+    charAt: createMethod$1(true)
+  };
+
   var charAt = stringMultibyte.charAt;
-  var toString$2 = toString$7;
+  var toString$2 = toString$4;
   var InternalStateModule$1 = internalState;
-  var defineIterator = defineIterator$2;
+  var defineIterator = iteratorDefine;
+  var createIterResultObject = createIterResultObject$2;
 
   var STRING_ITERATOR = 'String Iterator';
   var setInternalState$1 = InternalStateModule$1.set;
@@ -13431,20 +12222,44 @@
     var string = state.string;
     var index = state.index;
     var point;
-    if (index >= string.length) return { value: undefined, done: true };
+    if (index >= string.length) return createIterResultObject(undefined, true);
     point = charAt(string, index);
     state.index += point.length;
-    return { value: point, done: false };
+    return createIterResultObject(point, false);
   });
+
+  var defineBuiltIn$1 = defineBuiltIn$9;
+
+  var defineBuiltIns$2 = function (target, src, options) {
+    for (var key in src) defineBuiltIn$1(target, key, src[key], options);
+    return target;
+  };
 
   var internalMetadata = {exports: {}};
 
   var objectGetOwnPropertyNamesExternal = {};
 
+  var toAbsoluteIndex = toAbsoluteIndex$3;
+  var lengthOfArrayLike$2 = lengthOfArrayLike$7;
+  var createProperty = createProperty$3;
+
+  var $Array = Array;
+  var max$1 = Math.max;
+
+  var arraySliceSimple = function (O, start, end) {
+    var length = lengthOfArrayLike$2(O);
+    var k = toAbsoluteIndex(start, length);
+    var fin = toAbsoluteIndex(end === undefined ? length : end, length);
+    var result = $Array(max$1(fin - k, 0));
+    for (var n = 0; k < fin; k++, n++) createProperty(result, n, O[k]);
+    result.length = n;
+    return result;
+  };
+
   /* eslint-disable es/no-object-getownpropertynames -- safe */
 
-  var classof$1 = classofRaw$1;
-  var toIndexedObject$1 = toIndexedObject$8;
+  var classof$1 = classofRaw$2;
+  var toIndexedObject = toIndexedObject$7;
   var $getOwnPropertyNames = objectGetOwnPropertyNames.f;
   var arraySlice$1 = arraySliceSimple;
 
@@ -13463,11 +12278,11 @@
   objectGetOwnPropertyNamesExternal.f = function getOwnPropertyNames(it) {
     return windowNames && classof$1(it) == 'Window'
       ? getWindowNames(it)
-      : $getOwnPropertyNames(toIndexedObject$1(it));
+      : $getOwnPropertyNames(toIndexedObject(it));
   };
 
   // FF26- bug: ArrayBuffers are non-extensible, but Object.isExtensible does not report it
-  var fails$6 = fails$q;
+  var fails$6 = fails$m;
 
   var arrayBufferNonExtensible = fails$6(function () {
     if (typeof ArrayBuffer == 'function') {
@@ -13477,9 +12292,9 @@
     }
   });
 
-  var fails$5 = fails$q;
+  var fails$5 = fails$m;
   var isObject$6 = isObject$i;
-  var classof = classofRaw$1;
+  var classof = classofRaw$2;
   var ARRAY_BUFFER_NON_EXTENSIBLE = arrayBufferNonExtensible;
 
   // eslint-disable-next-line es/no-object-isextensible -- safe
@@ -13494,19 +12309,19 @@
     return $isExtensible ? $isExtensible(it) : true;
   } : $isExtensible;
 
-  var fails$4 = fails$q;
+  var fails$4 = fails$m;
 
   var freezing = !fails$4(function () {
     // eslint-disable-next-line es/no-object-isextensible, es/no-object-preventextensions -- required for testing
     return Object.isExtensible(Object.preventExtensions({}));
   });
 
-  var $$4 = _export;
-  var uncurryThis$7 = functionUncurryThis;
+  var $$3 = _export;
+  var uncurryThis$6 = functionUncurryThis;
   var hiddenKeys = hiddenKeys$5;
   var isObject$5 = isObject$i;
   var hasOwn$2 = hasOwnProperty_1;
-  var defineProperty = objectDefineProperty.f;
+  var defineProperty$1 = objectDefineProperty.f;
   var getOwnPropertyNamesModule = objectGetOwnPropertyNames;
   var getOwnPropertyNamesExternalModule = objectGetOwnPropertyNamesExternal;
   var isExtensible$1 = objectIsExtensible;
@@ -13518,7 +12333,7 @@
   var id$1 = 0;
 
   var setMetadata = function (it) {
-    defineProperty(it, METADATA, { value: {
+    defineProperty$1(it, METADATA, { value: {
       objectID: 'O' + id$1++, // object ID
       weakData: {}          // weak collections IDs
     } });
@@ -13560,7 +12375,7 @@
     meta.enable = function () { /* empty */ };
     REQUIRED = true;
     var getOwnPropertyNames = getOwnPropertyNamesModule.f;
-    var splice = uncurryThis$7([].splice);
+    var splice = uncurryThis$6([].splice);
     var test = {};
     test[METADATA] = 1;
 
@@ -13576,7 +12391,7 @@
         } return result;
       };
 
-      $$4({ target: 'Object', stat: true, forced: true }, {
+      $$3({ target: 'Object', stat: true, forced: true }, {
         getOwnPropertyNames: getOwnPropertyNamesExternalModule.f
       });
     }
@@ -13591,7 +12406,7 @@
 
   hiddenKeys[METADATA] = true;
 
-  var isCallable$1 = isCallable$l;
+  var isCallable$1 = isCallable$n;
   var isObject$4 = isObject$i;
   var setPrototypeOf$1 = objectSetPrototypeOf;
 
@@ -13610,17 +12425,18 @@
     return $this;
   };
 
-  var $$3 = _export;
-  var global$4 = global$N;
-  var uncurryThis$6 = functionUncurryThis;
+  var $$2 = _export;
+  var global$4 = global$m;
+  var uncurryThis$5 = functionUncurryThis;
   var isForced = isForced_1;
-  var redefine = redefine$9.exports;
+  var defineBuiltIn = defineBuiltIn$9;
   var InternalMetadataModule$1 = internalMetadata.exports;
-  var iterate$1 = iterate$3;
+  var iterate$1 = iterate$4;
   var anInstance$1 = anInstance$3;
-  var isCallable = isCallable$l;
+  var isCallable = isCallable$n;
+  var isNullOrUndefined$1 = isNullOrUndefined$6;
   var isObject$3 = isObject$i;
-  var fails$3 = fails$q;
+  var fails$3 = fails$m;
   var checkCorrectnessOfIteration = checkCorrectnessOfIteration$2;
   var setToStringTag = setToStringTag$4;
   var inheritIfRequired$1 = inheritIfRequired$2;
@@ -13635,8 +12451,8 @@
     var exported = {};
 
     var fixMethod = function (KEY) {
-      var uncurriedNativeMethod = uncurryThis$6(NativePrototype[KEY]);
-      redefine(NativePrototype, KEY,
+      var uncurriedNativeMethod = uncurryThis$5(NativePrototype[KEY]);
+      defineBuiltIn(NativePrototype, KEY,
         KEY == 'add' ? function add(value) {
           uncurriedNativeMethod(this, value === 0 ? 0 : value);
           return this;
@@ -13686,7 +12502,7 @@
         Constructor = wrapper(function (dummy, iterable) {
           anInstance$1(dummy, NativePrototype);
           var that = inheritIfRequired$1(new NativeConstructor(), dummy, Constructor);
-          if (iterable != undefined) iterate$1(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
+          if (!isNullOrUndefined$1(iterable)) iterate$1(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
           return that;
         });
         Constructor.prototype = NativePrototype;
@@ -13706,7 +12522,7 @@
     }
 
     exported[CONSTRUCTOR_NAME] = Constructor;
-    $$3({ global: true, forced: Constructor != NativeConstructor }, exported);
+    $$2({ global: true, constructor: true, forced: Constructor != NativeConstructor }, exported);
 
     setToStringTag(Constructor, CONSTRUCTOR_NAME);
 
@@ -13716,13 +12532,13 @@
   };
 
   var bind = functionBindContext;
-  var uncurryThis$5 = functionUncurryThis;
-  var IndexedObject$1 = indexedObject;
+  var uncurryThis$4 = functionUncurryThis;
+  var IndexedObject = indexedObject;
   var toObject$1 = toObject$5;
   var lengthOfArrayLike$1 = lengthOfArrayLike$7;
   var arraySpeciesCreate = arraySpeciesCreate$2;
 
-  var push$1 = uncurryThis$5([].push);
+  var push$1 = uncurryThis$4([].push);
 
   // `Array.prototype.{ forEach, map, filter, some, every, find, findIndex, filterReject }` methods implementation
   var createMethod = function (TYPE) {
@@ -13735,7 +12551,7 @@
     var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
     return function ($this, callbackfn, that, specificCreate) {
       var O = toObject$1($this);
-      var self = IndexedObject$1(O);
+      var self = IndexedObject(O);
       var boundFunction = bind(callbackfn, that);
       var length = lengthOfArrayLike$1(self);
       var index = 0;
@@ -13789,13 +12605,14 @@
     filterReject: createMethod(7)
   };
 
-  var uncurryThis$4 = functionUncurryThis;
-  var redefineAll$1 = redefineAll$3;
+  var uncurryThis$3 = functionUncurryThis;
+  var defineBuiltIns$1 = defineBuiltIns$2;
   var getWeakData = internalMetadata.exports.getWeakData;
-  var anObject = anObject$e;
-  var isObject$2 = isObject$i;
   var anInstance = anInstance$3;
-  var iterate = iterate$3;
+  var anObject = anObject$b;
+  var isNullOrUndefined = isNullOrUndefined$6;
+  var isObject$2 = isObject$i;
+  var iterate = iterate$4;
   var ArrayIterationModule = arrayIteration;
   var hasOwn$1 = hasOwnProperty_1;
   var InternalStateModule = internalState;
@@ -13804,7 +12621,7 @@
   var internalStateGetterFor = InternalStateModule.getterFor;
   var find = ArrayIterationModule.find;
   var findIndex = ArrayIterationModule.findIndex;
-  var splice = uncurryThis$4([].splice);
+  var splice = uncurryThis$3([].splice);
   var id = 0;
 
   // fallback for uncaught frozen keys
@@ -13853,7 +12670,7 @@
           id: id++,
           frozen: undefined
         });
-        if (iterable != undefined) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
+        if (!isNullOrUndefined(iterable)) iterate(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
       });
 
       var Prototype = Constructor.prototype;
@@ -13868,7 +12685,7 @@
         return that;
       };
 
-      redefineAll$1(Prototype, {
+      defineBuiltIns$1(Prototype, {
         // `{ WeakMap, WeakSet }.prototype.delete(key)` methods
         // https://tc39.es/ecma262/#sec-weakmap.prototype.delete
         // https://tc39.es/ecma262/#sec-weakset.prototype.delete
@@ -13891,7 +12708,7 @@
         }
       });
 
-      redefineAll$1(Prototype, IS_MAP ? {
+      defineBuiltIns$1(Prototype, IS_MAP ? {
         // `WeakMap.prototype.get(key)` method
         // https://tc39.es/ecma262/#sec-weakmap.prototype.get
         get: function get(key) {
@@ -13919,16 +12736,16 @@
     }
   };
 
-  var global$3 = global$N;
-  var uncurryThis$3 = functionUncurryThis;
-  var redefineAll = redefineAll$3;
+  var global$3 = global$m;
+  var uncurryThis$2 = functionUncurryThis;
+  var defineBuiltIns = defineBuiltIns$2;
   var InternalMetadataModule = internalMetadata.exports;
   var collection$1 = collection$2;
   var collectionWeak$1 = collectionWeak$2;
   var isObject$1 = isObject$i;
   var isExtensible = objectIsExtensible;
   var enforceInternalState = internalState.enforce;
-  var NATIVE_WEAK_MAP = nativeWeakMap;
+  var NATIVE_WEAK_MAP = weakMapBasicDetection;
 
   var IS_IE11 = !global$3.ActiveXObject && 'ActiveXObject' in global$3;
   var InternalWeakMap;
@@ -13950,11 +12767,11 @@
     InternalWeakMap = collectionWeak$1.getConstructor(wrapper, 'WeakMap', true);
     InternalMetadataModule.enable();
     var WeakMapPrototype = $WeakMap.prototype;
-    var nativeDelete = uncurryThis$3(WeakMapPrototype['delete']);
-    var nativeHas = uncurryThis$3(WeakMapPrototype.has);
-    var nativeGet = uncurryThis$3(WeakMapPrototype.get);
-    var nativeSet = uncurryThis$3(WeakMapPrototype.set);
-    redefineAll(WeakMapPrototype, {
+    var nativeDelete = uncurryThis$2(WeakMapPrototype['delete']);
+    var nativeHas = uncurryThis$2(WeakMapPrototype.has);
+    var nativeGet = uncurryThis$2(WeakMapPrototype.get);
+    var nativeSet = uncurryThis$2(WeakMapPrototype.set);
+    defineBuiltIns(WeakMapPrototype, {
       'delete': function (key) {
         if (isObject$1(key) && !isExtensible(key)) {
           var state = enforceInternalState(this);
@@ -14031,12 +12848,12 @@
 
   var domTokenListPrototype = DOMTokenListPrototype$1 === Object.prototype ? undefined : DOMTokenListPrototype$1;
 
-  var global$2 = global$N;
+  var global$2 = global$m;
   var DOMIterables = domIterables;
   var DOMTokenListPrototype = domTokenListPrototype;
   var ArrayIteratorMethods = es_array_iterator;
-  var createNonEnumerableProperty$2 = createNonEnumerableProperty$8;
-  var wellKnownSymbol = wellKnownSymbol$k;
+  var createNonEnumerableProperty$2 = createNonEnumerableProperty$6;
+  var wellKnownSymbol = wellKnownSymbol$i;
 
   var ITERATOR = wellKnownSymbol('iterator');
   var TO_STRING_TAG = wellKnownSymbol('toStringTag');
@@ -14071,46 +12888,30 @@
   handlePrototype(DOMTokenListPrototype, 'DOMTokenList');
 
   var _currentOccurrenceId = /*#__PURE__*/new WeakMap();
-
   var MainController = /*#__PURE__*/function (_AppController) {
     _inherits(MainController, _AppController);
-
     var _super = _createSuper(MainController);
-
     /**
      *
      * @param {MainView} view
      */
     function MainController(view) {
       var _this;
-
       _classCallCheck(this, MainController);
-
       _this = _super.call(this);
-
       _defineProperty(_assertThisInitialized(_this), "route", '/list/:action/:id');
-
       _defineProperty(_assertThisInitialized(_this), "title", 'BSBI New Year Plant Hunt homepage');
-
       _defineProperty(_assertThisInitialized(_this), "app", void 0);
-
       _defineProperty(_assertThisInitialized(_this), "view", void 0);
-
       _classPrivateFieldInitSpec(_assertThisInitialized(_this), _currentOccurrenceId, {
         writable: true,
         value: ''
       });
-
       _defineProperty(_assertThisInitialized(_this), "needsFullRefresh", true);
-
       _defineProperty(_assertThisInitialized(_this), "needRightPanelRefresh", true);
-
       _defineProperty(_assertThisInitialized(_this), "viewSubcontext", '');
-
       _defineProperty(_assertThisInitialized(_this), "surveySection", void 0);
-
       _defineProperty(_assertThisInitialized(_this), "leftPanelBaseRoute", '');
-
       _defineProperty(_assertThisInitialized(_this), "viewContexts", {
         /**
          * @this {MainController}
@@ -14128,6 +12929,7 @@
             // force a refresh as it cheap to refresh static content and more difficult to detect
             // if strictly needed.
             // May have reached this point following deletion of the current record.
+
             this.currentOccurrenceId = '';
             this.needRightPanelRefresh = true;
           } else if (_classPrivateFieldGet(this, _currentOccurrenceId) !== queryParameters.id) {
@@ -14136,10 +12938,8 @@
           } else {
             this.needRightPanelRefresh = false;
           }
-
           this.leftPanelBaseRoute = '/list/record';
         },
-
         /**
          * @this {MainController}
          * @param {{[section]: string}} queryParameters
@@ -14152,7 +12952,6 @@
           this.leftPanelBaseRoute = "/list/survey/".concat(queryParameters.section);
         }
       });
-
       _this.view = view;
       view.controller = _assertThisInitialized(_this);
       _this.handle = AppController.nextHandle;
@@ -14164,12 +12963,11 @@
       view.addListener(MainController.EVENT_NEXT_TO_RECORDS, _this.nextTransitionToRecordsHandler.bind(_assertThisInitialized(_this)));
       return _this;
     }
+
     /**
      * handler for event fired on and by view when 'next section' button has been click, leading to the records section
      * this will expand the list of records, or if none exist, add a first one and open it
      */
-
-
     _createClass(MainController, [{
       key: "occurrences",
       get:
@@ -14229,11 +13027,11 @@
       function get() {
         return this.app.occurrences;
       }
+
       /**
        *
        * @returns {null|Occurrence}
        */
-
     }, {
       key: "currentOccurrence",
       get: function get() {
@@ -14247,37 +13045,38 @@
           return null;
         }
       }
+
       /**
        *
        * @returns {string}
        */
-
     }, {
       key: "currentOccurrenceId",
       get: function get() {
         return _classPrivateFieldGet(this, _currentOccurrenceId);
       }
+
       /**
        *
        * @param {string} occurrenceId
-       */
-      ,
+       */,
       set: function set(occurrenceId) {
         // if (this.#currentOccurrenceId && this.#currentOccurrenceId !== occurrenceId) {
         //     if (this.#currentOccurrenceModifiedEventHandle) {
         //         this.#currentOccurrenceModifiedEventHandle = this.currentOccurrence.removeListener(Occurrence.EVENT_MODIFIED, this.#currentOccurrenceModifiedEventHandle);
         //     }
         // }
-        _classPrivateFieldSet(this, _currentOccurrenceId, occurrenceId); // if (occurrenceId) {
+
+        _classPrivateFieldSet(this, _currentOccurrenceId, occurrenceId);
+        // if (occurrenceId) {
         //     this.#currentOccurrenceModifiedEventHandle = this.currentOccurrence.addListener(Occurrence.EVENT_MODIFIED, this.currentOccurrenceModifiedHandler.bind(this));
         // }
-
       }
+
       /**
        *
        * @returns {Survey}
        */
-
     }, {
       key: "survey",
       get: function get() {
@@ -14287,18 +13086,17 @@
       key: "nextTransitionToRecordsHandler",
       value: function nextTransitionToRecordsHandler() {
         console.log('in nextTransitionToRecordsHandler()');
-
         if (this.app.haveExtantOccurrences()) {
           this.app.router.navigate('/list/record/');
         } else {
           this.newRecordHandler();
         }
       }
+
       /**
        *
        * @param {{occurrenceId : string}} parameters
        */
-
     }, {
       key: "deleteOccurrenceHandler",
       value: function deleteOccurrenceHandler(parameters) {
@@ -14306,22 +13104,19 @@
           deleting: parameters.occurrenceId
         });
         var occurrence = this.app.occurrences.get(parameters.occurrenceId);
-
         if (!occurrence) {
           throw new InternalAppError$1("Occurrence id '".concat(parameters.occurrenceId, "' not found when trying to delete."));
         }
-
         occurrence.delete();
-
         if (this.currentOccurrenceId === parameters.occurrenceId) {
           this.app.router.navigate("/list/record/");
         }
       }
+
       /**
        *
        * @param {{sectionKey : string}} params
        */
-
     }, {
       key: "surveyPartSelectionHandler",
       value: function surveyPartSelectionHandler(params) {
@@ -14329,7 +13124,6 @@
         console.log({
           params: params
         });
-
         if (params.sectionKey === 'record') {
           this.app.router.navigate("/list/record/");
         } else if (params.sectionKey) {
@@ -14338,22 +13132,22 @@
           this.app.router.navigate("/list/");
         }
       }
+
       /**
        * may be invoked directly or in response to the Add New Record event
        * therefore assume that the method receives no event parameters
        */
-
     }, {
       key: "newRecordHandler",
       value: function newRecordHandler() {
         var occurrence = this.app.addNewOccurrence();
         this.app.router.navigate("/list/record/".concat(occurrence.id));
       }
+
       /**
        *
        * @param {{occurrenceId : string}} params
        */
-
     }, {
       key: "occurrenceSelectionHandler",
       value: function occurrenceSelectionHandler(params) {
@@ -14362,20 +13156,19 @@
             params: params
           }
         });
-
         if (this.currentOccurrenceId && params.occurrenceId && this.currentOccurrenceId === params.occurrenceId) {
           console.log("ignoring spurious navigation event for '".concat(params.occurrenceId, "'"));
         } else {
           this.app.router.navigate("/list/record/".concat(params.occurrenceId));
         }
       }
+
       /**
        * registers the default route from this.route
        * or alternatively is overridden in a child class
        *
        * @param {PatchedNavigo} router
        */
-
     }, {
       key: "registerRoute",
       value: function registerRoute(router) {
@@ -14407,6 +13200,7 @@
         });
         router.on('/list/survey/:section/help', this.mainRouteHandler.bind(this, 'list', 'survey', 'help'));
       }
+
       /**
        *
        * @param {string} context typically 'list'
@@ -14414,7 +13208,6 @@
        * @param {(''|'help')} rhs
        * @param {Object.<string, string>} queryParameters
        */
-
     }, {
       key: "mainRouteHandler",
       value: function mainRouteHandler(context, subcontext, rhs, queryParameters) {
@@ -14425,22 +13218,20 @@
           query: queryParameters
         });
         this.app.saveRoute();
-
         try {
           this.viewSubcontext = subcontext;
-
           if (subcontext) {
             this.viewContexts[subcontext].call(this, queryParameters);
           }
-
           if (this.app.currentControllerHandle !== this.handle) {
             // need a complete refresh of the page (the list and any occurrence panel)
+
             // console.log(`currentControllerHandle = ${this.app.currentControllerHandle}, handle = ${this.handle}`);
+
             this.needsFullRefresh = true;
             this.needRightPanelRefresh = true;
             this.app.currentControllerHandle = this.handle;
           }
-
           this.view.panelKey = rhs;
           this.view.display();
           this.needsFullRefresh = false;
@@ -14448,7 +13239,9 @@
           this.error = error;
           console.log({
             error: error
-          }); // attempt to carry on regardless to some extent (error should be reported in the view)
+          });
+
+          // attempt to carry on regardless to some extent (error should be reported in the view)
           // but wrap in a further try just in case
 
           try {
@@ -14458,7 +13251,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1665755664</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666880802</p>");
           }
         }
       }
@@ -14468,37 +13261,41 @@
         if (this.app.routeHistory.length >= 2 && this.app.routeHistory[this.app.routeHistory.length - 2].url === this.leftPanelBaseRoute) {
           this.app.routeHistory.length -= 1;
           console.log('using standard back navigation');
-          window.history.back(); //console.log('fell through back!');
+          window.history.back();
+          //console.log('fell through back!');
         } else {
           console.log("navigating back using base address '".concat(this.leftPanelBaseRoute, "'"));
           this.app.router.navigate(this.leftPanelBaseRoute);
         }
       }
     }]);
-
     return MainController;
   }(AppController);
-
   _defineProperty(MainController, "EVENT_SELECT_OCCURRENCE", 'selectoccurrence');
-
   _defineProperty(MainController, "EVENT_SELECT_SURVEY_SECTION", 'selectsurveysection');
-
   _defineProperty(MainController, "EVENT_NEW_RECORD", 'newrecord');
-
   _defineProperty(MainController, "EVENT_DELETE_OCCURRENCE", 'deleteoccurrence');
-
   _defineProperty(MainController, "EVENT_BACK", 'back');
-
   _defineProperty(MainController, "EVENT_NEXT_TO_RECORDS", 'nexttorecords');
 
-  var toString$1 = toString$7;
+  var defineProperty = objectDefineProperty.f;
+
+  var proxyAccessor$1 = function (Target, Source, key) {
+    key in Target || defineProperty(Target, key, {
+      configurable: true,
+      get: function () { return Source[key]; },
+      set: function (it) { Source[key] = it; }
+    });
+  };
+
+  var toString$1 = toString$4;
 
   var normalizeStringArgument$1 = function (argument, $default) {
     return argument === undefined ? arguments.length < 2 ? '' : $default : toString$1(argument);
   };
 
   var isObject = isObject$i;
-  var createNonEnumerableProperty$1 = createNonEnumerableProperty$8;
+  var createNonEnumerableProperty$1 = createNonEnumerableProperty$6;
 
   // `InstallErrorCause` abstract operation
   // https://tc39.es/proposal-error-cause/#sec-errorobjects-install-error-cause
@@ -14508,21 +13305,22 @@
     }
   };
 
-  var uncurryThis$2 = functionUncurryThis;
+  var uncurryThis$1 = functionUncurryThis;
 
-  var replace = uncurryThis$2(''.replace);
+  var $Error = Error;
+  var replace = uncurryThis$1(''.replace);
 
-  var TEST = (function (arg) { return String(Error(arg).stack); })('zxcasd');
+  var TEST = (function (arg) { return String($Error(arg).stack); })('zxcasd');
   var V8_OR_CHAKRA_STACK_ENTRY = /\n\s*at [^:]*:[^\n]*/;
   var IS_V8_OR_CHAKRA_STACK = V8_OR_CHAKRA_STACK_ENTRY.test(TEST);
 
-  var clearErrorStack$1 = function (stack, dropEntries) {
-    if (IS_V8_OR_CHAKRA_STACK && typeof stack == 'string') {
+  var errorStackClear = function (stack, dropEntries) {
+    if (IS_V8_OR_CHAKRA_STACK && typeof stack == 'string' && !$Error.prepareStackTrace) {
       while (dropEntries--) stack = replace(stack, V8_OR_CHAKRA_STACK_ENTRY, '');
     } return stack;
   };
 
-  var fails$2 = fails$q;
+  var fails$2 = fails$m;
   var createPropertyDescriptor = createPropertyDescriptor$5;
 
   var errorStackInstallable = !fails$2(function () {
@@ -14533,19 +13331,22 @@
     return error.stack !== 7;
   });
 
-  var getBuiltIn = getBuiltIn$9;
+  var getBuiltIn = getBuiltIn$a;
   var hasOwn = hasOwnProperty_1;
-  var createNonEnumerableProperty = createNonEnumerableProperty$8;
+  var createNonEnumerableProperty = createNonEnumerableProperty$6;
   var isPrototypeOf = objectIsPrototypeOf;
   var setPrototypeOf = objectSetPrototypeOf;
   var copyConstructorProperties = copyConstructorProperties$2;
+  var proxyAccessor = proxyAccessor$1;
   var inheritIfRequired = inheritIfRequired$2;
   var normalizeStringArgument = normalizeStringArgument$1;
   var installErrorCause = installErrorCause$1;
-  var clearErrorStack = clearErrorStack$1;
+  var clearErrorStack = errorStackClear;
   var ERROR_STACK_INSTALLABLE = errorStackInstallable;
+  var DESCRIPTORS = descriptors;
 
   var wrapErrorConstructorWithCause$1 = function (FULL_NAME, wrapper, FORCED, IS_AGGREGATE_ERROR) {
+    var STACK_TRACE_LIMIT = 'stackTraceLimit';
     var OPTIONS_POSITION = IS_AGGREGATE_ERROR ? 2 : 1;
     var path = FULL_NAME.split('.');
     var ERROR_NAME = path[path.length - 1];
@@ -14577,6 +13378,9 @@
     if (ERROR_NAME !== 'Error') {
       if (setPrototypeOf) setPrototypeOf(WrappedError, BaseError);
       else copyConstructorProperties(WrappedError, BaseError, { name: true });
+    } else if (DESCRIPTORS && STACK_TRACE_LIMIT in OriginalError) {
+      proxyAccessor(WrappedError, OriginalError, STACK_TRACE_LIMIT);
+      proxyAccessor(WrappedError, OriginalError, 'prepareStackTrace');
     }
 
     copyConstructorProperties(WrappedError, OriginalError);
@@ -14594,8 +13398,8 @@
 
   /* eslint-disable no-unused-vars -- required for functions `.length` */
 
-  var $$2 = _export;
-  var global$1 = global$N;
+  var $$1 = _export;
+  var global$1 = global$m;
   var apply = functionApply;
   var wrapErrorConstructorWithCause = wrapErrorConstructorWithCause$1;
 
@@ -14607,14 +13411,14 @@
   var exportGlobalErrorCauseWrapper = function (ERROR_NAME, wrapper) {
     var O = {};
     O[ERROR_NAME] = wrapErrorConstructorWithCause(ERROR_NAME, wrapper, FORCED$1);
-    $$2({ global: true, forced: FORCED$1 }, O);
+    $$1({ global: true, constructor: true, arity: 1, forced: FORCED$1 }, O);
   };
 
   var exportWebAssemblyErrorCauseWrapper = function (ERROR_NAME, wrapper) {
     if (WebAssembly && WebAssembly[ERROR_NAME]) {
       var O = {};
       O[ERROR_NAME] = wrapErrorConstructorWithCause(WEB_ASSEMBLY + '.' + ERROR_NAME, wrapper, FORCED$1);
-      $$2({ target: WEB_ASSEMBLY, stat: true, forced: FORCED$1 }, O);
+      $$1({ target: WEB_ASSEMBLY, stat: true, constructor: true, arity: 1, forced: FORCED$1 }, O);
     }
   };
 
@@ -14659,34 +13463,13 @@
     return function WeakSet() { return init(this, arguments.length ? arguments[0] : undefined); };
   }, collectionWeak);
 
-  var fails$1 = fails$q;
+  var tryToString = tryToString$5;
 
-  var arrayMethodIsStrict$2 = function (METHOD_NAME, argument) {
-    var method = [][METHOD_NAME];
-    return !!method && fails$1(function () {
-      // eslint-disable-next-line no-useless-call,no-throw-literal -- required for testing
-      method.call(null, argument || function () { throw 1; }, 1);
-    });
+  var $TypeError = TypeError;
+
+  var deletePropertyOrThrow$1 = function (O, P) {
+    if (!delete O[P]) throw $TypeError('Cannot delete property ' + tryToString(P) + ' of ' + tryToString(O));
   };
-
-  var $$1 = _export;
-  var uncurryThis$1 = functionUncurryThis;
-  var IndexedObject = indexedObject;
-  var toIndexedObject = toIndexedObject$8;
-  var arrayMethodIsStrict$1 = arrayMethodIsStrict$2;
-
-  var un$Join = uncurryThis$1([].join);
-
-  var ES3_STRINGS = IndexedObject != Object;
-  var STRICT_METHOD$1 = arrayMethodIsStrict$1('join', ',');
-
-  // `Array.prototype.join` method
-  // https://tc39.es/ecma262/#sec-array.prototype.join
-  $$1({ target: 'Array', proto: true, forced: ES3_STRINGS || !STRICT_METHOD$1 }, {
-    join: function join(separator) {
-      return un$Join(toIndexedObject(this), separator === undefined ? ',' : separator);
-    }
-  });
 
   var arraySlice = arraySliceSimple;
 
@@ -14733,6 +13516,16 @@
 
   var arraySort = mergeSort;
 
+  var fails$1 = fails$m;
+
+  var arrayMethodIsStrict$1 = function (METHOD_NAME, argument) {
+    var method = [][METHOD_NAME];
+    return !!method && fails$1(function () {
+      // eslint-disable-next-line no-useless-call -- required for testing
+      method.call(null, argument || function () { return 1; }, 1);
+    });
+  };
+
   var userAgent$1 = engineUserAgent;
 
   var firefox = userAgent$1.match(/firefox\/(\d+)/i);
@@ -14751,20 +13544,21 @@
 
   var $ = _export;
   var uncurryThis = functionUncurryThis;
-  var aCallable = aCallable$6;
+  var aCallable = aCallable$8;
   var toObject = toObject$5;
   var lengthOfArrayLike = lengthOfArrayLike$7;
-  var toString = toString$7;
-  var fails = fails$q;
+  var deletePropertyOrThrow = deletePropertyOrThrow$1;
+  var toString = toString$4;
+  var fails = fails$m;
   var internalSort = arraySort;
-  var arrayMethodIsStrict = arrayMethodIsStrict$2;
+  var arrayMethodIsStrict = arrayMethodIsStrict$1;
   var FF = engineFfVersion;
   var IE_OR_EDGE = engineIsIeOrEdge;
   var V8 = engineV8Version;
   var WEBKIT = engineWebkitVersion;
 
   var test = [];
-  var un$Sort = uncurryThis(test.sort);
+  var nativeSort = uncurryThis(test.sort);
   var push = uncurryThis(test.push);
 
   // IE8-
@@ -14832,7 +13626,7 @@
 
       var array = toObject(this);
 
-      if (STABLE_SORT) return comparefn === undefined ? un$Sort(array) : un$Sort(array, comparefn);
+      if (STABLE_SORT) return comparefn === undefined ? nativeSort(array) : nativeSort(array, comparefn);
 
       var items = [];
       var arrayLength = lengthOfArrayLike(array);
@@ -14844,11 +13638,11 @@
 
       internalSort(items, getSortCompare(comparefn));
 
-      itemsLength = items.length;
+      itemsLength = lengthOfArrayLike(items);
       index = 0;
 
       while (index < itemsLength) array[index] = items[index++];
-      while (index < arrayLength) delete array[index++];
+      while (index < arrayLength) deletePropertyOrThrow(array, index++);
 
       return array;
     }
@@ -14863,28 +13657,19 @@
   var NyphSurveyFormSection = /*#__PURE__*/_createClass(function NyphSurveyFormSection() {
     _classCallCheck(this, NyphSurveyFormSection);
   });
-
   _defineProperty(NyphSurveyFormSection, "sectionTitle", void 0);
-
   _defineProperty(NyphSurveyFormSection, "sectionSortOrder", void 0);
-
   _defineProperty(NyphSurveyFormSection, "sectionNavigationKey", void 0);
-
   _defineProperty(NyphSurveyFormSection, "help", '');
-
   _defineProperty(NyphSurveyFormSection, "properties", void 0);
 
   var NyphSurveyForm = /*#__PURE__*/function (_SurveyForm) {
     _inherits(NyphSurveyForm, _SurveyForm);
-
     var _super = _createSuper(NyphSurveyForm);
-
     function NyphSurveyForm() {
       _classCallCheck(this, NyphSurveyForm);
-
       return _super.apply(this, arguments);
     }
-
     _createClass(NyphSurveyForm, null, [{
       key: "registerSection",
       value:
@@ -14898,15 +13683,19 @@
        *
        * @type {Object.<string, typeof NyphSurveyFormSection>}
        */
+
       // /**
       //  * @type {Survey}
       //  */
       // #survey;
+
       // _formFieldsBuilt = false;
+
       // /**
       //  * @type {typeof NyphSurveyFormSection}
       //  */
       // section;
+
       // /**
       //  *
       //  * @param {typeof NyphSurveyFormSection} section
@@ -14914,6 +13703,7 @@
       // constructor(section) {
       //     super(section);
       // }
+
       // /**
       //  *
       //  * @returns {HTMLElement}
@@ -14927,6 +13717,7 @@
       //
       //     return el;
       // }
+
       // updateModelFromContent() {
       //     console.log('updating survey from NyphSurveyForm content');
       //
@@ -14940,6 +13731,7 @@
       //
       //     console.log({survey: this.#survey});
       // }
+
       // /**
       //  *
       //  * @param {Survey} model
@@ -14948,9 +13740,11 @@
       //     this.#survey = model;
       //     this.populateFormContent();
       // }
+
       // get model() {
       //     return this.#survey;
       // }
+
       // /**
       //  * the change event triggers after a field has changed, before the value has been read back into the model
       //  *
@@ -14962,6 +13756,7 @@
       //
       //     this.fireEvent(SurveyForm.CHANGE_EVENT, {form: this});
       // }
+
       // destructor() {
       //     super.destructor();
       //     this.#survey = null;
@@ -14974,7 +13769,9 @@
       function registerSection(formClass) {
         NyphSurveyForm.sections[formClass.sectionSortOrder] = formClass;
         NyphSurveyForm.sectionsByKey[formClass.sectionNavigationKey] = formClass;
-      } // /**
+      }
+
+      // /**
       //  *
       //  */
       // initialiseFormFields() {
@@ -14989,45 +13786,34 @@
       //         }
       //     }
       // }
+
       // getFormSectionProperties() {
       //     return this.section.properties;
       // }
-
     }]);
-
     return NyphSurveyForm;
-  }(SurveyForm); // NyphSurveyForm.CHANGE_EVENT = 'change';
+  }(SurveyForm);
 
+  // NyphSurveyForm.CHANGE_EVENT = 'change';
   _defineProperty(NyphSurveyForm, "sections", []);
-
   _defineProperty(NyphSurveyForm, "sectionsByKey", {});
 
   var helpPanelText$1 = "<!-- begin: templates/formHelp/surveyAboutHelp.html -->\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Localising your records</h5>\r\n        <p class=\"card-text\">To make sense of the national coverage of the records we receive, we need to know the starting point for your survey and, ideally the location for each individual record.\r\n            We also need a place name, as a way to double-check that the postcode or grid-reference makes sense.\r\n        </p>\r\n        <p><strong>Please don't provide your full address, as we would need to remove that from our data.</strong></p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Your name and email</h5>\r\n        <p class=\"card-text\">We need your contact details so that we can email you a link\r\n            to your survey. It is also really useful for our experts to be able to contact you\r\n            if we have questions about the records that you've sent.\r\n        </p>\r\n        <p>You can choose whether to include your name with the records in our archive - we'd like your efforts to be acknowledged properly. Your email address will be treated as confidential and won't be stored long-term,\r\n            after your plant records have been checked.</p>\r\n    </div>\r\n</div>\r\n<!-- end: templates/formHelp/surveyAboutHelp.html -->\r\n";
 
   var NyphSurveyFormAboutSection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
     _inherits(NyphSurveyFormAboutSection, _NyphSurveyFormSectio);
-
     var _super = _createSuper(NyphSurveyFormAboutSection);
-
     function NyphSurveyFormAboutSection() {
       _classCallCheck(this, NyphSurveyFormAboutSection);
-
       return _super.apply(this, arguments);
     }
-
     return _createClass(NyphSurveyFormAboutSection);
   }(NyphSurveyFormSection);
-
   _defineProperty(NyphSurveyFormAboutSection, "sectionNavigationKey", 'about');
-
   _defineProperty(NyphSurveyFormAboutSection, "sectionTitle", 'Your details');
-
   _defineProperty(NyphSurveyFormAboutSection, "sectionSortOrder", 0);
-
   _defineProperty(NyphSurveyFormAboutSection, "help", helpPanelText$1);
-
   _defineProperty(NyphSurveyFormAboutSection, "completionRequired", true);
-
   _defineProperty(NyphSurveyFormAboutSection, "properties", {
     recorder: {
       field: InputField,
@@ -15056,17 +13842,15 @@
 
   var helpPanelText = "<!-- begin: templates/formHelp/recordsHelp.html -->\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Using the form</h5>\r\n        <p class=\"card-text\">You can enter as many plant records as you need. To add another record click the 'Add a plant' button.</p>\r\n        <p class=\"card-text\">If you are currently online then the entries will be saved as you go, automatically. Otherwise the records\r\n            will be remembered on your device, but you will need to click '<a href=\"/app/survey/save\" data-navigo=\"survey/save\">save all</a>' (on the <i>Your lists</i> menu) when you have a network connection again.\r\n        </p>\r\n        <p class=\"card-text\">To delete a plant record, find it in the list and click the red 'bin' icon.\r\n        </p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Identifying your plants</h5>\r\n        <h6 class=\"card-subtitle mb-2 text-muted\">Plant names</h6>\r\n        <p class=\"card-text\">If possible, please enter the scientific or common name of the plant, but don't worry if you don't know the full details.\r\n            The list of suggested names includes a very wide range of both native and horticultural plants, but if the name you need\r\n            isn't on the list then you can still type it in.\r\n        </p>\r\n        <p>Remember to record only plants that are in flower. Plants with only buds or seed heads don't count and nor do ferns!</p>\r\n        <p>Please record only flowers growing in wild places. You can include weeds in gardens, lawns or verges, but cultivated plants in or near gardens behave very differently so we'd like to keep them out of our results.</p>\r\n        <h6 class=\"card-subtitle mb-2 text-muted\">Photos</h6>\r\n        <p class=\"card-text\">Photographs of the plant will help us confirm your record. Please provide a picture showing the whole plant, but it will\r\n            also help us if you can provide close-up views of the flowers and leaves.\r\n        </p>\r\n        <p><strong>Please send each of your finds separately.</strong> To analyse your results we need to be able to store a record of each plant. Combining multiple records in a single image, or as text in the comments field creates additional work for our volunteers and may mean that some of your finds are overlooked.</p>\r\n    </div>\r\n</div>\r\n<div class=\"card mt-3\">\r\n    <div class=\"card-body\">\r\n        <h5 class=\"card-title\">Locating your finds</h5>\r\n        <p>If you are using a mobile device in the field then each record should be assigned a GPS-based geo-reference automatically.</p>\r\n        <p>Alternatively you can type a grid-reference (Ordnance Survey or OSI grid-reference) in the grid-reference field or click on the map.</p>\r\n        <p>By default, records will be automatically assigned the location you gave for the survey, so it's not required to enter individual grid-references.</p>\r\n    </div>\r\n</div>\r\n<!-- begin: templates/formHelp/recordsHelp.html -->\r\n";
 
+  //import {MapGeorefField} from "../formfields/MapGeorefField";
+
   var NyphOccurrenceForm = /*#__PURE__*/function (_OccurrenceForm) {
     _inherits(NyphOccurrenceForm, _OccurrenceForm);
-
     var _super = _createSuper(NyphOccurrenceForm);
-
     function NyphOccurrenceForm() {
       _classCallCheck(this, NyphOccurrenceForm);
-
       return _super.apply(this, arguments);
     }
-
     _createClass(NyphOccurrenceForm, [{
       key: "buildContentContainer",
       value:
@@ -15094,14 +13878,15 @@
         this._formContentContainer.className = 'card-body';
         return this._formContentContainer;
       }
+
       /**
        *
        * @type {Object.<string,{field: typeof FormField, attributes: {label: string, helpText: string, placeholder: string, autocomplete: string}}>}
        */
-
     }, {
       key: "getFormSectionProperties",
-      value: // /**
+      value:
+      // /**
       //  *
       //  */
       // initialiseFormFields() {
@@ -15116,6 +13901,7 @@
       //         }
       //     }
       // }
+
       // initialiseFormFields() {
       //     const properties = this.getFormSectionProperties();
       //
@@ -15128,18 +13914,17 @@
       //         }
       //     }
       // }
+
       function getFormSectionProperties() {
         return NyphOccurrenceForm.properties;
       }
     }]);
-
     return NyphOccurrenceForm;
-  }(OccurrenceForm); //NyphOccurrenceForm.CHANGE_EVENT = 'change';
+  }(OccurrenceForm);
 
+  //NyphOccurrenceForm.CHANGE_EVENT = 'change';
   _defineProperty(NyphOccurrenceForm, "sectionTitle", 'Details of plant');
-
   _defineProperty(NyphOccurrenceForm, "help", helpPanelText);
-
   _defineProperty(NyphOccurrenceForm, "properties", {
     taxon: {
       field: TaxonPickerField,
@@ -15148,7 +13933,6 @@
         validationMessage: 'Please specify a taxon name or provide some photos if you cannot identify the plant.',
         helpText: 'Type the common or scientific name of the plant and, if possible, pick a suggestion from the list. If you do not know the name of the plant then please leave this blank and include some photos.'
       },
-
       /**
        *
        * @param {string} key
@@ -15212,6 +13996,7 @@
     //         includeOtherFreeText : false,
     //         completion: FormField.COMPLETION_DESIRED,
     //     }},
+
     // spread : {
     //     field: OptionsField,
     //     attributes: {
@@ -15385,28 +14170,18 @@
 
   var NyphSurveyFormSurveySection = /*#__PURE__*/function (_NyphSurveyFormSectio) {
     _inherits(NyphSurveyFormSurveySection, _NyphSurveyFormSectio);
-
     var _super = _createSuper(NyphSurveyFormSurveySection);
-
     function NyphSurveyFormSurveySection() {
       _classCallCheck(this, NyphSurveyFormSurveySection);
-
       return _super.apply(this, arguments);
     }
-
     return _createClass(NyphSurveyFormSurveySection);
   }(NyphSurveyFormSection);
-
   _defineProperty(NyphSurveyFormSurveySection, "sectionNavigationKey", 'yoursurvey');
-
   _defineProperty(NyphSurveyFormSurveySection, "sectionTitle", 'Your plant hunt');
-
   _defineProperty(NyphSurveyFormSurveySection, "sectionSortOrder", 1);
-
   _defineProperty(NyphSurveyFormSurveySection, "help", helpPanelText$1);
-
   _defineProperty(NyphSurveyFormSurveySection, "completionRequired", true);
-
   _defineProperty(NyphSurveyFormSurveySection, "properties", {
     place: {
       field: InputField,
@@ -15507,2354 +14282,2367 @@
 
   var modal = {exports: {}};
 
+  var util = {exports: {}};
+
+  /*!
+    * Bootstrap index.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+    */
+
+  var hasRequiredUtil;
+
+  function requireUtil () {
+  	if (hasRequiredUtil) return util.exports;
+  	hasRequiredUtil = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  factory(exports) ;
+  		})(commonjsGlobal$3, (function (exports) {
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): util/index.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  const MAX_UID = 1000000;
+  		  const MILLISECONDS_MULTIPLIER = 1000;
+  		  const TRANSITION_END = 'transitionend'; // Shout-out Angus Croll (https://goo.gl/pxwQGp)
+
+  		  const toType = object => {
+  		    if (object === null || object === undefined) {
+  		      return `${object}`;
+  		    }
+
+  		    return Object.prototype.toString.call(object).match(/\s([a-z]+)/i)[1].toLowerCase();
+  		  };
+  		  /**
+  		   * Public Util API
+  		   */
+
+
+  		  const getUID = prefix => {
+  		    do {
+  		      prefix += Math.floor(Math.random() * MAX_UID);
+  		    } while (document.getElementById(prefix));
+
+  		    return prefix;
+  		  };
+
+  		  const getSelector = element => {
+  		    let selector = element.getAttribute('data-bs-target');
+
+  		    if (!selector || selector === '#') {
+  		      let hrefAttribute = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
+  		      // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
+  		      // `document.querySelector` will rightfully complain it is invalid.
+  		      // See https://github.com/twbs/bootstrap/issues/32273
+
+  		      if (!hrefAttribute || !hrefAttribute.includes('#') && !hrefAttribute.startsWith('.')) {
+  		        return null;
+  		      } // Just in case some CMS puts out a full URL with the anchor appended
+
+
+  		      if (hrefAttribute.includes('#') && !hrefAttribute.startsWith('#')) {
+  		        hrefAttribute = `#${hrefAttribute.split('#')[1]}`;
+  		      }
+
+  		      selector = hrefAttribute && hrefAttribute !== '#' ? hrefAttribute.trim() : null;
+  		    }
+
+  		    return selector;
+  		  };
+
+  		  const getSelectorFromElement = element => {
+  		    const selector = getSelector(element);
+
+  		    if (selector) {
+  		      return document.querySelector(selector) ? selector : null;
+  		    }
+
+  		    return null;
+  		  };
+
+  		  const getElementFromSelector = element => {
+  		    const selector = getSelector(element);
+  		    return selector ? document.querySelector(selector) : null;
+  		  };
+
+  		  const getTransitionDurationFromElement = element => {
+  		    if (!element) {
+  		      return 0;
+  		    } // Get transition-duration of the element
+
+
+  		    let {
+  		      transitionDuration,
+  		      transitionDelay
+  		    } = window.getComputedStyle(element);
+  		    const floatTransitionDuration = Number.parseFloat(transitionDuration);
+  		    const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
+
+  		    if (!floatTransitionDuration && !floatTransitionDelay) {
+  		      return 0;
+  		    } // If multiple durations are defined, take the first
+
+
+  		    transitionDuration = transitionDuration.split(',')[0];
+  		    transitionDelay = transitionDelay.split(',')[0];
+  		    return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
+  		  };
+
+  		  const triggerTransitionEnd = element => {
+  		    element.dispatchEvent(new Event(TRANSITION_END));
+  		  };
+
+  		  const isElement = object => {
+  		    if (!object || typeof object !== 'object') {
+  		      return false;
+  		    }
+
+  		    if (typeof object.jquery !== 'undefined') {
+  		      object = object[0];
+  		    }
+
+  		    return typeof object.nodeType !== 'undefined';
+  		  };
+
+  		  const getElement = object => {
+  		    // it's a jQuery object or a node element
+  		    if (isElement(object)) {
+  		      return object.jquery ? object[0] : object;
+  		    }
+
+  		    if (typeof object === 'string' && object.length > 0) {
+  		      return document.querySelector(object);
+  		    }
+
+  		    return null;
+  		  };
+
+  		  const isVisible = element => {
+  		    if (!isElement(element) || element.getClientRects().length === 0) {
+  		      return false;
+  		    }
+
+  		    const elementIsVisible = getComputedStyle(element).getPropertyValue('visibility') === 'visible'; // Handle `details` element as its content may falsie appear visible when it is closed
+
+  		    const closedDetails = element.closest('details:not([open])');
+
+  		    if (!closedDetails) {
+  		      return elementIsVisible;
+  		    }
+
+  		    if (closedDetails !== element) {
+  		      const summary = element.closest('summary');
+
+  		      if (summary && summary.parentNode !== closedDetails) {
+  		        return false;
+  		      }
+
+  		      if (summary === null) {
+  		        return false;
+  		      }
+  		    }
+
+  		    return elementIsVisible;
+  		  };
+
+  		  const isDisabled = element => {
+  		    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+  		      return true;
+  		    }
+
+  		    if (element.classList.contains('disabled')) {
+  		      return true;
+  		    }
+
+  		    if (typeof element.disabled !== 'undefined') {
+  		      return element.disabled;
+  		    }
+
+  		    return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
+  		  };
+
+  		  const findShadowRoot = element => {
+  		    if (!document.documentElement.attachShadow) {
+  		      return null;
+  		    } // Can find the shadow root otherwise it'll return the document
+
+
+  		    if (typeof element.getRootNode === 'function') {
+  		      const root = element.getRootNode();
+  		      return root instanceof ShadowRoot ? root : null;
+  		    }
+
+  		    if (element instanceof ShadowRoot) {
+  		      return element;
+  		    } // when we don't find a shadow root
+
+
+  		    if (!element.parentNode) {
+  		      return null;
+  		    }
+
+  		    return findShadowRoot(element.parentNode);
+  		  };
+
+  		  const noop = () => {};
+  		  /**
+  		   * Trick to restart an element's animation
+  		   *
+  		   * @param {HTMLElement} element
+  		   * @return void
+  		   *
+  		   * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
+  		   */
+
+
+  		  const reflow = element => {
+  		    element.offsetHeight; // eslint-disable-line no-unused-expressions
+  		  };
+
+  		  const getjQuery = () => {
+  		    if (window.jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
+  		      return window.jQuery;
+  		    }
+
+  		    return null;
+  		  };
+
+  		  const DOMContentLoadedCallbacks = [];
+
+  		  const onDOMContentLoaded = callback => {
+  		    if (document.readyState === 'loading') {
+  		      // add listener on the first call when the document is in loading state
+  		      if (!DOMContentLoadedCallbacks.length) {
+  		        document.addEventListener('DOMContentLoaded', () => {
+  		          for (const callback of DOMContentLoadedCallbacks) {
+  		            callback();
+  		          }
+  		        });
+  		      }
+
+  		      DOMContentLoadedCallbacks.push(callback);
+  		    } else {
+  		      callback();
+  		    }
+  		  };
+
+  		  const isRTL = () => document.documentElement.dir === 'rtl';
+
+  		  const defineJQueryPlugin = plugin => {
+  		    onDOMContentLoaded(() => {
+  		      const $ = getjQuery();
+  		      /* istanbul ignore if */
+
+  		      if ($) {
+  		        const name = plugin.NAME;
+  		        const JQUERY_NO_CONFLICT = $.fn[name];
+  		        $.fn[name] = plugin.jQueryInterface;
+  		        $.fn[name].Constructor = plugin;
+
+  		        $.fn[name].noConflict = () => {
+  		          $.fn[name] = JQUERY_NO_CONFLICT;
+  		          return plugin.jQueryInterface;
+  		        };
+  		      }
+  		    });
+  		  };
+
+  		  const execute = callback => {
+  		    if (typeof callback === 'function') {
+  		      callback();
+  		    }
+  		  };
+
+  		  const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
+  		    if (!waitForTransition) {
+  		      execute(callback);
+  		      return;
+  		    }
+
+  		    const durationPadding = 5;
+  		    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
+  		    let called = false;
+
+  		    const handler = ({
+  		      target
+  		    }) => {
+  		      if (target !== transitionElement) {
+  		        return;
+  		      }
+
+  		      called = true;
+  		      transitionElement.removeEventListener(TRANSITION_END, handler);
+  		      execute(callback);
+  		    };
+
+  		    transitionElement.addEventListener(TRANSITION_END, handler);
+  		    setTimeout(() => {
+  		      if (!called) {
+  		        triggerTransitionEnd(transitionElement);
+  		      }
+  		    }, emulatedDuration);
+  		  };
+  		  /**
+  		   * Return the previous/next element of a list.
+  		   *
+  		   * @param {array} list    The list of elements
+  		   * @param activeElement   The active element
+  		   * @param shouldGetNext   Choose to get next or previous element
+  		   * @param isCycleAllowed
+  		   * @return {Element|elem} The proper element
+  		   */
+
+
+  		  const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed) => {
+  		    const listLength = list.length;
+  		    let index = list.indexOf(activeElement); // if the element does not exist in the list return an element
+  		    // depending on the direction and if cycle is allowed
+
+  		    if (index === -1) {
+  		      return !shouldGetNext && isCycleAllowed ? list[listLength - 1] : list[0];
+  		    }
+
+  		    index += shouldGetNext ? 1 : -1;
+
+  		    if (isCycleAllowed) {
+  		      index = (index + listLength) % listLength;
+  		    }
+
+  		    return list[Math.max(0, Math.min(index, listLength - 1))];
+  		  };
+
+  		  exports.defineJQueryPlugin = defineJQueryPlugin;
+  		  exports.execute = execute;
+  		  exports.executeAfterTransition = executeAfterTransition;
+  		  exports.findShadowRoot = findShadowRoot;
+  		  exports.getElement = getElement;
+  		  exports.getElementFromSelector = getElementFromSelector;
+  		  exports.getNextActiveElement = getNextActiveElement;
+  		  exports.getSelectorFromElement = getSelectorFromElement;
+  		  exports.getTransitionDurationFromElement = getTransitionDurationFromElement;
+  		  exports.getUID = getUID;
+  		  exports.getjQuery = getjQuery;
+  		  exports.isDisabled = isDisabled;
+  		  exports.isElement = isElement;
+  		  exports.isRTL = isRTL;
+  		  exports.isVisible = isVisible;
+  		  exports.noop = noop;
+  		  exports.onDOMContentLoaded = onDOMContentLoaded;
+  		  exports.reflow = reflow;
+  		  exports.toType = toType;
+  		  exports.triggerTransitionEnd = triggerTransitionEnd;
+
+  		  Object.defineProperties(exports, { __esModule: { value: true }, [Symbol.toStringTag]: { value: 'Module' } });
+
+  		}));
+  		
+  } (util, util.exports));
+  	return util.exports;
+  }
+
   var eventHandler = {exports: {}};
 
   /*!
-    * Bootstrap event-handler.js v5.1.3 (https://getbootstrap.com/)
-    * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Bootstrap event-handler.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
-  (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory() ;
-  })(commonjsGlobal$3, (function () {
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/index.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-    const getjQuery = () => {
-      const {
-        jQuery
-      } = window;
-
-      if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
-        return jQuery;
-      }
-
-      return null;
-    };
-
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): dom/event-handler.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
-
-    const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
-    const stripNameRegex = /\..*/;
-    const stripUidRegex = /::\d+$/;
-    const eventRegistry = {}; // Events storage
-
-    let uidEvent = 1;
-    const customEvents = {
-      mouseenter: 'mouseover',
-      mouseleave: 'mouseout'
-    };
-    const customEventsRegex = /^(mouseenter|mouseleave)/i;
-    const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
-    /**
-     * ------------------------------------------------------------------------
-     * Private methods
-     * ------------------------------------------------------------------------
-     */
-
-    function getUidEvent(element, uid) {
-      return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
-    }
-
-    function getEvent(element) {
-      const uid = getUidEvent(element);
-      element.uidEvent = uid;
-      eventRegistry[uid] = eventRegistry[uid] || {};
-      return eventRegistry[uid];
-    }
-
-    function bootstrapHandler(element, fn) {
-      return function handler(event) {
-        event.delegateTarget = element;
-
-        if (handler.oneOff) {
-          EventHandler.off(element, event.type, fn);
-        }
-
-        return fn.apply(element, [event]);
-      };
-    }
-
-    function bootstrapDelegationHandler(element, selector, fn) {
-      return function handler(event) {
-        const domElements = element.querySelectorAll(selector);
-
-        for (let {
-          target
-        } = event; target && target !== this; target = target.parentNode) {
-          for (let i = domElements.length; i--;) {
-            if (domElements[i] === target) {
-              event.delegateTarget = target;
-
-              if (handler.oneOff) {
-                EventHandler.off(element, event.type, selector, fn);
-              }
-
-              return fn.apply(target, [event]);
-            }
-          }
-        } // To please ESLint
-
-
-        return null;
-      };
-    }
-
-    function findHandler(events, handler, delegationSelector = null) {
-      const uidEventList = Object.keys(events);
-
-      for (let i = 0, len = uidEventList.length; i < len; i++) {
-        const event = events[uidEventList[i]];
-
-        if (event.originalHandler === handler && event.delegationSelector === delegationSelector) {
-          return event;
-        }
-      }
-
-      return null;
-    }
-
-    function normalizeParams(originalTypeEvent, handler, delegationFn) {
-      const delegation = typeof handler === 'string';
-      const originalHandler = delegation ? delegationFn : handler;
-      let typeEvent = getTypeEvent(originalTypeEvent);
-      const isNative = nativeEvents.has(typeEvent);
-
-      if (!isNative) {
-        typeEvent = originalTypeEvent;
-      }
-
-      return [delegation, originalHandler, typeEvent];
-    }
-
-    function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
-      if (typeof originalTypeEvent !== 'string' || !element) {
-        return;
-      }
-
-      if (!handler) {
-        handler = delegationFn;
-        delegationFn = null;
-      } // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
-      // this prevents the handler from being dispatched the same way as mouseover or mouseout does
-
-
-      if (customEventsRegex.test(originalTypeEvent)) {
-        const wrapFn = fn => {
-          return function (event) {
-            if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
-              return fn.call(this, event);
-            }
-          };
-        };
-
-        if (delegationFn) {
-          delegationFn = wrapFn(delegationFn);
-        } else {
-          handler = wrapFn(handler);
-        }
-      }
-
-      const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
-      const events = getEvent(element);
-      const handlers = events[typeEvent] || (events[typeEvent] = {});
-      const previousFn = findHandler(handlers, originalHandler, delegation ? handler : null);
-
-      if (previousFn) {
-        previousFn.oneOff = previousFn.oneOff && oneOff;
-        return;
-      }
-
-      const uid = getUidEvent(originalHandler, originalTypeEvent.replace(namespaceRegex, ''));
-      const fn = delegation ? bootstrapDelegationHandler(element, handler, delegationFn) : bootstrapHandler(element, handler);
-      fn.delegationSelector = delegation ? handler : null;
-      fn.originalHandler = originalHandler;
-      fn.oneOff = oneOff;
-      fn.uidEvent = uid;
-      handlers[uid] = fn;
-      element.addEventListener(typeEvent, fn, delegation);
-    }
-
-    function removeHandler(element, events, typeEvent, handler, delegationSelector) {
-      const fn = findHandler(events[typeEvent], handler, delegationSelector);
-
-      if (!fn) {
-        return;
-      }
-
-      element.removeEventListener(typeEvent, fn, Boolean(delegationSelector));
-      delete events[typeEvent][fn.uidEvent];
-    }
-
-    function removeNamespacedHandlers(element, events, typeEvent, namespace) {
-      const storeElementEvent = events[typeEvent] || {};
-      Object.keys(storeElementEvent).forEach(handlerKey => {
-        if (handlerKey.includes(namespace)) {
-          const event = storeElementEvent[handlerKey];
-          removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
-        }
-      });
-    }
-
-    function getTypeEvent(event) {
-      // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
-      event = event.replace(stripNameRegex, '');
-      return customEvents[event] || event;
-    }
-
-    const EventHandler = {
-      on(element, event, handler, delegationFn) {
-        addHandler(element, event, handler, delegationFn, false);
-      },
-
-      one(element, event, handler, delegationFn) {
-        addHandler(element, event, handler, delegationFn, true);
-      },
-
-      off(element, originalTypeEvent, handler, delegationFn) {
-        if (typeof originalTypeEvent !== 'string' || !element) {
-          return;
-        }
-
-        const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
-        const inNamespace = typeEvent !== originalTypeEvent;
-        const events = getEvent(element);
-        const isNamespace = originalTypeEvent.startsWith('.');
-
-        if (typeof originalHandler !== 'undefined') {
-          // Simplest case: handler is passed, remove that listener ONLY.
-          if (!events || !events[typeEvent]) {
-            return;
-          }
-
-          removeHandler(element, events, typeEvent, originalHandler, delegation ? handler : null);
-          return;
-        }
-
-        if (isNamespace) {
-          Object.keys(events).forEach(elementEvent => {
-            removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
-          });
-        }
-
-        const storeElementEvent = events[typeEvent] || {};
-        Object.keys(storeElementEvent).forEach(keyHandlers => {
-          const handlerKey = keyHandlers.replace(stripUidRegex, '');
-
-          if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
-            const event = storeElementEvent[keyHandlers];
-            removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
-          }
-        });
-      },
-
-      trigger(element, event, args) {
-        if (typeof event !== 'string' || !element) {
-          return null;
-        }
-
-        const $ = getjQuery();
-        const typeEvent = getTypeEvent(event);
-        const inNamespace = event !== typeEvent;
-        const isNative = nativeEvents.has(typeEvent);
-        let jQueryEvent;
-        let bubbles = true;
-        let nativeDispatch = true;
-        let defaultPrevented = false;
-        let evt = null;
-
-        if (inNamespace && $) {
-          jQueryEvent = $.Event(event, args);
-          $(element).trigger(jQueryEvent);
-          bubbles = !jQueryEvent.isPropagationStopped();
-          nativeDispatch = !jQueryEvent.isImmediatePropagationStopped();
-          defaultPrevented = jQueryEvent.isDefaultPrevented();
-        }
-
-        if (isNative) {
-          evt = document.createEvent('HTMLEvents');
-          evt.initEvent(typeEvent, bubbles, true);
-        } else {
-          evt = new CustomEvent(event, {
-            bubbles,
-            cancelable: true
-          });
-        } // merge custom information in our event
-
-
-        if (typeof args !== 'undefined') {
-          Object.keys(args).forEach(key => {
-            Object.defineProperty(evt, key, {
-              get() {
-                return args[key];
-              }
-
-            });
-          });
-        }
-
-        if (defaultPrevented) {
-          evt.preventDefault();
-        }
-
-        if (nativeDispatch) {
-          element.dispatchEvent(evt);
-        }
-
-        if (evt.defaultPrevented && typeof jQueryEvent !== 'undefined') {
-          jQueryEvent.preventDefault();
-        }
-
-        return evt;
-      }
-
-    };
-
-    return EventHandler;
-
-  }));
-
-  }(eventHandler));
-
-  var manipulator = {exports: {}};
-
-  /*!
-    * Bootstrap manipulator.js v5.1.3 (https://getbootstrap.com/)
-    * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-    */
-
-  (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory() ;
-  })(commonjsGlobal$3, (function () {
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): dom/manipulator.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    function normalizeData(val) {
-      if (val === 'true') {
-        return true;
-      }
-
-      if (val === 'false') {
-        return false;
-      }
-
-      if (val === Number(val).toString()) {
-        return Number(val);
-      }
-
-      if (val === '' || val === 'null') {
-        return null;
-      }
-
-      return val;
-    }
-
-    function normalizeDataKey(key) {
-      return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
-    }
-
-    const Manipulator = {
-      setDataAttribute(element, key, value) {
-        element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
-      },
-
-      removeDataAttribute(element, key) {
-        element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
-      },
-
-      getDataAttributes(element) {
-        if (!element) {
-          return {};
-        }
-
-        const attributes = {};
-        Object.keys(element.dataset).filter(key => key.startsWith('bs')).forEach(key => {
-          let pureKey = key.replace(/^bs/, '');
-          pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
-          attributes[pureKey] = normalizeData(element.dataset[key]);
-        });
-        return attributes;
-      },
-
-      getDataAttribute(element, key) {
-        return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
-      },
-
-      offset(element) {
-        const rect = element.getBoundingClientRect();
-        return {
-          top: rect.top + window.pageYOffset,
-          left: rect.left + window.pageXOffset
-        };
-      },
-
-      position(element) {
-        return {
-          top: element.offsetTop,
-          left: element.offsetLeft
-        };
-      }
-
-    };
-
-    return Manipulator;
-
-  }));
-
-  }(manipulator));
+  var hasRequiredEventHandler;
+
+  function requireEventHandler () {
+  	if (hasRequiredEventHandler) return eventHandler.exports;
+  	hasRequiredEventHandler = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory(requireUtil()) ;
+  		})(commonjsGlobal$3, (function (index) {
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): dom/event-handler.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  /**
+  		   * Constants
+  		   */
+
+  		  const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
+  		  const stripNameRegex = /\..*/;
+  		  const stripUidRegex = /::\d+$/;
+  		  const eventRegistry = {}; // Events storage
+
+  		  let uidEvent = 1;
+  		  const customEvents = {
+  		    mouseenter: 'mouseover',
+  		    mouseleave: 'mouseout'
+  		  };
+  		  const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
+  		  /**
+  		   * Private methods
+  		   */
+
+  		  function makeEventUid(element, uid) {
+  		    return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
+  		  }
+
+  		  function getElementEvents(element) {
+  		    const uid = makeEventUid(element);
+  		    element.uidEvent = uid;
+  		    eventRegistry[uid] = eventRegistry[uid] || {};
+  		    return eventRegistry[uid];
+  		  }
+
+  		  function bootstrapHandler(element, fn) {
+  		    return function handler(event) {
+  		      hydrateObj(event, {
+  		        delegateTarget: element
+  		      });
+
+  		      if (handler.oneOff) {
+  		        EventHandler.off(element, event.type, fn);
+  		      }
+
+  		      return fn.apply(element, [event]);
+  		    };
+  		  }
+
+  		  function bootstrapDelegationHandler(element, selector, fn) {
+  		    return function handler(event) {
+  		      const domElements = element.querySelectorAll(selector);
+
+  		      for (let {
+  		        target
+  		      } = event; target && target !== this; target = target.parentNode) {
+  		        for (const domElement of domElements) {
+  		          if (domElement !== target) {
+  		            continue;
+  		          }
+
+  		          hydrateObj(event, {
+  		            delegateTarget: target
+  		          });
+
+  		          if (handler.oneOff) {
+  		            EventHandler.off(element, event.type, selector, fn);
+  		          }
+
+  		          return fn.apply(target, [event]);
+  		        }
+  		      }
+  		    };
+  		  }
+
+  		  function findHandler(events, callable, delegationSelector = null) {
+  		    return Object.values(events).find(event => event.callable === callable && event.delegationSelector === delegationSelector);
+  		  }
+
+  		  function normalizeParameters(originalTypeEvent, handler, delegationFunction) {
+  		    const isDelegated = typeof handler === 'string'; // todo: tooltip passes `false` instead of selector, so we need to check
+
+  		    const callable = isDelegated ? delegationFunction : handler || delegationFunction;
+  		    let typeEvent = getTypeEvent(originalTypeEvent);
+
+  		    if (!nativeEvents.has(typeEvent)) {
+  		      typeEvent = originalTypeEvent;
+  		    }
+
+  		    return [isDelegated, callable, typeEvent];
+  		  }
+
+  		  function addHandler(element, originalTypeEvent, handler, delegationFunction, oneOff) {
+  		    if (typeof originalTypeEvent !== 'string' || !element) {
+  		      return;
+  		    }
+
+  		    let [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction); // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
+  		    // this prevents the handler from being dispatched the same way as mouseover or mouseout does
+
+  		    if (originalTypeEvent in customEvents) {
+  		      const wrapFunction = fn => {
+  		        return function (event) {
+  		          if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
+  		            return fn.call(this, event);
+  		          }
+  		        };
+  		      };
+
+  		      callable = wrapFunction(callable);
+  		    }
+
+  		    const events = getElementEvents(element);
+  		    const handlers = events[typeEvent] || (events[typeEvent] = {});
+  		    const previousFunction = findHandler(handlers, callable, isDelegated ? handler : null);
+
+  		    if (previousFunction) {
+  		      previousFunction.oneOff = previousFunction.oneOff && oneOff;
+  		      return;
+  		    }
+
+  		    const uid = makeEventUid(callable, originalTypeEvent.replace(namespaceRegex, ''));
+  		    const fn = isDelegated ? bootstrapDelegationHandler(element, handler, callable) : bootstrapHandler(element, callable);
+  		    fn.delegationSelector = isDelegated ? handler : null;
+  		    fn.callable = callable;
+  		    fn.oneOff = oneOff;
+  		    fn.uidEvent = uid;
+  		    handlers[uid] = fn;
+  		    element.addEventListener(typeEvent, fn, isDelegated);
+  		  }
+
+  		  function removeHandler(element, events, typeEvent, handler, delegationSelector) {
+  		    const fn = findHandler(events[typeEvent], handler, delegationSelector);
+
+  		    if (!fn) {
+  		      return;
+  		    }
+
+  		    element.removeEventListener(typeEvent, fn, Boolean(delegationSelector));
+  		    delete events[typeEvent][fn.uidEvent];
+  		  }
+
+  		  function removeNamespacedHandlers(element, events, typeEvent, namespace) {
+  		    const storeElementEvent = events[typeEvent] || {};
+
+  		    for (const handlerKey of Object.keys(storeElementEvent)) {
+  		      if (handlerKey.includes(namespace)) {
+  		        const event = storeElementEvent[handlerKey];
+  		        removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
+  		      }
+  		    }
+  		  }
+
+  		  function getTypeEvent(event) {
+  		    // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
+  		    event = event.replace(stripNameRegex, '');
+  		    return customEvents[event] || event;
+  		  }
+
+  		  const EventHandler = {
+  		    on(element, event, handler, delegationFunction) {
+  		      addHandler(element, event, handler, delegationFunction, false);
+  		    },
+
+  		    one(element, event, handler, delegationFunction) {
+  		      addHandler(element, event, handler, delegationFunction, true);
+  		    },
+
+  		    off(element, originalTypeEvent, handler, delegationFunction) {
+  		      if (typeof originalTypeEvent !== 'string' || !element) {
+  		        return;
+  		      }
+
+  		      const [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
+  		      const inNamespace = typeEvent !== originalTypeEvent;
+  		      const events = getElementEvents(element);
+  		      const storeElementEvent = events[typeEvent] || {};
+  		      const isNamespace = originalTypeEvent.startsWith('.');
+
+  		      if (typeof callable !== 'undefined') {
+  		        // Simplest case: handler is passed, remove that listener ONLY.
+  		        if (!Object.keys(storeElementEvent).length) {
+  		          return;
+  		        }
+
+  		        removeHandler(element, events, typeEvent, callable, isDelegated ? handler : null);
+  		        return;
+  		      }
+
+  		      if (isNamespace) {
+  		        for (const elementEvent of Object.keys(events)) {
+  		          removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
+  		        }
+  		      }
+
+  		      for (const keyHandlers of Object.keys(storeElementEvent)) {
+  		        const handlerKey = keyHandlers.replace(stripUidRegex, '');
+
+  		        if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
+  		          const event = storeElementEvent[keyHandlers];
+  		          removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
+  		        }
+  		      }
+  		    },
+
+  		    trigger(element, event, args) {
+  		      if (typeof event !== 'string' || !element) {
+  		        return null;
+  		      }
+
+  		      const $ = index.getjQuery();
+  		      const typeEvent = getTypeEvent(event);
+  		      const inNamespace = event !== typeEvent;
+  		      let jQueryEvent = null;
+  		      let bubbles = true;
+  		      let nativeDispatch = true;
+  		      let defaultPrevented = false;
+
+  		      if (inNamespace && $) {
+  		        jQueryEvent = $.Event(event, args);
+  		        $(element).trigger(jQueryEvent);
+  		        bubbles = !jQueryEvent.isPropagationStopped();
+  		        nativeDispatch = !jQueryEvent.isImmediatePropagationStopped();
+  		        defaultPrevented = jQueryEvent.isDefaultPrevented();
+  		      }
+
+  		      let evt = new Event(event, {
+  		        bubbles,
+  		        cancelable: true
+  		      });
+  		      evt = hydrateObj(evt, args);
+
+  		      if (defaultPrevented) {
+  		        evt.preventDefault();
+  		      }
+
+  		      if (nativeDispatch) {
+  		        element.dispatchEvent(evt);
+  		      }
+
+  		      if (evt.defaultPrevented && jQueryEvent) {
+  		        jQueryEvent.preventDefault();
+  		      }
+
+  		      return evt;
+  		    }
+
+  		  };
+
+  		  function hydrateObj(obj, meta) {
+  		    for (const [key, value] of Object.entries(meta || {})) {
+  		      try {
+  		        obj[key] = value;
+  		      } catch (_unused) {
+  		        Object.defineProperty(obj, key, {
+  		          configurable: true,
+
+  		          get() {
+  		            return value;
+  		          }
+
+  		        });
+  		      }
+  		    }
+
+  		    return obj;
+  		  }
+
+  		  return EventHandler;
+
+  		}));
+  		
+  } (eventHandler));
+  	return eventHandler.exports;
+  }
 
   var selectorEngine = {exports: {}};
 
   /*!
-    * Bootstrap selector-engine.js v5.1.3 (https://getbootstrap.com/)
-    * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Bootstrap selector-engine.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
-  (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory() ;
-  })(commonjsGlobal$3, (function () {
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/index.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
+  var hasRequiredSelectorEngine;
 
-    const isElement = obj => {
-      if (!obj || typeof obj !== 'object') {
-        return false;
-      }
+  function requireSelectorEngine () {
+  	if (hasRequiredSelectorEngine) return selectorEngine.exports;
+  	hasRequiredSelectorEngine = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory(requireUtil()) ;
+  		})(commonjsGlobal$3, (function (index) {
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): dom/selector-engine.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  /**
+  		   * Constants
+  		   */
 
-      if (typeof obj.jquery !== 'undefined') {
-        obj = obj[0];
-      }
+  		  const SelectorEngine = {
+  		    find(selector, element = document.documentElement) {
+  		      return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
+  		    },
 
-      return typeof obj.nodeType !== 'undefined';
-    };
+  		    findOne(selector, element = document.documentElement) {
+  		      return Element.prototype.querySelector.call(element, selector);
+  		    },
 
-    const isVisible = element => {
-      if (!isElement(element) || element.getClientRects().length === 0) {
-        return false;
-      }
+  		    children(element, selector) {
+  		      return [].concat(...element.children).filter(child => child.matches(selector));
+  		    },
 
-      return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
-    };
+  		    parents(element, selector) {
+  		      const parents = [];
+  		      let ancestor = element.parentNode.closest(selector);
 
-    const isDisabled = element => {
-      if (!element || element.nodeType !== Node.ELEMENT_NODE) {
-        return true;
-      }
+  		      while (ancestor) {
+  		        parents.push(ancestor);
+  		        ancestor = ancestor.parentNode.closest(selector);
+  		      }
 
-      if (element.classList.contains('disabled')) {
-        return true;
-      }
+  		      return parents;
+  		    },
 
-      if (typeof element.disabled !== 'undefined') {
-        return element.disabled;
-      }
+  		    prev(element, selector) {
+  		      let previous = element.previousElementSibling;
 
-      return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
-    };
+  		      while (previous) {
+  		        if (previous.matches(selector)) {
+  		          return [previous];
+  		        }
 
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): dom/selector-engine.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    const NODE_TEXT = 3;
-    const SelectorEngine = {
-      find(selector, element = document.documentElement) {
-        return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
-      },
+  		        previous = previous.previousElementSibling;
+  		      }
 
-      findOne(selector, element = document.documentElement) {
-        return Element.prototype.querySelector.call(element, selector);
-      },
+  		      return [];
+  		    },
 
-      children(element, selector) {
-        return [].concat(...element.children).filter(child => child.matches(selector));
-      },
+  		    // TODO: this is now unused; remove later along with prev()
+  		    next(element, selector) {
+  		      let next = element.nextElementSibling;
 
-      parents(element, selector) {
-        const parents = [];
-        let ancestor = element.parentNode;
+  		      while (next) {
+  		        if (next.matches(selector)) {
+  		          return [next];
+  		        }
 
-        while (ancestor && ancestor.nodeType === Node.ELEMENT_NODE && ancestor.nodeType !== NODE_TEXT) {
-          if (ancestor.matches(selector)) {
-            parents.push(ancestor);
-          }
+  		        next = next.nextElementSibling;
+  		      }
 
-          ancestor = ancestor.parentNode;
-        }
+  		      return [];
+  		    },
 
-        return parents;
-      },
+  		    focusableChildren(element) {
+  		      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(',');
+  		      return this.find(focusables, element).filter(el => !index.isDisabled(el) && index.isVisible(el));
+  		    }
 
-      prev(element, selector) {
-        let previous = element.previousElementSibling;
+  		  };
 
-        while (previous) {
-          if (previous.matches(selector)) {
-            return [previous];
-          }
+  		  return SelectorEngine;
 
-          previous = previous.previousElementSibling;
-        }
+  		}));
+  		
+  } (selectorEngine));
+  	return selectorEngine.exports;
+  }
 
-        return [];
-      },
+  var scrollbar = {exports: {}};
 
-      next(element, selector) {
-        let next = element.nextElementSibling;
+  var manipulator = {exports: {}};
 
-        while (next) {
-          if (next.matches(selector)) {
-            return [next];
-          }
+  /*!
+    * Bootstrap manipulator.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+    */
 
-          next = next.nextElementSibling;
-        }
+  var hasRequiredManipulator;
 
-        return [];
-      },
+  function requireManipulator () {
+  	if (hasRequiredManipulator) return manipulator.exports;
+  	hasRequiredManipulator = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory() ;
+  		})(commonjsGlobal$3, (function () {
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): dom/manipulator.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  function normalizeData(value) {
+  		    if (value === 'true') {
+  		      return true;
+  		    }
 
-      focusableChildren(element) {
-        const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(', ');
-        return this.find(focusables, element).filter(el => !isDisabled(el) && isVisible(el));
-      }
+  		    if (value === 'false') {
+  		      return false;
+  		    }
 
-    };
+  		    if (value === Number(value).toString()) {
+  		      return Number(value);
+  		    }
 
-    return SelectorEngine;
+  		    if (value === '' || value === 'null') {
+  		      return null;
+  		    }
 
-  }));
+  		    if (typeof value !== 'string') {
+  		      return value;
+  		    }
 
-  }(selectorEngine));
+  		    try {
+  		      return JSON.parse(decodeURIComponent(value));
+  		    } catch (_unused) {
+  		      return value;
+  		    }
+  		  }
+
+  		  function normalizeDataKey(key) {
+  		    return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
+  		  }
+
+  		  const Manipulator = {
+  		    setDataAttribute(element, key, value) {
+  		      element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
+  		    },
+
+  		    removeDataAttribute(element, key) {
+  		      element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
+  		    },
+
+  		    getDataAttributes(element) {
+  		      if (!element) {
+  		        return {};
+  		      }
+
+  		      const attributes = {};
+  		      const bsKeys = Object.keys(element.dataset).filter(key => key.startsWith('bs') && !key.startsWith('bsConfig'));
+
+  		      for (const key of bsKeys) {
+  		        let pureKey = key.replace(/^bs/, '');
+  		        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
+  		        attributes[pureKey] = normalizeData(element.dataset[key]);
+  		      }
+
+  		      return attributes;
+  		    },
+
+  		    getDataAttribute(element, key) {
+  		      return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
+  		    }
+
+  		  };
+
+  		  return Manipulator;
+
+  		}));
+  		
+  } (manipulator));
+  	return manipulator.exports;
+  }
+
+  /*!
+    * Bootstrap scrollbar.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+    */
+
+  var hasRequiredScrollbar;
+
+  function requireScrollbar () {
+  	if (hasRequiredScrollbar) return scrollbar.exports;
+  	hasRequiredScrollbar = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory(requireSelectorEngine(), requireManipulator(), requireUtil()) ;
+  		})(commonjsGlobal$3, (function (SelectorEngine, Manipulator, index) {
+  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
+
+  		  const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
+  		  const Manipulator__default = /*#__PURE__*/_interopDefaultLegacy(Manipulator);
+
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): util/scrollBar.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  /**
+  		   * Constants
+  		   */
+
+  		  const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
+  		  const SELECTOR_STICKY_CONTENT = '.sticky-top';
+  		  const PROPERTY_PADDING = 'padding-right';
+  		  const PROPERTY_MARGIN = 'margin-right';
+  		  /**
+  		   * Class definition
+  		   */
+
+  		  class ScrollBarHelper {
+  		    constructor() {
+  		      this._element = document.body;
+  		    } // Public
+
+
+  		    getWidth() {
+  		      // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
+  		      const documentWidth = document.documentElement.clientWidth;
+  		      return Math.abs(window.innerWidth - documentWidth);
+  		    }
+
+  		    hide() {
+  		      const width = this.getWidth();
+
+  		      this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
+
+
+  		      this._setElementAttributes(this._element, PROPERTY_PADDING, calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
+
+
+  		      this._setElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING, calculatedValue => calculatedValue + width);
+
+  		      this._setElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN, calculatedValue => calculatedValue - width);
+  		    }
+
+  		    reset() {
+  		      this._resetElementAttributes(this._element, 'overflow');
+
+  		      this._resetElementAttributes(this._element, PROPERTY_PADDING);
+
+  		      this._resetElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING);
+
+  		      this._resetElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN);
+  		    }
+
+  		    isOverflowing() {
+  		      return this.getWidth() > 0;
+  		    } // Private
+
+
+  		    _disableOverFlow() {
+  		      this._saveInitialAttribute(this._element, 'overflow');
+
+  		      this._element.style.overflow = 'hidden';
+  		    }
+
+  		    _setElementAttributes(selector, styleProperty, callback) {
+  		      const scrollbarWidth = this.getWidth();
+
+  		      const manipulationCallBack = element => {
+  		        if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
+  		          return;
+  		        }
+
+  		        this._saveInitialAttribute(element, styleProperty);
+
+  		        const calculatedValue = window.getComputedStyle(element).getPropertyValue(styleProperty);
+  		        element.style.setProperty(styleProperty, `${callback(Number.parseFloat(calculatedValue))}px`);
+  		      };
+
+  		      this._applyManipulationCallback(selector, manipulationCallBack);
+  		    }
+
+  		    _saveInitialAttribute(element, styleProperty) {
+  		      const actualValue = element.style.getPropertyValue(styleProperty);
+
+  		      if (actualValue) {
+  		        Manipulator__default.default.setDataAttribute(element, styleProperty, actualValue);
+  		      }
+  		    }
+
+  		    _resetElementAttributes(selector, styleProperty) {
+  		      const manipulationCallBack = element => {
+  		        const value = Manipulator__default.default.getDataAttribute(element, styleProperty); // We only want to remove the property if the value is `null`; the value can also be zero
+
+  		        if (value === null) {
+  		          element.style.removeProperty(styleProperty);
+  		          return;
+  		        }
+
+  		        Manipulator__default.default.removeDataAttribute(element, styleProperty);
+  		        element.style.setProperty(styleProperty, value);
+  		      };
+
+  		      this._applyManipulationCallback(selector, manipulationCallBack);
+  		    }
+
+  		    _applyManipulationCallback(selector, callBack) {
+  		      if (index.isElement(selector)) {
+  		        callBack(selector);
+  		        return;
+  		      }
+
+  		      for (const sel of SelectorEngine__default.default.find(selector, this._element)) {
+  		        callBack(sel);
+  		      }
+  		    }
+
+  		  }
+
+  		  return ScrollBarHelper;
+
+  		}));
+  		
+  } (scrollbar));
+  	return scrollbar.exports;
+  }
 
   var baseComponent = {exports: {}};
 
   var data = {exports: {}};
 
   /*!
-    * Bootstrap data.js v5.1.3 (https://getbootstrap.com/)
-    * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Bootstrap data.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
-  (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory() ;
-  })(commonjsGlobal$3, (function () {
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): dom/data.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
+  var hasRequiredData;
 
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
-    const elementMap = new Map();
-    const data = {
-      set(element, key, instance) {
-        if (!elementMap.has(element)) {
-          elementMap.set(element, new Map());
-        }
+  function requireData () {
+  	if (hasRequiredData) return data.exports;
+  	hasRequiredData = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory() ;
+  		})(commonjsGlobal$3, (function () {
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): dom/data.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
 
-        const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
-        // can be removed later when multiple key/instances are fine to be used
+  		  /**
+  		   * Constants
+  		   */
+  		  const elementMap = new Map();
+  		  const data = {
+  		    set(element, key, instance) {
+  		      if (!elementMap.has(element)) {
+  		        elementMap.set(element, new Map());
+  		      }
 
-        if (!instanceMap.has(key) && instanceMap.size !== 0) {
-          // eslint-disable-next-line no-console
-          console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
-          return;
-        }
+  		      const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
+  		      // can be removed later when multiple key/instances are fine to be used
 
-        instanceMap.set(key, instance);
-      },
+  		      if (!instanceMap.has(key) && instanceMap.size !== 0) {
+  		        // eslint-disable-next-line no-console
+  		        console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
+  		        return;
+  		      }
 
-      get(element, key) {
-        if (elementMap.has(element)) {
-          return elementMap.get(element).get(key) || null;
-        }
+  		      instanceMap.set(key, instance);
+  		    },
 
-        return null;
-      },
+  		    get(element, key) {
+  		      if (elementMap.has(element)) {
+  		        return elementMap.get(element).get(key) || null;
+  		      }
 
-      remove(element, key) {
-        if (!elementMap.has(element)) {
-          return;
-        }
+  		      return null;
+  		    },
 
-        const instanceMap = elementMap.get(element);
-        instanceMap.delete(key); // free up element references if there are no instances left for an element
+  		    remove(element, key) {
+  		      if (!elementMap.has(element)) {
+  		        return;
+  		      }
 
-        if (instanceMap.size === 0) {
-          elementMap.delete(element);
-        }
-      }
+  		      const instanceMap = elementMap.get(element);
+  		      instanceMap.delete(key); // free up element references if there are no instances left for an element
 
-    };
+  		      if (instanceMap.size === 0) {
+  		        elementMap.delete(element);
+  		      }
+  		    }
 
-    return data;
+  		  };
 
-  }));
+  		  return data;
 
-  }(data));
+  		}));
+  		
+  } (data));
+  	return data.exports;
+  }
+
+  var config = {exports: {}};
 
   /*!
-    * Bootstrap base-component.js v5.1.3 (https://getbootstrap.com/)
-    * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Bootstrap config.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
-  (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory(data.exports, eventHandler.exports) ;
-  })(commonjsGlobal$3, (function (Data, EventHandler) {
-    const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
+  var hasRequiredConfig;
 
-    const Data__default = /*#__PURE__*/_interopDefaultLegacy(Data);
-    const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+  function requireConfig () {
+  	if (hasRequiredConfig) return config.exports;
+  	hasRequiredConfig = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory(requireUtil(), requireManipulator()) ;
+  		})(commonjsGlobal$3, (function (index, Manipulator) {
+  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
 
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/index.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    const MILLISECONDS_MULTIPLIER = 1000;
-    const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
+  		  const Manipulator__default = /*#__PURE__*/_interopDefaultLegacy(Manipulator);
 
-    const getTransitionDurationFromElement = element => {
-      if (!element) {
-        return 0;
-      } // Get transition-duration of the element
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): util/config.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  /**
+  		   * Class definition
+  		   */
 
+  		  class Config {
+  		    // Getters
+  		    static get Default() {
+  		      return {};
+  		    }
 
-      let {
-        transitionDuration,
-        transitionDelay
-      } = window.getComputedStyle(element);
-      const floatTransitionDuration = Number.parseFloat(transitionDuration);
-      const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
+  		    static get DefaultType() {
+  		      return {};
+  		    }
 
-      if (!floatTransitionDuration && !floatTransitionDelay) {
-        return 0;
-      } // If multiple durations are defined, take the first
+  		    static get NAME() {
+  		      throw new Error('You have to implement the static method "NAME", for each component!');
+  		    }
 
+  		    _getConfig(config) {
+  		      config = this._mergeConfigObj(config);
+  		      config = this._configAfterMerge(config);
 
-      transitionDuration = transitionDuration.split(',')[0];
-      transitionDelay = transitionDelay.split(',')[0];
-      return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
-    };
+  		      this._typeCheckConfig(config);
 
-    const triggerTransitionEnd = element => {
-      element.dispatchEvent(new Event(TRANSITION_END));
-    };
+  		      return config;
+  		    }
 
-    const isElement = obj => {
-      if (!obj || typeof obj !== 'object') {
-        return false;
-      }
+  		    _configAfterMerge(config) {
+  		      return config;
+  		    }
 
-      if (typeof obj.jquery !== 'undefined') {
-        obj = obj[0];
-      }
+  		    _mergeConfigObj(config, element) {
+  		      const jsonConfig = index.isElement(element) ? Manipulator__default.default.getDataAttribute(element, 'config') : {}; // try to parse
 
-      return typeof obj.nodeType !== 'undefined';
-    };
+  		      return { ...this.constructor.Default,
+  		        ...(typeof jsonConfig === 'object' ? jsonConfig : {}),
+  		        ...(index.isElement(element) ? Manipulator__default.default.getDataAttributes(element) : {}),
+  		        ...(typeof config === 'object' ? config : {})
+  		      };
+  		    }
 
-    const getElement = obj => {
-      if (isElement(obj)) {
-        // it's a jQuery object or a node element
-        return obj.jquery ? obj[0] : obj;
-      }
+  		    _typeCheckConfig(config, configTypes = this.constructor.DefaultType) {
+  		      for (const property of Object.keys(configTypes)) {
+  		        const expectedTypes = configTypes[property];
+  		        const value = config[property];
+  		        const valueType = index.isElement(value) ? 'element' : index.toType(value);
 
-      if (typeof obj === 'string' && obj.length > 0) {
-        return document.querySelector(obj);
-      }
+  		        if (!new RegExp(expectedTypes).test(valueType)) {
+  		          throw new TypeError(`${this.constructor.NAME.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
+  		        }
+  		      }
+  		    }
 
-      return null;
-    };
+  		  }
 
-    const execute = callback => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    };
+  		  return Config;
 
-    const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
-      if (!waitForTransition) {
-        execute(callback);
-        return;
-      }
-
-      const durationPadding = 5;
-      const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
-      let called = false;
-
-      const handler = ({
-        target
-      }) => {
-        if (target !== transitionElement) {
-          return;
-        }
-
-        called = true;
-        transitionElement.removeEventListener(TRANSITION_END, handler);
-        execute(callback);
-      };
-
-      transitionElement.addEventListener(TRANSITION_END, handler);
-      setTimeout(() => {
-        if (!called) {
-          triggerTransitionEnd(transitionElement);
-        }
-      }, emulatedDuration);
-    };
-
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): base-component.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
-
-    const VERSION = '5.1.3';
-
-    class BaseComponent {
-      constructor(element) {
-        element = getElement(element);
-
-        if (!element) {
-          return;
-        }
-
-        this._element = element;
-        Data__default.default.set(this._element, this.constructor.DATA_KEY, this);
-      }
-
-      dispose() {
-        Data__default.default.remove(this._element, this.constructor.DATA_KEY);
-        EventHandler__default.default.off(this._element, this.constructor.EVENT_KEY);
-        Object.getOwnPropertyNames(this).forEach(propertyName => {
-          this[propertyName] = null;
-        });
-      }
-
-      _queueCallback(callback, element, isAnimated = true) {
-        executeAfterTransition(callback, element, isAnimated);
-      }
-      /** Static */
-
-
-      static getInstance(element) {
-        return Data__default.default.get(getElement(element), this.DATA_KEY);
-      }
-
-      static getOrCreateInstance(element, config = {}) {
-        return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
-      }
-
-      static get VERSION() {
-        return VERSION;
-      }
-
-      static get NAME() {
-        throw new Error('You have to implement the static method "NAME", for each component!');
-      }
-
-      static get DATA_KEY() {
-        return `bs.${this.NAME}`;
-      }
-
-      static get EVENT_KEY() {
-        return `.${this.DATA_KEY}`;
-      }
-
-    }
-
-    return BaseComponent;
-
-  }));
-
-  }(baseComponent));
+  		}));
+  		
+  } (config));
+  	return config.exports;
+  }
 
   /*!
-    * Bootstrap modal.js v5.1.3 (https://getbootstrap.com/)
-    * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Bootstrap base-component.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+    */
+
+  var hasRequiredBaseComponent;
+
+  function requireBaseComponent () {
+  	if (hasRequiredBaseComponent) return baseComponent.exports;
+  	hasRequiredBaseComponent = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory(requireData(), requireUtil(), requireEventHandler(), requireConfig()) ;
+  		})(commonjsGlobal$3, (function (Data, index, EventHandler, Config) {
+  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
+
+  		  const Data__default = /*#__PURE__*/_interopDefaultLegacy(Data);
+  		  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+  		  const Config__default = /*#__PURE__*/_interopDefaultLegacy(Config);
+
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): base-component.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  /**
+  		   * Constants
+  		   */
+
+  		  const VERSION = '5.2.2';
+  		  /**
+  		   * Class definition
+  		   */
+
+  		  class BaseComponent extends Config__default.default {
+  		    constructor(element, config) {
+  		      super();
+  		      element = index.getElement(element);
+
+  		      if (!element) {
+  		        return;
+  		      }
+
+  		      this._element = element;
+  		      this._config = this._getConfig(config);
+  		      Data__default.default.set(this._element, this.constructor.DATA_KEY, this);
+  		    } // Public
+
+
+  		    dispose() {
+  		      Data__default.default.remove(this._element, this.constructor.DATA_KEY);
+  		      EventHandler__default.default.off(this._element, this.constructor.EVENT_KEY);
+
+  		      for (const propertyName of Object.getOwnPropertyNames(this)) {
+  		        this[propertyName] = null;
+  		      }
+  		    }
+
+  		    _queueCallback(callback, element, isAnimated = true) {
+  		      index.executeAfterTransition(callback, element, isAnimated);
+  		    }
+
+  		    _getConfig(config) {
+  		      config = this._mergeConfigObj(config, this._element);
+  		      config = this._configAfterMerge(config);
+
+  		      this._typeCheckConfig(config);
+
+  		      return config;
+  		    } // Static
+
+
+  		    static getInstance(element) {
+  		      return Data__default.default.get(index.getElement(element), this.DATA_KEY);
+  		    }
+
+  		    static getOrCreateInstance(element, config = {}) {
+  		      return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
+  		    }
+
+  		    static get VERSION() {
+  		      return VERSION;
+  		    }
+
+  		    static get DATA_KEY() {
+  		      return `bs.${this.NAME}`;
+  		    }
+
+  		    static get EVENT_KEY() {
+  		      return `.${this.DATA_KEY}`;
+  		    }
+
+  		    static eventName(name) {
+  		      return `${name}${this.EVENT_KEY}`;
+  		    }
+
+  		  }
+
+  		  return BaseComponent;
+
+  		}));
+  		
+  } (baseComponent));
+  	return baseComponent.exports;
+  }
+
+  var backdrop = {exports: {}};
+
+  /*!
+    * Bootstrap backdrop.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+    */
+
+  var hasRequiredBackdrop;
+
+  function requireBackdrop () {
+  	if (hasRequiredBackdrop) return backdrop.exports;
+  	hasRequiredBackdrop = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory(requireEventHandler(), requireUtil(), requireConfig()) ;
+  		})(commonjsGlobal$3, (function (EventHandler, index, Config) {
+  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
+
+  		  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+  		  const Config__default = /*#__PURE__*/_interopDefaultLegacy(Config);
+
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): util/backdrop.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  /**
+  		   * Constants
+  		   */
+
+  		  const NAME = 'backdrop';
+  		  const CLASS_NAME_FADE = 'fade';
+  		  const CLASS_NAME_SHOW = 'show';
+  		  const EVENT_MOUSEDOWN = `mousedown.bs.${NAME}`;
+  		  const Default = {
+  		    className: 'modal-backdrop',
+  		    clickCallback: null,
+  		    isAnimated: false,
+  		    isVisible: true,
+  		    // if false, we use the backdrop helper without adding any element to the dom
+  		    rootElement: 'body' // give the choice to place backdrop under different elements
+
+  		  };
+  		  const DefaultType = {
+  		    className: 'string',
+  		    clickCallback: '(function|null)',
+  		    isAnimated: 'boolean',
+  		    isVisible: 'boolean',
+  		    rootElement: '(element|string)'
+  		  };
+  		  /**
+  		   * Class definition
+  		   */
+
+  		  class Backdrop extends Config__default.default {
+  		    constructor(config) {
+  		      super();
+  		      this._config = this._getConfig(config);
+  		      this._isAppended = false;
+  		      this._element = null;
+  		    } // Getters
+
+
+  		    static get Default() {
+  		      return Default;
+  		    }
+
+  		    static get DefaultType() {
+  		      return DefaultType;
+  		    }
+
+  		    static get NAME() {
+  		      return NAME;
+  		    } // Public
+
+
+  		    show(callback) {
+  		      if (!this._config.isVisible) {
+  		        index.execute(callback);
+  		        return;
+  		      }
+
+  		      this._append();
+
+  		      const element = this._getElement();
+
+  		      if (this._config.isAnimated) {
+  		        index.reflow(element);
+  		      }
+
+  		      element.classList.add(CLASS_NAME_SHOW);
+
+  		      this._emulateAnimation(() => {
+  		        index.execute(callback);
+  		      });
+  		    }
+
+  		    hide(callback) {
+  		      if (!this._config.isVisible) {
+  		        index.execute(callback);
+  		        return;
+  		      }
+
+  		      this._getElement().classList.remove(CLASS_NAME_SHOW);
+
+  		      this._emulateAnimation(() => {
+  		        this.dispose();
+  		        index.execute(callback);
+  		      });
+  		    }
+
+  		    dispose() {
+  		      if (!this._isAppended) {
+  		        return;
+  		      }
+
+  		      EventHandler__default.default.off(this._element, EVENT_MOUSEDOWN);
+
+  		      this._element.remove();
+
+  		      this._isAppended = false;
+  		    } // Private
+
+
+  		    _getElement() {
+  		      if (!this._element) {
+  		        const backdrop = document.createElement('div');
+  		        backdrop.className = this._config.className;
+
+  		        if (this._config.isAnimated) {
+  		          backdrop.classList.add(CLASS_NAME_FADE);
+  		        }
+
+  		        this._element = backdrop;
+  		      }
+
+  		      return this._element;
+  		    }
+
+  		    _configAfterMerge(config) {
+  		      // use getElement() with the default "body" to get a fresh Element on each instantiation
+  		      config.rootElement = index.getElement(config.rootElement);
+  		      return config;
+  		    }
+
+  		    _append() {
+  		      if (this._isAppended) {
+  		        return;
+  		      }
+
+  		      const element = this._getElement();
+
+  		      this._config.rootElement.append(element);
+
+  		      EventHandler__default.default.on(element, EVENT_MOUSEDOWN, () => {
+  		        index.execute(this._config.clickCallback);
+  		      });
+  		      this._isAppended = true;
+  		    }
+
+  		    _emulateAnimation(callback) {
+  		      index.executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
+  		    }
+
+  		  }
+
+  		  return Backdrop;
+
+  		}));
+  		
+  } (backdrop));
+  	return backdrop.exports;
+  }
+
+  var focustrap = {exports: {}};
+
+  /*!
+    * Bootstrap focustrap.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+    */
+
+  var hasRequiredFocustrap;
+
+  function requireFocustrap () {
+  	if (hasRequiredFocustrap) return focustrap.exports;
+  	hasRequiredFocustrap = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  module.exports = factory(requireEventHandler(), requireSelectorEngine(), requireConfig()) ;
+  		})(commonjsGlobal$3, (function (EventHandler, SelectorEngine, Config) {
+  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
+
+  		  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+  		  const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
+  		  const Config__default = /*#__PURE__*/_interopDefaultLegacy(Config);
+
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): util/focustrap.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+  		  /**
+  		   * Constants
+  		   */
+
+  		  const NAME = 'focustrap';
+  		  const DATA_KEY = 'bs.focustrap';
+  		  const EVENT_KEY = `.${DATA_KEY}`;
+  		  const EVENT_FOCUSIN = `focusin${EVENT_KEY}`;
+  		  const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY}`;
+  		  const TAB_KEY = 'Tab';
+  		  const TAB_NAV_FORWARD = 'forward';
+  		  const TAB_NAV_BACKWARD = 'backward';
+  		  const Default = {
+  		    autofocus: true,
+  		    trapElement: null // The element to trap focus inside of
+
+  		  };
+  		  const DefaultType = {
+  		    autofocus: 'boolean',
+  		    trapElement: 'element'
+  		  };
+  		  /**
+  		   * Class definition
+  		   */
+
+  		  class FocusTrap extends Config__default.default {
+  		    constructor(config) {
+  		      super();
+  		      this._config = this._getConfig(config);
+  		      this._isActive = false;
+  		      this._lastTabNavDirection = null;
+  		    } // Getters
+
+
+  		    static get Default() {
+  		      return Default;
+  		    }
+
+  		    static get DefaultType() {
+  		      return DefaultType;
+  		    }
+
+  		    static get NAME() {
+  		      return NAME;
+  		    } // Public
+
+
+  		    activate() {
+  		      if (this._isActive) {
+  		        return;
+  		      }
+
+  		      if (this._config.autofocus) {
+  		        this._config.trapElement.focus();
+  		      }
+
+  		      EventHandler__default.default.off(document, EVENT_KEY); // guard against infinite focus loop
+
+  		      EventHandler__default.default.on(document, EVENT_FOCUSIN, event => this._handleFocusin(event));
+  		      EventHandler__default.default.on(document, EVENT_KEYDOWN_TAB, event => this._handleKeydown(event));
+  		      this._isActive = true;
+  		    }
+
+  		    deactivate() {
+  		      if (!this._isActive) {
+  		        return;
+  		      }
+
+  		      this._isActive = false;
+  		      EventHandler__default.default.off(document, EVENT_KEY);
+  		    } // Private
+
+
+  		    _handleFocusin(event) {
+  		      const {
+  		        trapElement
+  		      } = this._config;
+
+  		      if (event.target === document || event.target === trapElement || trapElement.contains(event.target)) {
+  		        return;
+  		      }
+
+  		      const elements = SelectorEngine__default.default.focusableChildren(trapElement);
+
+  		      if (elements.length === 0) {
+  		        trapElement.focus();
+  		      } else if (this._lastTabNavDirection === TAB_NAV_BACKWARD) {
+  		        elements[elements.length - 1].focus();
+  		      } else {
+  		        elements[0].focus();
+  		      }
+  		    }
+
+  		    _handleKeydown(event) {
+  		      if (event.key !== TAB_KEY) {
+  		        return;
+  		      }
+
+  		      this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
+  		    }
+
+  		  }
+
+  		  return FocusTrap;
+
+  		}));
+  		
+  } (focustrap));
+  	return focustrap.exports;
+  }
+
+  var componentFunctions = {exports: {}};
+
+  /*!
+    * Bootstrap component-functions.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+    */
+
+  var hasRequiredComponentFunctions;
+
+  function requireComponentFunctions () {
+  	if (hasRequiredComponentFunctions) return componentFunctions.exports;
+  	hasRequiredComponentFunctions = 1;
+  	(function (module, exports) {
+  		(function (global, factory) {
+  		  factory(exports, requireEventHandler(), requireUtil()) ;
+  		})(commonjsGlobal$3, (function (exports, EventHandler, index) {
+  		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
+
+  		  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+
+  		  /**
+  		   * --------------------------------------------------------------------------
+  		   * Bootstrap (v5.2.2): util/component-functions.js
+  		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  		   * --------------------------------------------------------------------------
+  		   */
+
+  		  const enableDismissTrigger = (component, method = 'hide') => {
+  		    const clickEvent = `click.dismiss${component.EVENT_KEY}`;
+  		    const name = component.NAME;
+  		    EventHandler__default.default.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
+  		      if (['A', 'AREA'].includes(this.tagName)) {
+  		        event.preventDefault();
+  		      }
+
+  		      if (index.isDisabled(this)) {
+  		        return;
+  		      }
+
+  		      const target = index.getElementFromSelector(this) || this.closest(`.${name}`);
+  		      const instance = component.getOrCreateInstance(target); // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
+
+  		      instance[method]();
+  		    });
+  		  };
+
+  		  exports.enableDismissTrigger = enableDismissTrigger;
+
+  		  Object.defineProperties(exports, { __esModule: { value: true }, [Symbol.toStringTag]: { value: 'Module' } });
+
+  		}));
+  		
+  } (componentFunctions, componentFunctions.exports));
+  	return componentFunctions.exports;
+  }
+
+  /*!
+    * Bootstrap modal.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
   (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory(eventHandler.exports, manipulator.exports, selectorEngine.exports, baseComponent.exports) ;
-  })(commonjsGlobal$3, (function (EventHandler, Manipulator, SelectorEngine, BaseComponent) {
-    const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
-
-    const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
-    const Manipulator__default = /*#__PURE__*/_interopDefaultLegacy(Manipulator);
-    const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
-    const BaseComponent__default = /*#__PURE__*/_interopDefaultLegacy(BaseComponent);
-
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/index.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    const MILLISECONDS_MULTIPLIER = 1000;
-    const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
-
-    const toType = obj => {
-      if (obj === null || obj === undefined) {
-        return `${obj}`;
-      }
-
-      return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
-    };
-
-    const getSelector = element => {
-      let selector = element.getAttribute('data-bs-target');
-
-      if (!selector || selector === '#') {
-        let hrefAttr = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
-        // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
-        // `document.querySelector` will rightfully complain it is invalid.
-        // See https://github.com/twbs/bootstrap/issues/32273
-
-        if (!hrefAttr || !hrefAttr.includes('#') && !hrefAttr.startsWith('.')) {
-          return null;
-        } // Just in case some CMS puts out a full URL with the anchor appended
-
-
-        if (hrefAttr.includes('#') && !hrefAttr.startsWith('#')) {
-          hrefAttr = `#${hrefAttr.split('#')[1]}`;
-        }
-
-        selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : null;
-      }
-
-      return selector;
-    };
-
-    const getElementFromSelector = element => {
-      const selector = getSelector(element);
-      return selector ? document.querySelector(selector) : null;
-    };
-
-    const getTransitionDurationFromElement = element => {
-      if (!element) {
-        return 0;
-      } // Get transition-duration of the element
-
-
-      let {
-        transitionDuration,
-        transitionDelay
-      } = window.getComputedStyle(element);
-      const floatTransitionDuration = Number.parseFloat(transitionDuration);
-      const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
-
-      if (!floatTransitionDuration && !floatTransitionDelay) {
-        return 0;
-      } // If multiple durations are defined, take the first
-
-
-      transitionDuration = transitionDuration.split(',')[0];
-      transitionDelay = transitionDelay.split(',')[0];
-      return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
-    };
-
-    const triggerTransitionEnd = element => {
-      element.dispatchEvent(new Event(TRANSITION_END));
-    };
-
-    const isElement = obj => {
-      if (!obj || typeof obj !== 'object') {
-        return false;
-      }
-
-      if (typeof obj.jquery !== 'undefined') {
-        obj = obj[0];
-      }
-
-      return typeof obj.nodeType !== 'undefined';
-    };
-
-    const getElement = obj => {
-      if (isElement(obj)) {
-        // it's a jQuery object or a node element
-        return obj.jquery ? obj[0] : obj;
-      }
-
-      if (typeof obj === 'string' && obj.length > 0) {
-        return document.querySelector(obj);
-      }
-
-      return null;
-    };
-
-    const typeCheckConfig = (componentName, config, configTypes) => {
-      Object.keys(configTypes).forEach(property => {
-        const expectedTypes = configTypes[property];
-        const value = config[property];
-        const valueType = value && isElement(value) ? 'element' : toType(value);
-
-        if (!new RegExp(expectedTypes).test(valueType)) {
-          throw new TypeError(`${componentName.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
-        }
-      });
-    };
-
-    const isVisible = element => {
-      if (!isElement(element) || element.getClientRects().length === 0) {
-        return false;
-      }
-
-      return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
-    };
-
-    const isDisabled = element => {
-      if (!element || element.nodeType !== Node.ELEMENT_NODE) {
-        return true;
-      }
-
-      if (element.classList.contains('disabled')) {
-        return true;
-      }
-
-      if (typeof element.disabled !== 'undefined') {
-        return element.disabled;
-      }
-
-      return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
-    };
-    /**
-     * Trick to restart an element's animation
-     *
-     * @param {HTMLElement} element
-     * @return void
-     *
-     * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
-     */
-
-
-    const reflow = element => {
-      // eslint-disable-next-line no-unused-expressions
-      element.offsetHeight;
-    };
-
-    const getjQuery = () => {
-      const {
-        jQuery
-      } = window;
-
-      if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
-        return jQuery;
-      }
-
-      return null;
-    };
-
-    const DOMContentLoadedCallbacks = [];
-
-    const onDOMContentLoaded = callback => {
-      if (document.readyState === 'loading') {
-        // add listener on the first call when the document is in loading state
-        if (!DOMContentLoadedCallbacks.length) {
-          document.addEventListener('DOMContentLoaded', () => {
-            DOMContentLoadedCallbacks.forEach(callback => callback());
-          });
-        }
-
-        DOMContentLoadedCallbacks.push(callback);
-      } else {
-        callback();
-      }
-    };
-
-    const isRTL = () => document.documentElement.dir === 'rtl';
-
-    const defineJQueryPlugin = plugin => {
-      onDOMContentLoaded(() => {
-        const $ = getjQuery();
-        /* istanbul ignore if */
-
-        if ($) {
-          const name = plugin.NAME;
-          const JQUERY_NO_CONFLICT = $.fn[name];
-          $.fn[name] = plugin.jQueryInterface;
-          $.fn[name].Constructor = plugin;
-
-          $.fn[name].noConflict = () => {
-            $.fn[name] = JQUERY_NO_CONFLICT;
-            return plugin.jQueryInterface;
-          };
-        }
-      });
-    };
-
-    const execute = callback => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    };
-
-    const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
-      if (!waitForTransition) {
-        execute(callback);
-        return;
-      }
-
-      const durationPadding = 5;
-      const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
-      let called = false;
-
-      const handler = ({
-        target
-      }) => {
-        if (target !== transitionElement) {
-          return;
-        }
-
-        called = true;
-        transitionElement.removeEventListener(TRANSITION_END, handler);
-        execute(callback);
-      };
-
-      transitionElement.addEventListener(TRANSITION_END, handler);
-      setTimeout(() => {
-        if (!called) {
-          triggerTransitionEnd(transitionElement);
-        }
-      }, emulatedDuration);
-    };
-
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/scrollBar.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
-    const SELECTOR_STICKY_CONTENT = '.sticky-top';
-
-    class ScrollBarHelper {
-      constructor() {
-        this._element = document.body;
-      }
-
-      getWidth() {
-        // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
-        const documentWidth = document.documentElement.clientWidth;
-        return Math.abs(window.innerWidth - documentWidth);
-      }
-
-      hide() {
-        const width = this.getWidth();
-
-        this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
-
-
-        this._setElementAttributes(this._element, 'paddingRight', calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
-
-
-        this._setElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight', calculatedValue => calculatedValue + width);
-
-        this._setElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight', calculatedValue => calculatedValue - width);
-      }
-
-      _disableOverFlow() {
-        this._saveInitialAttribute(this._element, 'overflow');
-
-        this._element.style.overflow = 'hidden';
-      }
-
-      _setElementAttributes(selector, styleProp, callback) {
-        const scrollbarWidth = this.getWidth();
-
-        const manipulationCallBack = element => {
-          if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
-            return;
-          }
-
-          this._saveInitialAttribute(element, styleProp);
-
-          const calculatedValue = window.getComputedStyle(element)[styleProp];
-          element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
-        };
-
-        this._applyManipulationCallback(selector, manipulationCallBack);
-      }
-
-      reset() {
-        this._resetElementAttributes(this._element, 'overflow');
-
-        this._resetElementAttributes(this._element, 'paddingRight');
-
-        this._resetElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight');
-
-        this._resetElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight');
-      }
-
-      _saveInitialAttribute(element, styleProp) {
-        const actualValue = element.style[styleProp];
-
-        if (actualValue) {
-          Manipulator__default.default.setDataAttribute(element, styleProp, actualValue);
-        }
-      }
-
-      _resetElementAttributes(selector, styleProp) {
-        const manipulationCallBack = element => {
-          const value = Manipulator__default.default.getDataAttribute(element, styleProp);
-
-          if (typeof value === 'undefined') {
-            element.style.removeProperty(styleProp);
-          } else {
-            Manipulator__default.default.removeDataAttribute(element, styleProp);
-            element.style[styleProp] = value;
-          }
-        };
-
-        this._applyManipulationCallback(selector, manipulationCallBack);
-      }
-
-      _applyManipulationCallback(selector, callBack) {
-        if (isElement(selector)) {
-          callBack(selector);
-        } else {
-          SelectorEngine__default.default.find(selector, this._element).forEach(callBack);
-        }
-      }
-
-      isOverflowing() {
-        return this.getWidth() > 0;
-      }
-
-    }
-
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/backdrop.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    const Default$2 = {
-      className: 'modal-backdrop',
-      isVisible: true,
-      // if false, we use the backdrop helper without adding any element to the dom
-      isAnimated: false,
-      rootElement: 'body',
-      // give the choice to place backdrop under different elements
-      clickCallback: null
-    };
-    const DefaultType$2 = {
-      className: 'string',
-      isVisible: 'boolean',
-      isAnimated: 'boolean',
-      rootElement: '(element|string)',
-      clickCallback: '(function|null)'
-    };
-    const NAME$2 = 'backdrop';
-    const CLASS_NAME_FADE$1 = 'fade';
-    const CLASS_NAME_SHOW$1 = 'show';
-    const EVENT_MOUSEDOWN = `mousedown.bs.${NAME$2}`;
-
-    class Backdrop {
-      constructor(config) {
-        this._config = this._getConfig(config);
-        this._isAppended = false;
-        this._element = null;
-      }
-
-      show(callback) {
-        if (!this._config.isVisible) {
-          execute(callback);
-          return;
-        }
-
-        this._append();
-
-        if (this._config.isAnimated) {
-          reflow(this._getElement());
-        }
-
-        this._getElement().classList.add(CLASS_NAME_SHOW$1);
-
-        this._emulateAnimation(() => {
-          execute(callback);
-        });
-      }
-
-      hide(callback) {
-        if (!this._config.isVisible) {
-          execute(callback);
-          return;
-        }
-
-        this._getElement().classList.remove(CLASS_NAME_SHOW$1);
-
-        this._emulateAnimation(() => {
-          this.dispose();
-          execute(callback);
-        });
-      } // Private
-
-
-      _getElement() {
-        if (!this._element) {
-          const backdrop = document.createElement('div');
-          backdrop.className = this._config.className;
-
-          if (this._config.isAnimated) {
-            backdrop.classList.add(CLASS_NAME_FADE$1);
-          }
-
-          this._element = backdrop;
-        }
-
-        return this._element;
-      }
-
-      _getConfig(config) {
-        config = { ...Default$2,
-          ...(typeof config === 'object' ? config : {})
-        }; // use getElement() with the default "body" to get a fresh Element on each instantiation
-
-        config.rootElement = getElement(config.rootElement);
-        typeCheckConfig(NAME$2, config, DefaultType$2);
-        return config;
-      }
-
-      _append() {
-        if (this._isAppended) {
-          return;
-        }
-
-        this._config.rootElement.append(this._getElement());
-
-        EventHandler__default.default.on(this._getElement(), EVENT_MOUSEDOWN, () => {
-          execute(this._config.clickCallback);
-        });
-        this._isAppended = true;
-      }
-
-      dispose() {
-        if (!this._isAppended) {
-          return;
-        }
-
-        EventHandler__default.default.off(this._element, EVENT_MOUSEDOWN);
-
-        this._element.remove();
-
-        this._isAppended = false;
-      }
-
-      _emulateAnimation(callback) {
-        executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
-      }
-
-    }
-
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/focustrap.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    const Default$1 = {
-      trapElement: null,
-      // The element to trap focus inside of
-      autofocus: true
-    };
-    const DefaultType$1 = {
-      trapElement: 'element',
-      autofocus: 'boolean'
-    };
-    const NAME$1 = 'focustrap';
-    const DATA_KEY$1 = 'bs.focustrap';
-    const EVENT_KEY$1 = `.${DATA_KEY$1}`;
-    const EVENT_FOCUSIN = `focusin${EVENT_KEY$1}`;
-    const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$1}`;
-    const TAB_KEY = 'Tab';
-    const TAB_NAV_FORWARD = 'forward';
-    const TAB_NAV_BACKWARD = 'backward';
-
-    class FocusTrap {
-      constructor(config) {
-        this._config = this._getConfig(config);
-        this._isActive = false;
-        this._lastTabNavDirection = null;
-      }
-
-      activate() {
-        const {
-          trapElement,
-          autofocus
-        } = this._config;
-
-        if (this._isActive) {
-          return;
-        }
-
-        if (autofocus) {
-          trapElement.focus();
-        }
-
-        EventHandler__default.default.off(document, EVENT_KEY$1); // guard against infinite focus loop
-
-        EventHandler__default.default.on(document, EVENT_FOCUSIN, event => this._handleFocusin(event));
-        EventHandler__default.default.on(document, EVENT_KEYDOWN_TAB, event => this._handleKeydown(event));
-        this._isActive = true;
-      }
-
-      deactivate() {
-        if (!this._isActive) {
-          return;
-        }
-
-        this._isActive = false;
-        EventHandler__default.default.off(document, EVENT_KEY$1);
-      } // Private
-
-
-      _handleFocusin(event) {
-        const {
-          target
-        } = event;
-        const {
-          trapElement
-        } = this._config;
-
-        if (target === document || target === trapElement || trapElement.contains(target)) {
-          return;
-        }
-
-        const elements = SelectorEngine__default.default.focusableChildren(trapElement);
-
-        if (elements.length === 0) {
-          trapElement.focus();
-        } else if (this._lastTabNavDirection === TAB_NAV_BACKWARD) {
-          elements[elements.length - 1].focus();
-        } else {
-          elements[0].focus();
-        }
-      }
-
-      _handleKeydown(event) {
-        if (event.key !== TAB_KEY) {
-          return;
-        }
-
-        this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
-      }
-
-      _getConfig(config) {
-        config = { ...Default$1,
-          ...(typeof config === 'object' ? config : {})
-        };
-        typeCheckConfig(NAME$1, config, DefaultType$1);
-        return config;
-      }
-
-    }
-
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/component-functions.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-    const enableDismissTrigger = (component, method = 'hide') => {
-      const clickEvent = `click.dismiss${component.EVENT_KEY}`;
-      const name = component.NAME;
-      EventHandler__default.default.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
-        if (['A', 'AREA'].includes(this.tagName)) {
-          event.preventDefault();
-        }
-
-        if (isDisabled(this)) {
-          return;
-        }
-
-        const target = getElementFromSelector(this) || this.closest(`.${name}`);
-        const instance = component.getOrCreateInstance(target); // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
-
-        instance[method]();
-      });
-    };
-
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): modal.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
-
-    const NAME = 'modal';
-    const DATA_KEY = 'bs.modal';
-    const EVENT_KEY = `.${DATA_KEY}`;
-    const DATA_API_KEY = '.data-api';
-    const ESCAPE_KEY = 'Escape';
-    const Default = {
-      backdrop: true,
-      keyboard: true,
-      focus: true
-    };
-    const DefaultType = {
-      backdrop: '(boolean|string)',
-      keyboard: 'boolean',
-      focus: 'boolean'
-    };
-    const EVENT_HIDE = `hide${EVENT_KEY}`;
-    const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY}`;
-    const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
-    const EVENT_SHOW = `show${EVENT_KEY}`;
-    const EVENT_SHOWN = `shown${EVENT_KEY}`;
-    const EVENT_RESIZE = `resize${EVENT_KEY}`;
-    const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY}`;
-    const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY}`;
-    const EVENT_MOUSEUP_DISMISS = `mouseup.dismiss${EVENT_KEY}`;
-    const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY}`;
-    const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
-    const CLASS_NAME_OPEN = 'modal-open';
-    const CLASS_NAME_FADE = 'fade';
-    const CLASS_NAME_SHOW = 'show';
-    const CLASS_NAME_STATIC = 'modal-static';
-    const OPEN_SELECTOR = '.modal.show';
-    const SELECTOR_DIALOG = '.modal-dialog';
-    const SELECTOR_MODAL_BODY = '.modal-body';
-    const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="modal"]';
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
-    class Modal extends BaseComponent__default.default {
-      constructor(element, config) {
-        super(element);
-        this._config = this._getConfig(config);
-        this._dialog = SelectorEngine__default.default.findOne(SELECTOR_DIALOG, this._element);
-        this._backdrop = this._initializeBackDrop();
-        this._focustrap = this._initializeFocusTrap();
-        this._isShown = false;
-        this._ignoreBackdropClick = false;
-        this._isTransitioning = false;
-        this._scrollBar = new ScrollBarHelper();
-      } // Getters
-
-
-      static get Default() {
-        return Default;
-      }
-
-      static get NAME() {
-        return NAME;
-      } // Public
-
-
-      toggle(relatedTarget) {
-        return this._isShown ? this.hide() : this.show(relatedTarget);
-      }
-
-      show(relatedTarget) {
-        if (this._isShown || this._isTransitioning) {
-          return;
-        }
-
-        const showEvent = EventHandler__default.default.trigger(this._element, EVENT_SHOW, {
-          relatedTarget
-        });
-
-        if (showEvent.defaultPrevented) {
-          return;
-        }
-
-        this._isShown = true;
-
-        if (this._isAnimated()) {
-          this._isTransitioning = true;
-        }
-
-        this._scrollBar.hide();
-
-        document.body.classList.add(CLASS_NAME_OPEN);
-
-        this._adjustDialog();
-
-        this._setEscapeEvent();
-
-        this._setResizeEvent();
-
-        EventHandler__default.default.on(this._dialog, EVENT_MOUSEDOWN_DISMISS, () => {
-          EventHandler__default.default.one(this._element, EVENT_MOUSEUP_DISMISS, event => {
-            if (event.target === this._element) {
-              this._ignoreBackdropClick = true;
-            }
-          });
-        });
-
-        this._showBackdrop(() => this._showElement(relatedTarget));
-      }
-
-      hide() {
-        if (!this._isShown || this._isTransitioning) {
-          return;
-        }
-
-        const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE);
-
-        if (hideEvent.defaultPrevented) {
-          return;
-        }
-
-        this._isShown = false;
-
-        const isAnimated = this._isAnimated();
-
-        if (isAnimated) {
-          this._isTransitioning = true;
-        }
-
-        this._setEscapeEvent();
-
-        this._setResizeEvent();
-
-        this._focustrap.deactivate();
-
-        this._element.classList.remove(CLASS_NAME_SHOW);
-
-        EventHandler__default.default.off(this._element, EVENT_CLICK_DISMISS);
-        EventHandler__default.default.off(this._dialog, EVENT_MOUSEDOWN_DISMISS);
-
-        this._queueCallback(() => this._hideModal(), this._element, isAnimated);
-      }
-
-      dispose() {
-        [window, this._dialog].forEach(htmlElement => EventHandler__default.default.off(htmlElement, EVENT_KEY));
-
-        this._backdrop.dispose();
-
-        this._focustrap.deactivate();
-
-        super.dispose();
-      }
-
-      handleUpdate() {
-        this._adjustDialog();
-      } // Private
-
-
-      _initializeBackDrop() {
-        return new Backdrop({
-          isVisible: Boolean(this._config.backdrop),
-          // 'static' option will be translated to true, and booleans will keep their value
-          isAnimated: this._isAnimated()
-        });
-      }
-
-      _initializeFocusTrap() {
-        return new FocusTrap({
-          trapElement: this._element
-        });
-      }
-
-      _getConfig(config) {
-        config = { ...Default,
-          ...Manipulator__default.default.getDataAttributes(this._element),
-          ...(typeof config === 'object' ? config : {})
-        };
-        typeCheckConfig(NAME, config, DefaultType);
-        return config;
-      }
-
-      _showElement(relatedTarget) {
-        const isAnimated = this._isAnimated();
-
-        const modalBody = SelectorEngine__default.default.findOne(SELECTOR_MODAL_BODY, this._dialog);
-
-        if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
-          // Don't move modal's DOM position
-          document.body.append(this._element);
-        }
-
-        this._element.style.display = 'block';
-
-        this._element.removeAttribute('aria-hidden');
-
-        this._element.setAttribute('aria-modal', true);
-
-        this._element.setAttribute('role', 'dialog');
-
-        this._element.scrollTop = 0;
-
-        if (modalBody) {
-          modalBody.scrollTop = 0;
-        }
-
-        if (isAnimated) {
-          reflow(this._element);
-        }
-
-        this._element.classList.add(CLASS_NAME_SHOW);
-
-        const transitionComplete = () => {
-          if (this._config.focus) {
-            this._focustrap.activate();
-          }
-
-          this._isTransitioning = false;
-          EventHandler__default.default.trigger(this._element, EVENT_SHOWN, {
-            relatedTarget
-          });
-        };
-
-        this._queueCallback(transitionComplete, this._dialog, isAnimated);
-      }
-
-      _setEscapeEvent() {
-        if (this._isShown) {
-          EventHandler__default.default.on(this._element, EVENT_KEYDOWN_DISMISS, event => {
-            if (this._config.keyboard && event.key === ESCAPE_KEY) {
-              event.preventDefault();
-              this.hide();
-            } else if (!this._config.keyboard && event.key === ESCAPE_KEY) {
-              this._triggerBackdropTransition();
-            }
-          });
-        } else {
-          EventHandler__default.default.off(this._element, EVENT_KEYDOWN_DISMISS);
-        }
-      }
-
-      _setResizeEvent() {
-        if (this._isShown) {
-          EventHandler__default.default.on(window, EVENT_RESIZE, () => this._adjustDialog());
-        } else {
-          EventHandler__default.default.off(window, EVENT_RESIZE);
-        }
-      }
-
-      _hideModal() {
-        this._element.style.display = 'none';
-
-        this._element.setAttribute('aria-hidden', true);
-
-        this._element.removeAttribute('aria-modal');
-
-        this._element.removeAttribute('role');
-
-        this._isTransitioning = false;
-
-        this._backdrop.hide(() => {
-          document.body.classList.remove(CLASS_NAME_OPEN);
-
-          this._resetAdjustments();
-
-          this._scrollBar.reset();
-
-          EventHandler__default.default.trigger(this._element, EVENT_HIDDEN);
-        });
-      }
-
-      _showBackdrop(callback) {
-        EventHandler__default.default.on(this._element, EVENT_CLICK_DISMISS, event => {
-          if (this._ignoreBackdropClick) {
-            this._ignoreBackdropClick = false;
-            return;
-          }
-
-          if (event.target !== event.currentTarget) {
-            return;
-          }
-
-          if (this._config.backdrop === true) {
-            this.hide();
-          } else if (this._config.backdrop === 'static') {
-            this._triggerBackdropTransition();
-          }
-        });
-
-        this._backdrop.show(callback);
-      }
-
-      _isAnimated() {
-        return this._element.classList.contains(CLASS_NAME_FADE);
-      }
-
-      _triggerBackdropTransition() {
-        const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE_PREVENTED);
-
-        if (hideEvent.defaultPrevented) {
-          return;
-        }
-
-        const {
-          classList,
-          scrollHeight,
-          style
-        } = this._element;
-        const isModalOverflowing = scrollHeight > document.documentElement.clientHeight; // return if the following background transition hasn't yet completed
-
-        if (!isModalOverflowing && style.overflowY === 'hidden' || classList.contains(CLASS_NAME_STATIC)) {
-          return;
-        }
-
-        if (!isModalOverflowing) {
-          style.overflowY = 'hidden';
-        }
-
-        classList.add(CLASS_NAME_STATIC);
-
-        this._queueCallback(() => {
-          classList.remove(CLASS_NAME_STATIC);
-
-          if (!isModalOverflowing) {
-            this._queueCallback(() => {
-              style.overflowY = '';
-            }, this._dialog);
-          }
-        }, this._dialog);
-
-        this._element.focus();
-      } // ----------------------------------------------------------------------
-      // the following methods are used to handle overflowing modals
-      // ----------------------------------------------------------------------
-
-
-      _adjustDialog() {
-        const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
-
-        const scrollbarWidth = this._scrollBar.getWidth();
-
-        const isBodyOverflowing = scrollbarWidth > 0;
-
-        if (!isBodyOverflowing && isModalOverflowing && !isRTL() || isBodyOverflowing && !isModalOverflowing && isRTL()) {
-          this._element.style.paddingLeft = `${scrollbarWidth}px`;
-        }
-
-        if (isBodyOverflowing && !isModalOverflowing && !isRTL() || !isBodyOverflowing && isModalOverflowing && isRTL()) {
-          this._element.style.paddingRight = `${scrollbarWidth}px`;
-        }
-      }
-
-      _resetAdjustments() {
-        this._element.style.paddingLeft = '';
-        this._element.style.paddingRight = '';
-      } // Static
-
-
-      static jQueryInterface(config, relatedTarget) {
-        return this.each(function () {
-          const data = Modal.getOrCreateInstance(this, config);
-
-          if (typeof config !== 'string') {
-            return;
-          }
-
-          if (typeof data[config] === 'undefined') {
-            throw new TypeError(`No method named "${config}"`);
-          }
-
-          data[config](relatedTarget);
-        });
-      }
-
-    }
-    /**
-     * ------------------------------------------------------------------------
-     * Data Api implementation
-     * ------------------------------------------------------------------------
-     */
-
-
-    EventHandler__default.default.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
-      const target = getElementFromSelector(this);
-
-      if (['A', 'AREA'].includes(this.tagName)) {
-        event.preventDefault();
-      }
-
-      EventHandler__default.default.one(target, EVENT_SHOW, showEvent => {
-        if (showEvent.defaultPrevented) {
-          // only register focus restorer if modal will actually get shown
-          return;
-        }
-
-        EventHandler__default.default.one(target, EVENT_HIDDEN, () => {
-          if (isVisible(this)) {
-            this.focus();
-          }
-        });
-      }); // avoid conflict when clicking moddal toggler while another one is open
-
-      const allReadyOpen = SelectorEngine__default.default.findOne(OPEN_SELECTOR);
-
-      if (allReadyOpen) {
-        Modal.getInstance(allReadyOpen).hide();
-      }
-
-      const data = Modal.getOrCreateInstance(target);
-      data.toggle(this);
-    });
-    enableDismissTrigger(Modal);
-    /**
-     * ------------------------------------------------------------------------
-     * jQuery
-     * ------------------------------------------------------------------------
-     * add .Modal to jQuery only if jQuery is present
-     */
-
-    defineJQueryPlugin(Modal);
-
-    return Modal;
-
-  }));
-
-  }(modal));
+  	(function (global, factory) {
+  	  module.exports = factory(requireUtil(), requireEventHandler(), requireSelectorEngine(), requireScrollbar(), requireBaseComponent(), requireBackdrop(), requireFocustrap(), requireComponentFunctions()) ;
+  	})(commonjsGlobal$3, (function (index, EventHandler, SelectorEngine, ScrollBarHelper, BaseComponent, Backdrop, FocusTrap, componentFunctions) {
+  	  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
+
+  	  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+  	  const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
+  	  const ScrollBarHelper__default = /*#__PURE__*/_interopDefaultLegacy(ScrollBarHelper);
+  	  const BaseComponent__default = /*#__PURE__*/_interopDefaultLegacy(BaseComponent);
+  	  const Backdrop__default = /*#__PURE__*/_interopDefaultLegacy(Backdrop);
+  	  const FocusTrap__default = /*#__PURE__*/_interopDefaultLegacy(FocusTrap);
+
+  	  /**
+  	   * --------------------------------------------------------------------------
+  	   * Bootstrap (v5.2.2): modal.js
+  	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  	   * --------------------------------------------------------------------------
+  	   */
+  	  /**
+  	   * Constants
+  	   */
+
+  	  const NAME = 'modal';
+  	  const DATA_KEY = 'bs.modal';
+  	  const EVENT_KEY = `.${DATA_KEY}`;
+  	  const DATA_API_KEY = '.data-api';
+  	  const ESCAPE_KEY = 'Escape';
+  	  const EVENT_HIDE = `hide${EVENT_KEY}`;
+  	  const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY}`;
+  	  const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
+  	  const EVENT_SHOW = `show${EVENT_KEY}`;
+  	  const EVENT_SHOWN = `shown${EVENT_KEY}`;
+  	  const EVENT_RESIZE = `resize${EVENT_KEY}`;
+  	  const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY}`;
+  	  const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY}`;
+  	  const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY}`;
+  	  const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
+  	  const CLASS_NAME_OPEN = 'modal-open';
+  	  const CLASS_NAME_FADE = 'fade';
+  	  const CLASS_NAME_SHOW = 'show';
+  	  const CLASS_NAME_STATIC = 'modal-static';
+  	  const OPEN_SELECTOR = '.modal.show';
+  	  const SELECTOR_DIALOG = '.modal-dialog';
+  	  const SELECTOR_MODAL_BODY = '.modal-body';
+  	  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="modal"]';
+  	  const Default = {
+  	    backdrop: true,
+  	    focus: true,
+  	    keyboard: true
+  	  };
+  	  const DefaultType = {
+  	    backdrop: '(boolean|string)',
+  	    focus: 'boolean',
+  	    keyboard: 'boolean'
+  	  };
+  	  /**
+  	   * Class definition
+  	   */
+
+  	  class Modal extends BaseComponent__default.default {
+  	    constructor(element, config) {
+  	      super(element, config);
+  	      this._dialog = SelectorEngine__default.default.findOne(SELECTOR_DIALOG, this._element);
+  	      this._backdrop = this._initializeBackDrop();
+  	      this._focustrap = this._initializeFocusTrap();
+  	      this._isShown = false;
+  	      this._isTransitioning = false;
+  	      this._scrollBar = new ScrollBarHelper__default.default();
+
+  	      this._addEventListeners();
+  	    } // Getters
+
+
+  	    static get Default() {
+  	      return Default;
+  	    }
+
+  	    static get DefaultType() {
+  	      return DefaultType;
+  	    }
+
+  	    static get NAME() {
+  	      return NAME;
+  	    } // Public
+
+
+  	    toggle(relatedTarget) {
+  	      return this._isShown ? this.hide() : this.show(relatedTarget);
+  	    }
+
+  	    show(relatedTarget) {
+  	      if (this._isShown || this._isTransitioning) {
+  	        return;
+  	      }
+
+  	      const showEvent = EventHandler__default.default.trigger(this._element, EVENT_SHOW, {
+  	        relatedTarget
+  	      });
+
+  	      if (showEvent.defaultPrevented) {
+  	        return;
+  	      }
+
+  	      this._isShown = true;
+  	      this._isTransitioning = true;
+
+  	      this._scrollBar.hide();
+
+  	      document.body.classList.add(CLASS_NAME_OPEN);
+
+  	      this._adjustDialog();
+
+  	      this._backdrop.show(() => this._showElement(relatedTarget));
+  	    }
+
+  	    hide() {
+  	      if (!this._isShown || this._isTransitioning) {
+  	        return;
+  	      }
+
+  	      const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE);
+
+  	      if (hideEvent.defaultPrevented) {
+  	        return;
+  	      }
+
+  	      this._isShown = false;
+  	      this._isTransitioning = true;
+
+  	      this._focustrap.deactivate();
+
+  	      this._element.classList.remove(CLASS_NAME_SHOW);
+
+  	      this._queueCallback(() => this._hideModal(), this._element, this._isAnimated());
+  	    }
+
+  	    dispose() {
+  	      for (const htmlElement of [window, this._dialog]) {
+  	        EventHandler__default.default.off(htmlElement, EVENT_KEY);
+  	      }
+
+  	      this._backdrop.dispose();
+
+  	      this._focustrap.deactivate();
+
+  	      super.dispose();
+  	    }
+
+  	    handleUpdate() {
+  	      this._adjustDialog();
+  	    } // Private
+
+
+  	    _initializeBackDrop() {
+  	      return new Backdrop__default.default({
+  	        isVisible: Boolean(this._config.backdrop),
+  	        // 'static' option will be translated to true, and booleans will keep their value,
+  	        isAnimated: this._isAnimated()
+  	      });
+  	    }
+
+  	    _initializeFocusTrap() {
+  	      return new FocusTrap__default.default({
+  	        trapElement: this._element
+  	      });
+  	    }
+
+  	    _showElement(relatedTarget) {
+  	      // try to append dynamic modal
+  	      if (!document.body.contains(this._element)) {
+  	        document.body.append(this._element);
+  	      }
+
+  	      this._element.style.display = 'block';
+
+  	      this._element.removeAttribute('aria-hidden');
+
+  	      this._element.setAttribute('aria-modal', true);
+
+  	      this._element.setAttribute('role', 'dialog');
+
+  	      this._element.scrollTop = 0;
+  	      const modalBody = SelectorEngine__default.default.findOne(SELECTOR_MODAL_BODY, this._dialog);
+
+  	      if (modalBody) {
+  	        modalBody.scrollTop = 0;
+  	      }
+
+  	      index.reflow(this._element);
+
+  	      this._element.classList.add(CLASS_NAME_SHOW);
+
+  	      const transitionComplete = () => {
+  	        if (this._config.focus) {
+  	          this._focustrap.activate();
+  	        }
+
+  	        this._isTransitioning = false;
+  	        EventHandler__default.default.trigger(this._element, EVENT_SHOWN, {
+  	          relatedTarget
+  	        });
+  	      };
+
+  	      this._queueCallback(transitionComplete, this._dialog, this._isAnimated());
+  	    }
+
+  	    _addEventListeners() {
+  	      EventHandler__default.default.on(this._element, EVENT_KEYDOWN_DISMISS, event => {
+  	        if (event.key !== ESCAPE_KEY) {
+  	          return;
+  	        }
+
+  	        if (this._config.keyboard) {
+  	          event.preventDefault();
+  	          this.hide();
+  	          return;
+  	        }
+
+  	        this._triggerBackdropTransition();
+  	      });
+  	      EventHandler__default.default.on(window, EVENT_RESIZE, () => {
+  	        if (this._isShown && !this._isTransitioning) {
+  	          this._adjustDialog();
+  	        }
+  	      });
+  	      EventHandler__default.default.on(this._element, EVENT_MOUSEDOWN_DISMISS, event => {
+  	        // a bad trick to segregate clicks that may start inside dialog but end outside, and avoid listen to scrollbar clicks
+  	        EventHandler__default.default.one(this._element, EVENT_CLICK_DISMISS, event2 => {
+  	          if (this._element !== event.target || this._element !== event2.target) {
+  	            return;
+  	          }
+
+  	          if (this._config.backdrop === 'static') {
+  	            this._triggerBackdropTransition();
+
+  	            return;
+  	          }
+
+  	          if (this._config.backdrop) {
+  	            this.hide();
+  	          }
+  	        });
+  	      });
+  	    }
+
+  	    _hideModal() {
+  	      this._element.style.display = 'none';
+
+  	      this._element.setAttribute('aria-hidden', true);
+
+  	      this._element.removeAttribute('aria-modal');
+
+  	      this._element.removeAttribute('role');
+
+  	      this._isTransitioning = false;
+
+  	      this._backdrop.hide(() => {
+  	        document.body.classList.remove(CLASS_NAME_OPEN);
+
+  	        this._resetAdjustments();
+
+  	        this._scrollBar.reset();
+
+  	        EventHandler__default.default.trigger(this._element, EVENT_HIDDEN);
+  	      });
+  	    }
+
+  	    _isAnimated() {
+  	      return this._element.classList.contains(CLASS_NAME_FADE);
+  	    }
+
+  	    _triggerBackdropTransition() {
+  	      const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE_PREVENTED);
+
+  	      if (hideEvent.defaultPrevented) {
+  	        return;
+  	      }
+
+  	      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+  	      const initialOverflowY = this._element.style.overflowY; // return if the following background transition hasn't yet completed
+
+  	      if (initialOverflowY === 'hidden' || this._element.classList.contains(CLASS_NAME_STATIC)) {
+  	        return;
+  	      }
+
+  	      if (!isModalOverflowing) {
+  	        this._element.style.overflowY = 'hidden';
+  	      }
+
+  	      this._element.classList.add(CLASS_NAME_STATIC);
+
+  	      this._queueCallback(() => {
+  	        this._element.classList.remove(CLASS_NAME_STATIC);
+
+  	        this._queueCallback(() => {
+  	          this._element.style.overflowY = initialOverflowY;
+  	        }, this._dialog);
+  	      }, this._dialog);
+
+  	      this._element.focus();
+  	    }
+  	    /**
+  	     * The following methods are used to handle overflowing modals
+  	     */
+
+
+  	    _adjustDialog() {
+  	      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+
+  	      const scrollbarWidth = this._scrollBar.getWidth();
+
+  	      const isBodyOverflowing = scrollbarWidth > 0;
+
+  	      if (isBodyOverflowing && !isModalOverflowing) {
+  	        const property = index.isRTL() ? 'paddingLeft' : 'paddingRight';
+  	        this._element.style[property] = `${scrollbarWidth}px`;
+  	      }
+
+  	      if (!isBodyOverflowing && isModalOverflowing) {
+  	        const property = index.isRTL() ? 'paddingRight' : 'paddingLeft';
+  	        this._element.style[property] = `${scrollbarWidth}px`;
+  	      }
+  	    }
+
+  	    _resetAdjustments() {
+  	      this._element.style.paddingLeft = '';
+  	      this._element.style.paddingRight = '';
+  	    } // Static
+
+
+  	    static jQueryInterface(config, relatedTarget) {
+  	      return this.each(function () {
+  	        const data = Modal.getOrCreateInstance(this, config);
+
+  	        if (typeof config !== 'string') {
+  	          return;
+  	        }
+
+  	        if (typeof data[config] === 'undefined') {
+  	          throw new TypeError(`No method named "${config}"`);
+  	        }
+
+  	        data[config](relatedTarget);
+  	      });
+  	    }
+
+  	  }
+  	  /**
+  	   * Data API implementation
+  	   */
+
+
+  	  EventHandler__default.default.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+  	    const target = index.getElementFromSelector(this);
+
+  	    if (['A', 'AREA'].includes(this.tagName)) {
+  	      event.preventDefault();
+  	    }
+
+  	    EventHandler__default.default.one(target, EVENT_SHOW, showEvent => {
+  	      if (showEvent.defaultPrevented) {
+  	        // only register focus restorer if modal will actually get shown
+  	        return;
+  	      }
+
+  	      EventHandler__default.default.one(target, EVENT_HIDDEN, () => {
+  	        if (index.isVisible(this)) {
+  	          this.focus();
+  	        }
+  	      });
+  	    }); // avoid conflict when clicking modal toggler while another one is open
+
+  	    const alreadyOpen = SelectorEngine__default.default.findOne(OPEN_SELECTOR);
+
+  	    if (alreadyOpen) {
+  	      Modal.getInstance(alreadyOpen).hide();
+  	    }
+
+  	    const data = Modal.getOrCreateInstance(target);
+  	    data.toggle(this);
+  	  });
+  	  componentFunctions.enableDismissTrigger(Modal);
+  	  /**
+  	   * jQuery
+  	   */
+
+  	  index.defineJQueryPlugin(Modal);
+
+  	  return Modal;
+
+  	}));
+  	
+  } (modal));
 
   var Modal$1 = modal.exports;
 
   var collapse = {exports: {}};
 
   /*!
-    * Bootstrap collapse.js v5.1.3 (https://getbootstrap.com/)
-    * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Bootstrap collapse.js v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
   (function (module, exports) {
-  (function (global, factory) {
-    module.exports = factory(data.exports, eventHandler.exports, manipulator.exports, selectorEngine.exports, baseComponent.exports) ;
-  })(commonjsGlobal$3, (function (Data, EventHandler, Manipulator, SelectorEngine, BaseComponent) {
-    const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
-
-    const Data__default = /*#__PURE__*/_interopDefaultLegacy(Data);
-    const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
-    const Manipulator__default = /*#__PURE__*/_interopDefaultLegacy(Manipulator);
-    const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
-    const BaseComponent__default = /*#__PURE__*/_interopDefaultLegacy(BaseComponent);
-
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): util/index.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-
-    const toType = obj => {
-      if (obj === null || obj === undefined) {
-        return `${obj}`;
-      }
-
-      return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
-    };
-
-    const getSelector = element => {
-      let selector = element.getAttribute('data-bs-target');
-
-      if (!selector || selector === '#') {
-        let hrefAttr = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
-        // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
-        // `document.querySelector` will rightfully complain it is invalid.
-        // See https://github.com/twbs/bootstrap/issues/32273
-
-        if (!hrefAttr || !hrefAttr.includes('#') && !hrefAttr.startsWith('.')) {
-          return null;
-        } // Just in case some CMS puts out a full URL with the anchor appended
-
-
-        if (hrefAttr.includes('#') && !hrefAttr.startsWith('#')) {
-          hrefAttr = `#${hrefAttr.split('#')[1]}`;
-        }
-
-        selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : null;
-      }
-
-      return selector;
-    };
-
-    const getSelectorFromElement = element => {
-      const selector = getSelector(element);
-
-      if (selector) {
-        return document.querySelector(selector) ? selector : null;
-      }
-
-      return null;
-    };
-
-    const getElementFromSelector = element => {
-      const selector = getSelector(element);
-      return selector ? document.querySelector(selector) : null;
-    };
-
-    const isElement = obj => {
-      if (!obj || typeof obj !== 'object') {
-        return false;
-      }
-
-      if (typeof obj.jquery !== 'undefined') {
-        obj = obj[0];
-      }
-
-      return typeof obj.nodeType !== 'undefined';
-    };
-
-    const getElement = obj => {
-      if (isElement(obj)) {
-        // it's a jQuery object or a node element
-        return obj.jquery ? obj[0] : obj;
-      }
-
-      if (typeof obj === 'string' && obj.length > 0) {
-        return document.querySelector(obj);
-      }
-
-      return null;
-    };
-
-    const typeCheckConfig = (componentName, config, configTypes) => {
-      Object.keys(configTypes).forEach(property => {
-        const expectedTypes = configTypes[property];
-        const value = config[property];
-        const valueType = value && isElement(value) ? 'element' : toType(value);
-
-        if (!new RegExp(expectedTypes).test(valueType)) {
-          throw new TypeError(`${componentName.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
-        }
-      });
-    };
-    /**
-     * Trick to restart an element's animation
-     *
-     * @param {HTMLElement} element
-     * @return void
-     *
-     * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
-     */
-
-
-    const reflow = element => {
-      // eslint-disable-next-line no-unused-expressions
-      element.offsetHeight;
-    };
-
-    const getjQuery = () => {
-      const {
-        jQuery
-      } = window;
-
-      if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
-        return jQuery;
-      }
-
-      return null;
-    };
-
-    const DOMContentLoadedCallbacks = [];
-
-    const onDOMContentLoaded = callback => {
-      if (document.readyState === 'loading') {
-        // add listener on the first call when the document is in loading state
-        if (!DOMContentLoadedCallbacks.length) {
-          document.addEventListener('DOMContentLoaded', () => {
-            DOMContentLoadedCallbacks.forEach(callback => callback());
-          });
-        }
-
-        DOMContentLoadedCallbacks.push(callback);
-      } else {
-        callback();
-      }
-    };
-
-    const defineJQueryPlugin = plugin => {
-      onDOMContentLoaded(() => {
-        const $ = getjQuery();
-        /* istanbul ignore if */
-
-        if ($) {
-          const name = plugin.NAME;
-          const JQUERY_NO_CONFLICT = $.fn[name];
-          $.fn[name] = plugin.jQueryInterface;
-          $.fn[name].Constructor = plugin;
-
-          $.fn[name].noConflict = () => {
-            $.fn[name] = JQUERY_NO_CONFLICT;
-            return plugin.jQueryInterface;
-          };
-        }
-      });
-    };
-
-    /**
-     * --------------------------------------------------------------------------
-     * Bootstrap (v5.1.3): collapse.js
-     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-     * --------------------------------------------------------------------------
-     */
-    /**
-     * ------------------------------------------------------------------------
-     * Constants
-     * ------------------------------------------------------------------------
-     */
-
-    const NAME = 'collapse';
-    const DATA_KEY = 'bs.collapse';
-    const EVENT_KEY = `.${DATA_KEY}`;
-    const DATA_API_KEY = '.data-api';
-    const Default = {
-      toggle: true,
-      parent: null
-    };
-    const DefaultType = {
-      toggle: 'boolean',
-      parent: '(null|element)'
-    };
-    const EVENT_SHOW = `show${EVENT_KEY}`;
-    const EVENT_SHOWN = `shown${EVENT_KEY}`;
-    const EVENT_HIDE = `hide${EVENT_KEY}`;
-    const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
-    const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
-    const CLASS_NAME_SHOW = 'show';
-    const CLASS_NAME_COLLAPSE = 'collapse';
-    const CLASS_NAME_COLLAPSING = 'collapsing';
-    const CLASS_NAME_COLLAPSED = 'collapsed';
-    const CLASS_NAME_DEEPER_CHILDREN = `:scope .${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`;
-    const CLASS_NAME_HORIZONTAL = 'collapse-horizontal';
-    const WIDTH = 'width';
-    const HEIGHT = 'height';
-    const SELECTOR_ACTIVES = '.collapse.show, .collapse.collapsing';
-    const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="collapse"]';
-    /**
-     * ------------------------------------------------------------------------
-     * Class Definition
-     * ------------------------------------------------------------------------
-     */
-
-    class Collapse extends BaseComponent__default.default {
-      constructor(element, config) {
-        super(element);
-        this._isTransitioning = false;
-        this._config = this._getConfig(config);
-        this._triggerArray = [];
-        const toggleList = SelectorEngine__default.default.find(SELECTOR_DATA_TOGGLE);
-
-        for (let i = 0, len = toggleList.length; i < len; i++) {
-          const elem = toggleList[i];
-          const selector = getSelectorFromElement(elem);
-          const filterElement = SelectorEngine__default.default.find(selector).filter(foundElem => foundElem === this._element);
-
-          if (selector !== null && filterElement.length) {
-            this._selector = selector;
-
-            this._triggerArray.push(elem);
-          }
-        }
-
-        this._initializeChildren();
-
-        if (!this._config.parent) {
-          this._addAriaAndCollapsedClass(this._triggerArray, this._isShown());
-        }
-
-        if (this._config.toggle) {
-          this.toggle();
-        }
-      } // Getters
-
-
-      static get Default() {
-        return Default;
-      }
-
-      static get NAME() {
-        return NAME;
-      } // Public
-
-
-      toggle() {
-        if (this._isShown()) {
-          this.hide();
-        } else {
-          this.show();
-        }
-      }
-
-      show() {
-        if (this._isTransitioning || this._isShown()) {
-          return;
-        }
-
-        let actives = [];
-        let activesData;
-
-        if (this._config.parent) {
-          const children = SelectorEngine__default.default.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
-          actives = SelectorEngine__default.default.find(SELECTOR_ACTIVES, this._config.parent).filter(elem => !children.includes(elem)); // remove children if greater depth
-        }
-
-        const container = SelectorEngine__default.default.findOne(this._selector);
-
-        if (actives.length) {
-          const tempActiveData = actives.find(elem => container !== elem);
-          activesData = tempActiveData ? Collapse.getInstance(tempActiveData) : null;
-
-          if (activesData && activesData._isTransitioning) {
-            return;
-          }
-        }
-
-        const startEvent = EventHandler__default.default.trigger(this._element, EVENT_SHOW);
-
-        if (startEvent.defaultPrevented) {
-          return;
-        }
-
-        actives.forEach(elemActive => {
-          if (container !== elemActive) {
-            Collapse.getOrCreateInstance(elemActive, {
-              toggle: false
-            }).hide();
-          }
-
-          if (!activesData) {
-            Data__default.default.set(elemActive, DATA_KEY, null);
-          }
-        });
-
-        const dimension = this._getDimension();
-
-        this._element.classList.remove(CLASS_NAME_COLLAPSE);
-
-        this._element.classList.add(CLASS_NAME_COLLAPSING);
-
-        this._element.style[dimension] = 0;
-
-        this._addAriaAndCollapsedClass(this._triggerArray, true);
-
-        this._isTransitioning = true;
-
-        const complete = () => {
-          this._isTransitioning = false;
-
-          this._element.classList.remove(CLASS_NAME_COLLAPSING);
-
-          this._element.classList.add(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW);
-
-          this._element.style[dimension] = '';
-          EventHandler__default.default.trigger(this._element, EVENT_SHOWN);
-        };
-
-        const capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
-        const scrollSize = `scroll${capitalizedDimension}`;
-
-        this._queueCallback(complete, this._element, true);
-
-        this._element.style[dimension] = `${this._element[scrollSize]}px`;
-      }
-
-      hide() {
-        if (this._isTransitioning || !this._isShown()) {
-          return;
-        }
-
-        const startEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE);
-
-        if (startEvent.defaultPrevented) {
-          return;
-        }
-
-        const dimension = this._getDimension();
-
-        this._element.style[dimension] = `${this._element.getBoundingClientRect()[dimension]}px`;
-        reflow(this._element);
-
-        this._element.classList.add(CLASS_NAME_COLLAPSING);
-
-        this._element.classList.remove(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW);
-
-        const triggerArrayLength = this._triggerArray.length;
-
-        for (let i = 0; i < triggerArrayLength; i++) {
-          const trigger = this._triggerArray[i];
-          const elem = getElementFromSelector(trigger);
-
-          if (elem && !this._isShown(elem)) {
-            this._addAriaAndCollapsedClass([trigger], false);
-          }
-        }
-
-        this._isTransitioning = true;
-
-        const complete = () => {
-          this._isTransitioning = false;
-
-          this._element.classList.remove(CLASS_NAME_COLLAPSING);
-
-          this._element.classList.add(CLASS_NAME_COLLAPSE);
-
-          EventHandler__default.default.trigger(this._element, EVENT_HIDDEN);
-        };
-
-        this._element.style[dimension] = '';
-
-        this._queueCallback(complete, this._element, true);
-      }
-
-      _isShown(element = this._element) {
-        return element.classList.contains(CLASS_NAME_SHOW);
-      } // Private
-
-
-      _getConfig(config) {
-        config = { ...Default,
-          ...Manipulator__default.default.getDataAttributes(this._element),
-          ...config
-        };
-        config.toggle = Boolean(config.toggle); // Coerce string values
-
-        config.parent = getElement(config.parent);
-        typeCheckConfig(NAME, config, DefaultType);
-        return config;
-      }
-
-      _getDimension() {
-        return this._element.classList.contains(CLASS_NAME_HORIZONTAL) ? WIDTH : HEIGHT;
-      }
-
-      _initializeChildren() {
-        if (!this._config.parent) {
-          return;
-        }
-
-        const children = SelectorEngine__default.default.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
-        SelectorEngine__default.default.find(SELECTOR_DATA_TOGGLE, this._config.parent).filter(elem => !children.includes(elem)).forEach(element => {
-          const selected = getElementFromSelector(element);
-
-          if (selected) {
-            this._addAriaAndCollapsedClass([element], this._isShown(selected));
-          }
-        });
-      }
-
-      _addAriaAndCollapsedClass(triggerArray, isOpen) {
-        if (!triggerArray.length) {
-          return;
-        }
-
-        triggerArray.forEach(elem => {
-          if (isOpen) {
-            elem.classList.remove(CLASS_NAME_COLLAPSED);
-          } else {
-            elem.classList.add(CLASS_NAME_COLLAPSED);
-          }
-
-          elem.setAttribute('aria-expanded', isOpen);
-        });
-      } // Static
-
-
-      static jQueryInterface(config) {
-        return this.each(function () {
-          const _config = {};
-
-          if (typeof config === 'string' && /show|hide/.test(config)) {
-            _config.toggle = false;
-          }
-
-          const data = Collapse.getOrCreateInstance(this, _config);
-
-          if (typeof config === 'string') {
-            if (typeof data[config] === 'undefined') {
-              throw new TypeError(`No method named "${config}"`);
-            }
-
-            data[config]();
-          }
-        });
-      }
-
-    }
-    /**
-     * ------------------------------------------------------------------------
-     * Data Api implementation
-     * ------------------------------------------------------------------------
-     */
-
-
-    EventHandler__default.default.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
-      // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
-      if (event.target.tagName === 'A' || event.delegateTarget && event.delegateTarget.tagName === 'A') {
-        event.preventDefault();
-      }
-
-      const selector = getSelectorFromElement(this);
-      const selectorElements = SelectorEngine__default.default.find(selector);
-      selectorElements.forEach(element => {
-        Collapse.getOrCreateInstance(element, {
-          toggle: false
-        }).toggle();
-      });
-    });
-    /**
-     * ------------------------------------------------------------------------
-     * jQuery
-     * ------------------------------------------------------------------------
-     * add .Collapse to jQuery only if jQuery is present
-     */
-
-    defineJQueryPlugin(Collapse);
-
-    return Collapse;
-
-  }));
-
-  }(collapse));
+  	(function (global, factory) {
+  	  module.exports = factory(requireUtil(), requireEventHandler(), requireSelectorEngine(), requireBaseComponent()) ;
+  	})(commonjsGlobal$3, (function (index, EventHandler, SelectorEngine, BaseComponent) {
+  	  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
+
+  	  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+  	  const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
+  	  const BaseComponent__default = /*#__PURE__*/_interopDefaultLegacy(BaseComponent);
+
+  	  /**
+  	   * --------------------------------------------------------------------------
+  	   * Bootstrap (v5.2.2): collapse.js
+  	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  	   * --------------------------------------------------------------------------
+  	   */
+  	  /**
+  	   * Constants
+  	   */
+
+  	  const NAME = 'collapse';
+  	  const DATA_KEY = 'bs.collapse';
+  	  const EVENT_KEY = `.${DATA_KEY}`;
+  	  const DATA_API_KEY = '.data-api';
+  	  const EVENT_SHOW = `show${EVENT_KEY}`;
+  	  const EVENT_SHOWN = `shown${EVENT_KEY}`;
+  	  const EVENT_HIDE = `hide${EVENT_KEY}`;
+  	  const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
+  	  const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
+  	  const CLASS_NAME_SHOW = 'show';
+  	  const CLASS_NAME_COLLAPSE = 'collapse';
+  	  const CLASS_NAME_COLLAPSING = 'collapsing';
+  	  const CLASS_NAME_COLLAPSED = 'collapsed';
+  	  const CLASS_NAME_DEEPER_CHILDREN = `:scope .${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`;
+  	  const CLASS_NAME_HORIZONTAL = 'collapse-horizontal';
+  	  const WIDTH = 'width';
+  	  const HEIGHT = 'height';
+  	  const SELECTOR_ACTIVES = '.collapse.show, .collapse.collapsing';
+  	  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="collapse"]';
+  	  const Default = {
+  	    parent: null,
+  	    toggle: true
+  	  };
+  	  const DefaultType = {
+  	    parent: '(null|element)',
+  	    toggle: 'boolean'
+  	  };
+  	  /**
+  	   * Class definition
+  	   */
+
+  	  class Collapse extends BaseComponent__default.default {
+  	    constructor(element, config) {
+  	      super(element, config);
+  	      this._isTransitioning = false;
+  	      this._triggerArray = [];
+  	      const toggleList = SelectorEngine__default.default.find(SELECTOR_DATA_TOGGLE);
+
+  	      for (const elem of toggleList) {
+  	        const selector = index.getSelectorFromElement(elem);
+  	        const filterElement = SelectorEngine__default.default.find(selector).filter(foundElement => foundElement === this._element);
+
+  	        if (selector !== null && filterElement.length) {
+  	          this._triggerArray.push(elem);
+  	        }
+  	      }
+
+  	      this._initializeChildren();
+
+  	      if (!this._config.parent) {
+  	        this._addAriaAndCollapsedClass(this._triggerArray, this._isShown());
+  	      }
+
+  	      if (this._config.toggle) {
+  	        this.toggle();
+  	      }
+  	    } // Getters
+
+
+  	    static get Default() {
+  	      return Default;
+  	    }
+
+  	    static get DefaultType() {
+  	      return DefaultType;
+  	    }
+
+  	    static get NAME() {
+  	      return NAME;
+  	    } // Public
+
+
+  	    toggle() {
+  	      if (this._isShown()) {
+  	        this.hide();
+  	      } else {
+  	        this.show();
+  	      }
+  	    }
+
+  	    show() {
+  	      if (this._isTransitioning || this._isShown()) {
+  	        return;
+  	      }
+
+  	      let activeChildren = []; // find active children
+
+  	      if (this._config.parent) {
+  	        activeChildren = this._getFirstLevelChildren(SELECTOR_ACTIVES).filter(element => element !== this._element).map(element => Collapse.getOrCreateInstance(element, {
+  	          toggle: false
+  	        }));
+  	      }
+
+  	      if (activeChildren.length && activeChildren[0]._isTransitioning) {
+  	        return;
+  	      }
+
+  	      const startEvent = EventHandler__default.default.trigger(this._element, EVENT_SHOW);
+
+  	      if (startEvent.defaultPrevented) {
+  	        return;
+  	      }
+
+  	      for (const activeInstance of activeChildren) {
+  	        activeInstance.hide();
+  	      }
+
+  	      const dimension = this._getDimension();
+
+  	      this._element.classList.remove(CLASS_NAME_COLLAPSE);
+
+  	      this._element.classList.add(CLASS_NAME_COLLAPSING);
+
+  	      this._element.style[dimension] = 0;
+
+  	      this._addAriaAndCollapsedClass(this._triggerArray, true);
+
+  	      this._isTransitioning = true;
+
+  	      const complete = () => {
+  	        this._isTransitioning = false;
+
+  	        this._element.classList.remove(CLASS_NAME_COLLAPSING);
+
+  	        this._element.classList.add(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW);
+
+  	        this._element.style[dimension] = '';
+  	        EventHandler__default.default.trigger(this._element, EVENT_SHOWN);
+  	      };
+
+  	      const capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
+  	      const scrollSize = `scroll${capitalizedDimension}`;
+
+  	      this._queueCallback(complete, this._element, true);
+
+  	      this._element.style[dimension] = `${this._element[scrollSize]}px`;
+  	    }
+
+  	    hide() {
+  	      if (this._isTransitioning || !this._isShown()) {
+  	        return;
+  	      }
+
+  	      const startEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE);
+
+  	      if (startEvent.defaultPrevented) {
+  	        return;
+  	      }
+
+  	      const dimension = this._getDimension();
+
+  	      this._element.style[dimension] = `${this._element.getBoundingClientRect()[dimension]}px`;
+  	      index.reflow(this._element);
+
+  	      this._element.classList.add(CLASS_NAME_COLLAPSING);
+
+  	      this._element.classList.remove(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW);
+
+  	      for (const trigger of this._triggerArray) {
+  	        const element = index.getElementFromSelector(trigger);
+
+  	        if (element && !this._isShown(element)) {
+  	          this._addAriaAndCollapsedClass([trigger], false);
+  	        }
+  	      }
+
+  	      this._isTransitioning = true;
+
+  	      const complete = () => {
+  	        this._isTransitioning = false;
+
+  	        this._element.classList.remove(CLASS_NAME_COLLAPSING);
+
+  	        this._element.classList.add(CLASS_NAME_COLLAPSE);
+
+  	        EventHandler__default.default.trigger(this._element, EVENT_HIDDEN);
+  	      };
+
+  	      this._element.style[dimension] = '';
+
+  	      this._queueCallback(complete, this._element, true);
+  	    }
+
+  	    _isShown(element = this._element) {
+  	      return element.classList.contains(CLASS_NAME_SHOW);
+  	    } // Private
+
+
+  	    _configAfterMerge(config) {
+  	      config.toggle = Boolean(config.toggle); // Coerce string values
+
+  	      config.parent = index.getElement(config.parent);
+  	      return config;
+  	    }
+
+  	    _getDimension() {
+  	      return this._element.classList.contains(CLASS_NAME_HORIZONTAL) ? WIDTH : HEIGHT;
+  	    }
+
+  	    _initializeChildren() {
+  	      if (!this._config.parent) {
+  	        return;
+  	      }
+
+  	      const children = this._getFirstLevelChildren(SELECTOR_DATA_TOGGLE);
+
+  	      for (const element of children) {
+  	        const selected = index.getElementFromSelector(element);
+
+  	        if (selected) {
+  	          this._addAriaAndCollapsedClass([element], this._isShown(selected));
+  	        }
+  	      }
+  	    }
+
+  	    _getFirstLevelChildren(selector) {
+  	      const children = SelectorEngine__default.default.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent); // remove children if greater depth
+
+  	      return SelectorEngine__default.default.find(selector, this._config.parent).filter(element => !children.includes(element));
+  	    }
+
+  	    _addAriaAndCollapsedClass(triggerArray, isOpen) {
+  	      if (!triggerArray.length) {
+  	        return;
+  	      }
+
+  	      for (const element of triggerArray) {
+  	        element.classList.toggle(CLASS_NAME_COLLAPSED, !isOpen);
+  	        element.setAttribute('aria-expanded', isOpen);
+  	      }
+  	    } // Static
+
+
+  	    static jQueryInterface(config) {
+  	      const _config = {};
+
+  	      if (typeof config === 'string' && /show|hide/.test(config)) {
+  	        _config.toggle = false;
+  	      }
+
+  	      return this.each(function () {
+  	        const data = Collapse.getOrCreateInstance(this, _config);
+
+  	        if (typeof config === 'string') {
+  	          if (typeof data[config] === 'undefined') {
+  	            throw new TypeError(`No method named "${config}"`);
+  	          }
+
+  	          data[config]();
+  	        }
+  	      });
+  	    }
+
+  	  }
+  	  /**
+  	   * Data API implementation
+  	   */
+
+
+  	  EventHandler__default.default.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+  	    // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
+  	    if (event.target.tagName === 'A' || event.delegateTarget && event.delegateTarget.tagName === 'A') {
+  	      event.preventDefault();
+  	    }
+
+  	    const selector = index.getSelectorFromElement(this);
+  	    const selectorElements = SelectorEngine__default.default.find(selector);
+
+  	    for (const element of selectorElements) {
+  	      Collapse.getOrCreateInstance(element, {
+  	        toggle: false
+  	      }).toggle();
+  	    }
+  	  });
+  	  /**
+  	   * jQuery
+  	   */
+
+  	  index.defineJQueryPlugin(Collapse);
+
+  	  return Collapse;
+
+  	}));
+  	
+  } (collapse));
 
   var Collapse$1 = collapse.exports;
 
@@ -17869,44 +16657,25 @@
   var OCCURRENCE_LIST_CONTAINER_ID = 'occurrencelistcontainer';
   NyphSurveyForm.registerSection(NyphSurveyFormAboutSection);
   NyphSurveyForm.registerSection(NyphSurveyFormSurveySection);
-
   var _surveyFormSections = /*#__PURE__*/new WeakMap();
-
   var _occurrenceForm = /*#__PURE__*/new WeakMap();
-
   var _occurrenceChangeHandles = /*#__PURE__*/new WeakMap();
-
   var _refreshSurveyHelpPanel = /*#__PURE__*/new WeakSet();
-
   var _refreshOccurrenceEditor = /*#__PURE__*/new WeakSet();
-
   var _displayDefaultRightPanel = /*#__PURE__*/new WeakSet();
-
   var _clearOccurrenceListeners = /*#__PURE__*/new WeakSet();
-
   var _populateLeftPanel = /*#__PURE__*/new WeakSet();
-
   var _registerModals = /*#__PURE__*/new WeakSet();
-
   var _registerLeftPanelAccordionEvent = /*#__PURE__*/new WeakSet();
-
   var _appendWelcomeSection = /*#__PURE__*/new WeakSet();
-
   var _appendSurveyForm = /*#__PURE__*/new WeakSet();
-
   var _appendOccurrenceListContainer = /*#__PURE__*/new WeakSet();
-
   var _getOccurrenceListContainer = /*#__PURE__*/new WeakSet();
-
   var _buildOccurrenceList = /*#__PURE__*/new WeakSet();
-
   var _occurrenceSummaryHTML = /*#__PURE__*/new WeakSet();
-
   var MainView = /*#__PURE__*/function (_Page) {
     _inherits(MainView, _Page);
-
     var _super = _createSuper(MainView);
-
     /**
      * @type {MainController}
      */
@@ -17944,140 +16713,109 @@
     /**
      * @type {string}
      */
+
     function MainView() {
       var _this;
-
       _classCallCheck(this, MainView);
+      _this = _super.call(this);
 
-      _this = _super.call(this); // mainly aiming to determine whether '/app/' or '/testapp/'
-
+      // mainly aiming to determine whether '/app/' or '/testapp/'
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _occurrenceSummaryHTML);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _buildOccurrenceList);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _getOccurrenceListContainer);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _appendOccurrenceListContainer);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _appendSurveyForm);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _appendWelcomeSection);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _registerLeftPanelAccordionEvent);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _registerModals);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _populateLeftPanel);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _clearOccurrenceListeners);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _displayDefaultRightPanel);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _refreshOccurrenceEditor);
-
       _classPrivateMethodInitSpec(_assertThisInitialized(_this), _refreshSurveyHelpPanel);
-
       _defineProperty(_assertThisInitialized(_this), "controller", void 0);
-
       _classPrivateFieldInitSpec(_assertThisInitialized(_this), _surveyFormSections, {
         writable: true,
         value: {}
       });
-
       _classPrivateFieldInitSpec(_assertThisInitialized(_this), _occurrenceForm, {
         writable: true,
         value: void 0
       });
-
       _classPrivateFieldInitSpec(_assertThisInitialized(_this), _occurrenceChangeHandles, {
         writable: true,
         value: {}
       });
-
       _defineProperty(_assertThisInitialized(_this), "panelKey", '');
-
       _defineProperty(_assertThisInitialized(_this), "OCCURRENCES_ARE_LAST_SECTION", true);
-
       _defineProperty(_assertThisInitialized(_this), "recordsHeaderListDescriptorId", void 0);
-
       _defineProperty(_assertThisInitialized(_this), "pathPrefix", void 0);
-
       _defineProperty(_assertThisInitialized(_this), "deleteOccurrenceModal", void 0);
-
       _defineProperty(_assertThisInitialized(_this), "finishModal", void 0);
-
       _this.pathPrefix = window.location.pathname.split('/')[1];
       return _this;
     }
+
     /**
      * called once during late-stage app initialisation
      * (NB this may not be the current view when called)
      *
      * an opportunity to register listeners on this.controller.app
      */
-
-
     _createClass(MainView, [{
       key: "initialise",
       value: function initialise() {
         this.controller.app.addListener(App$1.EVENT_OCCURRENCE_ADDED, this.occurrenceAddedHandler.bind(this));
       }
+
       /**
        * called before display to initialise a two-panel layout
        */
-
     }, {
       key: "setLayout",
       value: function setLayout() {
         var _this2 = this;
-
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlLayout; // register handler on right-pane back button
+        bodyEl.innerHTML = htmlLayout;
 
+        // register handler on right-pane back button
         document.getElementById(PANEL_BACK_BUTTON_ID).addEventListener('click', function (event) {
           if (doubleClickIntercepted(event)) {
             return;
           }
-
           event.stopPropagation();
           event.preventDefault();
-
           _this2.fireEvent(MainController.EVENT_BACK);
         });
       }
+
       /**
        * need to ensure that the open accordion sections match the url
        * do this by class tweaking, so that handlers do not fire
        *
        * @todo for survey sections should enforce that the first invalid or empty section is always opened
        */
-
     }, {
       key: "refreshLeftPanelAccordionState",
       value: function refreshLeftPanelAccordionState() {
         var cards = document.querySelectorAll("div#".concat(this.leftPanelAccordionId, " div[data-bs-parent=\"#").concat(this.leftPanelAccordionId, "\"].collapse"));
         var targetMatch;
-
         if (this.controller.viewSubcontext) {
           targetMatch = this.controller.viewSubcontext === 'record' ? 'record' : this.controller.surveySection;
         } else {
           targetMatch = '';
         }
-
         var _iterator = _createForOfIteratorHelper(cards),
-            _step;
-
+          _step;
         try {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
             var card = _step.value;
             var parentDiv = card.parentElement;
-
             if (parentDiv.classList.contains('is-invalid')) {
               // don't ever hide invalid sections
               card.classList.add('show');
             } else {
               var cardSection = card.getAttribute('data-sectionkey');
-
               if (cardSection === targetMatch) {
                 card.classList.add('show');
               } else {
@@ -18090,29 +16828,25 @@
         } finally {
           _iterator.f();
         }
-
         this._refreshOccurrenceAccordionState();
       }
+
       /**
        * collapse open occurrence cards that don't match the current occurrence id
        *
        * @private
        */
-
     }, {
       key: "_refreshOccurrenceAccordionState",
       value: function _refreshOccurrenceAccordionState() {
         var occurrenceCards = document.querySelectorAll("div#".concat(OCCURRENCE_LIST_CONTAINER_ID, " div[data-bs-parent=\"#").concat(OCCURRENCE_LIST_CONTAINER_ID, "\"].collapse"));
         var targetMatch = this.controller.currentOccurrenceId;
-
         var _iterator2 = _createForOfIteratorHelper(occurrenceCards),
-            _step2;
-
+          _step2;
         try {
           for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
             var card = _step2.value;
             var cardOccurrenceId = card.getAttribute('data-occurrenceid');
-
             if (cardOccurrenceId === targetMatch) {
               card.classList.add('show');
             } else {
@@ -18131,33 +16865,25 @@
         if (this.controller.needsFullRefresh) {
           console.log('Full refresh triggered.');
           this.setLayout();
-
           _classPrivateMethodGet(this, _populateLeftPanel, _populateLeftPanel2).call(this);
         } else {
           // need to ensure that the open accordion sections match the url
           this.refreshLeftPanelAccordionState();
         }
-
         if (this.controller.needRightPanelRefresh) {
           // the view of the current record (in the right-hand editor pane)
           // has changed and needs rebuilding from scratch
           switch (this.controller.viewSubcontext) {
             case 'record':
               _classPrivateMethodGet(this, _refreshOccurrenceEditor, _refreshOccurrenceEditor2).call(this);
-
               break;
-
             case 'survey':
               _classPrivateMethodGet(this, _refreshSurveyHelpPanel, _refreshSurveyHelpPanel2).call(this);
-
               break;
-
             default:
               _classPrivateMethodGet(this, _displayDefaultRightPanel, _displayDefaultRightPanel2).call(this);
-
           }
         }
-
         this.setResponsivePanel('' === this.panelKey ? PANEL_LEFT : PANEL_RIGHT);
       }
     }, {
@@ -18169,7 +16895,6 @@
        */
       function refreshOccurrenceFooterControls(editorContainer) {
         var _this3 = this;
-
         var nextSection;
         var buttonContainer = editorContainer.appendChild(document.createElement('div'));
         var backButton = buttonContainer.appendChild(document.createElement('button'));
@@ -18177,7 +16902,6 @@
         backButton.type = 'button';
         backButton.textContent = 'back to list';
         backButton.setAttribute('data-buttonaction', 'back');
-
         if (this.occurrenceIsMostRecent(this.controller.currentOccurrence)) {
           var addNewButton = buttonContainer.appendChild(document.createElement('button'));
           addNewButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3 me-2';
@@ -18185,7 +16909,6 @@
           addNewButton.textContent = 'add another';
           addNewButton.setAttribute('data-buttonaction', 'new');
         }
-
         if (this.OCCURRENCES_ARE_LAST_SECTION) {
           var finishButton = buttonContainer.appendChild(document.createElement('button'));
           finishButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3';
@@ -18202,68 +16925,52 @@
           nextButton.setAttribute('data-buttonaction', 'next');
           nextButton.title = nextSection.sectionTitle;
         }
-
-        buttonContainer.addEventListener('click',
-        /** @param {MouseEvent} event */
-        function (event) {
+        buttonContainer.addEventListener('click', /** @param {MouseEvent} event */function (event) {
           if (doubleClickIntercepted(event)) {
             return;
           }
-
           var buttonEl = event.target.closest('button');
-
           if (buttonEl && buttonEl.hasAttribute('data-buttonaction')) {
             switch (buttonEl.getAttribute('data-buttonaction')) {
               case 'new':
                 _this3.fireEvent(MainController.EVENT_NEW_RECORD);
-
                 break;
-
               case 'back':
                 _this3.controller.app.router.navigate('/list/record/');
-
                 break;
-
               case 'finish':
-                _this3.controller.app.router.navigate('/list/record/'); // display the finish dialogue box
+                _this3.controller.app.router.navigate('/list/record/');
+                // display the finish dialogue box
                 //$(`#${FINISH_MODAL_ID}`).modal();
+                _this3.finishModal.show();
 
-
-                _this3.finishModal.show(); // it's opportune at this point to try to ping the server again to save anything left outstanding
-
-
+                // it's opportune at this point to try to ping the server again to save anything left outstanding
                 _this3.controller.app.syncAll();
-
                 break;
-
               case 'next':
                 _this3.controller.app.router.navigate("/list/survey/".concat(nextSection.sectionNavigationKey));
-
                 break;
-
               default:
                 throw new Error("Unrecognised button action ".concat(buttonEl.getAttribute('data-buttonaction')));
             }
           }
         });
       }
+
       /**
        *
        * @param {Occurrence} occurrence
        * @returns {boolean}
        */
-
     }, {
       key: "occurrenceIsMostRecent",
       value: function occurrenceIsMostRecent(occurrence) {
         // loop through entries sorted by creation date, most recent first
         var _iterator3 = _createForOfIteratorHelper(this.controller.occurrences.entries()),
-            _step3;
-
+          _step3;
         try {
           for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
             var occurrenceTuple = _step3.value;
-
             if (occurrenceTuple[1].createdStamp > occurrence.createdStamp && !occurrenceTuple[1].deleted) {
               return false;
             }
@@ -18273,14 +16980,13 @@
         } finally {
           _iterator3.f();
         }
-
         return true;
       }
+
       /**
        *
        * @param {string} [htmlText]
        */
-
     }, {
       key: "getOccurrenceForm",
       value:
@@ -18302,7 +17008,9 @@
        */
       function _reviseWelcomeButtons(nextButton, newLink, container) {
         //container.className = 'welcome-container';
+
         //const newButton = newLink.getElementsByTagName('button')[0];
+
         //let numberOfSurveys = this.controller.app.surveys.size;
         if (this.controller.app.currentSurvey && this.controller.app.currentSurvey && this.controller.app.currentSurvey.place) {
           nextButton.textContent = "continue '".concat(this.controller.app.currentSurvey.generateSurveyName(), "' \xBB");
@@ -18316,22 +17024,19 @@
       key: "_refreshVisibilityOfAccordionSections",
       value: function _refreshVisibilityOfAccordionSections() {
         //const accordionEl = document.getElementById(this.leftPanelAccordionId);
+
         var accordionSections = document.querySelectorAll("div#".concat(this.leftPanelAccordionId, " > div"));
         var valid = true;
-
         var _iterator4 = _createForOfIteratorHelper(accordionSections),
-            _step4;
-
+          _step4;
         try {
           for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
             var cardEl = _step4.value;
-
             if (valid) {
               cardEl.classList.remove('hidden-card');
             } else {
               cardEl.classList.add('hidden-card');
             }
-
             if (cardEl.classList.contains('is-invalid')) {
               valid = false; // subsequent entries should be hidden
             }
@@ -18352,7 +17057,6 @@
         if (doubleClickIntercepted(event)) {
           return;
         }
-
         event.preventDefault();
         event.stopPropagation();
         this.fireEvent(MainController.EVENT_NEW_RECORD);
@@ -18367,7 +17071,6 @@
        */
       function occurrenceAddedHandler(params) {
         var occurrenceList = _classPrivateMethodGet(this, _getOccurrenceListContainer, _getOccurrenceListContainer2).call(this);
-
         if (occurrenceList) {
           var occurrence = this.controller.occurrences.get(params.occurrenceId);
           var itemCard = document.createElement('div');
@@ -18381,20 +17084,18 @@
           occurrenceList.classList.add('has-occurrences');
         }
       }
+
       /**
        * sets validity flag in occurrence accordion header
        *
        * @param {Occurrence} occurrence
        */
-
     }, {
       key: "refreshOccurrenceValiditySummary",
       value: function refreshOccurrenceValiditySummary(occurrence) {
         var cardEl = document.getElementById("card_".concat(occurrence.id));
-
         if (cardEl) {
           var validity = occurrence.evaluateCompletionStatus(NyphOccurrenceForm.properties);
-
           if (validity.requiredFieldsPresent) {
             cardEl.classList.remove('is-invalid');
           } else {
@@ -18402,100 +17103,89 @@
           }
         }
       }
+
       /**
        *
        * @param {{occurrenceId : string}} params
        */
-
     }, {
       key: "occurrenceChangeHandler",
       value: function occurrenceChangeHandler(params) {
         var occurrence = this.controller.occurrences.get(params.occurrenceId);
         var el = document.getElementById("card_".concat(params.occurrenceId));
-
         if (el) {
           if (!occurrence.deleted) {
             el.innerHTML = _classPrivateMethodGet(this, _occurrenceSummaryHTML, _occurrenceSummaryHTML2).call(this, occurrence);
             this.refreshOccurrenceValiditySummary(occurrence);
           } else {
-            el.parentElement.removeChild(el); // remove the event listener
+            el.parentElement.removeChild(el);
 
+            // remove the event listener
             if (_classPrivateFieldGet(this, _occurrenceChangeHandles)[params.occurrenceId]) {
               occurrence.removeListener(Occurrence$1.EVENT_MODIFIED, _classPrivateFieldGet(this, _occurrenceChangeHandles)[params.occurrenceId]);
               _classPrivateFieldGet(this, _occurrenceChangeHandles)[params.occurrenceId] = null;
             }
           }
         }
-
         this.testForEmptyList();
       }
     }, {
       key: "testForEmptyList",
       value: function testForEmptyList() {
         var haveOccurrences = false;
-
         for (var _i = 0, _arr = _toConsumableArray(this.controller.occurrences.entries()); _i < _arr.length; _i++) {
           var occurrenceTuple = _arr[_i];
           var occurrence = occurrenceTuple[1];
-
           if (!occurrence.deleted) {
             haveOccurrences = true;
           }
         }
-
         var listContainer = _classPrivateMethodGet(this, _getOccurrenceListContainer, _getOccurrenceListContainer2).call(this);
-
         if (haveOccurrences) {
           listContainer.classList.add('has-occurrences');
         } else {
           listContainer.classList.remove('has-occurrences');
         }
       }
+
       /**
        *
        * @param {Occurrence} occurrence
        * @returns {string}
        */
-
     }, {
       key: "occurrenceSummaryBodyHTML",
       value: function occurrenceSummaryBodyHTML(occurrence) {
         var html = '';
-
         for (var key in occurrence.attributes) {
           if (occurrence.attributes.hasOwnProperty(key) && NyphOccurrenceForm.properties.hasOwnProperty(key) && !NyphOccurrenceForm.properties[key].field.isEmpty(occurrence.attributes[key])) {
             var summaryHTML = NyphOccurrenceForm.properties[key].field.summarise(key, NyphOccurrenceForm.properties[key], occurrence.attributes);
-
             if (summaryHTML) {
               html += "<p class=\"ellipsed-line mb-0\">".concat(summaryHTML, "</p>");
             }
           }
         }
-
         if (NyphApp.devMode) {
           html += "<p class=\"mb-0\">(<i>id ".concat(occurrence.id, "</i>)</p>");
         }
-
         return html;
       }
+
       /**
        *
        * @param {Occurrence} occurrence
        * @returns {string}
        */
-
     }, {
       key: "occurrenceSummaryHeadingHTML",
       value: function occurrenceSummaryHeadingHTML(occurrence) {
         var html = '';
-
         if (occurrence.attributes.hasOwnProperty('images') && occurrence.attributes.images.length) {
           var firstImageId = occurrence.attributes.images[0];
           html += OccurrenceImage$1.imageLink(firstImageId, 48, 48, {
             className: 'me-1 image-float-left'
           });
         }
-
         if (occurrence.attributes.taxon && occurrence.attributes.taxon.taxonId) {
           // have a well-formed taxon
           html += occurrence.taxon.formattedHTML(occurrence.attributes.taxon.vernacularMatch);
@@ -18505,16 +17195,15 @@
         } else {
           html += '<span>(unnamed plant)</span>';
         }
-
         return html;
       }
+
       /**
        *
        *
        * @param {Occurrence} occurrence
        * @return {string}
        */
-
     }, {
       key: "setResponsivePanel",
       value:
@@ -18526,7 +17215,6 @@
         var rightPanel = document.getElementById(RIGHT_PANEL_ID);
         var leftPanel = document.getElementById(LEFT_PANEL_ID);
         var midPanel = document.getElementById(CONTROL_PANEL_ID);
-
         switch (panel) {
           case PANEL_LEFT:
             leftPanel.classList.remove('d-none');
@@ -18536,37 +17224,32 @@
             midPanel.classList.remove('d-md-none');
             midPanel.classList.add('d-none');
             break;
-
           case PANEL_RIGHT:
             if (leftPanel.classList.contains('d-block')) {
               leftPanel.classList.remove('d-block');
               console.log('scrolling to top in setResponsivePanel');
               rightPanel.scrollTop = 0;
             }
-
             leftPanel.classList.add('d-none');
             rightPanel.classList.remove('d-none');
             rightPanel.classList.add('d-block');
             midPanel.classList.remove('d-none');
             midPanel.classList.add('d-md-none');
             break;
-
           default:
             throw new Error("Unrecognised panel value '".concat(panel));
         }
       }
     }]);
-
     return MainView;
   }(Page);
-
   function _refreshSurveyHelpPanel2() {
     var rightPanelContainer = document.getElementById(RIGHT_PANEL_ID);
     rightPanelContainer.scrollTop = 0;
-    var sectionKey = this.controller.surveySection; // section key can be 'welcome' which is a special case that doesn't match a section form
+    var sectionKey = this.controller.surveySection;
 
+    // section key can be 'welcome' which is a special case that doesn't match a section form
     var help = NyphSurveyForm.sectionsByKey[sectionKey] ? NyphSurveyForm.sectionsByKey[sectionKey].help : '';
-
     if (help) {
       rightPanelContainer.innerHTML = help;
     } else if (sectionKey === 'welcome') {
@@ -18575,60 +17258,48 @@
       // shouldn't get here
       rightPanelContainer.innerHTML = "<p>placeholder survey help content for '".concat(sectionKey, "'</p>");
     }
-
     this.controller.app.router.updatePageLinks(); // required in case help text contains any Navigo links
   }
-
   function _refreshOccurrenceEditor2() {
     try {
       var occurrence = this.controller.currentOccurrence;
       var editorContainer = document.getElementById(RIGHT_PANEL_ID);
-
       if (occurrence) {
         if (!_classPrivateFieldGet(this, _occurrenceForm) || _classPrivateFieldGet(this, _occurrenceForm).occurrenceId !== occurrence.id) {
           if (_classPrivateFieldGet(this, _occurrenceForm)) {
             _classPrivateFieldGet(this, _occurrenceForm).destructor();
-          } // form has not been initialised or current occurrence has changed
+          }
+
+          // form has not been initialised or current occurrence has changed
           //this.#occurrenceForm = occurrence.setForm(new NyphOccurrenceForm(occurrence));
-
-
           _classPrivateFieldSet(this, _occurrenceForm, new NyphOccurrenceForm(occurrence));
-
           _classPrivateFieldGet(this, _occurrenceForm).setOccurrence(occurrence);
+          _classPrivateFieldGet(this, _occurrenceForm).surveyId = this.controller.app.currentSurvey.id;
 
-          _classPrivateFieldGet(this, _occurrenceForm).surveyId = this.controller.app.currentSurvey.id; // scroll to the top of the panel
-
-          console.log('scrolling to top of occurrence');
+          // scroll to the top of the panel
+          //console.log('scrolling to top of occurrence');
           editorContainer.scrollTop = 0;
         }
-
         editorContainer.innerHTML = '';
-
         var formEl = _classPrivateFieldGet(this, _occurrenceForm).formElement;
-
         editorContainer.appendChild(formEl);
-
         _classPrivateFieldGet(this, _occurrenceForm).populateFormContent();
-
         if (occurrence.isNew) {
           console.log('Firing event for initialisation of new occurrence.');
-
           _classPrivateFieldGet(this, _occurrenceForm).fireEvent(Form.EVENT_INITIALISE_NEW, {
             survey: this.controller.app.currentSurvey
           }); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
-
         } else {
           console.log('Firing event for initialisation of existing occurrence.');
-
           _classPrivateFieldGet(this, _occurrenceForm).fireEvent(Form.EVENT_INITIALISED, {
             survey: this.controller.app.currentSurvey
           }); // allows re-initialisation of dynamic default data, e.g. setting a default geo-ref based on the survey
-
         }
 
-        this.refreshOccurrenceFooterControls(editorContainer); // ensures that the accordion matches the navigation state
-        //$(`#description_${occurrence.id}`).collapse('show');
+        this.refreshOccurrenceFooterControls(editorContainer);
 
+        // ensures that the accordion matches the navigation state
+        //$(`#description_${occurrence.id}`).collapse('show');
         Collapse$1.getOrCreateInstance(document.getElementById("description_".concat(occurrence.id))).show();
       } else {
         _classPrivateMethodGet(this, _displayDefaultRightPanel, _displayDefaultRightPanel2).call(this, NyphOccurrenceForm.help);
@@ -18637,90 +17308,69 @@
       console.log({
         error: error
       });
-
       var _editorContainer = document.getElementById(RIGHT_PANEL_ID);
-
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1665755664</p>"); //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666880802</p>");
+        //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
   }
-
   function _displayDefaultRightPanel2(htmlText) {
     var rightPanelContainer = document.getElementById(RIGHT_PANEL_ID);
     rightPanelContainer.innerHTML = htmlText || defaultRightHandSideHelp;
     rightPanelContainer.scrollTop = 0;
     this.controller.app.router.updatePageLinks(); // required in case help text contains any Navigo links
   }
-
   function _clearOccurrenceListeners2() {
     for (var id in _classPrivateFieldGet(this, _occurrenceChangeHandles)) {
       var occurrence = this.controller.occurrences.get[id];
-
       if (occurrence) {
         occurrence.removeListener(Occurrence$1.EVENT_MODIFIED, _classPrivateFieldGet(this, _occurrenceChangeHandles)[id]);
       }
     }
-
     _classPrivateFieldSet(this, _occurrenceChangeHandles, {});
   }
-
   function _populateLeftPanel2() {
     var _this4 = this;
-
     var leftPanel = document.getElementById(LEFT_PANEL_ID);
     var accordionEl = leftPanel.appendChild(document.createElement('div'));
     accordionEl.className = "accordion";
     this.leftPanelAccordionId = accordionEl.id = Form.nextId;
-
     _classPrivateMethodGet(this, _appendWelcomeSection, _appendWelcomeSection2).call(this);
-
     _classPrivateMethodGet(this, _appendSurveyForm, _appendSurveyForm2).call(this, 0, accordionEl, MainView.NEXT_SURVEY_SECTION); // about you
-
-
     _classPrivateMethodGet(this, _appendSurveyForm, _appendSurveyForm2).call(this, 1, accordionEl, MainView.NEXT_RECORDS); // about your survey
+    _classPrivateMethodGet(this, _appendOccurrenceListContainer, _appendOccurrenceListContainer2).call(this);
 
-
-    _classPrivateMethodGet(this, _appendOccurrenceListContainer, _appendOccurrenceListContainer2).call(this); // Keep this as is useful as guide for building other app layouts
+    // Keep this as is useful as guide for building other app layouts
     // this.#appendSurveyForm(1, accordionEl, MainView.NEXT_IS_FINAL); // about your garden
 
-
     _classPrivateMethodGet(this, _buildOccurrenceList, _buildOccurrenceList2).call(this);
+
     /**
      * need to manually intercept clicks on the form help buttons
      * to prevent click also triggering an accordion toggle
      */
-
-
-    accordionEl.addEventListener('click',
-    /** @param {MouseEvent} event */
-    function (event) {
+    accordionEl.addEventListener('click', /** @param {MouseEvent} event */function (event) {
       if (doubleClickIntercepted(event)) {
         return;
       }
-
       var targetLinkEl = event.target.closest('a');
-
       if (targetLinkEl && targetLinkEl.hasAttribute('data-help-link')) {
         event.preventDefault();
         event.stopPropagation();
-
         _this4.controller.app.router.navigate(targetLinkEl.getAttribute('data-help-link'));
       }
     });
-
     _classPrivateMethodGet(this, _registerLeftPanelAccordionEvent, _registerLeftPanelAccordionEvent2).call(this);
-
     _classPrivateMethodGet(this, _registerModals, _registerModals2).call(this);
   }
-
   function _registerModals2() {
     var _this5 = this;
+    var container = document.body;
 
-    var container = document.body; // Delete record modal
-
+    // Delete record modal
     var deleteOccurrenceModalHTML = "<div class=\"modal fade\" id=\"".concat(DELETE_OCCURRENCE_MODAL_ID, "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(DELETE_OCCURRENCE_MODAL_ID, "Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(DELETE_OCCURRENCE_MODAL_ID, "Title\">Delete record?</h5>\n        <button type=\"button\" class=\"close\" data-bs-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        Please confirm that you wish to delete the record.\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Back</button>\n        <button type=\"button\" class=\"btn btn-danger\" data-bs-dismiss=\"modal\" id=\"").concat(DELETE_OCCURRENCE_MODAL_ID, "confirmed\">Delete record</button>\n      </div>\n    </div>\n  </div>\n</div>");
     var deleteOccurrenceModalFragmentEl = document.createElement('div');
     deleteOccurrenceModalFragmentEl.innerHTML = deleteOccurrenceModalHTML;
@@ -18728,42 +17378,40 @@
     this.deleteOccurrenceModal = Modal$1.getOrCreateInstance(deleteOccurrenceModalEl, {});
     deleteOccurrenceModalEl.addEventListener('show.bs.modal', function (event) {
       var button = event.relatedTarget; // Button that triggered the modal
+
       // button will not be valid if modal has been invoked directly from script,
       // in which case the occurrence id attribute will already have been set
-
       if (button && 'occurrenceid' in button.dataset && button.dataset.occurrenceid) {
         var occurrenceId = button.dataset.occurrenceid;
         document.getElementById("".concat(DELETE_OCCURRENCE_MODAL_ID, "confirmed")).setAttribute('data-occurrenceid', occurrenceId);
       }
     });
-    document.getElementById("".concat(DELETE_OCCURRENCE_MODAL_ID, "confirmed")).addEventListener('click',
-    /** @param {MouseEvent} event */
-    function (event) {
+    document.getElementById("".concat(DELETE_OCCURRENCE_MODAL_ID, "confirmed")).addEventListener('click', /** @param {MouseEvent} event */function (event) {
       if (doubleClickIntercepted(event)) {
         return;
       }
-
       var confirmButtonEl = event.target.closest('button');
-
       if (confirmButtonEl && confirmButtonEl.hasAttribute('data-occurrenceid')) {
         var occurrenceId = confirmButtonEl.getAttribute('data-occurrenceid');
         console.log("Deleting occurrence ".concat(occurrenceId, "."));
-
         _this5.fireEvent(MainController.EVENT_DELETE_OCCURRENCE, {
           occurrenceId: occurrenceId
         });
       }
-    }); // 'finish' modal
-    // this pop-up is informational only
+    });
 
+    // 'finish' modal
+    // this pop-up is informational only
     var finishModalContainerEl = document.createElement('div');
     finishModalContainerEl.innerHTML = "<div class=\"modal fade\" id=\"".concat(FINISH_MODAL_ID, "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(FINISH_MODAL_ID, "Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(FINISH_MODAL_ID, "Title\">Thank you</h5>\n        <button type=\"button\" class=\"close\" data-bs-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\" id=\"").concat(FINISH_MODAL_ID, "-body\">\n        <p>Thank you! Your records have been sent. If you wish, you can continue to make changes and edit or add further records.</p>\n        <p>We've sent you an email with a link to this form, so that you can return to it later if needed.</p>\n        <p>If you are planning another Plant Hunt expedition then please start a new survey, using the 'Lists' menu.</p>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");
     var finishModalEl = container.appendChild(finishModalContainerEl.firstChild);
     this.finishModal = Modal$1.getOrCreateInstance(finishModalEl);
-    ImageField.registerLicenseModal(container); // image modal
-    // includes a button to delete the image
+    ImageField.registerLicenseModal(container);
 
-    ImageField.registerImageModalElement(container, this); //         const imageModalEl = document.createElement('div');
+    // image modal
+    // includes a button to delete the image
+    ImageField.registerImageModalElement(container, this);
+    //         const imageModalEl = document.createElement('div');
     //         imageModalEl.innerHTML = `<div class="modal fade" id="${IMAGE_MODAL_ID}" tabindex="-1" role="dialog" aria-labelledby="${IMAGE_MODAL_ID}Title" aria-hidden="true">
     //   <div class="modal-dialog modal-dialog-centered" role="document">
     //     <div class="modal-content">
@@ -18802,24 +17450,23 @@
     //             }
     //         });
   }
-
   function _registerLeftPanelAccordionEvent2() {
     var _this6 = this;
-
     // console.log('Registering left panel accordion event handler.');
-    var leftPanelEl = document.getElementById(LEFT_PANEL_ID); //$(`#${LEFT_PANEL_ID}`).on('show.bs.collapse', (event) => {
 
+    var leftPanelEl = document.getElementById(LEFT_PANEL_ID);
+
+    //$(`#${LEFT_PANEL_ID}`).on('show.bs.collapse', (event) => {
     leftPanelEl.addEventListener('show.bs.collapse', function (event) {
       // this will fire for both selection events within the records list and for changes to the top-level accordion
+
       console.log({
         'left panel show.bs.collapse': event
       });
-
       if (event.target.dataset.occurrenceid) {
         console.log({
           'left panel accordion show event (with occ id)': event
         });
-
         _this6.fireEvent(MainController.EVENT_SELECT_OCCURRENCE, {
           occurrenceId: event.target.dataset.occurrenceid
         });
@@ -18827,7 +17474,6 @@
         console.log({
           'left panel accordion show event (with section key)': event
         });
-
         _this6.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {
           sectionKey: event.target.dataset.sectionkey
         });
@@ -18841,14 +17487,11 @@
       console.log({
         'left panel hide.bs.collapse': event
       });
-
       if (event.target.dataset.sectionkey && _classPrivateFieldGet(_this6, _surveyFormSections)[event.target.dataset.sectionkey]) {
         var isValid = _classPrivateFieldGet(_this6, _surveyFormSections)[event.target.dataset.sectionkey].validateForm();
-
         console.log({
           'survey section validity': isValid
         });
-
         if (!isValid) {
           event.preventDefault();
         }
@@ -18856,61 +17499,48 @@
     });
     leftPanelEl.addEventListener('hidden.bs.collapse', function (event) {
       // this will fire for both selection events within the records list and for changes to the top-level accordion
+
       console.log({
         'left panel accordion hidden event': event
       });
-
       if (event.target.dataset.occurrenceid) {
         // should evaluate the validity of the individual occurrence
-        var occurrence = _this6.controller.occurrences.get(event.target.dataset.occurrenceid);
 
+        var occurrence = _this6.controller.occurrences.get(event.target.dataset.occurrenceid);
         if (occurrence.isNew && !occurrence.isPristine) {
           // closing of the slider is an action suggesting that user has moved on and validation should start
           occurrence.isNew = false;
-
           _this6.refreshOccurrenceValiditySummary(occurrence);
-        } // only trigger a navigation if the occurrence was the current one
-
-
-        if (_this6.controller.currentOccurrenceId === event.target.dataset.occurrenceid) {
-          _this6.fireEvent(MainController.EVENT_SELECT_OCCURRENCE, {
-            occurrenceId: ''
-          });
         }
+
+        // only trigger a navigation if the occurrence was the current one
+        if (_this6.controller.currentOccurrenceId === event.target.dataset.occurrenceid) ;
       } else if (event.target.dataset.sectionkey) {
         if (event.target.dataset.sectionkey === 'record') {
           // closing the top-level occurrences list
           // need to propagate validation down to the occurrences
+
           // only trigger a navigation if the view context was the current one
-          if (_this6.controller.viewSubcontext === 'record') {
-            _this6.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {
-              sectionKey: ''
-            });
-          }
+          if (_this6.controller.viewSubcontext === 'record') ;
         } else {
           if (_classPrivateFieldGet(_this6, _surveyFormSections)[event.target.dataset.sectionkey]) {
             var isValid = _classPrivateFieldGet(_this6, _surveyFormSections)[event.target.dataset.sectionkey].validateForm();
-
             console.log({
               'survey section validity': isValid
-            }); // only trigger a navigation if the section was the current one
+            });
 
-            if (_this6.controller.surveySection === event.target.dataset.sectionkey) {
-              _this6.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {
-                sectionKey: ''
-              });
-            }
+            // only trigger a navigation if the section was the current one
+            if (_this6.controller.surveySection === event.target.dataset.sectionkey) ;
           }
         }
       }
     });
   }
-
   function _appendWelcomeSection2() {
     var _this7 = this;
+    var accordionEl = document.getElementById(this.leftPanelAccordionId);
 
-    var accordionEl = document.getElementById(this.leftPanelAccordionId); // add 'next' button to the bottom of the survey form
-
+    // add 'next' button to the bottom of the survey form
     var nextButton = document.createElement('button');
     nextButton.className = 'btn btn-primary';
     nextButton.type = 'button';
@@ -18923,8 +17553,8 @@
     var newSurveyButton = newSurveyLink.appendChild(document.createElement('button'));
     newSurveyButton.className = 'btn';
     newSurveyButton.type = 'button';
-    newSurveyButton.style.borderColor = '#046931'; //newSurveyButton.style.marginLeft = '1em';
-
+    newSurveyButton.style.borderColor = '#046931';
+    //newSurveyButton.style.marginLeft = '1em';
     newSurveyButton.style.marginTop = '0.5em';
     newSurveyLink.href = "/".concat(this.pathPrefix, "/survey/new");
     newSurveyLink.dataset.navigo = 'survey/new';
@@ -18933,17 +17563,15 @@
     var cardId = Form.nextId;
     var sectionElement = document.createElement('div');
     sectionElement.innerHTML = welcomeContent;
-
     this._reviseWelcomeButtons(nextButton, newSurveyLink, sectionElement);
-
     this.controller.app.addListener(App$1.EVENT_SURVEYS_CHANGED, function () {
       _this7._reviseWelcomeButtons(nextButton, newSurveyLink, sectionElement);
     });
     sectionElement.appendChild(nextButton);
     sectionElement.appendChild(newSurveyLink);
     var helpLink = document.createElement('span');
-    helpLink.className = 'd-md-none ps-2'; // noinspection HtmlUnknownTarget
-
+    helpLink.className = 'd-md-none ps-2';
+    // noinspection HtmlUnknownTarget
     helpLink.innerHTML = "(<a href=\"/".concat(this.pathPrefix, "/list/survey/welcome/help\" data-navigo=\"list/survey/welcome/help\">more info</a>)");
     sectionElement.appendChild(helpLink);
     accordionEl.appendChild(this.accordionItem({
@@ -18964,47 +17592,40 @@
       }
     }));
   }
-
   function _appendSurveyForm2(formIndex, accordionEl, next) {
     var _this8 = this;
-
     var sectionClass = NyphSurveyForm.sections[formIndex];
     var surveyFormSection = new NyphSurveyForm(sectionClass);
     _classPrivateFieldGet(this, _surveyFormSections)[sectionClass.sectionNavigationKey] = surveyFormSection;
-    var formElement = surveyFormSection.formElement; // add 'next' button to the bottom of the survey form
+    var formElement = surveyFormSection.formElement;
 
+    // add 'next' button to the bottom of the survey form
     var nextButton = document.createElement('button');
     nextButton.className = 'btn btn-primary';
     nextButton.type = 'button';
     nextButton.textContent = 'next »';
     surveyFormSection.nextButtonId = nextButton.id = Form.nextId;
-
     switch (next) {
       case MainView.NEXT_RECORDS:
         // records section is next
         // if there are no records then clicking the button should add a new one automatically
         // the complexity of this dual action requires a click handler
-        nextButton.addEventListener('click',
-        /** @param {MouseEvent} event */
-        function (event) {
+
+        nextButton.addEventListener('click', /** @param {MouseEvent} event */function (event) {
           if (!doubleClickIntercepted(event)) {
             event.preventDefault();
             event.stopPropagation();
             surveyFormSection.liveValidation = true;
-
             if (surveyFormSection.validateForm()) {
               _this8.fireEvent(MainController.EVENT_NEXT_TO_RECORDS);
             }
           }
         });
         break;
-
       case MainView.NEXT_SURVEY_SECTION:
         // there's another survey section
         var nextSection = NyphSurveyForm.sections[formIndex + 1];
-        nextButton.addEventListener('click',
-        /** @param {MouseEvent} event */
-        function (event) {
+        nextButton.addEventListener('click', /** @param {MouseEvent} event */function (event) {
           if (!doubleClickIntercepted(event)) {
             console.log({
               'in MainView.NEXT_SURVEY_SECTION liveValidation': surveyFormSection.liveValidation
@@ -19013,9 +17634,9 @@
               surveyFormSection: surveyFormSection
             });
             surveyFormSection.liveValidation = true;
-
             if (!surveyFormSection.validateForm()) {
               // if not valid then prevent the event
+
               event.preventDefault();
               event.stopPropagation();
             }
@@ -19025,30 +17646,26 @@
         nextButton.setAttribute('data-bs-target', "#survey-".concat(formIndex + 1, "-").concat(nextSection.sectionNavigationKey));
         nextButton.title = nextSection.sectionTitle;
         break;
-
       case MainView.NEXT_IS_FINAL:
         nextButton.textContent = 'finish';
         nextButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3';
         nextButton.type = 'button';
-        nextButton.addEventListener('click',
-        /** @param {MouseEvent} event */
-        function (event) {
+        nextButton.addEventListener('click', /** @param {MouseEvent} event */function (event) {
           if (!doubleClickIntercepted(event)) {
-            _this8.controller.app.router.navigate('/list/'); // display the finish dialogue box
+            _this8.controller.app.router.navigate('/list/');
+            // display the finish dialogue box
             //$(`#${FINISH_MODAL_ID}`).modal();
-
-
             _this8.finishModal.show();
           }
         });
         break;
-
       default:
         throw new Error("Unrecognized next section keyword '".concat(next, "'"));
     }
-
     formElement.appendChild(nextButton);
-    var cardId = Form.nextId; //surveyFormSection.cardId = cardId; // need to register this so that subsequent cards can be hidden completely while earlier sections are invalid
+    var cardId = Form.nextId;
+
+    //surveyFormSection.cardId = cardId; // need to register this so that subsequent cards can be hidden completely while earlier sections are invalid
 
     accordionEl.appendChild(this.accordionItem({
       cardId: cardId,
@@ -19065,19 +17682,20 @@
       dataAttributes: {
         sectionkey: sectionClass.sectionNavigationKey
       }
-    })); // cannot call registerForm until the form is part of the document
-    //this.controller.survey.registerForm(surveyFormSection);
+    }));
 
+    // cannot call registerForm until the form is part of the document
+    //this.controller.survey.registerForm(surveyFormSection);
     surveyFormSection.registerSurvey(this.controller.survey);
     surveyFormSection.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, function (params) {
       var cardEl = document.getElementById(cardId);
-
       if (params.isValid) {
         cardEl.classList.remove('is-invalid');
       } else {
         cardEl.classList.add('is-invalid');
-      } //if (surveyFormSection.sectionCompletionRequired()) {
+      }
 
+      //if (surveyFormSection.sectionCompletionRequired()) {
       /**
        * @type {HTMLButtonElement}
        */
@@ -19085,28 +17703,26 @@
       //nextButton.disabled = !params.isValid;
       //}
 
-
       _this8._refreshVisibilityOfAccordionSections();
     });
     surveyFormSection.testRequiredComplete(); // will trigger event if required sections are incomplete
   }
-
   function _appendOccurrenceListContainer2() {
     var _this9 = this;
-
     var accordionEl = document.getElementById(this.leftPanelAccordionId);
     var content = document.createDocumentFragment();
     var summaryEl = content.appendChild(document.createElement('p'));
     this.recordsHeaderListDescriptorId = Form.nextId;
-    var separateListsHTMLMessage; // include a warning here if the date has changed - prompting for new list
+    var separateListsHTMLMessage;
 
+    // include a warning here if the date has changed - prompting for new list
     if (this.controller.survey.date < DateField.todaysDate()) {
       separateListsHTMLMessage = "<p>A survey can last for up to 3 hours on a single day from a single local area. You can send in as many separate lists as you like.</p><p><strong>The current survey is from ".concat(this.controller.survey.date, ", please <a href=\"/").concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start a new list</a> if you are now adding records for a different day.</strong></p>");
     } else {
       separateListsHTMLMessage = "<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href=\"/".concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start another separate list</a>.</p>");
-    } // noinspection HtmlUnknownTarget
+    }
 
-
+    // noinspection HtmlUnknownTarget
     summaryEl.innerHTML = "<span id=\"".concat(this.recordsHeaderListDescriptorId, "\"><strong>Records of plants in bloom from ").concat(this.controller.survey.generateSurveyName(), ".</strong></span><small class=\"d-block d-md-none\"><a href=\"/").concat(this.pathPrefix, "/list/record/help\">(help)</a></small>").concat(separateListsHTMLMessage);
     var newButtonEl = content.appendChild(document.createElement('button'));
     newButtonEl.type = 'button';
@@ -19115,9 +17731,10 @@
     newButtonEl.addEventListener('click', this.newButtonClickHandler.bind(this));
     var recordListContainer = content.appendChild(document.createElement('div'));
     recordListContainer.id = OCCURRENCE_LIST_CONTAINER_ID;
+
+    // NYPH specific
     this.controller.survey.addListener(Survey$1.EVENT_MODIFIED, function () {
       var occurrenceHeadingEl = document.getElementById(_this9.recordsHeaderListDescriptorId);
-
       if (occurrenceHeadingEl) {
         occurrenceHeadingEl.innerHTML = "<strong>Records of plants in bloom from ".concat(_this9.controller.survey.generateSurveyName(), ".</strong>");
       }
@@ -19137,40 +17754,30 @@
       }
     }));
     this.controller.app.router.updatePageLinks();
-
     this._refreshVisibilityOfAccordionSections(); // this section was added last, need to ensure that it also reflects the state of accordion section hiding
-
   }
-
   function _getOccurrenceListContainer2() {
     var listContainer = document.getElementById(OCCURRENCE_LIST_CONTAINER_ID);
-
     if (!listContainer) {
       throw new InternalAppError$1("Failed to find list container.");
     }
-
     return listContainer;
   }
-
   function _buildOccurrenceList2() {
     var _this10 = this;
-
     var listContainer = _classPrivateMethodGet(this, _getOccurrenceListContainer, _getOccurrenceListContainer2).call(this);
-
     _classPrivateMethodGet(this, _clearOccurrenceListeners, _clearOccurrenceListeners2).call(this);
+    var occurrencesHtml = [];
 
-    var occurrencesHtml = []; // loop through entries sorted by creation date, most recent first
-
+    // loop through entries sorted by creation date, most recent first
     var _iterator5 = _createForOfIteratorHelper(_toConsumableArray(this.controller.occurrences.entries()).sort(function (a, b) {
-      return b[1].createdStamp - a[1].createdStamp;
-    })),
-        _step5;
-
+        return b[1].createdStamp - a[1].createdStamp;
+      })),
+      _step5;
     try {
       for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
         var occurrenceTuple = _step5.value;
         var occurrence = occurrenceTuple[1];
-
         if (!occurrence.deleted) {
           var valid = occurrence.isNew || occurrence.evaluateCompletionStatus(NyphOccurrenceForm.properties).requiredFieldsPresent;
           occurrencesHtml.push("<div class=\"card".concat(valid ? '' : ' is-invalid', "\" id=\"card_").concat(occurrence.id, "\">\n    ").concat(_classPrivateMethodGet(this, _occurrenceSummaryHTML, _occurrenceSummaryHTML2).call(this, occurrence), "\n</div>"));
@@ -19187,104 +17794,89 @@
     } finally {
       _iterator5.f();
     }
-
     var nullListInputId = "nullList".concat(Form.nextId);
-    var checked = this.controller.app.currentSurvey.attributes['nulllist'] ? ' checked' : ''; // this will be hidden by css if the list is not empty
+    var checked = this.controller.app.currentSurvey.attributes['nulllist'] ? ' checked' : '';
 
+    // this will be hidden by css if the list is not empty
     var nullListMessage = "<div class=\"nyph-null-list-prompt\"><p>Very occasionally people encounter no plants in bloom during their survey.\nThese 'null lists' are still useful to us, so please tell us even if you recorded no plants in flower.</p>\n<p><label><input type=\"checkbox\" value=\"1\" name=\"nulllist\" id=\"".concat(nullListInputId, "\"").concat(checked, "> This is a null list (I saw no plants in flower during my walk).</label></div></p>");
     occurrencesHtml.push(nullListMessage);
     listContainer.className = 'accordion';
     listContainer.innerHTML = occurrencesHtml.join('');
+
     /**
      * need to manually intercept clicks on the delete occurrence button
      * to prevent click also triggering an accordion toggle
      */
-
-    listContainer.addEventListener('click',
-    /** @param {MouseEvent} event */
-    function (event) {
+    listContainer.addEventListener('click', /** @param {MouseEvent} event */function (event) {
       if (doubleClickIntercepted(event)) {
         return;
       }
-
       var targetButtonEl = event.target.closest('button');
-
       if (targetButtonEl && targetButtonEl.hasAttribute('data-bs-toggle') && targetButtonEl.getAttribute('data-bs-toggle') === 'modal') {
         // annotate the delete record modal dialogue box with the occurrence id
-        document.getElementById("".concat(DELETE_OCCURRENCE_MODAL_ID, "confirmed")).setAttribute('data-occurrenceid', targetButtonEl.getAttribute('data-occurrenceid')); // display the dialogue box
+        document.getElementById("".concat(DELETE_OCCURRENCE_MODAL_ID, "confirmed")).setAttribute('data-occurrenceid', targetButtonEl.getAttribute('data-occurrenceid'));
+
+        // display the dialogue box
         //$(targetButtonEl.getAttribute('data-bs-target')).modal();
-
         _this10.deleteOccurrenceModal.show();
-
         event.preventDefault();
         event.stopPropagation();
       }
     });
+
     /**
      *
      * @type {HTMLInputElement}
      */
-
     var nullListToggleEl = document.getElementById(nullListInputId);
-
     if (nullListToggleEl) {
-      nullListToggleEl.addEventListener('change',
-      /** @param {MouseEvent} event */
-      function (event) {
+      nullListToggleEl.addEventListener('change', /** @param {MouseEvent} event */function (event) {
         if (doubleClickIntercepted(event)) {
           return;
         }
-
         console.log({
           'Updating null list state': nullListToggleEl.checked
         });
+        _this10.controller.app.currentSurvey.setAttribute('nulllist', nullListToggleEl.checked);
 
-        _this10.controller.app.currentSurvey.setAttribute('nulllist', nullListToggleEl.checked); //this.fireEvent(MainView.EVENT_NULL_LIST_CHANGE, {'isNull' : nullListToggleEl.checked});
-
+        //this.fireEvent(MainView.EVENT_NULL_LIST_CHANGE, {'isNull' : nullListToggleEl.checked});
       });
     }
 
     this.testForEmptyList(); // sets a class on the occurrence list container
   }
-
   function _occurrenceSummaryHTML2(occurrence) {
     //@todo get unsaved message working
-    var unsavedMessage = ''; // let unsavedMessage = (!occurrence.isPristine && occurrence.unsaved()) ?
+    var unsavedMessage = '';
+    // let unsavedMessage = (!occurrence.isPristine && occurrence.unsaved()) ?
     //     '<span class="occurrence-unsaved-warning">Not yet saved.</span>'
     //     :
     //     '';
 
     return "<div class=\"card-header pointer ps-2 pe-2 pt-2 pb-2\" id=\"heading_".concat(occurrence.id, "\" data-bs-toggle=\"collapse\" data-bs-target=\"#description_").concat(occurrence.id, "\">\n    <div class=\"float-end\">\n        <button type=\"button\" class=\"btn btn-outline-danger delete-occurrence-button\" data-bs-toggle=\"modal\" data-bs-target=\"#").concat(DELETE_OCCURRENCE_MODAL_ID, "\" data-occurrenceid=\"").concat(occurrence.id, "\"><i class=\"material-icons\">delete</i></button>\n    </div>\n    <h2 class=\"mb-0 pb-0 mt-0 pt-0 ps-0 ms-0\">\n        <button class=\"occurrence-heading btn btn-link").concat(this.controller.currentOccurrenceId === occurrence.id ? '' : ' collapsed', " pt-0 pb-0 ps-0\" id=\"headingbutton_").concat(occurrence.id, "\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#description_").concat(occurrence.id, "\" aria-expanded=\"").concat(this.controller.currentOccurrenceId === occurrence.id ? 'true' : 'false', "\" aria-controls=\"description_").concat(occurrence.id, "\">\n          ").concat(this.occurrenceSummaryHeadingHTML(occurrence), "\n        </button>\n    </h2>\n    <div class=\"card-invalid-feedback\">\n        <small>Please check for errors or missing details.</small>\n    </div>").concat(unsavedMessage, "\n</div>\n<div id=\"description_").concat(occurrence.id, "\" class=\"collapse").concat(this.controller.currentOccurrenceId === occurrence.id ? ' show' : '', "\" aria-labelledby=\"heading_").concat(occurrence.id, "\" data-bs-parent=\"#").concat(OCCURRENCE_LIST_CONTAINER_ID, "\" data-occurrenceid=\"").concat(occurrence.id, "\">\n  <div class=\"card-body\">\n    ").concat(this.occurrenceSummaryBodyHTML(occurrence), "\n  </div>\n</div>");
   }
-
   _defineProperty(MainView, "NEXT_RECORDS", 'records');
-
   _defineProperty(MainView, "NEXT_SURVEY_SECTION", 'survey');
-
   _defineProperty(MainView, "NEXT_IS_FINAL", 'last');
 
   var htmlContent = "<!-- begin: templates/helpPage.html -->\r\n<div class=\"accordion\" id=\"helpaccordion\">\r\n    <div class=\"accordion-item\">\r\n        <div class=\"accordion-header\" id=\"helphelpheadingOne\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"accordion-button\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseOne\" aria-expanded=\"true\" aria-controls=\"collapseOne\">\r\n                    About the New Year Plant Hunt\r\n                </button>\r\n            </h5>\r\n        </div>\r\n\r\n        <div id=\"collapseOne\" class=\"collapse show\" aria-labelledby=\"helpheadingOne\" data-bs-parent=\"#helpaccordion\">\r\n            <div class=\"accordion-body\">\r\n                <p>BSBI's New Year Plant began eleven years ago as an informal activity on social media. Since then the project has grown and is beginning to form a significant archived snapshot of the plants in bloom at the beginning of the year.</p>\r\n                <p>The project is contributing to our understanding of how wild and naturalised plants are responding to changes in autumn and winter weather patterns across Britain and Ireland.</p>\r\n                <p>The 2023 Hunt will run from Sunday 1<sup>st</sup> to Wednesday 4<sup>th</sup> January: head out for a walk of up to 3 hours and see how many wild or naturalised plants (but not garden plants) you can find in bloom.</p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"accordion-item\">\r\n        <div class=\"accordion-header\" id=\"helpheadingTwo\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseTwo\" aria-expanded=\"false\" aria-controls=\"collapseTwo\">\r\n                    What happens to my records?\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseTwo\" class=\"accordion-collapse collapse\" aria-labelledby=\"helpheadingTwo\" data-bs-parent=\"#helpaccordion\">\r\n            <div class=\"accordion-body\">\r\n                <p>Data from the plant hunt will form part of BSBI's archive of millions plant occurrence records. The Plant Hunt records may be of particular interest as they represent a consistent snap-shot and should help expose long-term changes related to climate change.</p>\r\n                <p>Our record will include the plants you've seen along with any photos that you've sent and the grid-reference for each occurrence. On the project website we show only a summary of the data, so that any confidential details are obscured.</p>\r\n                <p>You can choose whether or not to include your name alongside the occurrence record in our archive. </p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"accordion-item\">\r\n        <div class=\"accordion-header\" id=\"helpheadingwhatreport\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseWhatReport\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    Which plants should I record?\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseWhatReport\" class=\"accordion-collapse collapse\" aria-labelledby=\"helpheadingwhatreport\" data-bs-parent=\"#helpaccordion\">\r\n            <div class=\"accordion-body\">\r\n                <p>\r\n                    Only wild or naturalised plants, not garden plants. They must be in bloom please, plants that only have buds or seed heads don’t count.\r\n                </p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"accordion-item\">\r\n        <div class=\"accordion-header\" id=\"helpphotoid\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapsePhotoId\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    What if I don't know what the plant is?\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapsePhotoId\" class=\"accordion-collapse collapse\" aria-labelledby=\"helpphotoid\" data-bs-parent=\"#helpaccordion\">\r\n            <div class=\"accordion-body\">\r\n                <p>If you don't know the name of the plant, you can upload photographs instead, our experts will try to identify it for you.</p>\r\n                <p>Your photos should include a picture of the whole plant and also close-up views of the leaves and flowers. Take photographs from the side (it's harder to identify plants from above)</p>\r\n                <p>Please only choose to name plants that you can identify with confidence and avoid being overprecise unless you are certain (e.g. don't pick a sub-species if you only know the plant well at species level).</p>\r\n                <p>Some common flowers such Dandelion (<i>Taraxacum</i> sp.) can't usually be identified precisely at this time of year, so please record them only at genus level (i.e. as 'Dandelion' / '<i>Taraxacum</i>').</p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"accordion-item\">\r\n    <div class=\"accordion-header\" id=\"helpheadingThree\">\r\n        <h5 class=\"mb-0\">\r\n            <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseThree\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                Locating records (grid-references)\r\n            </button>\r\n        </h5>\r\n    </div>\r\n    <div id=\"collapseThree\" class=\"accordion-collapse collapse\" aria-labelledby=\"helpheadingThree\" data-bs-parent=\"#helpaccordion\">\r\n        <div class=\"accordion-body\">\r\n            <p>If using the recording form on a mobile device in the field then please enable GPS (the button near the location field).</p>\r\n            <p>Otherwise you could type in a OS grid-reference if you know it, or enter a place name or postcode.</p>\r\n            <p>You don't need to set a location for each record, as they will otherwise use the default for the list.</p>\r\n        </div>\r\n    </div>\r\n</div>\r\n    <div class=\"accordion-item\">\r\n        <div class=\"accordion-header\" id=\"helpheadingMultilist\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseMultilist\" aria-expanded=\"false\" aria-controls=\"collapseMultilist\">\r\n                    Can I send more than one list.\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseMultilist\" class=\"accordion-collapse collapse\" aria-labelledby=\"helpheadingMultilist\" data-bs-parent=\"#helpaccordion\">\r\n            <div class=\"accordion-body\">\r\n                <p>Yes! We'd welcome multiple lists. If you survey on more than one day or conduct two separate surveys on the same day (e.g. one in morning and then another somewhere else in the afternoon) then send separate lists.</p>\r\n                <p>We prefer lists to be equivalent to the area that someone might cover on foot. If driving some distance between sites, please use a separate list for each location.</p>\r\n                <p>You can start a new list or switch between your lists using the options on the 'Your lists' menu.</p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"accordion-item\">\r\n        <div class=\"accordion-header\" id=\"helpheadingSave\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseSave\" aria-expanded=\"false\" aria-controls=\"collapseSave\">\r\n                    How do I save my list?\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseSave\" class=\"accordion-collapse collapse\" aria-labelledby=\"helpheadingSave\" data-bs-parent=\"#helpaccordion\">\r\n            <div class=\"accordion-body\">\r\n                <p>The recording form will try to save your records automatically as you go along.</p>\r\n                <p>If your network connection fails then records will be stored locally on your device until you are connected to the internet again. If you have added lots of images then saving may take a few minutes.</p>\r\n                <p>If records are missing from your list on the results page, then please re-open the recording form to allow any unsaved data to be sent. You can also trigger a save using this link (or by choosing ‘save all’ from the lists menu of the recording form).</p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"accordion-item\">\r\n        <div class=\"accordion-header\" id=\"helpheadingFour\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseFour\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    Help and support\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseFour\" class=\"accordion-collapse collapse\" aria-labelledby=\"helpheadingFour\" data-bs-parent=\"#helpaccordion\">\r\n            <div class=\"accordion-body\">\r\n                <p>If you encounter problems, would like to provide feedback about the survey or for more information about the plant hunt, please contact\r\n                    <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a>.\r\n                </p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"accordion-item\">\r\n        <div class=\"accordion-header\" id=\"helpheadingFive\">\r\n            <h5 class=\"mb-0\">\r\n                <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapseFive\" aria-expanded=\"false\" aria-controls=\"collapseThree\">\r\n                    About us\r\n                </button>\r\n            </h5>\r\n        </div>\r\n        <div id=\"collapseFive\" class=\"accordion-collapse collapse\" aria-labelledby=\"helpheadingFive\" data-bs-parent=\"#helpaccordion\">\r\n            <div class=\"accordion-body\">\r\n                The New Year Plant Hunt is run by the <a href=\"https://bsbi.org/\" target=\"_blank\" title=\"BSBI\">Botanical Society of Britain and Ireland</a>.\r\n                <p>For more information, please contact <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a>.</p>\r\n                <p>Follow us on twitter <a href=\"https://twitter.com/NYPlantHunt\" target=\"_blank\">@NYPlantHunt</a></p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<!-- end: templates/helpPage.html -->\r\n";
 
   var HelpView = /*#__PURE__*/function (_Page) {
     _inherits(HelpView, _Page);
-
     var _super = _createSuper(HelpView);
-
     function HelpView() {
       _classCallCheck(this, HelpView);
-
       return _super.apply(this, arguments);
     }
-
     _createClass(HelpView, [{
       key: "body",
       value: function body() {
         // at this point the entire content of #body should be safe to replace
+
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1665755664</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1666880802</p>";
       }
     }]);
-
     return HelpView;
   }(Page);
 
@@ -19292,29 +17884,19 @@
 
   var NyphLayout = /*#__PURE__*/function (_Layout) {
     _inherits(NyphLayout, _Layout);
-
     var _super = _createSuper(NyphLayout);
-
     function NyphLayout() {
       var _this;
-
       _classCallCheck(this, NyphLayout);
-
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
-
       _this = _super.call.apply(_super, [this].concat(args));
-
       _defineProperty(_assertThisInitialized(_this), "surveysMenuId", 'surveysmenu');
-
       _defineProperty(_assertThisInitialized(_this), "newSurveyLabel", 'start new list');
-
       _defineProperty(_assertThisInitialized(_this), "newSurveyContent", nyphNewSurveyModal);
-
       return _this;
     }
-
     return _createClass(NyphLayout);
   }(Layout);
 
@@ -19358,12 +17940,10 @@
     if (node == null) {
       return window;
     }
-
     if (node.toString() !== '[object Window]') {
       var ownerDocument = node.ownerDocument;
       return ownerDocument ? ownerDocument.defaultView || window : window;
     }
-
     return node;
   }
 
@@ -19371,18 +17951,15 @@
     var OwnElement = getWindow(node).Element;
     return node instanceof OwnElement || node instanceof Element;
   }
-
   function isHTMLElement(node) {
     var OwnElement = getWindow(node).HTMLElement;
     return node instanceof OwnElement || node instanceof HTMLElement;
   }
-
   function isShadowRoot(node) {
     // IE 11 has no ShadowRoot
     if (typeof ShadowRoot === 'undefined') {
       return false;
     }
-
     var OwnElement = getWindow(node).ShadowRoot;
     return node instanceof OwnElement || node instanceof ShadowRoot;
   }
@@ -19402,11 +17979,9 @@
       // effective way to apply styles to an HTMLElement
       // $FlowFixMe[cannot-write]
 
-
       Object.assign(element.style, style);
       Object.keys(attributes).forEach(function (name) {
         var value = attributes[name];
-
         if (value === false) {
           element.removeAttribute(name);
         } else {
@@ -19415,7 +17990,6 @@
       });
     });
   }
-
   function effect$2(_ref2) {
     var state = _ref2.state;
     var initialStyles = {
@@ -19432,11 +18006,9 @@
     };
     Object.assign(state.elements.popper.style, initialStyles.popper);
     state.styles = initialStyles;
-
     if (state.elements.arrow) {
       Object.assign(state.elements.arrow.style, initialStyles.arrow);
     }
-
     return function () {
       Object.keys(state.elements).forEach(function (name) {
         var element = state.elements[name];
@@ -19451,7 +18023,6 @@
         if (!isHTMLElement(element) || !getNodeName(element)) {
           return;
         }
-
         Object.assign(element.style, style);
         Object.keys(attributes).forEach(function (attribute) {
           element.removeAttribute(attribute);
@@ -19459,7 +18030,6 @@
       });
     };
   } // eslint-disable-next-line import/no-unused-modules
-
 
   var applyStyles$1 = {
     name: 'applyStyles',
@@ -19482,11 +18052,9 @@
     if (includeScale === void 0) {
       includeScale = false;
     }
-
     var rect = element.getBoundingClientRect();
     var scaleX = 1;
     var scaleY = 1;
-
     if (isHTMLElement(element) && includeScale) {
       var offsetHeight = element.offsetHeight;
       var offsetWidth = element.offsetWidth; // Do not attempt to divide by 0, otherwise we get `Infinity` as scale
@@ -19495,12 +18063,10 @@
       if (offsetWidth > 0) {
         scaleX = round(rect.width) / offsetWidth || 1;
       }
-
       if (offsetHeight > 0) {
         scaleY = round(rect.height) / offsetHeight || 1;
       }
     }
-
     return {
       width: rect.width / scaleX,
       height: rect.height / scaleY,
@@ -19521,15 +18087,12 @@
 
     var width = element.offsetWidth;
     var height = element.offsetHeight;
-
     if (Math.abs(clientRect.width - width) <= 1) {
       width = clientRect.width;
     }
-
     if (Math.abs(clientRect.height - height) <= 1) {
       height = clientRect.height;
     }
-
     return {
       x: element.offsetLeft,
       y: element.offsetTop,
@@ -19545,18 +18108,15 @@
       return true;
     } // then fallback to custom implementation with Shadow DOM support
     else if (rootNode && isShadowRoot(rootNode)) {
-        var next = child;
+      var next = child;
+      do {
+        if (next && parent.isSameNode(next)) {
+          return true;
+        } // $FlowFixMe[prop-missing]: need a better way to handle this...
 
-        do {
-          if (next && parent.isSameNode(next)) {
-            return true;
-          } // $FlowFixMe[prop-missing]: need a better way to handle this...
-
-
-          next = next.parentNode || next.host;
-        } while (next);
-      } // Give up, the result is false
-
+        next = next.parentNode || next.host;
+      } while (next);
+    } // Give up, the result is false
 
     return false;
   }
@@ -19571,7 +18131,8 @@
 
   function getDocumentElement(element) {
     // $FlowFixMe[incompatible-return]: assume body is always available
-    return ((isElement$1(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]
+    return ((isElement$1(element) ? element.ownerDocument :
+    // $FlowFixMe[prop-missing]
     element.document) || window.document).documentElement;
   }
 
@@ -19579,45 +18140,42 @@
     if (getNodeName(element) === 'html') {
       return element;
     }
-
-    return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle
+    return (
+      // this is a quicker (but less type safe) way to save quite some bytes from the bundle
       // $FlowFixMe[incompatible-return]
       // $FlowFixMe[prop-missing]
-      element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
-      element.parentNode || ( // DOM Element detected
-      isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
+      element.assignedSlot ||
+      // step into the shadow DOM of the parent of a slotted node
+      element.parentNode || (
+      // DOM Element detected
+      isShadowRoot(element) ? element.host : null) ||
+      // ShadowRoot detected
       // $FlowFixMe[incompatible-call]: HTMLElement is a Node
       getDocumentElement(element) // fallback
-
     );
   }
 
   function getTrueOffsetParent(element) {
-    if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
+    if (!isHTMLElement(element) ||
+    // https://github.com/popperjs/popper-core/issues/837
     getComputedStyle$1(element).position === 'fixed') {
       return null;
     }
-
     return element.offsetParent;
   } // `.offsetParent` reports `null` for fixed elements, while absolute elements
   // return the containing block
 
-
   function getContainingBlock(element) {
     var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') !== -1;
     var isIE = navigator.userAgent.indexOf('Trident') !== -1;
-
     if (isIE && isHTMLElement(element)) {
       // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
       var elementCss = getComputedStyle$1(element);
-
       if (elementCss.position === 'fixed') {
         return null;
       }
     }
-
     var currentNode = getParentNode(element);
-
     while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
       var css = getComputedStyle$1(currentNode); // This is non-exhaustive but covers the most common CSS properties that
       // create a containing block.
@@ -19629,24 +18187,19 @@
         currentNode = currentNode.parentNode;
       }
     }
-
     return null;
   } // Gets the closest ancestor positioned element. Handles some edge cases,
   // such as table ancestors and cross browser bugs.
 
-
   function getOffsetParent(element) {
     var window = getWindow(element);
     var offsetParent = getTrueOffsetParent(element);
-
     while (offsetParent && isTableElement(offsetParent) && getComputedStyle$1(offsetParent).position === 'static') {
       offsetParent = getTrueOffsetParent(offsetParent);
     }
-
     if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && getComputedStyle$1(offsetParent).position === 'static')) {
       return window;
     }
-
     return offsetParent || getContainingBlock(element) || window;
   }
 
@@ -19688,24 +18241,20 @@
     })) : padding;
     return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
   };
-
   function arrow(_ref) {
     var _state$modifiersData$;
-
     var state = _ref.state,
-        name = _ref.name,
-        options = _ref.options;
+      name = _ref.name,
+      options = _ref.options;
     var arrowElement = state.elements.arrow;
     var popperOffsets = state.modifiersData.popperOffsets;
     var basePlacement = getBasePlacement(state.placement);
     var axis = getMainAxisFromPlacement(basePlacement);
     var isVertical = [left, right].indexOf(basePlacement) >= 0;
     var len = isVertical ? 'height' : 'width';
-
     if (!arrowElement || !popperOffsets) {
       return;
     }
-
     var paddingObject = toPaddingObject(options.padding, state);
     var arrowRect = getLayoutRect(arrowElement);
     var minProp = axis === 'y' ? top : left;
@@ -19725,43 +18274,34 @@
     var axisProp = axis;
     state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
   }
-
   function effect$1(_ref2) {
     var state = _ref2.state,
-        options = _ref2.options;
+      options = _ref2.options;
     var _options$element = options.element,
-        arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
-
+      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
     if (arrowElement == null) {
       return;
     } // CSS selector
 
-
     if (typeof arrowElement === 'string') {
       arrowElement = state.elements.popper.querySelector(arrowElement);
-
       if (!arrowElement) {
         return;
       }
     }
-
     if (process.env.NODE_ENV !== "production") {
       if (!isHTMLElement(arrowElement)) {
         console.error(['Popper: "arrow" element must be an HTMLElement (not an SVGElement).', 'To use an SVG arrow, wrap it in an HTMLElement that will be used as', 'the arrow.'].join(' '));
       }
     }
-
     if (!contains(state.elements.popper, arrowElement)) {
       if (process.env.NODE_ENV !== "production") {
         console.error(['Popper: "arrow" modifier\'s `element` must be a child of the popper', 'element.'].join(' '));
       }
-
       return;
     }
-
     state.elements.arrow = arrowElement;
   } // eslint-disable-next-line import/no-unused-modules
-
 
   var arrow$1 = {
     name: 'arrow',
@@ -19788,7 +18328,7 @@
 
   function roundOffsetsByDPR(_ref) {
     var x = _ref.x,
-        y = _ref.y;
+      y = _ref.y;
     var win = window;
     var dpr = win.devicePixelRatio || 1;
     return {
@@ -19796,25 +18336,22 @@
       y: round(y * dpr) / dpr || 0
     };
   }
-
   function mapToStyles(_ref2) {
     var _Object$assign2;
-
     var popper = _ref2.popper,
-        popperRect = _ref2.popperRect,
-        placement = _ref2.placement,
-        variation = _ref2.variation,
-        offsets = _ref2.offsets,
-        position = _ref2.position,
-        gpuAcceleration = _ref2.gpuAcceleration,
-        adaptive = _ref2.adaptive,
-        roundOffsets = _ref2.roundOffsets,
-        isFixed = _ref2.isFixed;
+      popperRect = _ref2.popperRect,
+      placement = _ref2.placement,
+      variation = _ref2.variation,
+      offsets = _ref2.offsets,
+      position = _ref2.position,
+      gpuAcceleration = _ref2.gpuAcceleration,
+      adaptive = _ref2.adaptive,
+      roundOffsets = _ref2.roundOffsets,
+      isFixed = _ref2.isFixed;
     var _offsets$x = offsets.x,
-        x = _offsets$x === void 0 ? 0 : _offsets$x,
-        _offsets$y = offsets.y,
-        y = _offsets$y === void 0 ? 0 : _offsets$y;
-
+      x = _offsets$x === void 0 ? 0 : _offsets$x,
+      _offsets$y = offsets.y,
+      y = _offsets$y === void 0 ? 0 : _offsets$y;
     var _ref3 = typeof roundOffsets === 'function' ? roundOffsets({
       x: x,
       y: y
@@ -19822,7 +18359,6 @@
       x: x,
       y: y
     };
-
     x = _ref3.x;
     y = _ref3.y;
     var hasX = offsets.hasOwnProperty('x');
@@ -19830,45 +18366,39 @@
     var sideX = left;
     var sideY = top;
     var win = window;
-
     if (adaptive) {
       var offsetParent = getOffsetParent(popper);
       var heightProp = 'clientHeight';
       var widthProp = 'clientWidth';
-
       if (offsetParent === getWindow(popper)) {
         offsetParent = getDocumentElement(popper);
-
         if (getComputedStyle$1(offsetParent).position !== 'static' && position === 'absolute') {
           heightProp = 'scrollHeight';
           widthProp = 'scrollWidth';
         }
       } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
 
-
       offsetParent = offsetParent;
-
       if (placement === top || (placement === left || placement === right) && variation === end) {
         sideY = bottom;
-        var offsetY = isFixed && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
+        var offsetY = isFixed && win.visualViewport ? win.visualViewport.height :
+        // $FlowFixMe[prop-missing]
         offsetParent[heightProp];
         y -= offsetY - popperRect.height;
         y *= gpuAcceleration ? 1 : -1;
       }
-
       if (placement === left || (placement === top || placement === bottom) && variation === end) {
         sideX = right;
-        var offsetX = isFixed && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
+        var offsetX = isFixed && win.visualViewport ? win.visualViewport.width :
+        // $FlowFixMe[prop-missing]
         offsetParent[widthProp];
         x -= offsetX - popperRect.width;
         x *= gpuAcceleration ? 1 : -1;
       }
     }
-
     var commonStyles = Object.assign({
       position: position
     }, adaptive && unsetSides);
-
     var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
       x: x,
       y: y
@@ -19876,39 +18406,31 @@
       x: x,
       y: y
     };
-
     x = _ref4.x;
     y = _ref4.y;
-
     if (gpuAcceleration) {
       var _Object$assign;
-
       return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
     }
-
     return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
   }
-
   function computeStyles(_ref5) {
     var state = _ref5.state,
-        options = _ref5.options;
+      options = _ref5.options;
     var _options$gpuAccelerat = options.gpuAcceleration,
-        gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
-        _options$adaptive = options.adaptive,
-        adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
-        _options$roundOffsets = options.roundOffsets,
-        roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
-
+      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
+      _options$adaptive = options.adaptive,
+      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
+      _options$roundOffsets = options.roundOffsets,
+      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
     if (process.env.NODE_ENV !== "production") {
       var transitionProperty = getComputedStyle$1(state.elements.popper).transitionProperty || '';
-
       if (adaptive && ['transform', 'top', 'right', 'bottom', 'left'].some(function (property) {
         return transitionProperty.indexOf(property) >= 0;
       })) {
         console.warn(['Popper: Detected CSS transitions on at least one of the following', 'CSS properties: "transform", "top", "right", "bottom", "left".', '\n\n', 'Disable the "computeStyles" modifier\'s `adaptive` option to allow', 'for smooth transitions, or remove these properties from the CSS', 'transition declaration on the popper element if only transitioning', 'opacity or background-color for example.', '\n\n', 'We recommend using the popper element as a wrapper around an inner', 'element that can have any CSS property transitioned for animations.'].join(' '));
       }
     }
-
     var commonStyles = {
       placement: getBasePlacement(state.placement),
       variation: getVariation(state.placement),
@@ -19917,7 +18439,6 @@
       gpuAcceleration: gpuAcceleration,
       isFixed: state.options.strategy === 'fixed'
     };
-
     if (state.modifiersData.popperOffsets != null) {
       state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
         offsets: state.modifiersData.popperOffsets,
@@ -19926,7 +18447,6 @@
         roundOffsets: roundOffsets
       })));
     }
-
     if (state.modifiersData.arrow != null) {
       state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
         offsets: state.modifiersData.arrow,
@@ -19935,12 +18455,10 @@
         roundOffsets: roundOffsets
       })));
     }
-
     state.attributes.popper = Object.assign({}, state.attributes.popper, {
       'data-popper-placement': state.placement
     });
   } // eslint-disable-next-line import/no-unused-modules
-
 
   var computeStyles$1 = {
     name: 'computeStyles',
@@ -19953,41 +18471,35 @@
   var passive = {
     passive: true
   };
-
   function effect(_ref) {
     var state = _ref.state,
-        instance = _ref.instance,
-        options = _ref.options;
+      instance = _ref.instance,
+      options = _ref.options;
     var _options$scroll = options.scroll,
-        scroll = _options$scroll === void 0 ? true : _options$scroll,
-        _options$resize = options.resize,
-        resize = _options$resize === void 0 ? true : _options$resize;
+      scroll = _options$scroll === void 0 ? true : _options$scroll,
+      _options$resize = options.resize,
+      resize = _options$resize === void 0 ? true : _options$resize;
     var window = getWindow(state.elements.popper);
     var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
-
     if (scroll) {
       scrollParents.forEach(function (scrollParent) {
         scrollParent.addEventListener('scroll', instance.update, passive);
       });
     }
-
     if (resize) {
       window.addEventListener('resize', instance.update, passive);
     }
-
     return function () {
       if (scroll) {
         scrollParents.forEach(function (scrollParent) {
           scrollParent.removeEventListener('scroll', instance.update, passive);
         });
       }
-
       if (resize) {
         window.removeEventListener('resize', instance.update, passive);
       }
     };
   } // eslint-disable-next-line import/no-unused-modules
-
 
   var eventListeners = {
     name: 'eventListeners',
@@ -20070,7 +18582,6 @@
         y = visualViewport.offsetTop;
       }
     }
-
     return {
       width: width,
       height: height,
@@ -20083,7 +18594,6 @@
 
   function getDocumentRect(element) {
     var _element$ownerDocumen;
-
     var html = getDocumentElement(element);
     var winScroll = getWindowScroll(element);
     var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
@@ -20091,11 +18601,9 @@
     var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
     var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
     var y = -winScroll.scrollTop;
-
     if (getComputedStyle$1(body || html).direction === 'rtl') {
       x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
     }
-
     return {
       width: width,
       height: height,
@@ -20107,10 +18615,9 @@
   function isScrollParent(element) {
     // Firefox wants us to check `-x` and `-y` variations as well
     var _getComputedStyle = getComputedStyle$1(element),
-        overflow = _getComputedStyle.overflow,
-        overflowX = _getComputedStyle.overflowX,
-        overflowY = _getComputedStyle.overflowY;
-
+      overflow = _getComputedStyle.overflow,
+      overflowX = _getComputedStyle.overflowX,
+      overflowY = _getComputedStyle.overflowY;
     return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
   }
 
@@ -20119,11 +18626,9 @@
       // $FlowFixMe[incompatible-return]: assume body is always available
       return node.ownerDocument.body;
     }
-
     if (isHTMLElement(node) && isScrollParent(node)) {
       return node;
     }
-
     return getScrollParent(getParentNode(node));
   }
 
@@ -20136,17 +18641,16 @@
 
   function listScrollParents(element, list) {
     var _element$ownerDocumen;
-
     if (list === void 0) {
       list = [];
     }
-
     var scrollParent = getScrollParent(element);
     var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
     var win = getWindow(scrollParent);
     var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
     var updatedList = list.concat(target);
-    return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
+    return isBody ? updatedList :
+    // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
     updatedList.concat(listScrollParents(getParentNode(target)));
   }
 
@@ -20171,30 +18675,25 @@
     rect.y = rect.top;
     return rect;
   }
-
   function getClientRectFromMixedType(element, clippingParent) {
     return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isElement$1(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
   } // A "clipping parent" is an overflowable container with the characteristic of
   // clipping (or hiding) overflowing elements with a position different from
   // `initial`
 
-
   function getClippingParents(element) {
     var clippingParents = listScrollParents(getParentNode(element));
     var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle$1(element).position) >= 0;
     var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
-
     if (!isElement$1(clipperElement)) {
       return [];
     } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
-
 
     return clippingParents.filter(function (clippingParent) {
       return isElement$1(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
     });
   } // Gets the maximum area that the element is visible in due to any number of
   // clipping parents
-
 
   function getClippingRect(element, boundary, rootBoundary) {
     var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
@@ -20217,14 +18716,13 @@
 
   function computeOffsets(_ref) {
     var reference = _ref.reference,
-        element = _ref.element,
-        placement = _ref.placement;
+      element = _ref.element,
+      placement = _ref.placement;
     var basePlacement = placement ? getBasePlacement(placement) : null;
     var variation = placement ? getVariation(placement) : null;
     var commonX = reference.x + reference.width / 2 - element.width / 2;
     var commonY = reference.y + reference.height / 2 - element.height / 2;
     var offsets;
-
     switch (basePlacement) {
       case top:
         offsets = {
@@ -20232,51 +18730,42 @@
           y: reference.y - element.height
         };
         break;
-
       case bottom:
         offsets = {
           x: commonX,
           y: reference.y + reference.height
         };
         break;
-
       case right:
         offsets = {
           x: reference.x + reference.width,
           y: commonY
         };
         break;
-
       case left:
         offsets = {
           x: reference.x - element.width,
           y: commonY
         };
         break;
-
       default:
         offsets = {
           x: reference.x,
           y: reference.y
         };
     }
-
     var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
-
     if (mainAxis != null) {
       var len = mainAxis === 'y' ? 'height' : 'width';
-
       switch (variation) {
         case start:
           offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
           break;
-
         case end:
           offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
           break;
       }
     }
-
     return offsets;
   }
 
@@ -20284,20 +18773,19 @@
     if (options === void 0) {
       options = {};
     }
-
     var _options = options,
-        _options$placement = _options.placement,
-        placement = _options$placement === void 0 ? state.placement : _options$placement,
-        _options$boundary = _options.boundary,
-        boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
-        _options$rootBoundary = _options.rootBoundary,
-        rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
-        _options$elementConte = _options.elementContext,
-        elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
-        _options$altBoundary = _options.altBoundary,
-        altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
-        _options$padding = _options.padding,
-        padding = _options$padding === void 0 ? 0 : _options$padding;
+      _options$placement = _options.placement,
+      placement = _options$placement === void 0 ? state.placement : _options$placement,
+      _options$boundary = _options.boundary,
+      boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
+      _options$rootBoundary = _options.rootBoundary,
+      rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
+      _options$elementConte = _options.elementContext,
+      elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
+      _options$altBoundary = _options.altBoundary,
+      altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
+      _options$padding = _options.padding,
+      padding = _options$padding === void 0 ? 0 : _options$padding;
     var paddingObject = mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
     var altContext = elementContext === popper ? reference : popper;
     var popperRect = state.rects.popper;
@@ -20330,7 +18818,6 @@
         overflowOffsets[key] += offset[axis] * multiply;
       });
     }
-
     return overflowOffsets;
   }
 
@@ -20338,15 +18825,14 @@
     if (options === void 0) {
       options = {};
     }
-
     var _options = options,
-        placement = _options.placement,
-        boundary = _options.boundary,
-        rootBoundary = _options.rootBoundary,
-        padding = _options.padding,
-        flipVariations = _options.flipVariations,
-        _options$allowedAutoP = _options.allowedAutoPlacements,
-        allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
+      placement = _options.placement,
+      boundary = _options.boundary,
+      rootBoundary = _options.rootBoundary,
+      padding = _options.padding,
+      flipVariations = _options.flipVariations,
+      _options$allowedAutoP = _options.allowedAutoPlacements,
+      allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
     var variation = getVariation(placement);
     var placements$1 = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
       return getVariation(placement) === variation;
@@ -20354,15 +18840,12 @@
     var allowedPlacements = placements$1.filter(function (placement) {
       return allowedAutoPlacements.indexOf(placement) >= 0;
     });
-
     if (allowedPlacements.length === 0) {
       allowedPlacements = placements$1;
-
       if (process.env.NODE_ENV !== "production") {
         console.error(['Popper: The `allowedAutoPlacements` option did not allow any', 'placements. Ensure the `placement` option matches the variation', 'of the allowed placements.', 'For example, "auto" cannot be used to allow "bottom-start".', 'Use "auto-start" instead.'].join(' '));
       }
     } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
-
 
     var overflows = allowedPlacements.reduce(function (acc, placement) {
       acc[placement] = detectOverflow(state, {
@@ -20382,32 +18865,28 @@
     if (getBasePlacement(placement) === auto) {
       return [];
     }
-
     var oppositePlacement = getOppositePlacement(placement);
     return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
   }
-
   function flip(_ref) {
     var state = _ref.state,
-        options = _ref.options,
-        name = _ref.name;
-
+      options = _ref.options,
+      name = _ref.name;
     if (state.modifiersData[name]._skip) {
       return;
     }
-
     var _options$mainAxis = options.mainAxis,
-        checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-        _options$altAxis = options.altAxis,
-        checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
-        specifiedFallbackPlacements = options.fallbackPlacements,
-        padding = options.padding,
-        boundary = options.boundary,
-        rootBoundary = options.rootBoundary,
-        altBoundary = options.altBoundary,
-        _options$flipVariatio = options.flipVariations,
-        flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
-        allowedAutoPlacements = options.allowedAutoPlacements;
+      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+      _options$altAxis = options.altAxis,
+      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
+      specifiedFallbackPlacements = options.fallbackPlacements,
+      padding = options.padding,
+      boundary = options.boundary,
+      rootBoundary = options.rootBoundary,
+      altBoundary = options.altBoundary,
+      _options$flipVariatio = options.flipVariations,
+      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
+      allowedAutoPlacements = options.allowedAutoPlacements;
     var preferredPlacement = state.options.placement;
     var basePlacement = getBasePlacement(preferredPlacement);
     var isBasePlacement = basePlacement === preferredPlacement;
@@ -20427,12 +18906,9 @@
     var checksMap = new Map();
     var makeFallbackChecks = true;
     var firstFittingPlacement = placements[0];
-
     for (var i = 0; i < placements.length; i++) {
       var placement = placements[i];
-
       var _basePlacement = getBasePlacement(placement);
-
       var isStartVariation = getVariation(placement) === start;
       var isVertical = [top, bottom].indexOf(_basePlacement) >= 0;
       var len = isVertical ? 'width' : 'height';
@@ -20444,22 +18920,17 @@
         padding: padding
       });
       var mainVariationSide = isVertical ? isStartVariation ? right : left : isStartVariation ? bottom : top;
-
       if (referenceRect[len] > popperRect[len]) {
         mainVariationSide = getOppositePlacement(mainVariationSide);
       }
-
       var altVariationSide = getOppositePlacement(mainVariationSide);
       var checks = [];
-
       if (checkMainAxis) {
         checks.push(overflow[_basePlacement] <= 0);
       }
-
       if (checkAltAxis) {
         checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
       }
-
       if (checks.every(function (check) {
         return check;
       })) {
@@ -20467,45 +18938,36 @@
         makeFallbackChecks = false;
         break;
       }
-
       checksMap.set(placement, checks);
     }
-
     if (makeFallbackChecks) {
       // `2` may be desired in some cases – research later
       var numberOfChecks = flipVariations ? 3 : 1;
-
       var _loop = function _loop(_i) {
         var fittingPlacement = placements.find(function (placement) {
           var checks = checksMap.get(placement);
-
           if (checks) {
             return checks.slice(0, _i).every(function (check) {
               return check;
             });
           }
         });
-
         if (fittingPlacement) {
           firstFittingPlacement = fittingPlacement;
           return "break";
         }
       };
-
       for (var _i = numberOfChecks; _i > 0; _i--) {
         var _ret = _loop(_i);
-
         if (_ret === "break") break;
       }
     }
-
     if (state.placement !== firstFittingPlacement) {
       state.modifiersData[name]._skip = true;
       state.placement = firstFittingPlacement;
       state.reset = true;
     }
   } // eslint-disable-next-line import/no-unused-modules
-
 
   var flip$1 = {
     name: 'flip',
@@ -20525,7 +18987,6 @@
         y: 0
       };
     }
-
     return {
       top: overflow.top - rect.height - preventedOffsets.y,
       right: overflow.right - rect.width + preventedOffsets.x,
@@ -20533,16 +18994,14 @@
       left: overflow.left - rect.width - preventedOffsets.x
     };
   }
-
   function isAnySideFullyClipped(overflow) {
     return [top, right, bottom, left].some(function (side) {
       return overflow[side] >= 0;
     });
   }
-
   function hide(_ref) {
     var state = _ref.state,
-        name = _ref.name;
+      name = _ref.name;
     var referenceRect = state.rects.reference;
     var popperRect = state.rects.popper;
     var preventedOffsets = state.modifiersData.preventOverflow;
@@ -20568,7 +19027,6 @@
     });
   } // eslint-disable-next-line import/no-unused-modules
 
-
   var hide$1 = {
     name: 'hide',
     enabled: true,
@@ -20580,13 +19038,11 @@
   function distanceAndSkiddingToXY(placement, rects, offset) {
     var basePlacement = getBasePlacement(placement);
     var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
-
     var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {
-      placement: placement
-    })) : offset,
-        skidding = _ref[0],
-        distance = _ref[1];
-
+        placement: placement
+      })) : offset,
+      skidding = _ref[0],
+      distance = _ref[1];
     skidding = skidding || 0;
     distance = (distance || 0) * invertDistance;
     return [left, right].indexOf(basePlacement) >= 0 ? {
@@ -20597,29 +19053,25 @@
       y: distance
     };
   }
-
   function offset(_ref2) {
     var state = _ref2.state,
-        options = _ref2.options,
-        name = _ref2.name;
+      options = _ref2.options,
+      name = _ref2.name;
     var _options$offset = options.offset,
-        offset = _options$offset === void 0 ? [0, 0] : _options$offset;
+      offset = _options$offset === void 0 ? [0, 0] : _options$offset;
     var data = placements.reduce(function (acc, placement) {
       acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);
       return acc;
     }, {});
     var _data$state$placement = data[state.placement],
-        x = _data$state$placement.x,
-        y = _data$state$placement.y;
-
+      x = _data$state$placement.x,
+      y = _data$state$placement.y;
     if (state.modifiersData.popperOffsets != null) {
       state.modifiersData.popperOffsets.x += x;
       state.modifiersData.popperOffsets.y += y;
     }
-
     state.modifiersData[name] = data;
   } // eslint-disable-next-line import/no-unused-modules
-
 
   var offset$1 = {
     name: 'offset',
@@ -20631,7 +19083,7 @@
 
   function popperOffsets(_ref) {
     var state = _ref.state,
-        name = _ref.name;
+      name = _ref.name;
     // Offsets are the actual position the popper needs to have to be
     // properly positioned near its reference element
     // This is the most basic placement, and will be adjusted by
@@ -20643,7 +19095,6 @@
       placement: state.placement
     });
   } // eslint-disable-next-line import/no-unused-modules
-
 
   var popperOffsets$1 = {
     name: 'popperOffsets',
@@ -20659,20 +19110,20 @@
 
   function preventOverflow(_ref) {
     var state = _ref.state,
-        options = _ref.options,
-        name = _ref.name;
+      options = _ref.options,
+      name = _ref.name;
     var _options$mainAxis = options.mainAxis,
-        checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-        _options$altAxis = options.altAxis,
-        checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
-        boundary = options.boundary,
-        rootBoundary = options.rootBoundary,
-        altBoundary = options.altBoundary,
-        padding = options.padding,
-        _options$tether = options.tether,
-        tether = _options$tether === void 0 ? true : _options$tether,
-        _options$tetherOffset = options.tetherOffset,
-        tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
+      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+      _options$altAxis = options.altAxis,
+      checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
+      boundary = options.boundary,
+      rootBoundary = options.rootBoundary,
+      altBoundary = options.altBoundary,
+      padding = options.padding,
+      _options$tether = options.tether,
+      tether = _options$tether === void 0 ? true : _options$tether,
+      _options$tetherOffset = options.tetherOffset,
+      tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
     var overflow = detectOverflow(state, {
       boundary: boundary,
       rootBoundary: rootBoundary,
@@ -20702,14 +19153,11 @@
       x: 0,
       y: 0
     };
-
     if (!popperOffsets) {
       return;
     }
-
     if (checkMainAxis) {
       var _offsetModifierState$;
-
       var mainSide = mainAxis === 'y' ? top : left;
       var altSide = mainAxis === 'y' ? bottom : right;
       var len = mainAxis === 'y' ? 'height' : 'width';
@@ -20746,39 +19194,24 @@
       popperOffsets[mainAxis] = preventedOffset;
       data[mainAxis] = preventedOffset - offset;
     }
-
     if (checkAltAxis) {
       var _offsetModifierState$2;
-
       var _mainSide = mainAxis === 'x' ? top : left;
-
       var _altSide = mainAxis === 'x' ? bottom : right;
-
       var _offset = popperOffsets[altAxis];
-
       var _len = altAxis === 'y' ? 'height' : 'width';
-
       var _min = _offset + overflow[_mainSide];
-
       var _max = _offset - overflow[_altSide];
-
       var isOriginSide = [top, left].indexOf(basePlacement) !== -1;
-
       var _offsetModifierValue = (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null ? _offsetModifierState$2 : 0;
-
       var _tetherMin = isOriginSide ? _min : _offset - referenceRect[_len] - popperRect[_len] - _offsetModifierValue + normalizedTetherOffsetValue.altAxis;
-
       var _tetherMax = isOriginSide ? _offset + referenceRect[_len] + popperRect[_len] - _offsetModifierValue - normalizedTetherOffsetValue.altAxis : _max;
-
       var _preventedOffset = tether && isOriginSide ? withinMaxClamp(_tetherMin, _offset, _tetherMax) : within(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);
-
       popperOffsets[altAxis] = _preventedOffset;
       data[altAxis] = _preventedOffset - _offset;
     }
-
     state.modifiersData[name] = data;
   } // eslint-disable-next-line import/no-unused-modules
-
 
   var preventOverflow$1 = {
     name: 'preventOverflow',
@@ -20811,12 +19244,10 @@
   } // Returns the composite rect of an element relative to its offsetParent.
   // Composite means it takes into account transforms as well as layout.
 
-
   function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
     if (isFixed === void 0) {
       isFixed = false;
     }
-
     var isOffsetParentAnElement = isHTMLElement(offsetParent);
     var offsetParentIsScaled = isHTMLElement(offsetParent) && isElementScaled(offsetParent);
     var documentElement = getDocumentElement(offsetParent);
@@ -20829,13 +19260,12 @@
       x: 0,
       y: 0
     };
-
     if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-      if (getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
+      if (getNodeName(offsetParent) !== 'body' ||
+      // https://github.com/popperjs/popper-core/issues/1078
       isScrollParent(documentElement)) {
         scroll = getNodeScroll(offsetParent);
       }
-
       if (isHTMLElement(offsetParent)) {
         offsets = getBoundingClientRect(offsetParent, true);
         offsets.x += offsetParent.clientLeft;
@@ -20844,7 +19274,6 @@
         offsets.x = getWindowScrollBarX(documentElement);
       }
     }
-
     return {
       x: rect.left + scroll.scrollLeft - offsets.x,
       y: rect.top + scroll.scrollTop - offsets.y,
@@ -20867,7 +19296,6 @@
       requires.forEach(function (dep) {
         if (!visited.has(dep)) {
           var depModifier = map.get(dep);
-
           if (depModifier) {
             sort(depModifier);
           }
@@ -20875,7 +19303,6 @@
       });
       result.push(modifier);
     }
-
     modifiers.forEach(function (modifier) {
       if (!visited.has(modifier.name)) {
         // check for visited object
@@ -20884,7 +19311,6 @@
     });
     return result;
   }
-
   function orderModifiers(modifiers) {
     // order based on dependencies
     var orderedModifiers = order(modifiers); // order based on phase
@@ -20907,7 +19333,6 @@
           });
         });
       }
-
       return pending;
     };
   }
@@ -20916,7 +19341,6 @@
     for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
     }
-
     return [].concat(args).reduce(function (p, c) {
       return p.replace(/%s/, c);
     }, str);
@@ -20936,61 +19360,45 @@
             if (typeof modifier.name !== 'string') {
               console.error(format(INVALID_MODIFIER_ERROR, String(modifier.name), '"name"', '"string"', "\"" + String(modifier.name) + "\""));
             }
-
             break;
-
           case 'enabled':
             if (typeof modifier.enabled !== 'boolean') {
               console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"enabled"', '"boolean"', "\"" + String(modifier.enabled) + "\""));
             }
-
             break;
-
           case 'phase':
             if (modifierPhases.indexOf(modifier.phase) < 0) {
               console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"phase"', "either " + modifierPhases.join(', '), "\"" + String(modifier.phase) + "\""));
             }
-
             break;
-
           case 'fn':
             if (typeof modifier.fn !== 'function') {
               console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"fn"', '"function"', "\"" + String(modifier.fn) + "\""));
             }
-
             break;
-
           case 'effect':
             if (modifier.effect != null && typeof modifier.effect !== 'function') {
               console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"effect"', '"function"', "\"" + String(modifier.fn) + "\""));
             }
-
             break;
-
           case 'requires':
             if (modifier.requires != null && !Array.isArray(modifier.requires)) {
               console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requires"', '"array"', "\"" + String(modifier.requires) + "\""));
             }
-
             break;
-
           case 'requiresIfExists':
             if (!Array.isArray(modifier.requiresIfExists)) {
               console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requiresIfExists"', '"array"', "\"" + String(modifier.requiresIfExists) + "\""));
             }
-
             break;
-
           case 'options':
           case 'data':
             break;
-
           default:
             console.error("PopperJS: an invalid property has been provided to the \"" + modifier.name + "\" modifier, valid properties are " + VALID_PROPERTIES.map(function (s) {
               return "\"" + s + "\"";
             }).join(', ') + "; but \"" + key + "\" was provided.");
         }
-
         modifier.requires && modifier.requires.forEach(function (requirement) {
           if (modifiers.find(function (mod) {
             return mod.name === requirement;
@@ -21006,7 +19414,6 @@
     var identifiers = new Set();
     return arr.filter(function (item) {
       var identifier = fn(item);
-
       if (!identifiers.has(identifier)) {
         identifiers.add(identifier);
         return true;
@@ -21036,32 +19443,27 @@
     modifiers: [],
     strategy: 'absolute'
   };
-
   function areValidElements() {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     return !args.some(function (element) {
       return !(element && typeof element.getBoundingClientRect === 'function');
     });
   }
-
   function popperGenerator(generatorOptions) {
     if (generatorOptions === void 0) {
       generatorOptions = {};
     }
-
     var _generatorOptions = generatorOptions,
-        _generatorOptions$def = _generatorOptions.defaultModifiers,
-        defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
-        _generatorOptions$def2 = _generatorOptions.defaultOptions,
-        defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
+      _generatorOptions$def = _generatorOptions.defaultModifiers,
+      defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
+      _generatorOptions$def2 = _generatorOptions.defaultOptions,
+      defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
     return function createPopper(reference, popper, options) {
       if (options === void 0) {
         options = defaultOptions;
       }
-
       var state = {
         placement: 'bottom',
         orderedModifiers: [],
@@ -21101,25 +19503,21 @@
               return name;
             });
             validateModifiers(modifiers);
-
             if (getBasePlacement(state.options.placement) === auto) {
               var flipModifier = state.orderedModifiers.find(function (_ref2) {
                 var name = _ref2.name;
                 return name === 'flip';
               });
-
               if (!flipModifier) {
                 console.error(['Popper: "auto" placements require the "flip" modifier be', 'present and enabled to work.'].join(' '));
               }
             }
-
             var _getComputedStyle = getComputedStyle$1(popper),
-                marginTop = _getComputedStyle.marginTop,
-                marginRight = _getComputedStyle.marginRight,
-                marginBottom = _getComputedStyle.marginBottom,
-                marginLeft = _getComputedStyle.marginLeft; // We no longer take into account `margins` on the popper, and it can
+              marginTop = _getComputedStyle.marginTop,
+              marginRight = _getComputedStyle.marginRight,
+              marginBottom = _getComputedStyle.marginBottom,
+              marginLeft = _getComputedStyle.marginLeft; // We no longer take into account `margins` on the popper, and it can
             // cause bugs with positioning, so we'll warn the consumer
-
 
             if ([marginTop, marginRight, marginBottom, marginLeft].some(function (margin) {
               return parseFloat(margin);
@@ -21127,7 +19525,6 @@
               console.warn(['Popper: CSS "margin" styles cannot be used to apply padding', 'between the popper and its reference element or boundary.', 'To replicate margin, use the `offset` modifier, as well as', 'the `padding` option in the `preventOverflow` and `flip`', 'modifiers.'].join(' '));
             }
           }
-
           runModifierEffects();
           return instance.update();
         },
@@ -21140,20 +19537,17 @@
           if (isDestroyed) {
             return;
           }
-
           var _state$elements = state.elements,
-              reference = _state$elements.reference,
-              popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
+            reference = _state$elements.reference,
+            popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
           // anymore
 
           if (!areValidElements(reference, popper)) {
             if (process.env.NODE_ENV !== "production") {
               console.error(INVALID_ELEMENT_ERROR);
             }
-
             return;
           } // Store the reference and popper rects to be read by modifiers
-
 
           state.rects = {
             reference: getCompositeRect(reference, getOffsetParent(popper), state.options.strategy === 'fixed'),
@@ -21174,29 +19568,24 @@
             return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
           });
           var __debug_loops__ = 0;
-
           for (var index = 0; index < state.orderedModifiers.length; index++) {
             if (process.env.NODE_ENV !== "production") {
               __debug_loops__ += 1;
-
               if (__debug_loops__ > 100) {
                 console.error(INFINITE_LOOP_ERROR);
                 break;
               }
             }
-
             if (state.reset === true) {
               state.reset = false;
               index = -1;
               continue;
             }
-
             var _state$orderedModifie = state.orderedModifiers[index],
-                fn = _state$orderedModifie.fn,
-                _state$orderedModifie2 = _state$orderedModifie.options,
-                _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
-                name = _state$orderedModifie.name;
-
+              fn = _state$orderedModifie.fn,
+              _state$orderedModifie2 = _state$orderedModifie.options,
+              _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
+              name = _state$orderedModifie.name;
             if (typeof fn === 'function') {
               state = fn({
                 state: state,
@@ -21220,15 +19609,12 @@
           isDestroyed = true;
         }
       };
-
       if (!areValidElements(reference, popper)) {
         if (process.env.NODE_ENV !== "production") {
           console.error(INVALID_ELEMENT_ERROR);
         }
-
         return instance;
       }
-
       instance.setOptions(options).then(function (state) {
         if (!isDestroyed && options.onFirstUpdate) {
           options.onFirstUpdate(state);
@@ -21242,10 +19628,9 @@
       function runModifierEffects() {
         state.orderedModifiers.forEach(function (_ref3) {
           var name = _ref3.name,
-              _ref3$options = _ref3.options,
-              options = _ref3$options === void 0 ? {} : _ref3$options,
-              effect = _ref3.effect;
-
+            _ref3$options = _ref3.options,
+            options = _ref3$options === void 0 ? {} : _ref3$options,
+            effect = _ref3.effect;
           if (typeof effect === 'function') {
             var cleanupFn = effect({
               state: state,
@@ -21253,21 +19638,17 @@
               instance: instance,
               options: options
             });
-
             var noopFn = function noopFn() {};
-
             effectCleanupFns.push(cleanupFn || noopFn);
           }
         });
       }
-
       function cleanupModifierEffects() {
         effectCleanupFns.forEach(function (fn) {
           return fn();
         });
         effectCleanupFns = [];
       }
-
       return instance;
     };
   }
@@ -21326,32 +19707,30 @@
   });
 
   /*!
-    * Bootstrap v5.1.3 (https://getbootstrap.com/)
-    * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Bootstrap v5.2.2 (https://getbootstrap.com/)
+    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     */
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/index.js
+   * Bootstrap (v5.2.2): util/index.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   const MAX_UID = 1000000;
   const MILLISECONDS_MULTIPLIER = 1000;
-  const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
+  const TRANSITION_END = 'transitionend'; // Shout-out Angus Croll (https://goo.gl/pxwQGp)
 
-  const toType = obj => {
-    if (obj === null || obj === undefined) {
-      return `${obj}`;
+  const toType = object => {
+    if (object === null || object === undefined) {
+      return `${object}`;
     }
 
-    return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
+    return Object.prototype.toString.call(object).match(/\s([a-z]+)/i)[1].toLowerCase();
   };
   /**
-   * --------------------------------------------------------------------------
-   * Public Util Api
-   * --------------------------------------------------------------------------
+   * Public Util API
    */
 
 
@@ -21367,21 +19746,21 @@
     let selector = element.getAttribute('data-bs-target');
 
     if (!selector || selector === '#') {
-      let hrefAttr = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
+      let hrefAttribute = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
       // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
       // `document.querySelector` will rightfully complain it is invalid.
       // See https://github.com/twbs/bootstrap/issues/32273
 
-      if (!hrefAttr || !hrefAttr.includes('#') && !hrefAttr.startsWith('.')) {
+      if (!hrefAttribute || !hrefAttribute.includes('#') && !hrefAttribute.startsWith('.')) {
         return null;
       } // Just in case some CMS puts out a full URL with the anchor appended
 
 
-      if (hrefAttr.includes('#') && !hrefAttr.startsWith('#')) {
-        hrefAttr = `#${hrefAttr.split('#')[1]}`;
+      if (hrefAttribute.includes('#') && !hrefAttribute.startsWith('#')) {
+        hrefAttribute = `#${hrefAttribute.split('#')[1]}`;
       }
 
-      selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : null;
+      selector = hrefAttribute && hrefAttribute !== '#' ? hrefAttribute.trim() : null;
     }
 
     return selector;
@@ -21429,41 +19808,29 @@
     element.dispatchEvent(new Event(TRANSITION_END));
   };
 
-  const isElement = obj => {
-    if (!obj || typeof obj !== 'object') {
+  const isElement = object => {
+    if (!object || typeof object !== 'object') {
       return false;
     }
 
-    if (typeof obj.jquery !== 'undefined') {
-      obj = obj[0];
+    if (typeof object.jquery !== 'undefined') {
+      object = object[0];
     }
 
-    return typeof obj.nodeType !== 'undefined';
+    return typeof object.nodeType !== 'undefined';
   };
 
-  const getElement = obj => {
-    if (isElement(obj)) {
-      // it's a jQuery object or a node element
-      return obj.jquery ? obj[0] : obj;
+  const getElement = object => {
+    // it's a jQuery object or a node element
+    if (isElement(object)) {
+      return object.jquery ? object[0] : object;
     }
 
-    if (typeof obj === 'string' && obj.length > 0) {
-      return document.querySelector(obj);
+    if (typeof object === 'string' && object.length > 0) {
+      return document.querySelector(object);
     }
 
     return null;
-  };
-
-  const typeCheckConfig = (componentName, config, configTypes) => {
-    Object.keys(configTypes).forEach(property => {
-      const expectedTypes = configTypes[property];
-      const value = config[property];
-      const valueType = value && isElement(value) ? 'element' : toType(value);
-
-      if (!new RegExp(expectedTypes).test(valueType)) {
-        throw new TypeError(`${componentName.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
-      }
-    });
   };
 
   const isVisible = element => {
@@ -21471,7 +19838,27 @@
       return false;
     }
 
-    return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
+    const elementIsVisible = getComputedStyle(element).getPropertyValue('visibility') === 'visible'; // Handle `details` element as its content may falsie appear visible when it is closed
+
+    const closedDetails = element.closest('details:not([open])');
+
+    if (!closedDetails) {
+      return elementIsVisible;
+    }
+
+    if (closedDetails !== element) {
+      const summary = element.closest('summary');
+
+      if (summary && summary.parentNode !== closedDetails) {
+        return false;
+      }
+
+      if (summary === null) {
+        return false;
+      }
+    }
+
+    return elementIsVisible;
   };
 
   const isDisabled = element => {
@@ -21525,17 +19912,12 @@
 
 
   const reflow = element => {
-    // eslint-disable-next-line no-unused-expressions
-    element.offsetHeight;
+    element.offsetHeight; // eslint-disable-line no-unused-expressions
   };
 
   const getjQuery = () => {
-    const {
-      jQuery
-    } = window;
-
-    if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
-      return jQuery;
+    if (window.jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
+      return window.jQuery;
     }
 
     return null;
@@ -21548,7 +19930,9 @@
       // add listener on the first call when the document is in loading state
       if (!DOMContentLoadedCallbacks.length) {
         document.addEventListener('DOMContentLoaded', () => {
-          DOMContentLoadedCallbacks.forEach(callback => callback());
+          for (const callback of DOMContentLoadedCallbacks) {
+            callback();
+          }
         });
       }
 
@@ -21626,13 +20010,14 @@
 
 
   const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed) => {
-    let index = list.indexOf(activeElement); // if the element does not exist in the list return an element depending on the direction and if cycle is allowed
+    const listLength = list.length;
+    let index = list.indexOf(activeElement); // if the element does not exist in the list return an element
+    // depending on the direction and if cycle is allowed
 
     if (index === -1) {
-      return list[!shouldGetNext && isCycleAllowed ? list.length - 1 : 0];
+      return !shouldGetNext && isCycleAllowed ? list[listLength - 1] : list[0];
     }
 
-    const listLength = list.length;
     index += shouldGetNext ? 1 : -1;
 
     if (isCycleAllowed) {
@@ -21644,14 +20029,12 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): dom/event-handler.js
+   * Bootstrap (v5.2.2): dom/event-handler.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
   const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
@@ -21664,20 +20047,17 @@
     mouseenter: 'mouseover',
     mouseleave: 'mouseout'
   };
-  const customEventsRegex = /^(mouseenter|mouseleave)/i;
   const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
   /**
-   * ------------------------------------------------------------------------
    * Private methods
-   * ------------------------------------------------------------------------
    */
 
-  function getUidEvent(element, uid) {
+  function makeEventUid(element, uid) {
     return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
   }
 
-  function getEvent(element) {
-    const uid = getUidEvent(element);
+  function getElementEvents(element) {
+    const uid = makeEventUid(element);
     element.uidEvent = uid;
     eventRegistry[uid] = eventRegistry[uid] || {};
     return eventRegistry[uid];
@@ -21685,7 +20065,9 @@
 
   function bootstrapHandler(element, fn) {
     return function handler(event) {
-      event.delegateTarget = element;
+      hydrateObj(event, {
+        delegateTarget: element
+      });
 
       if (handler.oneOff) {
         EventHandler.off(element, event.type, fn);
@@ -21702,65 +20084,52 @@
       for (let {
         target
       } = event; target && target !== this; target = target.parentNode) {
-        for (let i = domElements.length; i--;) {
-          if (domElements[i] === target) {
-            event.delegateTarget = target;
-
-            if (handler.oneOff) {
-              EventHandler.off(element, event.type, selector, fn);
-            }
-
-            return fn.apply(target, [event]);
+        for (const domElement of domElements) {
+          if (domElement !== target) {
+            continue;
           }
+
+          hydrateObj(event, {
+            delegateTarget: target
+          });
+
+          if (handler.oneOff) {
+            EventHandler.off(element, event.type, selector, fn);
+          }
+
+          return fn.apply(target, [event]);
         }
-      } // To please ESLint
-
-
-      return null;
+      }
     };
   }
 
-  function findHandler(events, handler, delegationSelector = null) {
-    const uidEventList = Object.keys(events);
-
-    for (let i = 0, len = uidEventList.length; i < len; i++) {
-      const event = events[uidEventList[i]];
-
-      if (event.originalHandler === handler && event.delegationSelector === delegationSelector) {
-        return event;
-      }
-    }
-
-    return null;
+  function findHandler(events, callable, delegationSelector = null) {
+    return Object.values(events).find(event => event.callable === callable && event.delegationSelector === delegationSelector);
   }
 
-  function normalizeParams(originalTypeEvent, handler, delegationFn) {
-    const delegation = typeof handler === 'string';
-    const originalHandler = delegation ? delegationFn : handler;
-    let typeEvent = getTypeEvent(originalTypeEvent);
-    const isNative = nativeEvents.has(typeEvent);
+  function normalizeParameters(originalTypeEvent, handler, delegationFunction) {
+    const isDelegated = typeof handler === 'string'; // todo: tooltip passes `false` instead of selector, so we need to check
 
-    if (!isNative) {
+    const callable = isDelegated ? delegationFunction : handler || delegationFunction;
+    let typeEvent = getTypeEvent(originalTypeEvent);
+
+    if (!nativeEvents.has(typeEvent)) {
       typeEvent = originalTypeEvent;
     }
 
-    return [delegation, originalHandler, typeEvent];
+    return [isDelegated, callable, typeEvent];
   }
 
-  function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
+  function addHandler(element, originalTypeEvent, handler, delegationFunction, oneOff) {
     if (typeof originalTypeEvent !== 'string' || !element) {
       return;
     }
 
-    if (!handler) {
-      handler = delegationFn;
-      delegationFn = null;
-    } // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
+    let [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction); // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
     // this prevents the handler from being dispatched the same way as mouseover or mouseout does
 
-
-    if (customEventsRegex.test(originalTypeEvent)) {
-      const wrapFn = fn => {
+    if (originalTypeEvent in customEvents) {
+      const wrapFunction = fn => {
         return function (event) {
           if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
             return fn.call(this, event);
@@ -21768,31 +20137,26 @@
         };
       };
 
-      if (delegationFn) {
-        delegationFn = wrapFn(delegationFn);
-      } else {
-        handler = wrapFn(handler);
-      }
+      callable = wrapFunction(callable);
     }
 
-    const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
-    const events = getEvent(element);
+    const events = getElementEvents(element);
     const handlers = events[typeEvent] || (events[typeEvent] = {});
-    const previousFn = findHandler(handlers, originalHandler, delegation ? handler : null);
+    const previousFunction = findHandler(handlers, callable, isDelegated ? handler : null);
 
-    if (previousFn) {
-      previousFn.oneOff = previousFn.oneOff && oneOff;
+    if (previousFunction) {
+      previousFunction.oneOff = previousFunction.oneOff && oneOff;
       return;
     }
 
-    const uid = getUidEvent(originalHandler, originalTypeEvent.replace(namespaceRegex, ''));
-    const fn = delegation ? bootstrapDelegationHandler(element, handler, delegationFn) : bootstrapHandler(element, handler);
-    fn.delegationSelector = delegation ? handler : null;
-    fn.originalHandler = originalHandler;
+    const uid = makeEventUid(callable, originalTypeEvent.replace(namespaceRegex, ''));
+    const fn = isDelegated ? bootstrapDelegationHandler(element, handler, callable) : bootstrapHandler(element, callable);
+    fn.delegationSelector = isDelegated ? handler : null;
+    fn.callable = callable;
     fn.oneOff = oneOff;
     fn.uidEvent = uid;
     handlers[uid] = fn;
-    element.addEventListener(typeEvent, fn, delegation);
+    element.addEventListener(typeEvent, fn, isDelegated);
   }
 
   function removeHandler(element, events, typeEvent, handler, delegationSelector) {
@@ -21808,12 +20172,13 @@
 
   function removeNamespacedHandlers(element, events, typeEvent, namespace) {
     const storeElementEvent = events[typeEvent] || {};
-    Object.keys(storeElementEvent).forEach(handlerKey => {
+
+    for (const handlerKey of Object.keys(storeElementEvent)) {
       if (handlerKey.includes(namespace)) {
         const event = storeElementEvent[handlerKey];
-        removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
+        removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
       }
-    });
+    }
   }
 
   function getTypeEvent(event) {
@@ -21823,49 +20188,49 @@
   }
 
   const EventHandler = {
-    on(element, event, handler, delegationFn) {
-      addHandler(element, event, handler, delegationFn, false);
+    on(element, event, handler, delegationFunction) {
+      addHandler(element, event, handler, delegationFunction, false);
     },
 
-    one(element, event, handler, delegationFn) {
-      addHandler(element, event, handler, delegationFn, true);
+    one(element, event, handler, delegationFunction) {
+      addHandler(element, event, handler, delegationFunction, true);
     },
 
-    off(element, originalTypeEvent, handler, delegationFn) {
+    off(element, originalTypeEvent, handler, delegationFunction) {
       if (typeof originalTypeEvent !== 'string' || !element) {
         return;
       }
 
-      const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
+      const [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
       const inNamespace = typeEvent !== originalTypeEvent;
-      const events = getEvent(element);
+      const events = getElementEvents(element);
+      const storeElementEvent = events[typeEvent] || {};
       const isNamespace = originalTypeEvent.startsWith('.');
 
-      if (typeof originalHandler !== 'undefined') {
+      if (typeof callable !== 'undefined') {
         // Simplest case: handler is passed, remove that listener ONLY.
-        if (!events || !events[typeEvent]) {
+        if (!Object.keys(storeElementEvent).length) {
           return;
         }
 
-        removeHandler(element, events, typeEvent, originalHandler, delegation ? handler : null);
+        removeHandler(element, events, typeEvent, callable, isDelegated ? handler : null);
         return;
       }
 
       if (isNamespace) {
-        Object.keys(events).forEach(elementEvent => {
+        for (const elementEvent of Object.keys(events)) {
           removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
-        });
+        }
       }
 
-      const storeElementEvent = events[typeEvent] || {};
-      Object.keys(storeElementEvent).forEach(keyHandlers => {
+      for (const keyHandlers of Object.keys(storeElementEvent)) {
         const handlerKey = keyHandlers.replace(stripUidRegex, '');
 
         if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
           const event = storeElementEvent[keyHandlers];
-          removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
+          removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
         }
-      });
+      }
     },
 
     trigger(element, event, args) {
@@ -21876,12 +20241,10 @@
       const $ = getjQuery();
       const typeEvent = getTypeEvent(event);
       const inNamespace = event !== typeEvent;
-      const isNative = nativeEvents.has(typeEvent);
-      let jQueryEvent;
+      let jQueryEvent = null;
       let bubbles = true;
       let nativeDispatch = true;
       let defaultPrevented = false;
-      let evt = null;
 
       if (inNamespace && $) {
         jQueryEvent = $.Event(event, args);
@@ -21891,27 +20254,11 @@
         defaultPrevented = jQueryEvent.isDefaultPrevented();
       }
 
-      if (isNative) {
-        evt = document.createEvent('HTMLEvents');
-        evt.initEvent(typeEvent, bubbles, true);
-      } else {
-        evt = new CustomEvent(event, {
-          bubbles,
-          cancelable: true
-        });
-      } // merge custom information in our event
-
-
-      if (typeof args !== 'undefined') {
-        Object.keys(args).forEach(key => {
-          Object.defineProperty(evt, key, {
-            get() {
-              return args[key];
-            }
-
-          });
-        });
-      }
+      let evt = new Event(event, {
+        bubbles,
+        cancelable: true
+      });
+      evt = hydrateObj(evt, args);
 
       if (defaultPrevented) {
         evt.preventDefault();
@@ -21921,7 +20268,7 @@
         element.dispatchEvent(evt);
       }
 
-      if (evt.defaultPrevented && typeof jQueryEvent !== 'undefined') {
+      if (evt.defaultPrevented && jQueryEvent) {
         jQueryEvent.preventDefault();
       }
 
@@ -21930,17 +20277,34 @@
 
   };
 
+  function hydrateObj(obj, meta) {
+    for (const [key, value] of Object.entries(meta || {})) {
+      try {
+        obj[key] = value;
+      } catch (_unused) {
+        Object.defineProperty(obj, key, {
+          configurable: true,
+
+          get() {
+            return value;
+          }
+
+        });
+      }
+    }
+
+    return obj;
+  }
+
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): dom/data.js
+   * Bootstrap (v5.2.2): dom/data.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
 
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
   const elementMap = new Map();
   const Data = {
@@ -21986,20 +20350,153 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): base-component.js
+   * Bootstrap (v5.2.2): dom/manipulator.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  function normalizeData(value) {
+    if (value === 'true') {
+      return true;
+    }
+
+    if (value === 'false') {
+      return false;
+    }
+
+    if (value === Number(value).toString()) {
+      return Number(value);
+    }
+
+    if (value === '' || value === 'null') {
+      return null;
+    }
+
+    if (typeof value !== 'string') {
+      return value;
+    }
+
+    try {
+      return JSON.parse(decodeURIComponent(value));
+    } catch (_unused) {
+      return value;
+    }
+  }
+
+  function normalizeDataKey(key) {
+    return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
+  }
+
+  const Manipulator = {
+    setDataAttribute(element, key, value) {
+      element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
+    },
+
+    removeDataAttribute(element, key) {
+      element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
+    },
+
+    getDataAttributes(element) {
+      if (!element) {
+        return {};
+      }
+
+      const attributes = {};
+      const bsKeys = Object.keys(element.dataset).filter(key => key.startsWith('bs') && !key.startsWith('bsConfig'));
+
+      for (const key of bsKeys) {
+        let pureKey = key.replace(/^bs/, '');
+        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
+        attributes[pureKey] = normalizeData(element.dataset[key]);
+      }
+
+      return attributes;
+    },
+
+    getDataAttribute(element, key) {
+      return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
+    }
+
+  };
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.2.2): util/config.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
-   * Constants
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
-  const VERSION = '5.1.3';
+  class Config {
+    // Getters
+    static get Default() {
+      return {};
+    }
 
-  class BaseComponent {
-    constructor(element) {
+    static get DefaultType() {
+      return {};
+    }
+
+    static get NAME() {
+      throw new Error('You have to implement the static method "NAME", for each component!');
+    }
+
+    _getConfig(config) {
+      config = this._mergeConfigObj(config);
+      config = this._configAfterMerge(config);
+
+      this._typeCheckConfig(config);
+
+      return config;
+    }
+
+    _configAfterMerge(config) {
+      return config;
+    }
+
+    _mergeConfigObj(config, element) {
+      const jsonConfig = isElement(element) ? Manipulator.getDataAttribute(element, 'config') : {}; // try to parse
+
+      return { ...this.constructor.Default,
+        ...(typeof jsonConfig === 'object' ? jsonConfig : {}),
+        ...(isElement(element) ? Manipulator.getDataAttributes(element) : {}),
+        ...(typeof config === 'object' ? config : {})
+      };
+    }
+
+    _typeCheckConfig(config, configTypes = this.constructor.DefaultType) {
+      for (const property of Object.keys(configTypes)) {
+        const expectedTypes = configTypes[property];
+        const value = config[property];
+        const valueType = isElement(value) ? 'element' : toType(value);
+
+        if (!new RegExp(expectedTypes).test(valueType)) {
+          throw new TypeError(`${this.constructor.NAME.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
+        }
+      }
+    }
+
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.2.2): base-component.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  /**
+   * Constants
+   */
+
+  const VERSION = '5.2.2';
+  /**
+   * Class definition
+   */
+
+  class BaseComponent extends Config {
+    constructor(element, config) {
+      super();
       element = getElement(element);
 
       if (!element) {
@@ -22007,21 +20504,32 @@
       }
 
       this._element = element;
+      this._config = this._getConfig(config);
       Data.set(this._element, this.constructor.DATA_KEY, this);
-    }
+    } // Public
+
 
     dispose() {
       Data.remove(this._element, this.constructor.DATA_KEY);
       EventHandler.off(this._element, this.constructor.EVENT_KEY);
-      Object.getOwnPropertyNames(this).forEach(propertyName => {
+
+      for (const propertyName of Object.getOwnPropertyNames(this)) {
         this[propertyName] = null;
-      });
+      }
     }
 
     _queueCallback(callback, element, isAnimated = true) {
       executeAfterTransition(callback, element, isAnimated);
     }
-    /** Static */
+
+    _getConfig(config) {
+      config = this._mergeConfigObj(config, this._element);
+      config = this._configAfterMerge(config);
+
+      this._typeCheckConfig(config);
+
+      return config;
+    } // Static
 
 
     static getInstance(element) {
@@ -22036,10 +20544,6 @@
       return VERSION;
     }
 
-    static get NAME() {
-      throw new Error('You have to implement the static method "NAME", for each component!');
-    }
-
     static get DATA_KEY() {
       return `bs.${this.NAME}`;
     }
@@ -22048,11 +20552,15 @@
       return `.${this.DATA_KEY}`;
     }
 
+    static eventName(name) {
+      return `${name}${this.EVENT_KEY}`;
+    }
+
   }
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/component-functions.js
+   * Bootstrap (v5.2.2): util/component-functions.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
@@ -22078,33 +20586,29 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): alert.js
+   * Bootstrap (v5.2.2): alert.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
-  const NAME$d = 'alert';
-  const DATA_KEY$c = 'bs.alert';
-  const EVENT_KEY$c = `.${DATA_KEY$c}`;
-  const EVENT_CLOSE = `close${EVENT_KEY$c}`;
-  const EVENT_CLOSED = `closed${EVENT_KEY$c}`;
+  const NAME$f = 'alert';
+  const DATA_KEY$a = 'bs.alert';
+  const EVENT_KEY$b = `.${DATA_KEY$a}`;
+  const EVENT_CLOSE = `close${EVENT_KEY$b}`;
+  const EVENT_CLOSED = `closed${EVENT_KEY$b}`;
   const CLASS_NAME_FADE$5 = 'fade';
   const CLASS_NAME_SHOW$8 = 'show';
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Alert extends BaseComponent {
     // Getters
     static get NAME() {
-      return NAME$d;
+      return NAME$f;
     } // Public
 
 
@@ -22149,51 +20653,42 @@
 
   }
   /**
-   * ------------------------------------------------------------------------
-   * Data Api implementation
-   * ------------------------------------------------------------------------
+   * Data API implementation
    */
 
 
   enableDismissTrigger(Alert, 'close');
   /**
-   * ------------------------------------------------------------------------
    * jQuery
-   * ------------------------------------------------------------------------
-   * add .Alert to jQuery only if jQuery is present
    */
 
   defineJQueryPlugin(Alert);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): button.js
+   * Bootstrap (v5.2.2): button.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
-  const NAME$c = 'button';
-  const DATA_KEY$b = 'bs.button';
-  const EVENT_KEY$b = `.${DATA_KEY$b}`;
-  const DATA_API_KEY$7 = '.data-api';
+  const NAME$e = 'button';
+  const DATA_KEY$9 = 'bs.button';
+  const EVENT_KEY$a = `.${DATA_KEY$9}`;
+  const DATA_API_KEY$6 = '.data-api';
   const CLASS_NAME_ACTIVE$3 = 'active';
   const SELECTOR_DATA_TOGGLE$5 = '[data-bs-toggle="button"]';
-  const EVENT_CLICK_DATA_API$6 = `click${EVENT_KEY$b}${DATA_API_KEY$7}`;
+  const EVENT_CLICK_DATA_API$6 = `click${EVENT_KEY$a}${DATA_API_KEY$6}`;
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Button extends BaseComponent {
     // Getters
     static get NAME() {
-      return NAME$c;
+      return NAME$e;
     } // Public
 
 
@@ -22215,9 +20710,7 @@
 
   }
   /**
-   * ------------------------------------------------------------------------
-   * Data Api implementation
-   * ------------------------------------------------------------------------
+   * Data API implementation
    */
 
 
@@ -22228,95 +20721,21 @@
     data.toggle();
   });
   /**
-   * ------------------------------------------------------------------------
    * jQuery
-   * ------------------------------------------------------------------------
-   * add .Button to jQuery only if jQuery is present
    */
 
   defineJQueryPlugin(Button);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): dom/manipulator.js
+   * Bootstrap (v5.2.2): dom/selector-engine.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-  function normalizeData(val) {
-    if (val === 'true') {
-      return true;
-    }
-
-    if (val === 'false') {
-      return false;
-    }
-
-    if (val === Number(val).toString()) {
-      return Number(val);
-    }
-
-    if (val === '' || val === 'null') {
-      return null;
-    }
-
-    return val;
-  }
-
-  function normalizeDataKey(key) {
-    return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
-  }
-
-  const Manipulator = {
-    setDataAttribute(element, key, value) {
-      element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
-    },
-
-    removeDataAttribute(element, key) {
-      element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
-    },
-
-    getDataAttributes(element) {
-      if (!element) {
-        return {};
-      }
-
-      const attributes = {};
-      Object.keys(element.dataset).filter(key => key.startsWith('bs')).forEach(key => {
-        let pureKey = key.replace(/^bs/, '');
-        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
-        attributes[pureKey] = normalizeData(element.dataset[key]);
-      });
-      return attributes;
-    },
-
-    getDataAttribute(element, key) {
-      return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
-    },
-
-    offset(element) {
-      const rect = element.getBoundingClientRect();
-      return {
-        top: rect.top + window.pageYOffset,
-        left: rect.left + window.pageXOffset
-      };
-    },
-
-    position(element) {
-      return {
-        top: element.offsetTop,
-        left: element.offsetLeft
-      };
-    }
-
-  };
-
   /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): dom/selector-engine.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
+   * Constants
    */
-  const NODE_TEXT = 3;
+
   const SelectorEngine = {
     find(selector, element = document.documentElement) {
       return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
@@ -22332,14 +20751,11 @@
 
     parents(element, selector) {
       const parents = [];
-      let ancestor = element.parentNode;
+      let ancestor = element.parentNode.closest(selector);
 
-      while (ancestor && ancestor.nodeType === Node.ELEMENT_NODE && ancestor.nodeType !== NODE_TEXT) {
-        if (ancestor.matches(selector)) {
-          parents.push(ancestor);
-        }
-
-        ancestor = ancestor.parentNode;
+      while (ancestor) {
+        parents.push(ancestor);
+        ancestor = ancestor.parentNode.closest(selector);
       }
 
       return parents;
@@ -22359,6 +20775,7 @@
       return [];
     },
 
+    // TODO: this is now unused; remove later along with prev()
     next(element, selector) {
       let next = element.nextElementSibling;
 
@@ -22374,7 +20791,7 @@
     },
 
     focusableChildren(element) {
-      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(', ');
+      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(',');
       return this.find(focusables, element).filter(el => !isDisabled(el) && isVisible(el));
     }
 
@@ -22382,62 +20799,170 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): carousel.js
+   * Bootstrap (v5.2.2): util/swipe.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
-  const NAME$b = 'carousel';
-  const DATA_KEY$a = 'bs.carousel';
-  const EVENT_KEY$a = `.${DATA_KEY$a}`;
-  const DATA_API_KEY$6 = '.data-api';
-  const ARROW_LEFT_KEY = 'ArrowLeft';
-  const ARROW_RIGHT_KEY = 'ArrowRight';
+  const NAME$d = 'swipe';
+  const EVENT_KEY$9 = '.bs.swipe';
+  const EVENT_TOUCHSTART = `touchstart${EVENT_KEY$9}`;
+  const EVENT_TOUCHMOVE = `touchmove${EVENT_KEY$9}`;
+  const EVENT_TOUCHEND = `touchend${EVENT_KEY$9}`;
+  const EVENT_POINTERDOWN = `pointerdown${EVENT_KEY$9}`;
+  const EVENT_POINTERUP = `pointerup${EVENT_KEY$9}`;
+  const POINTER_TYPE_TOUCH = 'touch';
+  const POINTER_TYPE_PEN = 'pen';
+  const CLASS_NAME_POINTER_EVENT = 'pointer-event';
+  const SWIPE_THRESHOLD = 40;
+  const Default$c = {
+    endCallback: null,
+    leftCallback: null,
+    rightCallback: null
+  };
+  const DefaultType$c = {
+    endCallback: '(function|null)',
+    leftCallback: '(function|null)',
+    rightCallback: '(function|null)'
+  };
+  /**
+   * Class definition
+   */
+
+  class Swipe extends Config {
+    constructor(element, config) {
+      super();
+      this._element = element;
+
+      if (!element || !Swipe.isSupported()) {
+        return;
+      }
+
+      this._config = this._getConfig(config);
+      this._deltaX = 0;
+      this._supportPointerEvents = Boolean(window.PointerEvent);
+
+      this._initEvents();
+    } // Getters
+
+
+    static get Default() {
+      return Default$c;
+    }
+
+    static get DefaultType() {
+      return DefaultType$c;
+    }
+
+    static get NAME() {
+      return NAME$d;
+    } // Public
+
+
+    dispose() {
+      EventHandler.off(this._element, EVENT_KEY$9);
+    } // Private
+
+
+    _start(event) {
+      if (!this._supportPointerEvents) {
+        this._deltaX = event.touches[0].clientX;
+        return;
+      }
+
+      if (this._eventIsPointerPenTouch(event)) {
+        this._deltaX = event.clientX;
+      }
+    }
+
+    _end(event) {
+      if (this._eventIsPointerPenTouch(event)) {
+        this._deltaX = event.clientX - this._deltaX;
+      }
+
+      this._handleSwipe();
+
+      execute(this._config.endCallback);
+    }
+
+    _move(event) {
+      this._deltaX = event.touches && event.touches.length > 1 ? 0 : event.touches[0].clientX - this._deltaX;
+    }
+
+    _handleSwipe() {
+      const absDeltaX = Math.abs(this._deltaX);
+
+      if (absDeltaX <= SWIPE_THRESHOLD) {
+        return;
+      }
+
+      const direction = absDeltaX / this._deltaX;
+      this._deltaX = 0;
+
+      if (!direction) {
+        return;
+      }
+
+      execute(direction > 0 ? this._config.rightCallback : this._config.leftCallback);
+    }
+
+    _initEvents() {
+      if (this._supportPointerEvents) {
+        EventHandler.on(this._element, EVENT_POINTERDOWN, event => this._start(event));
+        EventHandler.on(this._element, EVENT_POINTERUP, event => this._end(event));
+
+        this._element.classList.add(CLASS_NAME_POINTER_EVENT);
+      } else {
+        EventHandler.on(this._element, EVENT_TOUCHSTART, event => this._start(event));
+        EventHandler.on(this._element, EVENT_TOUCHMOVE, event => this._move(event));
+        EventHandler.on(this._element, EVENT_TOUCHEND, event => this._end(event));
+      }
+    }
+
+    _eventIsPointerPenTouch(event) {
+      return this._supportPointerEvents && (event.pointerType === POINTER_TYPE_PEN || event.pointerType === POINTER_TYPE_TOUCH);
+    } // Static
+
+
+    static isSupported() {
+      return 'ontouchstart' in document.documentElement || navigator.maxTouchPoints > 0;
+    }
+
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.2.2): carousel.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  /**
+   * Constants
+   */
+
+  const NAME$c = 'carousel';
+  const DATA_KEY$8 = 'bs.carousel';
+  const EVENT_KEY$8 = `.${DATA_KEY$8}`;
+  const DATA_API_KEY$5 = '.data-api';
+  const ARROW_LEFT_KEY$1 = 'ArrowLeft';
+  const ARROW_RIGHT_KEY$1 = 'ArrowRight';
   const TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
 
-  const SWIPE_THRESHOLD = 40;
-  const Default$a = {
-    interval: 5000,
-    keyboard: true,
-    slide: false,
-    pause: 'hover',
-    wrap: true,
-    touch: true
-  };
-  const DefaultType$a = {
-    interval: '(number|boolean)',
-    keyboard: 'boolean',
-    slide: '(boolean|string)',
-    pause: '(string|boolean)',
-    wrap: 'boolean',
-    touch: 'boolean'
-  };
   const ORDER_NEXT = 'next';
   const ORDER_PREV = 'prev';
   const DIRECTION_LEFT = 'left';
   const DIRECTION_RIGHT = 'right';
-  const KEY_TO_DIRECTION = {
-    [ARROW_LEFT_KEY]: DIRECTION_RIGHT,
-    [ARROW_RIGHT_KEY]: DIRECTION_LEFT
-  };
-  const EVENT_SLIDE = `slide${EVENT_KEY$a}`;
-  const EVENT_SLID = `slid${EVENT_KEY$a}`;
-  const EVENT_KEYDOWN = `keydown${EVENT_KEY$a}`;
-  const EVENT_MOUSEENTER = `mouseenter${EVENT_KEY$a}`;
-  const EVENT_MOUSELEAVE = `mouseleave${EVENT_KEY$a}`;
-  const EVENT_TOUCHSTART = `touchstart${EVENT_KEY$a}`;
-  const EVENT_TOUCHMOVE = `touchmove${EVENT_KEY$a}`;
-  const EVENT_TOUCHEND = `touchend${EVENT_KEY$a}`;
-  const EVENT_POINTERDOWN = `pointerdown${EVENT_KEY$a}`;
-  const EVENT_POINTERUP = `pointerup${EVENT_KEY$a}`;
-  const EVENT_DRAG_START = `dragstart${EVENT_KEY$a}`;
-  const EVENT_LOAD_DATA_API$2 = `load${EVENT_KEY$a}${DATA_API_KEY$6}`;
-  const EVENT_CLICK_DATA_API$5 = `click${EVENT_KEY$a}${DATA_API_KEY$6}`;
+  const EVENT_SLIDE = `slide${EVENT_KEY$8}`;
+  const EVENT_SLID = `slid${EVENT_KEY$8}`;
+  const EVENT_KEYDOWN$1 = `keydown${EVENT_KEY$8}`;
+  const EVENT_MOUSEENTER$1 = `mouseenter${EVENT_KEY$8}`;
+  const EVENT_MOUSELEAVE$1 = `mouseleave${EVENT_KEY$8}`;
+  const EVENT_DRAG_START = `dragstart${EVENT_KEY$8}`;
+  const EVENT_LOAD_DATA_API$3 = `load${EVENT_KEY$8}${DATA_API_KEY$5}`;
+  const EVENT_CLICK_DATA_API$5 = `click${EVENT_KEY$8}${DATA_API_KEY$5}`;
   const CLASS_NAME_CAROUSEL = 'carousel';
   const CLASS_NAME_ACTIVE$2 = 'active';
   const CLASS_NAME_SLIDE = 'slide';
@@ -22445,50 +20970,66 @@
   const CLASS_NAME_START = 'carousel-item-start';
   const CLASS_NAME_NEXT = 'carousel-item-next';
   const CLASS_NAME_PREV = 'carousel-item-prev';
-  const CLASS_NAME_POINTER_EVENT = 'pointer-event';
-  const SELECTOR_ACTIVE$1 = '.active';
-  const SELECTOR_ACTIVE_ITEM = '.active.carousel-item';
+  const SELECTOR_ACTIVE = '.active';
   const SELECTOR_ITEM = '.carousel-item';
+  const SELECTOR_ACTIVE_ITEM = SELECTOR_ACTIVE + SELECTOR_ITEM;
   const SELECTOR_ITEM_IMG = '.carousel-item img';
-  const SELECTOR_NEXT_PREV = '.carousel-item-next, .carousel-item-prev';
   const SELECTOR_INDICATORS = '.carousel-indicators';
-  const SELECTOR_INDICATOR = '[data-bs-target]';
   const SELECTOR_DATA_SLIDE = '[data-bs-slide], [data-bs-slide-to]';
   const SELECTOR_DATA_RIDE = '[data-bs-ride="carousel"]';
-  const POINTER_TYPE_TOUCH = 'touch';
-  const POINTER_TYPE_PEN = 'pen';
+  const KEY_TO_DIRECTION = {
+    [ARROW_LEFT_KEY$1]: DIRECTION_RIGHT,
+    [ARROW_RIGHT_KEY$1]: DIRECTION_LEFT
+  };
+  const Default$b = {
+    interval: 5000,
+    keyboard: true,
+    pause: 'hover',
+    ride: false,
+    touch: true,
+    wrap: true
+  };
+  const DefaultType$b = {
+    interval: '(number|boolean)',
+    // TODO:v6 remove boolean support
+    keyboard: 'boolean',
+    pause: '(string|boolean)',
+    ride: '(boolean|string)',
+    touch: 'boolean',
+    wrap: 'boolean'
+  };
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Carousel extends BaseComponent {
     constructor(element, config) {
-      super(element);
-      this._items = null;
+      super(element, config);
       this._interval = null;
       this._activeElement = null;
-      this._isPaused = false;
       this._isSliding = false;
       this.touchTimeout = null;
-      this.touchStartX = 0;
-      this.touchDeltaX = 0;
-      this._config = this._getConfig(config);
+      this._swipeHelper = null;
       this._indicatorsElement = SelectorEngine.findOne(SELECTOR_INDICATORS, this._element);
-      this._touchSupported = 'ontouchstart' in document.documentElement || navigator.maxTouchPoints > 0;
-      this._pointerEvent = Boolean(window.PointerEvent);
 
       this._addEventListeners();
+
+      if (this._config.ride === CLASS_NAME_CAROUSEL) {
+        this.cycle();
+      }
     } // Getters
 
 
     static get Default() {
-      return Default$a;
+      return Default$b;
+    }
+
+    static get DefaultType() {
+      return DefaultType$b;
     }
 
     static get NAME() {
-      return NAME$b;
+      return NAME$c;
     } // Public
 
 
@@ -22497,6 +21038,7 @@
     }
 
     nextWhenVisible() {
+      // FIXME TODO use `document.visibilityState`
       // Don't call next when the page isn't visible
       // or the carousel or its parent isn't visible
       if (!document.hidden && isVisible(this._element)) {
@@ -22508,43 +21050,39 @@
       this._slide(ORDER_PREV);
     }
 
-    pause(event) {
-      if (!event) {
-        this._isPaused = true;
-      }
-
-      if (SelectorEngine.findOne(SELECTOR_NEXT_PREV, this._element)) {
+    pause() {
+      if (this._isSliding) {
         triggerTransitionEnd(this._element);
-        this.cycle(true);
       }
 
-      clearInterval(this._interval);
-      this._interval = null;
+      this._clearInterval();
     }
 
-    cycle(event) {
-      if (!event) {
-        this._isPaused = false;
+    cycle() {
+      this._clearInterval();
+
+      this._updateInterval();
+
+      this._interval = setInterval(() => this.nextWhenVisible(), this._config.interval);
+    }
+
+    _maybeEnableCycle() {
+      if (!this._config.ride) {
+        return;
       }
 
-      if (this._interval) {
-        clearInterval(this._interval);
-        this._interval = null;
+      if (this._isSliding) {
+        EventHandler.one(this._element, EVENT_SLID, () => this.cycle());
+        return;
       }
 
-      if (this._config && this._config.interval && !this._isPaused) {
-        this._updateInterval();
-
-        this._interval = setInterval((document.visibilityState ? this.nextWhenVisible : this.next).bind(this), this._config.interval);
-      }
+      this.cycle();
     }
 
     to(index) {
-      this._activeElement = SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
+      const items = this._getItems();
 
-      const activeIndex = this._getItemIndex(this._activeElement);
-
-      if (index > this._items.length - 1 || index < 0) {
+      if (index > items.length - 1 || index < 0) {
         return;
       }
 
@@ -22553,116 +21091,78 @@
         return;
       }
 
+      const activeIndex = this._getItemIndex(this._getActive());
+
       if (activeIndex === index) {
-        this.pause();
-        this.cycle();
         return;
       }
 
       const order = index > activeIndex ? ORDER_NEXT : ORDER_PREV;
 
-      this._slide(order, this._items[index]);
+      this._slide(order, items[index]);
+    }
+
+    dispose() {
+      if (this._swipeHelper) {
+        this._swipeHelper.dispose();
+      }
+
+      super.dispose();
     } // Private
 
 
-    _getConfig(config) {
-      config = { ...Default$a,
-        ...Manipulator.getDataAttributes(this._element),
-        ...(typeof config === 'object' ? config : {})
-      };
-      typeCheckConfig(NAME$b, config, DefaultType$a);
+    _configAfterMerge(config) {
+      config.defaultInterval = config.interval;
       return config;
-    }
-
-    _handleSwipe() {
-      const absDeltax = Math.abs(this.touchDeltaX);
-
-      if (absDeltax <= SWIPE_THRESHOLD) {
-        return;
-      }
-
-      const direction = absDeltax / this.touchDeltaX;
-      this.touchDeltaX = 0;
-
-      if (!direction) {
-        return;
-      }
-
-      this._slide(direction > 0 ? DIRECTION_RIGHT : DIRECTION_LEFT);
     }
 
     _addEventListeners() {
       if (this._config.keyboard) {
-        EventHandler.on(this._element, EVENT_KEYDOWN, event => this._keydown(event));
+        EventHandler.on(this._element, EVENT_KEYDOWN$1, event => this._keydown(event));
       }
 
       if (this._config.pause === 'hover') {
-        EventHandler.on(this._element, EVENT_MOUSEENTER, event => this.pause(event));
-        EventHandler.on(this._element, EVENT_MOUSELEAVE, event => this.cycle(event));
+        EventHandler.on(this._element, EVENT_MOUSEENTER$1, () => this.pause());
+        EventHandler.on(this._element, EVENT_MOUSELEAVE$1, () => this._maybeEnableCycle());
       }
 
-      if (this._config.touch && this._touchSupported) {
+      if (this._config.touch && Swipe.isSupported()) {
         this._addTouchEventListeners();
       }
     }
 
     _addTouchEventListeners() {
-      const hasPointerPenTouch = event => {
-        return this._pointerEvent && (event.pointerType === POINTER_TYPE_PEN || event.pointerType === POINTER_TYPE_TOUCH);
-      };
-
-      const start = event => {
-        if (hasPointerPenTouch(event)) {
-          this.touchStartX = event.clientX;
-        } else if (!this._pointerEvent) {
-          this.touchStartX = event.touches[0].clientX;
-        }
-      };
-
-      const move = event => {
-        // ensure swiping with one touch and not pinching
-        this.touchDeltaX = event.touches && event.touches.length > 1 ? 0 : event.touches[0].clientX - this.touchStartX;
-      };
-
-      const end = event => {
-        if (hasPointerPenTouch(event)) {
-          this.touchDeltaX = event.clientX - this.touchStartX;
-        }
-
-        this._handleSwipe();
-
-        if (this._config.pause === 'hover') {
-          // If it's a touch-enabled device, mouseenter/leave are fired as
-          // part of the mouse compatibility events on first tap - the carousel
-          // would stop cycling until user tapped out of it;
-          // here, we listen for touchend, explicitly pause the carousel
-          // (as if it's the second time we tap on it, mouseenter compat event
-          // is NOT fired) and after a timeout (to allow for mouse compatibility
-          // events to fire) we explicitly restart cycling
-          this.pause();
-
-          if (this.touchTimeout) {
-            clearTimeout(this.touchTimeout);
-          }
-
-          this.touchTimeout = setTimeout(event => this.cycle(event), TOUCHEVENT_COMPAT_WAIT + this._config.interval);
-        }
-      };
-
-      SelectorEngine.find(SELECTOR_ITEM_IMG, this._element).forEach(itemImg => {
-        EventHandler.on(itemImg, EVENT_DRAG_START, event => event.preventDefault());
-      });
-
-      if (this._pointerEvent) {
-        EventHandler.on(this._element, EVENT_POINTERDOWN, event => start(event));
-        EventHandler.on(this._element, EVENT_POINTERUP, event => end(event));
-
-        this._element.classList.add(CLASS_NAME_POINTER_EVENT);
-      } else {
-        EventHandler.on(this._element, EVENT_TOUCHSTART, event => start(event));
-        EventHandler.on(this._element, EVENT_TOUCHMOVE, event => move(event));
-        EventHandler.on(this._element, EVENT_TOUCHEND, event => end(event));
+      for (const img of SelectorEngine.find(SELECTOR_ITEM_IMG, this._element)) {
+        EventHandler.on(img, EVENT_DRAG_START, event => event.preventDefault());
       }
+
+      const endCallBack = () => {
+        if (this._config.pause !== 'hover') {
+          return;
+        } // If it's a touch-enabled device, mouseenter/leave are fired as
+        // part of the mouse compatibility events on first tap - the carousel
+        // would stop cycling until user tapped out of it;
+        // here, we listen for touchend, explicitly pause the carousel
+        // (as if it's the second time we tap on it, mouseenter compat event
+        // is NOT fired) and after a timeout (to allow for mouse compatibility
+        // events to fire) we explicitly restart cycling
+
+
+        this.pause();
+
+        if (this.touchTimeout) {
+          clearTimeout(this.touchTimeout);
+        }
+
+        this.touchTimeout = setTimeout(() => this._maybeEnableCycle(), TOUCHEVENT_COMPAT_WAIT + this._config.interval);
+      };
+
+      const swipeConfig = {
+        leftCallback: () => this._slide(this._directionToOrder(DIRECTION_LEFT)),
+        rightCallback: () => this._slide(this._directionToOrder(DIRECTION_RIGHT)),
+        endCallback: endCallBack
+      };
+      this._swipeHelper = new Swipe(this._element, swipeConfig);
     }
 
     _keydown(event) {
@@ -22675,95 +21175,67 @@
       if (direction) {
         event.preventDefault();
 
-        this._slide(direction);
+        this._slide(this._directionToOrder(direction));
       }
     }
 
     _getItemIndex(element) {
-      this._items = element && element.parentNode ? SelectorEngine.find(SELECTOR_ITEM, element.parentNode) : [];
-      return this._items.indexOf(element);
+      return this._getItems().indexOf(element);
     }
 
-    _getItemByOrder(order, activeElement) {
-      const isNext = order === ORDER_NEXT;
-      return getNextActiveElement(this._items, activeElement, isNext, this._config.wrap);
-    }
+    _setActiveIndicatorElement(index) {
+      if (!this._indicatorsElement) {
+        return;
+      }
 
-    _triggerSlideEvent(relatedTarget, eventDirectionName) {
-      const targetIndex = this._getItemIndex(relatedTarget);
+      const activeIndicator = SelectorEngine.findOne(SELECTOR_ACTIVE, this._indicatorsElement);
+      activeIndicator.classList.remove(CLASS_NAME_ACTIVE$2);
+      activeIndicator.removeAttribute('aria-current');
+      const newActiveIndicator = SelectorEngine.findOne(`[data-bs-slide-to="${index}"]`, this._indicatorsElement);
 
-      const fromIndex = this._getItemIndex(SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element));
-
-      return EventHandler.trigger(this._element, EVENT_SLIDE, {
-        relatedTarget,
-        direction: eventDirectionName,
-        from: fromIndex,
-        to: targetIndex
-      });
-    }
-
-    _setActiveIndicatorElement(element) {
-      if (this._indicatorsElement) {
-        const activeIndicator = SelectorEngine.findOne(SELECTOR_ACTIVE$1, this._indicatorsElement);
-        activeIndicator.classList.remove(CLASS_NAME_ACTIVE$2);
-        activeIndicator.removeAttribute('aria-current');
-        const indicators = SelectorEngine.find(SELECTOR_INDICATOR, this._indicatorsElement);
-
-        for (let i = 0; i < indicators.length; i++) {
-          if (Number.parseInt(indicators[i].getAttribute('data-bs-slide-to'), 10) === this._getItemIndex(element)) {
-            indicators[i].classList.add(CLASS_NAME_ACTIVE$2);
-            indicators[i].setAttribute('aria-current', 'true');
-            break;
-          }
-        }
+      if (newActiveIndicator) {
+        newActiveIndicator.classList.add(CLASS_NAME_ACTIVE$2);
+        newActiveIndicator.setAttribute('aria-current', 'true');
       }
     }
 
     _updateInterval() {
-      const element = this._activeElement || SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
+      const element = this._activeElement || this._getActive();
 
       if (!element) {
         return;
       }
 
       const elementInterval = Number.parseInt(element.getAttribute('data-bs-interval'), 10);
-
-      if (elementInterval) {
-        this._config.defaultInterval = this._config.defaultInterval || this._config.interval;
-        this._config.interval = elementInterval;
-      } else {
-        this._config.interval = this._config.defaultInterval || this._config.interval;
-      }
+      this._config.interval = elementInterval || this._config.defaultInterval;
     }
 
-    _slide(directionOrOrder, element) {
-      const order = this._directionToOrder(directionOrOrder);
-
-      const activeElement = SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
-
-      const activeElementIndex = this._getItemIndex(activeElement);
-
-      const nextElement = element || this._getItemByOrder(order, activeElement);
-
-      const nextElementIndex = this._getItemIndex(nextElement);
-
-      const isCycling = Boolean(this._interval);
-      const isNext = order === ORDER_NEXT;
-      const directionalClassName = isNext ? CLASS_NAME_START : CLASS_NAME_END;
-      const orderClassName = isNext ? CLASS_NAME_NEXT : CLASS_NAME_PREV;
-
-      const eventDirectionName = this._orderToDirection(order);
-
-      if (nextElement && nextElement.classList.contains(CLASS_NAME_ACTIVE$2)) {
-        this._isSliding = false;
-        return;
-      }
-
+    _slide(order, element = null) {
       if (this._isSliding) {
         return;
       }
 
-      const slideEvent = this._triggerSlideEvent(nextElement, eventDirectionName);
+      const activeElement = this._getActive();
+
+      const isNext = order === ORDER_NEXT;
+      const nextElement = element || getNextActiveElement(this._getItems(), activeElement, isNext, this._config.wrap);
+
+      if (nextElement === activeElement) {
+        return;
+      }
+
+      const nextElementIndex = this._getItemIndex(nextElement);
+
+      const triggerEvent = eventName => {
+        return EventHandler.trigger(this._element, eventName, {
+          relatedTarget: nextElement,
+          direction: this._orderToDirection(order),
+          from: this._getItemIndex(activeElement),
+          to: nextElementIndex
+        });
+      };
+
+      const slideEvent = triggerEvent(EVENT_SLIDE);
 
       if (slideEvent.defaultPrevented) {
         return;
@@ -22771,60 +21243,59 @@
 
       if (!activeElement || !nextElement) {
         // Some weirdness is happening, so we bail
+        // todo: change tests that use empty divs to avoid this check
         return;
       }
 
+      const isCycling = Boolean(this._interval);
+      this.pause();
       this._isSliding = true;
 
-      if (isCycling) {
-        this.pause();
-      }
-
-      this._setActiveIndicatorElement(nextElement);
+      this._setActiveIndicatorElement(nextElementIndex);
 
       this._activeElement = nextElement;
+      const directionalClassName = isNext ? CLASS_NAME_START : CLASS_NAME_END;
+      const orderClassName = isNext ? CLASS_NAME_NEXT : CLASS_NAME_PREV;
+      nextElement.classList.add(orderClassName);
+      reflow(nextElement);
+      activeElement.classList.add(directionalClassName);
+      nextElement.classList.add(directionalClassName);
 
-      const triggerSlidEvent = () => {
-        EventHandler.trigger(this._element, EVENT_SLID, {
-          relatedTarget: nextElement,
-          direction: eventDirectionName,
-          from: activeElementIndex,
-          to: nextElementIndex
-        });
+      const completeCallBack = () => {
+        nextElement.classList.remove(directionalClassName, orderClassName);
+        nextElement.classList.add(CLASS_NAME_ACTIVE$2);
+        activeElement.classList.remove(CLASS_NAME_ACTIVE$2, orderClassName, directionalClassName);
+        this._isSliding = false;
+        triggerEvent(EVENT_SLID);
       };
 
-      if (this._element.classList.contains(CLASS_NAME_SLIDE)) {
-        nextElement.classList.add(orderClassName);
-        reflow(nextElement);
-        activeElement.classList.add(directionalClassName);
-        nextElement.classList.add(directionalClassName);
-
-        const completeCallBack = () => {
-          nextElement.classList.remove(directionalClassName, orderClassName);
-          nextElement.classList.add(CLASS_NAME_ACTIVE$2);
-          activeElement.classList.remove(CLASS_NAME_ACTIVE$2, orderClassName, directionalClassName);
-          this._isSliding = false;
-          setTimeout(triggerSlidEvent, 0);
-        };
-
-        this._queueCallback(completeCallBack, activeElement, true);
-      } else {
-        activeElement.classList.remove(CLASS_NAME_ACTIVE$2);
-        nextElement.classList.add(CLASS_NAME_ACTIVE$2);
-        this._isSliding = false;
-        triggerSlidEvent();
-      }
+      this._queueCallback(completeCallBack, activeElement, this._isAnimated());
 
       if (isCycling) {
         this.cycle();
       }
     }
 
-    _directionToOrder(direction) {
-      if (![DIRECTION_RIGHT, DIRECTION_LEFT].includes(direction)) {
-        return direction;
-      }
+    _isAnimated() {
+      return this._element.classList.contains(CLASS_NAME_SLIDE);
+    }
 
+    _getActive() {
+      return SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
+    }
+
+    _getItems() {
+      return SelectorEngine.find(SELECTOR_ITEM, this._element);
+    }
+
+    _clearInterval() {
+      if (this._interval) {
+        clearInterval(this._interval);
+        this._interval = null;
+      }
+    }
+
+    _directionToOrder(direction) {
       if (isRTL()) {
         return direction === DIRECTION_LEFT ? ORDER_PREV : ORDER_NEXT;
       }
@@ -22833,10 +21304,6 @@
     }
 
     _orderToDirection(order) {
-      if (![ORDER_NEXT, ORDER_PREV].includes(order)) {
-        return order;
-      }
-
       if (isRTL()) {
         return order === ORDER_PREV ? DIRECTION_LEFT : DIRECTION_RIGHT;
       }
@@ -22845,119 +21312,94 @@
     } // Static
 
 
-    static carouselInterface(element, config) {
-      const data = Carousel.getOrCreateInstance(element, config);
-      let {
-        _config
-      } = data;
-
-      if (typeof config === 'object') {
-        _config = { ..._config,
-          ...config
-        };
-      }
-
-      const action = typeof config === 'string' ? config : _config.slide;
-
-      if (typeof config === 'number') {
-        data.to(config);
-      } else if (typeof action === 'string') {
-        if (typeof data[action] === 'undefined') {
-          throw new TypeError(`No method named "${action}"`);
-        }
-
-        data[action]();
-      } else if (_config.interval && _config.ride) {
-        data.pause();
-        data.cycle();
-      }
-    }
-
     static jQueryInterface(config) {
       return this.each(function () {
-        Carousel.carouselInterface(this, config);
+        const data = Carousel.getOrCreateInstance(this, config);
+
+        if (typeof config === 'number') {
+          data.to(config);
+          return;
+        }
+
+        if (typeof config === 'string') {
+          if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
+            throw new TypeError(`No method named "${config}"`);
+          }
+
+          data[config]();
+        }
       });
-    }
-
-    static dataApiClickHandler(event) {
-      const target = getElementFromSelector(this);
-
-      if (!target || !target.classList.contains(CLASS_NAME_CAROUSEL)) {
-        return;
-      }
-
-      const config = { ...Manipulator.getDataAttributes(target),
-        ...Manipulator.getDataAttributes(this)
-      };
-      const slideIndex = this.getAttribute('data-bs-slide-to');
-
-      if (slideIndex) {
-        config.interval = false;
-      }
-
-      Carousel.carouselInterface(target, config);
-
-      if (slideIndex) {
-        Carousel.getInstance(target).to(slideIndex);
-      }
-
-      event.preventDefault();
     }
 
   }
   /**
-   * ------------------------------------------------------------------------
-   * Data Api implementation
-   * ------------------------------------------------------------------------
+   * Data API implementation
    */
 
 
-  EventHandler.on(document, EVENT_CLICK_DATA_API$5, SELECTOR_DATA_SLIDE, Carousel.dataApiClickHandler);
-  EventHandler.on(window, EVENT_LOAD_DATA_API$2, () => {
+  EventHandler.on(document, EVENT_CLICK_DATA_API$5, SELECTOR_DATA_SLIDE, function (event) {
+    const target = getElementFromSelector(this);
+
+    if (!target || !target.classList.contains(CLASS_NAME_CAROUSEL)) {
+      return;
+    }
+
+    event.preventDefault();
+    const carousel = Carousel.getOrCreateInstance(target);
+    const slideIndex = this.getAttribute('data-bs-slide-to');
+
+    if (slideIndex) {
+      carousel.to(slideIndex);
+
+      carousel._maybeEnableCycle();
+
+      return;
+    }
+
+    if (Manipulator.getDataAttribute(this, 'slide') === 'next') {
+      carousel.next();
+
+      carousel._maybeEnableCycle();
+
+      return;
+    }
+
+    carousel.prev();
+
+    carousel._maybeEnableCycle();
+  });
+  EventHandler.on(window, EVENT_LOAD_DATA_API$3, () => {
     const carousels = SelectorEngine.find(SELECTOR_DATA_RIDE);
 
-    for (let i = 0, len = carousels.length; i < len; i++) {
-      Carousel.carouselInterface(carousels[i], Carousel.getInstance(carousels[i]));
+    for (const carousel of carousels) {
+      Carousel.getOrCreateInstance(carousel);
     }
   });
   /**
-   * ------------------------------------------------------------------------
    * jQuery
-   * ------------------------------------------------------------------------
-   * add .Carousel to jQuery only if jQuery is present
    */
 
   defineJQueryPlugin(Carousel);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): collapse.js
+   * Bootstrap (v5.2.2): collapse.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
-  const NAME$a = 'collapse';
-  const DATA_KEY$9 = 'bs.collapse';
-  const EVENT_KEY$9 = `.${DATA_KEY$9}`;
-  const DATA_API_KEY$5 = '.data-api';
-  const Default$9 = {
-    toggle: true,
-    parent: null
-  };
-  const DefaultType$9 = {
-    toggle: 'boolean',
-    parent: '(null|element)'
-  };
-  const EVENT_SHOW$5 = `show${EVENT_KEY$9}`;
-  const EVENT_SHOWN$5 = `shown${EVENT_KEY$9}`;
-  const EVENT_HIDE$5 = `hide${EVENT_KEY$9}`;
-  const EVENT_HIDDEN$5 = `hidden${EVENT_KEY$9}`;
-  const EVENT_CLICK_DATA_API$4 = `click${EVENT_KEY$9}${DATA_API_KEY$5}`;
+  const NAME$b = 'collapse';
+  const DATA_KEY$7 = 'bs.collapse';
+  const EVENT_KEY$7 = `.${DATA_KEY$7}`;
+  const DATA_API_KEY$4 = '.data-api';
+  const EVENT_SHOW$6 = `show${EVENT_KEY$7}`;
+  const EVENT_SHOWN$6 = `shown${EVENT_KEY$7}`;
+  const EVENT_HIDE$6 = `hide${EVENT_KEY$7}`;
+  const EVENT_HIDDEN$6 = `hidden${EVENT_KEY$7}`;
+  const EVENT_CLICK_DATA_API$4 = `click${EVENT_KEY$7}${DATA_API_KEY$4}`;
   const CLASS_NAME_SHOW$7 = 'show';
   const CLASS_NAME_COLLAPSE = 'collapse';
   const CLASS_NAME_COLLAPSING = 'collapsing';
@@ -22968,28 +21410,30 @@
   const HEIGHT = 'height';
   const SELECTOR_ACTIVES = '.collapse.show, .collapse.collapsing';
   const SELECTOR_DATA_TOGGLE$4 = '[data-bs-toggle="collapse"]';
+  const Default$a = {
+    parent: null,
+    toggle: true
+  };
+  const DefaultType$a = {
+    parent: '(null|element)',
+    toggle: 'boolean'
+  };
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Collapse extends BaseComponent {
     constructor(element, config) {
-      super(element);
+      super(element, config);
       this._isTransitioning = false;
-      this._config = this._getConfig(config);
       this._triggerArray = [];
       const toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE$4);
 
-      for (let i = 0, len = toggleList.length; i < len; i++) {
-        const elem = toggleList[i];
+      for (const elem of toggleList) {
         const selector = getSelectorFromElement(elem);
-        const filterElement = SelectorEngine.find(selector).filter(foundElem => foundElem === this._element);
+        const filterElement = SelectorEngine.find(selector).filter(foundElement => foundElement === this._element);
 
         if (selector !== null && filterElement.length) {
-          this._selector = selector;
-
           this._triggerArray.push(elem);
         }
       }
@@ -23007,11 +21451,15 @@
 
 
     static get Default() {
-      return Default$9;
+      return Default$a;
+    }
+
+    static get DefaultType() {
+      return DefaultType$a;
     }
 
     static get NAME() {
-      return NAME$a;
+      return NAME$b;
     } // Public
 
 
@@ -23028,42 +21476,27 @@
         return;
       }
 
-      let actives = [];
-      let activesData;
+      let activeChildren = []; // find active children
 
       if (this._config.parent) {
-        const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
-        actives = SelectorEngine.find(SELECTOR_ACTIVES, this._config.parent).filter(elem => !children.includes(elem)); // remove children if greater depth
+        activeChildren = this._getFirstLevelChildren(SELECTOR_ACTIVES).filter(element => element !== this._element).map(element => Collapse.getOrCreateInstance(element, {
+          toggle: false
+        }));
       }
 
-      const container = SelectorEngine.findOne(this._selector);
-
-      if (actives.length) {
-        const tempActiveData = actives.find(elem => container !== elem);
-        activesData = tempActiveData ? Collapse.getInstance(tempActiveData) : null;
-
-        if (activesData && activesData._isTransitioning) {
-          return;
-        }
+      if (activeChildren.length && activeChildren[0]._isTransitioning) {
+        return;
       }
 
-      const startEvent = EventHandler.trigger(this._element, EVENT_SHOW$5);
+      const startEvent = EventHandler.trigger(this._element, EVENT_SHOW$6);
 
       if (startEvent.defaultPrevented) {
         return;
       }
 
-      actives.forEach(elemActive => {
-        if (container !== elemActive) {
-          Collapse.getOrCreateInstance(elemActive, {
-            toggle: false
-          }).hide();
-        }
-
-        if (!activesData) {
-          Data.set(elemActive, DATA_KEY$9, null);
-        }
-      });
+      for (const activeInstance of activeChildren) {
+        activeInstance.hide();
+      }
 
       const dimension = this._getDimension();
 
@@ -23085,7 +21518,7 @@
         this._element.classList.add(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW$7);
 
         this._element.style[dimension] = '';
-        EventHandler.trigger(this._element, EVENT_SHOWN$5);
+        EventHandler.trigger(this._element, EVENT_SHOWN$6);
       };
 
       const capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
@@ -23101,7 +21534,7 @@
         return;
       }
 
-      const startEvent = EventHandler.trigger(this._element, EVENT_HIDE$5);
+      const startEvent = EventHandler.trigger(this._element, EVENT_HIDE$6);
 
       if (startEvent.defaultPrevented) {
         return;
@@ -23116,13 +21549,10 @@
 
       this._element.classList.remove(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW$7);
 
-      const triggerArrayLength = this._triggerArray.length;
+      for (const trigger of this._triggerArray) {
+        const element = getElementFromSelector(trigger);
 
-      for (let i = 0; i < triggerArrayLength; i++) {
-        const trigger = this._triggerArray[i];
-        const elem = getElementFromSelector(trigger);
-
-        if (elem && !this._isShown(elem)) {
+        if (element && !this._isShown(element)) {
           this._addAriaAndCollapsedClass([trigger], false);
         }
       }
@@ -23136,7 +21566,7 @@
 
         this._element.classList.add(CLASS_NAME_COLLAPSE);
 
-        EventHandler.trigger(this._element, EVENT_HIDDEN$5);
+        EventHandler.trigger(this._element, EVENT_HIDDEN$6);
       };
 
       this._element.style[dimension] = '';
@@ -23149,15 +21579,10 @@
     } // Private
 
 
-    _getConfig(config) {
-      config = { ...Default$9,
-        ...Manipulator.getDataAttributes(this._element),
-        ...config
-      };
+    _configAfterMerge(config) {
       config.toggle = Boolean(config.toggle); // Coerce string values
 
       config.parent = getElement(config.parent);
-      typeCheckConfig(NAME$a, config, DefaultType$9);
       return config;
     }
 
@@ -23170,14 +21595,21 @@
         return;
       }
 
-      const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
-      SelectorEngine.find(SELECTOR_DATA_TOGGLE$4, this._config.parent).filter(elem => !children.includes(elem)).forEach(element => {
+      const children = this._getFirstLevelChildren(SELECTOR_DATA_TOGGLE$4);
+
+      for (const element of children) {
         const selected = getElementFromSelector(element);
 
         if (selected) {
           this._addAriaAndCollapsedClass([element], this._isShown(selected));
         }
-      });
+      }
+    }
+
+    _getFirstLevelChildren(selector) {
+      const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent); // remove children if greater depth
+
+      return SelectorEngine.find(selector, this._config.parent).filter(element => !children.includes(element));
     }
 
     _addAriaAndCollapsedClass(triggerArray, isOpen) {
@@ -23185,26 +21617,21 @@
         return;
       }
 
-      triggerArray.forEach(elem => {
-        if (isOpen) {
-          elem.classList.remove(CLASS_NAME_COLLAPSED);
-        } else {
-          elem.classList.add(CLASS_NAME_COLLAPSED);
-        }
-
-        elem.setAttribute('aria-expanded', isOpen);
-      });
+      for (const element of triggerArray) {
+        element.classList.toggle(CLASS_NAME_COLLAPSED, !isOpen);
+        element.setAttribute('aria-expanded', isOpen);
+      }
     } // Static
 
 
     static jQueryInterface(config) {
+      const _config = {};
+
+      if (typeof config === 'string' && /show|hide/.test(config)) {
+        _config.toggle = false;
+      }
+
       return this.each(function () {
-        const _config = {};
-
-        if (typeof config === 'string' && /show|hide/.test(config)) {
-          _config.toggle = false;
-        }
-
         const data = Collapse.getOrCreateInstance(this, _config);
 
         if (typeof config === 'string') {
@@ -23219,9 +21646,7 @@
 
   }
   /**
-   * ------------------------------------------------------------------------
-   * Data Api implementation
-   * ------------------------------------------------------------------------
+   * Data API implementation
    */
 
 
@@ -23233,59 +21658,56 @@
 
     const selector = getSelectorFromElement(this);
     const selectorElements = SelectorEngine.find(selector);
-    selectorElements.forEach(element => {
+
+    for (const element of selectorElements) {
       Collapse.getOrCreateInstance(element, {
         toggle: false
       }).toggle();
-    });
+    }
   });
   /**
-   * ------------------------------------------------------------------------
    * jQuery
-   * ------------------------------------------------------------------------
-   * add .Collapse to jQuery only if jQuery is present
    */
 
   defineJQueryPlugin(Collapse);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): dropdown.js
+   * Bootstrap (v5.2.2): dropdown.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
-  const NAME$9 = 'dropdown';
-  const DATA_KEY$8 = 'bs.dropdown';
-  const EVENT_KEY$8 = `.${DATA_KEY$8}`;
-  const DATA_API_KEY$4 = '.data-api';
+  const NAME$a = 'dropdown';
+  const DATA_KEY$6 = 'bs.dropdown';
+  const EVENT_KEY$6 = `.${DATA_KEY$6}`;
+  const DATA_API_KEY$3 = '.data-api';
   const ESCAPE_KEY$2 = 'Escape';
-  const SPACE_KEY = 'Space';
   const TAB_KEY$1 = 'Tab';
-  const ARROW_UP_KEY = 'ArrowUp';
-  const ARROW_DOWN_KEY = 'ArrowDown';
+  const ARROW_UP_KEY$1 = 'ArrowUp';
+  const ARROW_DOWN_KEY$1 = 'ArrowDown';
   const RIGHT_MOUSE_BUTTON = 2; // MouseEvent.button value for the secondary button, usually the right button
 
-  const REGEXP_KEYDOWN = new RegExp(`${ARROW_UP_KEY}|${ARROW_DOWN_KEY}|${ESCAPE_KEY$2}`);
-  const EVENT_HIDE$4 = `hide${EVENT_KEY$8}`;
-  const EVENT_HIDDEN$4 = `hidden${EVENT_KEY$8}`;
-  const EVENT_SHOW$4 = `show${EVENT_KEY$8}`;
-  const EVENT_SHOWN$4 = `shown${EVENT_KEY$8}`;
-  const EVENT_CLICK_DATA_API$3 = `click${EVENT_KEY$8}${DATA_API_KEY$4}`;
-  const EVENT_KEYDOWN_DATA_API = `keydown${EVENT_KEY$8}${DATA_API_KEY$4}`;
-  const EVENT_KEYUP_DATA_API = `keyup${EVENT_KEY$8}${DATA_API_KEY$4}`;
+  const EVENT_HIDE$5 = `hide${EVENT_KEY$6}`;
+  const EVENT_HIDDEN$5 = `hidden${EVENT_KEY$6}`;
+  const EVENT_SHOW$5 = `show${EVENT_KEY$6}`;
+  const EVENT_SHOWN$5 = `shown${EVENT_KEY$6}`;
+  const EVENT_CLICK_DATA_API$3 = `click${EVENT_KEY$6}${DATA_API_KEY$3}`;
+  const EVENT_KEYDOWN_DATA_API = `keydown${EVENT_KEY$6}${DATA_API_KEY$3}`;
+  const EVENT_KEYUP_DATA_API = `keyup${EVENT_KEY$6}${DATA_API_KEY$3}`;
   const CLASS_NAME_SHOW$6 = 'show';
   const CLASS_NAME_DROPUP = 'dropup';
   const CLASS_NAME_DROPEND = 'dropend';
   const CLASS_NAME_DROPSTART = 'dropstart';
-  const CLASS_NAME_NAVBAR = 'navbar';
-  const SELECTOR_DATA_TOGGLE$3 = '[data-bs-toggle="dropdown"]';
+  const CLASS_NAME_DROPUP_CENTER = 'dropup-center';
+  const CLASS_NAME_DROPDOWN_CENTER = 'dropdown-center';
+  const SELECTOR_DATA_TOGGLE$3 = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)';
+  const SELECTOR_DATA_TOGGLE_SHOWN = `${SELECTOR_DATA_TOGGLE$3}.${CLASS_NAME_SHOW$6}`;
   const SELECTOR_MENU = '.dropdown-menu';
+  const SELECTOR_NAVBAR = '.navbar';
   const SELECTOR_NAVBAR_NAV = '.navbar-nav';
   const SELECTOR_VISIBLE_ITEMS = '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)';
   const PLACEMENT_TOP = isRTL() ? 'top-end' : 'top-start';
@@ -23294,48 +21716,50 @@
   const PLACEMENT_BOTTOMEND = isRTL() ? 'bottom-start' : 'bottom-end';
   const PLACEMENT_RIGHT = isRTL() ? 'left-start' : 'right-start';
   const PLACEMENT_LEFT = isRTL() ? 'right-start' : 'left-start';
-  const Default$8 = {
-    offset: [0, 2],
+  const PLACEMENT_TOPCENTER = 'top';
+  const PLACEMENT_BOTTOMCENTER = 'bottom';
+  const Default$9 = {
+    autoClose: true,
     boundary: 'clippingParents',
-    reference: 'toggle',
     display: 'dynamic',
+    offset: [0, 2],
     popperConfig: null,
-    autoClose: true
+    reference: 'toggle'
   };
-  const DefaultType$8 = {
-    offset: '(array|string|function)',
+  const DefaultType$9 = {
+    autoClose: '(boolean|string)',
     boundary: '(string|element)',
-    reference: '(string|element|object)',
     display: 'string',
+    offset: '(array|string|function)',
     popperConfig: '(null|object|function)',
-    autoClose: '(boolean|string)'
+    reference: '(string|element|object)'
   };
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Dropdown extends BaseComponent {
     constructor(element, config) {
-      super(element);
+      super(element, config);
       this._popper = null;
-      this._config = this._getConfig(config);
-      this._menu = this._getMenuElement();
+      this._parent = this._element.parentNode; // dropdown wrapper
+      // todo: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.2/forms/input-group/
+
+      this._menu = SelectorEngine.next(this._element, SELECTOR_MENU)[0] || SelectorEngine.prev(this._element, SELECTOR_MENU)[0] || SelectorEngine.findOne(SELECTOR_MENU, this._parent);
       this._inNavbar = this._detectNavbar();
     } // Getters
 
 
     static get Default() {
-      return Default$8;
+      return Default$9;
     }
 
     static get DefaultType() {
-      return DefaultType$8;
+      return DefaultType$9;
     }
 
     static get NAME() {
-      return NAME$9;
+      return NAME$a;
     } // Public
 
 
@@ -23344,33 +21768,29 @@
     }
 
     show() {
-      if (isDisabled(this._element) || this._isShown(this._menu)) {
+      if (isDisabled(this._element) || this._isShown()) {
         return;
       }
 
       const relatedTarget = {
         relatedTarget: this._element
       };
-      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$4, relatedTarget);
+      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$5, relatedTarget);
 
       if (showEvent.defaultPrevented) {
         return;
       }
 
-      const parent = Dropdown.getParentFromElement(this._element); // Totally disable Popper for Dropdowns in Navbar
-
-      if (this._inNavbar) {
-        Manipulator.setDataAttribute(this._menu, 'popper', 'none');
-      } else {
-        this._createPopper(parent);
-      } // If this is a touch-enabled device we add extra
+      this._createPopper(); // If this is a touch-enabled device we add extra
       // empty mouseover listeners to the body's immediate children;
       // only needed because of broken event delegation on iOS
       // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
 
 
-      if ('ontouchstart' in document.documentElement && !parent.closest(SELECTOR_NAVBAR_NAV)) {
-        [].concat(...document.body.children).forEach(elem => EventHandler.on(elem, 'mouseover', noop));
+      if ('ontouchstart' in document.documentElement && !this._parent.closest(SELECTOR_NAVBAR_NAV)) {
+        for (const element of [].concat(...document.body.children)) {
+          EventHandler.on(element, 'mouseover', noop);
+        }
       }
 
       this._element.focus();
@@ -23381,11 +21801,11 @@
 
       this._element.classList.add(CLASS_NAME_SHOW$6);
 
-      EventHandler.trigger(this._element, EVENT_SHOWN$4, relatedTarget);
+      EventHandler.trigger(this._element, EVENT_SHOWN$5, relatedTarget);
     }
 
     hide() {
-      if (isDisabled(this._element) || !this._isShown(this._menu)) {
+      if (isDisabled(this._element) || !this._isShown()) {
         return;
       }
 
@@ -23414,7 +21834,7 @@
 
 
     _completeHide(relatedTarget) {
-      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$4, relatedTarget);
+      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$5, relatedTarget);
 
       if (hideEvent.defaultPrevented) {
         return;
@@ -23423,7 +21843,9 @@
 
 
       if ('ontouchstart' in document.documentElement) {
-        [].concat(...document.body.children).forEach(elem => EventHandler.off(elem, 'mouseover', noop));
+        for (const element of [].concat(...document.body.children)) {
+          EventHandler.off(element, 'mouseover', noop);
+        }
       }
 
       if (this._popper) {
@@ -23437,25 +21859,21 @@
       this._element.setAttribute('aria-expanded', 'false');
 
       Manipulator.removeDataAttribute(this._menu, 'popper');
-      EventHandler.trigger(this._element, EVENT_HIDDEN$4, relatedTarget);
+      EventHandler.trigger(this._element, EVENT_HIDDEN$5, relatedTarget);
     }
 
     _getConfig(config) {
-      config = { ...this.constructor.Default,
-        ...Manipulator.getDataAttributes(this._element),
-        ...config
-      };
-      typeCheckConfig(NAME$9, config, this.constructor.DefaultType);
+      config = super._getConfig(config);
 
       if (typeof config.reference === 'object' && !isElement(config.reference) && typeof config.reference.getBoundingClientRect !== 'function') {
         // Popper virtual elements require a getBoundingClientRect method
-        throw new TypeError(`${NAME$9.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`);
+        throw new TypeError(`${NAME$a.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`);
       }
 
       return config;
     }
 
-    _createPopper(parent) {
+    _createPopper() {
       if (typeof Popper === 'undefined') {
         throw new TypeError('Bootstrap\'s dropdowns require Popper (https://popper.js.org)');
       }
@@ -23463,7 +21881,7 @@
       let referenceElement = this._element;
 
       if (this._config.reference === 'parent') {
-        referenceElement = parent;
+        referenceElement = this._parent;
       } else if (isElement(this._config.reference)) {
         referenceElement = getElement(this._config.reference);
       } else if (typeof this._config.reference === 'object') {
@@ -23472,24 +21890,15 @@
 
       const popperConfig = this._getPopperConfig();
 
-      const isDisplayStatic = popperConfig.modifiers.find(modifier => modifier.name === 'applyStyles' && modifier.enabled === false);
       this._popper = createPopper(referenceElement, this._menu, popperConfig);
-
-      if (isDisplayStatic) {
-        Manipulator.setDataAttribute(this._menu, 'popper', 'static');
-      }
     }
 
-    _isShown(element = this._element) {
-      return element.classList.contains(CLASS_NAME_SHOW$6);
-    }
-
-    _getMenuElement() {
-      return SelectorEngine.next(this._element, SELECTOR_MENU)[0];
+    _isShown() {
+      return this._menu.classList.contains(CLASS_NAME_SHOW$6);
     }
 
     _getPlacement() {
-      const parentDropdown = this._element.parentNode;
+      const parentDropdown = this._parent;
 
       if (parentDropdown.classList.contains(CLASS_NAME_DROPEND)) {
         return PLACEMENT_RIGHT;
@@ -23497,6 +21906,14 @@
 
       if (parentDropdown.classList.contains(CLASS_NAME_DROPSTART)) {
         return PLACEMENT_LEFT;
+      }
+
+      if (parentDropdown.classList.contains(CLASS_NAME_DROPUP_CENTER)) {
+        return PLACEMENT_TOPCENTER;
+      }
+
+      if (parentDropdown.classList.contains(CLASS_NAME_DROPDOWN_CENTER)) {
+        return PLACEMENT_BOTTOMCENTER;
       } // We need to trim the value because custom properties can also include spaces
 
 
@@ -23510,7 +21927,7 @@
     }
 
     _detectNavbar() {
-      return this._element.closest(`.${CLASS_NAME_NAVBAR}`) !== null;
+      return this._element.closest(SELECTOR_NAVBAR) !== null;
     }
 
     _getOffset() {
@@ -23519,7 +21936,7 @@
       } = this._config;
 
       if (typeof offset === 'string') {
-        return offset.split(',').map(val => Number.parseInt(val, 10));
+        return offset.split(',').map(value => Number.parseInt(value, 10));
       }
 
       if (typeof offset === 'function') {
@@ -23543,9 +21960,11 @@
             offset: this._getOffset()
           }
         }]
-      }; // Disable Popper if we have a static display
+      }; // Disable Popper if we have a static display or Dropdown is in Navbar
 
-      if (this._config.display === 'static') {
+      if (this._inNavbar || this._config.display === 'static') {
+        Manipulator.setDataAttribute(this._menu, 'popper', 'static'); // todo:v6 remove
+
         defaultBsPopperConfig.modifiers = [{
           name: 'applyStyles',
           enabled: false
@@ -23561,7 +21980,7 @@
       key,
       target
     }) {
-      const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(isVisible);
+      const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(element => isVisible(element));
 
       if (!items.length) {
         return;
@@ -23569,7 +21988,7 @@
       // allow cycling to get the last item in case key equals ARROW_UP_KEY
 
 
-      getNextActiveElement(items, target, key === ARROW_DOWN_KEY, !items.includes(target)).focus();
+      getNextActiveElement(items, target, key === ARROW_DOWN_KEY$1, !items.includes(target)).focus();
     } // Static
 
 
@@ -23590,20 +22009,28 @@
     }
 
     static clearMenus(event) {
-      if (event && (event.button === RIGHT_MOUSE_BUTTON || event.type === 'keyup' && event.key !== TAB_KEY$1)) {
+      if (event.button === RIGHT_MOUSE_BUTTON || event.type === 'keyup' && event.key !== TAB_KEY$1) {
         return;
       }
 
-      const toggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE$3);
+      const openToggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE_SHOWN);
 
-      for (let i = 0, len = toggles.length; i < len; i++) {
-        const context = Dropdown.getInstance(toggles[i]);
+      for (const toggle of openToggles) {
+        const context = Dropdown.getInstance(toggle);
 
         if (!context || context._config.autoClose === false) {
           continue;
         }
 
-        if (!context._isShown()) {
+        const composedPath = event.composedPath();
+        const isMenuTarget = composedPath.includes(context._menu);
+
+        if (composedPath.includes(context._element) || context._config.autoClose === 'inside' && !isMenuTarget || context._config.autoClose === 'outside' && isMenuTarget) {
+          continue;
+        } // Tab navigation through the dropdown menu or events from contained inputs shouldn't close the menu
+
+
+        if (context._menu.contains(event.target) && (event.type === 'keyup' && event.key === TAB_KEY$1 || /input|select|option|textarea|form/i.test(event.target.tagName))) {
           continue;
         }
 
@@ -23611,85 +22038,54 @@
           relatedTarget: context._element
         };
 
-        if (event) {
-          const composedPath = event.composedPath();
-          const isMenuTarget = composedPath.includes(context._menu);
-
-          if (composedPath.includes(context._element) || context._config.autoClose === 'inside' && !isMenuTarget || context._config.autoClose === 'outside' && isMenuTarget) {
-            continue;
-          } // Tab navigation through the dropdown menu or events from contained inputs shouldn't close the menu
-
-
-          if (context._menu.contains(event.target) && (event.type === 'keyup' && event.key === TAB_KEY$1 || /input|select|option|textarea|form/i.test(event.target.tagName))) {
-            continue;
-          }
-
-          if (event.type === 'click') {
-            relatedTarget.clickEvent = event;
-          }
+        if (event.type === 'click') {
+          relatedTarget.clickEvent = event;
         }
 
         context._completeHide(relatedTarget);
       }
     }
 
-    static getParentFromElement(element) {
-      return getElementFromSelector(element) || element.parentNode;
-    }
-
     static dataApiKeydownHandler(event) {
-      // If not input/textarea:
-      //  - And not a key in REGEXP_KEYDOWN => not a dropdown command
-      // If input/textarea:
-      //  - If space key => not a dropdown command
-      //  - If key is other than escape
-      //    - If key is not up or down => not a dropdown command
-      //    - If trigger inside the menu => not a dropdown command
-      if (/input|textarea/i.test(event.target.tagName) ? event.key === SPACE_KEY || event.key !== ESCAPE_KEY$2 && (event.key !== ARROW_DOWN_KEY && event.key !== ARROW_UP_KEY || event.target.closest(SELECTOR_MENU)) : !REGEXP_KEYDOWN.test(event.key)) {
+      // If not an UP | DOWN | ESCAPE key => not a dropdown command
+      // If input/textarea && if key is other than ESCAPE => not a dropdown command
+      const isInput = /input|textarea/i.test(event.target.tagName);
+      const isEscapeEvent = event.key === ESCAPE_KEY$2;
+      const isUpOrDownEvent = [ARROW_UP_KEY$1, ARROW_DOWN_KEY$1].includes(event.key);
+
+      if (!isUpOrDownEvent && !isEscapeEvent) {
         return;
       }
 
-      const isActive = this.classList.contains(CLASS_NAME_SHOW$6);
-
-      if (!isActive && event.key === ESCAPE_KEY$2) {
+      if (isInput && !isEscapeEvent) {
         return;
       }
 
-      event.preventDefault();
-      event.stopPropagation();
+      event.preventDefault(); // todo: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.2/forms/input-group/
 
-      if (isDisabled(this)) {
-        return;
-      }
-
-      const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE$3) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$3)[0];
+      const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE$3) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$3)[0] || SelectorEngine.next(this, SELECTOR_DATA_TOGGLE$3)[0] || SelectorEngine.findOne(SELECTOR_DATA_TOGGLE$3, event.delegateTarget.parentNode);
       const instance = Dropdown.getOrCreateInstance(getToggleButton);
 
-      if (event.key === ESCAPE_KEY$2) {
-        instance.hide();
-        return;
-      }
-
-      if (event.key === ARROW_UP_KEY || event.key === ARROW_DOWN_KEY) {
-        if (!isActive) {
-          instance.show();
-        }
+      if (isUpOrDownEvent) {
+        event.stopPropagation();
+        instance.show();
 
         instance._selectMenuItem(event);
 
         return;
       }
 
-      if (!isActive || event.key === SPACE_KEY) {
-        Dropdown.clearMenus();
+      if (instance._isShown()) {
+        // else is escape and we check if it is shown
+        event.stopPropagation();
+        instance.hide();
+        getToggleButton.focus();
       }
     }
 
   }
   /**
-   * ------------------------------------------------------------------------
-   * Data Api implementation
-   * ------------------------------------------------------------------------
+   * Data API implementation
    */
 
 
@@ -23702,27 +22098,34 @@
     Dropdown.getOrCreateInstance(this).toggle();
   });
   /**
-   * ------------------------------------------------------------------------
    * jQuery
-   * ------------------------------------------------------------------------
-   * add .Dropdown to jQuery only if jQuery is present
    */
 
   defineJQueryPlugin(Dropdown);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/scrollBar.js
+   * Bootstrap (v5.2.2): util/scrollBar.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+  /**
+   * Constants
+   */
+
   const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
   const SELECTOR_STICKY_CONTENT = '.sticky-top';
+  const PROPERTY_PADDING = 'padding-right';
+  const PROPERTY_MARGIN = 'margin-right';
+  /**
+   * Class definition
+   */
 
   class ScrollBarHelper {
     constructor() {
       this._element = document.body;
-    }
+    } // Public
+
 
     getWidth() {
       // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
@@ -23736,13 +22139,28 @@
       this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
 
 
-      this._setElementAttributes(this._element, 'paddingRight', calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
+      this._setElementAttributes(this._element, PROPERTY_PADDING, calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
 
 
-      this._setElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight', calculatedValue => calculatedValue + width);
+      this._setElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING, calculatedValue => calculatedValue + width);
 
-      this._setElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight', calculatedValue => calculatedValue - width);
+      this._setElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN, calculatedValue => calculatedValue - width);
     }
+
+    reset() {
+      this._resetElementAttributes(this._element, 'overflow');
+
+      this._resetElementAttributes(this._element, PROPERTY_PADDING);
+
+      this._resetElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING);
+
+      this._resetElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN);
+    }
+
+    isOverflowing() {
+      return this.getWidth() > 0;
+    } // Private
+
 
     _disableOverFlow() {
       this._saveInitialAttribute(this._element, 'overflow');
@@ -23750,7 +22168,7 @@
       this._element.style.overflow = 'hidden';
     }
 
-    _setElementAttributes(selector, styleProp, callback) {
+    _setElementAttributes(selector, styleProperty, callback) {
       const scrollbarWidth = this.getWidth();
 
       const manipulationCallBack = element => {
@@ -23758,43 +22176,34 @@
           return;
         }
 
-        this._saveInitialAttribute(element, styleProp);
+        this._saveInitialAttribute(element, styleProperty);
 
-        const calculatedValue = window.getComputedStyle(element)[styleProp];
-        element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
+        const calculatedValue = window.getComputedStyle(element).getPropertyValue(styleProperty);
+        element.style.setProperty(styleProperty, `${callback(Number.parseFloat(calculatedValue))}px`);
       };
 
       this._applyManipulationCallback(selector, manipulationCallBack);
     }
 
-    reset() {
-      this._resetElementAttributes(this._element, 'overflow');
-
-      this._resetElementAttributes(this._element, 'paddingRight');
-
-      this._resetElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight');
-
-      this._resetElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight');
-    }
-
-    _saveInitialAttribute(element, styleProp) {
-      const actualValue = element.style[styleProp];
+    _saveInitialAttribute(element, styleProperty) {
+      const actualValue = element.style.getPropertyValue(styleProperty);
 
       if (actualValue) {
-        Manipulator.setDataAttribute(element, styleProp, actualValue);
+        Manipulator.setDataAttribute(element, styleProperty, actualValue);
       }
     }
 
-    _resetElementAttributes(selector, styleProp) {
+    _resetElementAttributes(selector, styleProperty) {
       const manipulationCallBack = element => {
-        const value = Manipulator.getDataAttribute(element, styleProp);
+        const value = Manipulator.getDataAttribute(element, styleProperty); // We only want to remove the property if the value is `null`; the value can also be zero
 
-        if (typeof value === 'undefined') {
-          element.style.removeProperty(styleProp);
-        } else {
-          Manipulator.removeDataAttribute(element, styleProp);
-          element.style[styleProp] = value;
+        if (value === null) {
+          element.style.removeProperty(styleProperty);
+          return;
         }
+
+        Manipulator.removeDataAttribute(element, styleProperty);
+        element.style.setProperty(styleProperty, value);
       };
 
       this._applyManipulationCallback(selector, manipulationCallBack);
@@ -23803,50 +22212,71 @@
     _applyManipulationCallback(selector, callBack) {
       if (isElement(selector)) {
         callBack(selector);
-      } else {
-        SelectorEngine.find(selector, this._element).forEach(callBack);
+        return;
       }
-    }
 
-    isOverflowing() {
-      return this.getWidth() > 0;
+      for (const sel of SelectorEngine.find(selector, this._element)) {
+        callBack(sel);
+      }
     }
 
   }
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/backdrop.js
+   * Bootstrap (v5.2.2): util/backdrop.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-  const Default$7 = {
-    className: 'modal-backdrop',
-    isVisible: true,
-    // if false, we use the backdrop helper without adding any element to the dom
-    isAnimated: false,
-    rootElement: 'body',
-    // give the choice to place backdrop under different elements
-    clickCallback: null
-  };
-  const DefaultType$7 = {
-    className: 'string',
-    isVisible: 'boolean',
-    isAnimated: 'boolean',
-    rootElement: '(element|string)',
-    clickCallback: '(function|null)'
-  };
-  const NAME$8 = 'backdrop';
+  /**
+   * Constants
+   */
+
+  const NAME$9 = 'backdrop';
   const CLASS_NAME_FADE$4 = 'fade';
   const CLASS_NAME_SHOW$5 = 'show';
-  const EVENT_MOUSEDOWN = `mousedown.bs.${NAME$8}`;
+  const EVENT_MOUSEDOWN = `mousedown.bs.${NAME$9}`;
+  const Default$8 = {
+    className: 'modal-backdrop',
+    clickCallback: null,
+    isAnimated: false,
+    isVisible: true,
+    // if false, we use the backdrop helper without adding any element to the dom
+    rootElement: 'body' // give the choice to place backdrop under different elements
 
-  class Backdrop {
+  };
+  const DefaultType$8 = {
+    className: 'string',
+    clickCallback: '(function|null)',
+    isAnimated: 'boolean',
+    isVisible: 'boolean',
+    rootElement: '(element|string)'
+  };
+  /**
+   * Class definition
+   */
+
+  class Backdrop extends Config {
     constructor(config) {
+      super();
       this._config = this._getConfig(config);
       this._isAppended = false;
       this._element = null;
+    } // Getters
+
+
+    static get Default() {
+      return Default$8;
     }
+
+    static get DefaultType() {
+      return DefaultType$8;
+    }
+
+    static get NAME() {
+      return NAME$9;
+    } // Public
+
 
     show(callback) {
       if (!this._config.isVisible) {
@@ -23856,11 +22286,13 @@
 
       this._append();
 
+      const element = this._getElement();
+
       if (this._config.isAnimated) {
-        reflow(this._getElement());
+        reflow(element);
       }
 
-      this._getElement().classList.add(CLASS_NAME_SHOW$5);
+      element.classList.add(CLASS_NAME_SHOW$5);
 
       this._emulateAnimation(() => {
         execute(callback);
@@ -23879,6 +22311,18 @@
         this.dispose();
         execute(callback);
       });
+    }
+
+    dispose() {
+      if (!this._isAppended) {
+        return;
+      }
+
+      EventHandler.off(this._element, EVENT_MOUSEDOWN);
+
+      this._element.remove();
+
+      this._isAppended = false;
     } // Private
 
 
@@ -23897,13 +22341,9 @@
       return this._element;
     }
 
-    _getConfig(config) {
-      config = { ...Default$7,
-        ...(typeof config === 'object' ? config : {})
-      }; // use getElement() with the default "body" to get a fresh Element on each instantiation
-
+    _configAfterMerge(config) {
+      // use getElement() with the default "body" to get a fresh Element on each instantiation
       config.rootElement = getElement(config.rootElement);
-      typeCheckConfig(NAME$8, config, DefaultType$7);
       return config;
     }
 
@@ -23912,24 +22352,14 @@
         return;
       }
 
-      this._config.rootElement.append(this._getElement());
+      const element = this._getElement();
 
-      EventHandler.on(this._getElement(), EVENT_MOUSEDOWN, () => {
+      this._config.rootElement.append(element);
+
+      EventHandler.on(element, EVENT_MOUSEDOWN, () => {
         execute(this._config.clickCallback);
       });
       this._isAppended = true;
-    }
-
-    dispose() {
-      if (!this._isAppended) {
-        return;
-      }
-
-      EventHandler.off(this._element, EVENT_MOUSEDOWN);
-
-      this._element.remove();
-
-      this._isAppended = false;
     }
 
     _emulateAnimation(callback) {
@@ -23940,52 +22370,69 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/focustrap.js
+   * Bootstrap (v5.2.2): util/focustrap.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-  const Default$6 = {
-    trapElement: null,
-    // The element to trap focus inside of
-    autofocus: true
-  };
-  const DefaultType$6 = {
-    trapElement: 'element',
-    autofocus: 'boolean'
-  };
-  const NAME$7 = 'focustrap';
-  const DATA_KEY$7 = 'bs.focustrap';
-  const EVENT_KEY$7 = `.${DATA_KEY$7}`;
-  const EVENT_FOCUSIN$1 = `focusin${EVENT_KEY$7}`;
-  const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$7}`;
+  /**
+   * Constants
+   */
+
+  const NAME$8 = 'focustrap';
+  const DATA_KEY$5 = 'bs.focustrap';
+  const EVENT_KEY$5 = `.${DATA_KEY$5}`;
+  const EVENT_FOCUSIN$2 = `focusin${EVENT_KEY$5}`;
+  const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$5}`;
   const TAB_KEY = 'Tab';
   const TAB_NAV_FORWARD = 'forward';
   const TAB_NAV_BACKWARD = 'backward';
+  const Default$7 = {
+    autofocus: true,
+    trapElement: null // The element to trap focus inside of
 
-  class FocusTrap {
+  };
+  const DefaultType$7 = {
+    autofocus: 'boolean',
+    trapElement: 'element'
+  };
+  /**
+   * Class definition
+   */
+
+  class FocusTrap extends Config {
     constructor(config) {
+      super();
       this._config = this._getConfig(config);
       this._isActive = false;
       this._lastTabNavDirection = null;
+    } // Getters
+
+
+    static get Default() {
+      return Default$7;
     }
 
-    activate() {
-      const {
-        trapElement,
-        autofocus
-      } = this._config;
+    static get DefaultType() {
+      return DefaultType$7;
+    }
 
+    static get NAME() {
+      return NAME$8;
+    } // Public
+
+
+    activate() {
       if (this._isActive) {
         return;
       }
 
-      if (autofocus) {
-        trapElement.focus();
+      if (this._config.autofocus) {
+        this._config.trapElement.focus();
       }
 
-      EventHandler.off(document, EVENT_KEY$7); // guard against infinite focus loop
+      EventHandler.off(document, EVENT_KEY$5); // guard against infinite focus loop
 
-      EventHandler.on(document, EVENT_FOCUSIN$1, event => this._handleFocusin(event));
+      EventHandler.on(document, EVENT_FOCUSIN$2, event => this._handleFocusin(event));
       EventHandler.on(document, EVENT_KEYDOWN_TAB, event => this._handleKeydown(event));
       this._isActive = true;
     }
@@ -23996,19 +22443,16 @@
       }
 
       this._isActive = false;
-      EventHandler.off(document, EVENT_KEY$7);
+      EventHandler.off(document, EVENT_KEY$5);
     } // Private
 
 
     _handleFocusin(event) {
       const {
-        target
-      } = event;
-      const {
         trapElement
       } = this._config;
 
-      if (target === document || target === trapElement || trapElement.contains(target)) {
+      if (event.target === document || event.target === trapElement || trapElement.contains(event.target)) {
         return;
       }
 
@@ -24031,54 +22475,33 @@
       this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
     }
 
-    _getConfig(config) {
-      config = { ...Default$6,
-        ...(typeof config === 'object' ? config : {})
-      };
-      typeCheckConfig(NAME$7, config, DefaultType$6);
-      return config;
-    }
-
   }
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): modal.js
+   * Bootstrap (v5.2.2): modal.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
-  const NAME$6 = 'modal';
-  const DATA_KEY$6 = 'bs.modal';
-  const EVENT_KEY$6 = `.${DATA_KEY$6}`;
-  const DATA_API_KEY$3 = '.data-api';
+  const NAME$7 = 'modal';
+  const DATA_KEY$4 = 'bs.modal';
+  const EVENT_KEY$4 = `.${DATA_KEY$4}`;
+  const DATA_API_KEY$2 = '.data-api';
   const ESCAPE_KEY$1 = 'Escape';
-  const Default$5 = {
-    backdrop: true,
-    keyboard: true,
-    focus: true
-  };
-  const DefaultType$5 = {
-    backdrop: '(boolean|string)',
-    keyboard: 'boolean',
-    focus: 'boolean'
-  };
-  const EVENT_HIDE$3 = `hide${EVENT_KEY$6}`;
-  const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY$6}`;
-  const EVENT_HIDDEN$3 = `hidden${EVENT_KEY$6}`;
-  const EVENT_SHOW$3 = `show${EVENT_KEY$6}`;
-  const EVENT_SHOWN$3 = `shown${EVENT_KEY$6}`;
-  const EVENT_RESIZE = `resize${EVENT_KEY$6}`;
-  const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY$6}`;
-  const EVENT_KEYDOWN_DISMISS$1 = `keydown.dismiss${EVENT_KEY$6}`;
-  const EVENT_MOUSEUP_DISMISS = `mouseup.dismiss${EVENT_KEY$6}`;
-  const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY$6}`;
-  const EVENT_CLICK_DATA_API$2 = `click${EVENT_KEY$6}${DATA_API_KEY$3}`;
+  const EVENT_HIDE$4 = `hide${EVENT_KEY$4}`;
+  const EVENT_HIDE_PREVENTED$1 = `hidePrevented${EVENT_KEY$4}`;
+  const EVENT_HIDDEN$4 = `hidden${EVENT_KEY$4}`;
+  const EVENT_SHOW$4 = `show${EVENT_KEY$4}`;
+  const EVENT_SHOWN$4 = `shown${EVENT_KEY$4}`;
+  const EVENT_RESIZE$1 = `resize${EVENT_KEY$4}`;
+  const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY$4}`;
+  const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY$4}`;
+  const EVENT_KEYDOWN_DISMISS$1 = `keydown.dismiss${EVENT_KEY$4}`;
+  const EVENT_CLICK_DATA_API$2 = `click${EVENT_KEY$4}${DATA_API_KEY$2}`;
   const CLASS_NAME_OPEN = 'modal-open';
   const CLASS_NAME_FADE$3 = 'fade';
   const CLASS_NAME_SHOW$4 = 'show';
@@ -24087,32 +22510,44 @@
   const SELECTOR_DIALOG = '.modal-dialog';
   const SELECTOR_MODAL_BODY = '.modal-body';
   const SELECTOR_DATA_TOGGLE$2 = '[data-bs-toggle="modal"]';
+  const Default$6 = {
+    backdrop: true,
+    focus: true,
+    keyboard: true
+  };
+  const DefaultType$6 = {
+    backdrop: '(boolean|string)',
+    focus: 'boolean',
+    keyboard: 'boolean'
+  };
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Modal extends BaseComponent {
     constructor(element, config) {
-      super(element);
-      this._config = this._getConfig(config);
+      super(element, config);
       this._dialog = SelectorEngine.findOne(SELECTOR_DIALOG, this._element);
       this._backdrop = this._initializeBackDrop();
       this._focustrap = this._initializeFocusTrap();
       this._isShown = false;
-      this._ignoreBackdropClick = false;
       this._isTransitioning = false;
       this._scrollBar = new ScrollBarHelper();
+
+      this._addEventListeners();
     } // Getters
 
 
     static get Default() {
-      return Default$5;
+      return Default$6;
+    }
+
+    static get DefaultType() {
+      return DefaultType$6;
     }
 
     static get NAME() {
-      return NAME$6;
+      return NAME$7;
     } // Public
 
 
@@ -24125,7 +22560,7 @@
         return;
       }
 
-      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$3, {
+      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$4, {
         relatedTarget
       });
 
@@ -24134,10 +22569,7 @@
       }
 
       this._isShown = true;
-
-      if (this._isAnimated()) {
-        this._isTransitioning = true;
-      }
+      this._isTransitioning = true;
 
       this._scrollBar.hide();
 
@@ -24145,19 +22577,7 @@
 
       this._adjustDialog();
 
-      this._setEscapeEvent();
-
-      this._setResizeEvent();
-
-      EventHandler.on(this._dialog, EVENT_MOUSEDOWN_DISMISS, () => {
-        EventHandler.one(this._element, EVENT_MOUSEUP_DISMISS, event => {
-          if (event.target === this._element) {
-            this._ignoreBackdropClick = true;
-          }
-        });
-      });
-
-      this._showBackdrop(() => this._showElement(relatedTarget));
+      this._backdrop.show(() => this._showElement(relatedTarget));
     }
 
     hide() {
@@ -24165,36 +22585,26 @@
         return;
       }
 
-      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$3);
+      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$4);
 
       if (hideEvent.defaultPrevented) {
         return;
       }
 
       this._isShown = false;
-
-      const isAnimated = this._isAnimated();
-
-      if (isAnimated) {
-        this._isTransitioning = true;
-      }
-
-      this._setEscapeEvent();
-
-      this._setResizeEvent();
+      this._isTransitioning = true;
 
       this._focustrap.deactivate();
 
       this._element.classList.remove(CLASS_NAME_SHOW$4);
 
-      EventHandler.off(this._element, EVENT_CLICK_DISMISS);
-      EventHandler.off(this._dialog, EVENT_MOUSEDOWN_DISMISS);
-
-      this._queueCallback(() => this._hideModal(), this._element, isAnimated);
+      this._queueCallback(() => this._hideModal(), this._element, this._isAnimated());
     }
 
     dispose() {
-      [window, this._dialog].forEach(htmlElement => EventHandler.off(htmlElement, EVENT_KEY$6));
+      for (const htmlElement of [window, this._dialog]) {
+        EventHandler.off(htmlElement, EVENT_KEY$4);
+      }
 
       this._backdrop.dispose();
 
@@ -24211,7 +22621,7 @@
     _initializeBackDrop() {
       return new Backdrop({
         isVisible: Boolean(this._config.backdrop),
-        // 'static' option will be translated to true, and booleans will keep their value
+        // 'static' option will be translated to true, and booleans will keep their value,
         isAnimated: this._isAnimated()
       });
     }
@@ -24222,22 +22632,9 @@
       });
     }
 
-    _getConfig(config) {
-      config = { ...Default$5,
-        ...Manipulator.getDataAttributes(this._element),
-        ...(typeof config === 'object' ? config : {})
-      };
-      typeCheckConfig(NAME$6, config, DefaultType$5);
-      return config;
-    }
-
     _showElement(relatedTarget) {
-      const isAnimated = this._isAnimated();
-
-      const modalBody = SelectorEngine.findOne(SELECTOR_MODAL_BODY, this._dialog);
-
-      if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
-        // Don't move modal's DOM position
+      // try to append dynamic modal
+      if (!document.body.contains(this._element)) {
         document.body.append(this._element);
       }
 
@@ -24250,14 +22647,13 @@
       this._element.setAttribute('role', 'dialog');
 
       this._element.scrollTop = 0;
+      const modalBody = SelectorEngine.findOne(SELECTOR_MODAL_BODY, this._dialog);
 
       if (modalBody) {
         modalBody.scrollTop = 0;
       }
 
-      if (isAnimated) {
-        reflow(this._element);
-      }
+      reflow(this._element);
 
       this._element.classList.add(CLASS_NAME_SHOW$4);
 
@@ -24267,35 +22663,51 @@
         }
 
         this._isTransitioning = false;
-        EventHandler.trigger(this._element, EVENT_SHOWN$3, {
+        EventHandler.trigger(this._element, EVENT_SHOWN$4, {
           relatedTarget
         });
       };
 
-      this._queueCallback(transitionComplete, this._dialog, isAnimated);
+      this._queueCallback(transitionComplete, this._dialog, this._isAnimated());
     }
 
-    _setEscapeEvent() {
-      if (this._isShown) {
-        EventHandler.on(this._element, EVENT_KEYDOWN_DISMISS$1, event => {
-          if (this._config.keyboard && event.key === ESCAPE_KEY$1) {
-            event.preventDefault();
-            this.hide();
-          } else if (!this._config.keyboard && event.key === ESCAPE_KEY$1) {
+    _addEventListeners() {
+      EventHandler.on(this._element, EVENT_KEYDOWN_DISMISS$1, event => {
+        if (event.key !== ESCAPE_KEY$1) {
+          return;
+        }
+
+        if (this._config.keyboard) {
+          event.preventDefault();
+          this.hide();
+          return;
+        }
+
+        this._triggerBackdropTransition();
+      });
+      EventHandler.on(window, EVENT_RESIZE$1, () => {
+        if (this._isShown && !this._isTransitioning) {
+          this._adjustDialog();
+        }
+      });
+      EventHandler.on(this._element, EVENT_MOUSEDOWN_DISMISS, event => {
+        // a bad trick to segregate clicks that may start inside dialog but end outside, and avoid listen to scrollbar clicks
+        EventHandler.one(this._element, EVENT_CLICK_DISMISS, event2 => {
+          if (this._element !== event.target || this._element !== event2.target) {
+            return;
+          }
+
+          if (this._config.backdrop === 'static') {
             this._triggerBackdropTransition();
+
+            return;
+          }
+
+          if (this._config.backdrop) {
+            this.hide();
           }
         });
-      } else {
-        EventHandler.off(this._element, EVENT_KEYDOWN_DISMISS$1);
-      }
-    }
-
-    _setResizeEvent() {
-      if (this._isShown) {
-        EventHandler.on(window, EVENT_RESIZE, () => this._adjustDialog());
-      } else {
-        EventHandler.off(window, EVENT_RESIZE);
-      }
+      });
     }
 
     _hideModal() {
@@ -24316,29 +22728,8 @@
 
         this._scrollBar.reset();
 
-        EventHandler.trigger(this._element, EVENT_HIDDEN$3);
+        EventHandler.trigger(this._element, EVENT_HIDDEN$4);
       });
-    }
-
-    _showBackdrop(callback) {
-      EventHandler.on(this._element, EVENT_CLICK_DISMISS, event => {
-        if (this._ignoreBackdropClick) {
-          this._ignoreBackdropClick = false;
-          return;
-        }
-
-        if (event.target !== event.currentTarget) {
-          return;
-        }
-
-        if (this._config.backdrop === true) {
-          this.hide();
-        } else if (this._config.backdrop === 'static') {
-          this._triggerBackdropTransition();
-        }
-      });
-
-      this._backdrop.show(callback);
     }
 
     _isAnimated() {
@@ -24346,43 +22737,38 @@
     }
 
     _triggerBackdropTransition() {
-      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED);
+      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED$1);
 
       if (hideEvent.defaultPrevented) {
         return;
       }
 
-      const {
-        classList,
-        scrollHeight,
-        style
-      } = this._element;
-      const isModalOverflowing = scrollHeight > document.documentElement.clientHeight; // return if the following background transition hasn't yet completed
+      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+      const initialOverflowY = this._element.style.overflowY; // return if the following background transition hasn't yet completed
 
-      if (!isModalOverflowing && style.overflowY === 'hidden' || classList.contains(CLASS_NAME_STATIC)) {
+      if (initialOverflowY === 'hidden' || this._element.classList.contains(CLASS_NAME_STATIC)) {
         return;
       }
 
       if (!isModalOverflowing) {
-        style.overflowY = 'hidden';
+        this._element.style.overflowY = 'hidden';
       }
 
-      classList.add(CLASS_NAME_STATIC);
+      this._element.classList.add(CLASS_NAME_STATIC);
 
       this._queueCallback(() => {
-        classList.remove(CLASS_NAME_STATIC);
+        this._element.classList.remove(CLASS_NAME_STATIC);
 
-        if (!isModalOverflowing) {
-          this._queueCallback(() => {
-            style.overflowY = '';
-          }, this._dialog);
-        }
+        this._queueCallback(() => {
+          this._element.style.overflowY = initialOverflowY;
+        }, this._dialog);
       }, this._dialog);
 
       this._element.focus();
-    } // ----------------------------------------------------------------------
-    // the following methods are used to handle overflowing modals
-    // ----------------------------------------------------------------------
+    }
+    /**
+     * The following methods are used to handle overflowing modals
+     */
 
 
     _adjustDialog() {
@@ -24392,12 +22778,14 @@
 
       const isBodyOverflowing = scrollbarWidth > 0;
 
-      if (!isBodyOverflowing && isModalOverflowing && !isRTL() || isBodyOverflowing && !isModalOverflowing && isRTL()) {
-        this._element.style.paddingLeft = `${scrollbarWidth}px`;
+      if (isBodyOverflowing && !isModalOverflowing) {
+        const property = isRTL() ? 'paddingLeft' : 'paddingRight';
+        this._element.style[property] = `${scrollbarWidth}px`;
       }
 
-      if (isBodyOverflowing && !isModalOverflowing && !isRTL() || !isBodyOverflowing && isModalOverflowing && isRTL()) {
-        this._element.style.paddingRight = `${scrollbarWidth}px`;
+      if (!isBodyOverflowing && isModalOverflowing) {
+        const property = isRTL() ? 'paddingRight' : 'paddingLeft';
+        this._element.style[property] = `${scrollbarWidth}px`;
       }
     }
 
@@ -24425,9 +22813,7 @@
 
   }
   /**
-   * ------------------------------------------------------------------------
-   * Data Api implementation
-   * ------------------------------------------------------------------------
+   * Data API implementation
    */
 
 
@@ -24438,23 +22824,23 @@
       event.preventDefault();
     }
 
-    EventHandler.one(target, EVENT_SHOW$3, showEvent => {
+    EventHandler.one(target, EVENT_SHOW$4, showEvent => {
       if (showEvent.defaultPrevented) {
         // only register focus restorer if modal will actually get shown
         return;
       }
 
-      EventHandler.one(target, EVENT_HIDDEN$3, () => {
+      EventHandler.one(target, EVENT_HIDDEN$4, () => {
         if (isVisible(this)) {
           this.focus();
         }
       });
-    }); // avoid conflict when clicking moddal toggler while another one is open
+    }); // avoid conflict when clicking modal toggler while another one is open
 
-    const allReadyOpen = SelectorEngine.findOne(OPEN_SELECTOR$1);
+    const alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR$1);
 
-    if (allReadyOpen) {
-      Modal.getInstance(allReadyOpen).hide();
+    if (alreadyOpen) {
+      Modal.getInstance(alreadyOpen).hide();
     }
 
     const data = Modal.getOrCreateInstance(target);
@@ -24462,62 +22848,58 @@
   });
   enableDismissTrigger(Modal);
   /**
-   * ------------------------------------------------------------------------
    * jQuery
-   * ------------------------------------------------------------------------
-   * add .Modal to jQuery only if jQuery is present
    */
 
   defineJQueryPlugin(Modal);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): offcanvas.js
+   * Bootstrap (v5.2.2): offcanvas.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
-  const NAME$5 = 'offcanvas';
-  const DATA_KEY$5 = 'bs.offcanvas';
-  const EVENT_KEY$5 = `.${DATA_KEY$5}`;
-  const DATA_API_KEY$2 = '.data-api';
-  const EVENT_LOAD_DATA_API$1 = `load${EVENT_KEY$5}${DATA_API_KEY$2}`;
+  const NAME$6 = 'offcanvas';
+  const DATA_KEY$3 = 'bs.offcanvas';
+  const EVENT_KEY$3 = `.${DATA_KEY$3}`;
+  const DATA_API_KEY$1 = '.data-api';
+  const EVENT_LOAD_DATA_API$2 = `load${EVENT_KEY$3}${DATA_API_KEY$1}`;
   const ESCAPE_KEY = 'Escape';
-  const Default$4 = {
+  const CLASS_NAME_SHOW$3 = 'show';
+  const CLASS_NAME_SHOWING$1 = 'showing';
+  const CLASS_NAME_HIDING = 'hiding';
+  const CLASS_NAME_BACKDROP = 'offcanvas-backdrop';
+  const OPEN_SELECTOR = '.offcanvas.show';
+  const EVENT_SHOW$3 = `show${EVENT_KEY$3}`;
+  const EVENT_SHOWN$3 = `shown${EVENT_KEY$3}`;
+  const EVENT_HIDE$3 = `hide${EVENT_KEY$3}`;
+  const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY$3}`;
+  const EVENT_HIDDEN$3 = `hidden${EVENT_KEY$3}`;
+  const EVENT_RESIZE = `resize${EVENT_KEY$3}`;
+  const EVENT_CLICK_DATA_API$1 = `click${EVENT_KEY$3}${DATA_API_KEY$1}`;
+  const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY$3}`;
+  const SELECTOR_DATA_TOGGLE$1 = '[data-bs-toggle="offcanvas"]';
+  const Default$5 = {
     backdrop: true,
     keyboard: true,
     scroll: false
   };
-  const DefaultType$4 = {
-    backdrop: 'boolean',
+  const DefaultType$5 = {
+    backdrop: '(boolean|string)',
     keyboard: 'boolean',
     scroll: 'boolean'
   };
-  const CLASS_NAME_SHOW$3 = 'show';
-  const CLASS_NAME_BACKDROP = 'offcanvas-backdrop';
-  const OPEN_SELECTOR = '.offcanvas.show';
-  const EVENT_SHOW$2 = `show${EVENT_KEY$5}`;
-  const EVENT_SHOWN$2 = `shown${EVENT_KEY$5}`;
-  const EVENT_HIDE$2 = `hide${EVENT_KEY$5}`;
-  const EVENT_HIDDEN$2 = `hidden${EVENT_KEY$5}`;
-  const EVENT_CLICK_DATA_API$1 = `click${EVENT_KEY$5}${DATA_API_KEY$2}`;
-  const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY$5}`;
-  const SELECTOR_DATA_TOGGLE$1 = '[data-bs-toggle="offcanvas"]';
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Offcanvas extends BaseComponent {
     constructor(element, config) {
-      super(element);
-      this._config = this._getConfig(config);
+      super(element, config);
       this._isShown = false;
       this._backdrop = this._initializeBackDrop();
       this._focustrap = this._initializeFocusTrap();
@@ -24526,12 +22908,16 @@
     } // Getters
 
 
-    static get NAME() {
-      return NAME$5;
+    static get Default() {
+      return Default$5;
     }
 
-    static get Default() {
-      return Default$4;
+    static get DefaultType() {
+      return DefaultType$5;
+    }
+
+    static get NAME() {
+      return NAME$6;
     } // Public
 
 
@@ -24544,7 +22930,7 @@
         return;
       }
 
-      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$2, {
+      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$3, {
         relatedTarget
       });
 
@@ -24553,7 +22939,6 @@
       }
 
       this._isShown = true;
-      this._element.style.visibility = 'visible';
 
       this._backdrop.show();
 
@@ -24561,20 +22946,22 @@
         new ScrollBarHelper().hide();
       }
 
-      this._element.removeAttribute('aria-hidden');
-
       this._element.setAttribute('aria-modal', true);
 
       this._element.setAttribute('role', 'dialog');
 
-      this._element.classList.add(CLASS_NAME_SHOW$3);
+      this._element.classList.add(CLASS_NAME_SHOWING$1);
 
       const completeCallBack = () => {
-        if (!this._config.scroll) {
+        if (!this._config.scroll || this._config.backdrop) {
           this._focustrap.activate();
         }
 
-        EventHandler.trigger(this._element, EVENT_SHOWN$2, {
+        this._element.classList.add(CLASS_NAME_SHOW$3);
+
+        this._element.classList.remove(CLASS_NAME_SHOWING$1);
+
+        EventHandler.trigger(this._element, EVENT_SHOWN$3, {
           relatedTarget
         });
       };
@@ -24587,7 +22974,7 @@
         return;
       }
 
-      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$2);
+      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$3);
 
       if (hideEvent.defaultPrevented) {
         return;
@@ -24599,24 +22986,22 @@
 
       this._isShown = false;
 
-      this._element.classList.remove(CLASS_NAME_SHOW$3);
+      this._element.classList.add(CLASS_NAME_HIDING);
 
       this._backdrop.hide();
 
       const completeCallback = () => {
-        this._element.setAttribute('aria-hidden', true);
+        this._element.classList.remove(CLASS_NAME_SHOW$3, CLASS_NAME_HIDING);
 
         this._element.removeAttribute('aria-modal');
 
         this._element.removeAttribute('role');
 
-        this._element.style.visibility = 'hidden';
-
         if (!this._config.scroll) {
           new ScrollBarHelper().reset();
         }
 
-        EventHandler.trigger(this._element, EVENT_HIDDEN$2);
+        EventHandler.trigger(this._element, EVENT_HIDDEN$3);
       };
 
       this._queueCallback(completeCallback, this._element, true);
@@ -24631,22 +23016,24 @@
     } // Private
 
 
-    _getConfig(config) {
-      config = { ...Default$4,
-        ...Manipulator.getDataAttributes(this._element),
-        ...(typeof config === 'object' ? config : {})
-      };
-      typeCheckConfig(NAME$5, config, DefaultType$4);
-      return config;
-    }
-
     _initializeBackDrop() {
+      const clickCallback = () => {
+        if (this._config.backdrop === 'static') {
+          EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED);
+          return;
+        }
+
+        this.hide();
+      }; // 'static' option will be translated to true, and booleans will keep their value
+
+
+      const isVisible = Boolean(this._config.backdrop);
       return new Backdrop({
         className: CLASS_NAME_BACKDROP,
-        isVisible: this._config.backdrop,
+        isVisible,
         isAnimated: true,
         rootElement: this._element.parentNode,
-        clickCallback: () => this.hide()
+        clickCallback: isVisible ? clickCallback : null
       });
     }
 
@@ -24658,9 +23045,16 @@
 
     _addEventListeners() {
       EventHandler.on(this._element, EVENT_KEYDOWN_DISMISS, event => {
-        if (this._config.keyboard && event.key === ESCAPE_KEY) {
-          this.hide();
+        if (event.key !== ESCAPE_KEY) {
+          return;
         }
+
+        if (!this._config.keyboard) {
+          EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED);
+          return;
+        }
+
+        this.hide();
       });
     } // Static
 
@@ -24683,9 +23077,7 @@
 
   }
   /**
-   * ------------------------------------------------------------------------
-   * Data Api implementation
-   * ------------------------------------------------------------------------
+   * Data API implementation
    */
 
 
@@ -24700,35 +23092,44 @@
       return;
     }
 
-    EventHandler.one(target, EVENT_HIDDEN$2, () => {
+    EventHandler.one(target, EVENT_HIDDEN$3, () => {
       // focus on trigger when it is closed
       if (isVisible(this)) {
         this.focus();
       }
     }); // avoid conflict when clicking a toggler of an offcanvas, while another is open
 
-    const allReadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
+    const alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
 
-    if (allReadyOpen && allReadyOpen !== target) {
-      Offcanvas.getInstance(allReadyOpen).hide();
+    if (alreadyOpen && alreadyOpen !== target) {
+      Offcanvas.getInstance(alreadyOpen).hide();
     }
 
     const data = Offcanvas.getOrCreateInstance(target);
     data.toggle(this);
   });
-  EventHandler.on(window, EVENT_LOAD_DATA_API$1, () => SelectorEngine.find(OPEN_SELECTOR).forEach(el => Offcanvas.getOrCreateInstance(el).show()));
+  EventHandler.on(window, EVENT_LOAD_DATA_API$2, () => {
+    for (const selector of SelectorEngine.find(OPEN_SELECTOR)) {
+      Offcanvas.getOrCreateInstance(selector).show();
+    }
+  });
+  EventHandler.on(window, EVENT_RESIZE, () => {
+    for (const element of SelectorEngine.find('[aria-modal][class*=show][class*=offcanvas-]')) {
+      if (getComputedStyle(element).position !== 'fixed') {
+        Offcanvas.getOrCreateInstance(element).hide();
+      }
+    }
+  });
   enableDismissTrigger(Offcanvas);
   /**
-   * ------------------------------------------------------------------------
    * jQuery
-   * ------------------------------------------------------------------------
    */
 
   defineJQueryPlugin(Offcanvas);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/sanitizer.js
+   * Bootstrap (v5.2.2): util/sanitizer.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
@@ -24737,14 +23138,14 @@
   /**
    * A pattern that recognizes a commonly useful subset of URLs that are safe.
    *
-   * Shoutout to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
+   * Shout-out to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
    */
 
   const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file|sms):|[^#&/:?]*(?:[#/?]|$))/i;
   /**
    * A pattern that matches safe data URLs. Only matches image, video and audio types.
    *
-   * Shoutout to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
+   * Shout-out to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
    */
 
   const DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
@@ -24758,17 +23159,10 @@
       }
 
       return true;
-    }
+    } // Check if a regular expression validates the attribute.
 
-    const regExp = allowedAttributeList.filter(attributeRegex => attributeRegex instanceof RegExp); // Check if a regular expression validates the attribute.
 
-    for (let i = 0, len = regExp.length; i < len; i++) {
-      if (regExp[i].test(attributeName)) {
-        return true;
-      }
-    }
-
-    return false;
+    return allowedAttributeList.filter(attributeRegex => attributeRegex instanceof RegExp).some(regex => regex.test(attributeName));
   };
 
   const DefaultAllowlist = {
@@ -24804,21 +23198,20 @@
     u: [],
     ul: []
   };
-  function sanitizeHtml(unsafeHtml, allowList, sanitizeFn) {
+  function sanitizeHtml(unsafeHtml, allowList, sanitizeFunction) {
     if (!unsafeHtml.length) {
       return unsafeHtml;
     }
 
-    if (sanitizeFn && typeof sanitizeFn === 'function') {
-      return sanitizeFn(unsafeHtml);
+    if (sanitizeFunction && typeof sanitizeFunction === 'function') {
+      return sanitizeFunction(unsafeHtml);
     }
 
     const domParser = new window.DOMParser();
     const createdDocument = domParser.parseFromString(unsafeHtml, 'text/html');
     const elements = [].concat(...createdDocument.body.querySelectorAll('*'));
 
-    for (let i = 0, len = elements.length; i < len; i++) {
-      const element = elements[i];
+    for (const element of elements) {
       const elementName = element.nodeName.toLowerCase();
 
       if (!Object.keys(allowList).includes(elementName)) {
@@ -24828,11 +23221,12 @@
 
       const attributeList = [].concat(...element.attributes);
       const allowedAttributes = [].concat(allowList['*'] || [], allowList[elementName] || []);
-      attributeList.forEach(attribute => {
+
+      for (const attribute of attributeList) {
         if (!allowedAttribute(attribute, allowedAttributes)) {
           element.removeAttribute(attribute.nodeName);
         }
-      });
+      }
     }
 
     return createdDocument.body.innerHTML;
@@ -24840,40 +23234,194 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): tooltip.js
+   * Bootstrap (v5.2.2): util/template-factory.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
+   */
+
+  const NAME$5 = 'TemplateFactory';
+  const Default$4 = {
+    allowList: DefaultAllowlist,
+    content: {},
+    // { selector : text ,  selector2 : text2 , }
+    extraClass: '',
+    html: false,
+    sanitize: true,
+    sanitizeFn: null,
+    template: '<div></div>'
+  };
+  const DefaultType$4 = {
+    allowList: 'object',
+    content: 'object',
+    extraClass: '(string|function)',
+    html: 'boolean',
+    sanitize: 'boolean',
+    sanitizeFn: '(null|function)',
+    template: 'string'
+  };
+  const DefaultContentType = {
+    entry: '(string|element|function|null)',
+    selector: '(string|element)'
+  };
+  /**
+   * Class definition
+   */
+
+  class TemplateFactory extends Config {
+    constructor(config) {
+      super();
+      this._config = this._getConfig(config);
+    } // Getters
+
+
+    static get Default() {
+      return Default$4;
+    }
+
+    static get DefaultType() {
+      return DefaultType$4;
+    }
+
+    static get NAME() {
+      return NAME$5;
+    } // Public
+
+
+    getContent() {
+      return Object.values(this._config.content).map(config => this._resolvePossibleFunction(config)).filter(Boolean);
+    }
+
+    hasContent() {
+      return this.getContent().length > 0;
+    }
+
+    changeContent(content) {
+      this._checkContent(content);
+
+      this._config.content = { ...this._config.content,
+        ...content
+      };
+      return this;
+    }
+
+    toHtml() {
+      const templateWrapper = document.createElement('div');
+      templateWrapper.innerHTML = this._maybeSanitize(this._config.template);
+
+      for (const [selector, text] of Object.entries(this._config.content)) {
+        this._setContent(templateWrapper, text, selector);
+      }
+
+      const template = templateWrapper.children[0];
+
+      const extraClass = this._resolvePossibleFunction(this._config.extraClass);
+
+      if (extraClass) {
+        template.classList.add(...extraClass.split(' '));
+      }
+
+      return template;
+    } // Private
+
+
+    _typeCheckConfig(config) {
+      super._typeCheckConfig(config);
+
+      this._checkContent(config.content);
+    }
+
+    _checkContent(arg) {
+      for (const [selector, content] of Object.entries(arg)) {
+        super._typeCheckConfig({
+          selector,
+          entry: content
+        }, DefaultContentType);
+      }
+    }
+
+    _setContent(template, content, selector) {
+      const templateElement = SelectorEngine.findOne(selector, template);
+
+      if (!templateElement) {
+        return;
+      }
+
+      content = this._resolvePossibleFunction(content);
+
+      if (!content) {
+        templateElement.remove();
+        return;
+      }
+
+      if (isElement(content)) {
+        this._putElementInTemplate(getElement(content), templateElement);
+
+        return;
+      }
+
+      if (this._config.html) {
+        templateElement.innerHTML = this._maybeSanitize(content);
+        return;
+      }
+
+      templateElement.textContent = content;
+    }
+
+    _maybeSanitize(arg) {
+      return this._config.sanitize ? sanitizeHtml(arg, this._config.allowList, this._config.sanitizeFn) : arg;
+    }
+
+    _resolvePossibleFunction(arg) {
+      return typeof arg === 'function' ? arg(this) : arg;
+    }
+
+    _putElementInTemplate(element, templateElement) {
+      if (this._config.html) {
+        templateElement.innerHTML = '';
+        templateElement.append(element);
+        return;
+      }
+
+      templateElement.textContent = element.textContent;
+    }
+
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.2.2): tooltip.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  /**
+   * Constants
    */
 
   const NAME$4 = 'tooltip';
-  const DATA_KEY$4 = 'bs.tooltip';
-  const EVENT_KEY$4 = `.${DATA_KEY$4}`;
-  const CLASS_PREFIX$1 = 'bs-tooltip';
   const DISALLOWED_ATTRIBUTES = new Set(['sanitize', 'allowList', 'sanitizeFn']);
-  const DefaultType$3 = {
-    animation: 'boolean',
-    template: 'string',
-    title: '(string|element|function)',
-    trigger: 'string',
-    delay: '(number|object)',
-    html: 'boolean',
-    selector: '(string|boolean)',
-    placement: '(string|function)',
-    offset: '(array|string|function)',
-    container: '(string|element|boolean)',
-    fallbackPlacements: 'array',
-    boundary: '(string|element)',
-    customClass: '(string|function)',
-    sanitize: 'boolean',
-    sanitizeFn: '(null|function)',
-    allowList: 'object',
-    popperConfig: '(null|object|function)'
-  };
+  const CLASS_NAME_FADE$2 = 'fade';
+  const CLASS_NAME_MODAL = 'modal';
+  const CLASS_NAME_SHOW$2 = 'show';
+  const SELECTOR_TOOLTIP_INNER = '.tooltip-inner';
+  const SELECTOR_MODAL = `.${CLASS_NAME_MODAL}`;
+  const EVENT_MODAL_HIDE = 'hide.bs.modal';
+  const TRIGGER_HOVER = 'hover';
+  const TRIGGER_FOCUS = 'focus';
+  const TRIGGER_CLICK = 'click';
+  const TRIGGER_MANUAL = 'manual';
+  const EVENT_HIDE$2 = 'hide';
+  const EVENT_HIDDEN$2 = 'hidden';
+  const EVENT_SHOW$2 = 'show';
+  const EVENT_SHOWN$2 = 'shown';
+  const EVENT_INSERTED = 'inserted';
+  const EVENT_CLICK$1 = 'click';
+  const EVENT_FOCUSIN$1 = 'focusin';
+  const EVENT_FOCUSOUT$1 = 'focusout';
+  const EVENT_MOUSEENTER = 'mouseenter';
+  const EVENT_MOUSELEAVE = 'mouseleave';
   const AttachmentMap = {
     AUTO: 'auto',
     TOP: 'top',
@@ -24882,52 +23430,45 @@
     LEFT: isRTL() ? 'right' : 'left'
   };
   const Default$3 = {
+    allowList: DefaultAllowlist,
     animation: true,
-    template: '<div class="tooltip" role="tooltip">' + '<div class="tooltip-arrow"></div>' + '<div class="tooltip-inner"></div>' + '</div>',
-    trigger: 'hover focus',
-    title: '',
-    delay: 0,
-    html: false,
-    selector: false,
-    placement: 'top',
-    offset: [0, 0],
-    container: false,
-    fallbackPlacements: ['top', 'right', 'bottom', 'left'],
     boundary: 'clippingParents',
+    container: false,
     customClass: '',
+    delay: 0,
+    fallbackPlacements: ['top', 'right', 'bottom', 'left'],
+    html: false,
+    offset: [0, 0],
+    placement: 'top',
+    popperConfig: null,
     sanitize: true,
     sanitizeFn: null,
-    allowList: DefaultAllowlist,
-    popperConfig: null
+    selector: false,
+    template: '<div class="tooltip" role="tooltip">' + '<div class="tooltip-arrow"></div>' + '<div class="tooltip-inner"></div>' + '</div>',
+    title: '',
+    trigger: 'hover focus'
   };
-  const Event$2 = {
-    HIDE: `hide${EVENT_KEY$4}`,
-    HIDDEN: `hidden${EVENT_KEY$4}`,
-    SHOW: `show${EVENT_KEY$4}`,
-    SHOWN: `shown${EVENT_KEY$4}`,
-    INSERTED: `inserted${EVENT_KEY$4}`,
-    CLICK: `click${EVENT_KEY$4}`,
-    FOCUSIN: `focusin${EVENT_KEY$4}`,
-    FOCUSOUT: `focusout${EVENT_KEY$4}`,
-    MOUSEENTER: `mouseenter${EVENT_KEY$4}`,
-    MOUSELEAVE: `mouseleave${EVENT_KEY$4}`
+  const DefaultType$3 = {
+    allowList: 'object',
+    animation: 'boolean',
+    boundary: '(string|element)',
+    container: '(string|element|boolean)',
+    customClass: '(string|function)',
+    delay: '(number|object)',
+    fallbackPlacements: 'array',
+    html: 'boolean',
+    offset: '(array|string|function)',
+    placement: '(string|function)',
+    popperConfig: '(null|object|function)',
+    sanitize: 'boolean',
+    sanitizeFn: '(null|function)',
+    selector: '(string|boolean)',
+    template: 'string',
+    title: '(string|element|function)',
+    trigger: 'string'
   };
-  const CLASS_NAME_FADE$2 = 'fade';
-  const CLASS_NAME_MODAL = 'modal';
-  const CLASS_NAME_SHOW$2 = 'show';
-  const HOVER_STATE_SHOW = 'show';
-  const HOVER_STATE_OUT = 'out';
-  const SELECTOR_TOOLTIP_INNER = '.tooltip-inner';
-  const SELECTOR_MODAL = `.${CLASS_NAME_MODAL}`;
-  const EVENT_MODAL_HIDE = 'hide.bs.modal';
-  const TRIGGER_HOVER = 'hover';
-  const TRIGGER_FOCUS = 'focus';
-  const TRIGGER_CLICK = 'click';
-  const TRIGGER_MANUAL = 'manual';
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Tooltip extends BaseComponent {
@@ -24936,18 +23477,23 @@
         throw new TypeError('Bootstrap\'s tooltips require Popper (https://popper.js.org)');
       }
 
-      super(element); // private
+      super(element, config); // Private
 
       this._isEnabled = true;
       this._timeout = 0;
-      this._hoverState = '';
+      this._isHovered = null;
       this._activeTrigger = {};
-      this._popper = null; // Protected
+      this._popper = null;
+      this._templateFactory = null;
+      this._newContent = null; // Protected
 
-      this._config = this._getConfig(config);
       this.tip = null;
 
       this._setListeners();
+
+      if (!this._config.selector) {
+        this._fixTitle();
+      }
     } // Getters
 
 
@@ -24955,16 +23501,12 @@
       return Default$3;
     }
 
-    static get NAME() {
-      return NAME$4;
-    }
-
-    static get Event() {
-      return Event$2;
-    }
-
     static get DefaultType() {
       return DefaultType$3;
+    }
+
+    static get NAME() {
+      return NAME$4;
     } // Public
 
 
@@ -24980,30 +23522,20 @@
       this._isEnabled = !this._isEnabled;
     }
 
-    toggle(event) {
+    toggle() {
       if (!this._isEnabled) {
         return;
       }
 
-      if (event) {
-        const context = this._initializeOnDelegatedTarget(event);
+      this._activeTrigger.click = !this._activeTrigger.click;
 
-        context._activeTrigger.click = !context._activeTrigger.click;
+      if (this._isShown()) {
+        this._leave();
 
-        if (context._isWithActiveTrigger()) {
-          context._enter(null, context);
-        } else {
-          context._leave(null, context);
-        }
-      } else {
-        if (this.getTipElement().classList.contains(CLASS_NAME_SHOW$2)) {
-          this._leave(null, this);
-
-          return;
-        }
-
-        this._enter(null, this);
+        return;
       }
+
+      this._enter();
     }
 
     dispose() {
@@ -25012,6 +23544,10 @@
 
       if (this.tip) {
         this.tip.remove();
+      }
+
+      if (this._element.getAttribute('data-bs-original-title')) {
+        this._element.setAttribute('title', this._element.getAttribute('data-bs-original-title'));
       }
 
       this._disposePopper();
@@ -25024,233 +23560,206 @@
         throw new Error('Please use show on visible elements');
       }
 
-      if (!(this.isWithContent() && this._isEnabled)) {
+      if (!(this._isWithContent() && this._isEnabled)) {
         return;
       }
 
-      const showEvent = EventHandler.trigger(this._element, this.constructor.Event.SHOW);
+      const showEvent = EventHandler.trigger(this._element, this.constructor.eventName(EVENT_SHOW$2));
       const shadowRoot = findShadowRoot(this._element);
-      const isInTheDom = shadowRoot === null ? this._element.ownerDocument.documentElement.contains(this._element) : shadowRoot.contains(this._element);
+
+      const isInTheDom = (shadowRoot || this._element.ownerDocument.documentElement).contains(this._element);
 
       if (showEvent.defaultPrevented || !isInTheDom) {
         return;
-      } // A trick to recreate a tooltip in case a new title is given by using the NOT documented `data-bs-original-title`
-      // This will be removed later in favor of a `setContent` method
+      } // todo v6 remove this OR make it optional
 
 
-      if (this.constructor.NAME === 'tooltip' && this.tip && this.getTitle() !== this.tip.querySelector(SELECTOR_TOOLTIP_INNER).innerHTML) {
-        this._disposePopper();
-
+      if (this.tip) {
         this.tip.remove();
         this.tip = null;
       }
 
-      const tip = this.getTipElement();
-      const tipId = getUID(this.constructor.NAME);
-      tip.setAttribute('id', tipId);
+      const tip = this._getTipElement();
 
-      this._element.setAttribute('aria-describedby', tipId);
-
-      if (this._config.animation) {
-        tip.classList.add(CLASS_NAME_FADE$2);
-      }
-
-      const placement = typeof this._config.placement === 'function' ? this._config.placement.call(this, tip, this._element) : this._config.placement;
-
-      const attachment = this._getAttachment(placement);
-
-      this._addAttachmentClass(attachment);
+      this._element.setAttribute('aria-describedby', tip.getAttribute('id'));
 
       const {
         container
       } = this._config;
-      Data.set(tip, this.constructor.DATA_KEY, this);
 
       if (!this._element.ownerDocument.documentElement.contains(this.tip)) {
         container.append(tip);
-        EventHandler.trigger(this._element, this.constructor.Event.INSERTED);
+        EventHandler.trigger(this._element, this.constructor.eventName(EVENT_INSERTED));
       }
 
       if (this._popper) {
         this._popper.update();
       } else {
-        this._popper = createPopper(this._element, tip, this._getPopperConfig(attachment));
+        this._popper = this._createPopper(tip);
       }
 
-      tip.classList.add(CLASS_NAME_SHOW$2);
-
-      const customClass = this._resolvePossibleFunction(this._config.customClass);
-
-      if (customClass) {
-        tip.classList.add(...customClass.split(' '));
-      } // If this is a touch-enabled device we add extra
+      tip.classList.add(CLASS_NAME_SHOW$2); // If this is a touch-enabled device we add extra
       // empty mouseover listeners to the body's immediate children;
       // only needed because of broken event delegation on iOS
       // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
 
-
       if ('ontouchstart' in document.documentElement) {
-        [].concat(...document.body.children).forEach(element => {
+        for (const element of [].concat(...document.body.children)) {
           EventHandler.on(element, 'mouseover', noop);
-        });
+        }
       }
 
       const complete = () => {
-        const prevHoverState = this._hoverState;
-        this._hoverState = null;
-        EventHandler.trigger(this._element, this.constructor.Event.SHOWN);
+        EventHandler.trigger(this._element, this.constructor.eventName(EVENT_SHOWN$2));
 
-        if (prevHoverState === HOVER_STATE_OUT) {
-          this._leave(null, this);
+        if (this._isHovered === false) {
+          this._leave();
         }
+
+        this._isHovered = false;
       };
 
-      const isAnimated = this.tip.classList.contains(CLASS_NAME_FADE$2);
-
-      this._queueCallback(complete, this.tip, isAnimated);
+      this._queueCallback(complete, this.tip, this._isAnimated());
     }
 
     hide() {
-      if (!this._popper) {
+      if (!this._isShown()) {
         return;
       }
 
-      const tip = this.getTipElement();
+      const hideEvent = EventHandler.trigger(this._element, this.constructor.eventName(EVENT_HIDE$2));
+
+      if (hideEvent.defaultPrevented) {
+        return;
+      }
+
+      const tip = this._getTipElement();
+
+      tip.classList.remove(CLASS_NAME_SHOW$2); // If this is a touch-enabled device we remove the extra
+      // empty mouseover listeners we added for iOS support
+
+      if ('ontouchstart' in document.documentElement) {
+        for (const element of [].concat(...document.body.children)) {
+          EventHandler.off(element, 'mouseover', noop);
+        }
+      }
+
+      this._activeTrigger[TRIGGER_CLICK] = false;
+      this._activeTrigger[TRIGGER_FOCUS] = false;
+      this._activeTrigger[TRIGGER_HOVER] = false;
+      this._isHovered = null; // it is a trick to support manual triggering
 
       const complete = () => {
         if (this._isWithActiveTrigger()) {
           return;
         }
 
-        if (this._hoverState !== HOVER_STATE_SHOW) {
+        if (!this._isHovered) {
           tip.remove();
         }
 
-        this._cleanTipClass();
-
         this._element.removeAttribute('aria-describedby');
 
-        EventHandler.trigger(this._element, this.constructor.Event.HIDDEN);
+        EventHandler.trigger(this._element, this.constructor.eventName(EVENT_HIDDEN$2));
 
         this._disposePopper();
       };
 
-      const hideEvent = EventHandler.trigger(this._element, this.constructor.Event.HIDE);
-
-      if (hideEvent.defaultPrevented) {
-        return;
-      }
-
-      tip.classList.remove(CLASS_NAME_SHOW$2); // If this is a touch-enabled device we remove the extra
-      // empty mouseover listeners we added for iOS support
-
-      if ('ontouchstart' in document.documentElement) {
-        [].concat(...document.body.children).forEach(element => EventHandler.off(element, 'mouseover', noop));
-      }
-
-      this._activeTrigger[TRIGGER_CLICK] = false;
-      this._activeTrigger[TRIGGER_FOCUS] = false;
-      this._activeTrigger[TRIGGER_HOVER] = false;
-      const isAnimated = this.tip.classList.contains(CLASS_NAME_FADE$2);
-
-      this._queueCallback(complete, this.tip, isAnimated);
-
-      this._hoverState = '';
+      this._queueCallback(complete, this.tip, this._isAnimated());
     }
 
     update() {
-      if (this._popper !== null) {
+      if (this._popper) {
         this._popper.update();
       }
     } // Protected
 
 
-    isWithContent() {
-      return Boolean(this.getTitle());
+    _isWithContent() {
+      return Boolean(this._getTitle());
     }
 
-    getTipElement() {
-      if (this.tip) {
-        return this.tip;
+    _getTipElement() {
+      if (!this.tip) {
+        this.tip = this._createTipElement(this._newContent || this._getContentForTemplate());
       }
 
-      const element = document.createElement('div');
-      element.innerHTML = this._config.template;
-      const tip = element.children[0];
-      this.setContent(tip);
-      tip.classList.remove(CLASS_NAME_FADE$2, CLASS_NAME_SHOW$2);
-      this.tip = tip;
       return this.tip;
     }
 
-    setContent(tip) {
-      this._sanitizeAndSetContent(tip, this.getTitle(), SELECTOR_TOOLTIP_INNER);
-    }
-
-    _sanitizeAndSetContent(template, content, selector) {
-      const templateElement = SelectorEngine.findOne(selector, template);
-
-      if (!content && templateElement) {
-        templateElement.remove();
-        return;
-      } // we use append for html objects to maintain js events
+    _createTipElement(content) {
+      const tip = this._getTemplateFactory(content).toHtml(); // todo: remove this check on v6
 
 
-      this.setElementContent(templateElement, content);
-    }
-
-    setElementContent(element, content) {
-      if (element === null) {
-        return;
+      if (!tip) {
+        return null;
       }
 
-      if (isElement(content)) {
-        content = getElement(content); // content is a DOM node or a jQuery
+      tip.classList.remove(CLASS_NAME_FADE$2, CLASS_NAME_SHOW$2); // todo: on v6 the following can be achieved with CSS only
 
-        if (this._config.html) {
-          if (content.parentNode !== element) {
-            element.innerHTML = '';
-            element.append(content);
-          }
-        } else {
-          element.textContent = content.textContent;
-        }
+      tip.classList.add(`bs-${this.constructor.NAME}-auto`);
+      const tipId = getUID(this.constructor.NAME).toString();
+      tip.setAttribute('id', tipId);
 
-        return;
+      if (this._isAnimated()) {
+        tip.classList.add(CLASS_NAME_FADE$2);
       }
 
-      if (this._config.html) {
-        if (this._config.sanitize) {
-          content = sanitizeHtml(content, this._config.allowList, this._config.sanitizeFn);
-        }
+      return tip;
+    }
 
-        element.innerHTML = content;
+    setContent(content) {
+      this._newContent = content;
+
+      if (this._isShown()) {
+        this._disposePopper();
+
+        this.show();
+      }
+    }
+
+    _getTemplateFactory(content) {
+      if (this._templateFactory) {
+        this._templateFactory.changeContent(content);
       } else {
-        element.textContent = content;
+        this._templateFactory = new TemplateFactory({ ...this._config,
+          // the `content` var has to be after `this._config`
+          // to override config.content in case of popover
+          content,
+          extraClass: this._resolvePossibleFunction(this._config.customClass)
+        });
       }
+
+      return this._templateFactory;
     }
 
-    getTitle() {
-      const title = this._element.getAttribute('data-bs-original-title') || this._config.title;
-
-      return this._resolvePossibleFunction(title);
+    _getContentForTemplate() {
+      return {
+        [SELECTOR_TOOLTIP_INNER]: this._getTitle()
+      };
     }
 
-    updateAttachment(attachment) {
-      if (attachment === 'right') {
-        return 'end';
-      }
-
-      if (attachment === 'left') {
-        return 'start';
-      }
-
-      return attachment;
+    _getTitle() {
+      return this._resolvePossibleFunction(this._config.title) || this._element.getAttribute('data-bs-original-title');
     } // Private
 
 
-    _initializeOnDelegatedTarget(event, context) {
-      return context || this.constructor.getOrCreateInstance(event.delegateTarget, this._getDelegateConfig());
+    _initializeOnDelegatedTarget(event) {
+      return this.constructor.getOrCreateInstance(event.delegateTarget, this._getDelegateConfig());
+    }
+
+    _isAnimated() {
+      return this._config.animation || this.tip && this.tip.classList.contains(CLASS_NAME_FADE$2);
+    }
+
+    _isShown() {
+      return this.tip && this.tip.classList.contains(CLASS_NAME_SHOW$2);
+    }
+
+    _createPopper(tip) {
+      const placement = typeof this._config.placement === 'function' ? this._config.placement.call(this, tip, this._element) : this._config.placement;
+      const attachment = AttachmentMap[placement.toUpperCase()];
+      return createPopper(this._element, tip, this._getPopperConfig(attachment));
     }
 
     _getOffset() {
@@ -25259,7 +23768,7 @@
       } = this._config;
 
       if (typeof offset === 'string') {
-        return offset.split(',').map(val => Number.parseInt(val, 10));
+        return offset.split(',').map(value => Number.parseInt(value, 10));
       }
 
       if (typeof offset === 'function') {
@@ -25269,8 +23778,8 @@
       return offset;
     }
 
-    _resolvePossibleFunction(content) {
-      return typeof content === 'function' ? content.call(this._element) : content;
+    _resolvePossibleFunction(arg) {
+      return typeof arg === 'function' ? arg.call(this._element) : arg;
     }
 
     _getPopperConfig(attachment) {
@@ -25297,43 +23806,50 @@
             element: `.${this.constructor.NAME}-arrow`
           }
         }, {
-          name: 'onChange',
+          name: 'preSetPlacement',
           enabled: true,
-          phase: 'afterWrite',
-          fn: data => this._handlePopperPlacementChange(data)
-        }],
-        onFirstUpdate: data => {
-          if (data.options.placement !== data.placement) {
-            this._handlePopperPlacementChange(data);
+          phase: 'beforeMain',
+          fn: data => {
+            // Pre-set Popper's placement attribute in order to read the arrow sizes properly.
+            // Otherwise, Popper mixes up the width and height dimensions since the initial arrow style is for top placement
+            this._getTipElement().setAttribute('data-popper-placement', data.state.placement);
           }
-        }
+        }]
       };
       return { ...defaultBsPopperConfig,
         ...(typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig)
       };
     }
 
-    _addAttachmentClass(attachment) {
-      this.getTipElement().classList.add(`${this._getBasicClassPrefix()}-${this.updateAttachment(attachment)}`);
-    }
-
-    _getAttachment(placement) {
-      return AttachmentMap[placement.toUpperCase()];
-    }
-
     _setListeners() {
       const triggers = this._config.trigger.split(' ');
 
-      triggers.forEach(trigger => {
+      for (const trigger of triggers) {
         if (trigger === 'click') {
-          EventHandler.on(this._element, this.constructor.Event.CLICK, this._config.selector, event => this.toggle(event));
+          EventHandler.on(this._element, this.constructor.eventName(EVENT_CLICK$1), this._config.selector, event => {
+            const context = this._initializeOnDelegatedTarget(event);
+
+            context.toggle();
+          });
         } else if (trigger !== TRIGGER_MANUAL) {
-          const eventIn = trigger === TRIGGER_HOVER ? this.constructor.Event.MOUSEENTER : this.constructor.Event.FOCUSIN;
-          const eventOut = trigger === TRIGGER_HOVER ? this.constructor.Event.MOUSELEAVE : this.constructor.Event.FOCUSOUT;
-          EventHandler.on(this._element, eventIn, this._config.selector, event => this._enter(event));
-          EventHandler.on(this._element, eventOut, this._config.selector, event => this._leave(event));
+          const eventIn = trigger === TRIGGER_HOVER ? this.constructor.eventName(EVENT_MOUSEENTER) : this.constructor.eventName(EVENT_FOCUSIN$1);
+          const eventOut = trigger === TRIGGER_HOVER ? this.constructor.eventName(EVENT_MOUSELEAVE) : this.constructor.eventName(EVENT_FOCUSOUT$1);
+          EventHandler.on(this._element, eventIn, this._config.selector, event => {
+            const context = this._initializeOnDelegatedTarget(event);
+
+            context._activeTrigger[event.type === 'focusin' ? TRIGGER_FOCUS : TRIGGER_HOVER] = true;
+
+            context._enter();
+          });
+          EventHandler.on(this._element, eventOut, this._config.selector, event => {
+            const context = this._initializeOnDelegatedTarget(event);
+
+            context._activeTrigger[event.type === 'focusout' ? TRIGGER_FOCUS : TRIGGER_HOVER] = context._element.contains(event.relatedTarget);
+
+            context._leave();
+          });
         }
-      });
+      }
 
       this._hideModalHandler = () => {
         if (this._element) {
@@ -25342,107 +23858,84 @@
       };
 
       EventHandler.on(this._element.closest(SELECTOR_MODAL), EVENT_MODAL_HIDE, this._hideModalHandler);
-
-      if (this._config.selector) {
-        this._config = { ...this._config,
-          trigger: 'manual',
-          selector: ''
-        };
-      } else {
-        this._fixTitle();
-      }
     }
 
     _fixTitle() {
       const title = this._element.getAttribute('title');
 
-      const originalTitleType = typeof this._element.getAttribute('data-bs-original-title');
-
-      if (title || originalTitleType !== 'string') {
-        this._element.setAttribute('data-bs-original-title', title || '');
-
-        if (title && !this._element.getAttribute('aria-label') && !this._element.textContent) {
-          this._element.setAttribute('aria-label', title);
-        }
-
-        this._element.setAttribute('title', '');
+      if (!title) {
+        return;
       }
+
+      if (!this._element.getAttribute('aria-label') && !this._element.textContent.trim()) {
+        this._element.setAttribute('aria-label', title);
+      }
+
+      this._element.setAttribute('data-bs-original-title', title); // DO NOT USE IT. Is only for backwards compatibility
+
+
+      this._element.removeAttribute('title');
     }
 
-    _enter(event, context) {
-      context = this._initializeOnDelegatedTarget(event, context);
-
-      if (event) {
-        context._activeTrigger[event.type === 'focusin' ? TRIGGER_FOCUS : TRIGGER_HOVER] = true;
-      }
-
-      if (context.getTipElement().classList.contains(CLASS_NAME_SHOW$2) || context._hoverState === HOVER_STATE_SHOW) {
-        context._hoverState = HOVER_STATE_SHOW;
+    _enter() {
+      if (this._isShown() || this._isHovered) {
+        this._isHovered = true;
         return;
       }
 
-      clearTimeout(context._timeout);
-      context._hoverState = HOVER_STATE_SHOW;
+      this._isHovered = true;
 
-      if (!context._config.delay || !context._config.delay.show) {
-        context.show();
-        return;
-      }
-
-      context._timeout = setTimeout(() => {
-        if (context._hoverState === HOVER_STATE_SHOW) {
-          context.show();
+      this._setTimeout(() => {
+        if (this._isHovered) {
+          this.show();
         }
-      }, context._config.delay.show);
+      }, this._config.delay.show);
     }
 
-    _leave(event, context) {
-      context = this._initializeOnDelegatedTarget(event, context);
-
-      if (event) {
-        context._activeTrigger[event.type === 'focusout' ? TRIGGER_FOCUS : TRIGGER_HOVER] = context._element.contains(event.relatedTarget);
-      }
-
-      if (context._isWithActiveTrigger()) {
+    _leave() {
+      if (this._isWithActiveTrigger()) {
         return;
       }
 
-      clearTimeout(context._timeout);
-      context._hoverState = HOVER_STATE_OUT;
+      this._isHovered = false;
 
-      if (!context._config.delay || !context._config.delay.hide) {
-        context.hide();
-        return;
-      }
-
-      context._timeout = setTimeout(() => {
-        if (context._hoverState === HOVER_STATE_OUT) {
-          context.hide();
+      this._setTimeout(() => {
+        if (!this._isHovered) {
+          this.hide();
         }
-      }, context._config.delay.hide);
+      }, this._config.delay.hide);
+    }
+
+    _setTimeout(handler, timeout) {
+      clearTimeout(this._timeout);
+      this._timeout = setTimeout(handler, timeout);
     }
 
     _isWithActiveTrigger() {
-      for (const trigger in this._activeTrigger) {
-        if (this._activeTrigger[trigger]) {
-          return true;
-        }
-      }
-
-      return false;
+      return Object.values(this._activeTrigger).includes(true);
     }
 
     _getConfig(config) {
       const dataAttributes = Manipulator.getDataAttributes(this._element);
-      Object.keys(dataAttributes).forEach(dataAttr => {
-        if (DISALLOWED_ATTRIBUTES.has(dataAttr)) {
-          delete dataAttributes[dataAttr];
+
+      for (const dataAttribute of Object.keys(dataAttributes)) {
+        if (DISALLOWED_ATTRIBUTES.has(dataAttribute)) {
+          delete dataAttributes[dataAttribute];
         }
-      });
-      config = { ...this.constructor.Default,
-        ...dataAttributes,
+      }
+
+      config = { ...dataAttributes,
         ...(typeof config === 'object' && config ? config : {})
       };
+      config = this._mergeConfigObj(config);
+      config = this._configAfterMerge(config);
+
+      this._typeCheckConfig(config);
+
+      return config;
+    }
+
+    _configAfterMerge(config) {
       config.container = config.container === false ? document.body : getElement(config.container);
 
       if (typeof config.delay === 'number') {
@@ -25460,12 +23953,6 @@
         config.content = config.content.toString();
       }
 
-      typeCheckConfig(NAME$4, config, this.constructor.DefaultType);
-
-      if (config.sanitize) {
-        config.template = sanitizeHtml(config.template, config.allowList, config.sanitizeFn);
-      }
-
       return config;
     }
 
@@ -25476,42 +23963,14 @@
         if (this.constructor.Default[key] !== this._config[key]) {
           config[key] = this._config[key];
         }
-      } // In the future can be replaced with:
+      }
+
+      config.selector = false;
+      config.trigger = 'manual'; // In the future can be replaced with:
       // const keysWithDifferentValues = Object.entries(this._config).filter(entry => this.constructor.Default[entry[0]] !== this._config[entry[0]])
       // `Object.fromEntries(keysWithDifferentValues)`
 
-
       return config;
-    }
-
-    _cleanTipClass() {
-      const tip = this.getTipElement();
-      const basicClassPrefixRegex = new RegExp(`(^|\\s)${this._getBasicClassPrefix()}\\S+`, 'g');
-      const tabClass = tip.getAttribute('class').match(basicClassPrefixRegex);
-
-      if (tabClass !== null && tabClass.length > 0) {
-        tabClass.map(token => token.trim()).forEach(tClass => tip.classList.remove(tClass));
-      }
-    }
-
-    _getBasicClassPrefix() {
-      return CLASS_PREFIX$1;
-    }
-
-    _handlePopperPlacementChange(popperData) {
-      const {
-        state
-      } = popperData;
-
-      if (!state) {
-        return;
-      }
-
-      this.tip = state.elements.popper;
-
-      this._cleanTipClass();
-
-      this._addAttachmentClass(this._getAttachment(state.placement));
     }
 
     _disposePopper() {
@@ -25527,22 +23986,21 @@
       return this.each(function () {
         const data = Tooltip.getOrCreateInstance(this, config);
 
-        if (typeof config === 'string') {
-          if (typeof data[config] === 'undefined') {
-            throw new TypeError(`No method named "${config}"`);
-          }
-
-          data[config]();
+        if (typeof config !== 'string') {
+          return;
         }
+
+        if (typeof data[config] === 'undefined') {
+          throw new TypeError(`No method named "${config}"`);
+        }
+
+        data[config]();
       });
     }
 
   }
   /**
-   * ------------------------------------------------------------------------
    * jQuery
-   * ------------------------------------------------------------------------
-   * add .Tooltip to jQuery only if jQuery is present
    */
 
 
@@ -25550,48 +24008,29 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): popover.js
+   * Bootstrap (v5.2.2): popover.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
   const NAME$3 = 'popover';
-  const DATA_KEY$3 = 'bs.popover';
-  const EVENT_KEY$3 = `.${DATA_KEY$3}`;
-  const CLASS_PREFIX = 'bs-popover';
-  const Default$2 = { ...Tooltip.Default,
-    placement: 'right',
-    offset: [0, 8],
-    trigger: 'click',
-    content: '',
-    template: '<div class="popover" role="tooltip">' + '<div class="popover-arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div>' + '</div>'
-  };
-  const DefaultType$2 = { ...Tooltip.DefaultType,
-    content: '(string|element|function)'
-  };
-  const Event$1 = {
-    HIDE: `hide${EVENT_KEY$3}`,
-    HIDDEN: `hidden${EVENT_KEY$3}`,
-    SHOW: `show${EVENT_KEY$3}`,
-    SHOWN: `shown${EVENT_KEY$3}`,
-    INSERTED: `inserted${EVENT_KEY$3}`,
-    CLICK: `click${EVENT_KEY$3}`,
-    FOCUSIN: `focusin${EVENT_KEY$3}`,
-    FOCUSOUT: `focusout${EVENT_KEY$3}`,
-    MOUSEENTER: `mouseenter${EVENT_KEY$3}`,
-    MOUSELEAVE: `mouseleave${EVENT_KEY$3}`
-  };
   const SELECTOR_TITLE = '.popover-header';
   const SELECTOR_CONTENT = '.popover-body';
+  const Default$2 = { ...Tooltip.Default,
+    content: '',
+    offset: [0, 8],
+    placement: 'right',
+    template: '<div class="popover" role="tooltip">' + '<div class="popover-arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div>' + '</div>',
+    trigger: 'click'
+  };
+  const DefaultType$2 = { ...Tooltip.DefaultType,
+    content: '(null|string|element|function)'
+  };
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Popover extends Tooltip {
@@ -25600,266 +24039,35 @@
       return Default$2;
     }
 
-    static get NAME() {
-      return NAME$3;
-    }
-
-    static get Event() {
-      return Event$1;
-    }
-
     static get DefaultType() {
       return DefaultType$2;
+    }
+
+    static get NAME() {
+      return NAME$3;
     } // Overrides
 
 
-    isWithContent() {
-      return this.getTitle() || this._getContent();
-    }
-
-    setContent(tip) {
-      this._sanitizeAndSetContent(tip, this.getTitle(), SELECTOR_TITLE);
-
-      this._sanitizeAndSetContent(tip, this._getContent(), SELECTOR_CONTENT);
+    _isWithContent() {
+      return this._getTitle() || this._getContent();
     } // Private
 
 
-    _getContent() {
-      return this._resolvePossibleFunction(this._config.content);
+    _getContentForTemplate() {
+      return {
+        [SELECTOR_TITLE]: this._getTitle(),
+        [SELECTOR_CONTENT]: this._getContent()
+      };
     }
 
-    _getBasicClassPrefix() {
-      return CLASS_PREFIX;
+    _getContent() {
+      return this._resolvePossibleFunction(this._config.content);
     } // Static
 
 
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Popover.getOrCreateInstance(this, config);
-
-        if (typeof config === 'string') {
-          if (typeof data[config] === 'undefined') {
-            throw new TypeError(`No method named "${config}"`);
-          }
-
-          data[config]();
-        }
-      });
-    }
-
-  }
-  /**
-   * ------------------------------------------------------------------------
-   * jQuery
-   * ------------------------------------------------------------------------
-   * add .Popover to jQuery only if jQuery is present
-   */
-
-
-  defineJQueryPlugin(Popover);
-
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): scrollspy.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  /**
-   * ------------------------------------------------------------------------
-   * Constants
-   * ------------------------------------------------------------------------
-   */
-
-  const NAME$2 = 'scrollspy';
-  const DATA_KEY$2 = 'bs.scrollspy';
-  const EVENT_KEY$2 = `.${DATA_KEY$2}`;
-  const DATA_API_KEY$1 = '.data-api';
-  const Default$1 = {
-    offset: 10,
-    method: 'auto',
-    target: ''
-  };
-  const DefaultType$1 = {
-    offset: 'number',
-    method: 'string',
-    target: '(string|element)'
-  };
-  const EVENT_ACTIVATE = `activate${EVENT_KEY$2}`;
-  const EVENT_SCROLL = `scroll${EVENT_KEY$2}`;
-  const EVENT_LOAD_DATA_API = `load${EVENT_KEY$2}${DATA_API_KEY$1}`;
-  const CLASS_NAME_DROPDOWN_ITEM = 'dropdown-item';
-  const CLASS_NAME_ACTIVE$1 = 'active';
-  const SELECTOR_DATA_SPY = '[data-bs-spy="scroll"]';
-  const SELECTOR_NAV_LIST_GROUP$1 = '.nav, .list-group';
-  const SELECTOR_NAV_LINKS = '.nav-link';
-  const SELECTOR_NAV_ITEMS = '.nav-item';
-  const SELECTOR_LIST_ITEMS = '.list-group-item';
-  const SELECTOR_LINK_ITEMS = `${SELECTOR_NAV_LINKS}, ${SELECTOR_LIST_ITEMS}, .${CLASS_NAME_DROPDOWN_ITEM}`;
-  const SELECTOR_DROPDOWN$1 = '.dropdown';
-  const SELECTOR_DROPDOWN_TOGGLE$1 = '.dropdown-toggle';
-  const METHOD_OFFSET = 'offset';
-  const METHOD_POSITION = 'position';
-  /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
-   */
-
-  class ScrollSpy extends BaseComponent {
-    constructor(element, config) {
-      super(element);
-      this._scrollElement = this._element.tagName === 'BODY' ? window : this._element;
-      this._config = this._getConfig(config);
-      this._offsets = [];
-      this._targets = [];
-      this._activeTarget = null;
-      this._scrollHeight = 0;
-      EventHandler.on(this._scrollElement, EVENT_SCROLL, () => this._process());
-      this.refresh();
-
-      this._process();
-    } // Getters
-
-
-    static get Default() {
-      return Default$1;
-    }
-
-    static get NAME() {
-      return NAME$2;
-    } // Public
-
-
-    refresh() {
-      const autoMethod = this._scrollElement === this._scrollElement.window ? METHOD_OFFSET : METHOD_POSITION;
-      const offsetMethod = this._config.method === 'auto' ? autoMethod : this._config.method;
-      const offsetBase = offsetMethod === METHOD_POSITION ? this._getScrollTop() : 0;
-      this._offsets = [];
-      this._targets = [];
-      this._scrollHeight = this._getScrollHeight();
-      const targets = SelectorEngine.find(SELECTOR_LINK_ITEMS, this._config.target);
-      targets.map(element => {
-        const targetSelector = getSelectorFromElement(element);
-        const target = targetSelector ? SelectorEngine.findOne(targetSelector) : null;
-
-        if (target) {
-          const targetBCR = target.getBoundingClientRect();
-
-          if (targetBCR.width || targetBCR.height) {
-            return [Manipulator[offsetMethod](target).top + offsetBase, targetSelector];
-          }
-        }
-
-        return null;
-      }).filter(item => item).sort((a, b) => a[0] - b[0]).forEach(item => {
-        this._offsets.push(item[0]);
-
-        this._targets.push(item[1]);
-      });
-    }
-
-    dispose() {
-      EventHandler.off(this._scrollElement, EVENT_KEY$2);
-      super.dispose();
-    } // Private
-
-
-    _getConfig(config) {
-      config = { ...Default$1,
-        ...Manipulator.getDataAttributes(this._element),
-        ...(typeof config === 'object' && config ? config : {})
-      };
-      config.target = getElement(config.target) || document.documentElement;
-      typeCheckConfig(NAME$2, config, DefaultType$1);
-      return config;
-    }
-
-    _getScrollTop() {
-      return this._scrollElement === window ? this._scrollElement.pageYOffset : this._scrollElement.scrollTop;
-    }
-
-    _getScrollHeight() {
-      return this._scrollElement.scrollHeight || Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-    }
-
-    _getOffsetHeight() {
-      return this._scrollElement === window ? window.innerHeight : this._scrollElement.getBoundingClientRect().height;
-    }
-
-    _process() {
-      const scrollTop = this._getScrollTop() + this._config.offset;
-
-      const scrollHeight = this._getScrollHeight();
-
-      const maxScroll = this._config.offset + scrollHeight - this._getOffsetHeight();
-
-      if (this._scrollHeight !== scrollHeight) {
-        this.refresh();
-      }
-
-      if (scrollTop >= maxScroll) {
-        const target = this._targets[this._targets.length - 1];
-
-        if (this._activeTarget !== target) {
-          this._activate(target);
-        }
-
-        return;
-      }
-
-      if (this._activeTarget && scrollTop < this._offsets[0] && this._offsets[0] > 0) {
-        this._activeTarget = null;
-
-        this._clear();
-
-        return;
-      }
-
-      for (let i = this._offsets.length; i--;) {
-        const isActiveTarget = this._activeTarget !== this._targets[i] && scrollTop >= this._offsets[i] && (typeof this._offsets[i + 1] === 'undefined' || scrollTop < this._offsets[i + 1]);
-
-        if (isActiveTarget) {
-          this._activate(this._targets[i]);
-        }
-      }
-    }
-
-    _activate(target) {
-      this._activeTarget = target;
-
-      this._clear();
-
-      const queries = SELECTOR_LINK_ITEMS.split(',').map(selector => `${selector}[data-bs-target="${target}"],${selector}[href="${target}"]`);
-      const link = SelectorEngine.findOne(queries.join(','), this._config.target);
-      link.classList.add(CLASS_NAME_ACTIVE$1);
-
-      if (link.classList.contains(CLASS_NAME_DROPDOWN_ITEM)) {
-        SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE$1, link.closest(SELECTOR_DROPDOWN$1)).classList.add(CLASS_NAME_ACTIVE$1);
-      } else {
-        SelectorEngine.parents(link, SELECTOR_NAV_LIST_GROUP$1).forEach(listGroup => {
-          // Set triggered links parents as active
-          // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
-          SelectorEngine.prev(listGroup, `${SELECTOR_NAV_LINKS}, ${SELECTOR_LIST_ITEMS}`).forEach(item => item.classList.add(CLASS_NAME_ACTIVE$1)); // Handle special case when .nav-link is inside .nav-item
-
-          SelectorEngine.prev(listGroup, SELECTOR_NAV_ITEMS).forEach(navItem => {
-            SelectorEngine.children(navItem, SELECTOR_NAV_LINKS).forEach(item => item.classList.add(CLASS_NAME_ACTIVE$1));
-          });
-        });
-      }
-
-      EventHandler.trigger(this._scrollElement, EVENT_ACTIVATE, {
-        relatedTarget: target
-      });
-    }
-
-    _clear() {
-      SelectorEngine.find(SELECTOR_LINK_ITEMS, this._config.target).filter(node => node.classList.contains(CLASS_NAME_ACTIVE$1)).forEach(node => node.classList.remove(CLASS_NAME_ACTIVE$1));
-    } // Static
-
-
-    static jQueryInterface(config) {
-      return this.each(function () {
-        const data = ScrollSpy.getOrCreateInstance(this, config);
 
         if (typeof config !== 'string') {
           return;
@@ -25875,176 +24083,565 @@
 
   }
   /**
-   * ------------------------------------------------------------------------
-   * Data Api implementation
-   * ------------------------------------------------------------------------
+   * jQuery
    */
 
 
-  EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
-    SelectorEngine.find(SELECTOR_DATA_SPY).forEach(spy => new ScrollSpy(spy));
+  defineJQueryPlugin(Popover);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v5.2.2): scrollspy.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+  /**
+   * Constants
+   */
+
+  const NAME$2 = 'scrollspy';
+  const DATA_KEY$2 = 'bs.scrollspy';
+  const EVENT_KEY$2 = `.${DATA_KEY$2}`;
+  const DATA_API_KEY = '.data-api';
+  const EVENT_ACTIVATE = `activate${EVENT_KEY$2}`;
+  const EVENT_CLICK = `click${EVENT_KEY$2}`;
+  const EVENT_LOAD_DATA_API$1 = `load${EVENT_KEY$2}${DATA_API_KEY}`;
+  const CLASS_NAME_DROPDOWN_ITEM = 'dropdown-item';
+  const CLASS_NAME_ACTIVE$1 = 'active';
+  const SELECTOR_DATA_SPY = '[data-bs-spy="scroll"]';
+  const SELECTOR_TARGET_LINKS = '[href]';
+  const SELECTOR_NAV_LIST_GROUP = '.nav, .list-group';
+  const SELECTOR_NAV_LINKS = '.nav-link';
+  const SELECTOR_NAV_ITEMS = '.nav-item';
+  const SELECTOR_LIST_ITEMS = '.list-group-item';
+  const SELECTOR_LINK_ITEMS = `${SELECTOR_NAV_LINKS}, ${SELECTOR_NAV_ITEMS} > ${SELECTOR_NAV_LINKS}, ${SELECTOR_LIST_ITEMS}`;
+  const SELECTOR_DROPDOWN = '.dropdown';
+  const SELECTOR_DROPDOWN_TOGGLE$1 = '.dropdown-toggle';
+  const Default$1 = {
+    offset: null,
+    // TODO: v6 @deprecated, keep it for backwards compatibility reasons
+    rootMargin: '0px 0px -25%',
+    smoothScroll: false,
+    target: null,
+    threshold: [0.1, 0.5, 1]
+  };
+  const DefaultType$1 = {
+    offset: '(number|null)',
+    // TODO v6 @deprecated, keep it for backwards compatibility reasons
+    rootMargin: 'string',
+    smoothScroll: 'boolean',
+    target: 'element',
+    threshold: 'array'
+  };
+  /**
+   * Class definition
+   */
+
+  class ScrollSpy extends BaseComponent {
+    constructor(element, config) {
+      super(element, config); // this._element is the observablesContainer and config.target the menu links wrapper
+
+      this._targetLinks = new Map();
+      this._observableSections = new Map();
+      this._rootElement = getComputedStyle(this._element).overflowY === 'visible' ? null : this._element;
+      this._activeTarget = null;
+      this._observer = null;
+      this._previousScrollData = {
+        visibleEntryTop: 0,
+        parentScrollTop: 0
+      };
+      this.refresh(); // initialize
+    } // Getters
+
+
+    static get Default() {
+      return Default$1;
+    }
+
+    static get DefaultType() {
+      return DefaultType$1;
+    }
+
+    static get NAME() {
+      return NAME$2;
+    } // Public
+
+
+    refresh() {
+      this._initializeTargetsAndObservables();
+
+      this._maybeEnableSmoothScroll();
+
+      if (this._observer) {
+        this._observer.disconnect();
+      } else {
+        this._observer = this._getNewObserver();
+      }
+
+      for (const section of this._observableSections.values()) {
+        this._observer.observe(section);
+      }
+    }
+
+    dispose() {
+      this._observer.disconnect();
+
+      super.dispose();
+    } // Private
+
+
+    _configAfterMerge(config) {
+      // TODO: on v6 target should be given explicitly & remove the {target: 'ss-target'} case
+      config.target = getElement(config.target) || document.body; // TODO: v6 Only for backwards compatibility reasons. Use rootMargin only
+
+      config.rootMargin = config.offset ? `${config.offset}px 0px -30%` : config.rootMargin;
+
+      if (typeof config.threshold === 'string') {
+        config.threshold = config.threshold.split(',').map(value => Number.parseFloat(value));
+      }
+
+      return config;
+    }
+
+    _maybeEnableSmoothScroll() {
+      if (!this._config.smoothScroll) {
+        return;
+      } // unregister any previous listeners
+
+
+      EventHandler.off(this._config.target, EVENT_CLICK);
+      EventHandler.on(this._config.target, EVENT_CLICK, SELECTOR_TARGET_LINKS, event => {
+        const observableSection = this._observableSections.get(event.target.hash);
+
+        if (observableSection) {
+          event.preventDefault();
+          const root = this._rootElement || window;
+          const height = observableSection.offsetTop - this._element.offsetTop;
+
+          if (root.scrollTo) {
+            root.scrollTo({
+              top: height,
+              behavior: 'smooth'
+            });
+            return;
+          } // Chrome 60 doesn't support `scrollTo`
+
+
+          root.scrollTop = height;
+        }
+      });
+    }
+
+    _getNewObserver() {
+      const options = {
+        root: this._rootElement,
+        threshold: this._config.threshold,
+        rootMargin: this._config.rootMargin
+      };
+      return new IntersectionObserver(entries => this._observerCallback(entries), options);
+    } // The logic of selection
+
+
+    _observerCallback(entries) {
+      const targetElement = entry => this._targetLinks.get(`#${entry.target.id}`);
+
+      const activate = entry => {
+        this._previousScrollData.visibleEntryTop = entry.target.offsetTop;
+
+        this._process(targetElement(entry));
+      };
+
+      const parentScrollTop = (this._rootElement || document.documentElement).scrollTop;
+      const userScrollsDown = parentScrollTop >= this._previousScrollData.parentScrollTop;
+      this._previousScrollData.parentScrollTop = parentScrollTop;
+
+      for (const entry of entries) {
+        if (!entry.isIntersecting) {
+          this._activeTarget = null;
+
+          this._clearActiveClass(targetElement(entry));
+
+          continue;
+        }
+
+        const entryIsLowerThanPrevious = entry.target.offsetTop >= this._previousScrollData.visibleEntryTop; // if we are scrolling down, pick the bigger offsetTop
+
+        if (userScrollsDown && entryIsLowerThanPrevious) {
+          activate(entry); // if parent isn't scrolled, let's keep the first visible item, breaking the iteration
+
+          if (!parentScrollTop) {
+            return;
+          }
+
+          continue;
+        } // if we are scrolling up, pick the smallest offsetTop
+
+
+        if (!userScrollsDown && !entryIsLowerThanPrevious) {
+          activate(entry);
+        }
+      }
+    }
+
+    _initializeTargetsAndObservables() {
+      this._targetLinks = new Map();
+      this._observableSections = new Map();
+      const targetLinks = SelectorEngine.find(SELECTOR_TARGET_LINKS, this._config.target);
+
+      for (const anchor of targetLinks) {
+        // ensure that the anchor has an id and is not disabled
+        if (!anchor.hash || isDisabled(anchor)) {
+          continue;
+        }
+
+        const observableSection = SelectorEngine.findOne(anchor.hash, this._element); // ensure that the observableSection exists & is visible
+
+        if (isVisible(observableSection)) {
+          this._targetLinks.set(anchor.hash, anchor);
+
+          this._observableSections.set(anchor.hash, observableSection);
+        }
+      }
+    }
+
+    _process(target) {
+      if (this._activeTarget === target) {
+        return;
+      }
+
+      this._clearActiveClass(this._config.target);
+
+      this._activeTarget = target;
+      target.classList.add(CLASS_NAME_ACTIVE$1);
+
+      this._activateParents(target);
+
+      EventHandler.trigger(this._element, EVENT_ACTIVATE, {
+        relatedTarget: target
+      });
+    }
+
+    _activateParents(target) {
+      // Activate dropdown parents
+      if (target.classList.contains(CLASS_NAME_DROPDOWN_ITEM)) {
+        SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE$1, target.closest(SELECTOR_DROPDOWN)).classList.add(CLASS_NAME_ACTIVE$1);
+        return;
+      }
+
+      for (const listGroup of SelectorEngine.parents(target, SELECTOR_NAV_LIST_GROUP)) {
+        // Set triggered links parents as active
+        // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
+        for (const item of SelectorEngine.prev(listGroup, SELECTOR_LINK_ITEMS)) {
+          item.classList.add(CLASS_NAME_ACTIVE$1);
+        }
+      }
+    }
+
+    _clearActiveClass(parent) {
+      parent.classList.remove(CLASS_NAME_ACTIVE$1);
+      const activeNodes = SelectorEngine.find(`${SELECTOR_TARGET_LINKS}.${CLASS_NAME_ACTIVE$1}`, parent);
+
+      for (const node of activeNodes) {
+        node.classList.remove(CLASS_NAME_ACTIVE$1);
+      }
+    } // Static
+
+
+    static jQueryInterface(config) {
+      return this.each(function () {
+        const data = ScrollSpy.getOrCreateInstance(this, config);
+
+        if (typeof config !== 'string') {
+          return;
+        }
+
+        if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
+          throw new TypeError(`No method named "${config}"`);
+        }
+
+        data[config]();
+      });
+    }
+
+  }
+  /**
+   * Data API implementation
+   */
+
+
+  EventHandler.on(window, EVENT_LOAD_DATA_API$1, () => {
+    for (const spy of SelectorEngine.find(SELECTOR_DATA_SPY)) {
+      ScrollSpy.getOrCreateInstance(spy);
+    }
   });
   /**
-   * ------------------------------------------------------------------------
    * jQuery
-   * ------------------------------------------------------------------------
-   * add .ScrollSpy to jQuery only if jQuery is present
    */
 
   defineJQueryPlugin(ScrollSpy);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): tab.js
+   * Bootstrap (v5.2.2): tab.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
   const NAME$1 = 'tab';
   const DATA_KEY$1 = 'bs.tab';
   const EVENT_KEY$1 = `.${DATA_KEY$1}`;
-  const DATA_API_KEY = '.data-api';
   const EVENT_HIDE$1 = `hide${EVENT_KEY$1}`;
   const EVENT_HIDDEN$1 = `hidden${EVENT_KEY$1}`;
   const EVENT_SHOW$1 = `show${EVENT_KEY$1}`;
   const EVENT_SHOWN$1 = `shown${EVENT_KEY$1}`;
-  const EVENT_CLICK_DATA_API = `click${EVENT_KEY$1}${DATA_API_KEY}`;
-  const CLASS_NAME_DROPDOWN_MENU = 'dropdown-menu';
+  const EVENT_CLICK_DATA_API = `click${EVENT_KEY$1}`;
+  const EVENT_KEYDOWN = `keydown${EVENT_KEY$1}`;
+  const EVENT_LOAD_DATA_API = `load${EVENT_KEY$1}`;
+  const ARROW_LEFT_KEY = 'ArrowLeft';
+  const ARROW_RIGHT_KEY = 'ArrowRight';
+  const ARROW_UP_KEY = 'ArrowUp';
+  const ARROW_DOWN_KEY = 'ArrowDown';
   const CLASS_NAME_ACTIVE = 'active';
   const CLASS_NAME_FADE$1 = 'fade';
   const CLASS_NAME_SHOW$1 = 'show';
-  const SELECTOR_DROPDOWN = '.dropdown';
-  const SELECTOR_NAV_LIST_GROUP = '.nav, .list-group';
-  const SELECTOR_ACTIVE = '.active';
-  const SELECTOR_ACTIVE_UL = ':scope > li > .active';
-  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
+  const CLASS_DROPDOWN = 'dropdown';
   const SELECTOR_DROPDOWN_TOGGLE = '.dropdown-toggle';
-  const SELECTOR_DROPDOWN_ACTIVE_CHILD = ':scope > .dropdown-menu .active';
+  const SELECTOR_DROPDOWN_MENU = '.dropdown-menu';
+  const NOT_SELECTOR_DROPDOWN_TOGGLE = ':not(.dropdown-toggle)';
+  const SELECTOR_TAB_PANEL = '.list-group, .nav, [role="tablist"]';
+  const SELECTOR_OUTER = '.nav-item, .list-group-item';
+  const SELECTOR_INNER = `.nav-link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list-group-item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role="tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
+  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]'; // todo:v6: could be only `tab`
+
+  const SELECTOR_INNER_ELEM = `${SELECTOR_INNER}, ${SELECTOR_DATA_TOGGLE}`;
+  const SELECTOR_DATA_TOGGLE_ACTIVE = `.${CLASS_NAME_ACTIVE}[data-bs-toggle="tab"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="pill"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="list"]`;
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Tab extends BaseComponent {
-    // Getters
+    constructor(element) {
+      super(element);
+      this._parent = this._element.closest(SELECTOR_TAB_PANEL);
+
+      if (!this._parent) {
+        return; // todo: should Throw exception on v6
+        // throw new TypeError(`${element.outerHTML} has not a valid parent ${SELECTOR_INNER_ELEM}`)
+      } // Set up initial aria attributes
+
+
+      this._setInitialAttributes(this._parent, this._getChildren());
+
+      EventHandler.on(this._element, EVENT_KEYDOWN, event => this._keydown(event));
+    } // Getters
+
+
     static get NAME() {
       return NAME$1;
     } // Public
 
 
     show() {
-      if (this._element.parentNode && this._element.parentNode.nodeType === Node.ELEMENT_NODE && this._element.classList.contains(CLASS_NAME_ACTIVE)) {
+      // Shows this elem and deactivate the active sibling if exists
+      const innerElem = this._element;
+
+      if (this._elemIsActive(innerElem)) {
         return;
-      }
+      } // Search for active tab on same parent to deactivate it
 
-      let previous;
-      const target = getElementFromSelector(this._element);
 
-      const listElement = this._element.closest(SELECTOR_NAV_LIST_GROUP);
+      const active = this._getActiveElem();
 
-      if (listElement) {
-        const itemSelector = listElement.nodeName === 'UL' || listElement.nodeName === 'OL' ? SELECTOR_ACTIVE_UL : SELECTOR_ACTIVE;
-        previous = SelectorEngine.find(itemSelector, listElement);
-        previous = previous[previous.length - 1];
-      }
-
-      const hideEvent = previous ? EventHandler.trigger(previous, EVENT_HIDE$1, {
-        relatedTarget: this._element
+      const hideEvent = active ? EventHandler.trigger(active, EVENT_HIDE$1, {
+        relatedTarget: innerElem
       }) : null;
-      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$1, {
-        relatedTarget: previous
+      const showEvent = EventHandler.trigger(innerElem, EVENT_SHOW$1, {
+        relatedTarget: active
       });
 
-      if (showEvent.defaultPrevented || hideEvent !== null && hideEvent.defaultPrevented) {
+      if (showEvent.defaultPrevented || hideEvent && hideEvent.defaultPrevented) {
         return;
       }
 
-      this._activate(this._element, listElement);
+      this._deactivate(active, innerElem);
 
-      const complete = () => {
-        EventHandler.trigger(previous, EVENT_HIDDEN$1, {
-          relatedTarget: this._element
-        });
-        EventHandler.trigger(this._element, EVENT_SHOWN$1, {
-          relatedTarget: previous
-        });
-      };
-
-      if (target) {
-        this._activate(target, target.parentNode, complete);
-      } else {
-        complete();
-      }
+      this._activate(innerElem, active);
     } // Private
 
 
-    _activate(element, container, callback) {
-      const activeElements = container && (container.nodeName === 'UL' || container.nodeName === 'OL') ? SelectorEngine.find(SELECTOR_ACTIVE_UL, container) : SelectorEngine.children(container, SELECTOR_ACTIVE);
-      const active = activeElements[0];
-      const isTransitioning = callback && active && active.classList.contains(CLASS_NAME_FADE$1);
-
-      const complete = () => this._transitionComplete(element, active, callback);
-
-      if (active && isTransitioning) {
-        active.classList.remove(CLASS_NAME_SHOW$1);
-
-        this._queueCallback(complete, element, true);
-      } else {
-        complete();
-      }
-    }
-
-    _transitionComplete(element, active, callback) {
-      if (active) {
-        active.classList.remove(CLASS_NAME_ACTIVE);
-        const dropdownChild = SelectorEngine.findOne(SELECTOR_DROPDOWN_ACTIVE_CHILD, active.parentNode);
-
-        if (dropdownChild) {
-          dropdownChild.classList.remove(CLASS_NAME_ACTIVE);
-        }
-
-        if (active.getAttribute('role') === 'tab') {
-          active.setAttribute('aria-selected', false);
-        }
+    _activate(element, relatedElem) {
+      if (!element) {
+        return;
       }
 
       element.classList.add(CLASS_NAME_ACTIVE);
 
-      if (element.getAttribute('role') === 'tab') {
-        element.setAttribute('aria-selected', true);
-      }
+      this._activate(getElementFromSelector(element)); // Search and activate/show the proper section
 
-      reflow(element);
 
-      if (element.classList.contains(CLASS_NAME_FADE$1)) {
-        element.classList.add(CLASS_NAME_SHOW$1);
-      }
-
-      let parent = element.parentNode;
-
-      if (parent && parent.nodeName === 'LI') {
-        parent = parent.parentNode;
-      }
-
-      if (parent && parent.classList.contains(CLASS_NAME_DROPDOWN_MENU)) {
-        const dropdownElement = element.closest(SELECTOR_DROPDOWN);
-
-        if (dropdownElement) {
-          SelectorEngine.find(SELECTOR_DROPDOWN_TOGGLE, dropdownElement).forEach(dropdown => dropdown.classList.add(CLASS_NAME_ACTIVE));
+      const complete = () => {
+        if (element.getAttribute('role') !== 'tab') {
+          element.classList.add(CLASS_NAME_SHOW$1);
+          return;
         }
 
-        element.setAttribute('aria-expanded', true);
+        element.removeAttribute('tabindex');
+        element.setAttribute('aria-selected', true);
+
+        this._toggleDropDown(element, true);
+
+        EventHandler.trigger(element, EVENT_SHOWN$1, {
+          relatedTarget: relatedElem
+        });
+      };
+
+      this._queueCallback(complete, element, element.classList.contains(CLASS_NAME_FADE$1));
+    }
+
+    _deactivate(element, relatedElem) {
+      if (!element) {
+        return;
       }
 
-      if (callback) {
-        callback();
+      element.classList.remove(CLASS_NAME_ACTIVE);
+      element.blur();
+
+      this._deactivate(getElementFromSelector(element)); // Search and deactivate the shown section too
+
+
+      const complete = () => {
+        if (element.getAttribute('role') !== 'tab') {
+          element.classList.remove(CLASS_NAME_SHOW$1);
+          return;
+        }
+
+        element.setAttribute('aria-selected', false);
+        element.setAttribute('tabindex', '-1');
+
+        this._toggleDropDown(element, false);
+
+        EventHandler.trigger(element, EVENT_HIDDEN$1, {
+          relatedTarget: relatedElem
+        });
+      };
+
+      this._queueCallback(complete, element, element.classList.contains(CLASS_NAME_FADE$1));
+    }
+
+    _keydown(event) {
+      if (![ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY].includes(event.key)) {
+        return;
       }
+
+      event.stopPropagation(); // stopPropagation/preventDefault both added to support up/down keys without scrolling the page
+
+      event.preventDefault();
+      const isNext = [ARROW_RIGHT_KEY, ARROW_DOWN_KEY].includes(event.key);
+      const nextActiveElement = getNextActiveElement(this._getChildren().filter(element => !isDisabled(element)), event.target, isNext, true);
+
+      if (nextActiveElement) {
+        nextActiveElement.focus({
+          preventScroll: true
+        });
+        Tab.getOrCreateInstance(nextActiveElement).show();
+      }
+    }
+
+    _getChildren() {
+      // collection of inner elements
+      return SelectorEngine.find(SELECTOR_INNER_ELEM, this._parent);
+    }
+
+    _getActiveElem() {
+      return this._getChildren().find(child => this._elemIsActive(child)) || null;
+    }
+
+    _setInitialAttributes(parent, children) {
+      this._setAttributeIfNotExists(parent, 'role', 'tablist');
+
+      for (const child of children) {
+        this._setInitialAttributesOnChild(child);
+      }
+    }
+
+    _setInitialAttributesOnChild(child) {
+      child = this._getInnerElement(child);
+
+      const isActive = this._elemIsActive(child);
+
+      const outerElem = this._getOuterElement(child);
+
+      child.setAttribute('aria-selected', isActive);
+
+      if (outerElem !== child) {
+        this._setAttributeIfNotExists(outerElem, 'role', 'presentation');
+      }
+
+      if (!isActive) {
+        child.setAttribute('tabindex', '-1');
+      }
+
+      this._setAttributeIfNotExists(child, 'role', 'tab'); // set attributes to the related panel too
+
+
+      this._setInitialAttributesOnTargetPanel(child);
+    }
+
+    _setInitialAttributesOnTargetPanel(child) {
+      const target = getElementFromSelector(child);
+
+      if (!target) {
+        return;
+      }
+
+      this._setAttributeIfNotExists(target, 'role', 'tabpanel');
+
+      if (child.id) {
+        this._setAttributeIfNotExists(target, 'aria-labelledby', `#${child.id}`);
+      }
+    }
+
+    _toggleDropDown(element, open) {
+      const outerElem = this._getOuterElement(element);
+
+      if (!outerElem.classList.contains(CLASS_DROPDOWN)) {
+        return;
+      }
+
+      const toggle = (selector, className) => {
+        const element = SelectorEngine.findOne(selector, outerElem);
+
+        if (element) {
+          element.classList.toggle(className, open);
+        }
+      };
+
+      toggle(SELECTOR_DROPDOWN_TOGGLE, CLASS_NAME_ACTIVE);
+      toggle(SELECTOR_DROPDOWN_MENU, CLASS_NAME_SHOW$1);
+      outerElem.setAttribute('aria-expanded', open);
+    }
+
+    _setAttributeIfNotExists(element, attribute, value) {
+      if (!element.hasAttribute(attribute)) {
+        element.setAttribute(attribute, value);
+      }
+    }
+
+    _elemIsActive(elem) {
+      return elem.classList.contains(CLASS_NAME_ACTIVE);
+    } // Try to get the inner element (usually the .nav-link)
+
+
+    _getInnerElement(elem) {
+      return elem.matches(SELECTOR_INNER_ELEM) ? elem : SelectorEngine.findOne(SELECTOR_INNER_ELEM, elem);
+    } // Try to get the outer element (usually the .nav-item)
+
+
+    _getOuterElement(elem) {
+      return elem.closest(SELECTOR_OUTER) || elem;
     } // Static
 
 
@@ -26052,21 +24649,21 @@
       return this.each(function () {
         const data = Tab.getOrCreateInstance(this);
 
-        if (typeof config === 'string') {
-          if (typeof data[config] === 'undefined') {
-            throw new TypeError(`No method named "${config}"`);
-          }
-
-          data[config]();
+        if (typeof config !== 'string') {
+          return;
         }
+
+        if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
+          throw new TypeError(`No method named "${config}"`);
+        }
+
+        data[config]();
       });
     }
 
   }
   /**
-   * ------------------------------------------------------------------------
-   * Data Api implementation
-   * ------------------------------------------------------------------------
+   * Data API implementation
    */
 
 
@@ -26079,28 +24676,31 @@
       return;
     }
 
-    const data = Tab.getOrCreateInstance(this);
-    data.show();
+    Tab.getOrCreateInstance(this).show();
   });
   /**
-   * ------------------------------------------------------------------------
+   * Initialize on focus
+   */
+
+  EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
+    for (const element of SelectorEngine.find(SELECTOR_DATA_TOGGLE_ACTIVE)) {
+      Tab.getOrCreateInstance(element);
+    }
+  });
+  /**
    * jQuery
-   * ------------------------------------------------------------------------
-   * add .Tab to jQuery only if jQuery is present
    */
 
   defineJQueryPlugin(Tab);
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): toast.js
+   * Bootstrap (v5.2.2): toast.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
   /**
-   * ------------------------------------------------------------------------
    * Constants
-   * ------------------------------------------------------------------------
    */
 
   const NAME = 'toast';
@@ -26130,15 +24730,12 @@
     delay: 5000
   };
   /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
+   * Class definition
    */
 
   class Toast extends BaseComponent {
     constructor(element, config) {
-      super(element);
-      this._config = this._getConfig(config);
+      super(element, config);
       this._timeout = null;
       this._hasMouseInteraction = false;
       this._hasKeyboardInteraction = false;
@@ -26147,12 +24744,12 @@
     } // Getters
 
 
-    static get DefaultType() {
-      return DefaultType;
-    }
-
     static get Default() {
       return Default;
+    }
+
+    static get DefaultType() {
+      return DefaultType;
     }
 
     static get NAME() {
@@ -26186,15 +24783,13 @@
 
       reflow(this._element);
 
-      this._element.classList.add(CLASS_NAME_SHOW);
-
-      this._element.classList.add(CLASS_NAME_SHOWING);
+      this._element.classList.add(CLASS_NAME_SHOW, CLASS_NAME_SHOWING);
 
       this._queueCallback(complete, this._element, this._config.animation);
     }
 
     hide() {
-      if (!this._element.classList.contains(CLASS_NAME_SHOW)) {
+      if (!this.isShown()) {
         return;
       }
 
@@ -26208,9 +24803,7 @@
         this._element.classList.add(CLASS_NAME_HIDE); // @deprecated
 
 
-        this._element.classList.remove(CLASS_NAME_SHOWING);
-
-        this._element.classList.remove(CLASS_NAME_SHOW);
+        this._element.classList.remove(CLASS_NAME_SHOWING, CLASS_NAME_SHOW);
 
         EventHandler.trigger(this._element, EVENT_HIDDEN);
       };
@@ -26223,22 +24816,17 @@
     dispose() {
       this._clearTimeout();
 
-      if (this._element.classList.contains(CLASS_NAME_SHOW)) {
+      if (this.isShown()) {
         this._element.classList.remove(CLASS_NAME_SHOW);
       }
 
       super.dispose();
+    }
+
+    isShown() {
+      return this._element.classList.contains(CLASS_NAME_SHOW);
     } // Private
 
-
-    _getConfig(config) {
-      config = { ...Default,
-        ...Manipulator.getDataAttributes(this._element),
-        ...(typeof config === 'object' && config ? config : {})
-      };
-      typeCheckConfig(NAME, config, this.constructor.DefaultType);
-      return config;
-    }
 
     _maybeScheduleHide() {
       if (!this._config.autohide) {
@@ -26258,13 +24846,17 @@
       switch (event.type) {
         case 'mouseover':
         case 'mouseout':
-          this._hasMouseInteraction = isInteracting;
-          break;
+          {
+            this._hasMouseInteraction = isInteracting;
+            break;
+          }
 
         case 'focusin':
         case 'focusout':
-          this._hasKeyboardInteraction = isInteracting;
-          break;
+          {
+            this._hasKeyboardInteraction = isInteracting;
+            break;
+          }
       }
 
       if (isInteracting) {
@@ -26310,40 +24902,41 @@
     }
 
   }
+  /**
+   * Data API implementation
+   */
+
 
   enableDismissTrigger(Toast);
   /**
-   * ------------------------------------------------------------------------
    * jQuery
-   * ------------------------------------------------------------------------
-   * add .Toast to jQuery only if jQuery is present
    */
 
   defineJQueryPlugin(Toast);
 
+  // work around Edge bug
   // if (!Promise.prototype.finally) {
   //     Promise.prototype.finally = function(callback) {
   //         return this.then(callback)
   //             .catch(callback);
   //     };
   // }
+
   // even though Rollup is bundling all your files together, errors and
   // logs will still point to your original source modules
+  console.log('if you have sourcemaps enabled in your devtools, click on main.js:5 -->');
 
-  console.log('if you have sourcemaps enabled in your devtools, click on main.js:5 -->'); // mainly aiming to determine whether '/app/' or '/testapp/'
-
+  // mainly aiming to determine whether '/app/' or '/testapp/'
   var pathPrefix = window.location.pathname.split('/')[1];
   console.log({
     pathPrefix: pathPrefix
   });
-
   if (navigator.serviceWorker) {
     // kill after 2023-03-01 to prevent the app perpetuating itself
     if (new Date().toJSON().slice(0, 10) >= '2023-03-01') {
       navigator.serviceWorker.getRegistrations().then(function (registrations) {
         var _iterator = _createForOfIteratorHelper(registrations),
-            _step;
-
+          _step;
         try {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
             var registration = _step.value;
@@ -26360,14 +24953,14 @@
       // by 'controlled'. The scope is not a path but a prefix. First, it is
       // converted into an absolute URL, then used to determine if a page is
       // controlled by testing it is a prefix of the request URL.
-      navigator.serviceWorker.register("/".concat(pathPrefix, "/serviceworker.js"), {// scope: './controlled'
+      navigator.serviceWorker.register("/".concat(pathPrefix, "/serviceworker.js"), {
+        // scope: './controlled'
       });
       navigator.serviceWorker.addEventListener('controllerchange', function () {
         window.location.reload();
       });
     }
   }
-
   var app = new NyphApp();
   app.router = new PatchedNavigo("https://nyph.bsbi.app/".concat(pathPrefix, "/"));
   app.containerId = 'appcontainer';
@@ -26375,7 +24968,9 @@
   app.registerController(new StaticContentController(new HelpView(), '/help'));
   app.registerController(new MainController(new MainView()));
   app.registerController(new SurveyPickerController(new SurveyPickerView()));
-  app.setLocalForageName(NyphApp.forageName); // test detection of cameras
+  app.setLocalForageName(NyphApp.forageName);
+
+  // test detection of cameras
   // see https://stackoverflow.com/questions/23288918/check-if-user-has-webcam-or-not-using-javascript-only
   // navigator.mediaDevices.enumerateDevices()
   //     .then(function(devices) {

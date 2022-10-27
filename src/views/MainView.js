@@ -261,7 +261,7 @@ export class MainView extends Page {
                     this.#occurrenceForm.surveyId = this.controller.app.currentSurvey.id;
 
                     // scroll to the top of the panel
-                    console.log('scrolling to top of occurrence');
+                    //console.log('scrolling to top of occurrence');
                     editorContainer.scrollTop = 0;
                 }
                 editorContainer.innerHTML = '';
@@ -665,7 +665,7 @@ export class MainView extends Page {
 
                 // only trigger a navigation if the occurrence was the current one
                 if (this.controller.currentOccurrenceId === event.target.dataset.occurrenceid) {
-                    this.fireEvent(MainController.EVENT_SELECT_OCCURRENCE, {occurrenceId: ''});
+                    //this.fireEvent(MainController.EVENT_SELECT_OCCURRENCE, {occurrenceId: ''});
                 }
             } else if (event.target.dataset.sectionkey) {
                 if (event.target.dataset.sectionkey === 'record') {
@@ -674,7 +674,7 @@ export class MainView extends Page {
 
                     // only trigger a navigation if the view context was the current one
                     if (this.controller.viewSubcontext === 'record') {
-                        this.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: ''});
+                        //this.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: ''});
                     }
                 } else {
                     if (this.#surveyFormSections[event.target.dataset.sectionkey]) {
@@ -683,7 +683,7 @@ export class MainView extends Page {
 
                         // only trigger a navigation if the section was the current one
                         if (this.controller.surveySection === event.target.dataset.sectionkey) {
-                            this.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: ''});
+                            //this.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: ''});
                         }
                     }
                 }
@@ -956,6 +956,7 @@ export class MainView extends Page {
         const recordListContainer = content.appendChild(document.createElement('div'));
         recordListContainer.id = OCCURRENCE_LIST_CONTAINER_ID;
 
+        // NYPH specific
         this.controller.survey.addListener(Survey.EVENT_MODIFIED, () => {
             const occurrenceHeadingEl = document.getElementById(this.recordsHeaderListDescriptorId);
 

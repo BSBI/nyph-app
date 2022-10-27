@@ -3289,545 +3289,6 @@ class Model extends EventHarness$1 {
     }
 }
 
-/**
- *
- * @param text
- * @returns {string}
- */
-function escapeHTML(text) {
-    try {
-        // IE (even v 11) sometimes fails here with 'Unknown runtime error', see http://blog.rakeshpai.me/2007/02/ies-unknown-runtime-error-when-using.html
-        const textArea = document.createElement('textarea');
-        textArea.innerHTML = text;
-        return textArea.innerHTML.replace(/"/g, '&quot;');
-    } catch (e) {
-        const pre = document.createElement('pre');
-        pre.appendChild(document.createTextNode(text));
-        return pre.innerHTML.replace(/"/g, '&quot;');
-    }
-}
-
-// a Survey captures the currentSurvey meta data
-//import {TextGeorefField} from "../views/formfields/TextGeorefField";
-//import {Form} from "../views/forms/Form";
-
-class Survey extends Model {
-
-    /**
-     * fired from Survey when the object's contents have been modified
-     *
-     * @type {string}
-     */
-    static EVENT_MODIFIED = 'modified';
-
-    SAVE_ENDPOINT = '/savesurvey.php';
-
-    TYPE = 'survey';
-
-    /**
-     *
-     * @type {Object.<string, *>}
-     */
-    attributes = {
-
-    };
-
-    /**
-     * if set then provide default values (e.g. GPS look-up of current geo-reference)
-     *
-     * @type {boolean}
-     */
-    isNew = false;
-
-    /**
-     * kludge to flag once the App singleton has set up a listner for changes on the survey
-     * @type {boolean}
-     */
-    hasAppModifiedListener = false;
-
-    /**
-     *
-     * @returns {({rawString: string, precision: number|null, source: string|null, gridRef: string, latLng: ({lat: number, lng: number}|null)}|null)}
-     */
-    get geoReference() {
-        return this.attributes.georef || {
-            gridRef: '',
-            rawString: '', // what was provided by the user to generate this grid-ref (might be a postcode or placename)
-            source: 'unknown', //TextGeorefField.GEOREF_SOURCE_UNKNOWN,
-            latLng: null,
-            precision: null
-        };
-    };
-
-    get date() {
-        return this.attributes.date || '';
-    }
-
-    get place() {
-        return this.attributes.place || '';
-    }
-
-    /**
-     * called after the form has changed, before the values have been read back in to the occurrence
-     *
-     * @param {{form: SurveyForm}} params
-     */
-    formChangedHandler(params) {
-        console.log('Survey change handler invoked.');
-
-        // read new values
-        // then fire its own change event (Occurrence.EVENT_MODIFIED)
-        params.form.updateModelFromContent();
-
-        console.log('Survey calling conditional validation.');
-
-        // refresh the form's validation state
-        params.form.conditionallyValidateForm();
-
-        this.touch();
-        this.fireEvent(Survey.EVENT_MODIFIED, {surveyId : this.id});
-    }
-
-    /**
-     * Used for special-case setting of a custom attribute
-     * (i.e. not usually one linked to a form)
-     * e.g. used for updating the NYPH null-list flag
-     *
-     * @param attributeName
-     * @param value
-     */
-    setAttribute(attributeName, value) {
-        if (this.attributes[attributeName] !== value) {
-            this.attributes[attributeName] = value;
-
-            this.touch();
-            this.fireEvent(Survey.EVENT_MODIFIED, {surveyId : this.id});
-        }
-    }
-
-    // /**
-    //  *
-    //  * @param {SurveyForm} form
-    //  */
-    // registerForm(form) {
-    //     form.model = this;
-    //     form.addListener('change', this.formChangedHandler.bind(this));
-    //
-    //     if (this.isNew) {
-    //         form.fireEvent('initialisenew', {}); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
-    //         form.liveValidation = false;
-    //     } else {
-    //         form.liveValidation = true;
-    //     }
-    // }
-
-    /**
-     * if not securely saved then makes a post to /savesurvey.php
-     *
-     * this may be intercepted by a service worker, which could write the image to indexdb
-     * a successful save will result in a json response containing the uri from which the image may be retrieved
-     * and also the state of persistence (whether or not the image was intercepted by a service worker while offline)
-     *
-     * if saving fails then the expectation is that there is no service worker, in which case should attempt to write
-     * the image directly to indexdb
-     *
-     * must test indexdb for this eventuality after the save has returned
-     *
-     * @returns {Promise}
-     */
-    save() {
-        if (!this._savedRemotely) {
-            const formData = new FormData;
-
-            formData.append('type', this.TYPE);
-            formData.append('surveyId', this.id);
-            formData.append('id', this.id);
-            formData.append('projectId', this.projectId.toString());
-            formData.append('attributes', JSON.stringify(this.attributes));
-            formData.append('deleted', this.deleted.toString());
-            formData.append('created', this.createdStamp.toString());
-
-            console.log('queueing survey post');
-            return this.queuePost(formData);
-        } else {
-            return Promise.reject(`${this.id} has already been saved.`);
-        }
-    }
-
-    /**
-     *
-     * @returns {string} an html-safe string based on the locality and creation date
-     */
-    generateSurveyName() {
-        if (this.attributes.casual) {
-            // special-case treatment of surveys with 'casual' attribute (which won't have a locality or date as part of the survey)
-
-            return this.attributes.surveyName ?
-                escapeHTML(this.attributes.surveyName)
-                :
-                `Data-set created on ${(new Date(this.createdStamp * 1000)).toString()}`
-        } else {
-            let place = (this.attributes.place || (this.attributes.georef && this.attributes.georef.gridRef) || '(unlocalised)').trim();
-
-            const userDate = this.date;
-            let dateString;
-
-            if (userDate) {
-                dateString = userDate;
-            } else {
-                const createdDate = new Date(this.createdStamp * 1000);
-
-                try {
-                    // 'default' locale fails on Edge
-                    dateString = createdDate.toLocaleString('default', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                } catch (e) {
-                    dateString = createdDate.toLocaleString('en-GB', {year: 'numeric', month: 'long', day: 'numeric'});
-                }
-            }
-
-            return `${escapeHTML(place)} ${dateString}`;
-        }
-    }
-}
-
-/**
- *
- */
-class InternalAppError extends Error {
-
-}
-
-class TaxonError extends Error {
-
-}
-
-/**
- * @external BsbiDb
- */
-
-class Taxon {
-    /**
-     * @typedef RawTaxon
-     * @type {array}
-     * @property {string} 0 - nameString
-     * @property {(string|number)} 1 - canonical
-     * @property {string} 2 hybridCanonical, raw entry is 0 if canonical == hybridCanonical
-     * @property {(string|number)} 3 acceptedEntityId or 0 if name is accepted
-     * @property {string} 4 qualifier
-     * @property {string} 5 authority
-     * @property {string} 6 vernacular
-     * @property {string} 7 vernacularRoot
-     * @property {number} 8 used
-     * @property {number} 9 sortOrder
-     * @property {Array.<string>} 10 parentIds
-     */
-
-    /**
-     *
-     * @type {Object.<string, RawTaxon>}
-     */
-    static rawTaxa; // = BsbiDb.TaxonNames;
-
-    /**
-     * @type {string}
-     */
-    id;
-
-    /**
-     *
-     * @type {string}
-     */
-    nameString = '';
-
-    /**
-     *
-     * @type {string}
-     */
-    canonical = '';
-
-    /**
-     *
-     * @type {string}
-     */
-    hybridCanonical = '';
-
-    /**
-     *
-     * @type {string}
-     */
-    acceptedEntityId = '';
-
-    /**
-     *
-     * @type {string}
-     */
-    qualifier = '';
-
-    /**
-     *
-     * @type {string}
-     */
-    authority = '';
-
-    /**
-     *
-     * @type {string}
-     */
-    vernacular = '';
-
-    /**
-     *
-     * @type {string}
-     */
-    vernacularRoot = '';
-
-    /**
-     * @type {boolean}
-     */
-    used;
-
-    /**
-     * @type {number}
-     */
-    sortOrder;
-
-    /**
-     *
-     * @type {Array.<string>}
-     */
-    parentIds = [];
-
-    /**
-     *
-     * @type {boolean}
-     */
-    static showVernacular = true;
-
-    /**
-     *
-     * @param {string} id
-     * @returns {Taxon}
-     * @throws {TaxonError}
-     */
-    static fromId (id) {
-        if (!Taxon.rawTaxa) {
-            // may not yet have been initialised due to deferred loading
-
-            if (BsbiDb.TaxonNames) {
-                Taxon.rawTaxa = BsbiDb.TaxonNames;
-            } else {
-                throw new TaxonError(`Taxon.fromId() called before taxon list has loaded.`);
-            }
-        }
-
-        if (!Taxon.rawTaxa.hasOwnProperty(id)) {
-            throw new TaxonError(`Taxon id '${id}' not found.`);
-        }
-
-        const raw = Taxon.rawTaxa[id];
-
-        const taxon = new Taxon;
-
-        taxon.id = id;
-        taxon.nameString = raw[0];
-        taxon.canonical = raw[1] || raw[0]; // raw entry is blank if namesString == canonical
-        taxon.hybridCanonical = raw[2] || taxon.canonical; // raw entry is blank if canonical == hybridCanonical
-        taxon.acceptedEntityId = raw[3] || id;
-        taxon.qualifier = raw[4];
-        taxon.authority = raw[5];
-        taxon.vernacular = raw[6];
-        taxon.vernacularRoot = raw[7];
-        taxon.used = raw[8];
-        taxon.sortOrder = raw[9];
-        taxon.parentIds = raw[10];
-
-        return taxon;
-    }
-
-    /**
-     *
-     * @param {boolean} vernacularMatched
-     * @returns {string}
-     */
-    formattedHTML(vernacularMatched) {
-        let acceptedTaxon;
-        if (this.id !== this.acceptedEntityId) {
-            acceptedTaxon = Taxon.fromId(this.acceptedEntityId);
-        }
-
-        {
-            if (vernacularMatched) {
-                return (acceptedTaxon) ?
-                    `<q class="taxon-vernacular">${escapeHTML(this.vernacular)}</q><wbr> <span class="italictaxon">${this.nameString}${this.qualifier ? ` <span class="taxon-qualifier">${this.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML(this.authority)}</span>` +
-                        ` = <span class="italictaxon">${acceptedTaxon.nameString}${acceptedTaxon.qualifier ? ` <span class="taxon-qualifier">${acceptedTaxon.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML(acceptedTaxon.authority)}</span>`
-                    :
-                    `<q class="taxon-vernacular">${escapeHTML(this.vernacular)}</q><wbr> <span class="italictaxon">${this.nameString}${this.qualifier ? ` <span class="taxon-qualifier">${this.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML(this.authority)}</span>`
-                    ;
-            } else {
-                return (acceptedTaxon) ?
-                    `<span class="italictaxon">${this.nameString}${this.qualifier ? ` <span class="taxon-qualifier">${this.qualifier}</span>` : ''}</span> <span class="taxauthority">${this.authority}</span>${this.vernacular ? ` <wbr><q class="taxon-vernacular">${escapeHTML(this.vernacular)}</q>` : ''
-                        } = <span class="italictaxon">${acceptedTaxon.nameString}${acceptedTaxon.qualifier ? ` <span class="taxon-qualifier">${acceptedTaxon.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML(acceptedTaxon.authority)}</span>`
-                    :
-                    `<span class="italictaxon">${this.nameString}${this.qualifier ? ` <span class="taxon-qualifier">${this.qualifier}</span>` : ''}</span> <span class="taxauthority">${escapeHTML(this.authority)}</span>${this.vernacular ? ` <wbr><q class="taxon-vernacular">${escapeHTML(this.vernacular)}</q>` : ''}`
-                    ;
-            }
-        }
-    }
-}
-
-//import {Form} from "../views/forms/Form";
-
-class Occurrence extends Model {
-
-    /**
-     *
-     * @type {Object.<string, *>}
-     */
-    attributes = {
-        // taxon: {
-        //     taxonId: '',
-        //     taxonName: '',
-        //     vernacularMatch: false
-        // }
-    };
-
-    // /**
-    //  * set if the image has been posted to the server
-    //  * (a local copy might still exist, which may have been reduced to thumbnail resolution)
-    //  *
-    //  * @type {boolean}
-    //  */
-    // _savedRemotely = false;
-
-    // /**
-    //  * set if the image has been added to a temporary store (e.g. indexedDb)
-    //  *
-    //  * @type {boolean}
-    //  */
-    // _savedLocally = false;
-
-    SAVE_ENDPOINT = '/saveoccurrence.php';
-
-    TYPE = 'occurrence';
-
-    /**
-     * fired from Occurrence when the object's contents have been modified
-     *
-     * @type {string}
-     */
-    static EVENT_MODIFIED = 'modified';
-
-    /**
-     * set if this is a new entry (before user has moved on to the next entry)
-     * influences whether form validation errors are displayed
-     *
-     * @type {boolean}
-     */
-    isNew = false;
-
-    /**
-     *
-     * @returns {(Taxon|null)} returns null for unmatched taxa specified by name
-     */
-    get taxon() {
-        return this.attributes.taxon && this.attributes.taxon.taxonId ? Taxon.fromId(this.attributes.taxon.taxonId) : null;
-    };
-
-    // /**
-    //  *
-    //  * @param {OccurrenceForm} form
-    //  * @returns {OccurrenceForm}
-    //  */
-    // setForm(form) {
-    //     form.addListener(Form.CHANGE_EVENT, this.formChangedHandler.bind(this));
-    //
-    //     if (!this.isNew) {
-    //         form.liveValidation = true;
-    //     }
-    //     return form;
-    // }
-
-    /**
-     * called after the form has changed, before the values have been read back in to the occurrence
-     *
-     * @param {{form: Form}} params
-     */
-    formChangedHandler(params) {
-        console.log('Occurrence change handler invoked.');
-
-        // read new values
-        // then fire it's own change event (Occurrence.EVENT_MODIFIED)
-        params.form.updateModelFromContent();
-
-        // refresh the form's validation state
-        params.form.conditionallyValidateForm();
-
-        this.touch();
-        this.fireEvent(Occurrence.EVENT_MODIFIED, {occurrenceId : this.id});
-    }
-
-    delete() {
-        if (!this.deleted) {
-            this.touch();
-            this.deleted = true;
-
-            this.fireEvent(Occurrence.EVENT_MODIFIED, {occurrenceId : this.id});
-        }
-    }
-
-    /**
-     * if not securely saved then makes a post to /saveoccurrence.php
-     *
-     * this may be intercepted by a service worker, which could write the image to indexdb
-     * a successful save will result in a json response containing the uri from which the image may be retrieved
-     * and also the state of persistence (whether or not the image was intercepted by a service worker while offline)
-     *
-     * if saving fails then the expectation is that there is no service worker, in which case should attempt to write
-     * the image directly to indexdb
-     *
-     * must test indexdb for this eventuality after the save has returned
-     *
-     * @param {string} surveyId
-     * @returns {Promise}
-     */
-    save(surveyId) {
-        if (!this._savedRemotely) {
-            const formData = new FormData;
-
-            if (!surveyId && this.surveyId) {
-                surveyId = this.surveyId;
-            }
-
-            formData.append('type', this.TYPE);
-            formData.append('surveyId', surveyId);
-            formData.append('occurrenceId', this.id);
-            formData.append('id', this.id);
-            formData.append('projectId', this.projectId.toString());
-            formData.append('attributes', JSON.stringify(this.attributes));
-            formData.append('deleted', this.deleted.toString());
-            formData.append('created', this.createdStamp.toString());
-
-            console.log('queueing occurrence post');
-            return this.queuePost(formData);
-        } else {
-            return Promise.reject(`${this.id} has already been saved.`);
-        }
-    }
-
-    /**
-     *
-     * @param {{id : string, saveState: string, attributes: Object.<string, *>, deleted: boolean|string, created: number, modified: number, projectId: number, surveyId: string}} descriptor
-     */
-    _parseDescriptor(descriptor) {
-        super._parseDescriptor(descriptor);
-        this.surveyId = descriptor.surveyId;
-    }
-}
-
 class OccurrenceImage extends Model {
 
     /**
@@ -3963,821 +3424,6 @@ class OccurrenceImage extends Model {
             `height="${height}"`;
 
         return `<picture><source srcset="/image.php?imageid=${id}&amp;height=128&amp;format=webp" type="image/webp"><img${attributesString} src="/image.php?imageid=${id}&amp;width=${width}&amp;height=${height}&amp;format=jpeg" ${renderingConstraint} alt="photo"></picture>`;
-    }
-}
-
-// App.js
-
-class App extends EventHarness$1 {
-    /**
-     * @type {PatchedNavigo}
-     */
-    #router;
-
-    /**
-     * @type {HTMLElement}
-     */
-    #containerEl;
-
-    /**
-     *
-     * @type {Array.<AppController>}
-     */
-    controllers = [];
-
-    /**
-     * tracks the handle of the current page controller
-     * updating this is the responsibility of the controller
-     *
-     * @type {number|boolean}
-     */
-    currentControllerHandle = false;
-
-    /**
-     *
-     * @type {Array.<{url : string}>}
-     */
-    routeHistory = [];
-
-    /**
-     * keyed by occurrence id (a UUID string)
-     *
-     * @type {Map.<string,Occurrence>}
-     */
-    occurrences;
-
-    /**
-     * keyed by survey id (a UUID string)
-     *
-     * @type {Map.<string,Survey>}
-     */
-    surveys;
-
-    /**
-     * @type {?Survey}
-     */
-    _currentSurvey = null;
-
-    /**
-     * @abstract
-     * @type {number}
-     */
-    projectId;
-
-    /**
-     *
-     * @param {?Survey} survey
-     */
-    set currentSurvey(survey) {
-        if (this._currentSurvey !== survey) {
-            this._currentSurvey = survey || null;
-
-            let surveyId = survey ? survey.id : null;
-            localforage.setItem(App.CURRENT_SURVEY_KEY_NAME, surveyId);
-        }
-    }
-
-    /**
-     *
-     * @returns {?Survey}
-     */
-    get currentSurvey() {
-        return this._currentSurvey;
-    }
-
-    /**
-     *
-     * @returns {Promise<string | null>}
-     */
-    getLastSurveyId() {
-        return localforage.getItem(App.CURRENT_SURVEY_KEY_NAME)
-            .catch((error) => {
-                console.log({'Error retrieving last survey id' : error});
-                return Promise.resolve(null);
-            });
-    }
-
-    /**
-     * @type {Layout}
-     */
-    layout;
-
-    /**
-     * Event fired when user requests a new blank survey
-     * @type {string}
-     */
-    static EVENT_ADD_SURVEY_USER_REQUEST = 'useraddsurveyrequest';
-
-    /**
-     * Event fired when user requests a reset (local clearance) of all surveys
-     * @type {string}
-     */
-    static EVENT_RESET_SURVEYS = 'userresetsurveys';
-
-    /**
-     * Fired after App.currentSurvey has been set to a new blank survey
-     * the survey will be accessible in App.currentSurvey
-     *
-     * @type {string}
-     */
-    static EVENT_NEW_SURVEY = 'newsurvey';
-
-    static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
-
-    static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
-
-    /**
-     * Fired if the surveys list might need updating (as a survey has been added, removed or changed)
-     *
-     * @type {string}
-     */
-    static EVENT_SURVEYS_CHANGED = 'surveyschanged';
-
-    /**
-     * Fired after fully-successful sync-all
-     * (or if sync-all resolved with nothing to send)
-     *
-     * @type {string}
-     */
-    static EVENT_ALL_SYNCED_TO_SERVER = 'allsyncedtoserver';
-
-    /**
-     * fired if sync-all called, but one or more objects failed to be saved to the server
-     *
-     * @type {string}
-     */
-    static EVENT_SYNC_ALL_FAILED = 'syncallfailed';
-
-    /**
-     * IndexedDb key used for storing id of current (last accessed) survey (or null)
-     *
-     * @type {string}
-     */
-    static CURRENT_SURVEY_KEY_NAME = 'currentsurvey';
-
-    /**
-     *
-     * @type {boolean}
-     */
-    static devMode = false;
-
-    constructor() {
-        super();
-        this.reset();
-    }
-
-    /**
-     *
-     * @param {string} name
-     */
-    setLocalForageName(name) {
-        localforage.config({
-            name: name
-        });
-    }
-
-    reset() {
-        this.surveys = new Map();
-        this.clearCurrentSurvey();
-    }
-
-    /**
-     * unset the current survey and its associated list of occurrences
-     * called when switching surveys and during startup
-     */
-    clearCurrentSurvey() {
-        this.occurrences = new Map();
-        this.currentSurvey = null;
-    }
-
-    /**
-     * see https://github.com/krasimir/navigo
-     * @param {PatchedNavigo} router
-     */
-    set router(router) {
-        this.#router = router;
-    }
-
-    /**
-     *
-     * @returns {PatchedNavigo}
-     */
-    get router() {
-        return this.#router;
-    }
-
-    set containerId(containerId) {
-        const el = document.getElementById(containerId);
-        if (!el) {
-            throw new Error(`App container '${containerId}' not found.`);
-        } else {
-            this.#containerEl = el;
-        }
-    }
-
-    get container() {
-        return this.#containerEl;
-    }
-
-    /**
-     *
-     * @param {AppController} controller
-     */
-    registerController(controller) {
-        controller.handle = this.controllers.length;
-        this.controllers[this.controllers.length] = controller;
-
-        controller.app = this;
-        controller.registerRoute(this.#router);
-    }
-
-    initialise() {
-        //Page.initialise_layout(this.#containerEl);
-        this.layout.initialise();
-
-        this.#router.notFound((query) => {
-            // called when there is path specified but
-            // there is no route matching
-
-            console.log(`no route found for '${query}'`);
-            //this.#router.navigate('/list');
-
-            // const view = new NotFoundView();
-            // view.display();
-            this.notFoundView();
-        });
-
-        //default homepage
-        this.#router.on(() => {
-            // special-case redirect (replacing in history) from '/' to '/list' without updating browser history
-
-            console.log("redirecting from '/' to '/list'");
-
-            this.#router.pause();
-            //if (this.clearCurrentSurvey && this.currentSurvey.isPristine) { // this appears to be a bug 'this.clearCurrentSurvey'
-            // rather than 'this.clearCurrentSurvey()' is nonsensical
-            // and if clearCurrentSurvey() was actually called then the isPristine test would fail (called on null)
-            if (this.currentSurvey && this.currentSurvey.isPristine) {
-                this.#router.navigate('/list/survey/welcome').resume();
-            } else {
-                this.#router.navigate('/list').resume();
-            }
-            this.#router.resolve();
-        });
-
-        for (let controller of this.controllers) {
-            controller.initialise();
-        }
-    }
-
-    display() {
-        console.log('App display');
-        this.#router.resolve();
-
-        // it's opportune at this point to try to ping the server again to save anything left outstanding
-        this.syncAll();
-    }
-
-    saveRoute() {
-        const lastRoute = this.#router.lastRouteResolved();
-        if (this.routeHistory.length) {
-            if (this.routeHistory[this.routeHistory.length - 1] !== lastRoute) {
-                this.routeHistory[this.routeHistory.length] = lastRoute;
-            }
-        } else {
-            this.routeHistory[0] = lastRoute;
-        }
-    }
-
-    /**
-     * mark the current survey and its constituent records as subject to validation checks (not pristine)
-     */
-    markAllNotPristine() {
-        for (let occurrenceTuple of this.occurrences) {
-            occurrenceTuple[1].isPristine = false;
-        }
-    }
-
-    /**
-     *
-     * @param {Layout} layout
-     */
-    setLayout(layout) {
-        this.layout = layout;
-        layout.setApp(this);
-    }
-
-    /**
-     *
-     * @param {Survey} survey
-     */
-    addSurvey(survey) {
-        if (survey.projectId !== this.projectId) {
-            throw new Error(`Survey project id '${survey.projectId} does not match with current project ('${this.projectId}')`);
-        }
-
-        //if (!this.surveys.has(survey.id)) {
-        if (!survey.hasAppModifiedListener) {
-            survey.hasAppModifiedListener = true;
-
-            console.log("setting survey's modified/save handler");
-            survey.addListener(
-                Survey.EVENT_MODIFIED,
-                () => {
-                    this.fireEvent(App.EVENT_SURVEYS_CHANGED);
-                    return survey.save();
-                }
-            );
-        }
-
-        this.surveys.set(survey.id, survey);
-        this.fireEvent(App.EVENT_SURVEYS_CHANGED);
-    }
-
-    /**
-     * tests whether occurrences have been defined, excluding any that have been deleted
-     *
-     * @returns {boolean}
-     */
-    haveExtantOccurrences() {
-        for (let occurrence of this.occurrences) {
-            if (!occurrence.deleted) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     *
-     * @param {Occurrence} occurrence
-     */
-    addOccurrence(occurrence) {
-        if (!occurrence.surveyId) {
-            throw new InternalAppError('Survey id must set prior to registering occurrence.');
-        }
-
-        if (this.occurrences.size === 0) {
-            // this is the first occurrence added, set the survey creation stamp to match
-            // this avoids anomalies where a 'stale' survey created when the form was first opened but not used sits around
-            // for a protracted period
-
-            const survey = this.surveys.get(occurrence.surveyId);
-            survey.createdStamp = occurrence.createdStamp;
-        }
-        console.log(`in addOccurrence setting id '${occurrence.id}'`);
-        this.occurrences.set(occurrence.id, occurrence);
-
-        occurrence.addListener(Occurrence.EVENT_MODIFIED,
-            // possibly this should be async, with await on the survey and occurrence save
-            () => {
-                const survey = this.surveys.get(occurrence.surveyId);
-                if (!survey) {
-                    throw new Error(`Failed to look up survey id ${occurrence.surveyId}`);
-                } else {
-                    survey.isPristine = false;
-
-                    // need to ensure that currentSurvey is saved before occurrence
-                    // rather than using a promise chain here, instead rely on enforced queuing of post requests in Model
-                    // otherwise there are problems with queue-jumping (e.g. when an image needs to be saved after both previous requests)
-                    if (survey.unsaved()) {
-                        // noinspection JSIgnoredPromiseFromCall
-                        survey.save();
-                    }
-                    occurrence.save(survey.id);
-                }
-            });
-    }
-
-    /**
-     * attempts to refresh the state of local storage for the specified survey ids
-     * if fetch fails then return a failed promise
-     *
-     * updates local copy of surveys and occurrences
-     *
-     * no service worker interception of this call - passed through and not cached
-     *
-     * @param {Array.<string>} surveyIds
-     * @return {Promise}
-     */
-    refreshFromServer(surveyIds) {
-        console.log({'Refresh from server, ids' : surveyIds});
-        const formData = new FormData;
-
-        let n = 0;
-        for (let key of surveyIds) {
-            if (key && key !== 'undefined') {
-                formData.append(`surveyId[${n++}]`, key);
-            }
-        }
-
-        return fetch(App.LOAD_SURVEYS_ENDPOINT, {
-            method: 'POST',
-            body: formData
-        }).then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                return Promise.reject(`Invalid response from server when refreshing survey ids`);
-            }
-        }).then((jsonResponse) => {
-            /** @param {{survey : Array.<object>, occurrence: Array.<object>, image: Array.<object>}} jsonResponse */
-
-            console.log({'refresh from server json response' : jsonResponse});
-
-            // if external objects newer than local version then place in local storage
-            const promises = [];
-
-            for (let type in jsonResponse) {
-                if (jsonResponse.hasOwnProperty(type)) {
-                    for (let object of jsonResponse[type]) {
-                        promises.push(this._conditionallyReplaceObject(object));
-                    }
-                }
-            }
-
-
-            return Promise.all(promises);
-        });
-    }
-
-    /**
-     * compare modified stamp of indexeddb and external objects and write external version locally if more recent
-     *
-     * @param {{id : string, type : string, modified : number, created : number, saveState : string, deleted : boolean}} externalVersion
-     * @returns {Promise}
-     * @private
-     */
-    _conditionallyReplaceObject(externalVersion) {
-        const objectType = externalVersion.type;
-        const id = externalVersion.id;
-        const key = `${objectType}.${id}`;
-
-        return localforage.getItem(key)
-            .then((localVersion) => {
-                if (localVersion) {
-                    // compare stamps
-
-                    // if (externalVersion.deleted) {
-                    //     // if the external copy is deleted then remove the local copy
-                    //     return localforage.removeItem(key);
-                    // }
-
-                    if (!externalVersion.deleted && localVersion.modified >= externalVersion.modified) {
-                        console.log(`Local copy of ${key} is the same or newer than the server copy. (${localVersion.modified} >= ${externalVersion.modified}) `);
-                        return Promise.resolve();
-                    }
-                }
-
-                // no local copy or stale copy
-                // so store response locally
-                console.log(`Adding or replacing local copy of ${key}`);
-                return localforage.setItem(key, externalVersion);
-            });
-    }
-
-    /**
-     * retrieve the full set of keys from local storage (IndexedDb)
-     *
-     * @param {{survey: Array.<string>, occurrence : Array.<string>, image: Array.<string>}} storedObjectKeys
-     * @returns {Promise}
-     */
-    seekKeys(storedObjectKeys) {
-        console.log('starting seekKeys');
-        return localforage.keys().then((keys) => {
-            console.log({"in seekKeys: local forage keys" : keys});
-
-            for (let key of keys) {
-                if (key !== App.CURRENT_SURVEY_KEY_NAME) {
-                    let type, id;
-
-                    [type, id] = key.split('.', 2);
-
-                    if (storedObjectKeys.hasOwnProperty(type)) {
-                        if (!storedObjectKeys[type].includes(id)) {
-                            storedObjectKeys[type].push(id);
-                        }
-                    } else {
-                        console.log(`Unrecognised stored key type '${type}.`);
-                    }
-                }
-            }
-
-            return storedObjectKeys;
-        });
-    }
-
-    /**
-     * @returns {Promise}
-     */
-    syncAll() {
-        const storedObjectKeys = {
-            survey : [],
-            occurrence : [],
-            image : []
-        };
-
-        return this.seekKeys(storedObjectKeys)
-            .then((storedObjectKeys) => {
-                return this._syncLocalUnsaved(storedObjectKeys)
-                    .then((result) => {
-                        this.fireEvent(App.EVENT_ALL_SYNCED_TO_SERVER);
-
-                        return result;
-                    });
-            }, (failedResult) => {
-                console.log(`Failed to sync all: ${failedResult}`);
-                this.fireEvent(App.EVENT_SYNC_ALL_FAILED);
-                return false;
-            });
-    }
-
-    /**
-     *
-     * @param storedObjectKeys
-     * @returns {Promise}
-     * @private
-     */
-    _syncLocalUnsaved(storedObjectKeys) {
-        // synchronises surveys first, then occurrences, then images from indexedDb
-
-        const promises = [];
-        for(let surveyKey of storedObjectKeys.survey) {
-            promises.push(Survey.retrieveFromLocal(surveyKey, new Survey)
-                .then((survey) => {
-                    if (survey.unsaved()) {
-                        return survey.save();
-                    }
-                })
-            );
-        }
-
-        for(let occurrenceKey of storedObjectKeys.occurrence) {
-            promises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
-                .then((occurrence) => {
-                    if (occurrence.unsaved()) {
-                        return occurrence.save();
-                    }
-                })
-            );
-        }
-
-        for(let imageKey of storedObjectKeys.image) {
-            promises.push(OccurrenceImage.retrieveFromLocal(imageKey, new OccurrenceImage)
-                .then((image) => {
-                    if (image.unsaved()) {
-                        return image.save();
-                    }
-                })
-            );
-        }
-
-        return Promise.all(promises).catch((result) => {
-            console.log(`Save failure: ${result}`);
-            return Promise.reject(result); // pass on the failed save (catch was only for logging, not to allow subsequent success)
-        });
-    }
-
-    /**
-     * restore previous state, pulling back from local and external store
-     * @todo this needs a save phase, so that local changes are saved back to the server
-     *
-     * @param {string} [targetSurveyId] if specified then select this id as the current survey
-     * @return {Promise}
-     */
-    restoreOccurrences(targetSurveyId = '') {
-
-        console.log(`Invoked restoreOccurrences, target survey id: ${targetSurveyId}`);
-
-        if (targetSurveyId === 'undefined') {
-            console.error(`Attempt to restore occurrences for literal 'undefined' survey id.`);
-            targetSurveyId = '';
-        }
-
-        return (targetSurveyId) ?
-            this._restoreOccurrenceImp(targetSurveyId)
-            :
-            this.getLastSurveyId().then(
-                (lastSurveyId) => {
-                    console.log(`Retrieved last used survey id '${lastSurveyId}'`);
-
-                    return this._restoreOccurrenceImp(lastSurveyId).catch(() => {
-                        console.log(`Failed to retrieve lastSurveyId ${lastSurveyId}. Resetting current survey and retrying.`);
-
-                        this.currentSurvey = null;
-                        return this._restoreOccurrenceImp();
-                    });
-                },
-                () => this._restoreOccurrenceImp()
-            );
-    }
-
-    _restoreOccurrenceImp(targetSurveyId) {
-        // need to check for a special case where restoring a survey that has never been saved even locally
-        // i.e. new and unmodified
-        // only present in current App.surveys
-        // this occurs if user creates a new survey, makes no changes, switches away from it then switches back
-        if (targetSurveyId && this.surveys.has(targetSurveyId)) {
-            const localSurvey = this.surveys.get(targetSurveyId);
-
-            if (localSurvey.isPristine) {
-                this.clearCurrentSurvey(); // clear occurrences from the previous survey
-
-                this.currentSurvey = localSurvey;
-                this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-                return Promise.resolve();
-            }
-        }
-
-        const storedObjectKeys = {
-            survey: [],
-            occurrence: [],
-            image: []
-        };
-
-        if (targetSurveyId) {
-            storedObjectKeys.survey[0] = targetSurveyId;
-        }
-
-        return this.seekKeys(storedObjectKeys).then((storedObjectKeys) => {
-            if (storedObjectKeys.survey.length) {
-                return this.refreshFromServer(storedObjectKeys.survey).finally(() => {
-                    // re-seek keys from indexed db, to take account of any new occurrences received from the server
-                    return this.seekKeys(storedObjectKeys);
-                });
-            } else {
-                return null;
-            }
-        }).finally(() => {
-            // called regardless of whether a server refresh was successful
-            // storedObjectKeys and indexed db should be as up-to-date as possible
-
-            console.log({storedObjectKeys});
-
-            if (storedObjectKeys && storedObjectKeys.survey && storedObjectKeys.survey.length) {
-
-                const surveyFetchingPromises = [];
-                let n = 0;
-
-                for (let surveyKey of storedObjectKeys.survey) {
-                    // arbitrarily set first survey key as current if a target id hasn't been specified
-
-                    surveyFetchingPromises.push(
-                        this._restoreSurveyFromLocal(surveyKey, storedObjectKeys, (targetSurveyId === surveyKey) || (!targetSurveyId && n++ === 0))
-                    );
-                }
-
-                return Promise.all(surveyFetchingPromises)
-                    .finally(() => {
-                        //this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
-
-                        if (!this.currentSurvey) {
-                            // survey doesn't actually exist
-                            // this could have happened in an invalid survey id was provided as a targetSurveyId
-                            console.log(`Failed to retrieve survey id '${targetSurveyId}'`);
-                            return Promise.reject(new Error(`Failed to retrieve survey id '${targetSurveyId}'`));
-                        }
-
-                        if (this.currentSurvey.deleted) {
-                            // unusual case where survey is deleted
-                            // substitute a new one
-
-                            // this should probably never happen, as items deleted on the server ought to have been
-                            // removed locally
-                            this.setNewSurvey();
-                        } else {
-                            this.fireEvent(App.EVENT_SURVEYS_CHANGED); // current survey should be set now, so menu needs refresh
-                        }
-                        return Promise.resolve();
-                    });
-            } else {
-                console.log('no pre-existing surveys, so creating a new one');
-                // no pre-existing surveys, so create a new one
-                this.setNewSurvey();
-
-                return Promise.resolve();
-            }
-        });
-    }
-
-    /**
-     *
-     * @param {{}|null} [attributes]
-     */
-    setNewSurvey(attributes) {
-        this.currentSurvey = new Survey();
-
-        if (attributes) {
-            this.currentSurvey.attributes = {...this.currentSurvey.attributes, ...attributes};
-        }
-
-        this.currentSurvey.projectId = this.projectId;
-        this.currentSurvey.isPristine = true;
-        this.currentSurvey.isNew = true;
-
-        this.fireEvent(App.EVENT_NEW_SURVEY);
-
-        this.addSurvey(this.currentSurvey);
-    }
-
-    /**
-     * @return {Occurrence}
-     */
-    addNewOccurrence() {
-        const occurrence = new Occurrence();
-        occurrence.surveyId = this.currentSurvey.id;
-        occurrence.projectId = this.projectId;
-
-        occurrence.isNew = true;
-        occurrence.isPristine = true;
-
-        this.addOccurrence(occurrence);
-
-        this.fireEvent(App.EVENT_OCCURRENCE_ADDED, {occurrenceId: occurrence.id, surveyId: occurrence.surveyId});
-
-        return occurrence;
-    }
-
-    /**
-     *
-     * @param {string} surveyId
-     * @param {{survey: Array, occurrence: Array, image: Array}} storedObjectKeys
-     * @param {boolean} setAsCurrent
-     * @returns {Promise}
-     * @private
-     */
-    _restoreSurveyFromLocal(surveyId, storedObjectKeys, setAsCurrent) {
-        // retrieve surveys first, then occurrences, then images from indexedDb
-
-        let promise = Survey.retrieveFromLocal(surveyId, new Survey).then((survey) => {
-            console.log(`retrieving local survey ${surveyId}`);
-
-            if (setAsCurrent) {
-                // the apps occurrences should only relate to the current survey
-                // (the reset are remote or in IndexedDb)
-                this.clearCurrentSurvey();
-
-                this.addSurvey(survey);
-                const occurrenceFetchingPromises = [];
-
-                for (let occurrenceKey of storedObjectKeys.occurrence) {
-                    occurrenceFetchingPromises.push(Occurrence.retrieveFromLocal(occurrenceKey, new Occurrence)
-                        .then((occurrence) => {
-                            if (occurrence.surveyId === surveyId) {
-                                console.log(`adding occurrence ${occurrenceKey}`);
-                                this.addOccurrence(occurrence);
-                            }
-                        }));
-                }
-
-                return Promise.all(occurrenceFetchingPromises);
-            } else {
-                // not the current survey, so just add it but don't load occurrences
-                this.addSurvey(survey);
-            }
-        });
-
-        if (setAsCurrent) {
-            promise.finally(() => {
-                //console.log('Reached image fetching part');
-                const imageFetchingPromises = [];
-
-                for (let occurrenceImageKey of storedObjectKeys.image) {
-                    imageFetchingPromises.push(OccurrenceImage.retrieveFromLocal(occurrenceImageKey, new OccurrenceImage)
-                        .then((occurrenceImage) => {
-                            console.log(`restoring image id '${occurrenceImageKey}'`);
-
-                            if (occurrenceImage.surveyId === surveyId) {
-                                OccurrenceImage.imageCache.set(occurrenceImageKey, occurrenceImage);
-                            }
-                        }, (reason) => {
-                            console.log(`Failed to retrieve an image: ${reason}`);
-                        }));
-                }
-
-                this.currentSurvey = this.surveys.get(storedObjectKeys.survey[0]);
-
-                return Promise.all(imageFetchingPromises);
-            });
-        }
-
-        return promise;
-    }
-
-    /**
-     *
-     * @returns {Promise<void>}
-     */
-    clearLocalForage() {
-        return localforage.clear();
-    }
-
-    /**
-     * @abstract
-     */
-    notFoundView() {
-        // const view = new NotFoundView();
-        // view.display();
     }
 }
 
@@ -5628,322 +4274,329 @@ var eventHandler = {exports: {}};
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 
-(function (module, exports) {
-(function (global, factory) {
-  module.exports = factory() ;
-})(commonjsGlobal$2, (function () {
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/index.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
+var hasRequiredEventHandler;
 
-  const getjQuery = () => {
-    const {
-      jQuery
-    } = window;
+function requireEventHandler () {
+	if (hasRequiredEventHandler) return eventHandler.exports;
+	hasRequiredEventHandler = 1;
+	(function (module, exports) {
+		(function (global, factory) {
+		  module.exports = factory() ;
+		})(commonjsGlobal$2, (function () {
+		  /**
+		   * --------------------------------------------------------------------------
+		   * Bootstrap (v5.1.3): util/index.js
+		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+		   * --------------------------------------------------------------------------
+		   */
 
-    if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
-      return jQuery;
-    }
+		  const getjQuery = () => {
+		    const {
+		      jQuery
+		    } = window;
 
-    return null;
-  };
+		    if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
+		      return jQuery;
+		    }
 
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): dom/event-handler.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  /**
-   * ------------------------------------------------------------------------
-   * Constants
-   * ------------------------------------------------------------------------
-   */
+		    return null;
+		  };
 
-  const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
-  const stripNameRegex = /\..*/;
-  const stripUidRegex = /::\d+$/;
-  const eventRegistry = {}; // Events storage
+		  /**
+		   * --------------------------------------------------------------------------
+		   * Bootstrap (v5.1.3): dom/event-handler.js
+		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+		   * --------------------------------------------------------------------------
+		   */
+		  /**
+		   * ------------------------------------------------------------------------
+		   * Constants
+		   * ------------------------------------------------------------------------
+		   */
 
-  let uidEvent = 1;
-  const customEvents = {
-    mouseenter: 'mouseover',
-    mouseleave: 'mouseout'
-  };
-  const customEventsRegex = /^(mouseenter|mouseleave)/i;
-  const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
-  /**
-   * ------------------------------------------------------------------------
-   * Private methods
-   * ------------------------------------------------------------------------
-   */
+		  const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
+		  const stripNameRegex = /\..*/;
+		  const stripUidRegex = /::\d+$/;
+		  const eventRegistry = {}; // Events storage
 
-  function getUidEvent(element, uid) {
-    return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
-  }
+		  let uidEvent = 1;
+		  const customEvents = {
+		    mouseenter: 'mouseover',
+		    mouseleave: 'mouseout'
+		  };
+		  const customEventsRegex = /^(mouseenter|mouseleave)/i;
+		  const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
+		  /**
+		   * ------------------------------------------------------------------------
+		   * Private methods
+		   * ------------------------------------------------------------------------
+		   */
 
-  function getEvent(element) {
-    const uid = getUidEvent(element);
-    element.uidEvent = uid;
-    eventRegistry[uid] = eventRegistry[uid] || {};
-    return eventRegistry[uid];
-  }
+		  function getUidEvent(element, uid) {
+		    return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
+		  }
 
-  function bootstrapHandler(element, fn) {
-    return function handler(event) {
-      event.delegateTarget = element;
+		  function getEvent(element) {
+		    const uid = getUidEvent(element);
+		    element.uidEvent = uid;
+		    eventRegistry[uid] = eventRegistry[uid] || {};
+		    return eventRegistry[uid];
+		  }
 
-      if (handler.oneOff) {
-        EventHandler.off(element, event.type, fn);
-      }
+		  function bootstrapHandler(element, fn) {
+		    return function handler(event) {
+		      event.delegateTarget = element;
 
-      return fn.apply(element, [event]);
-    };
-  }
+		      if (handler.oneOff) {
+		        EventHandler.off(element, event.type, fn);
+		      }
 
-  function bootstrapDelegationHandler(element, selector, fn) {
-    return function handler(event) {
-      const domElements = element.querySelectorAll(selector);
+		      return fn.apply(element, [event]);
+		    };
+		  }
 
-      for (let {
-        target
-      } = event; target && target !== this; target = target.parentNode) {
-        for (let i = domElements.length; i--;) {
-          if (domElements[i] === target) {
-            event.delegateTarget = target;
+		  function bootstrapDelegationHandler(element, selector, fn) {
+		    return function handler(event) {
+		      const domElements = element.querySelectorAll(selector);
 
-            if (handler.oneOff) {
-              EventHandler.off(element, event.type, selector, fn);
-            }
+		      for (let {
+		        target
+		      } = event; target && target !== this; target = target.parentNode) {
+		        for (let i = domElements.length; i--;) {
+		          if (domElements[i] === target) {
+		            event.delegateTarget = target;
 
-            return fn.apply(target, [event]);
-          }
-        }
-      } // To please ESLint
+		            if (handler.oneOff) {
+		              EventHandler.off(element, event.type, selector, fn);
+		            }
 
-
-      return null;
-    };
-  }
-
-  function findHandler(events, handler, delegationSelector = null) {
-    const uidEventList = Object.keys(events);
-
-    for (let i = 0, len = uidEventList.length; i < len; i++) {
-      const event = events[uidEventList[i]];
-
-      if (event.originalHandler === handler && event.delegationSelector === delegationSelector) {
-        return event;
-      }
-    }
-
-    return null;
-  }
-
-  function normalizeParams(originalTypeEvent, handler, delegationFn) {
-    const delegation = typeof handler === 'string';
-    const originalHandler = delegation ? delegationFn : handler;
-    let typeEvent = getTypeEvent(originalTypeEvent);
-    const isNative = nativeEvents.has(typeEvent);
-
-    if (!isNative) {
-      typeEvent = originalTypeEvent;
-    }
-
-    return [delegation, originalHandler, typeEvent];
-  }
-
-  function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
-    if (typeof originalTypeEvent !== 'string' || !element) {
-      return;
-    }
-
-    if (!handler) {
-      handler = delegationFn;
-      delegationFn = null;
-    } // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
-    // this prevents the handler from being dispatched the same way as mouseover or mouseout does
+		            return fn.apply(target, [event]);
+		          }
+		        }
+		      } // To please ESLint
 
 
-    if (customEventsRegex.test(originalTypeEvent)) {
-      const wrapFn = fn => {
-        return function (event) {
-          if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
-            return fn.call(this, event);
-          }
-        };
-      };
+		      return null;
+		    };
+		  }
 
-      if (delegationFn) {
-        delegationFn = wrapFn(delegationFn);
-      } else {
-        handler = wrapFn(handler);
-      }
-    }
+		  function findHandler(events, handler, delegationSelector = null) {
+		    const uidEventList = Object.keys(events);
 
-    const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
-    const events = getEvent(element);
-    const handlers = events[typeEvent] || (events[typeEvent] = {});
-    const previousFn = findHandler(handlers, originalHandler, delegation ? handler : null);
+		    for (let i = 0, len = uidEventList.length; i < len; i++) {
+		      const event = events[uidEventList[i]];
 
-    if (previousFn) {
-      previousFn.oneOff = previousFn.oneOff && oneOff;
-      return;
-    }
+		      if (event.originalHandler === handler && event.delegationSelector === delegationSelector) {
+		        return event;
+		      }
+		    }
 
-    const uid = getUidEvent(originalHandler, originalTypeEvent.replace(namespaceRegex, ''));
-    const fn = delegation ? bootstrapDelegationHandler(element, handler, delegationFn) : bootstrapHandler(element, handler);
-    fn.delegationSelector = delegation ? handler : null;
-    fn.originalHandler = originalHandler;
-    fn.oneOff = oneOff;
-    fn.uidEvent = uid;
-    handlers[uid] = fn;
-    element.addEventListener(typeEvent, fn, delegation);
-  }
+		    return null;
+		  }
 
-  function removeHandler(element, events, typeEvent, handler, delegationSelector) {
-    const fn = findHandler(events[typeEvent], handler, delegationSelector);
+		  function normalizeParams(originalTypeEvent, handler, delegationFn) {
+		    const delegation = typeof handler === 'string';
+		    const originalHandler = delegation ? delegationFn : handler;
+		    let typeEvent = getTypeEvent(originalTypeEvent);
+		    const isNative = nativeEvents.has(typeEvent);
 
-    if (!fn) {
-      return;
-    }
+		    if (!isNative) {
+		      typeEvent = originalTypeEvent;
+		    }
 
-    element.removeEventListener(typeEvent, fn, Boolean(delegationSelector));
-    delete events[typeEvent][fn.uidEvent];
-  }
+		    return [delegation, originalHandler, typeEvent];
+		  }
 
-  function removeNamespacedHandlers(element, events, typeEvent, namespace) {
-    const storeElementEvent = events[typeEvent] || {};
-    Object.keys(storeElementEvent).forEach(handlerKey => {
-      if (handlerKey.includes(namespace)) {
-        const event = storeElementEvent[handlerKey];
-        removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
-      }
-    });
-  }
+		  function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
+		    if (typeof originalTypeEvent !== 'string' || !element) {
+		      return;
+		    }
 
-  function getTypeEvent(event) {
-    // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
-    event = event.replace(stripNameRegex, '');
-    return customEvents[event] || event;
-  }
-
-  const EventHandler = {
-    on(element, event, handler, delegationFn) {
-      addHandler(element, event, handler, delegationFn, false);
-    },
-
-    one(element, event, handler, delegationFn) {
-      addHandler(element, event, handler, delegationFn, true);
-    },
-
-    off(element, originalTypeEvent, handler, delegationFn) {
-      if (typeof originalTypeEvent !== 'string' || !element) {
-        return;
-      }
-
-      const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
-      const inNamespace = typeEvent !== originalTypeEvent;
-      const events = getEvent(element);
-      const isNamespace = originalTypeEvent.startsWith('.');
-
-      if (typeof originalHandler !== 'undefined') {
-        // Simplest case: handler is passed, remove that listener ONLY.
-        if (!events || !events[typeEvent]) {
-          return;
-        }
-
-        removeHandler(element, events, typeEvent, originalHandler, delegation ? handler : null);
-        return;
-      }
-
-      if (isNamespace) {
-        Object.keys(events).forEach(elementEvent => {
-          removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
-        });
-      }
-
-      const storeElementEvent = events[typeEvent] || {};
-      Object.keys(storeElementEvent).forEach(keyHandlers => {
-        const handlerKey = keyHandlers.replace(stripUidRegex, '');
-
-        if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
-          const event = storeElementEvent[keyHandlers];
-          removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
-        }
-      });
-    },
-
-    trigger(element, event, args) {
-      if (typeof event !== 'string' || !element) {
-        return null;
-      }
-
-      const $ = getjQuery();
-      const typeEvent = getTypeEvent(event);
-      const inNamespace = event !== typeEvent;
-      const isNative = nativeEvents.has(typeEvent);
-      let jQueryEvent;
-      let bubbles = true;
-      let nativeDispatch = true;
-      let defaultPrevented = false;
-      let evt = null;
-
-      if (inNamespace && $) {
-        jQueryEvent = $.Event(event, args);
-        $(element).trigger(jQueryEvent);
-        bubbles = !jQueryEvent.isPropagationStopped();
-        nativeDispatch = !jQueryEvent.isImmediatePropagationStopped();
-        defaultPrevented = jQueryEvent.isDefaultPrevented();
-      }
-
-      if (isNative) {
-        evt = document.createEvent('HTMLEvents');
-        evt.initEvent(typeEvent, bubbles, true);
-      } else {
-        evt = new CustomEvent(event, {
-          bubbles,
-          cancelable: true
-        });
-      } // merge custom information in our event
+		    if (!handler) {
+		      handler = delegationFn;
+		      delegationFn = null;
+		    } // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
+		    // this prevents the handler from being dispatched the same way as mouseover or mouseout does
 
 
-      if (typeof args !== 'undefined') {
-        Object.keys(args).forEach(key => {
-          Object.defineProperty(evt, key, {
-            get() {
-              return args[key];
-            }
+		    if (customEventsRegex.test(originalTypeEvent)) {
+		      const wrapFn = fn => {
+		        return function (event) {
+		          if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
+		            return fn.call(this, event);
+		          }
+		        };
+		      };
 
-          });
-        });
-      }
+		      if (delegationFn) {
+		        delegationFn = wrapFn(delegationFn);
+		      } else {
+		        handler = wrapFn(handler);
+		      }
+		    }
 
-      if (defaultPrevented) {
-        evt.preventDefault();
-      }
+		    const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
+		    const events = getEvent(element);
+		    const handlers = events[typeEvent] || (events[typeEvent] = {});
+		    const previousFn = findHandler(handlers, originalHandler, delegation ? handler : null);
 
-      if (nativeDispatch) {
-        element.dispatchEvent(evt);
-      }
+		    if (previousFn) {
+		      previousFn.oneOff = previousFn.oneOff && oneOff;
+		      return;
+		    }
 
-      if (evt.defaultPrevented && typeof jQueryEvent !== 'undefined') {
-        jQueryEvent.preventDefault();
-      }
+		    const uid = getUidEvent(originalHandler, originalTypeEvent.replace(namespaceRegex, ''));
+		    const fn = delegation ? bootstrapDelegationHandler(element, handler, delegationFn) : bootstrapHandler(element, handler);
+		    fn.delegationSelector = delegation ? handler : null;
+		    fn.originalHandler = originalHandler;
+		    fn.oneOff = oneOff;
+		    fn.uidEvent = uid;
+		    handlers[uid] = fn;
+		    element.addEventListener(typeEvent, fn, delegation);
+		  }
 
-      return evt;
-    }
+		  function removeHandler(element, events, typeEvent, handler, delegationSelector) {
+		    const fn = findHandler(events[typeEvent], handler, delegationSelector);
 
-  };
+		    if (!fn) {
+		      return;
+		    }
 
-  return EventHandler;
+		    element.removeEventListener(typeEvent, fn, Boolean(delegationSelector));
+		    delete events[typeEvent][fn.uidEvent];
+		  }
 
-}));
+		  function removeNamespacedHandlers(element, events, typeEvent, namespace) {
+		    const storeElementEvent = events[typeEvent] || {};
+		    Object.keys(storeElementEvent).forEach(handlerKey => {
+		      if (handlerKey.includes(namespace)) {
+		        const event = storeElementEvent[handlerKey];
+		        removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
+		      }
+		    });
+		  }
 
-}(eventHandler));
+		  function getTypeEvent(event) {
+		    // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
+		    event = event.replace(stripNameRegex, '');
+		    return customEvents[event] || event;
+		  }
+
+		  const EventHandler = {
+		    on(element, event, handler, delegationFn) {
+		      addHandler(element, event, handler, delegationFn, false);
+		    },
+
+		    one(element, event, handler, delegationFn) {
+		      addHandler(element, event, handler, delegationFn, true);
+		    },
+
+		    off(element, originalTypeEvent, handler, delegationFn) {
+		      if (typeof originalTypeEvent !== 'string' || !element) {
+		        return;
+		      }
+
+		      const [delegation, originalHandler, typeEvent] = normalizeParams(originalTypeEvent, handler, delegationFn);
+		      const inNamespace = typeEvent !== originalTypeEvent;
+		      const events = getEvent(element);
+		      const isNamespace = originalTypeEvent.startsWith('.');
+
+		      if (typeof originalHandler !== 'undefined') {
+		        // Simplest case: handler is passed, remove that listener ONLY.
+		        if (!events || !events[typeEvent]) {
+		          return;
+		        }
+
+		        removeHandler(element, events, typeEvent, originalHandler, delegation ? handler : null);
+		        return;
+		      }
+
+		      if (isNamespace) {
+		        Object.keys(events).forEach(elementEvent => {
+		          removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
+		        });
+		      }
+
+		      const storeElementEvent = events[typeEvent] || {};
+		      Object.keys(storeElementEvent).forEach(keyHandlers => {
+		        const handlerKey = keyHandlers.replace(stripUidRegex, '');
+
+		        if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
+		          const event = storeElementEvent[keyHandlers];
+		          removeHandler(element, events, typeEvent, event.originalHandler, event.delegationSelector);
+		        }
+		      });
+		    },
+
+		    trigger(element, event, args) {
+		      if (typeof event !== 'string' || !element) {
+		        return null;
+		      }
+
+		      const $ = getjQuery();
+		      const typeEvent = getTypeEvent(event);
+		      const inNamespace = event !== typeEvent;
+		      const isNative = nativeEvents.has(typeEvent);
+		      let jQueryEvent;
+		      let bubbles = true;
+		      let nativeDispatch = true;
+		      let defaultPrevented = false;
+		      let evt = null;
+
+		      if (inNamespace && $) {
+		        jQueryEvent = $.Event(event, args);
+		        $(element).trigger(jQueryEvent);
+		        bubbles = !jQueryEvent.isPropagationStopped();
+		        nativeDispatch = !jQueryEvent.isImmediatePropagationStopped();
+		        defaultPrevented = jQueryEvent.isDefaultPrevented();
+		      }
+
+		      if (isNative) {
+		        evt = document.createEvent('HTMLEvents');
+		        evt.initEvent(typeEvent, bubbles, true);
+		      } else {
+		        evt = new CustomEvent(event, {
+		          bubbles,
+		          cancelable: true
+		        });
+		      } // merge custom information in our event
+
+
+		      if (typeof args !== 'undefined') {
+		        Object.keys(args).forEach(key => {
+		          Object.defineProperty(evt, key, {
+		            get() {
+		              return args[key];
+		            }
+
+		          });
+		        });
+		      }
+
+		      if (defaultPrevented) {
+		        evt.preventDefault();
+		      }
+
+		      if (nativeDispatch) {
+		        element.dispatchEvent(evt);
+		      }
+
+		      if (evt.defaultPrevented && typeof jQueryEvent !== 'undefined') {
+		        jQueryEvent.preventDefault();
+		      }
+
+		      return evt;
+		    }
+
+		  };
+
+		  return EventHandler;
+
+		}));
+		
+} (eventHandler));
+	return eventHandler.exports;
+}
 
 var manipulator = {exports: {}};
 
@@ -5953,89 +4606,96 @@ var manipulator = {exports: {}};
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 
-(function (module, exports) {
-(function (global, factory) {
-  module.exports = factory() ;
-})(commonjsGlobal$2, (function () {
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): dom/manipulator.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  function normalizeData(val) {
-    if (val === 'true') {
-      return true;
-    }
+var hasRequiredManipulator;
 
-    if (val === 'false') {
-      return false;
-    }
+function requireManipulator () {
+	if (hasRequiredManipulator) return manipulator.exports;
+	hasRequiredManipulator = 1;
+	(function (module, exports) {
+		(function (global, factory) {
+		  module.exports = factory() ;
+		})(commonjsGlobal$2, (function () {
+		  /**
+		   * --------------------------------------------------------------------------
+		   * Bootstrap (v5.1.3): dom/manipulator.js
+		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+		   * --------------------------------------------------------------------------
+		   */
+		  function normalizeData(val) {
+		    if (val === 'true') {
+		      return true;
+		    }
 
-    if (val === Number(val).toString()) {
-      return Number(val);
-    }
+		    if (val === 'false') {
+		      return false;
+		    }
 
-    if (val === '' || val === 'null') {
-      return null;
-    }
+		    if (val === Number(val).toString()) {
+		      return Number(val);
+		    }
 
-    return val;
-  }
+		    if (val === '' || val === 'null') {
+		      return null;
+		    }
 
-  function normalizeDataKey(key) {
-    return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
-  }
+		    return val;
+		  }
 
-  const Manipulator = {
-    setDataAttribute(element, key, value) {
-      element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
-    },
+		  function normalizeDataKey(key) {
+		    return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
+		  }
 
-    removeDataAttribute(element, key) {
-      element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
-    },
+		  const Manipulator = {
+		    setDataAttribute(element, key, value) {
+		      element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
+		    },
 
-    getDataAttributes(element) {
-      if (!element) {
-        return {};
-      }
+		    removeDataAttribute(element, key) {
+		      element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
+		    },
 
-      const attributes = {};
-      Object.keys(element.dataset).filter(key => key.startsWith('bs')).forEach(key => {
-        let pureKey = key.replace(/^bs/, '');
-        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
-        attributes[pureKey] = normalizeData(element.dataset[key]);
-      });
-      return attributes;
-    },
+		    getDataAttributes(element) {
+		      if (!element) {
+		        return {};
+		      }
 
-    getDataAttribute(element, key) {
-      return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
-    },
+		      const attributes = {};
+		      Object.keys(element.dataset).filter(key => key.startsWith('bs')).forEach(key => {
+		        let pureKey = key.replace(/^bs/, '');
+		        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
+		        attributes[pureKey] = normalizeData(element.dataset[key]);
+		      });
+		      return attributes;
+		    },
 
-    offset(element) {
-      const rect = element.getBoundingClientRect();
-      return {
-        top: rect.top + window.pageYOffset,
-        left: rect.left + window.pageXOffset
-      };
-    },
+		    getDataAttribute(element, key) {
+		      return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
+		    },
 
-    position(element) {
-      return {
-        top: element.offsetTop,
-        left: element.offsetLeft
-      };
-    }
+		    offset(element) {
+		      const rect = element.getBoundingClientRect();
+		      return {
+		        top: rect.top + window.pageYOffset,
+		        left: rect.left + window.pageXOffset
+		      };
+		    },
 
-  };
+		    position(element) {
+		      return {
+		        top: element.offsetTop,
+		        left: element.offsetLeft
+		      };
+		    }
 
-  return Manipulator;
+		  };
 
-}));
+		  return Manipulator;
 
-}(manipulator));
+		}));
+		
+} (manipulator));
+	return manipulator.exports;
+}
 
 var selectorEngine = {exports: {}};
 
@@ -6045,128 +4705,135 @@ var selectorEngine = {exports: {}};
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 
-(function (module, exports) {
-(function (global, factory) {
-  module.exports = factory() ;
-})(commonjsGlobal$2, (function () {
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/index.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
+var hasRequiredSelectorEngine;
 
-  const isElement = obj => {
-    if (!obj || typeof obj !== 'object') {
-      return false;
-    }
+function requireSelectorEngine () {
+	if (hasRequiredSelectorEngine) return selectorEngine.exports;
+	hasRequiredSelectorEngine = 1;
+	(function (module, exports) {
+		(function (global, factory) {
+		  module.exports = factory() ;
+		})(commonjsGlobal$2, (function () {
+		  /**
+		   * --------------------------------------------------------------------------
+		   * Bootstrap (v5.1.3): util/index.js
+		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+		   * --------------------------------------------------------------------------
+		   */
 
-    if (typeof obj.jquery !== 'undefined') {
-      obj = obj[0];
-    }
+		  const isElement = obj => {
+		    if (!obj || typeof obj !== 'object') {
+		      return false;
+		    }
 
-    return typeof obj.nodeType !== 'undefined';
-  };
+		    if (typeof obj.jquery !== 'undefined') {
+		      obj = obj[0];
+		    }
 
-  const isVisible = element => {
-    if (!isElement(element) || element.getClientRects().length === 0) {
-      return false;
-    }
+		    return typeof obj.nodeType !== 'undefined';
+		  };
 
-    return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
-  };
+		  const isVisible = element => {
+		    if (!isElement(element) || element.getClientRects().length === 0) {
+		      return false;
+		    }
 
-  const isDisabled = element => {
-    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
-      return true;
-    }
+		    return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
+		  };
 
-    if (element.classList.contains('disabled')) {
-      return true;
-    }
+		  const isDisabled = element => {
+		    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+		      return true;
+		    }
 
-    if (typeof element.disabled !== 'undefined') {
-      return element.disabled;
-    }
+		    if (element.classList.contains('disabled')) {
+		      return true;
+		    }
 
-    return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
-  };
+		    if (typeof element.disabled !== 'undefined') {
+		      return element.disabled;
+		    }
 
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): dom/selector-engine.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  const NODE_TEXT = 3;
-  const SelectorEngine = {
-    find(selector, element = document.documentElement) {
-      return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
-    },
+		    return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
+		  };
 
-    findOne(selector, element = document.documentElement) {
-      return Element.prototype.querySelector.call(element, selector);
-    },
+		  /**
+		   * --------------------------------------------------------------------------
+		   * Bootstrap (v5.1.3): dom/selector-engine.js
+		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+		   * --------------------------------------------------------------------------
+		   */
+		  const NODE_TEXT = 3;
+		  const SelectorEngine = {
+		    find(selector, element = document.documentElement) {
+		      return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
+		    },
 
-    children(element, selector) {
-      return [].concat(...element.children).filter(child => child.matches(selector));
-    },
+		    findOne(selector, element = document.documentElement) {
+		      return Element.prototype.querySelector.call(element, selector);
+		    },
 
-    parents(element, selector) {
-      const parents = [];
-      let ancestor = element.parentNode;
+		    children(element, selector) {
+		      return [].concat(...element.children).filter(child => child.matches(selector));
+		    },
 
-      while (ancestor && ancestor.nodeType === Node.ELEMENT_NODE && ancestor.nodeType !== NODE_TEXT) {
-        if (ancestor.matches(selector)) {
-          parents.push(ancestor);
-        }
+		    parents(element, selector) {
+		      const parents = [];
+		      let ancestor = element.parentNode;
 
-        ancestor = ancestor.parentNode;
-      }
+		      while (ancestor && ancestor.nodeType === Node.ELEMENT_NODE && ancestor.nodeType !== NODE_TEXT) {
+		        if (ancestor.matches(selector)) {
+		          parents.push(ancestor);
+		        }
 
-      return parents;
-    },
+		        ancestor = ancestor.parentNode;
+		      }
 
-    prev(element, selector) {
-      let previous = element.previousElementSibling;
+		      return parents;
+		    },
 
-      while (previous) {
-        if (previous.matches(selector)) {
-          return [previous];
-        }
+		    prev(element, selector) {
+		      let previous = element.previousElementSibling;
 
-        previous = previous.previousElementSibling;
-      }
+		      while (previous) {
+		        if (previous.matches(selector)) {
+		          return [previous];
+		        }
 
-      return [];
-    },
+		        previous = previous.previousElementSibling;
+		      }
 
-    next(element, selector) {
-      let next = element.nextElementSibling;
+		      return [];
+		    },
 
-      while (next) {
-        if (next.matches(selector)) {
-          return [next];
-        }
+		    next(element, selector) {
+		      let next = element.nextElementSibling;
 
-        next = next.nextElementSibling;
-      }
+		      while (next) {
+		        if (next.matches(selector)) {
+		          return [next];
+		        }
 
-      return [];
-    },
+		        next = next.nextElementSibling;
+		      }
 
-    focusableChildren(element) {
-      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(', ');
-      return this.find(focusables, element).filter(el => !isDisabled(el) && isVisible(el));
-    }
+		      return [];
+		    },
 
-  };
+		    focusableChildren(element) {
+		      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(', ');
+		      return this.find(focusables, element).filter(el => !isDisabled(el) && isVisible(el));
+		    }
 
-  return SelectorEngine;
+		  };
 
-}));
+		  return SelectorEngine;
 
-}(selectorEngine));
+		}));
+		
+} (selectorEngine));
+	return selectorEngine.exports;
+}
 
 var baseComponent = {exports: {}};
 
@@ -6178,69 +4845,76 @@ var data = {exports: {}};
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 
-(function (module, exports) {
-(function (global, factory) {
-  module.exports = factory() ;
-})(commonjsGlobal$2, (function () {
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): dom/data.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
+var hasRequiredData;
 
-  /**
-   * ------------------------------------------------------------------------
-   * Constants
-   * ------------------------------------------------------------------------
-   */
-  const elementMap = new Map();
-  const data = {
-    set(element, key, instance) {
-      if (!elementMap.has(element)) {
-        elementMap.set(element, new Map());
-      }
+function requireData () {
+	if (hasRequiredData) return data.exports;
+	hasRequiredData = 1;
+	(function (module, exports) {
+		(function (global, factory) {
+		  module.exports = factory() ;
+		})(commonjsGlobal$2, (function () {
+		  /**
+		   * --------------------------------------------------------------------------
+		   * Bootstrap (v5.1.3): dom/data.js
+		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+		   * --------------------------------------------------------------------------
+		   */
 
-      const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
-      // can be removed later when multiple key/instances are fine to be used
+		  /**
+		   * ------------------------------------------------------------------------
+		   * Constants
+		   * ------------------------------------------------------------------------
+		   */
+		  const elementMap = new Map();
+		  const data = {
+		    set(element, key, instance) {
+		      if (!elementMap.has(element)) {
+		        elementMap.set(element, new Map());
+		      }
 
-      if (!instanceMap.has(key) && instanceMap.size !== 0) {
-        // eslint-disable-next-line no-console
-        console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
-        return;
-      }
+		      const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
+		      // can be removed later when multiple key/instances are fine to be used
 
-      instanceMap.set(key, instance);
-    },
+		      if (!instanceMap.has(key) && instanceMap.size !== 0) {
+		        // eslint-disable-next-line no-console
+		        console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
+		        return;
+		      }
 
-    get(element, key) {
-      if (elementMap.has(element)) {
-        return elementMap.get(element).get(key) || null;
-      }
+		      instanceMap.set(key, instance);
+		    },
 
-      return null;
-    },
+		    get(element, key) {
+		      if (elementMap.has(element)) {
+		        return elementMap.get(element).get(key) || null;
+		      }
 
-    remove(element, key) {
-      if (!elementMap.has(element)) {
-        return;
-      }
+		      return null;
+		    },
 
-      const instanceMap = elementMap.get(element);
-      instanceMap.delete(key); // free up element references if there are no instances left for an element
+		    remove(element, key) {
+		      if (!elementMap.has(element)) {
+		        return;
+		      }
 
-      if (instanceMap.size === 0) {
-        elementMap.delete(element);
-      }
-    }
+		      const instanceMap = elementMap.get(element);
+		      instanceMap.delete(key); // free up element references if there are no instances left for an element
 
-  };
+		      if (instanceMap.size === 0) {
+		        elementMap.delete(element);
+		      }
+		    }
 
-  return data;
+		  };
 
-}));
+		  return data;
 
-}(data));
+		}));
+		
+} (data));
+	return data.exports;
+}
 
 /*!
   * Bootstrap base-component.js v5.1.3 (https://getbootstrap.com/)
@@ -6248,183 +4922,190 @@ var data = {exports: {}};
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 
-(function (module, exports) {
-(function (global, factory) {
-  module.exports = factory(data.exports, eventHandler.exports) ;
-})(commonjsGlobal$2, (function (Data, EventHandler) {
-  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
+var hasRequiredBaseComponent;
 
-  const Data__default = /*#__PURE__*/_interopDefaultLegacy(Data);
-  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+function requireBaseComponent () {
+	if (hasRequiredBaseComponent) return baseComponent.exports;
+	hasRequiredBaseComponent = 1;
+	(function (module, exports) {
+		(function (global, factory) {
+		  module.exports = factory(requireData(), requireEventHandler()) ;
+		})(commonjsGlobal$2, (function (Data, EventHandler) {
+		  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
 
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/index.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  const MILLISECONDS_MULTIPLIER = 1000;
-  const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
+		  const Data__default = /*#__PURE__*/_interopDefaultLegacy(Data);
+		  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
 
-  const getTransitionDurationFromElement = element => {
-    if (!element) {
-      return 0;
-    } // Get transition-duration of the element
+		  /**
+		   * --------------------------------------------------------------------------
+		   * Bootstrap (v5.1.3): util/index.js
+		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+		   * --------------------------------------------------------------------------
+		   */
+		  const MILLISECONDS_MULTIPLIER = 1000;
+		  const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
 
-
-    let {
-      transitionDuration,
-      transitionDelay
-    } = window.getComputedStyle(element);
-    const floatTransitionDuration = Number.parseFloat(transitionDuration);
-    const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
-
-    if (!floatTransitionDuration && !floatTransitionDelay) {
-      return 0;
-    } // If multiple durations are defined, take the first
+		  const getTransitionDurationFromElement = element => {
+		    if (!element) {
+		      return 0;
+		    } // Get transition-duration of the element
 
 
-    transitionDuration = transitionDuration.split(',')[0];
-    transitionDelay = transitionDelay.split(',')[0];
-    return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
-  };
+		    let {
+		      transitionDuration,
+		      transitionDelay
+		    } = window.getComputedStyle(element);
+		    const floatTransitionDuration = Number.parseFloat(transitionDuration);
+		    const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
 
-  const triggerTransitionEnd = element => {
-    element.dispatchEvent(new Event(TRANSITION_END));
-  };
-
-  const isElement = obj => {
-    if (!obj || typeof obj !== 'object') {
-      return false;
-    }
-
-    if (typeof obj.jquery !== 'undefined') {
-      obj = obj[0];
-    }
-
-    return typeof obj.nodeType !== 'undefined';
-  };
-
-  const getElement = obj => {
-    if (isElement(obj)) {
-      // it's a jQuery object or a node element
-      return obj.jquery ? obj[0] : obj;
-    }
-
-    if (typeof obj === 'string' && obj.length > 0) {
-      return document.querySelector(obj);
-    }
-
-    return null;
-  };
-
-  const execute = callback => {
-    if (typeof callback === 'function') {
-      callback();
-    }
-  };
-
-  const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
-    if (!waitForTransition) {
-      execute(callback);
-      return;
-    }
-
-    const durationPadding = 5;
-    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
-    let called = false;
-
-    const handler = ({
-      target
-    }) => {
-      if (target !== transitionElement) {
-        return;
-      }
-
-      called = true;
-      transitionElement.removeEventListener(TRANSITION_END, handler);
-      execute(callback);
-    };
-
-    transitionElement.addEventListener(TRANSITION_END, handler);
-    setTimeout(() => {
-      if (!called) {
-        triggerTransitionEnd(transitionElement);
-      }
-    }, emulatedDuration);
-  };
-
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): base-component.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  /**
-   * ------------------------------------------------------------------------
-   * Constants
-   * ------------------------------------------------------------------------
-   */
-
-  const VERSION = '5.1.3';
-
-  class BaseComponent {
-    constructor(element) {
-      element = getElement(element);
-
-      if (!element) {
-        return;
-      }
-
-      this._element = element;
-      Data__default.default.set(this._element, this.constructor.DATA_KEY, this);
-    }
-
-    dispose() {
-      Data__default.default.remove(this._element, this.constructor.DATA_KEY);
-      EventHandler__default.default.off(this._element, this.constructor.EVENT_KEY);
-      Object.getOwnPropertyNames(this).forEach(propertyName => {
-        this[propertyName] = null;
-      });
-    }
-
-    _queueCallback(callback, element, isAnimated = true) {
-      executeAfterTransition(callback, element, isAnimated);
-    }
-    /** Static */
+		    if (!floatTransitionDuration && !floatTransitionDelay) {
+		      return 0;
+		    } // If multiple durations are defined, take the first
 
 
-    static getInstance(element) {
-      return Data__default.default.get(getElement(element), this.DATA_KEY);
-    }
+		    transitionDuration = transitionDuration.split(',')[0];
+		    transitionDelay = transitionDelay.split(',')[0];
+		    return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
+		  };
 
-    static getOrCreateInstance(element, config = {}) {
-      return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
-    }
+		  const triggerTransitionEnd = element => {
+		    element.dispatchEvent(new Event(TRANSITION_END));
+		  };
 
-    static get VERSION() {
-      return VERSION;
-    }
+		  const isElement = obj => {
+		    if (!obj || typeof obj !== 'object') {
+		      return false;
+		    }
 
-    static get NAME() {
-      throw new Error('You have to implement the static method "NAME", for each component!');
-    }
+		    if (typeof obj.jquery !== 'undefined') {
+		      obj = obj[0];
+		    }
 
-    static get DATA_KEY() {
-      return `bs.${this.NAME}`;
-    }
+		    return typeof obj.nodeType !== 'undefined';
+		  };
 
-    static get EVENT_KEY() {
-      return `.${this.DATA_KEY}`;
-    }
+		  const getElement = obj => {
+		    if (isElement(obj)) {
+		      // it's a jQuery object or a node element
+		      return obj.jquery ? obj[0] : obj;
+		    }
 
-  }
+		    if (typeof obj === 'string' && obj.length > 0) {
+		      return document.querySelector(obj);
+		    }
 
-  return BaseComponent;
+		    return null;
+		  };
 
-}));
+		  const execute = callback => {
+		    if (typeof callback === 'function') {
+		      callback();
+		    }
+		  };
 
-}(baseComponent));
+		  const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
+		    if (!waitForTransition) {
+		      execute(callback);
+		      return;
+		    }
+
+		    const durationPadding = 5;
+		    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
+		    let called = false;
+
+		    const handler = ({
+		      target
+		    }) => {
+		      if (target !== transitionElement) {
+		        return;
+		      }
+
+		      called = true;
+		      transitionElement.removeEventListener(TRANSITION_END, handler);
+		      execute(callback);
+		    };
+
+		    transitionElement.addEventListener(TRANSITION_END, handler);
+		    setTimeout(() => {
+		      if (!called) {
+		        triggerTransitionEnd(transitionElement);
+		      }
+		    }, emulatedDuration);
+		  };
+
+		  /**
+		   * --------------------------------------------------------------------------
+		   * Bootstrap (v5.1.3): base-component.js
+		   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+		   * --------------------------------------------------------------------------
+		   */
+		  /**
+		   * ------------------------------------------------------------------------
+		   * Constants
+		   * ------------------------------------------------------------------------
+		   */
+
+		  const VERSION = '5.1.3';
+
+		  class BaseComponent {
+		    constructor(element) {
+		      element = getElement(element);
+
+		      if (!element) {
+		        return;
+		      }
+
+		      this._element = element;
+		      Data__default.default.set(this._element, this.constructor.DATA_KEY, this);
+		    }
+
+		    dispose() {
+		      Data__default.default.remove(this._element, this.constructor.DATA_KEY);
+		      EventHandler__default.default.off(this._element, this.constructor.EVENT_KEY);
+		      Object.getOwnPropertyNames(this).forEach(propertyName => {
+		        this[propertyName] = null;
+		      });
+		    }
+
+		    _queueCallback(callback, element, isAnimated = true) {
+		      executeAfterTransition(callback, element, isAnimated);
+		    }
+		    /** Static */
+
+
+		    static getInstance(element) {
+		      return Data__default.default.get(getElement(element), this.DATA_KEY);
+		    }
+
+		    static getOrCreateInstance(element, config = {}) {
+		      return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
+		    }
+
+		    static get VERSION() {
+		      return VERSION;
+		    }
+
+		    static get NAME() {
+		      throw new Error('You have to implement the static method "NAME", for each component!');
+		    }
+
+		    static get DATA_KEY() {
+		      return `bs.${this.NAME}`;
+		    }
+
+		    static get EVENT_KEY() {
+		      return `.${this.DATA_KEY}`;
+		    }
+
+		  }
+
+		  return BaseComponent;
+
+		}));
+		
+} (baseComponent));
+	return baseComponent.exports;
+}
 
 /*!
   * Bootstrap modal.js v5.1.3 (https://getbootstrap.com/)
@@ -6433,1041 +5114,1041 @@ var data = {exports: {}};
   */
 
 (function (module, exports) {
-(function (global, factory) {
-  module.exports = factory(eventHandler.exports, manipulator.exports, selectorEngine.exports, baseComponent.exports) ;
-})(commonjsGlobal$2, (function (EventHandler, Manipulator, SelectorEngine, BaseComponent) {
-  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
-
-  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
-  const Manipulator__default = /*#__PURE__*/_interopDefaultLegacy(Manipulator);
-  const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
-  const BaseComponent__default = /*#__PURE__*/_interopDefaultLegacy(BaseComponent);
-
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/index.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  const MILLISECONDS_MULTIPLIER = 1000;
-  const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
-
-  const toType = obj => {
-    if (obj === null || obj === undefined) {
-      return `${obj}`;
-    }
-
-    return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
-  };
-
-  const getSelector = element => {
-    let selector = element.getAttribute('data-bs-target');
-
-    if (!selector || selector === '#') {
-      let hrefAttr = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
-      // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
-      // `document.querySelector` will rightfully complain it is invalid.
-      // See https://github.com/twbs/bootstrap/issues/32273
-
-      if (!hrefAttr || !hrefAttr.includes('#') && !hrefAttr.startsWith('.')) {
-        return null;
-      } // Just in case some CMS puts out a full URL with the anchor appended
-
-
-      if (hrefAttr.includes('#') && !hrefAttr.startsWith('#')) {
-        hrefAttr = `#${hrefAttr.split('#')[1]}`;
-      }
-
-      selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : null;
-    }
-
-    return selector;
-  };
-
-  const getElementFromSelector = element => {
-    const selector = getSelector(element);
-    return selector ? document.querySelector(selector) : null;
-  };
-
-  const getTransitionDurationFromElement = element => {
-    if (!element) {
-      return 0;
-    } // Get transition-duration of the element
-
-
-    let {
-      transitionDuration,
-      transitionDelay
-    } = window.getComputedStyle(element);
-    const floatTransitionDuration = Number.parseFloat(transitionDuration);
-    const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
-
-    if (!floatTransitionDuration && !floatTransitionDelay) {
-      return 0;
-    } // If multiple durations are defined, take the first
-
-
-    transitionDuration = transitionDuration.split(',')[0];
-    transitionDelay = transitionDelay.split(',')[0];
-    return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
-  };
-
-  const triggerTransitionEnd = element => {
-    element.dispatchEvent(new Event(TRANSITION_END));
-  };
-
-  const isElement = obj => {
-    if (!obj || typeof obj !== 'object') {
-      return false;
-    }
-
-    if (typeof obj.jquery !== 'undefined') {
-      obj = obj[0];
-    }
-
-    return typeof obj.nodeType !== 'undefined';
-  };
-
-  const getElement = obj => {
-    if (isElement(obj)) {
-      // it's a jQuery object or a node element
-      return obj.jquery ? obj[0] : obj;
-    }
-
-    if (typeof obj === 'string' && obj.length > 0) {
-      return document.querySelector(obj);
-    }
-
-    return null;
-  };
-
-  const typeCheckConfig = (componentName, config, configTypes) => {
-    Object.keys(configTypes).forEach(property => {
-      const expectedTypes = configTypes[property];
-      const value = config[property];
-      const valueType = value && isElement(value) ? 'element' : toType(value);
-
-      if (!new RegExp(expectedTypes).test(valueType)) {
-        throw new TypeError(`${componentName.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
-      }
-    });
-  };
-
-  const isVisible = element => {
-    if (!isElement(element) || element.getClientRects().length === 0) {
-      return false;
-    }
-
-    return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
-  };
-
-  const isDisabled = element => {
-    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
-      return true;
-    }
-
-    if (element.classList.contains('disabled')) {
-      return true;
-    }
-
-    if (typeof element.disabled !== 'undefined') {
-      return element.disabled;
-    }
-
-    return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
-  };
-  /**
-   * Trick to restart an element's animation
-   *
-   * @param {HTMLElement} element
-   * @return void
-   *
-   * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
-   */
-
-
-  const reflow = element => {
-    // eslint-disable-next-line no-unused-expressions
-    element.offsetHeight;
-  };
-
-  const getjQuery = () => {
-    const {
-      jQuery
-    } = window;
-
-    if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
-      return jQuery;
-    }
-
-    return null;
-  };
-
-  const DOMContentLoadedCallbacks = [];
-
-  const onDOMContentLoaded = callback => {
-    if (document.readyState === 'loading') {
-      // add listener on the first call when the document is in loading state
-      if (!DOMContentLoadedCallbacks.length) {
-        document.addEventListener('DOMContentLoaded', () => {
-          DOMContentLoadedCallbacks.forEach(callback => callback());
-        });
-      }
-
-      DOMContentLoadedCallbacks.push(callback);
-    } else {
-      callback();
-    }
-  };
-
-  const isRTL = () => document.documentElement.dir === 'rtl';
-
-  const defineJQueryPlugin = plugin => {
-    onDOMContentLoaded(() => {
-      const $ = getjQuery();
-      /* istanbul ignore if */
-
-      if ($) {
-        const name = plugin.NAME;
-        const JQUERY_NO_CONFLICT = $.fn[name];
-        $.fn[name] = plugin.jQueryInterface;
-        $.fn[name].Constructor = plugin;
-
-        $.fn[name].noConflict = () => {
-          $.fn[name] = JQUERY_NO_CONFLICT;
-          return plugin.jQueryInterface;
-        };
-      }
-    });
-  };
-
-  const execute = callback => {
-    if (typeof callback === 'function') {
-      callback();
-    }
-  };
-
-  const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
-    if (!waitForTransition) {
-      execute(callback);
-      return;
-    }
-
-    const durationPadding = 5;
-    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
-    let called = false;
-
-    const handler = ({
-      target
-    }) => {
-      if (target !== transitionElement) {
-        return;
-      }
-
-      called = true;
-      transitionElement.removeEventListener(TRANSITION_END, handler);
-      execute(callback);
-    };
-
-    transitionElement.addEventListener(TRANSITION_END, handler);
-    setTimeout(() => {
-      if (!called) {
-        triggerTransitionEnd(transitionElement);
-      }
-    }, emulatedDuration);
-  };
-
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/scrollBar.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
-  const SELECTOR_STICKY_CONTENT = '.sticky-top';
-
-  class ScrollBarHelper {
-    constructor() {
-      this._element = document.body;
-    }
-
-    getWidth() {
-      // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
-      const documentWidth = document.documentElement.clientWidth;
-      return Math.abs(window.innerWidth - documentWidth);
-    }
-
-    hide() {
-      const width = this.getWidth();
-
-      this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
-
-
-      this._setElementAttributes(this._element, 'paddingRight', calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
-
-
-      this._setElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight', calculatedValue => calculatedValue + width);
-
-      this._setElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight', calculatedValue => calculatedValue - width);
-    }
-
-    _disableOverFlow() {
-      this._saveInitialAttribute(this._element, 'overflow');
-
-      this._element.style.overflow = 'hidden';
-    }
-
-    _setElementAttributes(selector, styleProp, callback) {
-      const scrollbarWidth = this.getWidth();
-
-      const manipulationCallBack = element => {
-        if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
-          return;
-        }
-
-        this._saveInitialAttribute(element, styleProp);
-
-        const calculatedValue = window.getComputedStyle(element)[styleProp];
-        element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
-      };
-
-      this._applyManipulationCallback(selector, manipulationCallBack);
-    }
-
-    reset() {
-      this._resetElementAttributes(this._element, 'overflow');
-
-      this._resetElementAttributes(this._element, 'paddingRight');
-
-      this._resetElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight');
-
-      this._resetElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight');
-    }
-
-    _saveInitialAttribute(element, styleProp) {
-      const actualValue = element.style[styleProp];
-
-      if (actualValue) {
-        Manipulator__default.default.setDataAttribute(element, styleProp, actualValue);
-      }
-    }
-
-    _resetElementAttributes(selector, styleProp) {
-      const manipulationCallBack = element => {
-        const value = Manipulator__default.default.getDataAttribute(element, styleProp);
-
-        if (typeof value === 'undefined') {
-          element.style.removeProperty(styleProp);
-        } else {
-          Manipulator__default.default.removeDataAttribute(element, styleProp);
-          element.style[styleProp] = value;
-        }
-      };
-
-      this._applyManipulationCallback(selector, manipulationCallBack);
-    }
-
-    _applyManipulationCallback(selector, callBack) {
-      if (isElement(selector)) {
-        callBack(selector);
-      } else {
-        SelectorEngine__default.default.find(selector, this._element).forEach(callBack);
-      }
-    }
-
-    isOverflowing() {
-      return this.getWidth() > 0;
-    }
-
-  }
-
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/backdrop.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  const Default$2 = {
-    className: 'modal-backdrop',
-    isVisible: true,
-    // if false, we use the backdrop helper without adding any element to the dom
-    isAnimated: false,
-    rootElement: 'body',
-    // give the choice to place backdrop under different elements
-    clickCallback: null
-  };
-  const DefaultType$2 = {
-    className: 'string',
-    isVisible: 'boolean',
-    isAnimated: 'boolean',
-    rootElement: '(element|string)',
-    clickCallback: '(function|null)'
-  };
-  const NAME$2 = 'backdrop';
-  const CLASS_NAME_FADE$1 = 'fade';
-  const CLASS_NAME_SHOW$1 = 'show';
-  const EVENT_MOUSEDOWN = `mousedown.bs.${NAME$2}`;
-
-  class Backdrop {
-    constructor(config) {
-      this._config = this._getConfig(config);
-      this._isAppended = false;
-      this._element = null;
-    }
-
-    show(callback) {
-      if (!this._config.isVisible) {
-        execute(callback);
-        return;
-      }
-
-      this._append();
-
-      if (this._config.isAnimated) {
-        reflow(this._getElement());
-      }
-
-      this._getElement().classList.add(CLASS_NAME_SHOW$1);
-
-      this._emulateAnimation(() => {
-        execute(callback);
-      });
-    }
-
-    hide(callback) {
-      if (!this._config.isVisible) {
-        execute(callback);
-        return;
-      }
-
-      this._getElement().classList.remove(CLASS_NAME_SHOW$1);
-
-      this._emulateAnimation(() => {
-        this.dispose();
-        execute(callback);
-      });
-    } // Private
-
-
-    _getElement() {
-      if (!this._element) {
-        const backdrop = document.createElement('div');
-        backdrop.className = this._config.className;
-
-        if (this._config.isAnimated) {
-          backdrop.classList.add(CLASS_NAME_FADE$1);
-        }
-
-        this._element = backdrop;
-      }
-
-      return this._element;
-    }
-
-    _getConfig(config) {
-      config = { ...Default$2,
-        ...(typeof config === 'object' ? config : {})
-      }; // use getElement() with the default "body" to get a fresh Element on each instantiation
-
-      config.rootElement = getElement(config.rootElement);
-      typeCheckConfig(NAME$2, config, DefaultType$2);
-      return config;
-    }
-
-    _append() {
-      if (this._isAppended) {
-        return;
-      }
-
-      this._config.rootElement.append(this._getElement());
-
-      EventHandler__default.default.on(this._getElement(), EVENT_MOUSEDOWN, () => {
-        execute(this._config.clickCallback);
-      });
-      this._isAppended = true;
-    }
-
-    dispose() {
-      if (!this._isAppended) {
-        return;
-      }
-
-      EventHandler__default.default.off(this._element, EVENT_MOUSEDOWN);
-
-      this._element.remove();
-
-      this._isAppended = false;
-    }
-
-    _emulateAnimation(callback) {
-      executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
-    }
-
-  }
-
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/focustrap.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  const Default$1 = {
-    trapElement: null,
-    // The element to trap focus inside of
-    autofocus: true
-  };
-  const DefaultType$1 = {
-    trapElement: 'element',
-    autofocus: 'boolean'
-  };
-  const NAME$1 = 'focustrap';
-  const DATA_KEY$1 = 'bs.focustrap';
-  const EVENT_KEY$1 = `.${DATA_KEY$1}`;
-  const EVENT_FOCUSIN = `focusin${EVENT_KEY$1}`;
-  const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$1}`;
-  const TAB_KEY = 'Tab';
-  const TAB_NAV_FORWARD = 'forward';
-  const TAB_NAV_BACKWARD = 'backward';
-
-  class FocusTrap {
-    constructor(config) {
-      this._config = this._getConfig(config);
-      this._isActive = false;
-      this._lastTabNavDirection = null;
-    }
-
-    activate() {
-      const {
-        trapElement,
-        autofocus
-      } = this._config;
-
-      if (this._isActive) {
-        return;
-      }
-
-      if (autofocus) {
-        trapElement.focus();
-      }
-
-      EventHandler__default.default.off(document, EVENT_KEY$1); // guard against infinite focus loop
-
-      EventHandler__default.default.on(document, EVENT_FOCUSIN, event => this._handleFocusin(event));
-      EventHandler__default.default.on(document, EVENT_KEYDOWN_TAB, event => this._handleKeydown(event));
-      this._isActive = true;
-    }
-
-    deactivate() {
-      if (!this._isActive) {
-        return;
-      }
-
-      this._isActive = false;
-      EventHandler__default.default.off(document, EVENT_KEY$1);
-    } // Private
-
-
-    _handleFocusin(event) {
-      const {
-        target
-      } = event;
-      const {
-        trapElement
-      } = this._config;
-
-      if (target === document || target === trapElement || trapElement.contains(target)) {
-        return;
-      }
-
-      const elements = SelectorEngine__default.default.focusableChildren(trapElement);
-
-      if (elements.length === 0) {
-        trapElement.focus();
-      } else if (this._lastTabNavDirection === TAB_NAV_BACKWARD) {
-        elements[elements.length - 1].focus();
-      } else {
-        elements[0].focus();
-      }
-    }
-
-    _handleKeydown(event) {
-      if (event.key !== TAB_KEY) {
-        return;
-      }
-
-      this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
-    }
-
-    _getConfig(config) {
-      config = { ...Default$1,
-        ...(typeof config === 'object' ? config : {})
-      };
-      typeCheckConfig(NAME$1, config, DefaultType$1);
-      return config;
-    }
-
-  }
-
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/component-functions.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-
-  const enableDismissTrigger = (component, method = 'hide') => {
-    const clickEvent = `click.dismiss${component.EVENT_KEY}`;
-    const name = component.NAME;
-    EventHandler__default.default.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
-      if (['A', 'AREA'].includes(this.tagName)) {
-        event.preventDefault();
-      }
-
-      if (isDisabled(this)) {
-        return;
-      }
-
-      const target = getElementFromSelector(this) || this.closest(`.${name}`);
-      const instance = component.getOrCreateInstance(target); // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
-
-      instance[method]();
-    });
-  };
-
-  /**
-   * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): modal.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   * --------------------------------------------------------------------------
-   */
-  /**
-   * ------------------------------------------------------------------------
-   * Constants
-   * ------------------------------------------------------------------------
-   */
-
-  const NAME = 'modal';
-  const DATA_KEY = 'bs.modal';
-  const EVENT_KEY = `.${DATA_KEY}`;
-  const DATA_API_KEY = '.data-api';
-  const ESCAPE_KEY = 'Escape';
-  const Default = {
-    backdrop: true,
-    keyboard: true,
-    focus: true
-  };
-  const DefaultType = {
-    backdrop: '(boolean|string)',
-    keyboard: 'boolean',
-    focus: 'boolean'
-  };
-  const EVENT_HIDE = `hide${EVENT_KEY}`;
-  const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY}`;
-  const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
-  const EVENT_SHOW = `show${EVENT_KEY}`;
-  const EVENT_SHOWN = `shown${EVENT_KEY}`;
-  const EVENT_RESIZE = `resize${EVENT_KEY}`;
-  const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY}`;
-  const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY}`;
-  const EVENT_MOUSEUP_DISMISS = `mouseup.dismiss${EVENT_KEY}`;
-  const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY}`;
-  const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
-  const CLASS_NAME_OPEN = 'modal-open';
-  const CLASS_NAME_FADE = 'fade';
-  const CLASS_NAME_SHOW = 'show';
-  const CLASS_NAME_STATIC = 'modal-static';
-  const OPEN_SELECTOR = '.modal.show';
-  const SELECTOR_DIALOG = '.modal-dialog';
-  const SELECTOR_MODAL_BODY = '.modal-body';
-  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="modal"]';
-  /**
-   * ------------------------------------------------------------------------
-   * Class Definition
-   * ------------------------------------------------------------------------
-   */
-
-  class Modal extends BaseComponent__default.default {
-    constructor(element, config) {
-      super(element);
-      this._config = this._getConfig(config);
-      this._dialog = SelectorEngine__default.default.findOne(SELECTOR_DIALOG, this._element);
-      this._backdrop = this._initializeBackDrop();
-      this._focustrap = this._initializeFocusTrap();
-      this._isShown = false;
-      this._ignoreBackdropClick = false;
-      this._isTransitioning = false;
-      this._scrollBar = new ScrollBarHelper();
-    } // Getters
-
-
-    static get Default() {
-      return Default;
-    }
-
-    static get NAME() {
-      return NAME;
-    } // Public
-
-
-    toggle(relatedTarget) {
-      return this._isShown ? this.hide() : this.show(relatedTarget);
-    }
-
-    show(relatedTarget) {
-      if (this._isShown || this._isTransitioning) {
-        return;
-      }
-
-      const showEvent = EventHandler__default.default.trigger(this._element, EVENT_SHOW, {
-        relatedTarget
-      });
-
-      if (showEvent.defaultPrevented) {
-        return;
-      }
-
-      this._isShown = true;
-
-      if (this._isAnimated()) {
-        this._isTransitioning = true;
-      }
-
-      this._scrollBar.hide();
-
-      document.body.classList.add(CLASS_NAME_OPEN);
-
-      this._adjustDialog();
-
-      this._setEscapeEvent();
-
-      this._setResizeEvent();
-
-      EventHandler__default.default.on(this._dialog, EVENT_MOUSEDOWN_DISMISS, () => {
-        EventHandler__default.default.one(this._element, EVENT_MOUSEUP_DISMISS, event => {
-          if (event.target === this._element) {
-            this._ignoreBackdropClick = true;
-          }
-        });
-      });
-
-      this._showBackdrop(() => this._showElement(relatedTarget));
-    }
-
-    hide() {
-      if (!this._isShown || this._isTransitioning) {
-        return;
-      }
-
-      const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE);
-
-      if (hideEvent.defaultPrevented) {
-        return;
-      }
-
-      this._isShown = false;
-
-      const isAnimated = this._isAnimated();
-
-      if (isAnimated) {
-        this._isTransitioning = true;
-      }
-
-      this._setEscapeEvent();
-
-      this._setResizeEvent();
-
-      this._focustrap.deactivate();
-
-      this._element.classList.remove(CLASS_NAME_SHOW);
-
-      EventHandler__default.default.off(this._element, EVENT_CLICK_DISMISS);
-      EventHandler__default.default.off(this._dialog, EVENT_MOUSEDOWN_DISMISS);
-
-      this._queueCallback(() => this._hideModal(), this._element, isAnimated);
-    }
-
-    dispose() {
-      [window, this._dialog].forEach(htmlElement => EventHandler__default.default.off(htmlElement, EVENT_KEY));
-
-      this._backdrop.dispose();
-
-      this._focustrap.deactivate();
-
-      super.dispose();
-    }
-
-    handleUpdate() {
-      this._adjustDialog();
-    } // Private
-
-
-    _initializeBackDrop() {
-      return new Backdrop({
-        isVisible: Boolean(this._config.backdrop),
-        // 'static' option will be translated to true, and booleans will keep their value
-        isAnimated: this._isAnimated()
-      });
-    }
-
-    _initializeFocusTrap() {
-      return new FocusTrap({
-        trapElement: this._element
-      });
-    }
-
-    _getConfig(config) {
-      config = { ...Default,
-        ...Manipulator__default.default.getDataAttributes(this._element),
-        ...(typeof config === 'object' ? config : {})
-      };
-      typeCheckConfig(NAME, config, DefaultType);
-      return config;
-    }
-
-    _showElement(relatedTarget) {
-      const isAnimated = this._isAnimated();
-
-      const modalBody = SelectorEngine__default.default.findOne(SELECTOR_MODAL_BODY, this._dialog);
-
-      if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
-        // Don't move modal's DOM position
-        document.body.append(this._element);
-      }
-
-      this._element.style.display = 'block';
-
-      this._element.removeAttribute('aria-hidden');
-
-      this._element.setAttribute('aria-modal', true);
-
-      this._element.setAttribute('role', 'dialog');
-
-      this._element.scrollTop = 0;
-
-      if (modalBody) {
-        modalBody.scrollTop = 0;
-      }
-
-      if (isAnimated) {
-        reflow(this._element);
-      }
-
-      this._element.classList.add(CLASS_NAME_SHOW);
-
-      const transitionComplete = () => {
-        if (this._config.focus) {
-          this._focustrap.activate();
-        }
-
-        this._isTransitioning = false;
-        EventHandler__default.default.trigger(this._element, EVENT_SHOWN, {
-          relatedTarget
-        });
-      };
-
-      this._queueCallback(transitionComplete, this._dialog, isAnimated);
-    }
-
-    _setEscapeEvent() {
-      if (this._isShown) {
-        EventHandler__default.default.on(this._element, EVENT_KEYDOWN_DISMISS, event => {
-          if (this._config.keyboard && event.key === ESCAPE_KEY) {
-            event.preventDefault();
-            this.hide();
-          } else if (!this._config.keyboard && event.key === ESCAPE_KEY) {
-            this._triggerBackdropTransition();
-          }
-        });
-      } else {
-        EventHandler__default.default.off(this._element, EVENT_KEYDOWN_DISMISS);
-      }
-    }
-
-    _setResizeEvent() {
-      if (this._isShown) {
-        EventHandler__default.default.on(window, EVENT_RESIZE, () => this._adjustDialog());
-      } else {
-        EventHandler__default.default.off(window, EVENT_RESIZE);
-      }
-    }
-
-    _hideModal() {
-      this._element.style.display = 'none';
-
-      this._element.setAttribute('aria-hidden', true);
-
-      this._element.removeAttribute('aria-modal');
-
-      this._element.removeAttribute('role');
-
-      this._isTransitioning = false;
-
-      this._backdrop.hide(() => {
-        document.body.classList.remove(CLASS_NAME_OPEN);
-
-        this._resetAdjustments();
-
-        this._scrollBar.reset();
-
-        EventHandler__default.default.trigger(this._element, EVENT_HIDDEN);
-      });
-    }
-
-    _showBackdrop(callback) {
-      EventHandler__default.default.on(this._element, EVENT_CLICK_DISMISS, event => {
-        if (this._ignoreBackdropClick) {
-          this._ignoreBackdropClick = false;
-          return;
-        }
-
-        if (event.target !== event.currentTarget) {
-          return;
-        }
-
-        if (this._config.backdrop === true) {
-          this.hide();
-        } else if (this._config.backdrop === 'static') {
-          this._triggerBackdropTransition();
-        }
-      });
-
-      this._backdrop.show(callback);
-    }
-
-    _isAnimated() {
-      return this._element.classList.contains(CLASS_NAME_FADE);
-    }
-
-    _triggerBackdropTransition() {
-      const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE_PREVENTED);
-
-      if (hideEvent.defaultPrevented) {
-        return;
-      }
-
-      const {
-        classList,
-        scrollHeight,
-        style
-      } = this._element;
-      const isModalOverflowing = scrollHeight > document.documentElement.clientHeight; // return if the following background transition hasn't yet completed
-
-      if (!isModalOverflowing && style.overflowY === 'hidden' || classList.contains(CLASS_NAME_STATIC)) {
-        return;
-      }
-
-      if (!isModalOverflowing) {
-        style.overflowY = 'hidden';
-      }
-
-      classList.add(CLASS_NAME_STATIC);
-
-      this._queueCallback(() => {
-        classList.remove(CLASS_NAME_STATIC);
-
-        if (!isModalOverflowing) {
-          this._queueCallback(() => {
-            style.overflowY = '';
-          }, this._dialog);
-        }
-      }, this._dialog);
-
-      this._element.focus();
-    } // ----------------------------------------------------------------------
-    // the following methods are used to handle overflowing modals
-    // ----------------------------------------------------------------------
-
-
-    _adjustDialog() {
-      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
-
-      const scrollbarWidth = this._scrollBar.getWidth();
-
-      const isBodyOverflowing = scrollbarWidth > 0;
-
-      if (!isBodyOverflowing && isModalOverflowing && !isRTL() || isBodyOverflowing && !isModalOverflowing && isRTL()) {
-        this._element.style.paddingLeft = `${scrollbarWidth}px`;
-      }
-
-      if (isBodyOverflowing && !isModalOverflowing && !isRTL() || !isBodyOverflowing && isModalOverflowing && isRTL()) {
-        this._element.style.paddingRight = `${scrollbarWidth}px`;
-      }
-    }
-
-    _resetAdjustments() {
-      this._element.style.paddingLeft = '';
-      this._element.style.paddingRight = '';
-    } // Static
-
-
-    static jQueryInterface(config, relatedTarget) {
-      return this.each(function () {
-        const data = Modal.getOrCreateInstance(this, config);
-
-        if (typeof config !== 'string') {
-          return;
-        }
-
-        if (typeof data[config] === 'undefined') {
-          throw new TypeError(`No method named "${config}"`);
-        }
-
-        data[config](relatedTarget);
-      });
-    }
-
-  }
-  /**
-   * ------------------------------------------------------------------------
-   * Data Api implementation
-   * ------------------------------------------------------------------------
-   */
-
-
-  EventHandler__default.default.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
-    const target = getElementFromSelector(this);
-
-    if (['A', 'AREA'].includes(this.tagName)) {
-      event.preventDefault();
-    }
-
-    EventHandler__default.default.one(target, EVENT_SHOW, showEvent => {
-      if (showEvent.defaultPrevented) {
-        // only register focus restorer if modal will actually get shown
-        return;
-      }
-
-      EventHandler__default.default.one(target, EVENT_HIDDEN, () => {
-        if (isVisible(this)) {
-          this.focus();
-        }
-      });
-    }); // avoid conflict when clicking moddal toggler while another one is open
-
-    const allReadyOpen = SelectorEngine__default.default.findOne(OPEN_SELECTOR);
-
-    if (allReadyOpen) {
-      Modal.getInstance(allReadyOpen).hide();
-    }
-
-    const data = Modal.getOrCreateInstance(target);
-    data.toggle(this);
-  });
-  enableDismissTrigger(Modal);
-  /**
-   * ------------------------------------------------------------------------
-   * jQuery
-   * ------------------------------------------------------------------------
-   * add .Modal to jQuery only if jQuery is present
-   */
-
-  defineJQueryPlugin(Modal);
-
-  return Modal;
-
-}));
-
-}(modal));
+	(function (global, factory) {
+	  module.exports = factory(requireEventHandler(), requireManipulator(), requireSelectorEngine(), requireBaseComponent()) ;
+	})(commonjsGlobal$2, (function (EventHandler, Manipulator, SelectorEngine, BaseComponent) {
+	  const _interopDefaultLegacy = e => e && typeof e === 'object' && 'default' in e ? e : { default: e };
+
+	  const EventHandler__default = /*#__PURE__*/_interopDefaultLegacy(EventHandler);
+	  const Manipulator__default = /*#__PURE__*/_interopDefaultLegacy(Manipulator);
+	  const SelectorEngine__default = /*#__PURE__*/_interopDefaultLegacy(SelectorEngine);
+	  const BaseComponent__default = /*#__PURE__*/_interopDefaultLegacy(BaseComponent);
+
+	  /**
+	   * --------------------------------------------------------------------------
+	   * Bootstrap (v5.1.3): util/index.js
+	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+	   * --------------------------------------------------------------------------
+	   */
+	  const MILLISECONDS_MULTIPLIER = 1000;
+	  const TRANSITION_END = 'transitionend'; // Shoutout AngusCroll (https://goo.gl/pxwQGp)
+
+	  const toType = obj => {
+	    if (obj === null || obj === undefined) {
+	      return `${obj}`;
+	    }
+
+	    return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
+	  };
+
+	  const getSelector = element => {
+	    let selector = element.getAttribute('data-bs-target');
+
+	    if (!selector || selector === '#') {
+	      let hrefAttr = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
+	      // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
+	      // `document.querySelector` will rightfully complain it is invalid.
+	      // See https://github.com/twbs/bootstrap/issues/32273
+
+	      if (!hrefAttr || !hrefAttr.includes('#') && !hrefAttr.startsWith('.')) {
+	        return null;
+	      } // Just in case some CMS puts out a full URL with the anchor appended
+
+
+	      if (hrefAttr.includes('#') && !hrefAttr.startsWith('#')) {
+	        hrefAttr = `#${hrefAttr.split('#')[1]}`;
+	      }
+
+	      selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : null;
+	    }
+
+	    return selector;
+	  };
+
+	  const getElementFromSelector = element => {
+	    const selector = getSelector(element);
+	    return selector ? document.querySelector(selector) : null;
+	  };
+
+	  const getTransitionDurationFromElement = element => {
+	    if (!element) {
+	      return 0;
+	    } // Get transition-duration of the element
+
+
+	    let {
+	      transitionDuration,
+	      transitionDelay
+	    } = window.getComputedStyle(element);
+	    const floatTransitionDuration = Number.parseFloat(transitionDuration);
+	    const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
+
+	    if (!floatTransitionDuration && !floatTransitionDelay) {
+	      return 0;
+	    } // If multiple durations are defined, take the first
+
+
+	    transitionDuration = transitionDuration.split(',')[0];
+	    transitionDelay = transitionDelay.split(',')[0];
+	    return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
+	  };
+
+	  const triggerTransitionEnd = element => {
+	    element.dispatchEvent(new Event(TRANSITION_END));
+	  };
+
+	  const isElement = obj => {
+	    if (!obj || typeof obj !== 'object') {
+	      return false;
+	    }
+
+	    if (typeof obj.jquery !== 'undefined') {
+	      obj = obj[0];
+	    }
+
+	    return typeof obj.nodeType !== 'undefined';
+	  };
+
+	  const getElement = obj => {
+	    if (isElement(obj)) {
+	      // it's a jQuery object or a node element
+	      return obj.jquery ? obj[0] : obj;
+	    }
+
+	    if (typeof obj === 'string' && obj.length > 0) {
+	      return document.querySelector(obj);
+	    }
+
+	    return null;
+	  };
+
+	  const typeCheckConfig = (componentName, config, configTypes) => {
+	    Object.keys(configTypes).forEach(property => {
+	      const expectedTypes = configTypes[property];
+	      const value = config[property];
+	      const valueType = value && isElement(value) ? 'element' : toType(value);
+
+	      if (!new RegExp(expectedTypes).test(valueType)) {
+	        throw new TypeError(`${componentName.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
+	      }
+	    });
+	  };
+
+	  const isVisible = element => {
+	    if (!isElement(element) || element.getClientRects().length === 0) {
+	      return false;
+	    }
+
+	    return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
+	  };
+
+	  const isDisabled = element => {
+	    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+	      return true;
+	    }
+
+	    if (element.classList.contains('disabled')) {
+	      return true;
+	    }
+
+	    if (typeof element.disabled !== 'undefined') {
+	      return element.disabled;
+	    }
+
+	    return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
+	  };
+	  /**
+	   * Trick to restart an element's animation
+	   *
+	   * @param {HTMLElement} element
+	   * @return void
+	   *
+	   * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
+	   */
+
+
+	  const reflow = element => {
+	    // eslint-disable-next-line no-unused-expressions
+	    element.offsetHeight;
+	  };
+
+	  const getjQuery = () => {
+	    const {
+	      jQuery
+	    } = window;
+
+	    if (jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
+	      return jQuery;
+	    }
+
+	    return null;
+	  };
+
+	  const DOMContentLoadedCallbacks = [];
+
+	  const onDOMContentLoaded = callback => {
+	    if (document.readyState === 'loading') {
+	      // add listener on the first call when the document is in loading state
+	      if (!DOMContentLoadedCallbacks.length) {
+	        document.addEventListener('DOMContentLoaded', () => {
+	          DOMContentLoadedCallbacks.forEach(callback => callback());
+	        });
+	      }
+
+	      DOMContentLoadedCallbacks.push(callback);
+	    } else {
+	      callback();
+	    }
+	  };
+
+	  const isRTL = () => document.documentElement.dir === 'rtl';
+
+	  const defineJQueryPlugin = plugin => {
+	    onDOMContentLoaded(() => {
+	      const $ = getjQuery();
+	      /* istanbul ignore if */
+
+	      if ($) {
+	        const name = plugin.NAME;
+	        const JQUERY_NO_CONFLICT = $.fn[name];
+	        $.fn[name] = plugin.jQueryInterface;
+	        $.fn[name].Constructor = plugin;
+
+	        $.fn[name].noConflict = () => {
+	          $.fn[name] = JQUERY_NO_CONFLICT;
+	          return plugin.jQueryInterface;
+	        };
+	      }
+	    });
+	  };
+
+	  const execute = callback => {
+	    if (typeof callback === 'function') {
+	      callback();
+	    }
+	  };
+
+	  const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
+	    if (!waitForTransition) {
+	      execute(callback);
+	      return;
+	    }
+
+	    const durationPadding = 5;
+	    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
+	    let called = false;
+
+	    const handler = ({
+	      target
+	    }) => {
+	      if (target !== transitionElement) {
+	        return;
+	      }
+
+	      called = true;
+	      transitionElement.removeEventListener(TRANSITION_END, handler);
+	      execute(callback);
+	    };
+
+	    transitionElement.addEventListener(TRANSITION_END, handler);
+	    setTimeout(() => {
+	      if (!called) {
+	        triggerTransitionEnd(transitionElement);
+	      }
+	    }, emulatedDuration);
+	  };
+
+	  /**
+	   * --------------------------------------------------------------------------
+	   * Bootstrap (v5.1.3): util/scrollBar.js
+	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+	   * --------------------------------------------------------------------------
+	   */
+	  const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
+	  const SELECTOR_STICKY_CONTENT = '.sticky-top';
+
+	  class ScrollBarHelper {
+	    constructor() {
+	      this._element = document.body;
+	    }
+
+	    getWidth() {
+	      // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
+	      const documentWidth = document.documentElement.clientWidth;
+	      return Math.abs(window.innerWidth - documentWidth);
+	    }
+
+	    hide() {
+	      const width = this.getWidth();
+
+	      this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
+
+
+	      this._setElementAttributes(this._element, 'paddingRight', calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
+
+
+	      this._setElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight', calculatedValue => calculatedValue + width);
+
+	      this._setElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight', calculatedValue => calculatedValue - width);
+	    }
+
+	    _disableOverFlow() {
+	      this._saveInitialAttribute(this._element, 'overflow');
+
+	      this._element.style.overflow = 'hidden';
+	    }
+
+	    _setElementAttributes(selector, styleProp, callback) {
+	      const scrollbarWidth = this.getWidth();
+
+	      const manipulationCallBack = element => {
+	        if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
+	          return;
+	        }
+
+	        this._saveInitialAttribute(element, styleProp);
+
+	        const calculatedValue = window.getComputedStyle(element)[styleProp];
+	        element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
+	      };
+
+	      this._applyManipulationCallback(selector, manipulationCallBack);
+	    }
+
+	    reset() {
+	      this._resetElementAttributes(this._element, 'overflow');
+
+	      this._resetElementAttributes(this._element, 'paddingRight');
+
+	      this._resetElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight');
+
+	      this._resetElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight');
+	    }
+
+	    _saveInitialAttribute(element, styleProp) {
+	      const actualValue = element.style[styleProp];
+
+	      if (actualValue) {
+	        Manipulator__default.default.setDataAttribute(element, styleProp, actualValue);
+	      }
+	    }
+
+	    _resetElementAttributes(selector, styleProp) {
+	      const manipulationCallBack = element => {
+	        const value = Manipulator__default.default.getDataAttribute(element, styleProp);
+
+	        if (typeof value === 'undefined') {
+	          element.style.removeProperty(styleProp);
+	        } else {
+	          Manipulator__default.default.removeDataAttribute(element, styleProp);
+	          element.style[styleProp] = value;
+	        }
+	      };
+
+	      this._applyManipulationCallback(selector, manipulationCallBack);
+	    }
+
+	    _applyManipulationCallback(selector, callBack) {
+	      if (isElement(selector)) {
+	        callBack(selector);
+	      } else {
+	        SelectorEngine__default.default.find(selector, this._element).forEach(callBack);
+	      }
+	    }
+
+	    isOverflowing() {
+	      return this.getWidth() > 0;
+	    }
+
+	  }
+
+	  /**
+	   * --------------------------------------------------------------------------
+	   * Bootstrap (v5.1.3): util/backdrop.js
+	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+	   * --------------------------------------------------------------------------
+	   */
+	  const Default$2 = {
+	    className: 'modal-backdrop',
+	    isVisible: true,
+	    // if false, we use the backdrop helper without adding any element to the dom
+	    isAnimated: false,
+	    rootElement: 'body',
+	    // give the choice to place backdrop under different elements
+	    clickCallback: null
+	  };
+	  const DefaultType$2 = {
+	    className: 'string',
+	    isVisible: 'boolean',
+	    isAnimated: 'boolean',
+	    rootElement: '(element|string)',
+	    clickCallback: '(function|null)'
+	  };
+	  const NAME$2 = 'backdrop';
+	  const CLASS_NAME_FADE$1 = 'fade';
+	  const CLASS_NAME_SHOW$1 = 'show';
+	  const EVENT_MOUSEDOWN = `mousedown.bs.${NAME$2}`;
+
+	  class Backdrop {
+	    constructor(config) {
+	      this._config = this._getConfig(config);
+	      this._isAppended = false;
+	      this._element = null;
+	    }
+
+	    show(callback) {
+	      if (!this._config.isVisible) {
+	        execute(callback);
+	        return;
+	      }
+
+	      this._append();
+
+	      if (this._config.isAnimated) {
+	        reflow(this._getElement());
+	      }
+
+	      this._getElement().classList.add(CLASS_NAME_SHOW$1);
+
+	      this._emulateAnimation(() => {
+	        execute(callback);
+	      });
+	    }
+
+	    hide(callback) {
+	      if (!this._config.isVisible) {
+	        execute(callback);
+	        return;
+	      }
+
+	      this._getElement().classList.remove(CLASS_NAME_SHOW$1);
+
+	      this._emulateAnimation(() => {
+	        this.dispose();
+	        execute(callback);
+	      });
+	    } // Private
+
+
+	    _getElement() {
+	      if (!this._element) {
+	        const backdrop = document.createElement('div');
+	        backdrop.className = this._config.className;
+
+	        if (this._config.isAnimated) {
+	          backdrop.classList.add(CLASS_NAME_FADE$1);
+	        }
+
+	        this._element = backdrop;
+	      }
+
+	      return this._element;
+	    }
+
+	    _getConfig(config) {
+	      config = { ...Default$2,
+	        ...(typeof config === 'object' ? config : {})
+	      }; // use getElement() with the default "body" to get a fresh Element on each instantiation
+
+	      config.rootElement = getElement(config.rootElement);
+	      typeCheckConfig(NAME$2, config, DefaultType$2);
+	      return config;
+	    }
+
+	    _append() {
+	      if (this._isAppended) {
+	        return;
+	      }
+
+	      this._config.rootElement.append(this._getElement());
+
+	      EventHandler__default.default.on(this._getElement(), EVENT_MOUSEDOWN, () => {
+	        execute(this._config.clickCallback);
+	      });
+	      this._isAppended = true;
+	    }
+
+	    dispose() {
+	      if (!this._isAppended) {
+	        return;
+	      }
+
+	      EventHandler__default.default.off(this._element, EVENT_MOUSEDOWN);
+
+	      this._element.remove();
+
+	      this._isAppended = false;
+	    }
+
+	    _emulateAnimation(callback) {
+	      executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
+	    }
+
+	  }
+
+	  /**
+	   * --------------------------------------------------------------------------
+	   * Bootstrap (v5.1.3): util/focustrap.js
+	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+	   * --------------------------------------------------------------------------
+	   */
+	  const Default$1 = {
+	    trapElement: null,
+	    // The element to trap focus inside of
+	    autofocus: true
+	  };
+	  const DefaultType$1 = {
+	    trapElement: 'element',
+	    autofocus: 'boolean'
+	  };
+	  const NAME$1 = 'focustrap';
+	  const DATA_KEY$1 = 'bs.focustrap';
+	  const EVENT_KEY$1 = `.${DATA_KEY$1}`;
+	  const EVENT_FOCUSIN = `focusin${EVENT_KEY$1}`;
+	  const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$1}`;
+	  const TAB_KEY = 'Tab';
+	  const TAB_NAV_FORWARD = 'forward';
+	  const TAB_NAV_BACKWARD = 'backward';
+
+	  class FocusTrap {
+	    constructor(config) {
+	      this._config = this._getConfig(config);
+	      this._isActive = false;
+	      this._lastTabNavDirection = null;
+	    }
+
+	    activate() {
+	      const {
+	        trapElement,
+	        autofocus
+	      } = this._config;
+
+	      if (this._isActive) {
+	        return;
+	      }
+
+	      if (autofocus) {
+	        trapElement.focus();
+	      }
+
+	      EventHandler__default.default.off(document, EVENT_KEY$1); // guard against infinite focus loop
+
+	      EventHandler__default.default.on(document, EVENT_FOCUSIN, event => this._handleFocusin(event));
+	      EventHandler__default.default.on(document, EVENT_KEYDOWN_TAB, event => this._handleKeydown(event));
+	      this._isActive = true;
+	    }
+
+	    deactivate() {
+	      if (!this._isActive) {
+	        return;
+	      }
+
+	      this._isActive = false;
+	      EventHandler__default.default.off(document, EVENT_KEY$1);
+	    } // Private
+
+
+	    _handleFocusin(event) {
+	      const {
+	        target
+	      } = event;
+	      const {
+	        trapElement
+	      } = this._config;
+
+	      if (target === document || target === trapElement || trapElement.contains(target)) {
+	        return;
+	      }
+
+	      const elements = SelectorEngine__default.default.focusableChildren(trapElement);
+
+	      if (elements.length === 0) {
+	        trapElement.focus();
+	      } else if (this._lastTabNavDirection === TAB_NAV_BACKWARD) {
+	        elements[elements.length - 1].focus();
+	      } else {
+	        elements[0].focus();
+	      }
+	    }
+
+	    _handleKeydown(event) {
+	      if (event.key !== TAB_KEY) {
+	        return;
+	      }
+
+	      this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
+	    }
+
+	    _getConfig(config) {
+	      config = { ...Default$1,
+	        ...(typeof config === 'object' ? config : {})
+	      };
+	      typeCheckConfig(NAME$1, config, DefaultType$1);
+	      return config;
+	    }
+
+	  }
+
+	  /**
+	   * --------------------------------------------------------------------------
+	   * Bootstrap (v5.1.3): util/component-functions.js
+	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+	   * --------------------------------------------------------------------------
+	   */
+
+	  const enableDismissTrigger = (component, method = 'hide') => {
+	    const clickEvent = `click.dismiss${component.EVENT_KEY}`;
+	    const name = component.NAME;
+	    EventHandler__default.default.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
+	      if (['A', 'AREA'].includes(this.tagName)) {
+	        event.preventDefault();
+	      }
+
+	      if (isDisabled(this)) {
+	        return;
+	      }
+
+	      const target = getElementFromSelector(this) || this.closest(`.${name}`);
+	      const instance = component.getOrCreateInstance(target); // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
+
+	      instance[method]();
+	    });
+	  };
+
+	  /**
+	   * --------------------------------------------------------------------------
+	   * Bootstrap (v5.1.3): modal.js
+	   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+	   * --------------------------------------------------------------------------
+	   */
+	  /**
+	   * ------------------------------------------------------------------------
+	   * Constants
+	   * ------------------------------------------------------------------------
+	   */
+
+	  const NAME = 'modal';
+	  const DATA_KEY = 'bs.modal';
+	  const EVENT_KEY = `.${DATA_KEY}`;
+	  const DATA_API_KEY = '.data-api';
+	  const ESCAPE_KEY = 'Escape';
+	  const Default = {
+	    backdrop: true,
+	    keyboard: true,
+	    focus: true
+	  };
+	  const DefaultType = {
+	    backdrop: '(boolean|string)',
+	    keyboard: 'boolean',
+	    focus: 'boolean'
+	  };
+	  const EVENT_HIDE = `hide${EVENT_KEY}`;
+	  const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY}`;
+	  const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
+	  const EVENT_SHOW = `show${EVENT_KEY}`;
+	  const EVENT_SHOWN = `shown${EVENT_KEY}`;
+	  const EVENT_RESIZE = `resize${EVENT_KEY}`;
+	  const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY}`;
+	  const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY}`;
+	  const EVENT_MOUSEUP_DISMISS = `mouseup.dismiss${EVENT_KEY}`;
+	  const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY}`;
+	  const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
+	  const CLASS_NAME_OPEN = 'modal-open';
+	  const CLASS_NAME_FADE = 'fade';
+	  const CLASS_NAME_SHOW = 'show';
+	  const CLASS_NAME_STATIC = 'modal-static';
+	  const OPEN_SELECTOR = '.modal.show';
+	  const SELECTOR_DIALOG = '.modal-dialog';
+	  const SELECTOR_MODAL_BODY = '.modal-body';
+	  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="modal"]';
+	  /**
+	   * ------------------------------------------------------------------------
+	   * Class Definition
+	   * ------------------------------------------------------------------------
+	   */
+
+	  class Modal extends BaseComponent__default.default {
+	    constructor(element, config) {
+	      super(element);
+	      this._config = this._getConfig(config);
+	      this._dialog = SelectorEngine__default.default.findOne(SELECTOR_DIALOG, this._element);
+	      this._backdrop = this._initializeBackDrop();
+	      this._focustrap = this._initializeFocusTrap();
+	      this._isShown = false;
+	      this._ignoreBackdropClick = false;
+	      this._isTransitioning = false;
+	      this._scrollBar = new ScrollBarHelper();
+	    } // Getters
+
+
+	    static get Default() {
+	      return Default;
+	    }
+
+	    static get NAME() {
+	      return NAME;
+	    } // Public
+
+
+	    toggle(relatedTarget) {
+	      return this._isShown ? this.hide() : this.show(relatedTarget);
+	    }
+
+	    show(relatedTarget) {
+	      if (this._isShown || this._isTransitioning) {
+	        return;
+	      }
+
+	      const showEvent = EventHandler__default.default.trigger(this._element, EVENT_SHOW, {
+	        relatedTarget
+	      });
+
+	      if (showEvent.defaultPrevented) {
+	        return;
+	      }
+
+	      this._isShown = true;
+
+	      if (this._isAnimated()) {
+	        this._isTransitioning = true;
+	      }
+
+	      this._scrollBar.hide();
+
+	      document.body.classList.add(CLASS_NAME_OPEN);
+
+	      this._adjustDialog();
+
+	      this._setEscapeEvent();
+
+	      this._setResizeEvent();
+
+	      EventHandler__default.default.on(this._dialog, EVENT_MOUSEDOWN_DISMISS, () => {
+	        EventHandler__default.default.one(this._element, EVENT_MOUSEUP_DISMISS, event => {
+	          if (event.target === this._element) {
+	            this._ignoreBackdropClick = true;
+	          }
+	        });
+	      });
+
+	      this._showBackdrop(() => this._showElement(relatedTarget));
+	    }
+
+	    hide() {
+	      if (!this._isShown || this._isTransitioning) {
+	        return;
+	      }
+
+	      const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE);
+
+	      if (hideEvent.defaultPrevented) {
+	        return;
+	      }
+
+	      this._isShown = false;
+
+	      const isAnimated = this._isAnimated();
+
+	      if (isAnimated) {
+	        this._isTransitioning = true;
+	      }
+
+	      this._setEscapeEvent();
+
+	      this._setResizeEvent();
+
+	      this._focustrap.deactivate();
+
+	      this._element.classList.remove(CLASS_NAME_SHOW);
+
+	      EventHandler__default.default.off(this._element, EVENT_CLICK_DISMISS);
+	      EventHandler__default.default.off(this._dialog, EVENT_MOUSEDOWN_DISMISS);
+
+	      this._queueCallback(() => this._hideModal(), this._element, isAnimated);
+	    }
+
+	    dispose() {
+	      [window, this._dialog].forEach(htmlElement => EventHandler__default.default.off(htmlElement, EVENT_KEY));
+
+	      this._backdrop.dispose();
+
+	      this._focustrap.deactivate();
+
+	      super.dispose();
+	    }
+
+	    handleUpdate() {
+	      this._adjustDialog();
+	    } // Private
+
+
+	    _initializeBackDrop() {
+	      return new Backdrop({
+	        isVisible: Boolean(this._config.backdrop),
+	        // 'static' option will be translated to true, and booleans will keep their value
+	        isAnimated: this._isAnimated()
+	      });
+	    }
+
+	    _initializeFocusTrap() {
+	      return new FocusTrap({
+	        trapElement: this._element
+	      });
+	    }
+
+	    _getConfig(config) {
+	      config = { ...Default,
+	        ...Manipulator__default.default.getDataAttributes(this._element),
+	        ...(typeof config === 'object' ? config : {})
+	      };
+	      typeCheckConfig(NAME, config, DefaultType);
+	      return config;
+	    }
+
+	    _showElement(relatedTarget) {
+	      const isAnimated = this._isAnimated();
+
+	      const modalBody = SelectorEngine__default.default.findOne(SELECTOR_MODAL_BODY, this._dialog);
+
+	      if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
+	        // Don't move modal's DOM position
+	        document.body.append(this._element);
+	      }
+
+	      this._element.style.display = 'block';
+
+	      this._element.removeAttribute('aria-hidden');
+
+	      this._element.setAttribute('aria-modal', true);
+
+	      this._element.setAttribute('role', 'dialog');
+
+	      this._element.scrollTop = 0;
+
+	      if (modalBody) {
+	        modalBody.scrollTop = 0;
+	      }
+
+	      if (isAnimated) {
+	        reflow(this._element);
+	      }
+
+	      this._element.classList.add(CLASS_NAME_SHOW);
+
+	      const transitionComplete = () => {
+	        if (this._config.focus) {
+	          this._focustrap.activate();
+	        }
+
+	        this._isTransitioning = false;
+	        EventHandler__default.default.trigger(this._element, EVENT_SHOWN, {
+	          relatedTarget
+	        });
+	      };
+
+	      this._queueCallback(transitionComplete, this._dialog, isAnimated);
+	    }
+
+	    _setEscapeEvent() {
+	      if (this._isShown) {
+	        EventHandler__default.default.on(this._element, EVENT_KEYDOWN_DISMISS, event => {
+	          if (this._config.keyboard && event.key === ESCAPE_KEY) {
+	            event.preventDefault();
+	            this.hide();
+	          } else if (!this._config.keyboard && event.key === ESCAPE_KEY) {
+	            this._triggerBackdropTransition();
+	          }
+	        });
+	      } else {
+	        EventHandler__default.default.off(this._element, EVENT_KEYDOWN_DISMISS);
+	      }
+	    }
+
+	    _setResizeEvent() {
+	      if (this._isShown) {
+	        EventHandler__default.default.on(window, EVENT_RESIZE, () => this._adjustDialog());
+	      } else {
+	        EventHandler__default.default.off(window, EVENT_RESIZE);
+	      }
+	    }
+
+	    _hideModal() {
+	      this._element.style.display = 'none';
+
+	      this._element.setAttribute('aria-hidden', true);
+
+	      this._element.removeAttribute('aria-modal');
+
+	      this._element.removeAttribute('role');
+
+	      this._isTransitioning = false;
+
+	      this._backdrop.hide(() => {
+	        document.body.classList.remove(CLASS_NAME_OPEN);
+
+	        this._resetAdjustments();
+
+	        this._scrollBar.reset();
+
+	        EventHandler__default.default.trigger(this._element, EVENT_HIDDEN);
+	      });
+	    }
+
+	    _showBackdrop(callback) {
+	      EventHandler__default.default.on(this._element, EVENT_CLICK_DISMISS, event => {
+	        if (this._ignoreBackdropClick) {
+	          this._ignoreBackdropClick = false;
+	          return;
+	        }
+
+	        if (event.target !== event.currentTarget) {
+	          return;
+	        }
+
+	        if (this._config.backdrop === true) {
+	          this.hide();
+	        } else if (this._config.backdrop === 'static') {
+	          this._triggerBackdropTransition();
+	        }
+	      });
+
+	      this._backdrop.show(callback);
+	    }
+
+	    _isAnimated() {
+	      return this._element.classList.contains(CLASS_NAME_FADE);
+	    }
+
+	    _triggerBackdropTransition() {
+	      const hideEvent = EventHandler__default.default.trigger(this._element, EVENT_HIDE_PREVENTED);
+
+	      if (hideEvent.defaultPrevented) {
+	        return;
+	      }
+
+	      const {
+	        classList,
+	        scrollHeight,
+	        style
+	      } = this._element;
+	      const isModalOverflowing = scrollHeight > document.documentElement.clientHeight; // return if the following background transition hasn't yet completed
+
+	      if (!isModalOverflowing && style.overflowY === 'hidden' || classList.contains(CLASS_NAME_STATIC)) {
+	        return;
+	      }
+
+	      if (!isModalOverflowing) {
+	        style.overflowY = 'hidden';
+	      }
+
+	      classList.add(CLASS_NAME_STATIC);
+
+	      this._queueCallback(() => {
+	        classList.remove(CLASS_NAME_STATIC);
+
+	        if (!isModalOverflowing) {
+	          this._queueCallback(() => {
+	            style.overflowY = '';
+	          }, this._dialog);
+	        }
+	      }, this._dialog);
+
+	      this._element.focus();
+	    } // ----------------------------------------------------------------------
+	    // the following methods are used to handle overflowing modals
+	    // ----------------------------------------------------------------------
+
+
+	    _adjustDialog() {
+	      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+
+	      const scrollbarWidth = this._scrollBar.getWidth();
+
+	      const isBodyOverflowing = scrollbarWidth > 0;
+
+	      if (!isBodyOverflowing && isModalOverflowing && !isRTL() || isBodyOverflowing && !isModalOverflowing && isRTL()) {
+	        this._element.style.paddingLeft = `${scrollbarWidth}px`;
+	      }
+
+	      if (isBodyOverflowing && !isModalOverflowing && !isRTL() || !isBodyOverflowing && isModalOverflowing && isRTL()) {
+	        this._element.style.paddingRight = `${scrollbarWidth}px`;
+	      }
+	    }
+
+	    _resetAdjustments() {
+	      this._element.style.paddingLeft = '';
+	      this._element.style.paddingRight = '';
+	    } // Static
+
+
+	    static jQueryInterface(config, relatedTarget) {
+	      return this.each(function () {
+	        const data = Modal.getOrCreateInstance(this, config);
+
+	        if (typeof config !== 'string') {
+	          return;
+	        }
+
+	        if (typeof data[config] === 'undefined') {
+	          throw new TypeError(`No method named "${config}"`);
+	        }
+
+	        data[config](relatedTarget);
+	      });
+	    }
+
+	  }
+	  /**
+	   * ------------------------------------------------------------------------
+	   * Data Api implementation
+	   * ------------------------------------------------------------------------
+	   */
+
+
+	  EventHandler__default.default.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+	    const target = getElementFromSelector(this);
+
+	    if (['A', 'AREA'].includes(this.tagName)) {
+	      event.preventDefault();
+	    }
+
+	    EventHandler__default.default.one(target, EVENT_SHOW, showEvent => {
+	      if (showEvent.defaultPrevented) {
+	        // only register focus restorer if modal will actually get shown
+	        return;
+	      }
+
+	      EventHandler__default.default.one(target, EVENT_HIDDEN, () => {
+	        if (isVisible(this)) {
+	          this.focus();
+	        }
+	      });
+	    }); // avoid conflict when clicking moddal toggler while another one is open
+
+	    const allReadyOpen = SelectorEngine__default.default.findOne(OPEN_SELECTOR);
+
+	    if (allReadyOpen) {
+	      Modal.getInstance(allReadyOpen).hide();
+	    }
+
+	    const data = Modal.getOrCreateInstance(target);
+	    data.toggle(this);
+	  });
+	  enableDismissTrigger(Modal);
+	  /**
+	   * ------------------------------------------------------------------------
+	   * jQuery
+	   * ------------------------------------------------------------------------
+	   * add .Modal to jQuery only if jQuery is present
+	   */
+
+	  defineJQueryPlugin(Modal);
+
+	  return Modal;
+
+	}));
+	
+} (modal));
 
 // AppController
 
@@ -10657,359 +9338,12 @@ return mapboxgl$1;
 
 mapboxGl.exports;
 
-// Page
-
-class Page extends EventHarness {
-
-    static #idIndex = 0;
-
-    /**
-     * generates a locally unique id
-     * (use for view HTML elements only)
-     *
-     * @returns {string}
-     */
-    static get nextId() {
-        return `viewid${Page.#idIndex++}`;
-    }
-
-    /**
-     * @type {AppController}
-     */
-    controller;
-
-    /**
-     * called once during late-stage app initialisation
-     * (NB this may not be the current view when called)
-     *
-     * an opportunity to register listeners on this.controller.app
-     */
-    initialise() {
-
-    }
-
-    // /**
-    //  *
-    //  * @param {HTMLElement} containerEl
-    //  */
-    // static initialise_layout(containerEl) {
-    //
-    // }
-
-    display() {
-        console.log('got to view display');
-
-        // these serve as hook points for child classes
-        this.refreshHeader();
-        this.body();
-    }
-
-    refreshHeader() {
-
-    }
-
-    body() {
-
-    }
-
-    /**
-     *
-     * @param {{}} descriptor
-     * @param {string} descriptor.cardId
-     * @param {string} descriptor.cardHeadingId
-     * @param {boolean} descriptor.collapsed
-     * @param {string} descriptor.headingButtonId
-     * @param {string} descriptor.headingHTML
-     * @param {string} [descriptor.headingNonbuttonHTML]
-     * @param {string} descriptor.cardDescriptionId
-     * @param {string} descriptor.parentContainerId
-     * @param {string} descriptor.buttonStyleString
-     * @param {HTMLElement} descriptor.bodyContentElement
-     * @param {{string, string}} descriptor.dataAttributes
-     * @param {string} descriptor.headingValidationWarningHTML
-     *
-     * @returns {HTMLDivElement}
-     */
-    accordionItem(descriptor) {
-        let cardContainer = document.createElement('div');
-        cardContainer.id = descriptor.cardId;
-        cardContainer.className = 'accordion-item';
-
-        let cardHeadingEl = cardContainer.appendChild(document.createElement('div'));
-        cardHeadingEl.className = 'accordion-header pointer';
-        if (descriptor.cardHeadingId) {
-            cardHeadingEl.id = descriptor.cardHeadingId;
-        }
-
-        let headingEl = cardHeadingEl.appendChild(document.createElement('h2'));
-        headingEl.className = 'mb-0';
-
-        let buttonEl = headingEl.appendChild(document.createElement('button'));
-        //buttonEl.className = `btn btn-link${(descriptor.collapsed ? ' collapsed' : '')}`;
-        buttonEl.className = `accordion-button${(descriptor.collapsed ? ' collapsed' : '')}`;
-
-        buttonEl.setAttribute('data-bs-toggle', 'collapse');
-        //buttonEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
-
-        if (descriptor.headingButtonId) {
-            buttonEl.id = descriptor.headingButtonId;
-        }
-
-        buttonEl.type = 'button';
-        //buttonEl.setAttribute('data-bs-toggle', 'collapse');
-
-        if (descriptor.buttonStyleString) {
-            buttonEl.style.cssText = descriptor.buttonStyleString;
-        }
-
-        if (descriptor.cardDescriptionId) {
-            buttonEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
-            buttonEl.setAttribute('aria-controls', descriptor.cardDescriptionId);
-        }
-
-        buttonEl.setAttribute('aria-expanded', descriptor.collapsed ? 'false' : 'true');
-        buttonEl.innerHTML = `<div class="material-icons icon-show-collapsed">expand_more</div><div class="material-icons icon-hide-collapsed">unfold_less</div>${descriptor.headingHTML}`;
-
-        if (descriptor.headingNonbuttonHTML) {
-            const extraHeadingElement = buttonEl.appendChild(document.createElement('span'));
-            extraHeadingElement.style.display = 'flex';
-            extraHeadingElement.innerHTML = descriptor.headingNonbuttonHTML;
-        }
-
-        if (descriptor.headingValidationWarningHTML) {
-            const headerValidationWarning = cardHeadingEl.appendChild(document.createElement('div'));
-            headerValidationWarning.className = 'card-invalid-feedback';
-            headerValidationWarning.innerHTML = `<small>${descriptor.headingValidationWarningHTML}</small>`;
-        }
-
-        let cardDescriptionEl = cardContainer.appendChild(document.createElement('div'));
-        if (descriptor.cardDescriptionId) {
-            cardDescriptionEl.id = descriptor.cardDescriptionId;
-        }
-        cardDescriptionEl.className = `accordion-collapse collapse${(descriptor.collapsed ? '' : ' show')}`;
-        if (descriptor.cardHeadingId) {
-            cardDescriptionEl.setAttribute('aria-labelledby', descriptor.cardHeadingId);
-        }
-
-        cardDescriptionEl.setAttribute('data-bs-parent', `#${descriptor.parentContainerId}`);
-
-        if (descriptor.dataAttributes) {
-            for (let key in descriptor.dataAttributes) {
-                if (descriptor.dataAttributes.hasOwnProperty(key)) {
-                    cardDescriptionEl.setAttribute(`data-${key}`, descriptor.dataAttributes[key]);
-                }
-            }
-        }
-
-        let cardBodyEl = cardDescriptionEl.appendChild(document.createElement('div'));
-        cardBodyEl.className = 'accordion-body ps-2 pe-2 ps-md-3 pe-md-3';
-        cardBodyEl.appendChild(descriptor.bodyContentElement);
-
-        return cardContainer;
-    }
-
-    /**
-     *
-     * @param {{}} descriptor
-     * @param {string} descriptor.cardId
-     * @param {string} descriptor.cardHeadingId
-     * @param {boolean} descriptor.collapsed
-     * @param {string} descriptor.headingButtonId
-     * @param {string} descriptor.headingHTML
-     * @param {string} [descriptor.headingNonbuttonHTML]
-     * @param {string} descriptor.cardDescriptionId
-     * @param {string} descriptor.parentContainerId
-     * @param {string} descriptor.buttonStyleString
-     * @param {HTMLElement} descriptor.bodyContentElement
-     * @param {{string, string}} descriptor.dataAttributes
-     * @param {string} descriptor.headingValidationWarningHTML
-     *
-     * @returns {HTMLDivElement}
-     */
-    card(descriptor) {
-        let cardContainer = document.createElement('div');
-        cardContainer.id = descriptor.cardId;
-        cardContainer.className = 'card';
-
-        let cardHeadingEl = cardContainer.appendChild(document.createElement('div'));
-        cardHeadingEl.className = 'card-header pointer';
-        if (descriptor.cardHeadingId) {
-            cardHeadingEl.id = descriptor.cardHeadingId;
-        }
-        cardHeadingEl.setAttribute('data-bs-toggle', 'collapse');
-        cardHeadingEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
-
-
-        let headingEl = cardHeadingEl.appendChild(document.createElement('h2'));
-        headingEl.className = 'mb-0';
-
-        let buttonEl = headingEl.appendChild(document.createElement('button'));
-        buttonEl.className = `btn btn-link${(descriptor.collapsed ? ' collapsed' : '')}`;
-
-        if (descriptor.headingButtonId) {
-            buttonEl.id = descriptor.headingButtonId;
-        }
-
-        buttonEl.type = 'button';
-        buttonEl.setAttribute('data-bs-toggle', 'collapse');
-
-        if (descriptor.buttonStyleString) {
-            buttonEl.style.cssText = descriptor.buttonStyleString;
-        }
-
-        if (descriptor.cardDescriptionId) {
-            buttonEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
-            buttonEl.setAttribute('aria-controls', descriptor.cardDescriptionId);
-        }
-
-        buttonEl.setAttribute('aria-expanded', descriptor.collapsed ? 'false' : 'true');
-        buttonEl.innerHTML = `<div class="material-icons icon-show-collapsed">expand_more</div><div class="material-icons icon-hide-collapsed">unfold_less</div>${descriptor.headingHTML}`;
-
-        if (descriptor.headingNonbuttonHTML) {
-            const extraHeadingElement = headingEl.appendChild(document.createElement('span'));
-            extraHeadingElement.style.display = 'inline-block';
-            extraHeadingElement.innerHTML = descriptor.headingNonbuttonHTML;
-        }
-
-        if (descriptor.headingValidationWarningHTML) {
-            const headerValidationWarning = cardHeadingEl.appendChild(document.createElement('div'));
-            headerValidationWarning.className = 'card-invalid-feedback';
-            headerValidationWarning.innerHTML = `<small>${descriptor.headingValidationWarningHTML}</small>`;
-        }
-
-        let cardDescriptionEl = cardContainer.appendChild(document.createElement('div'));
-        if (descriptor.cardDescriptionId) {
-            cardDescriptionEl.id = descriptor.cardDescriptionId;
-        }
-        cardDescriptionEl.className = `collapse${(descriptor.collapsed ? '' : ' show')}`;
-        if (descriptor.cardHeadingId) {
-            cardDescriptionEl.setAttribute('aria-labelledby', descriptor.cardHeadingId);
-        }
-
-        cardDescriptionEl.setAttribute('data-parent', `#${descriptor.parentContainerId}`);
-
-        if (descriptor.dataAttributes) {
-            for (let key in descriptor.dataAttributes) {
-                if (descriptor.dataAttributes.hasOwnProperty(key)) {
-                    cardDescriptionEl.setAttribute(`data-${key}`, descriptor.dataAttributes[key]);
-                }
-            }
-        }
-
-        let cardBodyEl = cardDescriptionEl.appendChild(document.createElement('div'));
-        cardBodyEl.className = 'card-body ps-2 pe-2 ps-md-3 pe-md-3';
-        cardBodyEl.appendChild(descriptor.bodyContentElement);
-
-        return cardContainer;
-
-    //         `<div class="card-header" id="heading_${occurrence.id}">
-    //   <h2 class="mb-0">
-    //     <button class="btn btn-link${(this.controller.currentOccurrenceId === occurrence.id ? '' : ' collapsed')}" id="headingbutton_${occurrence.id}" type="button" data-bs-toggle="collapse" data-bs-target="#description_${occurrence.id}" aria-expanded="true" aria-controls="description_${occurrence.id}">
-    //       Heading for (${occurrence.id}, ${taxon.canonical})
-    //     </button>
-    //   </h2>
-    // </div>
-    //
-    // <div id="description_${occurrence.id}" class="collapse${(this.controller.currentOccurrenceId === occurrence.id ? ' show' : '')}" aria-labelledby="heading_${occurrence.id}" data-parent="#occurrenceslist" data-occurrenceId="${occurrence.id}">
-    //   <div class="card-body">
-    //     Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-    //   </div>
-    // </div>`;
-    }
-}
-
-// not found view
-
-class NotFoundView extends Page {
-    body() {
-        // at this point the entire content of #body should be safe to replace
-
-        let pathPrefix = window.location.pathname.split('/')[1];
-
-        const bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = `<h2>Page not found</h2><p><a href="/${pathPrefix}/list">Return to the homepage.</a>`;
-    }
-}
-
-const PROJECT_ID_NYPH = 2;
-
 const FORAGE_NAME = 'Nyph App2023';
-
-class NyphApp extends App {
-    /**
-     * @type {number}
-     */
-    projectId = PROJECT_ID_NYPH;
-
-    static forageName = FORAGE_NAME;
-
-    //static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
-
-    //static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
-    //static EVENT_SURVEYS_CHANGED = 'surveyschanged';
-
-    /**
-     *
-     * @type {boolean}
-     */
-    static devMode = false;
-
-    constructor() {
-        super();
-
-        this.initialiseSurveyFieldsMirror();
-    }
-
-    _coreSurveyFields = [
-        'recorder',
-        'email'
-    ];
-
-    _coreSurveyFieldCache = [
-
-    ];
-
-    /**
-     * Sets handlers to allow certain survey fields to be duplicated from last current survey to new survey
-     * used for email address and primary recorder name
-     */
-    initialiseSurveyFieldsMirror() {
-        this.addListener(App.EVENT_NEW_SURVEY, () => {
-            console.log('Try to initialise core fields of new survey.');
-            if (this._coreSurveyFieldCache) {
-                console.log({'Using cached survey values' : this._coreSurveyFieldCache});
-                for (let key of this._coreSurveyFields) {
-                    this.currentSurvey.attributes[key] = this._coreSurveyFieldCache[key];
-                }
-            }
-        });
-
-        this.addListener(App.EVENT_SURVEYS_CHANGED, () => {
-            if (this.currentSurvey && !this.currentSurvey.isNew) {
-                for (let key of this._coreSurveyFields) {
-                    this._coreSurveyFieldCache[key] = this.currentSurvey.attributes[key];
-                }
-
-                console.log({'Saved core survey fields' : this._coreSurveyFieldCache});
-            }
-        });
-
-        this.addListener(App.EVENT_RESET_SURVEYS, () => {
-            this._coreSurveyFieldCache = [];
-            console.log('Have reset core survey field cache.');
-        });
-    }
-
-    notFoundView() {
-        const view = new NotFoundView();
-        view.display();
-    }
-}
 
 // service worker for Nyph app
 
 // noinspection JSUnusedLocalSymbols
-let BsbiDb$1 = BsbiDb$1 || {scriptVersions: { TaxonNames : [] } };
+let BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
 
 // mainly aiming to determine whether '/app/' or '/testapp/'
 let pathPrefix = location.pathname.split('/')[1];
@@ -11039,7 +9373,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.js?version=1.0.3.1665755664',
+        './app.js?version=1.0.3.1666880802',
         './manifest.webmanifest',
         '/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -11064,6 +9398,6 @@ serviceWorker.initialise({
         '/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : '1.0.3.1665755664'
+    version : '1.0.3.1666880802'
 });
 //# sourceMappingURL=serviceworker.mjs.map
