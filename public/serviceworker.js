@@ -1,51 +1,22 @@
 (function () {
 	'use strict';
 
-	function getAugmentedNamespace(n) {
-	  var f = n.default;
-		if (typeof f == "function") {
-			var a = function () {
-				return f.apply(this, arguments);
-			};
-			a.prototype = f.prototype;
-	  } else a = {};
-	  Object.defineProperty(a, '__esModule', {value: true});
-		Object.keys(n).forEach(function (k) {
-			var d = Object.getOwnPropertyDescriptor(n, k);
-			Object.defineProperty(a, k, d.get ? d : {
-				enumerable: true,
-				get: function () {
-					return n[k];
-				}
-			});
-		});
-		return a;
-	}
-
-	var global$g = (typeof global !== "undefined" ? global :
-	  typeof self !== "undefined" ? self :
-	  typeof window !== "undefined" ? window : {});
+	var commonjsGlobal$1 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 	var check = function (it) {
 	  return it && it.Math == Math && it;
 	};
 
 	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-	module.exports =
+	var global$f =
 	  // eslint-disable-next-line es/no-global-this -- safe
 	  check(typeof globalThis == 'object' && globalThis) ||
 	  check(typeof window == 'object' && window) ||
 	  // eslint-disable-next-line no-restricted-globals -- safe
 	  check(typeof self == 'object' && self) ||
-	  check(typeof global$g == 'object' && global$g) ||
+	  check(typeof commonjsGlobal$1 == 'object' && commonjsGlobal$1) ||
 	  // eslint-disable-next-line no-new-func -- fallback
 	  (function () { return this; })() || Function('return this')();
-
-	var global$f = /*#__PURE__*/Object.freeze({
-		__proto__: null
-	});
-
-	var require$$1 = /*@__PURE__*/getAugmentedNamespace(global$f);
 
 	var objectGetOwnPropertyDescriptor = {};
 
@@ -212,7 +183,7 @@
 	  return typeof it == 'object' ? it !== null : isCallable$d(it);
 	};
 
-	var global$e = require$$1;
+	var global$e = global$f;
 	var isCallable$c = isCallable$e;
 
 	var aFunction = function (argument) {
@@ -231,7 +202,7 @@
 
 	var engineUserAgent = getBuiltIn$6('navigator', 'userAgent') || '';
 
-	var global$d = require$$1;
+	var global$d = global$f;
 	var userAgent = engineUserAgent;
 
 	var process = global$d.process;
@@ -345,7 +316,7 @@
 
 	var shared$4 = {exports: {}};
 
-	var global$c = require$$1;
+	var global$c = global$f;
 
 	// eslint-disable-next-line es/no-object-defineproperty -- safe
 	var defineProperty$3 = Object.defineProperty;
@@ -358,7 +329,7 @@
 	  } return value;
 	};
 
-	var global$b = require$$1;
+	var global$b = global$f;
 	var defineGlobalProperty$2 = defineGlobalProperty$3;
 
 	var SHARED = '__core-js_shared__';
@@ -410,7 +381,7 @@
 	  return 'Symbol(' + (key === undefined ? '' : key) + ')_' + toString$4(++id + postfix, 36);
 	};
 
-	var global$a = require$$1;
+	var global$a = global$f;
 	var shared$3 = shared$4.exports;
 	var hasOwn$9 = hasOwnProperty_1;
 	var uid$1 = uid$2;
@@ -471,7 +442,7 @@
 	  return isSymbol(key) ? key : key + '';
 	};
 
-	var global$9 = require$$1;
+	var global$9 = global$f;
 	var isObject$8 = isObject$b;
 
 	var document$1 = global$9.document;
@@ -633,7 +604,7 @@
 
 	var inspectSource$2 = store$1.inspectSource;
 
-	var global$8 = require$$1;
+	var global$8 = global$f;
 	var isCallable$7 = isCallable$e;
 
 	var WeakMap$1 = global$8.WeakMap;
@@ -652,7 +623,7 @@
 	var hiddenKeys$4 = {};
 
 	var NATIVE_WEAK_MAP = weakMapBasicDetection;
-	var global$7 = require$$1;
+	var global$7 = global$f;
 	var isObject$6 = isObject$b;
 	var createNonEnumerableProperty$4 = createNonEnumerableProperty$5;
 	var hasOwn$6 = hasOwnProperty_1;
@@ -991,7 +962,7 @@
 
 	var isForced_1 = isForced$2;
 
-	var global$6 = require$$1;
+	var global$6 = global$f;
 	var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
 	var createNonEnumerableProperty$3 = createNonEnumerableProperty$5;
 	var defineBuiltIn$2 = defineBuiltIn$3;
@@ -1440,7 +1411,7 @@
 	/* eslint-disable no-unused-vars -- required for functions `.length` */
 
 	var $$2 = _export;
-	var global$5 = require$$1;
+	var global$5 = global$f;
 	var apply = functionApply;
 	var wrapErrorConstructorWithCause = wrapErrorConstructorWithCause$1;
 
@@ -1540,7 +1511,7 @@
 	};
 
 	var fails$5 = fails$h;
-	var global$4 = require$$1;
+	var global$4 = global$f;
 
 	// babel-minify and Closure Compiler transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError
 	var $RegExp$2 = global$4.RegExp;
@@ -1590,7 +1561,7 @@
 	};
 
 	var fails$4 = fails$h;
-	var global$3 = require$$1;
+	var global$3 = global$f;
 
 	// babel-minify and Closure Compiler transpiles RegExp('.', 's') -> /./s and it causes SyntaxError
 	var $RegExp$1 = global$3.RegExp;
@@ -1601,7 +1572,7 @@
 	});
 
 	var fails$3 = fails$h;
-	var global$2 = require$$1;
+	var global$2 = global$f;
 
 	// babel-minify and Closure Compiler transpiles RegExp('(?<a>b)', 'g') -> /(?<a>b)/g and it causes SyntaxError
 	var $RegExp = global$2.RegExp;
@@ -1613,7 +1584,7 @@
 	});
 
 	var DESCRIPTORS$3 = descriptors;
-	var global$1 = require$$1;
+	var global$1 = global$f;
 	var uncurryThis$1 = functionUncurryThis;
 	var isForced = isForced_1;
 	var inheritIfRequired = inheritIfRequired$2;
@@ -7626,7 +7597,7 @@
 	  // ignoreUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/app\.js|^https:\/\/nyph\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyph\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyph\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
 	  // indexUrl : 'https://nyph.bsbi.app/app/index.html',
 
-	  urlCacheSet: ['./index.html', './app.mjs?version=1.0.3.1666888407', './manifest.webmanifest', '/appcss/app.__BSBI_APP_VERSION__.css',
+	  urlCacheSet: ['./index.html', './app.mjs?version=1.0.3.1666888968', './manifest.webmanifest', '/appcss/app.__BSBI_APP_VERSION__.css',
 	  // note no leading '.' - this is an absolute path
 	  '/appcss/theme.css',
 	  //'/img/gwh_logo1_tsp.png',
@@ -7646,7 +7617,7 @@
 	  //'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js',
 	  '/js/mapbox-gl-geocoder-v4.7.2.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-	  version: '1.0.3.1666888407'
+	  version: '1.0.3.1666888968'
 	});
 
 })();

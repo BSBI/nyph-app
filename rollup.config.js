@@ -174,7 +174,7 @@ export default [
 		external: ['BsbiDb'],
 
 		plugins: [
-			nodePolyfills(),
+			//nodePolyfills(),
 			resolve(), // tells Rollup how to find files in node_modules
 			replace({
 				preventAssignment: true,
@@ -217,7 +217,7 @@ export default [
 		external: ['BsbiDb'],
 
 		plugins: [
-			nodePolyfills(),
+			//nodePolyfills(),
 			resolve(), // tells Rollup how to find files in node_modules
 			replace({
 				preventAssignment: true,
