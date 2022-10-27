@@ -5218,6 +5218,95 @@ class TaxaLoadedHook {
     }
 }
 
+//import {NotFoundView} from "bsbi-app-framework-view";
+
+const PROJECT_ID_NYPH = 2;
+
+const FORAGE_NAME = 'Nyph App2023';
+
+class NyphApp extends App$1 {
+    /**
+     * @type {number}
+     */
+    projectId = PROJECT_ID_NYPH;
+
+    static forageName = FORAGE_NAME;
+
+    //static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
+
+    //static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
+    //static EVENT_SURVEYS_CHANGED = 'surveyschanged';
+
+    /**
+     *
+     * @type {boolean}
+     */
+    static devMode = false;
+
+    constructor() {
+        super();
+
+        this.initialiseSurveyFieldsMirror();
+    }
+
+    _coreSurveyFields = [
+        'recorder',
+        'email'
+    ];
+
+    _coreSurveyFieldCache = [
+
+    ];
+
+    /**
+     * Sets handlers to allow certain survey fields to be duplicated from last current survey to new survey
+     * used for email address and primary recorder name
+     */
+    initialiseSurveyFieldsMirror() {
+        this.addListener(App$1.EVENT_NEW_SURVEY, () => {
+            console.log('Try to initialise core fields of new survey.');
+            if (this._coreSurveyFieldCache) {
+                console.log({'Using cached survey values' : this._coreSurveyFieldCache});
+                for (let key of this._coreSurveyFields) {
+                    this.currentSurvey.attributes[key] = this._coreSurveyFieldCache[key];
+                }
+            }
+        });
+
+        this.addListener(App$1.EVENT_SURVEYS_CHANGED, () => {
+            if (this.currentSurvey && !this.currentSurvey.isNew) {
+                for (let key of this._coreSurveyFields) {
+                    this._coreSurveyFieldCache[key] = this.currentSurvey.attributes[key];
+                }
+
+                console.log({'Saved core survey fields' : this._coreSurveyFieldCache});
+            }
+        });
+
+        this.addListener(App$1.EVENT_RESET_SURVEYS, () => {
+            this._coreSurveyFieldCache = [];
+            console.log('Have reset core survey field cache.');
+        });
+    }
+
+    /**
+     * A convoluted approach is used to avoid requirement to import NotFoundView
+     * (as that bloats the service worker, by pulling in the full view library and bootstrap)
+     *
+     * @type {NotFoundView}
+     */
+    notFoundViewObject;
+
+    notFoundView() {
+        this.notFoundViewObject.display();
+    }
+
+    // notFoundView() {
+    //     const view = new NotFoundView();
+    //     view.display();
+    // }
+}
+
 var commonjsGlobal$2 = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 var modal = {exports: {}};
@@ -18523,81 +18612,6 @@ class SurveyPickerView extends Page {
     }
 }
 
-const PROJECT_ID_NYPH = 2;
-
-const FORAGE_NAME = 'Nyph App2023';
-
-class NyphApp extends App$1 {
-    /**
-     * @type {number}
-     */
-    projectId = PROJECT_ID_NYPH;
-
-    static forageName = FORAGE_NAME;
-
-    //static LOAD_SURVEYS_ENDPOINT = '/loadsurveys.php';
-
-    //static EVENT_OCCURRENCE_ADDED = 'occurrenceadded';
-    //static EVENT_SURVEYS_CHANGED = 'surveyschanged';
-
-    /**
-     *
-     * @type {boolean}
-     */
-    static devMode = false;
-
-    constructor() {
-        super();
-
-        this.initialiseSurveyFieldsMirror();
-    }
-
-    _coreSurveyFields = [
-        'recorder',
-        'email'
-    ];
-
-    _coreSurveyFieldCache = [
-
-    ];
-
-    /**
-     * Sets handlers to allow certain survey fields to be duplicated from last current survey to new survey
-     * used for email address and primary recorder name
-     */
-    initialiseSurveyFieldsMirror() {
-        this.addListener(App$1.EVENT_NEW_SURVEY, () => {
-            console.log('Try to initialise core fields of new survey.');
-            if (this._coreSurveyFieldCache) {
-                console.log({'Using cached survey values' : this._coreSurveyFieldCache});
-                for (let key of this._coreSurveyFields) {
-                    this.currentSurvey.attributes[key] = this._coreSurveyFieldCache[key];
-                }
-            }
-        });
-
-        this.addListener(App$1.EVENT_SURVEYS_CHANGED, () => {
-            if (this.currentSurvey && !this.currentSurvey.isNew) {
-                for (let key of this._coreSurveyFields) {
-                    this._coreSurveyFieldCache[key] = this.currentSurvey.attributes[key];
-                }
-
-                console.log({'Saved core survey fields' : this._coreSurveyFieldCache});
-            }
-        });
-
-        this.addListener(App$1.EVENT_RESET_SURVEYS, () => {
-            this._coreSurveyFieldCache = [];
-            console.log('Have reset core survey field cache.');
-        });
-    }
-
-    notFoundView() {
-        const view = new NotFoundView();
-        view.display();
-    }
-}
-
 // MainController
 
 class MainController extends AppController {
@@ -18934,7 +18948,7 @@ class MainController extends AppController {
                 this.view.display();
             } catch (rethrownError) {
                 console.log({rethrownError});
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1666885875</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1666887028</p>`;
             }
         }
     }
@@ -21369,7 +21383,7 @@ class MainView extends Page {
             if (editorContainer) {
                 editorContainer.innerHTML = `<p>${error.message}</p>`;
             } else {
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1666885875</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1666887028</p>`;
                 //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
             }
         }
@@ -22399,7 +22413,7 @@ class HelpView extends Page {
         // at this point the entire content of #body should be safe to replace
 
         const bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1666885875</p>`;
+        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1666887028</p>`;
     }
 }
 
@@ -29653,7 +29667,7 @@ enableDismissTrigger(Toast);
 
 defineJQueryPlugin(Toast);
 
-// version 1.0.3.1666885875
+// version 1.0.3.1666887028
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {
@@ -29697,6 +29711,7 @@ if (navigator.serviceWorker) {
 }
 
 const app = new NyphApp;
+app.notFoundViewObject = new NotFoundView();
 
 app.router = new PatchedNavigo(`https://nyph.bsbi.app/${pathPrefix}/`);
 

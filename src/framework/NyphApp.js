@@ -1,5 +1,5 @@
 import {App} from "bsbi-app-framework";
-import {NotFoundView} from "bsbi-app-framework-view";
+//import {NotFoundView} from "bsbi-app-framework-view";
 
 export const PROJECT_ID_NYPH = 2;
 
@@ -70,8 +70,20 @@ export class NyphApp extends App {
         });
     }
 
+    /**
+     * A convoluted approach is used to avoid requirement to import NotFoundView
+     * (as that bloats the service worker, by pulling in the full view library and bootstrap)
+     *
+     * @type {NotFoundView}
+     */
+    notFoundViewObject;
+
     notFoundView() {
-        const view = new NotFoundView();
-        view.display();
+        this.notFoundViewObject.display();
     }
+
+    // notFoundView() {
+    //     const view = new NotFoundView();
+    //     view.display();
+    // }
 }

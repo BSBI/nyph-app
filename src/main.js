@@ -11,7 +11,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import './app.css';
 import 'bsbi-app-framework-view/dist/css.css';
 import {StaticContentController, TaxaLoadedHook, SurveyPickerController} from "bsbi-app-framework";
-import {PatchedNavigo, SurveyPickerView} from "bsbi-app-framework-view";
+import {NotFoundView, PatchedNavigo, SurveyPickerView} from "bsbi-app-framework-view";
 import 'bootstrap';
 
 // work around Edge bug
@@ -56,6 +56,7 @@ if (navigator.serviceWorker) {
 }
 
 const app = new NyphApp;
+app.notFoundViewObject = new NotFoundView();
 
 app.router = new PatchedNavigo(`https://__DOMAIN__/${pathPrefix}/`);
 
