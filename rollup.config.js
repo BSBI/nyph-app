@@ -8,6 +8,8 @@ import scss from 'rollup-plugin-scss';
 import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';
 import sourcemaps from 'rollup-plugin-sourcemaps';
+import nodePolyfills from 'rollup-plugin-polyfill-node'; // this is required for 'process' but it's unclear why that dependency exists
+
 
 // import json from '@rollup/plugin-json';
 // import nodePolyfills from 'rollup-plugin-polyfill-node';
@@ -39,6 +41,7 @@ export default [
 		external: ['BsbiDb'],
 
 		plugins: [
+			nodePolyfills(),
 			resolve(), // tells Rollup how to find files in node_modules
 			replace({
 				preventAssignment: true,
@@ -117,6 +120,7 @@ export default [
 		external: ['BsbiDb'],
 
 		plugins: [
+			nodePolyfills(),
 			resolve(), // tells Rollup how to find files in node_modules
 			replace({
 				preventAssignment: true,
