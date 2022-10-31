@@ -3732,6 +3732,13 @@ let Taxon$1 = class Taxon {
     vernacularRoot = '';
 
     /**
+     * if set then the vernacular name should not be allowed for data entry
+     *
+     * @type {boolean}
+     */
+    badVernacular = false;
+
+    /**
      * @type {boolean}
      */
     used;
@@ -3790,6 +3797,10 @@ let Taxon$1 = class Taxon {
         taxon.used = raw[8];
         taxon.sortOrder = raw[9];
         taxon.parentIds = raw[10];
+
+        if (raw[11]) {
+            taxon.badVernacular = true;
+        }
 
         return taxon;
     }
@@ -11532,6 +11543,13 @@ class Taxon {
     vernacularRoot = '';
 
     /**
+     * if set then the vernacular name should not be allowed for data entry
+     *
+     * @type {boolean}
+     */
+    badVernacular = false;
+
+    /**
      * @type {boolean}
      */
     used;
@@ -11590,6 +11608,10 @@ class Taxon {
         taxon.used = raw[8];
         taxon.sortOrder = raw[9];
         taxon.parentIds = raw[10];
+
+        if (raw[11]) {
+            taxon.badVernacular = true;
+        }
 
         return taxon;
     }
@@ -12839,6 +12861,7 @@ class TaxonSearch {
     static vernacularRootColumn = 7;
     static usedColumn = 8;
     static minRankColumn = 9;
+    static badVernacularColumn = 11;
 
     static taxonRankNameSearchRegex = [
         /\s+sub-?g(?:en(?:us)?)?[.\s]+/i,
@@ -13222,8 +13245,9 @@ class TaxonSearch {
                                     nearMatchRegex.test(canonical)),
                             };
                         } else if (
-                            caseInsensitiveEscapedTaxonRegex.test(testTaxon[TaxonSearch.vernacularColumn]) ||
-                            caseInsensitiveEscapedTaxonRegex.test(testTaxon[TaxonSearch.vernacularRootColumn])
+                            !testTaxon[TaxonSearch.badVernacularColumn] &&
+                            (caseInsensitiveEscapedTaxonRegex.test(testTaxon[TaxonSearch.vernacularColumn]) ||
+                            caseInsensitiveEscapedTaxonRegex.test(testTaxon[TaxonSearch.vernacularRootColumn]))
                         ) {
                             matchedIds[id] = {
                                 exact: (testTaxon[TaxonSearch.vernacularColumn] === taxonString),
@@ -13250,7 +13274,7 @@ class TaxonSearch {
                                         {exact: (testTaxon[TaxonSearch.nameStringColumn] === taxonString)};
                                 } else if (
                                     (testTaxon[TaxonSearch.canonicalColumn] !== 0 && broadRegExp.test(testTaxon[TaxonSearch.canonicalColumn])) ||
-                                    broadRegExp.test(testTaxon[TaxonSearch.vernacularColumn])
+                                    (!testTaxon[TaxonSearch.badVernacularColumn] && broadRegExp.test(testTaxon[TaxonSearch.vernacularColumn]))
                                 ) {
                                     matchedIds[id] = {
                                         exact: (testTaxon[TaxonSearch.nameStringColumn] === taxonString),
@@ -18948,7 +18972,7 @@ class MainController extends AppController {
                 this.view.display();
             } catch (rethrownError) {
                 console.log({rethrownError});
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1666904571</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1667212116</p>`;
             }
         }
     }
@@ -21383,7 +21407,7 @@ class MainView extends Page {
             if (editorContainer) {
                 editorContainer.innerHTML = `<p>${error.message}</p>`;
             } else {
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1666904571</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1667212116</p>`;
                 //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
             }
         }
@@ -22413,7 +22437,7 @@ class HelpView extends Page {
         // at this point the entire content of #body should be safe to replace
 
         const bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1666904571</p>`;
+        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1667212116</p>`;
     }
 }
 
@@ -29667,7 +29691,7 @@ enableDismissTrigger(Toast);
 
 defineJQueryPlugin(Toast);
 
-// version 1.0.3.1666904571
+// version 1.0.3.1667212116
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {

@@ -6019,6 +6019,13 @@
     vernacularRoot = '';
 
     /**
+     * if set then the vernacular name should not be allowed for data entry
+     *
+     * @type {boolean}
+     */
+    badVernacular = false;
+
+    /**
      * @type {boolean}
      */
     used;
@@ -6073,6 +6080,9 @@
       taxon.used = raw[8];
       taxon.sortOrder = raw[9];
       taxon.parentIds = raw[10];
+      if (raw[11]) {
+        taxon.badVernacular = true;
+      }
       return taxon;
     }
 
@@ -11089,6 +11099,10 @@
        *
        * @type {string}
        */vernacularRoot='';/**
+       * if set then the vernacular name should not be allowed for data entry
+       *
+       * @type {boolean}
+       */badVernacular=false;/**
        * @type {boolean}
        */used;/**
        * @type {number}
@@ -11106,7 +11120,7 @@
        */static fromId(id){if(!Taxon.rawTaxa){// may not yet have been initialised due to deferred loading
   if(BsbiDb.TaxonNames){Taxon.rawTaxa=BsbiDb.TaxonNames;}else {throw new TaxonError(`Taxon.fromId() called before taxon list has loaded.`);}}if(!Taxon.rawTaxa.hasOwnProperty(id)){throw new TaxonError(`Taxon id '${id}' not found.`);}const raw=Taxon.rawTaxa[id];const taxon=new Taxon();taxon.id=id;taxon.nameString=raw[0];taxon.canonical=raw[1]||raw[0];// raw entry is blank if namesString == canonical
   taxon.hybridCanonical=raw[2]||taxon.canonical;// raw entry is blank if canonical == hybridCanonical
-  taxon.acceptedEntityId=raw[3]||id;taxon.qualifier=raw[4];taxon.authority=raw[5];taxon.vernacular=raw[6];taxon.vernacularRoot=raw[7];taxon.used=raw[8];taxon.sortOrder=raw[9];taxon.parentIds=raw[10];return taxon;}/**
+  taxon.acceptedEntityId=raw[3]||id;taxon.qualifier=raw[4];taxon.authority=raw[5];taxon.vernacular=raw[6];taxon.vernacularRoot=raw[7];taxon.used=raw[8];taxon.sortOrder=raw[9];taxon.parentIds=raw[10];if(raw[11]){taxon.badVernacular=true;}return taxon;}/**
        *
        * @param {boolean} vernacularMatched
        * @returns {string}
@@ -11484,7 +11498,7 @@
        * @param {object} taxonResult
        * @param {string} queryString
        * @returns {string}
-       */static formatter(taxonResult,queryString=''){{if(taxonResult.vernacularMatched){if(taxonResult.acceptedEntityId){return `<q><b>${taxonResult.vernacular}</b></q> <span class="italictaxon">${taxonResult.uname}${taxonResult.qualifier?` <b>${taxonResult.qualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.authority}</span>`+` = <span class="italictaxon">${taxonResult.acceptedNameString}${taxonResult.acceptedQualifier?` <b>${taxonResult.acceptedQualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.acceptedAuthority}</span>`;}return `<q><b>${taxonResult.vernacular}</b></q> <span class="italictaxon">${taxonResult.uname}${taxonResult.qualifier?` <b>${taxonResult.qualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.authority}</span>`;}if(taxonResult.acceptedEntityId){return `<span class="italictaxon">${taxonResult.uname}${taxonResult.qualifier?` <b>${taxonResult.qualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.authority}</span>${taxonResult.vernacular?` <q><b>${taxonResult.vernacular}</b></q>`:''} = <span class="italictaxon">${taxonResult.acceptedNameString}${taxonResult.acceptedQualifier?` <b>${taxonResult.acceptedQualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.acceptedAuthority}</span>`;}return `<span class="italictaxon">${taxonResult.uname}${taxonResult.qualifier?` <b>${taxonResult.qualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.authority}</span>${taxonResult.vernacular?` <q><b>${taxonResult.vernacular}</b></q>`:''}`;}}static abbreviatedGenusRegex=/^(X\s+)?([a-z])[.\s]+(.*?)$/i;static nameStringColumn=0;static canonicalColumn=1;static hybridCanonicalColumn=2;static acceptedEntityIdColumn=3;static qualifierColumn=4;static authorityColumn=5;static vernacularColumn=6;static vernacularRootColumn=7;static usedColumn=8;static minRankColumn=9;static taxonRankNameSearchRegex=[/\s+sub-?g(?:en(?:us)?)?[.\s]+/i,/\s+sect(?:ion)?[.\s]+/i,/\s+subsect(?:ion)?[.\s]+/i,/\s+ser(?:ies)?[.\s]+/i,/\s+gp[.\s]+/i,/\s+s(?:ub)?-?sp(?:ecies)?[.\s]+/i,/\s+morphotype\s+/i,/\s+var[.\s]+/i,/\s+cv[.\s]+/i,/\s+n(?:otho)?v(?:ar)?[.\s]+/i,/\s+f[.\s]+|\s+forma?\s+/i,/\s+n(?:otho)?ssp[.\s]+/i];static taxonRankNameReplacement=[' subg. ',' sect. ',' subsect. ',' ser. ',' group ',' subsp. ',' morph. ',' var. ',' cv. ',// ddb preference is for single quotes for cultivars
+       */static formatter(taxonResult,queryString=''){{if(taxonResult.vernacularMatched){if(taxonResult.acceptedEntityId){return `<q><b>${taxonResult.vernacular}</b></q> <span class="italictaxon">${taxonResult.uname}${taxonResult.qualifier?` <b>${taxonResult.qualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.authority}</span>`+` = <span class="italictaxon">${taxonResult.acceptedNameString}${taxonResult.acceptedQualifier?` <b>${taxonResult.acceptedQualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.acceptedAuthority}</span>`;}return `<q><b>${taxonResult.vernacular}</b></q> <span class="italictaxon">${taxonResult.uname}${taxonResult.qualifier?` <b>${taxonResult.qualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.authority}</span>`;}if(taxonResult.acceptedEntityId){return `<span class="italictaxon">${taxonResult.uname}${taxonResult.qualifier?` <b>${taxonResult.qualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.authority}</span>${taxonResult.vernacular?` <q><b>${taxonResult.vernacular}</b></q>`:''} = <span class="italictaxon">${taxonResult.acceptedNameString}${taxonResult.acceptedQualifier?` <b>${taxonResult.acceptedQualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.acceptedAuthority}</span>`;}return `<span class="italictaxon">${taxonResult.uname}${taxonResult.qualifier?` <b>${taxonResult.qualifier}</b>`:''}</span> <span class="taxauthority">${taxonResult.authority}</span>${taxonResult.vernacular?` <q><b>${taxonResult.vernacular}</b></q>`:''}`;}}static abbreviatedGenusRegex=/^(X\s+)?([a-z])[.\s]+(.*?)$/i;static nameStringColumn=0;static canonicalColumn=1;static hybridCanonicalColumn=2;static acceptedEntityIdColumn=3;static qualifierColumn=4;static authorityColumn=5;static vernacularColumn=6;static vernacularRootColumn=7;static usedColumn=8;static minRankColumn=9;static badVernacularColumn=11;static taxonRankNameSearchRegex=[/\s+sub-?g(?:en(?:us)?)?[.\s]+/i,/\s+sect(?:ion)?[.\s]+/i,/\s+subsect(?:ion)?[.\s]+/i,/\s+ser(?:ies)?[.\s]+/i,/\s+gp[.\s]+/i,/\s+s(?:ub)?-?sp(?:ecies)?[.\s]+/i,/\s+morphotype\s+/i,/\s+var[.\s]+/i,/\s+cv[.\s]+/i,/\s+n(?:otho)?v(?:ar)?[.\s]+/i,/\s+f[.\s]+|\s+forma?\s+/i,/\s+n(?:otho)?ssp[.\s]+/i];static taxonRankNameReplacement=[' subg. ',' sect. ',' subsect. ',' ser. ',' group ',' subsp. ',' morph. ',' var. ',' cv. ',// ddb preference is for single quotes for cultivars
   ' nothovar. ',' f. ',' nothosubsp. '];/**
        * well-formed ranks, used for stripping rank from name for results table sorting
        *
@@ -11568,11 +11582,11 @@
   const canonicalQueryRegExp=new RegExp(`^(?:X\s+)?${canonicalQuery}`,'i');{const caseInsensitiveEscapedTaxonRegex=new RegExp(strictEscapedTaxonString,'i');for(let id in Taxon.rawTaxa){// noinspection JSUnfilteredForInLoop (assume is safe for rawTaxa object)
   let testTaxon=Taxon.rawTaxa[id];canonical=testTaxon[TaxonSearch.canonicalColumn]===0?testTaxon[TaxonSearch.nameStringColumn]:testTaxon[TaxonSearch.canonicalColumn];if(// testTaxon[TaxonSearch.nameStringColumn].search(escapedTaxonStringRegExp) !== -1 ||
   canonicalQueryRegExp.test(testTaxon[TaxonSearch.nameStringColumn])||canonical!==testTaxon[TaxonSearch.nameStringColumn]&&canonicalQueryRegExp.test(canonical)// testTaxon[TaxonSearch.nameStringColumn].search(hybridCanonicalQueryregExp) !== -1
-  ){matchedIds[id]={exact:testTaxon[TaxonSearch.nameStringColumn]===taxonString,near:nearMatchRegex.test(testTaxon[TaxonSearch.nameStringColumn])||nearMatchRegex.test(canonical)};}else if(caseInsensitiveEscapedTaxonRegex.test(testTaxon[TaxonSearch.vernacularColumn])||caseInsensitiveEscapedTaxonRegex.test(testTaxon[TaxonSearch.vernacularRootColumn])){matchedIds[id]={exact:testTaxon[TaxonSearch.vernacularColumn]===taxonString,vernacular:true};}}results=this.compile_results(matchedIds,preferHybrids);/**
+  ){matchedIds[id]={exact:testTaxon[TaxonSearch.nameStringColumn]===taxonString,near:nearMatchRegex.test(testTaxon[TaxonSearch.nameStringColumn])||nearMatchRegex.test(canonical)};}else if(!testTaxon[TaxonSearch.badVernacularColumn]&&(caseInsensitiveEscapedTaxonRegex.test(testTaxon[TaxonSearch.vernacularColumn])||caseInsensitiveEscapedTaxonRegex.test(testTaxon[TaxonSearch.vernacularRootColumn]))){matchedIds[id]={exact:testTaxon[TaxonSearch.vernacularColumn]===taxonString,vernacular:true};}}results=this.compile_results(matchedIds,preferHybrids);/**
                        * if very few matches then retry searching using much fuzzier matching
                        */if(results.length<5){const broadRegExp=new RegExp(`\\b${escapedTaxonString}.*`,'i');// match anywhere in string
   for(let id in Taxon.rawTaxa){// noinspection JSUnfilteredForInLoop (assume is safe for rawTaxa object)
-  if(!matchedIds.hasOwnProperty(id)){let testTaxon=Taxon.rawTaxa[id];if(broadRegExp.test(testTaxon[TaxonSearch.nameStringColumn])){matchedIds[id]={exact:testTaxon[TaxonSearch.nameStringColumn]===taxonString};}else if(testTaxon[TaxonSearch.canonicalColumn]!==0&&broadRegExp.test(testTaxon[TaxonSearch.canonicalColumn])||broadRegExp.test(testTaxon[TaxonSearch.vernacularColumn])){matchedIds[id]={exact:testTaxon[TaxonSearch.nameStringColumn]===taxonString,vernacular:true};}}}results=this.compile_results(matchedIds,preferHybrids);}}}}else {results=[];}return results;}compile_results(matchedIds,preferHybrids){const results=[];for(const id in matchedIds){if(matchedIds.hasOwnProperty(id)){const taxon=Taxon.rawTaxa[id];if((!this.requireExtantDDbRecords||this.requireExtantDDbRecords&&taxon[TaxonSearch.usedColumn]===1)&&(!this.minimumRankSort||this.minimumRankSort>0&&taxon[TaxonSearch.minRankColumn]>=this.minimumRankSort)){const qname=taxon[TaxonSearch.nameStringColumn]+(taxon[TaxonSearch.qualifierColumn]?` ${taxon[TaxonSearch.qualifierColumn]}`:'');const row={entityId:id,vernacular:taxon[TaxonSearch.vernacularColumn],qname,name:qname,// use qualified name for the generic name field
+  if(!matchedIds.hasOwnProperty(id)){let testTaxon=Taxon.rawTaxa[id];if(broadRegExp.test(testTaxon[TaxonSearch.nameStringColumn])){matchedIds[id]={exact:testTaxon[TaxonSearch.nameStringColumn]===taxonString};}else if(testTaxon[TaxonSearch.canonicalColumn]!==0&&broadRegExp.test(testTaxon[TaxonSearch.canonicalColumn])||!testTaxon[TaxonSearch.badVernacularColumn]&&broadRegExp.test(testTaxon[TaxonSearch.vernacularColumn])){matchedIds[id]={exact:testTaxon[TaxonSearch.nameStringColumn]===taxonString,vernacular:true};}}}results=this.compile_results(matchedIds,preferHybrids);}}}}else {results=[];}return results;}compile_results(matchedIds,preferHybrids){const results=[];for(const id in matchedIds){if(matchedIds.hasOwnProperty(id)){const taxon=Taxon.rawTaxa[id];if((!this.requireExtantDDbRecords||this.requireExtantDDbRecords&&taxon[TaxonSearch.usedColumn]===1)&&(!this.minimumRankSort||this.minimumRankSort>0&&taxon[TaxonSearch.minRankColumn]>=this.minimumRankSort)){const qname=taxon[TaxonSearch.nameStringColumn]+(taxon[TaxonSearch.qualifierColumn]?` ${taxon[TaxonSearch.qualifierColumn]}`:'');const row={entityId:id,vernacular:taxon[TaxonSearch.vernacularColumn],qname,name:qname,// use qualified name for the generic name field
   qualifier:taxon[TaxonSearch.qualifierColumn],authority:taxon[TaxonSearch.authorityColumn],uname:taxon[TaxonSearch.nameStringColumn],vernacularMatched:matchedIds[id].hasOwnProperty('vernacular'),exact:matchedIds[id].hasOwnProperty('exact')&&matchedIds[id].exact,near:matchedIds[id].hasOwnProperty('near')&&matchedIds[id].near};row.formatted=TaxonSearch.formatter(row);if(taxon[TaxonSearch.acceptedEntityIdColumn]){const acceptedTaxon=Taxon.rawTaxa[taxon[TaxonSearch.acceptedEntityIdColumn]];if(!acceptedTaxon){if(!Taxon.rawTaxa){throw new Error(`Taxon.rawTaxa set is undefined, when trying to find taxon for accepted entity id ${taxon[TaxonSearch.acceptedEntityIdColumn]}`);}else {throw new Error(`Failed to find taxon for accepted entity id ${taxon[TaxonSearch.acceptedEntityIdColumn]}`);}}row.acceptedEntityId=taxon[TaxonSearch.acceptedEntityIdColumn];row.acceptedNameString=acceptedTaxon[TaxonSearch.nameStringColumn];row.acceptedQualifier=acceptedTaxon[TaxonSearch.qualifierColumn];row.acceptedAuthority=acceptedTaxon[TaxonSearch.authorityColumn];}results.push(row);}}}if(results.length){results.sort((a,b)=>{// if (a.uname == 'Taraxacum \'Irish cambricum\'' || b.uname == 'Taraxacum \'Irish cambricum\'') {
   //   console.log(a.uname + " with " + b.uname);
   // }
@@ -13518,7 +13532,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666904571</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1667212116</p>");
           }
         }
       }
@@ -16652,7 +16666,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1666904571</p>");
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1667212116</p>");
         //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
@@ -17214,7 +17228,7 @@
         // at this point the entire content of #body should be safe to replace
 
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1666904571</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1667212116</p>";
       }
     }]);
     return HelpView;

@@ -3584,6 +3584,13 @@ class Taxon {
     vernacularRoot = '';
 
     /**
+     * if set then the vernacular name should not be allowed for data entry
+     *
+     * @type {boolean}
+     */
+    badVernacular = false;
+
+    /**
      * @type {boolean}
      */
     used;
@@ -3642,6 +3649,10 @@ class Taxon {
         taxon.used = raw[8];
         taxon.sortOrder = raw[9];
         taxon.parentIds = raw[10];
+
+        if (raw[11]) {
+            taxon.badVernacular = true;
+        }
 
         return taxon;
     }
@@ -5127,7 +5138,7 @@ class BSBIServiceWorker {
         SurveyResponse.register();
         OccurrenceResponse.register();
 
-        this.CACHE_VERSION = `version-1.0.3.1666903485-${configuration.version}`;
+        this.CACHE_VERSION = `version-1.0.3.1667211735-${configuration.version}`;
 
         const POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
         const POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
@@ -5733,7 +5744,7 @@ serviceWorker.initialise({
 
     urlCacheSet : [
         './index.html',
-        './app.mjs?version=1.0.3.1666904571',
+        './app.mjs?version=1.0.3.1667212116',
         './manifest.webmanifest',
         '/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
         '/appcss/theme.css',
@@ -5758,6 +5769,6 @@ serviceWorker.initialise({
         '/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : '1.0.3.1666904571'
+    version : '1.0.3.1667212116'
 });
 //# sourceMappingURL=serviceworker.mjs.map

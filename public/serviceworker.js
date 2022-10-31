@@ -5470,6 +5470,13 @@
 	  vernacularRoot = '';
 
 	  /**
+	   * if set then the vernacular name should not be allowed for data entry
+	   *
+	   * @type {boolean}
+	   */
+	  badVernacular = false;
+
+	  /**
 	   * @type {boolean}
 	   */
 	  used;
@@ -5524,6 +5531,9 @@
 	    taxon.used = raw[8];
 	    taxon.sortOrder = raw[9];
 	    taxon.parentIds = raw[10];
+	    if (raw[11]) {
+	      taxon.badVernacular = true;
+	    }
 	    return taxon;
 	  }
 
@@ -6864,7 +6874,7 @@
 	    ImageResponse.register();
 	    SurveyResponse.register();
 	    OccurrenceResponse.register();
-	    this.CACHE_VERSION = `version-1.0.3.1666903485-${configuration.version}`;
+	    this.CACHE_VERSION = `version-1.0.3.1667211735-${configuration.version}`;
 	    const POST_PASS_THROUGH_WHITELIST = configuration.postPassThroughWhitelist;
 	    const POST_IMAGE_URL_MATCH = configuration.postImageUrlMatch;
 	    const GET_IMAGE_URL_MATCH = configuration.getImageUrlMatch;
@@ -7597,7 +7607,7 @@
 	  // ignoreUrlMatches : /^https:\/\/nyph\.bsbi\.app\/app\/app\.js|^https:\/\/nyph\.bsbi\.app\/app\/serviceworker\.js|^https:\/\/nyph\.bsbi\.app\/app\/manifest\.webmanifest|^https:\/\/nyph\.bsbi\.app\/app\/index\.html|^https:\/\/api\.mapbox\.com/,
 	  // indexUrl : 'https://nyph.bsbi.app/app/index.html',
 
-	  urlCacheSet: ['./index.html', './app.mjs?version=1.0.3.1666904571', './manifest.webmanifest', '/appcss/app.__BSBI_APP_VERSION__.css',
+	  urlCacheSet: ['./index.html', './app.mjs?version=1.0.3.1667212116', './manifest.webmanifest', '/appcss/app.__BSBI_APP_VERSION__.css',
 	  // note no leading '.' - this is an absolute path
 	  '/appcss/theme.css',
 	  //'/img/gwh_logo1_tsp.png',
@@ -7617,7 +7627,7 @@
 	  //'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js',
 	  '/js/mapbox-gl-geocoder-v4.7.2.min.js'],
 	  passThroughNoCache: /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-	  version: '1.0.3.1666904571'
+	  version: '1.0.3.1667212116'
 	});
 
 })();
