@@ -17754,6 +17754,152 @@ class MapGeorefField extends TextGeorefField {
     // }
 }
 
+//import {uuid} from 'bsbi-app-framework';
+//import {escapeHTML} from 'bsbi-app-framework';
+
+class HiddenField extends FormField {
+
+    /**
+     * @type {string}
+     */
+    #inputId;
+
+    /**
+     * @type {string}
+     */
+    #containerId;
+
+    /**
+     *
+     * @type {string}
+     * @private
+     */
+    _value = '';
+
+    /**
+     *
+     * @type {string}
+     * @private
+     */
+    _inputType = 'text';
+
+    /**
+     *
+     * @type {string}
+     * @private
+     */
+    _autocomplete = '';
+
+    /**
+     *
+     * @param {{[label] : string, [helpText]: string, [options]: {}, [placeholder]: string, [type]: string, [autocomplete]: string}} [params]
+     */
+    constructor (params) {
+        super(params);
+
+        // if (params) {
+        //     if (params.type) {
+        //         this._inputType = params.type;
+        //     }
+        //
+        //     if (params.placeholder) {
+        //         this.placeholder = params.placeholder;
+        //     }
+        //
+        //     if (params.autocomplete) {
+        //         this._autocomplete = params.autocomplete;
+        //     }
+        // }
+    }
+
+    /**
+     *
+     * @param value
+     */
+    set value(value) {
+        this._value = value;
+        // this.updateView();
+    }
+
+    /**
+     *
+     * @returns {string}
+     */
+    get value() {
+        return this._value;
+    }
+
+    updateView() {
+        // if (this._fieldEl) {
+        //     // do nothing until the view has been constructed
+        //
+        //     const inputEl = document.getElementById(this.#inputId);
+        //     inputEl.value = FormField.cleanRawString(this._value);
+        // }
+    }
+
+    /**
+     * no-op for HiddenField
+     * @param {HTMLElement} contentContainer
+     */
+    addField(contentContainer) {
+        //contentContainer.appendChild(this.fieldElement);
+    }
+
+    /**
+     * initialises this._fieldEl
+     *
+     * @returns {void}
+     */
+    buildField() {
+        // this.#inputId = FormField.nextId;
+        //
+        // const inputField = document.createElement('input');
+        // inputField.style.display = 'none';
+        // inputField.id = this.#inputId;
+        //
+        // inputField.type = 'readonly';
+        //
+        // this._fieldEl = inputField;
+    }
+
+    /**
+     *
+     * @param {(boolean|null)} isValid
+     */
+    markValidity(isValid) {
+        // const el = document.getElementById(this.#inputId);
+        //
+        // if (null === isValid) {
+        //     el.classList.remove('is-invalid', 'is-valid');
+        // } else {
+        //     el.classList.remove(isValid ? 'is-invalid' : 'is-valid');
+        //     el.classList.add(isValid ? 'is-valid' : 'is-invalid');
+        // }
+    }
+
+    // inputChangeHandler (event) {
+    //     event.stopPropagation(); // don't allow the change event to reach the form-level event handler (will handle it here instead)
+    //
+    //     console.log('got input field change event');
+    //
+    //     this.value = FormField.cleanRawString(document.getElementById(this.#inputId).value);
+    //     this.fireEvent(FormField.EVENT_CHANGE);
+    // }
+
+    /**
+     * by the time summariseImpl has been called have already checked that summary is wanted
+     *
+     * @param {string} key
+     * @param {{field : typeof InputField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
+     * @param {Object.<string, {}>} attributes attributes of the model object
+     * @return {string}
+     */
+    static summariseImpl(key, property, attributes) {
+        return '';
+    }
+}
+
 // Page
 
 class Page extends EventHarness {
@@ -18972,7 +19118,7 @@ class MainController extends AppController {
                 this.view.display();
             } catch (rethrownError) {
                 console.log({rethrownError});
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1670234777</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1670259537</p>`;
             }
         }
     }
@@ -19251,6 +19397,12 @@ class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
                 completion: FormField.COMPLETION_COMPULSORY,
                 validationMessage: 'Please provide an email address'
             }},
+        nyphYear: {
+            field: HiddenField,
+            attributes: {
+                value: 2023
+            }
+        },
     };
 }
 
@@ -21407,7 +21559,7 @@ class MainView extends Page {
             if (editorContainer) {
                 editorContainer.innerHTML = `<p>${error.message}</p>`;
             } else {
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1670234777</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1670259537</p>`;
                 //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
             }
         }
@@ -22437,7 +22589,7 @@ class HelpView extends Page {
         // at this point the entire content of #body should be safe to replace
 
         const bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1670234777</p>`;
+        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1670259537</p>`;
     }
 }
 
@@ -29691,7 +29843,7 @@ enableDismissTrigger(Toast);
 
 defineJQueryPlugin(Toast);
 
-// version 1.0.3.1670234777
+// version 1.0.3.1670259537
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {

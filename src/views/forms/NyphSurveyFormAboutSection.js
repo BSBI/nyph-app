@@ -1,6 +1,6 @@
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 import helpPanelText from "../../templates/formHelp/surveyAboutHelp.html";
-import {FormField, InputField} from "bsbi-app-framework-view";
+import {FormField, HiddenField, InputField} from "bsbi-app-framework-view";
 
 export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
 
@@ -53,5 +53,11 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
                 completion: FormField.COMPLETION_COMPULSORY,
                 validationMessage: 'Please provide an email address'
             }},
+        nyphYear: {
+            field: HiddenField,
+            attributes: {
+                value: 2023
+            }
+        },
     };
 }
