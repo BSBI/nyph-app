@@ -40,6 +40,7 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 placeholder: 'Nearest named place',
                 autocomplete: 'address-level2',
                 completion: FormField.COMPLETION_COMPULSORY,
+                validationMessage: 'Please enter the place that you surveyed.'
             }},
         georef: {
             field: MapGeorefField,
@@ -94,6 +95,7 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                     "no" : {label: "no, I'd prefer my records to be anonymous"},
                 },
                 includeOtherFreeText : false,
+                validationMessage: 'Please let us know your choice for this question.',
                 completion: FormField.COMPLETION_COMPULSORY,
             }},
         listname: {
