@@ -12152,7 +12152,8 @@
        *
        * @returns {void}
        */buildField(){if(!this.options){throw new Error('Options have not been set before call to buildField()');}const container=document.createElement(SelectField.#TOP_LEVEL_ELEMENT);container.className='form-group mb-3';this.#containerId=container.id=FormField.nextId;this.#menuId=FormField.nextId;const labelEl=container.appendChild(document.createElement('label'));labelEl.htmlFor=this.#menuId;//labelEl.className = 'form-check-label';
-  labelEl.style.display='block';labelEl.innerHTML=this.label;const selectEl=document.createElement('select');selectEl.id=this.#menuId;selectEl.className='custom-select';if(this.helpText){const helpTextField=container.appendChild(document.createElement('small'));helpTextField.innerHTML=this.helpText;}if(this.placeholder){this.#buildOption(container,selectEl,'',{label:this.placeholder});}for(let key in this.options){if(this.options.hasOwnProperty(key)){this.#buildOption(container,selectEl,key,this.options[key]);}}container.appendChild(selectEl);if(this.validationMessage){const validationMessageElement=container.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}container.addEventListener('change',this.inputChangeHandler.bind(this));this._fieldEl=container;}/**
+  labelEl.style.display='block';labelEl.innerHTML=this.label;const selectEl=document.createElement('select');selectEl.id=this.#menuId;selectEl.className='custom-select';if(this.helpText){const helpTextField=container.appendChild(document.createElement('small'));helpTextField.innerHTML=this.helpText;}if(this.placeholder){this.#buildOption(container,selectEl,'',{label:this.placeholder});}for(let key in this.options){if(this.options.hasOwnProperty(key)){this.#buildOption(container,selectEl,key,this.options[key]);}}container.appendChild(selectEl);if(this.validationMessage){// validation element must be adjacent to the select field
+  const validationMessageElement=container.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}container.addEventListener('change',this.inputChangeHandler.bind(this));this._fieldEl=container;}/**
        *
        * @param {HTMLElement} containerEl
        * @param {HTMLSelectElement} selectEl
@@ -12248,7 +12249,7 @@
        * @param {HTMLInputElement} event.target
        * @return {boolean}
        */keydownHandler(event){this._lastInputValue=event.target.value.trimLeft();// save value for testing in InputEvent handler
-  switch(event.key){case'Enter':event.preventDefault();// exit if no suggestions
+  switch(event.key){case'Enter':event.preventDefault();this.inputChangeHandler(event);// exit if no suggestions
   // if (this.selectedIndex < 0 || !this.suggestionsCol) {
   //     return;
   // }
@@ -12323,36 +12324,45 @@
        *
        * @param {InputEvent} event
        */inputHandler(event){const currentValue=event.target.value.trimLeft();// save value for testing in InputEvent handler
-  if(currentValue!==this._lastInputValue){this.#triggerQuery(event.target);}}/**
-       *
-       * @param {KeyboardEvent} event
-       * @return {boolean}
-       */keyupHandler(event){//console.log({'key' : event.key});
-  if(event.key&&(event.key.length===1||event.key==='Backspace'||event.key==='Delete')){//keypress was a printable character
-  this.#triggerQuery(event.target);// let text = TaxonPickerField.cleanRawInput(event.target);
+  if(currentValue!==this._lastInputValue){this.#triggerQuery(event.target);}}// /**
+  //  *
+  //  * @param {KeyboardEvent} event
+  //  * @return {boolean}
+  //  */
+  // keyupHandler(event) {
+  //     //console.log({'key' : event.key});
   //
-  // // proceed if minimum length phrase was provided
-  // if ((text.length) >= TaxonSearch.MIN_SEARCH_LENGTH) {
+  //     if (event.key && (event.key.length === 1 || event.key === 'Backspace' || event.key === 'Delete')) {
+  //         //keypress was a printable character
   //
-  //     // Clear previous timeout
-  //     if (this.#taxonLookupTimeoutHandle) {
-  //         clearTimeout(this.#taxonLookupTimeoutHandle);
+  //         this.#triggerQuery(event.target);
+  //
+  //         // let text = TaxonPickerField.cleanRawInput(event.target);
+  //         //
+  //         // // proceed if minimum length phrase was provided
+  //         // if ((text.length) >= TaxonSearch.MIN_SEARCH_LENGTH) {
+  //         //
+  //         //     // Clear previous timeout
+  //         //     if (this.#taxonLookupTimeoutHandle) {
+  //         //         clearTimeout(this.#taxonLookupTimeoutHandle);
+  //         //     }
+  //         //
+  //         //     // Set new timeout - don't run if user is typing
+  //         //     this.#taxonLookupTimeoutHandle = setTimeout(() => {
+  //         //         this.#searchResults = this.taxonSearch.lookup(
+  //         //             TaxonPickerField.cleanRawInput(document.getElementById(this.#inputFieldId))
+  //         //         );
+  //         //
+  //         //         console.log(this.#searchResults);
+  //         //
+  //         //         this.refreshSearchResultsList();
+  //         //
+  //         //         this.#taxonLookupTimeoutHandle = null;
+  //         //     }, TaxonPickerField.timeoutDelay);
+  //         // }
   //     }
-  //
-  //     // Set new timeout - don't run if user is typing
-  //     this.#taxonLookupTimeoutHandle = setTimeout(() => {
-  //         this.#searchResults = this.taxonSearch.lookup(
-  //             TaxonPickerField.cleanRawInput(document.getElementById(this.#inputFieldId))
-  //         );
-  //
-  //         console.log(this.#searchResults);
-  //
-  //         this.refreshSearchResultsList();
-  //
-  //         this.#taxonLookupTimeoutHandle = null;
-  //     }, TaxonPickerField.timeoutDelay);
   // }
-  }}/**
+  /**
        *
        * @param {HTMLInputElement} inputEl
        */#triggerQuery(inputEl){let text=FormField.cleanRawInput(inputEl);// Clear previous timeout
@@ -12803,13 +12813,17 @@
   const container=document.createElement('div');container.className='form-group map-georef-field mb-3';this.containerId=container.id=FormField.nextId;this._inputId=FormField.nextId;if(navigator.geolocation&&this.showGPSEnableLinkIfNotActiveOnMobile&&GPSRequest.getDeviceType()===GPSRequest.DEVICE_TYPE_MOBILE){// if on a mobile device and GPS is not turned on
   const gpsEnabledLinkEl=document.createElement('a');gpsEnabledLinkEl.className='no-gps-link-prompt';// will be visible only if document body doesn't have a 'gps-enabled' class
   gpsEnabledLinkEl.href='#';gpsEnabledLinkEl.innerText='Please enable GPS';container.appendChild(gpsEnabledLinkEl);gpsEnabledLinkEl.addEventListener('click',this.gpsButtonClickHandler.bind(this));}const labelEl=container.appendChild(document.createElement('label'));labelEl.htmlFor=this._inputId;labelEl.textContent=this.label;const inputGroupEl=container.appendChild(document.createElement('div'));inputGroupEl.className='input-group';if(this.useSeparateInputField){const inputField=inputGroupEl.appendChild(document.createElement('input'));inputField.className="form-control";inputField.id=this._inputId;inputField.type='text';if(this.placeholder){inputField.placeholder=this.placeholder;}if(this._autocomplete){inputField.autocomplete=this._autocomplete;}if('off'===this._autocomplete||''===this._autocomplete){// browsers tend to ignore autocomplete off, so also assign a random 'name' value
-  inputField.name=uuid();}inputField.addEventListener('change',this.inputChangeHandler.bind(this));if(this.completion===FormField.COMPLETION_COMPULSORY){inputField.required=true;}}if(this.validationMessage){const validationMessageElement=container.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}this.addMapBox(container);if(this.includeSearchBox){// noinspection JSUnresolvedFunction
+  inputField.name=uuid();}inputField.addEventListener('change',this.inputChangeHandler.bind(this));if(this.completion===FormField.COMPLETION_COMPULSORY){inputField.required=true;}if(this.validationMessage){//const validationMessageElement = container.appendChild(document.createElement('div'));
+  // validation message must be the element adjacent to the input field
+  const validationMessageElement=inputField.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}}this.addMapBox(container);if(this.includeSearchBox){// noinspection JSUnresolvedFunction
   const geocoder=new MapboxGeocoder({accessToken:mapboxgl.accessToken,mapboxgl:mapboxgl,marker:false,bbox:[-11,49.1,2,61],// [minX, minY, maxX, maxY]
   localGeocoder:queryString=>{return this.localGridRefGeocoder(queryString);}});geocoder.on('result',result=>{console.log({'geocode result':result});this.#setGridrefFromGeocodedResult(result.result);});if(this.geocoderOnMap){this.map.addControl(geocoder,'top-right');}else {// put the geocoder outside the map area
   inputGroupEl.appendChild(geocoder.onAdd(this.map));//geocoder.addTo(inputGroupEl);
   }if(!this.useSeparateInputField){const geoCoderInputEl=container.getElementsByClassName('mapboxgl-ctrl-geocoder--input')[0];if(!geoCoderInputEl){console.error("Failed to look-up geocoder's input element by class name");}geoCoderInputEl.id=this._inputId;geoCoderInputEl.classList.add('form-control');// bootstrap class needed for validation display
   geoCoderInputEl.addEventListener('change',this.inputChangeHandler.bind(this));if(this.placeholder){geoCoderInputEl.placeholder=this.placeholder;}if(this._autocomplete){geoCoderInputEl.autocomplete=this._autocomplete;}if('off'===this._autocomplete||'no'===this._autocomplete||''===this._autocomplete){// browsers tend to ignore autocomplete off, so also assign a random 'name' value
-  geoCoderInputEl.name=uuid();}geocoder.on('clear',()=>{console.log('geocoder cleared');this.value={gridRef:'',rawString:'',// what was provided by the user to generate this grid-ref (might be a postcode or placename)
+  geoCoderInputEl.name=uuid();}if(this.validationMessage){// validation message must be the element adjacent to the input field
+  const validationMessageElement=container.appendChild(document.createElement('div'));//const validationMessageElement = inputField.appendChild(document.createElement('div'));
+  validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}geocoder.on('clear',()=>{console.log('geocoder cleared');this.value={gridRef:'',rawString:'',// what was provided by the user to generate this grid-ref (might be a postcode or placename)
   source:TextGeorefField.GEOREF_SOURCE_UNKNOWN,latLng:null,precision:null};this.fireEvent(FormField.EVENT_CHANGE);});//mapbox-gl-geocoder--error mapbox-gl-geocoder--no-results
   }}if(navigator.geolocation){const buttonContainerEl=inputGroupEl.appendChild(document.createElement('span'));buttonContainerEl.className='input-group-btn gps-button-flex';const gpsButton=buttonContainerEl.appendChild(document.createElement('button'));gpsButton.id=FormField.nextId;gpsButton.type='button';gpsButton.className='btn btn-outline-secondary btn-sm';gpsButton.title='use GPS';if(this.gpsTextLabel){const gpsTextLabel=gpsButton.appendChild(document.createElement('span'));gpsTextLabel.style.verticalAlign='middle';gpsTextLabel.innerText='GPS ';}const buttonIconEl=gpsButton.appendChild(document.createElement('span'));buttonIconEl.className='material-icons gps-icon';buttonIconEl.innerText='gps_not_fixed';if(this.gpsTextLabel){buttonIconEl.style.verticalAlign='middle';}gpsButton.addEventListener('click',this.gpsButtonClickHandler.bind(this));}const offlineWarning=container.appendChild(document.createElement('small'));offlineWarning.classList.add('offline-warning');offlineWarning.innerHTML='The map box might not display properly because you may not have a network connection currently. You can still use GPS or type in a grid-reference to locate records.';if(this.helpText){const helpTextField=container.appendChild(document.createElement('small'));helpTextField.innerHTML=this.helpText;}this._fieldEl=container;}/**
        *
@@ -13622,7 +13636,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1670259537</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1671577991</p>");
           }
         }
       }
@@ -14567,7 +14581,8 @@
         helpText: 'e.g. town or village. Please don\'t give an address.',
         placeholder: 'Nearest named place',
         autocomplete: 'address-level2',
-        completion: FormField.COMPLETION_COMPULSORY
+        completion: FormField.COMPLETION_COMPULSORY,
+        validationMessage: 'Please enter the place that you surveyed.'
       }
     },
     georef: {
@@ -14631,6 +14646,7 @@
           }
         },
         includeOtherFreeText: false,
+        validationMessage: 'Please let us know your choice for this question.',
         completion: FormField.COMPLETION_COMPULSORY
       }
     },
@@ -16762,7 +16778,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1670259537</p>");
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1671577991</p>");
         //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
@@ -17324,7 +17340,7 @@
         // at this point the entire content of #body should be safe to replace
 
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1670259537</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1671577991</p>";
       }
     }]);
     return HelpView;

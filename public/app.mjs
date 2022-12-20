@@ -15273,6 +15273,7 @@ class SelectField extends FormField {
         container.appendChild(selectEl);
 
         if (this.validationMessage) {
+            // validation element must be adjacent to the select field
             const validationMessageElement = container.appendChild(document.createElement('div'));
             validationMessageElement.className = 'invalid-feedback';
             validationMessageElement.innerHTML = this.validationMessage;
@@ -15597,6 +15598,8 @@ class TaxonPickerField extends FormField {
         switch (event.key) {
             case 'Enter':
                 event.preventDefault();
+                this.inputChangeHandler(event);
+
 
                 // exit if no suggestions
                 // if (this.selectedIndex < 0 || !this.suggestionsCol) {
@@ -15698,44 +15701,44 @@ class TaxonPickerField extends FormField {
         }
     }
 
-    /**
-     *
-     * @param {KeyboardEvent} event
-     * @return {boolean}
-     */
-    keyupHandler(event) {
-        //console.log({'key' : event.key});
-
-        if (event.key && (event.key.length === 1 || event.key === 'Backspace' || event.key === 'Delete')) {
-            //keypress was a printable character
-
-            this.#triggerQuery(event.target);
-
-            // let text = TaxonPickerField.cleanRawInput(event.target);
-            //
-            // // proceed if minimum length phrase was provided
-            // if ((text.length) >= TaxonSearch.MIN_SEARCH_LENGTH) {
-            //
-            //     // Clear previous timeout
-            //     if (this.#taxonLookupTimeoutHandle) {
-            //         clearTimeout(this.#taxonLookupTimeoutHandle);
-            //     }
-            //
-            //     // Set new timeout - don't run if user is typing
-            //     this.#taxonLookupTimeoutHandle = setTimeout(() => {
-            //         this.#searchResults = this.taxonSearch.lookup(
-            //             TaxonPickerField.cleanRawInput(document.getElementById(this.#inputFieldId))
-            //         );
-            //
-            //         console.log(this.#searchResults);
-            //
-            //         this.refreshSearchResultsList();
-            //
-            //         this.#taxonLookupTimeoutHandle = null;
-            //     }, TaxonPickerField.timeoutDelay);
-            // }
-        }
-    }
+    // /**
+    //  *
+    //  * @param {KeyboardEvent} event
+    //  * @return {boolean}
+    //  */
+    // keyupHandler(event) {
+    //     //console.log({'key' : event.key});
+    //
+    //     if (event.key && (event.key.length === 1 || event.key === 'Backspace' || event.key === 'Delete')) {
+    //         //keypress was a printable character
+    //
+    //         this.#triggerQuery(event.target);
+    //
+    //         // let text = TaxonPickerField.cleanRawInput(event.target);
+    //         //
+    //         // // proceed if minimum length phrase was provided
+    //         // if ((text.length) >= TaxonSearch.MIN_SEARCH_LENGTH) {
+    //         //
+    //         //     // Clear previous timeout
+    //         //     if (this.#taxonLookupTimeoutHandle) {
+    //         //         clearTimeout(this.#taxonLookupTimeoutHandle);
+    //         //     }
+    //         //
+    //         //     // Set new timeout - don't run if user is typing
+    //         //     this.#taxonLookupTimeoutHandle = setTimeout(() => {
+    //         //         this.#searchResults = this.taxonSearch.lookup(
+    //         //             TaxonPickerField.cleanRawInput(document.getElementById(this.#inputFieldId))
+    //         //         );
+    //         //
+    //         //         console.log(this.#searchResults);
+    //         //
+    //         //         this.refreshSearchResultsList();
+    //         //
+    //         //         this.#taxonLookupTimeoutHandle = null;
+    //         //     }, TaxonPickerField.timeoutDelay);
+    //         // }
+    //     }
+    // }
 
     /**
      *
@@ -17159,12 +17162,14 @@ class MapGeorefField extends TextGeorefField {
             if (this.completion === FormField.COMPLETION_COMPULSORY) {
                 inputField.required = true;
             }
-        }
 
-        if (this.validationMessage) {
-            const validationMessageElement = container.appendChild(document.createElement('div'));
-            validationMessageElement.className = 'invalid-feedback';
-            validationMessageElement.innerHTML = this.validationMessage;
+            if (this.validationMessage) {
+                //const validationMessageElement = container.appendChild(document.createElement('div'));
+                // validation message must be the element adjacent to the input field
+                const validationMessageElement = inputField.appendChild(document.createElement('div'));
+                validationMessageElement.className = 'invalid-feedback';
+                validationMessageElement.innerHTML = this.validationMessage;
+            }
         }
 
         this.addMapBox(container);
@@ -17218,6 +17223,14 @@ class MapGeorefField extends TextGeorefField {
                 if ('off' === this._autocomplete || 'no' === this._autocomplete || '' === this._autocomplete) {
                     // browsers tend to ignore autocomplete off, so also assign a random 'name' value
                     geoCoderInputEl.name = uuid();
+                }
+
+                if (this.validationMessage) {
+                    // validation message must be the element adjacent to the input field
+                    const validationMessageElement = container.appendChild(document.createElement('div'));
+                    //const validationMessageElement = inputField.appendChild(document.createElement('div'));
+                    validationMessageElement.className = 'invalid-feedback';
+                    validationMessageElement.innerHTML = this.validationMessage;
                 }
 
                 geocoder.on('clear', () => {
@@ -19118,7 +19131,7 @@ class MainController extends AppController {
                 this.view.display();
             } catch (rethrownError) {
                 console.log({rethrownError});
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1670259537</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1671577991</p>`;
             }
         }
     }
@@ -19772,6 +19785,7 @@ class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 placeholder: 'Nearest named place',
                 autocomplete: 'address-level2',
                 completion: FormField.COMPLETION_COMPULSORY,
+                validationMessage: 'Please enter the place that you surveyed.'
             }},
         georef: {
             field: MapGeorefField,
@@ -19826,6 +19840,7 @@ class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                     "no" : {label: "no, I'd prefer my records to be anonymous"},
                 },
                 includeOtherFreeText : false,
+                validationMessage: 'Please let us know your choice for this question.',
                 completion: FormField.COMPLETION_COMPULSORY,
             }},
         listname: {
@@ -21559,7 +21574,7 @@ class MainView extends Page {
             if (editorContainer) {
                 editorContainer.innerHTML = `<p>${error.message}</p>`;
             } else {
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1670259537</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1671577991</p>`;
                 //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
             }
         }
@@ -22589,7 +22604,7 @@ class HelpView extends Page {
         // at this point the entire content of #body should be safe to replace
 
         const bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1670259537</p>`;
+        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1671577991</p>`;
     }
 }
 
@@ -29843,7 +29858,7 @@ enableDismissTrigger(Toast);
 
 defineJQueryPlugin(Toast);
 
-// version 1.0.3.1670259537
+// version 1.0.3.1671577991
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {
