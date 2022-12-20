@@ -15253,7 +15253,8 @@ class SelectField extends FormField {
 
         const selectEl = document.createElement('select');
         selectEl.id = this.#menuId;
-        selectEl.className = 'custom-select';
+        //selectEl.className = 'custom-select';
+        selectEl.className = 'form-select';
 
         if (this.helpText) {
             const helpTextField = container.appendChild(document.createElement('small'));
@@ -17969,101 +17970,101 @@ class Page extends EventHarness {
 
     }
 
-    /**
-     *
-     * @param {{}} descriptor
-     * @param {string} descriptor.cardId
-     * @param {string} descriptor.cardHeadingId
-     * @param {boolean} descriptor.collapsed
-     * @param {string} descriptor.headingButtonId
-     * @param {string} descriptor.headingHTML
-     * @param {string} [descriptor.headingNonbuttonHTML]
-     * @param {string} descriptor.cardDescriptionId
-     * @param {string} descriptor.parentContainerId
-     * @param {string} descriptor.buttonStyleString
-     * @param {HTMLElement} descriptor.bodyContentElement
-     * @param {{string, string}} descriptor.dataAttributes
-     * @param {string} descriptor.headingValidationWarningHTML
-     *
-     * @returns {HTMLDivElement}
-     */
-    accordionItem(descriptor) {
-        let cardContainer = document.createElement('div');
-        cardContainer.id = descriptor.cardId;
-        cardContainer.className = 'accordion-item';
-
-        let cardHeadingEl = cardContainer.appendChild(document.createElement('div'));
-        cardHeadingEl.className = 'accordion-header pointer';
-        if (descriptor.cardHeadingId) {
-            cardHeadingEl.id = descriptor.cardHeadingId;
-        }
-
-        let headingEl = cardHeadingEl.appendChild(document.createElement('h2'));
-        headingEl.className = 'mb-0';
-
-        let buttonEl = headingEl.appendChild(document.createElement('button'));
-        //buttonEl.className = `btn btn-link${(descriptor.collapsed ? ' collapsed' : '')}`;
-        buttonEl.className = `accordion-button${(descriptor.collapsed ? ' collapsed' : '')}`;
-
-        buttonEl.setAttribute('data-bs-toggle', 'collapse');
-        //buttonEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
-
-        if (descriptor.headingButtonId) {
-            buttonEl.id = descriptor.headingButtonId;
-        }
-
-        buttonEl.type = 'button';
-        //buttonEl.setAttribute('data-bs-toggle', 'collapse');
-
-        if (descriptor.buttonStyleString) {
-            buttonEl.style.cssText = descriptor.buttonStyleString;
-        }
-
-        if (descriptor.cardDescriptionId) {
-            buttonEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
-            buttonEl.setAttribute('aria-controls', descriptor.cardDescriptionId);
-        }
-
-        buttonEl.setAttribute('aria-expanded', descriptor.collapsed ? 'false' : 'true');
-        buttonEl.innerHTML = `<div class="material-icons icon-show-collapsed">expand_more</div><div class="material-icons icon-hide-collapsed">unfold_less</div>${descriptor.headingHTML}`;
-
-        if (descriptor.headingNonbuttonHTML) {
-            const extraHeadingElement = buttonEl.appendChild(document.createElement('span'));
-            extraHeadingElement.style.display = 'flex';
-            extraHeadingElement.innerHTML = descriptor.headingNonbuttonHTML;
-        }
-
-        if (descriptor.headingValidationWarningHTML) {
-            const headerValidationWarning = cardHeadingEl.appendChild(document.createElement('div'));
-            headerValidationWarning.className = 'card-invalid-feedback';
-            headerValidationWarning.innerHTML = `<small>${descriptor.headingValidationWarningHTML}</small>`;
-        }
-
-        let cardDescriptionEl = cardContainer.appendChild(document.createElement('div'));
-        if (descriptor.cardDescriptionId) {
-            cardDescriptionEl.id = descriptor.cardDescriptionId;
-        }
-        cardDescriptionEl.className = `accordion-collapse collapse${(descriptor.collapsed ? '' : ' show')}`;
-        if (descriptor.cardHeadingId) {
-            cardDescriptionEl.setAttribute('aria-labelledby', descriptor.cardHeadingId);
-        }
-
-        cardDescriptionEl.setAttribute('data-bs-parent', `#${descriptor.parentContainerId}`);
-
-        if (descriptor.dataAttributes) {
-            for (let key in descriptor.dataAttributes) {
-                if (descriptor.dataAttributes.hasOwnProperty(key)) {
-                    cardDescriptionEl.setAttribute(`data-${key}`, descriptor.dataAttributes[key]);
-                }
-            }
-        }
-
-        let cardBodyEl = cardDescriptionEl.appendChild(document.createElement('div'));
-        cardBodyEl.className = 'accordion-body ps-2 pe-2 ps-md-3 pe-md-3';
-        cardBodyEl.appendChild(descriptor.bodyContentElement);
-
-        return cardContainer;
-    }
+    // /**
+    //  *
+    //  * @param {{}} descriptor
+    //  * @param {string} descriptor.cardId
+    //  * @param {string} descriptor.cardHeadingId
+    //  * @param {boolean} descriptor.collapsed
+    //  * @param {string} descriptor.headingButtonId
+    //  * @param {string} descriptor.headingHTML
+    //  * @param {string} [descriptor.headingNonbuttonHTML]
+    //  * @param {string} descriptor.cardDescriptionId
+    //  * @param {string} descriptor.parentContainerId
+    //  * @param {string} descriptor.buttonStyleString
+    //  * @param {HTMLElement} descriptor.bodyContentElement
+    //  * @param {{string, string}} descriptor.dataAttributes
+    //  * @param {string} descriptor.headingValidationWarningHTML
+    //  *
+    //  * @returns {HTMLDivElement}
+    //  */
+    // accordionItem(descriptor) {
+    //     let cardContainer = document.createElement('div');
+    //     cardContainer.id = descriptor.cardId;
+    //     cardContainer.className = 'accordion-item';
+    //
+    //     let cardHeadingEl = cardContainer.appendChild(document.createElement('div'));
+    //     cardHeadingEl.className = 'accordion-header pointer';
+    //     if (descriptor.cardHeadingId) {
+    //         cardHeadingEl.id = descriptor.cardHeadingId;
+    //     }
+    //
+    //     let headingEl = cardHeadingEl.appendChild(document.createElement('h2'));
+    //     headingEl.className = 'mb-0';
+    //
+    //     let buttonEl = headingEl.appendChild(document.createElement('button'));
+    //     //buttonEl.className = `btn btn-link${(descriptor.collapsed ? ' collapsed' : '')}`;
+    //     buttonEl.className = `accordion-button${(descriptor.collapsed ? ' collapsed' : '')}`;
+    //
+    //     buttonEl.setAttribute('data-bs-toggle', 'collapse');
+    //     //buttonEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
+    //
+    //     if (descriptor.headingButtonId) {
+    //         buttonEl.id = descriptor.headingButtonId;
+    //     }
+    //
+    //     buttonEl.type = 'button';
+    //     //buttonEl.setAttribute('data-bs-toggle', 'collapse');
+    //
+    //     if (descriptor.buttonStyleString) {
+    //         buttonEl.style.cssText = descriptor.buttonStyleString;
+    //     }
+    //
+    //     if (descriptor.cardDescriptionId) {
+    //         buttonEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
+    //         buttonEl.setAttribute('aria-controls', descriptor.cardDescriptionId);
+    //     }
+    //
+    //     buttonEl.setAttribute('aria-expanded', descriptor.collapsed ? 'false' : 'true');
+    //     buttonEl.innerHTML = `<div class="material-icons icon-show-collapsed">expand_more</div><div class="material-icons icon-hide-collapsed">unfold_less</div>${descriptor.headingHTML}`;
+    //
+    //     if (descriptor.headingNonbuttonHTML) {
+    //         const extraHeadingElement = buttonEl.appendChild(document.createElement('span'));
+    //         extraHeadingElement.style.display = 'flex';
+    //         extraHeadingElement.innerHTML = descriptor.headingNonbuttonHTML;
+    //     }
+    //
+    //     if (descriptor.headingValidationWarningHTML) {
+    //         const headerValidationWarning = cardHeadingEl.appendChild(document.createElement('div'));
+    //         headerValidationWarning.className = 'card-invalid-feedback';
+    //         headerValidationWarning.innerHTML = `<small>${descriptor.headingValidationWarningHTML}</small>`;
+    //     }
+    //
+    //     let cardDescriptionEl = cardContainer.appendChild(document.createElement('div'));
+    //     if (descriptor.cardDescriptionId) {
+    //         cardDescriptionEl.id = descriptor.cardDescriptionId;
+    //     }
+    //     cardDescriptionEl.className = `accordion-collapse collapse${(descriptor.collapsed ? '' : ' show')}`;
+    //     if (descriptor.cardHeadingId) {
+    //         cardDescriptionEl.setAttribute('aria-labelledby', descriptor.cardHeadingId);
+    //     }
+    //
+    //     cardDescriptionEl.setAttribute('data-bs-parent', `#${descriptor.parentContainerId}`);
+    //
+    //     if (descriptor.dataAttributes) {
+    //         for (let key in descriptor.dataAttributes) {
+    //             if (descriptor.dataAttributes.hasOwnProperty(key)) {
+    //                 cardDescriptionEl.setAttribute(`data-${key}`, descriptor.dataAttributes[key]);
+    //             }
+    //         }
+    //     }
+    //
+    //     let cardBodyEl = cardDescriptionEl.appendChild(document.createElement('div'));
+    //     cardBodyEl.className = 'accordion-body ps-2 pe-2 ps-md-3 pe-md-3';
+    //     cardBodyEl.appendChild(descriptor.bodyContentElement);
+    //
+    //     return cardContainer;
+    // }
 
     /**
      *
@@ -18156,6 +18157,13 @@ class Page extends EventHarness {
         let cardBodyEl = cardDescriptionEl.appendChild(document.createElement('div'));
         cardBodyEl.className = 'card-body ps-2 pe-2 ps-md-3 pe-md-3';
         cardBodyEl.appendChild(descriptor.bodyContentElement);
+
+        // also append the validation warning at the bottom of the card
+        if (descriptor.headingValidationWarningHTML) {
+            const headerValidationWarning = cardBodyEl.appendChild(document.createElement('div'));
+            headerValidationWarning.className = 'card-invalid-feedback';
+            headerValidationWarning.innerHTML = `<small>${descriptor.headingValidationWarningHTML}</small>`;
+        }
 
         return cardContainer;
 
@@ -19132,7 +19140,7 @@ class MainController extends AppController {
                 this.view.display();
             } catch (rethrownError) {
                 console.log({rethrownError});
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1671579147</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${rethrownError.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1671579635</p>`;
             }
         }
     }
@@ -21575,7 +21583,7 @@ class MainView extends Page {
             if (editorContainer) {
                 editorContainer.innerHTML = `<p>${error.message}</p>`;
             } else {
-                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1671579147</p>`;
+                document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: 1.0.3.1671579635</p>`;
                 //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
             }
         }
@@ -22605,7 +22613,7 @@ class HelpView extends Page {
         // at this point the entire content of #body should be safe to replace
 
         const bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1671579147</p>`;
+        bodyEl.innerHTML = htmlContent + `<p>Version 1.0.3.1671579635</p>`;
     }
 }
 
@@ -29859,7 +29867,7 @@ enableDismissTrigger(Toast);
 
 defineJQueryPlugin(Toast);
 
-// version 1.0.3.1671579147
+// version 1.0.3.1671579635
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {

@@ -12152,7 +12152,8 @@
        *
        * @returns {void}
        */buildField(){if(!this.options){throw new Error('Options have not been set before call to buildField()');}const container=document.createElement(SelectField.#TOP_LEVEL_ELEMENT);container.className='form-group mb-3';this.#containerId=container.id=FormField.nextId;this.#menuId=FormField.nextId;const labelEl=container.appendChild(document.createElement('label'));labelEl.htmlFor=this.#menuId;//labelEl.className = 'form-check-label';
-  labelEl.style.display='block';labelEl.innerHTML=this.label;const selectEl=document.createElement('select');selectEl.id=this.#menuId;selectEl.className='custom-select';if(this.helpText){const helpTextField=container.appendChild(document.createElement('small'));helpTextField.innerHTML=this.helpText;}if(this.placeholder){this.#buildOption(container,selectEl,'',{label:this.placeholder});}for(let key in this.options){if(this.options.hasOwnProperty(key)){this.#buildOption(container,selectEl,key,this.options[key]);}}container.appendChild(selectEl);if(this.validationMessage){// validation element must be adjacent to the select field
+  labelEl.style.display='block';labelEl.innerHTML=this.label;const selectEl=document.createElement('select');selectEl.id=this.#menuId;//selectEl.className = 'custom-select';
+  selectEl.className='form-select';if(this.helpText){const helpTextField=container.appendChild(document.createElement('small'));helpTextField.innerHTML=this.helpText;}if(this.placeholder){this.#buildOption(container,selectEl,'',{label:this.placeholder});}for(let key in this.options){if(this.options.hasOwnProperty(key)){this.#buildOption(container,selectEl,key,this.options[key]);}}container.appendChild(selectEl);if(this.validationMessage){// validation element must be adjacent to the select field
   const validationMessageElement=container.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}container.addEventListener('change',this.inputChangeHandler.bind(this));this._fieldEl=container;}/**
        *
        * @param {HTMLElement} containerEl
@@ -13073,7 +13074,102 @@
   //
   // }
   display(){console.log('got to view display');// these serve as hook points for child classes
-  this.refreshHeader();this.body();}refreshHeader(){}body(){}/**
+  this.refreshHeader();this.body();}refreshHeader(){}body(){}// /**
+  //  *
+  //  * @param {{}} descriptor
+  //  * @param {string} descriptor.cardId
+  //  * @param {string} descriptor.cardHeadingId
+  //  * @param {boolean} descriptor.collapsed
+  //  * @param {string} descriptor.headingButtonId
+  //  * @param {string} descriptor.headingHTML
+  //  * @param {string} [descriptor.headingNonbuttonHTML]
+  //  * @param {string} descriptor.cardDescriptionId
+  //  * @param {string} descriptor.parentContainerId
+  //  * @param {string} descriptor.buttonStyleString
+  //  * @param {HTMLElement} descriptor.bodyContentElement
+  //  * @param {{string, string}} descriptor.dataAttributes
+  //  * @param {string} descriptor.headingValidationWarningHTML
+  //  *
+  //  * @returns {HTMLDivElement}
+  //  */
+  // accordionItem(descriptor) {
+  //     let cardContainer = document.createElement('div');
+  //     cardContainer.id = descriptor.cardId;
+  //     cardContainer.className = 'accordion-item';
+  //
+  //     let cardHeadingEl = cardContainer.appendChild(document.createElement('div'));
+  //     cardHeadingEl.className = 'accordion-header pointer';
+  //     if (descriptor.cardHeadingId) {
+  //         cardHeadingEl.id = descriptor.cardHeadingId;
+  //     }
+  //
+  //     let headingEl = cardHeadingEl.appendChild(document.createElement('h2'));
+  //     headingEl.className = 'mb-0';
+  //
+  //     let buttonEl = headingEl.appendChild(document.createElement('button'));
+  //     //buttonEl.className = `btn btn-link${(descriptor.collapsed ? ' collapsed' : '')}`;
+  //     buttonEl.className = `accordion-button${(descriptor.collapsed ? ' collapsed' : '')}`;
+  //
+  //     buttonEl.setAttribute('data-bs-toggle', 'collapse');
+  //     //buttonEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
+  //
+  //     if (descriptor.headingButtonId) {
+  //         buttonEl.id = descriptor.headingButtonId;
+  //     }
+  //
+  //     buttonEl.type = 'button';
+  //     //buttonEl.setAttribute('data-bs-toggle', 'collapse');
+  //
+  //     if (descriptor.buttonStyleString) {
+  //         buttonEl.style.cssText = descriptor.buttonStyleString;
+  //     }
+  //
+  //     if (descriptor.cardDescriptionId) {
+  //         buttonEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
+  //         buttonEl.setAttribute('aria-controls', descriptor.cardDescriptionId);
+  //     }
+  //
+  //     buttonEl.setAttribute('aria-expanded', descriptor.collapsed ? 'false' : 'true');
+  //     buttonEl.innerHTML = `<div class="material-icons icon-show-collapsed">expand_more</div><div class="material-icons icon-hide-collapsed">unfold_less</div>${descriptor.headingHTML}`;
+  //
+  //     if (descriptor.headingNonbuttonHTML) {
+  //         const extraHeadingElement = buttonEl.appendChild(document.createElement('span'));
+  //         extraHeadingElement.style.display = 'flex';
+  //         extraHeadingElement.innerHTML = descriptor.headingNonbuttonHTML;
+  //     }
+  //
+  //     if (descriptor.headingValidationWarningHTML) {
+  //         const headerValidationWarning = cardHeadingEl.appendChild(document.createElement('div'));
+  //         headerValidationWarning.className = 'card-invalid-feedback';
+  //         headerValidationWarning.innerHTML = `<small>${descriptor.headingValidationWarningHTML}</small>`;
+  //     }
+  //
+  //     let cardDescriptionEl = cardContainer.appendChild(document.createElement('div'));
+  //     if (descriptor.cardDescriptionId) {
+  //         cardDescriptionEl.id = descriptor.cardDescriptionId;
+  //     }
+  //     cardDescriptionEl.className = `accordion-collapse collapse${(descriptor.collapsed ? '' : ' show')}`;
+  //     if (descriptor.cardHeadingId) {
+  //         cardDescriptionEl.setAttribute('aria-labelledby', descriptor.cardHeadingId);
+  //     }
+  //
+  //     cardDescriptionEl.setAttribute('data-bs-parent', `#${descriptor.parentContainerId}`);
+  //
+  //     if (descriptor.dataAttributes) {
+  //         for (let key in descriptor.dataAttributes) {
+  //             if (descriptor.dataAttributes.hasOwnProperty(key)) {
+  //                 cardDescriptionEl.setAttribute(`data-${key}`, descriptor.dataAttributes[key]);
+  //             }
+  //         }
+  //     }
+  //
+  //     let cardBodyEl = cardDescriptionEl.appendChild(document.createElement('div'));
+  //     cardBodyEl.className = 'accordion-body ps-2 pe-2 ps-md-3 pe-md-3';
+  //     cardBodyEl.appendChild(descriptor.bodyContentElement);
+  //
+  //     return cardContainer;
+  // }
+  /**
        *
        * @param {{}} descriptor
        * @param {string} descriptor.cardId
@@ -13090,27 +13186,8 @@
        * @param {string} descriptor.headingValidationWarningHTML
        *
        * @returns {HTMLDivElement}
-       */accordionItem(descriptor){let cardContainer=document.createElement('div');cardContainer.id=descriptor.cardId;cardContainer.className='accordion-item';let cardHeadingEl=cardContainer.appendChild(document.createElement('div'));cardHeadingEl.className='accordion-header pointer';if(descriptor.cardHeadingId){cardHeadingEl.id=descriptor.cardHeadingId;}let headingEl=cardHeadingEl.appendChild(document.createElement('h2'));headingEl.className='mb-0';let buttonEl=headingEl.appendChild(document.createElement('button'));//buttonEl.className = `btn btn-link${(descriptor.collapsed ? ' collapsed' : '')}`;
-  buttonEl.className=`accordion-button${descriptor.collapsed?' collapsed':''}`;buttonEl.setAttribute('data-bs-toggle','collapse');//buttonEl.setAttribute('data-bs-target', `#${descriptor.cardDescriptionId}`);
-  if(descriptor.headingButtonId){buttonEl.id=descriptor.headingButtonId;}buttonEl.type='button';//buttonEl.setAttribute('data-bs-toggle', 'collapse');
-  if(descriptor.buttonStyleString){buttonEl.style.cssText=descriptor.buttonStyleString;}if(descriptor.cardDescriptionId){buttonEl.setAttribute('data-bs-target',`#${descriptor.cardDescriptionId}`);buttonEl.setAttribute('aria-controls',descriptor.cardDescriptionId);}buttonEl.setAttribute('aria-expanded',descriptor.collapsed?'false':'true');buttonEl.innerHTML=`<div class="material-icons icon-show-collapsed">expand_more</div><div class="material-icons icon-hide-collapsed">unfold_less</div>${descriptor.headingHTML}`;if(descriptor.headingNonbuttonHTML){const extraHeadingElement=buttonEl.appendChild(document.createElement('span'));extraHeadingElement.style.display='flex';extraHeadingElement.innerHTML=descriptor.headingNonbuttonHTML;}if(descriptor.headingValidationWarningHTML){const headerValidationWarning=cardHeadingEl.appendChild(document.createElement('div'));headerValidationWarning.className='card-invalid-feedback';headerValidationWarning.innerHTML=`<small>${descriptor.headingValidationWarningHTML}</small>`;}let cardDescriptionEl=cardContainer.appendChild(document.createElement('div'));if(descriptor.cardDescriptionId){cardDescriptionEl.id=descriptor.cardDescriptionId;}cardDescriptionEl.className=`accordion-collapse collapse${descriptor.collapsed?'':' show'}`;if(descriptor.cardHeadingId){cardDescriptionEl.setAttribute('aria-labelledby',descriptor.cardHeadingId);}cardDescriptionEl.setAttribute('data-bs-parent',`#${descriptor.parentContainerId}`);if(descriptor.dataAttributes){for(let key in descriptor.dataAttributes){if(descriptor.dataAttributes.hasOwnProperty(key)){cardDescriptionEl.setAttribute(`data-${key}`,descriptor.dataAttributes[key]);}}}let cardBodyEl=cardDescriptionEl.appendChild(document.createElement('div'));cardBodyEl.className='accordion-body ps-2 pe-2 ps-md-3 pe-md-3';cardBodyEl.appendChild(descriptor.bodyContentElement);return cardContainer;}/**
-       *
-       * @param {{}} descriptor
-       * @param {string} descriptor.cardId
-       * @param {string} descriptor.cardHeadingId
-       * @param {boolean} descriptor.collapsed
-       * @param {string} descriptor.headingButtonId
-       * @param {string} descriptor.headingHTML
-       * @param {string} [descriptor.headingNonbuttonHTML]
-       * @param {string} descriptor.cardDescriptionId
-       * @param {string} descriptor.parentContainerId
-       * @param {string} descriptor.buttonStyleString
-       * @param {HTMLElement} descriptor.bodyContentElement
-       * @param {{string, string}} descriptor.dataAttributes
-       * @param {string} descriptor.headingValidationWarningHTML
-       *
-       * @returns {HTMLDivElement}
-       */card(descriptor){let cardContainer=document.createElement('div');cardContainer.id=descriptor.cardId;cardContainer.className='card';let cardHeadingEl=cardContainer.appendChild(document.createElement('div'));cardHeadingEl.className='card-header pointer';if(descriptor.cardHeadingId){cardHeadingEl.id=descriptor.cardHeadingId;}cardHeadingEl.setAttribute('data-bs-toggle','collapse');cardHeadingEl.setAttribute('data-bs-target',`#${descriptor.cardDescriptionId}`);let headingEl=cardHeadingEl.appendChild(document.createElement('h2'));headingEl.className='mb-0';let buttonEl=headingEl.appendChild(document.createElement('button'));buttonEl.className=`btn btn-link${descriptor.collapsed?' collapsed':''}`;if(descriptor.headingButtonId){buttonEl.id=descriptor.headingButtonId;}buttonEl.type='button';buttonEl.setAttribute('data-bs-toggle','collapse');if(descriptor.buttonStyleString){buttonEl.style.cssText=descriptor.buttonStyleString;}if(descriptor.cardDescriptionId){buttonEl.setAttribute('data-bs-target',`#${descriptor.cardDescriptionId}`);buttonEl.setAttribute('aria-controls',descriptor.cardDescriptionId);}buttonEl.setAttribute('aria-expanded',descriptor.collapsed?'false':'true');buttonEl.innerHTML=`<div class="material-icons icon-show-collapsed">expand_more</div><div class="material-icons icon-hide-collapsed">unfold_less</div>${descriptor.headingHTML}`;if(descriptor.headingNonbuttonHTML){const extraHeadingElement=headingEl.appendChild(document.createElement('span'));extraHeadingElement.style.display='inline-block';extraHeadingElement.innerHTML=descriptor.headingNonbuttonHTML;}if(descriptor.headingValidationWarningHTML){const headerValidationWarning=cardHeadingEl.appendChild(document.createElement('div'));headerValidationWarning.className='card-invalid-feedback';headerValidationWarning.innerHTML=`<small>${descriptor.headingValidationWarningHTML}</small>`;}let cardDescriptionEl=cardContainer.appendChild(document.createElement('div'));if(descriptor.cardDescriptionId){cardDescriptionEl.id=descriptor.cardDescriptionId;}cardDescriptionEl.className=`collapse${descriptor.collapsed?'':' show'}`;if(descriptor.cardHeadingId){cardDescriptionEl.setAttribute('aria-labelledby',descriptor.cardHeadingId);}cardDescriptionEl.setAttribute('data-parent',`#${descriptor.parentContainerId}`);if(descriptor.dataAttributes){for(let key in descriptor.dataAttributes){if(descriptor.dataAttributes.hasOwnProperty(key)){cardDescriptionEl.setAttribute(`data-${key}`,descriptor.dataAttributes[key]);}}}let cardBodyEl=cardDescriptionEl.appendChild(document.createElement('div'));cardBodyEl.className='card-body ps-2 pe-2 ps-md-3 pe-md-3';cardBodyEl.appendChild(descriptor.bodyContentElement);return cardContainer;//         `<div class="card-header" id="heading_${occurrence.id}">
+       */card(descriptor){let cardContainer=document.createElement('div');cardContainer.id=descriptor.cardId;cardContainer.className='card';let cardHeadingEl=cardContainer.appendChild(document.createElement('div'));cardHeadingEl.className='card-header pointer';if(descriptor.cardHeadingId){cardHeadingEl.id=descriptor.cardHeadingId;}cardHeadingEl.setAttribute('data-bs-toggle','collapse');cardHeadingEl.setAttribute('data-bs-target',`#${descriptor.cardDescriptionId}`);let headingEl=cardHeadingEl.appendChild(document.createElement('h2'));headingEl.className='mb-0';let buttonEl=headingEl.appendChild(document.createElement('button'));buttonEl.className=`btn btn-link${descriptor.collapsed?' collapsed':''}`;if(descriptor.headingButtonId){buttonEl.id=descriptor.headingButtonId;}buttonEl.type='button';buttonEl.setAttribute('data-bs-toggle','collapse');if(descriptor.buttonStyleString){buttonEl.style.cssText=descriptor.buttonStyleString;}if(descriptor.cardDescriptionId){buttonEl.setAttribute('data-bs-target',`#${descriptor.cardDescriptionId}`);buttonEl.setAttribute('aria-controls',descriptor.cardDescriptionId);}buttonEl.setAttribute('aria-expanded',descriptor.collapsed?'false':'true');buttonEl.innerHTML=`<div class="material-icons icon-show-collapsed">expand_more</div><div class="material-icons icon-hide-collapsed">unfold_less</div>${descriptor.headingHTML}`;if(descriptor.headingNonbuttonHTML){const extraHeadingElement=headingEl.appendChild(document.createElement('span'));extraHeadingElement.style.display='inline-block';extraHeadingElement.innerHTML=descriptor.headingNonbuttonHTML;}if(descriptor.headingValidationWarningHTML){const headerValidationWarning=cardHeadingEl.appendChild(document.createElement('div'));headerValidationWarning.className='card-invalid-feedback';headerValidationWarning.innerHTML=`<small>${descriptor.headingValidationWarningHTML}</small>`;}let cardDescriptionEl=cardContainer.appendChild(document.createElement('div'));if(descriptor.cardDescriptionId){cardDescriptionEl.id=descriptor.cardDescriptionId;}cardDescriptionEl.className=`collapse${descriptor.collapsed?'':' show'}`;if(descriptor.cardHeadingId){cardDescriptionEl.setAttribute('aria-labelledby',descriptor.cardHeadingId);}cardDescriptionEl.setAttribute('data-parent',`#${descriptor.parentContainerId}`);if(descriptor.dataAttributes){for(let key in descriptor.dataAttributes){if(descriptor.dataAttributes.hasOwnProperty(key)){cardDescriptionEl.setAttribute(`data-${key}`,descriptor.dataAttributes[key]);}}}let cardBodyEl=cardDescriptionEl.appendChild(document.createElement('div'));cardBodyEl.className='card-body ps-2 pe-2 ps-md-3 pe-md-3';cardBodyEl.appendChild(descriptor.bodyContentElement);// also append the validation warning at the bottom of the card
+  if(descriptor.headingValidationWarningHTML){const headerValidationWarning=cardBodyEl.appendChild(document.createElement('div'));headerValidationWarning.className='card-invalid-feedback';headerValidationWarning.innerHTML=`<small>${descriptor.headingValidationWarningHTML}</small>`;}return cardContainer;//         `<div class="card-header" id="heading_${occurrence.id}">
   //   <h2 class="mb-0">
   //     <button class="btn btn-link${(this.controller.currentOccurrenceId === occurrence.id ? '' : ' collapsed')}" id="headingbutton_${occurrence.id}" type="button" data-bs-toggle="collapse" data-bs-target="#description_${occurrence.id}" aria-expanded="true" aria-controls="description_${occurrence.id}">
   //       Heading for (${occurrence.id}, ${taxon.canonical})
@@ -13637,7 +13714,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1671579147</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1671579635</p>");
           }
         }
       }
@@ -16779,7 +16856,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1671579147</p>");
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1671579635</p>");
         //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
@@ -17341,7 +17418,7 @@
         // at this point the entire content of #body should be safe to replace
 
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1671579147</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1671579635</p>";
       }
     }]);
     return HelpView;
