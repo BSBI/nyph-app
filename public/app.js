@@ -11922,7 +11922,7 @@
        *
        * @returns {Array.<string>}
        */get value(){let ids=[];if(this._value&&this._value.images){for(let image of this._value.images){ids[ids.length]=image.id;}}return ids;}updateView(){if(this._fieldEl){// do nothing until the view has been constructed
-  const idList=[];for(let image of this._value.images){idList.push(`<picture style="cursor: pointer;" data-imageid="${image.id}"><source srcset="/image.php?imageid=${image.id}&amp;height=128&amp;format=webp" type="image/webp"><img data-imageid="${image.id}" src="/image.php?imageid=${image.id}&amp;height=128&amp;format=jpeg" height="128" alt="photo"></picture>`);}const statusEl=document.getElementById(this.#statusBlockId);statusEl.innerHTML=idList.join("\n");}}/**
+  const idList=[];for(let image of this._value.images){idList.push(`<picture style="cursor: pointer; image-orientation: from-image;" data-imageid="${image.id}"><source srcset="/image.php?imageid=${image.id}&amp;height=128&amp;format=webp" type="image/webp" style="image-orientation: from-image"><img data-imageid="${image.id}" src="/image.php?imageid=${image.id}&amp;height=128&amp;format=jpeg" height="128" alt="photo" style="image-orientation: from-image"></picture>`);}const statusEl=document.getElementById(this.#statusBlockId);statusEl.innerHTML=idList.join("\n");}}/**
        * initialises this._fieldEl
        *
        * @returns {void}
@@ -11945,8 +11945,8 @@
        *
        * @param {MouseEvent} event
        */imageClickHandler(event){if(doubleClickIntercepted(event)){return;}let targetEl=event.target.closest('picture');if(!targetEl){targetEl=event.target.closest('img');}// console.log({'clicked image' : targetEl});
-  const imageId=targetEl.getAttribute('data-imageid');if(imageId){const imageModal=document.getElementById(IMAGE_MODAL_ID);const pictureEl=imageModal.getElementsByTagName('picture')[0];pictureEl.innerHTML=`<source srcset="/image.php?imageid=${imageId}&amp;width=${window.innerWidth}&amp;format=webp" type="image/webp">
-                <img src="/image.php?imageid=${imageId}&amp;width=${window.innerWidth}&amp;format=jpeg" width="auto" style="max-height: 48vh; max-width: 100%;" alt="photo">`;const deleteButton=document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID);deleteButton.setAttribute('data-imageid',imageId);//$(`#${IMAGE_MODAL_ID}`).modal({});
+  const imageId=targetEl.getAttribute('data-imageid');if(imageId){const imageModal=document.getElementById(IMAGE_MODAL_ID);const pictureEl=imageModal.getElementsByTagName('picture')[0];pictureEl.innerHTML=`<source srcset="/image.php?imageid=${imageId}&amp;width=${window.innerWidth}&amp;format=webp" type="image/webp" style="image-orientation: from-image">
+                <img src="/image.php?imageid=${imageId}&amp;width=${window.innerWidth}&amp;format=jpeg" width="auto" style="max-height: 48vh; max-width: 100%; image-orientation: from-image;" alt="photo">`;const deleteButton=document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID);deleteButton.setAttribute('data-imageid',imageId);//$(`#${IMAGE_MODAL_ID}`).modal({});
   //Modal.getOrCreateInstance(document.getElementById(IMAGE_MODAL_ID), {}).show();
   ImageField.imageModal.show();}}/**
        * called with an additional bound element id parameter
@@ -12175,7 +12175,7 @@
        * @param {{field : typeof SelectField, attributes : {options : Object.<string, {label : string}>}, summary : {summaryPrefix: string}}} property properties of the form descriptor
        * @param {Object.<string, {}>} attributes attributes of the model object
        * @return {string}
-       */static summariseImpl(key,property,attributes){const summaryDescriptor=property.summary;const methods=[];if(attributes[key].selection.length){for(let attributeValue of attributes[key].selection){if('other'===attributeValue&&attributes[key].other){methods[methods.length]=`${property.attributes.options[attributeValue].summary||property.attributes.options[attributeValue].label} (${attributes[key].other})`;}else {methods[methods.length]=property.attributes.options[attributeValue].summary||property.attributes.options[attributeValue].label;}}return escapeHTML(`${summaryDescriptor.summaryPrefix} ${formattedImplode(',','or',methods)}`);}else {return '';}}}class TaxonPickerField extends FormField{/**
+       */static summariseImpl(key,property,attributes){const summaryDescriptor=property.summary;const methods=[];if(attributes[key].selection.length){for(let attributeValue of attributes[key].selection){if('other'===attributeValue&&attributes[key].other){methods[methods.length]=`${property.attributes.options[attributeValue].summary||property.attributes.options[attributeValue].label} (${attributes[key].other})`;}else {methods[methods.length]=property.attributes.options[attributeValue].summary||property.attributes.options[attributeValue].label;}}return escapeHTML(`${summaryDescriptor.summaryPrefix} ${formattedImplode(',','or',methods)}`);}else {return '';}}}const CSS_UNRECOGNIZED_TAXON_CLASS='taxon-invalid';const CSS_UNRECOGNIZED_TAXON_CONTAINER_CLASS='taxon-unrecognized-container';class TaxonPickerField extends FormField{/**
        * @type {TaxonSearch}
        */taxonSearch;/**
        * @type {string}
@@ -12183,7 +12183,11 @@
        * @type {string}
        */#dropDownListDivId;/**
        * @type {string}
-       */#dropDownListUlId;#containerId;#taxonLookupTimeoutHandle=null;#changeEventTimeout=null;/**
+       */#dropDownListUlId;/**
+       * @type {string}
+       */#containerId;/**
+       * @type {string}
+       */#unrecognizedWarningElId;#taxonLookupTimeoutHandle=null;#changeEventTimeout=null;/**
        *
        * @type {null|number}
        */#selectedIndex=null;/**
@@ -12228,7 +12232,7 @@
        * @returns {boolean}
        */static isEmpty(value){return !value||value&&!value.taxonName;}updateView(){if(this._fieldEl){// do nothing until the view has been constructed
   const inputEl=document.getElementById(this.#inputFieldId);inputEl.value=this._value.taxonName;this._lastInputValue=this._value.taxonName;// probably not necessary
-  }}/**
+  const unrecognizedWarningEl=document.getElementById(this.#unrecognizedWarningElId);if(this._value.taxonName){if(this._value.taxonId){unrecognizedWarningEl.classList.remove(CSS_UNRECOGNIZED_TAXON_CLASS);}else {unrecognizedWarningEl.classList.add(CSS_UNRECOGNIZED_TAXON_CLASS);}}else {unrecognizedWarningEl.classList.remove(CSS_UNRECOGNIZED_TAXON_CLASS);}}}/**
        *
        * @param {(boolean|null)} isValid
        */markValidity(isValid){const el=document.getElementById(this.#inputFieldId);if(null===isValid){el.classList.remove('is-invalid','is-valid');}else {el.classList.remove(isValid?'is-invalid':'is-valid');el.classList.add(isValid?'is-valid':'is-invalid');}}/**
@@ -12242,7 +12246,7 @@
   //     <div class="dropdown-list">
   //     </div>
   //   </div>
-  const container=document.createElement('div');container.className='form-group mb-3';this.#containerId=container.id=FormField.nextId;this.#inputFieldId=FormField.nextId;const labelEl=container.appendChild(document.createElement('label'));labelEl.htmlFor=this.#inputFieldId;labelEl.textContent=this.label;const wrapperEl=container.appendChild(document.createElement('div'));wrapperEl.className='dropdown-wrapper';const inputField=wrapperEl.appendChild(document.createElement('input'));inputField.className="form-control dropdown-input";inputField.id=this.#inputFieldId;inputField.autocomplete='off';inputField.spellcheck=false;if(this.validationMessage){// unfortunately the validation message has to be placed immediately after the input field
+  const container=document.createElement('div');container.className='form-group mb-3';this.#containerId=container.id=FormField.nextId;this.#inputFieldId=FormField.nextId;const unrecognizedWarningEl=container.appendChild(document.createElement('p'));unrecognizedWarningEl.id=this.#unrecognizedWarningElId=FormField.nextId;unrecognizedWarningEl.className=CSS_UNRECOGNIZED_TAXON_CONTAINER_CLASS;unrecognizedWarningEl.textContent="The name that you have typed hasn't been matched. If possible please pick an entry from the drop-down list of suggestions.";const labelEl=container.appendChild(document.createElement('label'));labelEl.htmlFor=this.#inputFieldId;labelEl.textContent=this.label;const wrapperEl=container.appendChild(document.createElement('div'));wrapperEl.className='dropdown-wrapper';const inputField=wrapperEl.appendChild(document.createElement('input'));inputField.className="form-control dropdown-input";inputField.id=this.#inputFieldId;inputField.autocomplete='off';inputField.spellcheck=false;if(this.validationMessage){// unfortunately the validation message has to be placed immediately after the input field
   const validationMessageElement=wrapperEl.appendChild(document.createElement('div'));validationMessageElement.className='invalid-feedback';validationMessageElement.innerHTML=this.validationMessage;}const dropDownList=wrapperEl.appendChild(document.createElement('div'));dropDownList.className='dropdown-list';this.#dropDownListDivId=dropDownList.id=FormField.nextId;this.#dropDownListUlId=FormField.nextId;if(this.helpText){const helpTextField=container.appendChild(document.createElement('small'));helpTextField.innerHTML=this.helpText;}inputField.addEventListener('keydown',this.keydownHandler.bind(this));//inputField.addEventListener('keyup', this.keyupHandler.bind(this)); // unfortunately keyup doesn't fire for touch keyboards
   inputField.addEventListener('input',this.inputHandler.bind(this));inputField.addEventListener('change',this.inputChangeHandler.bind(this));container.addEventListener('focusin',this.focusHandler.bind(this));container.addEventListener('focusout',this.blurHandler.bind(this));dropDownList.addEventListener('click',this.dropboxClickHandler.bind(this));this._fieldEl=container;}/**
        *
@@ -13649,7 +13653,7 @@
             console.log({
               rethrownError: rethrownError
             });
-            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1671626986</p>");
+            document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(rethrownError.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1671800900</p>");
           }
         }
       }
@@ -14289,37 +14293,7 @@
        */
     }, {
       key: "getFormSectionProperties",
-      value:
-      // /**
-      //  *
-      //  */
-      // initialiseFormFields() {
-      //     const properties = NyphOccurrenceForm.properties;
-      //
-      //     this.fields = {};
-      //
-      //     for (let key in properties) {
-      //         if (properties.hasOwnProperty(key)) {
-      //             // noinspection JSPotentiallyInvalidConstructorUsage
-      //             this.fields[key] = new properties[key].field(properties[key].attributes);
-      //         }
-      //     }
-      // }
-
-      // initialiseFormFields() {
-      //     const properties = this.getFormSectionProperties();
-      //
-      //     this.fields = {};
-      //
-      //     for (let key in properties) {
-      //         if (properties.hasOwnProperty(key)) {
-      //             // noinspection JSPotentiallyInvalidConstructorUsage
-      //             this.fields[key] = new properties[key].field(properties[key].attributes);
-      //         }
-      //     }
-      // }
-
-      function getFormSectionProperties() {
+      value: function getFormSectionProperties() {
         return NyphOccurrenceForm.properties;
       }
     }]);
@@ -14386,179 +14360,6 @@
         }
       }
     },
-    // idConfidence : {
-    //     field: SelectField,
-    //     attributes: {
-    //         label: 'How confident are you about your identification of this plant?',
-    //         helpText: '',
-    //         placeholder : 'please choose an option',
-    //         options: {
-    //             "1" : {label: "very sure"},
-    //             "2" : {label: "not really sure"},
-    //             "3" : {label: "could be wrong"}
-    //         },
-    //         includeOtherFreeText : false,
-    //         completion: FormField.COMPLETION_DESIRED,
-    //     }},
-
-    // spread : {
-    //     field: OptionsField,
-    //     attributes: {
-    //         label: 'How does the plant spread in your garden?',
-    //         helpText: '<i>(tick all that apply)</i>',
-    //         options: {
-    //             "seeds" : {label: "seeds"},
-    //             "roots" : {label: "roots"},
-    //             "runners" : {label: "runners"},
-    //             "bulbs" : {label: "bulbs"},
-    //             "unknown" : {label: "don't know"},
-    //             "other" : {label: "other"}
-    //         },
-    //         includeOtherFreeText : true,
-    //         completion: FormField.COMPLETION_DESIRED,
-    //     },
-    //     summary: {
-    //         summaryPrefix: 'Spread by',
-    //     }
-    // },
-    // control : {
-    //     field: OptionsField,
-    //     attributes: {
-    //         label: 'How do you control this plant?',
-    //         helpText: '<i>(tick all that apply)</i>',
-    //         options: {
-    //             "digging" : {label: "digging"},
-    //             "pulling" : {label: "pulling"},
-    //             "chemical" : {label: "chemical"},
-    //             "cutting" : {label: "cutting"},
-    //             "mulching" : {label: "mulching"},
-    //             "other" : {label: "other"}
-    //         },
-    //         includeOtherFreeText : true,
-    //         completion: FormField.COMPLETION_DESIRED,
-    //     },
-    //     summary: {
-    //         summaryPrefix: 'Controlled by',
-    //     }
-    //     },
-    // disposal : {
-    //     field: OptionsField,
-    //     attributes: {
-    //         label: 'Please tell us how you dispose of this plant?',
-    //         helpText: '<i>(tick all that apply)</i>',
-    //         options: {
-    //             "homecompost" : {label: "home composting"},
-    //             "greenwaste" : {label: "green waste"},
-    //             "other waste" : {label: "other waste collection"},
-    //             "other" : {label: "other"}
-    //         },
-    //         includeOtherFreeText : true,
-    //         completion: FormField.COMPLETION_DESIRED,
-    //     },
-    //     summary: {
-    //         summaryPrefix: 'Disposal by',
-    //     }},
-    // problemSeverity : {
-    //     field: SelectField,
-    //     attributes: {
-    //         label: 'Which of the following best describes your effort to control the plant?',
-    //         placeholder : 'please select a response',
-    //         options: {
-    //             '1' : {label: 'I don\'t try to control it'},
-    //             '2' : {label: 'I try to keep it confined to certain areas.'},
-    //             '3' : {label: 'I am trying everything to get rid of it.'},
-    //             '4' : {label: 'I have given up trying to control it.'},
-    //             '5' : {label: 'I have successfully eradicated the plant.'}
-    //         },
-    //         includeOtherFreeText : false,
-    //         completion: FormField.COMPLETION_DESIRED,
-    //     },
-    //     summary: {
-    //         summaryPrefix: 'Severity:',
-    //     }},
-    // source : {
-    //     field: OptionsField,
-    //     attributes: {
-    //         label: 'Please tell us how this plant came into your garden?',
-    //         helpText: '<i>(tick all that apply)</i>',
-    //         options: {
-    //             "alreadypresent" : {label: "Was already in the garden"},
-    //             "bought" : {label: "Bought the plant"},
-    //             "seed" : {label: "Grown from seed"},
-    //             "someoneelse" : {label: "From someone else's garden"},
-    //             "saleswap" : {label: "Non-commercial sale/swap"},
-    //             "spread" : {label: "Spread into my garden"},
-    //             "other" : {label: "other"}
-    //         },
-    //         includeOtherFreeText : true,
-    //         completion: FormField.COMPLETION_DESIRED,
-    //     },
-    //     summary: {
-    //         summaryPrefix: 'Source',
-    //     }},
-    // yearsSincePlanted: {
-    //     field: InputField,
-    //     attributes: {
-    //         label: 'How long ago did you plant (years)?',
-    //         type: 'number',
-    //         helpText: 'Please estimate in years or leave blank if unknown or not applicable',
-    //         autocomplete: 'off',
-    //     }},
-    // yearsProblem: {
-    //     field: InputField,
-    //     attributes: {
-    //         label: 'How quickly did this plant become a problem?',
-    //         placeholder: 'number of years',
-    //         type: 'number',
-    //         helpText: 'Please estimate in years or leave blank if unknown',
-    //         autocomplete: 'off',
-    //     }},
-    // distribution: {
-    //     field: OptionsField,
-    //     attributes: {
-    //         label: 'Have you given the plant away to others?',
-    //         helpText: '<i>(tick all that apply)</i>',
-    //         options: {
-    //             "neighbours" : {label: "Neighbours"},
-    //             "sale" : {label: "Plant/charity sale"},
-    //             "swap" : {label: "Plant or seed swap"},
-    //             "localfriends" : {label: "Local friends"},
-    //             "distantfriends" : {label: "Friends further away"},
-    //             "other" : {label: "other"}
-    //         },
-    //         includeOtherFreeText : true
-    //     }},
-    // local : {
-    //     field: SelectField,
-    //     attributes: {
-    //         label: 'Is the plant growing locally outside your garden?',
-    //         //helpText: '(estimate)',
-    //         placeholder : 'please select a response',
-    //         options: {
-    //             'yes' : {label: 'yes'},
-    //             'no' : {label: 'no'},
-    //             'notknown' : {label: "I don't know"}
-    //         },
-    //         includeOtherFreeText : false
-    //     }},
-    // warning : {
-    //     field: SelectField,
-    //     attributes: {
-    //         label: 'In your opinion, should the plant be sold with a label ' +
-    //             'warning buyers of potential control difficulties in their garden?',
-    //         placeholder : 'please select a response',
-    //         options: {
-    //             'yes' : {label: 'Yes', summary: 'Plants should carry a warning'},
-    //             'no' : {label: 'No', summary: 'Plants need not carry a warning'},
-    //             'unsure' : {label: "Don't know", summary: "Don't know if plants should carry a warning"}
-    //         },
-    //         includeOtherFreeText : false,
-    //         completion: FormField.COMPLETION_DESIRED,
-    //     },
-    //     summary: {
-    //         summarise: true,
-    //         summaryPrefix: ''
-    //     }},
     comments: {
       field: TextAreaField,
       attributes: {
@@ -16791,7 +16592,7 @@
       if (_editorContainer) {
         _editorContainer.innerHTML = "<p>".concat(error.message, "</p>");
       } else {
-        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1671626986</p>");
+        document.body.innerHTML = "<h2>Sorry, something has gone wrong.</h2><p>Please try <a href=\"https://nyph.bsbi.app/app/\">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href=\"mailto:nyplanthunt@bsbi.org\">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>".concat(error.message, "</strong></p><p>Browser version: ").concat(navigator.userAgent, "</p><p>App version: 1.0.3.1671800900</p>");
         //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
       }
     }
@@ -16882,7 +16683,7 @@
     // 'finish' modal
     // this pop-up is informational only
     var finishModalContainerEl = document.createElement('div');
-    finishModalContainerEl.innerHTML = "<div class=\"modal fade\" id=\"".concat(FINISH_MODAL_ID, "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(FINISH_MODAL_ID, "Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(FINISH_MODAL_ID, "Title\">Thank you</h5>\n        <button type=\"button\" class=\"close\" data-bs-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\" id=\"").concat(FINISH_MODAL_ID, "-body\">\n        <p>Thank you! Your records have been sent. If you wish, you can continue to make changes and edit or add further records.</p>\n        <p>We've sent you an email with a link to this form, so that you can return to it later if needed.</p>\n        <p>If you are planning another Plant Hunt expedition then please start a new survey, using the 'Lists' menu.</p>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");
+    finishModalContainerEl.innerHTML = "<div class=\"modal fade\" id=\"".concat(FINISH_MODAL_ID, "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"").concat(FINISH_MODAL_ID, "Title\" aria-hidden=\"true\">\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"").concat(FINISH_MODAL_ID, "Title\">Thank you</h5>\n        <button type=\"button\" class=\"close\" data-bs-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\" id=\"").concat(FINISH_MODAL_ID, "-body\">\n        <p>Thank you! Your records have been sent. If you wish, you can continue to make changes and to edit or add further records.</p>\n        <p>We've sent you an email with a link to this form, so that you can return to it later if needed.</p>\n        <p>If you are planning another Plant Hunt expedition then please start a new survey, using the 'Lists' menu.</p>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button>\n      </div>\n    </div>\n  </div>\n</div>");
     var finishModalEl = container.appendChild(finishModalContainerEl.firstChild);
     this.finishModal = Modal$1.getOrCreateInstance(finishModalEl);
     ImageField.registerLicenseModal(container);
@@ -17195,7 +16996,7 @@
     var separateListsHTMLMessage;
 
     // include a warning here if the date has changed - prompting for new list
-    if (this.controller.survey.date < DateField.todaysDate()) {
+    if (this.controller.survey.date && this.controller.survey.date < DateField.todaysDate()) {
       separateListsHTMLMessage = "<p>A survey can last for up to 3 hours on a single day from a single local area. You can send in as many separate lists as you like.</p><p><strong>The current survey is from ".concat(this.controller.survey.date, ", please <a href=\"/").concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start a new list</a> if you are now adding records for a different day.</strong></p>");
     } else {
       separateListsHTMLMessage = "<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href=\"/".concat(this.pathPrefix, "/survey/new\" data-navigo=\"survey/new\">start another separate list</a>.</p>");
@@ -17353,7 +17154,7 @@
         // at this point the entire content of #body should be safe to replace
 
         var bodyEl = document.getElementById('body');
-        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1671626986</p>";
+        bodyEl.innerHTML = htmlContent + "<p>Version 1.0.3.1671800900</p>";
       }
     }]);
     return HelpView;

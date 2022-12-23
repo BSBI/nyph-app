@@ -11268,3 +11268,12 @@ div.row.repeater-row button.add-row {
 div.row.repeater-row:first-of-type button.add-row {
   visibility: visible;
 }
+
+p.taxon-unrecognized-container {
+  display: none;
+  color: darkorange;
+}
+
+p.taxon-unrecognized-container.taxon-invalid {
+  display: block;
+}

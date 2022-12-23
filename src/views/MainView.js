@@ -545,7 +545,7 @@ export class MainView extends Page {
         </button>
       </div>
       <div class="modal-body" id="${FINISH_MODAL_ID}-body">
-        <p>Thank you! Your records have been sent. If you wish, you can continue to make changes and edit or add further records.</p>
+        <p>Thank you! Your records have been sent. If you wish, you can continue to make changes and to edit or add further records.</p>
         <p>We've sent you an email with a link to this form, so that you can return to it later if needed.</p>
         <p>If you are planning another Plant Hunt expedition then please start a new survey, using the 'Lists' menu.</p>
       </div>
@@ -937,7 +937,7 @@ export class MainView extends Page {
         let separateListsHTMLMessage;
 
         // include a warning here if the date has changed - prompting for new list
-        if (this.controller.survey.date < DateField.todaysDate()) {
+        if (this.controller.survey.date && this.controller.survey.date < DateField.todaysDate()) {
             separateListsHTMLMessage = `<p>A survey can last for up to 3 hours on a single day from a single local area. You can send in as many separate lists as you like.</p><p><strong>The current survey is from ${this.controller.survey.date}, please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start a new list</a> if you are now adding records for a different day.</strong></p>`;
         } else {
             separateListsHTMLMessage = `<p>Please survey for up to 3 hours on a single day. If your start again in a new area or on a different day, then please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start another separate list</a>.</p>`;
