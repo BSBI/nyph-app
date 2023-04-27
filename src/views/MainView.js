@@ -13,9 +13,9 @@ import {
     Form,
     ImageField,
     Page,
-    doubleClickIntercepted,
-    Modal
+    doubleClickIntercepted
 } from "bsbi-app-framework-view";
+
 import {
     InternalAppError,
     Occurrence,
@@ -24,6 +24,7 @@ import {
     escapeHTML
 } from "bsbi-app-framework";
 import {NyphSurveyFormSurveySection} from "./forms/NyphSurveyFormSurveySection";
+import Modal from "bootstrap/js/dist/modal";
 import Collapse from "bootstrap/js/dist/collapse"
 
 const LEFT_PANEL_ID = 'col1panel';

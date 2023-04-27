@@ -10,9 +10,12 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import './app.css';
 import 'bsbi-app-framework-view/dist/css.css';
-import {StaticContentController, TaxaLoadedHook, SurveyPickerController} from "bsbi-app-framework";
+import {StaticContentController, SurveyPickerController, Taxon} from "bsbi-app-framework";
 import {NotFoundView, PatchedNavigo, SurveyPickerView} from "bsbi-app-framework-view";
 import 'bootstrap';
+import taxa from "https://staticdatabase.bsbi.org/js/taxonnames.mjs.php";
+
+Taxon.setTaxa(taxa);
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {
@@ -86,9 +89,12 @@ app.restoreOccurrences().then((result) => {
             console.log({'failed result from restoreOccurrences' : result});
 }).finally(() => {
     // the taxon list may be slow to load
-    TaxaLoadedHook.onceTaxaLoaded()
-        .then(() => {
-            app.initialise();
-            app.display();
-        });
+    // TaxaLoadedHook.onceTaxaLoaded()
+    //     .then(() => {
+    //         app.initialise();
+    //         app.display();
+    //     });
+
+    app.initialise();
+    app.display();
 });

@@ -9,7 +9,7 @@ import {BSBIServiceWorker} from "bsbi-app-framework";
 import {FORAGE_NAME} from "../framework/NyphApp";
 
 // noinspection JSUnusedLocalSymbols,ES6ConvertVarToLetConst
-var BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
+//var BsbiDb = BsbiDb || {scriptVersions: { TaxonNames : [] } };
 
 // mainly aiming to determine whether '/app/' or '/testapp/'
 let pathPrefix = location.pathname.split('/')[1];
@@ -42,7 +42,7 @@ serviceWorker.initialise({
         './app.mjs?version=__BSBI_APP_VERSION__',
         './manifest.webmanifest',
         '/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
-        '/appcss/theme.css',
+        //'/appcss/theme.css',
         //'/img/gwh_logo1_tsp.png',
         '/img/icons/favicon-32x32.png',
         '/img/icons/favicon-16x16.png',
@@ -52,8 +52,8 @@ serviceWorker.initialise({
         //'/img/BSBIlong.png',
         'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round',
         //'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
-        '/js/taxonnames.js.php',
-        //'https://database.bsbi.org/js/taxonnames.js.php',
+        //'/js/taxonnames.js.php',
+        'https://staticdatabase.bsbi.org/js/taxonnames.js.php',
         //'https://code.jquery.com/jquery-3.3.1.slim.min.js',
         //'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
         //'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
@@ -61,7 +61,7 @@ serviceWorker.initialise({
         // am not caching files under api.mapbox.com
         // so instead serve this locally
         //'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js',
-        '/js/mapbox-gl-geocoder-v4.7.2.min.js'
+        //'/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
     version : '__BSBI_APP_VERSION__'
