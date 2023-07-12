@@ -17,14 +17,14 @@
 	<!-- <script src="/js/mapbox-gl-geocoder-v4.7.2.min.js"></script> -->
 	<!-- <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script> -->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round" rel="stylesheet">
-	<link rel="stylesheet" href="/appcss/app.1.0.3.1682585123.css">
+	<link rel="stylesheet" href="/appcss/app.1.0.3.1689178713.css">
 
 	<!-- <link rel="icon" type="image/png" href="/img/icons/favicon-196x196.png" sizes="196x196" />
 	<link rel="icon" type="image/png" href="/img/icons/favicon-32x32.png" sizes="32x32" />
 	<link rel="icon" type="image/png" href="/img/icons/favicon-16x16.png" sizes="16x16" />
 	<link rel="icon" type="image/png" href="/img/icons/favicon-128.png" sizes="128x128" /> -->
 
-	<script>
+	<!-- <script>
 		var $buoop = {required:{e:-6,f:-6,o:-6,s:-6,c:-6},api:2022.12 };
 		function $buo_f(){
 			try {
@@ -35,7 +35,7 @@
 		};
 		try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
 		catch(e){window.attachEvent("onload", $buo_f)}
-	</script>
+	</script> -->
 
 	<title>BSBI New Year Plant Hunt survey form</title>
 </head>
@@ -76,7 +76,17 @@
 
 	</div>
 </div>
+<dialog id="appUpdateDialog">
+	<p>A software update is available. Please click 'install' to use the latest version of the recording app.</p>
+	<p>If you are currently using a mobile device, in the field, with a slow or intermittent network connection, then please click 'later'.</p>
+	<form method="dialog">
+		<div>
+			<button id="appUpdateDialogCancel" type="reset">Later</button>
+			<button id="appUpdateDialogInstall" type="submit">Install</button>
+		</div>
+	</form>
+</dialog>
 <!-- <script>var BsbiDb = BsbiDb || {scriptVersions: { } };</script> -->
-	<script type="module" src='/app/app.mjs?version=1.0.3.1682585123'></script>
+	<script type="module" src='/app/app.mjs?version=1.0.3.1689178713'></script>
 </body>
 </html>

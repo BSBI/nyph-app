@@ -163,9 +163,10 @@ export default [
 			commonjs(
 				{}
 			), // converts npm packages to ES modules
-			nodePolyfills({
-				include: null
-			}),
+			nodePolyfills(),
+			// nodePolyfills({
+			// 	include: null
+			// }),
 			production && terser({
 				module: true,
 			}) // minify, but only in production

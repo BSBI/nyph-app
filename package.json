@@ -18,13 +18,12 @@
     "rollup-plugin-scss": "^4.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-string": "^3.0.0",
-    "@rollup/plugin-terser": "^0.4.1",
-    "sass": "^1.62.1"
+    "@rollup/plugin-terser": "^0.4.1"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@popperjs/core": "^2.11.7",
-    "bootstrap": "^5.2.3",
+    "bootstrap": "^5.3.0",
     "bsbi-app-framework": "file:D:\\appframework\\bsbi-app-framework",
     "bsbi-app-framework-view": "file:D:\\appframework\\bsbi-app-framework-view",
     "mapbox-gl": "^2.14.1"

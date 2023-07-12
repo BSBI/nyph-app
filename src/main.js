@@ -11,11 +11,12 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import './app.css';
 import 'bsbi-app-framework-view/dist/css.css';
 import {StaticContentController, SurveyPickerController, Taxon} from "bsbi-app-framework";
-import {NotFoundView, PatchedNavigo, SurveyPickerView} from "bsbi-app-framework-view";
-import 'bootstrap';
+import {doubleClickIntercepted, NotFoundView, PatchedNavigo, SurveyPickerView} from "bsbi-app-framework-view";
+//import 'bootstrap';
 import taxa from "https://staticdatabase.bsbi.org/js/taxonnames.mjs.php";
 
-Taxon.setTaxa(taxa);
+//Taxon.setTaxa(taxa);
+Taxon.initialiseTaxa(taxa, "https://staticdatabase.bsbi.org/js/taxonnames.mjs.php");
 
 // work around Edge bug
 // if (!Promise.prototype.finally) {
@@ -27,7 +28,13 @@ Taxon.setTaxa(taxa);
 
 // even though Rollup is bundling all your files together, errors and
 // logs will still point to your original source modules
-console.log('if you have sourcemaps enabled in your devtools, click on main.js:5 -->');
+//console.log('if you have sourcemaps enabled in your devtools, click on main.js:5 -->');
+
+/**
+ * @type {ServiceWorkerRegistration}
+ */
+let serviceWorkerRegistration;
+let haveExistingWorker;
 
 // mainly aiming to determine whether '/app/' or '/testapp/'
 let pathPrefix = window.location.pathname.split('/')[1];
@@ -37,25 +44,47 @@ console.log({pathPrefix});
 if (navigator.serviceWorker) {
 
     // kill after 2023-03-01 to prevent the app perpetuating itself
-    if ((new Date).toJSON().slice(0,10) >= '2023-03-01') {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for(let registration of registrations) {
-                registration.unregister();
-            } });
-    } else {
-        // Register the ServiceWorker limiting its action to those URL starting
+    // if ((new Date).toJSON().slice(0,10) >= '2023-03-01') {
+    //     navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    //         for(let registration of registrations) {
+    //             registration.unregister();
+    //         } });
+    // } else {
+    navigator.serviceWorker.getRegistration(`/${pathPrefix}/serviceworker.mjs`).then((registration) => {
+        haveExistingWorker = !!registration;
+        console.log(haveExistingWorker ? 'Have existing sevice worker' : 'No current service worker');
+    }).then(() => {
+        // Register the ServiceWorker limiting its action to those URLs starting
         // by 'controlled'. The scope is not a path but a prefix. First, it is
         // converted into an absolute URL, then used to determine if a page is
         // controlled by testing it is a prefix of the request URL.
         navigator.serviceWorker.register(`/${pathPrefix}/serviceworker.mjs`, {
             type: 'module'
             // scope: './controlled'
-        });
+        }).then(reg => {
+            serviceWorkerRegistration = reg;
 
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-            window.location.reload();
+            if (haveExistingWorker) {
+                // only show worker change dialog if this is a replacement rather than a first time registration
+
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    const dialog = document.getElementById('appUpdateDialog');
+
+                    document.getElementById('appUpdateDialogCancel').addEventListener("click", () => {
+                        dialog.close();
+                    });
+
+                    document.getElementById('appUpdateDialogInstall').addEventListener("click", () => {
+                        dialog.close();
+                        window.location.reload();
+                    });
+
+                    dialog.open || dialog.showModal();
+                });
+            }
         });
-    }
+    });
+    //}
 }
 
 const app = new NyphApp;
@@ -98,3 +127,16 @@ app.restoreOccurrences().then((result) => {
     app.initialise();
     app.display();
 });
+
+let updateLinkEl = document.getElementById('updateLink');
+if (updateLinkEl) {
+    updateLinkEl.addEventListener('click', (event) => {
+        if (!doubleClickIntercepted(event)) {
+            console.log('Checking for update');
+            serviceWorkerRegistration?.update();
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+    });
+}

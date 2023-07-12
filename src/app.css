@@ -1,3 +1,7 @@
+body {
+    overscroll-behavior: none;
+}
+
 div.dropdown-list {
     display: none;
     position: absolute;
