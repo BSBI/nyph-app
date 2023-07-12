@@ -15,9 +15,9 @@ import {FORAGE_NAME} from "../framework/NyphApp";
 let pathPrefix = location.pathname.split('/')[1];
 
 // kill after 2023-03-01 to prevent the app perpetuating itself
-if ((new Date).toJSON().slice(0,10) >= '2023-03-01') {
-    throw new Error("Built-in expiry date has passed for NYPH.");
-}
+// if ((new Date).toJSON().slice(0,10) >= '2023-03-01') {
+//     throw new Error("Built-in expiry date has passed for NYPH.");
+// }
 
 const serviceWorker = new BSBIServiceWorker();
 serviceWorker.initialise({
