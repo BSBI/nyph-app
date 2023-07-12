@@ -28,6 +28,7 @@ serviceWorker.initialise({
     getImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/image\.php/,
     interceptUrlMatches : new RegExp(`^https://__DOMAIN_REGEX__/${pathPrefix}/|^https://__DOMAIN_REGEX__/${pathPrefix}$`),
     ignoreUrlMatches : new RegExp(`^https://__DOMAIN_REGEX__/${pathPrefix}/app\.m?js|^https://__DOMAIN_REGEX__/${pathPrefix}/serviceworker\.m?js|^https://__DOMAIN_REGEX__/${pathPrefix}/manifest\.webmanifest|^https://__DOMAIN_REGEX__/${pathPrefix}/index\.html|^https://api\.mapbox\.com`),
+    staticUrlMatches : /^https:\/\/(?:staticdatabase\.bsbi\.org|fonts\.googleapis\.com|fonts\.gstatic\.com)/,
     indexUrl : `https://__DOMAIN__/${pathPrefix}/index.html`,
 
     // postPassThroughWhitelist : /^https:\/\/__DOMAIN_REGEX__\/loadsurveys.php/,
