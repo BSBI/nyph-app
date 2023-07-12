@@ -13,6 +13,8 @@ import 'bsbi-app-framework-view/dist/css.css';
 import {StaticContentController, SurveyPickerController, Taxon} from "bsbi-app-framework";
 import {doubleClickIntercepted, NotFoundView, PatchedNavigo, SurveyPickerView} from "bsbi-app-framework-view";
 //import 'bootstrap';
+import Tab from "bootstrap/js/dist/tab";
+import Popover from "bootstrap/js/dist/popover";
 import taxa from "https://staticdatabase.bsbi.org/js/taxonnames.mjs.php";
 
 //Taxon.setTaxa(taxa);
