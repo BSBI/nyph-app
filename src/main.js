@@ -15,6 +15,7 @@ import {doubleClickIntercepted, NotFoundView, PatchedNavigo, SurveyPickerView} f
 //import 'bootstrap';
 import Tab from "bootstrap/js/dist/tab";
 import Popover from "bootstrap/js/dist/popover";
+import Dropdown from "bootstrap/js/dist/dropdown";
 import taxa from "https://staticdatabase.bsbi.org/js/taxonnames.mjs.php";
 
 //Taxon.setTaxa(taxa);
