@@ -23,7 +23,7 @@ const serviceWorker = new BSBIServiceWorker();
 serviceWorker.initialise({
     forageName : FORAGE_NAME,
 
-    postPassThroughWhitelist : /^https:\/\/__DOMAIN_REGEX__\/loadsurveys.php/,
+    postPassThroughWhitelist : /^https:\/\/__DOMAIN_REGEX__\/loadsurveys.php|^https:\/\/__DOMAIN_REGEX__\/javascriptErrorLog\.php/,
     postImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/saveimage.php/,
     getImageUrlMatch : /^https:\/\/__DOMAIN_REGEX__\/image\.php/,
     interceptUrlMatches : new RegExp(`^https://__DOMAIN_REGEX__/${pathPrefix}/|^https://__DOMAIN_REGEX__/${pathPrefix}$`),
@@ -65,5 +65,6 @@ serviceWorker.initialise({
         //'/js/mapbox-gl-geocoder-v4.7.2.min.js'
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
-    version : '__BSBI_APP_VERSION__'
+    version : '__BSBI_APP_VERSION__',
+    dataVersion : '__BSBI_APP_DATA_VERSION__'
 });

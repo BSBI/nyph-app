@@ -23,6 +23,7 @@ const production = !process.env.ROLLUP_WATCH;
 // for multiple targets see https://github.com/rollup/rollup/issues/703#issuecomment-306246339
 
 const version = `1.0.3.${Math.floor((Date.now() / 1000))}`;
+const dataVersion = '1.0.3';
 
 const domain = 'nyph.bsbi.app'; // 'nyphtest.bsbi.app' 'nyph.bsbi.app'
 const domainRegex = 'nyph\\.bsbi\\.app'; // 'nyphtest\\.bsbi\\.app' nyph\\.bsbi\\.app
@@ -130,6 +131,7 @@ export default [
 				preventAssignment: true,
 				values: {
 					__BSBI_APP_VERSION__: version,
+					__BSBI_APP_DATA_VERSION__: dataVersion,
 					__DOMAIN__: domain, // 'nyphtest.bsbi.org',
 					__DOMAIN_REGEX__: domainRegex, // 'nyphtest\\.bsbi\\.org',
 					// ENVIRONMENT: JSON.stringify('development')
@@ -237,6 +239,7 @@ export default [
 				preventAssignment: true,
 				values: {
 					__BSBI_APP_VERSION__: version,
+					__BSBI_APP_DATA_VERSION__: dataVersion,
 					__DOMAIN__: domain, // 'nyphtest.bsbi.org',
 					__DOMAIN_REGEX__: domainRegex, // 'nyphtest\\.bsbi\\.org',
 					// ENVIRONMENT: JSON.stringify('development')
