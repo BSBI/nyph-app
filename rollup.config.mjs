@@ -27,7 +27,7 @@ const dataVersion = '1.0.3';
 
 const domain = 'nyph.bsbi.app'; // 'nyphtest.bsbi.app' 'nyph.bsbi.app'
 const domainRegex = 'nyph\\.bsbi\\.app'; // 'nyphtest\\.bsbi\\.app' nyph\\.bsbi\\.app
-const path = 'app'; // 'app' or 'test'
+const path = 'test'; // 'app' or 'test'
 
 export default [
 	// {
