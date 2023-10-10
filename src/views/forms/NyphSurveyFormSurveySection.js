@@ -63,8 +63,8 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 placeholder: 'date',
                 type: 'date',
                 completion: FormField.COMPLETION_COMPULSORY,
-                minDate: '2022-10-14',
-                maxDate: '2023-01-04',
+                minDate: '2023-10-01',
+                maxDate: '2024-01-04',
             }
         },
         people: {
