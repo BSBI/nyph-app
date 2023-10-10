@@ -25,8 +25,8 @@ const production = !process.env.ROLLUP_WATCH;
 const version = `1.0.3.${Math.floor((Date.now() / 1000))}`;
 const dataVersion = '1.0.3';
 
-const domain = 'nyphtest.bsbi.app'; // 'nyphtest.bsbi.app' 'nyph.bsbi.app'
-const domainRegex = 'nyphtest\\.bsbi\\.app'; // 'nyphtest\\.bsbi\\.app' nyph\\.bsbi\\.app
+const domain = 'nyph.bsbi.app'; // 'nyphtest.bsbi.app' 'nyph.bsbi.app'
+const domainRegex = 'nyph\\.bsbi\\.app'; // 'nyphtest\\.bsbi\\.app' nyph\\.bsbi\\.app
 const path = 'app'; // 'app' or 'test'
 
 export default [
@@ -121,7 +121,7 @@ export default [
 			sourcemap: true,
 			name: 'nyphapp'
 		},
-		external: [ "https://staticdatabase.bsbi.org/js/taxonnames.mjs.php" ],
+		external: [ "https://staticdatabase.bsbi.org/js/taxaexpanded.mjs" ],
 
 		plugins: [
 			resolve({
