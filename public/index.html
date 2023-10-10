@@ -9,67 +9,51 @@
 	<!-- Bootstrap and its dependencies -->
 	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 	<!-- <link rel="stylesheet" href="/appcss/theme.css"> -->
-	<!-- <script src="https://database.bsbi.org/js/taxonnames.js.php" async defer></script> -->
-	<!-- <script src="/js/taxonnames.js.php" async defer></script> -->
-	<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
-	<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
-	<!-- <script src="/js/mapbox-gl-geocoder-v4.7.2.min.js"></script> -->
-	<!-- <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script> -->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round" rel="stylesheet">
-	<link rel="stylesheet" href="/appcss/app.1.0.3.1696955189.css">
+	<link rel="stylesheet" href="/appcss/app.1.0.3.1696969001.css">
 
 	<!-- <link rel="icon" type="image/png" href="/img/icons/favicon-196x196.png" sizes="196x196" />
 	<link rel="icon" type="image/png" href="/img/icons/favicon-32x32.png" sizes="32x32" />
 	<link rel="icon" type="image/png" href="/img/icons/favicon-16x16.png" sizes="16x16" />
 	<link rel="icon" type="image/png" href="/img/icons/favicon-128.png" sizes="128x128" /> -->
 
-	<!-- <script>
-		var $buoop = {required:{e:-6,f:-6,o:-6,s:-6,c:-6},api:2022.12 };
-		function $buo_f(){
-			try {
-				var e = document.createElement("script");
-				e.src = "https://browser-update.org/update.min.js";
-				document.body.appendChild(e);
-			}catch(e){}
-		};
-		try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
-		catch(e){window.attachEvent("onload", $buo_f)}
-	</script> -->
-
 	<title>BSBI New Year Plant Hunt survey form</title>
 </head>
-<body>
-<div id="appcontainer">
+<body class="loading">
+<header>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="https://nyph.bsbi.app" title="New Year Plant Hunt"><img style="height: 48px; width: auto; padding: 0;" src='/img/nyph_final@2x.png' alt="BSBI NYPH"></a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span> menu
-		</button>
+		<div class="container-fluid">
+			<a class="navbar-brand" href="https://nyph.bsbi.app" title="New Year Plant Hunt"><img style="height: 48px; width: auto; padding: 0;" src='/img/nyph_final@2x.png' alt="BSBI NYPH"></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span> menu
+			</button>
 
-		<ul class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto">
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle dropdown-toggle-split" href="/test/list" data-navigo="list" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Your lists
-					</a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="surveysmenu">
-						<li><a class="dropdown-item" href="/test/survey/save" data-navigo="survey/save">Save</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="/test/survey/new" data-navigo="survey/new">start new list</a></li>
-						<li><a class="dropdown-item" href="/test/survey/reset" data-navigo="survey/reset">reset</a></li>
-					</ul>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href=" /test/help" data-navigo="help"><span class="material-icons" style="vertical-align: bottom;">help_outline</span>&nbsp;Help</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="https://nyph.bsbi.org/results.php">Results</a>
-				</li>
-			</ul>
-		</ul>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle dropdown-toggle-split" href="/test/list" data-navigo="list" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Your lists
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="surveysmenu">
+							<li><a class="dropdown-item" href="/test/survey/save" data-navigo="survey/save">Save</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="/test/survey/new" data-navigo="survey/new">start new list</a></li>
+							<li><a class="dropdown-item" href="/test/survey/reset" data-navigo="survey/reset">reset</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href=" /test/help" data-navigo="help"><span class="material-icons" style="vertical-align: bottom;">help_outline</span>&nbsp;Help</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="https://nyph.bsbi.org/results.php">Results</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</nav>
+</header>
+<div id="appcontainer">
 	<div id="body">
 
 	</div>
@@ -85,6 +69,6 @@
 	</form>
 </dialog>
 <!-- <script>var BsbiDb = BsbiDb || {scriptVersions: { } };</script> -->
-	<script type="module" src='/test/app.mjs?version=1.0.3.1696955189'></script>
+	<script type="module" src='/test/app.mjs?version=1.0.3.1696969001'></script>
 </body>
 </html>
