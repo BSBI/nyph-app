@@ -1,32 +1,37 @@
 {
   "name": "nyph-app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "name": "Tom Humphrey",
     "email": "tom.humphrey@bsbi.org"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-commonjs": "^25.0.4",
     "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-node-resolve": "^15.2.1",
     "@rollup/plugin-replace": "^5.0.2",
     "npm-run-all": "^4.1.5",
-    "rollup": "^3.21.0",
-    "rollup-plugin-copy": "^3.4.0",
+    "rollup": "^3.29.0",
+    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-polyfill-node": "^0.12.0",
     "rollup-plugin-scss": "^4.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-string": "^3.0.0",
-    "@rollup/plugin-terser": "^0.4.1"
+    "@rollup/plugin-terser": "^0.4.3",
+    "sass": "^1.66.1"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
-    "@popperjs/core": "^2.11.7",
-    "bootstrap": "^5.3.0",
-    "bsbi-app-framework": "file:D:\\appframework\\bsbi-app-framework",
-    "bsbi-app-framework-view": "file:D:\\appframework\\bsbi-app-framework-view",
-    "mapbox-gl": "^2.14.1"
+    "@mapbox/mapbox-gl-supported": "^2.0.1",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.1",
+    "british-isles-gridrefs": "file:C:\\GitHub\\js-british-isles-gridrefs",
+    "bsbi-app-framework": "file:C:\\GitHub\\bsbi-app-framework",
+    "bsbi-app-framework-view": "file:C:\\GitHub\\bsbi-app-framework-view",
+    "dialog-polyfill": "^0.5.6",
+    "mapbox-gl": "^2.15.0",
+    "navigo": "^7.1.2"
   },
   "scripts": {
     "build": "rollup -c --strictDeprecations",
