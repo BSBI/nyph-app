@@ -10,7 +10,7 @@ import {
     Occurrence,
     Survey,
 } from "bsbi-app-framework";
-import {PatchedNavigo} from "bsbi-app-framework-view";
+import {PatchedNavigo, TaxonSearch} from "bsbi-app-framework-view";
 
 export class MainController extends AppController {
     route = '/list/:action/:id';
@@ -157,6 +157,13 @@ export class MainController extends AppController {
 
         view.addListener(MainController.EVENT_BACK, this.backHandler.bind(this));
         view.addListener(MainController.EVENT_NEXT_TO_RECORDS, this.nextTransitionToRecordsHandler.bind(this));
+    }
+
+    initialise() {
+        super.initialise();
+
+        TaxonSearch.registerAppListeners(this.app);
+        //PartySearch.registerAppListeners(this.app);
     }
 
     /**
