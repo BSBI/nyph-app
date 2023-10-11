@@ -1,6 +1,14 @@
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
 import helpPanelText from "../../templates/formHelp/surveyAboutHelp.html";
-import {DateField, FormField, InputField, SelectField, TextAreaField, MapGeorefField} from "bsbi-app-framework-view";
+import {
+    DateField,
+    FormField,
+    InputField,
+    SelectField,
+    TextAreaField,
+    MapGeorefField,
+    RepeaterField, PartyField
+} from "bsbi-app-framework-view";
 
 export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
 
@@ -67,15 +75,31 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 maxDate: '2024-01-04',
             }
         },
+        // people: {
+        //     field: InputField,
+        //     attributes: {
+        //         label: 'Who is taking part',
+        //         helpText: "(optional) Please list everyone who is taking part - we'd like to be able to acknowledge your efforts.",
+        //         placeholder: 'Name(s)',
+        //         completion: FormField.COMPLETION_OPTIONAL,
+        //         autocomplete: 'name'
+        //     }},
         people: {
-            field: InputField,
+            field: RepeaterField,
             attributes: {
                 label: 'Who is taking part',
-                helpText: "(optional) Please list everyone who is taking part - we'd like to be able to acknowledge your efforts.",
-                placeholder: 'Name(s)',
-                completion: FormField.COMPLETION_OPTIONAL,
-                autocomplete: 'name'
-            }},
+                wrappedFieldClass: PartyField,
+                wrappedAttributes: {
+                    label: '',
+                    placeholder: 'name',
+                    autocomplete: 'name',
+                    role: PartyField.ROLE_RECORDER,
+                }
+            },
+            helpText: 'Please name each person separately',
+            validationMessage: 'Please provide one or more recorder names',
+            completion: FormField.COMPLETION_COMPULSORY,
+        },
         numberofrecorders: {
             field: InputField,
             attributes: {
