@@ -170,3 +170,11 @@ q.taxon-vernacular {
 button.btn.occurrence-heading {
     text-align: left;
 }
+
+div.map-georef-field div.map-container {
+    display: none;
+}
+
+div.map-georef-field:focus-within div.map-container {
+    display: block;
+}
