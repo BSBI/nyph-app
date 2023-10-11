@@ -26,7 +26,7 @@ div.dropdown-list ul {
 div.dropdown-list li {
     display: block;
     border-width: 0 0 1px 0;
-    border-color: gray;
+    border-color: grey;
     border-style: solid;
 }
 
@@ -42,6 +42,10 @@ div.card.is-invalid div.card-invalid-feedback, div.accordion-item.is-invalid div
     display: block;
     color: red;
     font-weight: bolder;
+}
+
+h2.accordion-header div.card-invalid-feedback {
+    font-size: 0.5em;
 }
 
 .ellipsed-line {
@@ -91,7 +95,7 @@ div.nyph-null-list-prompt {
     display: block;
     margin: 2em;
     padding: 1em;
-    border: thin gray solid;
+    border: thin grey solid;
     border-radius: 5px;
 }
 
