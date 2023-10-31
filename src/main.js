@@ -13,7 +13,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import './app.css';
 import 'bsbi-app-framework-view/dist/css.css';
 import 'dialog-polyfill/dist/dialog-polyfill.css';
-import {Model, StaticContentController, SurveyPickerController, Taxon} from "bsbi-app-framework";
+import {Logger, Model, StaticContentController, SurveyPickerController, Taxon} from "bsbi-app-framework";
 import {doubleClickIntercepted, NotFoundView, PatchedNavigo, SurveyPickerView} from "bsbi-app-framework-view";
 //import 'bootstrap';
 import Tab from "bootstrap/js/dist/tab";
@@ -35,6 +35,8 @@ let haveExistingWorker;
 let pathPrefix = window.location.pathname.split('/')[1];
 
 console.log({pathPrefix});
+
+window.onerror = Logger.logError;
 
 if (navigator.serviceWorker) {
 
@@ -86,6 +88,8 @@ Model.bsbiAppVersion = '__BSBI_APP_VERSION__';
 const app = new NyphApp;
 app.notFoundViewObject = new NotFoundView();
 
+Logger.app = app;
+
 app.router = new PatchedNavigo(`https://__DOMAIN__/${pathPrefix}/`);
 
 app.containerId = 'appcontainer';
@@ -97,6 +101,10 @@ app.registerController(new MainController(new MainView));
 app.registerController(new SurveyPickerController(new SurveyPickerView));
 
 app.setLocalForageName(NyphApp.forageName);
+
+if (mapboxglSupported.supported()) {
+    mapboxgl.prewarm();
+}
 
 // test detection of cameras
 // see https://stackoverflow.com/questions/23288918/check-if-user-has-webcam-or-not-using-javascript-only
@@ -122,6 +130,8 @@ app.restoreOccurrences().then((result) => {
 
     app.initialise();
     app.display();
+
+    document.body.classList.remove('loading');
 });
 
 let updateLinkEl = document.getElementById('updateLink');

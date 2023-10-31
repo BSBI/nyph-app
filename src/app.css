@@ -178,3 +178,27 @@ div.map-georef-field div.map-container {
 div.map-georef-field:focus-within div.map-container {
     display: block;
 }
+
+div.loading-message {
+    display: none;
+}
+
+body.loading div.loading-message {
+    display: flex;
+}
+
+body.loading header {
+    display: none;
+}
+
+body.loading div#appcontainer {
+    display: none;
+}
+
+div.bsbi-update-spinner {
+    display: none;
+}
+
+body.updating div.bsbi-update-spinner {
+    display: inline;
+}

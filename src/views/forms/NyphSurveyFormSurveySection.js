@@ -7,7 +7,7 @@ import {
     SelectField,
     TextAreaField,
     MapGeorefField,
-    RepeaterField, PartyField
+    RepeaterField, PartyField, TextGeorefField
 } from "bsbi-app-framework-view";
 
 export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
@@ -62,6 +62,7 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
                 baseSquareResolution: 2000, // resolution to use for geocoded lookups
                 gpsTextLabel: true,
                 gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_PERMITTED,
+                context: TextGeorefField.CONTEXT_SURVEY,
             }},
         date: {
             field: DateField,
