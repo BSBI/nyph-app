@@ -210,5 +210,5 @@ img.nyph-star {
 }
 
 img.nyph-star-grey {
-    filter: grayscale(1);
+    filter: grayscale(1) brightness(1.8);
 }

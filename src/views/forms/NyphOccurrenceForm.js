@@ -55,6 +55,18 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                 validationMessage: 'Please specify a taxon name or provide some photos if you cannot identify the plant.',
                 helpText: 'Type the common or scientific name of the plant and, if possible, pick a suggestion from the list. If you do not know the name of the plant then please leave this blank and include some photos.',
                 nyphRank: true,
+                promotedGenera: [
+                    '2cd4p9h.fsn', // Taraxacum
+                    //'2cd4p9h.k1v', // Euphrasia
+                    '2cd4p9h.mby', // Narcissus
+                    '2cd4p9h.9h1', // Hieracium
+                    //'2cd4p9h.mty', // Ulmus
+                    //'2cd4p9h.5rs', // Callitriche
+                    //'2cd4p9h.n1r', // Quercus
+                    '2cd4p9h.vz0', // Rosa
+                    '2cd4p9h.bxw', // Arctium
+                    //'2cd4p9h.33x', // Cotoneaster
+                ],
             },
             /**
              *
