@@ -14,7 +14,13 @@ import './app.css';
 import 'bsbi-app-framework-view/dist/css.css';
 import 'dialog-polyfill/dist/dialog-polyfill.css';
 import {Logger, Model, StaticContentController, SurveyPickerController, Taxon} from "bsbi-app-framework";
-import {doubleClickIntercepted, NotFoundView, PatchedNavigo, SurveyPickerView} from "bsbi-app-framework-view";
+import {
+    doubleClickIntercepted,
+    NotFoundView,
+    OccurrenceValidation,
+    PatchedNavigo,
+    SurveyPickerView
+} from "bsbi-app-framework-view";
 import Tab from "bootstrap/js/dist/tab";
 import Popover from "bootstrap/js/dist/popover";
 import Dropdown from "bootstrap/js/dist/dropdown";
@@ -94,6 +100,7 @@ app.router = new PatchedNavigo(`https://__DOMAIN__/${pathPrefix}/`);
 app.containerId = 'appcontainer';
 app.setLayout(new NyphLayout());
 
+OccurrenceValidation.app = app;
 
 app.registerController(new StaticContentController(new HelpView, '/help'));
 app.registerController(new MainController(new MainView));
