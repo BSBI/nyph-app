@@ -205,8 +205,8 @@ body.updating div.bsbi-update-spinner {
 
 img.nyph-star {
     display: inline;
-    width: 2em;
-    height: 2em;
+    width: 32px;
+    height: 32px;
 }
 
 img.nyph-star-grey {
