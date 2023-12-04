@@ -15,15 +15,14 @@ import 'bsbi-app-framework-view/dist/css.css';
 import 'dialog-polyfill/dist/dialog-polyfill.css';
 import {Logger, Model, StaticContentController, SurveyPickerController, Taxon} from "bsbi-app-framework";
 import {doubleClickIntercepted, NotFoundView, PatchedNavigo, SurveyPickerView} from "bsbi-app-framework-view";
-//import 'bootstrap';
 import Tab from "bootstrap/js/dist/tab";
 import Popover from "bootstrap/js/dist/popover";
 import Dropdown from "bootstrap/js/dist/dropdown";
-//import taxa from "https://staticdatabase.bsbi.org/js/taxonnames.mjs.php";
-import taxa from "https://staticdatabase.bsbi.org/js/taxaexpanded.mjs";
+
+import taxa from "https://staticdatabase.bsbi.org/js/nyphtaxaexpanded.mjs";
 
 //Taxon.setTaxa(taxa);
-Taxon.initialiseTaxa(taxa, "https://staticdatabase.bsbi.org/js/taxaexpanded.mjs");
+Taxon.initialiseTaxa(taxa, "https://staticdatabase.bsbi.org/js/nyphtaxaexpanded.mjs");
 
 /**
  * @type {ServiceWorkerRegistration}

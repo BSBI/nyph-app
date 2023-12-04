@@ -202,3 +202,13 @@ div.bsbi-update-spinner {
 body.updating div.bsbi-update-spinner {
     display: inline;
 }
+
+img.nyph-star {
+    display: inline;
+    width: 2em;
+    height: 2em;
+}
+
+img.nyph-star-grey {
+    filter: grayscale(1);
+}

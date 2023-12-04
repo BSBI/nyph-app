@@ -121,7 +121,7 @@ export default [
 			sourcemap: true,
 			name: 'nyphapp'
 		},
-		external: [ "https://staticdatabase.bsbi.org/js/taxaexpanded.mjs" ],
+		external: [ "https://staticdatabase.bsbi.org/js/nyphtaxaexpanded.mjs" ],
 
 		plugins: [
 			resolve({

@@ -45,7 +45,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
 
     /**
      *
-     * @type {Object.<string,{field: typeof FormField, attributes: {label: string, helpText: string, placeholder: string, autocomplete: string}}>}
+     * @type {Object.<string,{field: typeof FormField, attributes: {label: string, helpText: string, placeholder: string, autocomplete: string, nyphRank: boolean}}>}
      */
     static properties = {
         taxon : {
@@ -53,7 +53,8 @@ export class NyphOccurrenceForm extends OccurrenceForm {
             attributes: {
                 label: 'plant name',
                 validationMessage: 'Please specify a taxon name or provide some photos if you cannot identify the plant.',
-                helpText: 'Type the common or scientific name of the plant and, if possible, pick a suggestion from the list. If you do not know the name of the plant then please leave this blank and include some photos.'
+                helpText: 'Type the common or scientific name of the plant and, if possible, pick a suggestion from the list. If you do not know the name of the plant then please leave this blank and include some photos.',
+                nyphRank: true,
             },
             /**
              *
