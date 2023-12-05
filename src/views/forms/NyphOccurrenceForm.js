@@ -8,6 +8,7 @@ import {
     TaxonPickerField,
     TextAreaField, TextGeorefField, MapGeorefField
 } from "bsbi-app-framework-view";
+import taxonDropdownHelp from "../../templates/nyphTaxonDropdownHelp.html";
 //import {MapGeorefField} from "../formfields/MapGeorefField";
 
 export class NyphOccurrenceForm extends OccurrenceForm {
@@ -67,6 +68,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
                     '2cd4p9h.bxw', // Arctium
                     //'2cd4p9h.33x', // Cotoneaster
                 ],
+                taxonDropdownHelp: taxonDropdownHelp,
             },
             /**
              *
