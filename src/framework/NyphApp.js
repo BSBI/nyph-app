@@ -3,7 +3,7 @@ import {App} from "bsbi-app-framework";
 
 export const PROJECT_ID_NYPH = 2;
 
-export const FORAGE_NAME = 'Nyph App2023';
+export const FORAGE_NAME = 'Nyph App2024';
 
 export class NyphApp extends App {
     /**

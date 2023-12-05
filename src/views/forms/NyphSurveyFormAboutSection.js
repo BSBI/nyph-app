@@ -56,7 +56,7 @@ export class NyphSurveyFormAboutSection extends NyphSurveyFormSection {
         nyphYear: {
             field: HiddenField,
             attributes: {
-                value: 2023
+                value: 2024
             }
         },
     };
