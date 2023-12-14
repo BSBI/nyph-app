@@ -68,7 +68,7 @@ export class NyphSurveyFormSurveySection extends NyphSurveyFormSection {
             field: DateField,
             attributes: {
                 label: 'Date',
-                helpText: 'When did you survey? <strong>Please start a new list if you explore for a second day.</strong>',
+                helpText: 'When did you survey? <strong>Please start a new list if you explore for a second day or in another area.</strong>',
                 placeholder: 'date',
                 type: 'date',
                 completion: FormField.COMPLETION_COMPULSORY,

@@ -320,7 +320,7 @@ export class MainView extends Page {
             const addNewButton = buttonContainer.appendChild(document.createElement('button'));
             addNewButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3 me-2';
             addNewButton.type = 'button';
-            addNewButton.textContent = 'add another';
+            addNewButton.textContent = 'next plant';
             addNewButton.setAttribute('data-buttonaction', 'new');
         }
 
@@ -328,7 +328,7 @@ export class MainView extends Page {
             const finishButton = buttonContainer.appendChild(document.createElement('button'));
             finishButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3';
             finishButton.type = 'button';
-            finishButton.textContent = 'finish';
+            finishButton.textContent = 'send list';
             finishButton.setAttribute('data-buttonaction', 'finish');
         } else {
             const nextFormIndex = 1;
@@ -941,7 +941,7 @@ export class MainView extends Page {
         if (this.controller.survey.date && this.controller.survey.date < DateField.todaysDate()) {
             separateListsHTMLMessage = `<p>A survey can last for up to 3 hours on a single day from a single local area. You can send in as many separate lists as you like.</p><p><strong>The current survey is from ${this.controller.survey.date}, please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start a new list</a> if you are now adding records for a different day.</strong></p>`;
         } else {
-            separateListsHTMLMessage = `<p>Please survey for up to 3 hours on a single day. If you start again in a new area or on a different day, then please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">start another separate list</a>.</p>`;
+            separateListsHTMLMessage = `<p>Please survey for no more than 3 hours. If you start another hunt in a new area or on a different day, then please <a href="/${this.pathPrefix}/survey/new" data-navigo="survey/new">begin a new list</a>.</p>`;
         }
 
         // noinspection HtmlUnknownTarget
