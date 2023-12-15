@@ -52,8 +52,9 @@ export class NyphOccurrenceForm extends OccurrenceForm {
         taxon : {
             field: TaxonPickerField,
             attributes: {
-                label: 'plant name',
-                validationMessage: 'Please specify a taxon name or provide some photos if you cannot identify the plant.',
+                label: '', //'plant name',
+                placeholder: 'plant name',
+                validationMessage: 'Please specify a name or provide some photos if you cannot identify the plant.',
                 helpText: 'Type the common or scientific name of the plant and, if possible, pick a suggestion from the list. If you do not know the name of the plant then please leave this blank and include some photos.',
                 nyphRank: true,
                 promotedGenera: [
