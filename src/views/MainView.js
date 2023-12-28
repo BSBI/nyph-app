@@ -255,7 +255,6 @@ export class MainView extends Page {
                     }
 
                     // form has not been initialised or current occurrence has changed
-                    //this.#occurrenceForm = occurrence.setForm(new NyphOccurrenceForm(occurrence));
                     this.#occurrenceForm = new NyphOccurrenceForm(occurrence);
                     this.#occurrenceForm.setOccurrence(occurrence);
 
@@ -283,7 +282,6 @@ export class MainView extends Page {
                 this.refreshOccurrenceFooterControls(editorContainer);
 
                 // ensures that the accordion matches the navigation state
-                //$(`#description_${occurrence.id}`).collapse('show');
                 Collapse.getOrCreateInstance(document.getElementById(`description_${occurrence.id}`)).show();
             } else {
                 this.#displayDefaultRightPanel(NyphOccurrenceForm.help);
@@ -296,7 +294,6 @@ export class MainView extends Page {
                 editorContainer.innerHTML = `<p>${error.message}</p>`;
             } else {
                 document.body.innerHTML = `<h2>Sorry, something has gone wrong.</h2><p>Please try <a href="https://nyph.bsbi.app/app/">reloading the page using this link</a>.</p><p>If the issue persists then please report this problem to <a href="mailto:nyplanthunt@bsbi.org">nyplanthunt@bsbi.org</a> quoting the following:</p><p><strong>${error.message}</strong></p><p>Browser version: ${navigator.userAgent}</p><p>App version: __BSBI_APP_VERSION__</p>`;
-                //document.body.innerHTML = `<h2>Internal error</h2><p>Please report this problem:</p><p>${error.message}</p>`;
             }
         }
     }
@@ -547,7 +544,7 @@ export class MainView extends Page {
       </div>
       <div class="modal-body" id="${FINISH_MODAL_ID}-body">
         <p>Thank you! Your records have been sent. If you wish, you can continue to make changes and to edit or add further records.</p>
-        <p>We've sent you an email with a link to this form, so that you can return to it later if needed.</p>
+        <p>We've emailed you a link to this form, so that you can return to it later if needed.</p>
         <p>If you are planning another Plant Hunt expedition then please start a new survey, using the 'Lists' menu.</p>
       </div>
       <div class="modal-footer">
@@ -566,44 +563,6 @@ export class MainView extends Page {
         // image modal
         // includes a button to delete the image
         ImageField.registerImageModalElement(container, this);
-//         const imageModalEl = document.createElement('div');
-//         imageModalEl.innerHTML = `<div class="modal fade" id="${IMAGE_MODAL_ID}" tabindex="-1" role="dialog" aria-labelledby="${IMAGE_MODAL_ID}Title" aria-hidden="true">
-//   <div class="modal-dialog modal-dialog-centered" role="document">
-//     <div class="modal-content">
-//       <div class="modal-header d-none d-md-flex">
-//         <h5 class="modal-title" id="${IMAGE_MODAL_ID}Title">Photo</h5>
-//         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-//           <span aria-hidden="true">&times;</span>
-//         </button>
-//       </div>
-//       <div class="modal-body" style="position: relative;">
-//         <picture>
-//         </picture>
-//       </div>
-//       <div class="modal-footer">
-//         <button type="button" id="${IMAGE_MODAL_DELETE_BUTTON_ID}" class="btn btn-outline-danger delete-occurrence-button me-3" data-bs-toggle="modal" data-bs-target="#${DELETE_IMAGE_MODAL_ID}" data-imageid=""><i class="material-icons">delete</i></button>
-//         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-//       </div>
-//     </div>
-//   </div>
-// </div>`;
-//         container.appendChild(imageModalEl.firstChild);
-//
-//         document.getElementById(IMAGE_MODAL_DELETE_BUTTON_ID).addEventListener('click',/** @param {MouseEvent} event */ (event) => {
-//             if (doubleClickIntercepted(event)) {
-//                 return;
-//             }
-//
-//             const deleteButtonEl = event.target.closest('button');
-//
-//             if (deleteButtonEl && deleteButtonEl.hasAttribute('data-imageid')) {
-//                 const imageId = deleteButtonEl.getAttribute('data-imageid');
-//                 //console.log(`Deleting image ${occurrenceId}.`);
-//
-//                 this.#occurrenceForm.fireEvent(EVENT_DELETE_IMAGE, {imageId});
-//                 $(`#${IMAGE_MODAL_ID}`).modal('hide');
-//             }
-//         });
     }
 
     /**
@@ -618,17 +577,16 @@ export class MainView extends Page {
 
         const leftPanelEl = document.getElementById(LEFT_PANEL_ID);
 
-        //$(`#${LEFT_PANEL_ID}`).on('show.bs.collapse', (event) => {
         leftPanelEl.addEventListener('show.bs.collapse', (event) => {
             // this will fire for both selection events within the records list and for changes to the top-level accordion
 
-            console.log({'left panel show.bs.collapse' : event});
+            //console.log({'left panel show.bs.collapse' : event});
 
             if (event.target.dataset.occurrenceid) {
-                console.log({'left panel accordion show event (with occ id)' : event});
+                //console.log({'left panel accordion show event (with occ id)' : event});
                 this.fireEvent(MainController.EVENT_SELECT_OCCURRENCE, {occurrenceId: event.target.dataset.occurrenceid});
             } else if (event.target.dataset.sectionkey) {
-                console.log({'left panel accordion show event (with section key)' : event});
+                //console.log({'left panel accordion show event (with section key)' : event});
                 this.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: event.target.dataset.sectionkey});
             } else {
                 console.log({'left panel accordion show event (other)' : event});
@@ -636,7 +594,7 @@ export class MainView extends Page {
         });
 
         leftPanelEl.addEventListener('hide.bs.collapse', (event) => {
-            console.log({'left panel hide.bs.collapse' : event});
+            //console.log({'left panel hide.bs.collapse' : event});
 
             if (event.target.dataset.sectionkey && this.#surveyFormSections[event.target.dataset.sectionkey]) {
                 const isValid = this.#surveyFormSections[event.target.dataset.sectionkey].validateForm();
@@ -651,7 +609,7 @@ export class MainView extends Page {
         leftPanelEl.addEventListener('hidden.bs.collapse', (event) => {
             // this will fire for both selection events within the records list and for changes to the top-level accordion
 
-            console.log({'left panel accordion hidden event' : event});
+            //console.log({'left panel accordion hidden event' : event});
 
             if (event.target.dataset.occurrenceid) {
                 // should evaluate the validity of the individual occurrence
@@ -680,7 +638,7 @@ export class MainView extends Page {
                 } else {
                     if (this.#surveyFormSections[event.target.dataset.sectionkey]) {
                         const isValid = this.#surveyFormSections[event.target.dataset.sectionkey].validateForm();
-                        console.log({'survey section validity': isValid});
+                        //console.log({'survey section validity': isValid});
 
                         // only trigger a navigation if the section was the current one
                         if (this.controller.surveySection === event.target.dataset.sectionkey) {

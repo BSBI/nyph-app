@@ -9,6 +9,7 @@ import {
     TextAreaField, TextGeorefField, MapGeorefField
 } from "bsbi-app-framework-view";
 import taxonDropdownHelp from "../../templates/nyphTaxonDropdownHelp.html";
+import {PhenologySelectField} from "../formfields/PhenologySelectField";
 //import {MapGeorefField} from "../formfields/MapGeorefField";
 
 export class NyphOccurrenceForm extends OccurrenceForm {
@@ -96,7 +97,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
             attributes: {
                 label: "(optional) please provide a photo",
                 placeholder: 'photos',
-                helpText: `If you've not named your find then we'll need a photo. Otherwise, if the plant is unusual or if you are unsure of its identity then photos will help us to check your record.<br><strong>Submitted images remain your property, but you agree to allow us to use the photos under the terms of a <a href="#" title="Creative Commons Attribution" data-bs-toggle="modal" data-bs-target="#${ImageField.LICENSE_MODAL}">CC BY</a> license.</strong>`
+                helpText: `If you've not named your find then we'll need a photo. Otherwise, if the plant is unusual or if you are unsure of its identity then photos will help us to check your record.<!--<br><strong>Submitted images remain your property, but you agree to allow us to use the photos under the terms of a <a href="#" title="Creative Commons Attribution" data-bs-toggle="modal" data-bs-target="#${ImageField.LICENSE_MODAL}">CC BY</a> license.</strong>-->`
             }
         },
         georef : {
@@ -104,7 +105,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
             attributes: {
                 label: 'Grid-reference',
                 helpText: '(optional) leave blank to use the overall survey grid-square, use gps, enter a grid-reference or click on the map',
-                completion: FormField.COMPLETION_OPTIONAL, // not required as can fall-back to the survey grid-ref
+                completion: FormField.COMPLETION_OPTIONAL, // not required as can fall back to the survey grid-ref
                 includeSearchBox: true,
                 baseSquareResolution: 1000,
                 gpsInitialisationMode: MapGeorefField.GPS_INITIALISATION_MODE_MOBILE_PERMITTED,
@@ -138,7 +139,55 @@ export class NyphOccurrenceForm extends OccurrenceForm {
             },
             summary: {
                 summarise: true,
-            }}
+            }
+        },
+        stage : {
+            field: PhenologySelectField,
+
+            attributes: {
+                label: 'Stage',
+                helpText: 'Please record only plants that are flowering.',
+                placeholder: '',
+                options: {
+                    'flowering': {
+                        label: "open flowers",
+                        mode: [PhenologySelectField.MODE_ALL, PhenologySelectField.MODE_FLOWERING_PLANT],
+                        isDefault: true
+                    },
+                    'flower buds': {
+                        label: "flower buds",
+                        mode: [PhenologySelectField.MODE_ALL, PhenologySelectField.MODE_FLOWERING_PLANT]
+                    },
+                    'fruiting': {
+                        label: "fruit / seed",
+                        mode: [PhenologySelectField.MODE_ALL, PhenologySelectField.MODE_FLOWERING_PLANT]
+                    },
+                    'immature': {
+                        label: "immature / seedling",
+                        mode: [PhenologySelectField.MODE_ALL, PhenologySelectField.MODE_FLOWERING_PLANT]
+                    },
+                    'mature (vegetative only)': {
+                        label: "mature (vegetative only)",
+                        mode: [PhenologySelectField.MODE_ALL, PhenologySelectField.MODE_FLOWERING_PLANT]
+                    },
+                    'sporophyte': {
+                        label: "sporophyte",
+                        mode: [PhenologySelectField.MODE_ALL, PhenologySelectField.MODE_FERN]
+                    },
+                    'gametophyte': {
+                        label: "gametophyte",
+                        mode: [PhenologySelectField.MODE_ALL, PhenologySelectField.MODE_FERN]
+                    },
+                    'dead': {
+                        label: "dead",
+                        mode: [PhenologySelectField.MODE_ALL, PhenologySelectField.MODE_FLOWERING_PLANT, PhenologySelectField.MODE_FERN]
+                    },
+                },
+                includeOtherFreeText: false,
+                completion: FormField.COMPLETION_OPTIONAL,
+                useInlineLabel: true
+            },
+        }
     };
 
     getFormSectionProperties() {
