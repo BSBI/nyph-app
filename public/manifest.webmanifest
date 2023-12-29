@@ -1,7 +1,6 @@
 {
     "name": "BSBI New Year Plant Hunt",
     "short_name": "NYPH",
-    "start_url": ".",
     "display": "standalone",
     "orientation" : "portrait",
     "background_color": "#fff",
@@ -9,6 +8,10 @@
     "description": "Record plants in flower over the New Year",
     "scope": "/app/",
     "start_url": "/app/list/survey/welcome",
+    "handle_links": "preferred",
+    "launch_handler": {
+        "client_mode": "navigate-existing"
+    },
     "icons": [{
     "src": "/img/icons/favicon-16x16.png",
     "sizes": "16x16",
@@ -25,6 +28,11 @@
     "src": "/img/nyph_final@2x.png",
     "sizes": "608x608",
     "type": "image/png"
+}, {
+    "src": "/img/icons/maskable_icon_x512.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "maskable"
 }
 ]
 }
