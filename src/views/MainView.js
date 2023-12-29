@@ -742,11 +742,11 @@ export class MainView extends Page {
     #appendSurveyForm(formIndex, accordionEl, next) {
         const sectionClass = NyphSurveyForm.sections[formIndex];
 
-        const surveyFormSection = new NyphSurveyForm(sectionClass);
+        const surveyForm = new NyphSurveyForm(sectionClass);
 
-        this.#surveyFormSections[sectionClass.sectionNavigationKey] = surveyFormSection;
+        this.#surveyFormSections[sectionClass.sectionNavigationKey] = surveyForm;
 
-        let formElement = surveyFormSection.formElement;
+        let formElement = surveyForm.formElement;
 
         // add 'next' button to the bottom of the survey form
         let nextButton = document.createElement('button');
@@ -754,7 +754,7 @@ export class MainView extends Page {
         nextButton.type = 'button';
         nextButton.textContent = 'next »';
 
-        surveyFormSection.nextButtonId = nextButton.id = Form.nextId;
+        surveyForm.nextButtonId = nextButton.id = Form.nextId;
 
         switch (next) {
             case MainView.NEXT_RECORDS:
@@ -767,9 +767,9 @@ export class MainView extends Page {
                         event.preventDefault();
                         event.stopPropagation();
 
-                        surveyFormSection.liveValidation = true;
+                        surveyForm.liveValidation = true;
 
-                        if (surveyFormSection.validateForm()) {
+                        if (surveyForm.validateForm()) {
                             this.fireEvent(MainController.EVENT_NEXT_TO_RECORDS);
                         }
                     }
@@ -782,12 +782,12 @@ export class MainView extends Page {
 
                 nextButton.addEventListener('click', /** @param {MouseEvent} event */ (event) => {
                     if (!doubleClickIntercepted(event)) {
-                        console.log({'in MainView.NEXT_SURVEY_SECTION liveValidation' : surveyFormSection.liveValidation});
-                        console.log({surveyFormSection});
+                        console.log({'in MainView.NEXT_SURVEY_SECTION liveValidation' : surveyForm.liveValidation});
+                        console.log({surveyFormSection: surveyForm});
 
-                        surveyFormSection.liveValidation = true;
+                        surveyForm.liveValidation = true;
 
-                        if (!surveyFormSection.validateForm()) {
+                        if (!surveyForm.validateForm()) {
                             // if not valid then prevent the event
 
                             event.preventDefault();
@@ -842,14 +842,16 @@ export class MainView extends Page {
 
         // cannot call registerForm until the form is part of the document
         //this.controller.survey.registerForm(surveyFormSection);
-        surveyFormSection.registerSurvey(this.controller.survey);
+        surveyForm.registerSurvey(this.controller.survey);
 
-        surveyFormSection.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, (params) => {
+        surveyForm.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, (params) => {
             const cardEl = document.getElementById(cardId);
             if (params.isValid) {
                 cardEl.classList.remove('is-invalid');
+                surveyForm.formElement.classList.remove('is-invalid');
             } else {
                 cardEl.classList.add('is-invalid');
+                surveyForm.formElement.classList.add('is-invalid');
             }
 
             //if (surveyFormSection.sectionCompletionRequired()) {
@@ -863,7 +865,7 @@ export class MainView extends Page {
             this._refreshVisibilityOfAccordionSections();
         });
 
-        surveyFormSection.testRequiredComplete(); // will trigger event if required sections are incomplete
+        surveyForm.testRequiredComplete(); // will trigger event if required sections are incomplete
     }
 
     _refreshVisibilityOfAccordionSections() {
