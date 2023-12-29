@@ -841,7 +841,6 @@ export class MainView extends Page {
         }));
 
         // cannot call registerForm until the form is part of the document
-        //this.controller.survey.registerForm(surveyFormSection);
         surveyForm.registerSurvey(this.controller.survey);
 
         surveyForm.addListener(Form.EVENT_VALIDATION_STATE_CHANGE, (params) => {
