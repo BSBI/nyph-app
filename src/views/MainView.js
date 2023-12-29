@@ -596,14 +596,17 @@ export class MainView extends Page {
         leftPanelEl.addEventListener('hide.bs.collapse', (event) => {
             //console.log({'left panel hide.bs.collapse' : event});
 
-            if (event.target.dataset.sectionkey && this.#surveyFormSections[event.target.dataset.sectionkey]) {
-                const isValid = this.#surveyFormSections[event.target.dataset.sectionkey].validateForm();
-                console.log({'survey section validity': isValid});
+            // following a 'next' button click the target section will be the next one
+            // so the validity test doesn't work
 
-                if (!isValid) {
-                    event.preventDefault();
-                }
-            }
+            // if (event.target.dataset.sectionkey && this.#surveyFormSections[event.target.dataset.sectionkey]) {
+            //     const isValid = this.#surveyFormSections[event.target.dataset.sectionkey].validateForm();
+            //     console.log({'survey section validity': isValid});
+            //
+            //     if (!isValid) {
+            //         event.preventDefault();
+            //     }
+            // }
         });
 
         leftPanelEl.addEventListener('hidden.bs.collapse', (event) => {
@@ -868,8 +871,6 @@ export class MainView extends Page {
     }
 
     _refreshVisibilityOfAccordionSections() {
-        //const accordionEl = document.getElementById(this.leftPanelAccordionId);
-
         const accordionSections = document.querySelectorAll(`div#${this.leftPanelAccordionId} > div`);
 
         let valid = true;
@@ -1056,7 +1057,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
                     return;
                 }
 
-                console.log({'Updating null list state' : nullListToggleEl.checked});
+                //console.log({'Updating null list state' : nullListToggleEl.checked});
 
                 this.controller.app.currentSurvey.setAttribute('nulllist', nullListToggleEl.checked);
 
