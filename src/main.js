@@ -19,7 +19,7 @@ import {
     NotFoundView,
     OccurrenceValidation,
     PatchedNavigo,
-    SurveyPickerView
+    SurveyPickerView, TextGeorefField
 } from "bsbi-app-framework-view";
 import Tab from "bootstrap/js/dist/tab";
 import Popover from "bootstrap/js/dist/popover";
@@ -42,6 +42,8 @@ let pathPrefix = window.location.pathname.split('/')[1];
 console.log({pathPrefix});
 
 window.onerror = Logger.logError;
+
+TextGeorefField.ignoreSurveyBounds = true;
 
 if (navigator.serviceWorker) {
 
