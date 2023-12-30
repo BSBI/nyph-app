@@ -81,7 +81,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
              */
             validator(key, property, modelAttributes) {
                 if (!(modelAttributes.hasOwnProperty(key) &&
-                    !property.field.isEmpty(modelAttributes[key])
+                    (!property.field.isEmpty(modelAttributes[key]))
                 )) {
                     // taxon field is empty, check whether there is an image
                     return (modelAttributes.hasOwnProperty('images') &&
