@@ -80,6 +80,9 @@ export class NyphOccurrenceForm extends OccurrenceForm {
              * @return {boolean} true if valid
              */
             validator(key, property, modelAttributes) {
+                console.log({"modelAttributes.hasOwnProperty(key)" : modelAttributes.hasOwnProperty(key),
+                "!property.field.isEmpty(modelAttributes[key])" : !property.field.isEmpty(modelAttributes[key])});
+
                 if (!(modelAttributes.hasOwnProperty(key) &&
                     (!property.field.isEmpty(modelAttributes[key]))
                 )) {
