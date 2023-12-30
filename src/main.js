@@ -71,11 +71,11 @@ if (navigator.serviceWorker) {
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
                     const dialog = document.getElementById('appUpdateDialog');
 
-                    document.getElementById('appUpdateDialogCancel').addEventListener("click", () => {
+                    document.getElementById('appUpdateDialogCancel')?.addEventListener("click", () => {
                         dialog.close();
                     });
 
-                    document.getElementById('appUpdateDialogInstall').addEventListener("click", () => {
+                    document.getElementById('appUpdateDialogInstall')?.addEventListener("click", () => {
                         dialog.close();
                         window.location.reload();
                     });
