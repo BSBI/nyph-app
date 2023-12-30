@@ -80,15 +80,15 @@ export class NyphOccurrenceForm extends OccurrenceForm {
              * @return {boolean} true if valid
              */
             validator(key, property, modelAttributes) {
-                console.log({"modelAttributes.hasOwnProperty(key)" : modelAttributes.hasOwnProperty(key),
-                "!property.field.isEmpty(modelAttributes[key])" : !property.field.isEmpty(modelAttributes[key])});
+                // console.log({"modelAttributes.hasOwnProperty(key)" : modelAttributes.hasOwnProperty(key),
+                // "!property.field.isEmpty(modelAttributes[key])" : !property.field.isEmpty(modelAttributes[key])});
 
                 if (!(modelAttributes.hasOwnProperty(key) && (!property.field.isEmpty(modelAttributes[key])))) {
-                    console.log("returning invalid");
+                    // console.log("returning invalid");
                     // taxon field is empty, check whether there is an image
                     return (modelAttributes.hasOwnProperty('images') && !ImageField.isEmpty(modelAttributes['images']));
                 } else {
-                    console.log("returning valid");
+                    // console.log("returning valid");
                     return true;
                 }
             }
