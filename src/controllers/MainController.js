@@ -45,7 +45,7 @@ export class MainController extends AppController {
     /**
      * @type {string}
      */
-    #currentOccurrenceId = '';
+    _currentOccurrenceId = '';
 
     /**
      * set if the view needs full layout rendering
@@ -94,11 +94,11 @@ export class MainController extends AppController {
      * @returns {null|Occurrence}
      */
     get currentOccurrence() {
-        if (this.#currentOccurrenceId) {
-            if (this.app.occurrences.has(this.#currentOccurrenceId)) {
-                return this.app.occurrences.get(this.#currentOccurrenceId);
+        if (this._currentOccurrenceId) {
+            if (this.app.occurrences.has(this._currentOccurrenceId)) {
+                return this.app.occurrences.get(this._currentOccurrenceId);
             } else {
-                throw new NotFoundError(`Record id '${this.#currentOccurrenceId}' was not found.`);
+                throw new NotFoundError(`Record id '${this._currentOccurrenceId}' was not found.`);
             }
         } else {
             return null;
@@ -110,7 +110,7 @@ export class MainController extends AppController {
      * @returns {string}
      */
     get currentOccurrenceId() {
-        return this.#currentOccurrenceId;
+        return this._currentOccurrenceId;
     }
 
     /**
@@ -118,15 +118,15 @@ export class MainController extends AppController {
      * @param {string} occurrenceId
      */
     set currentOccurrenceId(occurrenceId) {
-        // if (this.#currentOccurrenceId && this.#currentOccurrenceId !== occurrenceId) {
-        //     if (this.#currentOccurrenceModifiedEventHandle) {
-        //         this.#currentOccurrenceModifiedEventHandle = this.currentOccurrence.removeListener(Occurrence.EVENT_MODIFIED, this.#currentOccurrenceModifiedEventHandle);
+        // if (this._currentOccurrenceId && this._currentOccurrenceId !== occurrenceId) {
+        //     if (this._currentOccurrenceModifiedEventHandle) {
+        //         this._currentOccurrenceModifiedEventHandle = this.currentOccurrence.removeListener(Occurrence.EVENT_MODIFIED, this.#currentOccurrenceModifiedEventHandle);
         //     }
         // }
 
-        this.#currentOccurrenceId = occurrenceId;
+        this._currentOccurrenceId = occurrenceId;
         // if (occurrenceId) {
-        //     this.#currentOccurrenceModifiedEventHandle = this.currentOccurrence.addListener(Occurrence.EVENT_MODIFIED, this.currentOccurrenceModifiedHandler.bind(this));
+        //     this._currentOccurrenceModifiedEventHandle = this.currentOccurrence.addListener(Occurrence.EVENT_MODIFIED, this.currentOccurrenceModifiedHandler.bind(this));
         // }
     }
 
@@ -378,7 +378,7 @@ export class MainController extends AppController {
 
                 this.currentOccurrenceId = '';
                 this.needRightPanelRefresh = true;
-            } else if (this.#currentOccurrenceId !== queryParameters.id) {
+            } else if (this._currentOccurrenceId !== queryParameters.id) {
                 this.needRightPanelRefresh = true;
 
                 this.currentOccurrenceId = queryParameters.id ?

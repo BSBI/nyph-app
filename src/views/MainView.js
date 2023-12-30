@@ -54,19 +54,19 @@ export class MainView extends Page {
      *
      * @type {Object.<string, NyphSurveyForm>}
      */
-    #surveyFormSections = {};
+    _surveyFormSections = {};
 
     /**
      * @type {NyphOccurrenceForm}
      */
-    #occurrenceForm;
+    _occurrenceForm;
 
     /**
      * keyed by occurrence id
      *
      * @type {{}}
      */
-    #occurrenceChangeHandles = {};
+    _occurrenceChangeHandles = {};
 
     /**
      * @type {(''|'help'|'form')}
@@ -249,16 +249,16 @@ export class MainView extends Page {
 
             let editorContainer = document.getElementById(RIGHT_PANEL_ID);
             if (occurrence) {
-                if (!this.#occurrenceForm || this.#occurrenceForm.occurrenceId !== occurrence.id) {
-                    if (this.#occurrenceForm) {
-                        this.#occurrenceForm.destructor();
+                if (!this._occurrenceForm || this._occurrenceForm.occurrenceId !== occurrence.id) {
+                    if (this._occurrenceForm) {
+                        this._occurrenceForm.destructor();
                     }
 
                     // form has not been initialised or current occurrence has changed
-                    this.#occurrenceForm = new NyphOccurrenceForm(occurrence);
-                    this.#occurrenceForm.setOccurrence(occurrence);
+                    this._occurrenceForm = new NyphOccurrenceForm(occurrence);
+                    this._occurrenceForm.setOccurrence(occurrence);
 
-                    this.#occurrenceForm.surveyId = this.controller.app.currentSurvey.id;
+                    this._occurrenceForm.surveyId = this.controller.app.currentSurvey.id;
 
                     // scroll to the top of the panel
                     //console.log('scrolling to top of occurrence');
@@ -266,17 +266,17 @@ export class MainView extends Page {
                 }
                 editorContainer.innerHTML = '';
 
-                const formEl = this.#occurrenceForm.formElement;
+                const formEl = this._occurrenceForm.formElement;
 
                 editorContainer.appendChild(formEl);
-                this.#occurrenceForm.populateFormContent();
+                this._occurrenceForm.populateFormContent();
 
                 if (occurrence.isNew) {
                     console.log('Firing event for initialisation of new occurrence.');
-                    this.#occurrenceForm.fireEvent(Form.EVENT_INITIALISE_NEW, {survey : this.controller.app.currentSurvey}); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
+                    this._occurrenceForm.fireEvent(Form.EVENT_INITIALISE_NEW, {survey : this.controller.app.currentSurvey}); // allows first-time initialisation of dynamic default data, e.g. starting a GPS fix
                 } else {
                     console.log('Firing event for initialisation of existing occurrence.');
-                    this.#occurrenceForm.fireEvent(Form.EVENT_INITIALISED, {survey : this.controller.app.currentSurvey}); // allows re-initialisation of dynamic default data, e.g. setting a default geo-ref based on the survey
+                    this._occurrenceForm.fireEvent(Form.EVENT_INITIALISED, {survey : this.controller.app.currentSurvey}); // allows re-initialisation of dynamic default data, e.g. setting a default geo-ref based on the survey
                 }
 
                 this.refreshOccurrenceFooterControls(editorContainer);
@@ -406,14 +406,14 @@ export class MainView extends Page {
     }
 
     #clearOccurrenceListeners() {
-        for(let id in this.#occurrenceChangeHandles) {
+        for(let id in this._occurrenceChangeHandles) {
             let occurrence = this.controller.occurrences.get[id];
             if (occurrence) {
-                occurrence.removeListener(Occurrence.EVENT_MODIFIED, this.#occurrenceChangeHandles[id]);
+                occurrence.removeListener(Occurrence.EVENT_MODIFIED, this._occurrenceChangeHandles[id]);
             }
         }
 
-        this.#occurrenceChangeHandles = {};
+        this._occurrenceChangeHandles = {};
     }
 
     static NEXT_RECORDS = 'records';
@@ -569,7 +569,7 @@ export class MainView extends Page {
      * @returns {NyphOccurrenceForm}
      */
     getOccurrenceForm() {
-        return this.#occurrenceForm;
+        return this._occurrenceForm;
     }
 
     #registerLeftPanelAccordionEvent() {
@@ -599,8 +599,8 @@ export class MainView extends Page {
             // following a 'next' button click the target section will be the next one
             // so the validity test doesn't work
 
-            // if (event.target.dataset.sectionkey && this.#surveyFormSections[event.target.dataset.sectionkey]) {
-            //     const isValid = this.#surveyFormSections[event.target.dataset.sectionkey].validateForm();
+            // if (event.target.dataset.sectionkey && this._surveyFormSections[event.target.dataset.sectionkey]) {
+            //     const isValid = this._surveyFormSections[event.target.dataset.sectionkey].validateForm();
             //     console.log({'survey section validity': isValid});
             //
             //     if (!isValid) {
@@ -639,8 +639,8 @@ export class MainView extends Page {
                         //this.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: ''});
                     }
                 } else {
-                    if (this.#surveyFormSections[event.target.dataset.sectionkey]) {
-                        const isValid = this.#surveyFormSections[event.target.dataset.sectionkey].validateForm();
+                    if (this._surveyFormSections[event.target.dataset.sectionkey]) {
+                        const isValid = this._surveyFormSections[event.target.dataset.sectionkey].validateForm();
                         //console.log({'survey section validity': isValid});
 
                         // only trigger a navigation if the section was the current one
@@ -747,7 +747,7 @@ export class MainView extends Page {
 
         const surveyForm = new NyphSurveyForm(sectionClass);
 
-        this.#surveyFormSections[sectionClass.sectionNavigationKey] = surveyForm;
+        this._surveyFormSections[sectionClass.sectionNavigationKey] = surveyForm;
 
         let formElement = surveyForm.formElement;
 
@@ -990,13 +990,13 @@ export class MainView extends Page {
     ${this.#occurrenceSummaryHTML(occurrence)}
 </div>`);
 
-                this.#occurrenceChangeHandles[occurrence.id] = occurrence.addListener(
+                this._occurrenceChangeHandles[occurrence.id] = occurrence.addListener(
                     Occurrence.EVENT_MODIFIED,
                     this.occurrenceChangeHandler.bind(this),
                     {occurrenceId: occurrence.id}
                 );
 
-                this.#occurrenceChangeHandles[occurrence.id] = occurrence.addListener(
+                this._occurrenceChangeHandles[occurrence.id] = occurrence.addListener(
                     Model.EVENT_SAVED_REMOTELY,
                     this.occurrenceChangeHandler.bind(this),
                     {occurrenceId: occurrence.id}
@@ -1083,7 +1083,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
             itemCard.id = `card_${occurrence.id}`;
             itemCard.innerHTML = this.#occurrenceSummaryHTML(occurrence);
 
-            this.#occurrenceChangeHandles[occurrence.id] = occurrence.addListener(
+            this._occurrenceChangeHandles[occurrence.id] = occurrence.addListener(
                 Occurrence.EVENT_MODIFIED,
                 this.occurrenceChangeHandler.bind(this),
                 {occurrenceId: occurrence.id}
@@ -1129,9 +1129,9 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
                 el.parentElement.removeChild(el);
 
                 // remove the event listener
-                if (this.#occurrenceChangeHandles[params.occurrenceId]) {
-                    occurrence.removeListener(Occurrence.EVENT_MODIFIED, this.#occurrenceChangeHandles[params.occurrenceId]);
-                    this.#occurrenceChangeHandles[params.occurrenceId] = null;
+                if (this._occurrenceChangeHandles[params.occurrenceId]) {
+                    occurrence.removeListener(Occurrence.EVENT_MODIFIED, this._occurrenceChangeHandles[params.occurrenceId]);
+                    this._occurrenceChangeHandles[params.occurrenceId] = null;
                 }
             }
         }
