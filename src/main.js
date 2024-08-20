@@ -30,11 +30,8 @@ import taxa from "https://staticdatabase.bsbi.org/js/nyphtaxaexpanded.mjs";
 //Taxon.setTaxa(taxa);
 Taxon.initialiseTaxa(taxa, "https://staticdatabase.bsbi.org/js/nyphtaxaexpanded.mjs");
 
-/**
- * @type {ServiceWorkerRegistration}
- */
-let serviceWorkerRegistration;
 let haveExistingWorker;
+let appStarted = false;
 
 // mainly aiming to determine whether '/app/' or '/testapp/'
 let pathPrefix = window.location.pathname.split('/')[1];
@@ -65,24 +62,61 @@ if (navigator.serviceWorker) {
         navigator.serviceWorker.register(`/${pathPrefix}/serviceworker.mjs`, {
             type: 'module'
         }).then(reg => {
-            serviceWorkerRegistration = reg;
+            NyphApp.serviceWorkerRegistration = reg;
 
             if (haveExistingWorker) {
                 // only show worker change dialog if this is a replacement rather than a first time registration
 
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
-                    const dialog = document.getElementById('appUpdateDialog');
+                    // if online, prompt a reload if the app is likely to have a network connection
+                    // (service work refresh might have happened previously, but without capturing all the resources needed)
+                    if (navigator.onLine) {
 
-                    document.getElementById('appUpdateDialogCancel')?.addEventListener("click", () => {
-                        dialog.close();
-                    });
+                        if (appStarted) {
+                            const dialog = document.getElementById('appUpdateDialog');
 
-                    document.getElementById('appUpdateDialogInstall')?.addEventListener("click", () => {
-                        dialog.close();
-                        window.location.reload();
-                    });
+                            if (dialog) {
+                                dialogPolyfill.registerDialog(dialog);
 
-                    dialog.open || dialog.showModal();
+                                const cancelDialogEl = document.getElementById('appUpdateDialogCancel');
+                                cancelDialogEl && cancelDialogEl.addEventListener("click", () => {
+                                    dialog.close();
+                                });
+
+                                const updateDialogEl = document.getElementById('appUpdateDialogInstall');
+                                updateDialogEl && updateDialogEl.addEventListener("click", () => {
+                                    dialog.close();
+                                    window.location.reload();
+                                });
+
+                                dialog.open || dialog.showModal();
+                            } else {
+                                // dialog might not be available if the window has been corrupted and is displaying
+                                // a basic error message
+
+                                // in which case just go ahead with a reload that might fix the problem
+                                window.location.reload();
+                            }
+                        } else {
+                            // if the app hasn't started yet (was just being opened)
+                            // then can update immediately without a prompt
+                            window.location.reload();
+                        }
+                    }
+
+
+                    // const dialog = document.getElementById('appUpdateDialog');
+                    //
+                    // document.getElementById('appUpdateDialogCancel')?.addEventListener?.("click", () => {
+                    //     dialog.close();
+                    // });
+                    //
+                    // document.getElementById('appUpdateDialogInstall')?.addEventListener?.("click", () => {
+                    //     dialog.close();
+                    //     window.location.reload();
+                    // });
+                    //
+                    // dialog.open || dialog.showModal();
                 });
             }
         });
@@ -140,6 +174,7 @@ app.restoreOccurrences().then((result) => {
     app.display();
 
     document.body.classList.remove('loading');
+    appStarted = true;
 });
 
 let updateLinkEl = document.getElementById('updateLink');
@@ -147,7 +182,20 @@ if (updateLinkEl) {
     updateLinkEl.addEventListener('click', (event) => {
         if (!doubleClickIntercepted(event)) {
             console.log('Checking for update');
-            serviceWorkerRegistration?.update();
+
+            document.body.classList.add('updating');
+            NyphApp.serviceWorkerRegistration && NyphApp.serviceWorkerRegistration.update().finally(() => {
+                document.body.classList.remove('updating');
+            });
+        }
+
+        if (!doubleClickIntercepted(event)) {
+            console.log('Checking for update');
+
+            document.body.classList.add('updating');
+            NyphApp.serviceWorkerRegistration && NyphApp.serviceWorkerRegistration.update().finally(() => {
+                document.body.classList.remove('updating');
+            });
         }
 
         event.preventDefault();

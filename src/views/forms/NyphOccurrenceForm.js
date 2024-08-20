@@ -147,7 +147,7 @@ export class NyphOccurrenceForm extends OccurrenceForm {
 
             attributes: {
                 label: 'Stage',
-                helpText: 'Please record only plants that are flowering.',
+                helpText: 'Please record only plants that have open flowers.',
                 placeholder: '',
                 options: {
                     'flowering': {

@@ -83,7 +83,7 @@ export class MainController extends AppController {
     /**
      * ultimately this getter might be the point at which to apply filters
      *
-     * @returns {Map.<string,Occurrence>}
+     * @returns {Map<string, Occurrence>}
      */
     get occurrences() {
         return this.app.occurrences;

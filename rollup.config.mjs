@@ -1,7 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import { string } from "rollup-plugin-string";
-//import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
 import scss from 'rollup-plugin-scss';
@@ -25,9 +24,11 @@ const production = !process.env.ROLLUP_WATCH;
 const version = `1.0.4.${Math.floor((Date.now() / 1000))}`;
 const dataVersion = '1.0.4';
 
-const domain = 'nyph.bsbi.app'; // 'nyphtest.bsbi.app' 'nyph.bsbi.app'
-const domainRegex = 'nyph\\.bsbi\\.app'; // 'nyphtest\\.bsbi\\.app' nyph\\.bsbi\\.app
-const path = 'app'; // 'app' or 'test'
+const TEST = 'test';
+
+const domain = `nyph${TEST}.bsbi.app`;
+const domainRegex = `nyph${TEST}\\.bsbi\\.app`;
+const path = 'app';
 
 export default [
 	// {
@@ -158,7 +159,8 @@ export default [
 				exclude: ["**/index.html"]
 			}),
 			scss({
-				fileName: `appcss/app.${version}.css`,
+				//fileName: `appcss/app.${version}.css`,
+				fileName: `appcss/app.css`,
 				outputStyle: 'compressed'
 			}),
 			sourcemaps(),

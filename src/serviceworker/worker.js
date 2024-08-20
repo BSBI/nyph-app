@@ -42,7 +42,8 @@ serviceWorker.initialise({
         './index.html',
         './app.mjs?version=__BSBI_APP_VERSION__',
         './manifest.webmanifest',
-        '/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
+        //'/appcss/app.__BSBI_APP_VERSION__.css', // note no leading '.' - this is an absolute path
+        '/appcss/app.css?version=__BSBI_APP_VERSION__',
         //'/appcss/theme.css',
         //'/img/gwh_logo1_tsp.png',
         '/img/icons/favicon-32x32.png',
@@ -63,6 +64,8 @@ serviceWorker.initialise({
         // so instead serve this locally
         //'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js',
         //'/js/mapbox-gl-geocoder-v4.7.2.min.js'
+        '/img/map.png',
+        '/img/satelite.png',
     ],
     passThroughNoCache : /^https:\/\/api\.mapbox\.com|^https:\/\/events\.mapbox\.com|^https:\/\/browser-update\.org/,
     version : '__BSBI_APP_VERSION__',

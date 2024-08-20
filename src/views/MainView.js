@@ -562,7 +562,7 @@ export class MainView extends Page {
 
         // image modal
         // includes a button to delete the image
-        ImageField.registerImageModalElement(container, this);
+        ImageField.registerImageModalElement(container);
     }
 
     /**
@@ -577,7 +577,7 @@ export class MainView extends Page {
 
         const leftPanelEl = document.getElementById(LEFT_PANEL_ID);
 
-        leftPanelEl.addEventListener('show.bs.collapse', (event) => {
+        leftPanelEl.addEventListener('show.bs.collapse', /** @param {Event & { target: HTMLInputElement }} event */ (event) => {
             // this will fire for both selection events within the records list and for changes to the top-level accordion
 
             //console.log({'left panel show.bs.collapse' : event});
@@ -609,7 +609,7 @@ export class MainView extends Page {
             // }
         });
 
-        leftPanelEl.addEventListener('hidden.bs.collapse', (event) => {
+        leftPanelEl.addEventListener('hidden.bs.collapse', /** @param {Event & { target: HTMLInputElement }} event */ (event) => {
             // this will fire for both selection events within the records list and for changes to the top-level accordion
 
             //console.log({'left panel accordion hidden event' : event});

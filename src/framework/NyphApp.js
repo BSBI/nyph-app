@@ -5,6 +5,10 @@ export const PROJECT_ID_NYPH = 2;
 
 export const FORAGE_NAME = 'Nyph App2024';
 
+/**
+ * @typedef {import("bsbi-app-framework-view").NotFoundView} NotFoundView
+ */
+
 export class NyphApp extends App {
     /**
      * @type {number}
@@ -23,6 +27,11 @@ export class NyphApp extends App {
      * @type {boolean}
      */
     static devMode = false;
+
+    /**
+     * @type {ServiceWorkerRegistration}
+     */
+    static serviceWorkerRegistration;
 
     constructor() {
         super();
