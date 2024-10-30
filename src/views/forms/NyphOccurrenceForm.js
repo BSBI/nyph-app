@@ -1,3 +1,4 @@
+/** @type {string} helpPanelText */
 import helpPanelText from "../../templates/formHelp/recordsHelp.html";
 import {
     OccurrenceForm,
@@ -8,6 +9,7 @@ import {
     TaxonPickerField,
     TextAreaField, TextGeorefField, MapGeorefField
 } from "bsbi-app-framework-view";
+/** @type {string} taxonDropdownHelp */
 import taxonDropdownHelp from "../../templates/nyphTaxonDropdownHelp.html";
 import {PhenologySelectField} from "../formfields/PhenologySelectField";
 //import {MapGeorefField} from "../formfields/MapGeorefField";

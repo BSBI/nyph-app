@@ -1,7 +1,9 @@
 // Overall view for the main list page *and occurrence side panels*
-
+/** @type {string} htmlLayout */
 import htmlLayout from "../templates/mainViewLayout.html";
+/** @type {string} welcomeContent */
 import welcomeContent from "../templates/welcome.html";
+/** @type {string} defaultRightHandSideHelp */
 import defaultRightHandSideHelp from "../templates/defaultRightHandSideHelp.html";
 import {NyphSurveyForm} from "./forms/NyphSurveyForm";
 import {NyphSurveyFormAboutSection} from "./forms/NyphSurveyFormAboutSection";
@@ -187,6 +189,10 @@ export class MainView extends Page {
 
     display() {
         if (this.controller.needsFullRefresh) {
+            // the model dialogs use static singletons, that need to know the currently active view
+            MainView.currentView = this;
+            ImageField.currentView = this;
+
             console.log('Full refresh triggered.');
             this.setLayout();
             this.#populateLeftPanel();
@@ -499,6 +505,7 @@ export class MainView extends Page {
         const deleteOccurrenceModalFragmentEl = document.createElement('div');
         deleteOccurrenceModalFragmentEl.innerHTML = deleteOccurrenceModalHTML;
 
+        /** @type {HTMLElement} deleteOccurrenceModalEl */
         const deleteOccurrenceModalEl = container.appendChild(deleteOccurrenceModalFragmentEl.firstChild);
 
         this.deleteOccurrenceModal = Modal.getOrCreateInstance(deleteOccurrenceModalEl, {});

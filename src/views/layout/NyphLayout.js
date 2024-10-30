@@ -1,6 +1,7 @@
 // Overall page layout for NYPH app
 
 import {Layout} from "bsbi-app-framework-view";
+/** @type {string} nyphNewSurveyModal */
 import nyphNewSurveyModal from "../../templates/nyphNewSurveyModal.html";
 
 export class NyphLayout extends Layout {
@@ -16,5 +17,9 @@ export class NyphLayout extends Layout {
      */
     newSurveyLabel = 'start new list';
 
+    /**
+     *
+     * @type {string}
+     */
     newSurveyContent = nyphNewSurveyModal;
 }

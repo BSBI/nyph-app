@@ -1,4 +1,5 @@
 import {NyphSurveyFormSection} from "./NyphSurveyFormSection";
+/** @type {string} helpPanelText */
 import helpPanelText from "../../templates/formHelp/surveyAboutHelp.html";
 import {
     DateField,
