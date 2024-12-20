@@ -8,7 +8,7 @@ import defaultRightHandSideHelp from "../templates/defaultRightHandSideHelp.html
 import {NyphSurveyForm} from "./forms/NyphSurveyForm";
 import {NyphSurveyFormAboutSection} from "./forms/NyphSurveyFormAboutSection";
 import {NyphApp} from "../framework/NyphApp";
-import {MainController} from "../controllers/MainController";
+import {NYPHMainController} from "../controllers/NYPHMainController";
 import {NyphOccurrenceForm} from "./forms/NyphOccurrenceForm";
 import {
     DateField,
@@ -45,10 +45,10 @@ const OCCURRENCE_LIST_CONTAINER_ID = 'occurrencelistcontainer';
 NyphSurveyForm.registerSection(NyphSurveyFormAboutSection);
 NyphSurveyForm.registerSection(NyphSurveyFormSurveySection);
 
-export class MainView extends Page {
+export class NyphMainView extends Page {
 
     /**
-     * @type {MainController}
+     * @type {NYPHMainController}
      */
     controller;
 
@@ -126,7 +126,7 @@ export class MainView extends Page {
             event.stopPropagation();
             event.preventDefault();
 
-            this.fireEvent(MainController.EVENT_BACK);
+            this.fireEvent(NYPHMainController.EVENT_BACK);
         });
     }
 
@@ -190,7 +190,7 @@ export class MainView extends Page {
     display() {
         if (this.controller.needsFullRefresh) {
             // the model dialogs use static singletons, that need to know the currently active view
-            MainView.currentView = this;
+            NyphMainView.currentView = this;
             ImageField.currentView = this;
 
             console.log('Full refresh triggered.');
@@ -355,7 +355,7 @@ export class MainView extends Page {
             if (buttonEl && buttonEl.hasAttribute('data-buttonaction')) {
                 switch (buttonEl.getAttribute('data-buttonaction')) {
                     case 'new':
-                        this.fireEvent(MainController.EVENT_NEW_RECORD);
+                        this.fireEvent(NYPHMainController.EVENT_NEW_RECORD);
                         break;
 
                     case 'back':
@@ -436,12 +436,12 @@ export class MainView extends Page {
         this.leftPanelAccordionId = accordionEl.id = Form.nextId;
 
         this.#appendWelcomeSection();
-        this.#appendSurveyForm(0, accordionEl, MainView.NEXT_SURVEY_SECTION); // about you
-        this.#appendSurveyForm(1, accordionEl, MainView.NEXT_RECORDS); // about your survey
+        this.#appendSurveyForm(0, accordionEl, NyphMainView.NEXT_SURVEY_SECTION); // about you
+        this.#appendSurveyForm(1, accordionEl, NyphMainView.NEXT_RECORDS); // about your survey
         this.#appendOccurrenceListContainer();
 
         // Keep this as is useful as guide for building other app layouts
-        // this.#appendSurveyForm(1, accordionEl, MainView.NEXT_IS_FINAL); // about your garden
+        // this.#appendSurveyForm(1, accordionEl, NyphMainView.NEXT_IS_FINAL); // about your garden
 
         this.#buildOccurrenceList();
 
@@ -532,7 +532,7 @@ export class MainView extends Page {
                 const occurrenceId = confirmButtonEl.getAttribute('data-occurrenceid');
                 console.log(`Deleting occurrence ${occurrenceId}.`);
 
-                this.fireEvent(MainController.EVENT_DELETE_OCCURRENCE, {occurrenceId});
+                this.fireEvent(NYPHMainController.EVENT_DELETE_OCCURRENCE, {occurrenceId});
             }
         });
 
@@ -591,10 +591,10 @@ export class MainView extends Page {
 
             if (event.target.dataset.occurrenceid) {
                 //console.log({'left panel accordion show event (with occ id)' : event});
-                this.fireEvent(MainController.EVENT_SELECT_OCCURRENCE, {occurrenceId: event.target.dataset.occurrenceid});
+                this.fireEvent(NYPHMainController.EVENT_SELECT_OCCURRENCE, {occurrenceId: event.target.dataset.occurrenceid});
             } else if (event.target.dataset.sectionkey) {
                 //console.log({'left panel accordion show event (with section key)' : event});
-                this.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: event.target.dataset.sectionkey});
+                this.fireEvent(NYPHMainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: event.target.dataset.sectionkey});
             } else {
                 console.log({'left panel accordion show event (other)' : event});
             }
@@ -634,7 +634,7 @@ export class MainView extends Page {
 
                 // only trigger a navigation if the occurrence was the current one
                 if (this.controller.currentOccurrenceId === event.target.dataset.occurrenceid) {
-                    //this.fireEvent(MainController.EVENT_SELECT_OCCURRENCE, {occurrenceId: ''});
+                    //this.fireEvent(NYPHMainController.EVENT_SELECT_OCCURRENCE, {occurrenceId: ''});
                 }
             } else if (event.target.dataset.sectionkey) {
                 if (event.target.dataset.sectionkey === 'record') {
@@ -643,7 +643,7 @@ export class MainView extends Page {
 
                     // only trigger a navigation if the view context was the current one
                     if (this.controller.viewSubcontext === 'record') {
-                        //this.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: ''});
+                        //this.fireEvent(NYPHMainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: ''});
                     }
                 } else {
                     if (this._surveyFormSections[event.target.dataset.sectionkey]) {
@@ -652,7 +652,7 @@ export class MainView extends Page {
 
                         // only trigger a navigation if the section was the current one
                         if (this.controller.surveySection === event.target.dataset.sectionkey) {
-                            //this.fireEvent(MainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: ''});
+                            //this.fireEvent(NYPHMainController.EVENT_SELECT_SURVEY_SECTION, {sectionKey: ''});
                         }
                     }
                 }
@@ -767,7 +767,7 @@ export class MainView extends Page {
         surveyForm.nextButtonId = nextButton.id = Form.nextId;
 
         switch (next) {
-            case MainView.NEXT_RECORDS:
+            case NyphMainView.NEXT_RECORDS:
                 // records section is next
                 // if there are no records then clicking the button should add a new one automatically
                 // the complexity of this dual action requires a click handler
@@ -780,13 +780,13 @@ export class MainView extends Page {
                         surveyForm.liveValidation = true;
 
                         if (surveyForm.validateForm()) {
-                            this.fireEvent(MainController.EVENT_NEXT_TO_RECORDS);
+                            this.fireEvent(NYPHMainController.EVENT_NEXT_TO_RECORDS);
                         }
                     }
                 });
                 break;
 
-            case MainView.NEXT_SURVEY_SECTION:
+            case NyphMainView.NEXT_SURVEY_SECTION:
                 // there's another survey section
                 const nextSection = NyphSurveyForm.sections[formIndex + 1];
 
@@ -811,7 +811,7 @@ export class MainView extends Page {
                 nextButton.title = nextSection.sectionTitle;
                 break;
 
-            case MainView.NEXT_IS_FINAL:
+            case NyphMainView.NEXT_IS_FINAL:
                 nextButton.textContent = 'finish';
                 nextButton.className = 'btn btn-primary btn-md-lg mt-2 mb-3';
                 nextButton.type = 'button';
@@ -963,7 +963,7 @@ export class MainView extends Page {
         event.preventDefault();
         event.stopPropagation();
 
-        this.fireEvent(MainController.EVENT_NEW_RECORD);
+        this.fireEvent(NYPHMainController.EVENT_NEW_RECORD);
     }
 
     #getOccurrenceListContainer() {
@@ -1068,7 +1068,7 @@ These 'null lists' are still useful to us, so please tell us even if you recorde
 
                 this.controller.app.currentSurvey.setAttribute('nulllist', nullListToggleEl.checked);
 
-                //this.fireEvent(MainView.EVENT_NULL_LIST_CHANGE, {'isNull' : nullListToggleEl.checked});
+                //this.fireEvent(NyphMainView.EVENT_NULL_LIST_CHANGE, {'isNull' : nullListToggleEl.checked});
             });
         }
 

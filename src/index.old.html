@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang='en'>
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1, interactive-widget=resizes-content'>
+	<link rel="manifest" href="/__PATH__/manifest.webmanifest">
+	<meta name="theme-color" content="#046931">
+
+	<!-- Bootstrap and its dependencies -->
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+	<!-- <link rel="stylesheet" href="/appcss/theme.css"> -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round" rel="stylesheet">
+	<!-- <link rel="stylesheet" href="/appcss/app.__BSBI_APP_VERSION__.css"> -->
+	<link rel="stylesheet" href="/appcss/app.css?version=__BSBI_APP_VERSION__">
+
+	<!-- <link rel="icon" type="image/png" href="/img/icons/favicon-196x196.png" sizes="196x196" />
+	<link rel="icon" type="image/png" href="/img/icons/favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="/img/icons/favicon-16x16.png" sizes="16x16" />
+	<link rel="icon" type="image/png" href="/img/icons/favicon-128.png" sizes="128x128" /> -->
+
+	<title>BSBI New Year Plant Hunt survey form</title>
+</head>
+<body class="loading">
+<header>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="https://nyph.bsbi.app" title="New Year Plant Hunt"><img style="height: 48px; width: auto; padding: 0;" src='/img/nyph_final@2x.png' alt="BSBI NYPH"></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span> menu
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle dropdown-toggle-split" href="/__PATH__/list" data-navigo="list" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Your lists
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="surveysmenu">
+							<li><a class="dropdown-item" href="/__PATH__/survey/save" data-navigo="survey/save">Save</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="/__PATH__/survey/new" data-navigo="survey/new">start new list</a></li>
+							<li><a class="dropdown-item" href="/__PATH__/survey/reset" data-navigo="survey/reset">reset</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href=" /__PATH__/help" data-navigo="help"><span class="material-icons" style="vertical-align: bottom;">help_outline</span>&nbsp;Help</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="https://nyph.bsbi.org/results.php">Results</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>
+<div id="appcontainer">
+	<div id="body">
+
+	</div>
+</div>
+<div class="align-items-center loading-message">
+	<strong style="margin-right: 1em;">Loading&#8230;</strong>
+	<div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+</div>
+<dialog id="appUpdateDialog">
+	<p>A software update is available. Please click 'install' to use the latest version of the recording app.</p>
+	<p>If you are currently using a mobile device, in the field, with a slow or intermittent network connection, then please click 'later'.</p>
+	<form method="dialog">
+		<div>
+			<button id="appUpdateDialogCancel" type="reset">Later</button>
+			<button id="appUpdateDialogInstall" type="submit">Install</button>
+		</div>
+	</form>
+</dialog>
+<!-- <script>var BsbiDb = BsbiDb || {scriptVersions: { } };</script> -->
+	<script type="module" src='/__PATH__/app.mjs?version=__BSBI_APP_VERSION__'></script>
+</body>
+</html>

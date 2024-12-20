@@ -1,4 +1,4 @@
-// MainController
+// NYPHMainController
 // Controller for app 'homepage' including the top level form settings followed by a list of occurrences
 // probably as an accordion (collapsible list, e.g. https://getbootstrap.com/docs/4.3/components/collapse/#accordion-example)
 // that should target the detailed view of the occurrence into either a full screen (on mobile) or a right-hand panel.
@@ -12,7 +12,7 @@ import {
 } from "bsbi-app-framework";
 import {PatchedNavigo, TaxonSearch} from "bsbi-app-framework-view";
 
-export class MainController extends AppController {
+export class NYPHMainController extends AppController {
     route = '/list/:action/:id';
 
     static EVENT_SELECT_OCCURRENCE = 'selectoccurrence';
@@ -38,7 +38,7 @@ export class MainController extends AppController {
 
     /**
      *
-     * @type {MainView}
+     * @type {NyphMainView}
      */
     view;
 
@@ -140,7 +140,7 @@ export class MainController extends AppController {
 
     /**
      *
-     * @param {MainView} view
+     * @param {NyphMainView} view
      */
     constructor (view) {
         super();
@@ -150,13 +150,13 @@ export class MainController extends AppController {
 
         this.handle = AppController.nextHandle;
 
-        view.addListener(MainController.EVENT_SELECT_OCCURRENCE, this.occurrenceSelectionHandler.bind(this));
-        view.addListener(MainController.EVENT_SELECT_SURVEY_SECTION, this.surveyPartSelectionHandler.bind(this));
-        view.addListener(MainController.EVENT_NEW_RECORD, this.newRecordHandler.bind(this));
-        view.addListener(MainController.EVENT_DELETE_OCCURRENCE, this.deleteOccurrenceHandler.bind(this));
+        view.addListener(NYPHMainController.EVENT_SELECT_OCCURRENCE, this.occurrenceSelectionHandler.bind(this));
+        view.addListener(NYPHMainController.EVENT_SELECT_SURVEY_SECTION, this.surveyPartSelectionHandler.bind(this));
+        view.addListener(NYPHMainController.EVENT_NEW_RECORD, this.newRecordHandler.bind(this));
+        view.addListener(NYPHMainController.EVENT_DELETE_OCCURRENCE, this.deleteOccurrenceHandler.bind(this));
 
-        view.addListener(MainController.EVENT_BACK, this.backHandler.bind(this));
-        view.addListener(MainController.EVENT_NEXT_TO_RECORDS, this.nextTransitionToRecordsHandler.bind(this));
+        view.addListener(NYPHMainController.EVENT_BACK, this.backHandler.bind(this));
+        view.addListener(NYPHMainController.EVENT_NEXT_TO_RECORDS, this.nextTransitionToRecordsHandler.bind(this));
     }
 
     initialise() {
@@ -314,7 +314,7 @@ export class MainController extends AppController {
      * @param {Object.<string, string>} queryParameters
      */
     mainRouteHandler(context, subcontext, rhs, queryParameters) {
-        console.log("reached special route handler for MainController.js");
+        console.log("reached special route handler for NYPHMainController.js");
         console.log({context: context, params: subcontext, query: queryParameters});
 
         this.app.saveRoute();
@@ -360,7 +360,7 @@ export class MainController extends AppController {
 
     viewContexts = {
         /**
-         * @this {MainController}
+         * @this {NYPHMainController}
          * @param {({[id] : string}|null)} queryParameters
          */
         record (queryParameters) {
@@ -394,7 +394,7 @@ export class MainController extends AppController {
         },
 
         /**
-         * @this {MainController}
+         * @this {NYPHMainController}
          * @param {{[section]: string}} queryParameters
          */
         survey(queryParameters) {

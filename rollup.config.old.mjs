@@ -221,44 +221,43 @@ export default [
 	// 		production && terser() // minify, but only in production
 	// 	]
 	// },
+	{
+		input: 'src/serviceworker/worker.js',
+		output: {
+			file: 'public/serviceworker.mjs',
+			format: 'esm',
+			globals: { },
+			sourcemap: true,
+			name: 'nyphappserviceworker'
+		},
+		external: [],
 
-	// {
-	// 	input: 'src/serviceworker/worker.js',
-	// 	output: {
-	// 		file: 'public/serviceworker.mjs',
-	// 		format: 'esm',
-	// 		globals: { },
-	// 		sourcemap: true,
-	// 		name: 'nyphappserviceworker'
-	// 	},
-	// 	external: [],
-	//
-	// 	plugins: [
-	// 		//nodePolyfills(),
-	// 		resolve({
-	// 			browser: true,
-	// 		}), // tells Rollup how to find files in node_modules
-	// 		replace({
-	// 			preventAssignment: true,
-	// 			values: {
-	// 				__BSBI_APP_VERSION__: version,
-	// 				__BSBI_APP_DATA_VERSION__: dataVersion,
-	// 				__DOMAIN__: domain, // 'nyphtest.bsbi.org',
-	// 				__DOMAIN_REGEX__: domainRegex, // 'nyphtest\\.bsbi\\.org',
-	// 				// ENVIRONMENT: JSON.stringify('development')
-	// 			},
-	// 		}),
-	// 		string({
-	// 			// Required to be specified
-	// 			include: "**/*.html",
-	//
-	// 			// Undefined by default
-	// 			exclude: ["**/index.html"]
-	// 		}),
-	// 		commonjs(), // converts npm packages to ES modules
-	// 		production && terser({
-	// 			module: true,
-	// 		}) // minify, but only in production
-	// 	]
-	// },
+		plugins: [
+			//nodePolyfills(),
+			resolve({
+				browser: true,
+			}), // tells Rollup how to find files in node_modules
+			replace({
+				preventAssignment: true,
+				values: {
+					__BSBI_APP_VERSION__: version,
+					__BSBI_APP_DATA_VERSION__: dataVersion,
+					__DOMAIN__: domain, // 'nyphtest.bsbi.org',
+					__DOMAIN_REGEX__: domainRegex, // 'nyphtest\\.bsbi\\.org',
+					// ENVIRONMENT: JSON.stringify('development')
+				},
+			}),
+			string({
+				// Required to be specified
+				include: "**/*.html",
+
+				// Undefined by default
+				exclude: ["**/index.html"]
+			}),
+			commonjs(), // converts npm packages to ES modules
+			production && terser({
+				module: true,
+			}) // minify, but only in production
+		]
+	},
 	];
